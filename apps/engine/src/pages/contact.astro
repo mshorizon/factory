@@ -1,67 +1,64 @@
 ---
-import { Navbar, Footer } from "@mshorizon/ui";
+import { Navbar, Footer, Button, Input, Label, Textarea } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { businessData, theme } from "../lib/business";
 
-import businessData from "../../../../data/honey-worker/honey-worker.json";
-import theme from "../../../../data/honey-worker/theme.json";
-
-const { name } = businessData;
+const { name, navigation, sections } = businessData;
+const { contact, footer } = sections;
 ---
 
-<BaseLayout title={`Contact | ${name}`} theme={theme}>
+<BaseLayout title={`${contact.title} | ${name}`} theme={theme}>
   <Navbar
     client:load
     logo={name}
-    links={[
-      { label: "Home", href: "/" },
-      { label: "Services", href: "/services" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ]}
-    cta={{ label: "Book Now", href: "/contact" }}
+    links={navigation.links}
+    cta={navigation.cta}
   />
   <main class="bg-background py-16">
     <div class="container mx-auto px-4 max-w-2xl">
-      <h1 class="text-4xl font-bold text-foreground mb-8 text-center">Contact Us</h1>
-      <form class="space-y-6">
-        <div>
-          <label for="name" class="block text-sm font-medium text-foreground mb-2">Name</label>
-          <input
+      <h1 class="text-4xl font-bold text-foreground mb-2 text-center">{contact.title}</h1>
+      <p class="text-muted text-center mb-8">{contact.subtitle}</p>
+
+      <form class="space-y-6 bg-background border border-border rounded-radius p-8 shadow-sm">
+        <div class="space-y-2">
+          <Label htmlFor="name" className="text-foreground">Name</Label>
+          <Input
             type="text"
             id="name"
             name="name"
-            class="w-full px-4 py-2 border border-border rounded-radius bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder={contact.form.namePlaceholder}
             required
           />
         </div>
-        <div>
-          <label for="email" class="block text-sm font-medium text-foreground mb-2">Email</label>
-          <input
+        <div class="space-y-2">
+          <Label htmlFor="email" className="text-foreground">Email</Label>
+          <Input
             type="email"
             id="email"
             name="email"
-            class="w-full px-4 py-2 border border-border rounded-radius bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder={contact.form.emailPlaceholder}
             required
           />
         </div>
-        <div>
-          <label for="message" class="block text-sm font-medium text-foreground mb-2">Message</label>
-          <textarea
+        <div class="space-y-2">
+          <Label htmlFor="message" className="text-foreground">Message</Label>
+          <Textarea
             id="message"
             name="message"
-            rows="5"
-            class="w-full px-4 py-2 border border-border rounded-radius bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder={contact.form.messagePlaceholder}
+            rows={5}
             required
-          ></textarea>
+          />
         </div>
-        <button
-          type="submit"
-          class="w-full bg-primary text-white py-3 rounded-radius font-medium hover:opacity-90 transition-opacity"
-        >
-          Send Message
-        </button>
+        <Button type="submit" size="lg" className="w-full">
+          {contact.form.submitButton}
+        </Button>
       </form>
     </div>
   </main>
-  <Footer businessName={name} />
+  <Footer
+    businessName={name}
+    links={footer?.links}
+    copyright={footer?.copyright}
+  />
 </BaseLayout>

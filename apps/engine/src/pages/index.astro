@@ -1,33 +1,31 @@
 ---
 import { Navbar, Hero, Footer } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { businessData, theme } from "../lib/business";
 
-// Load business data and theme
-import businessData from "../../../../data/honey-worker/honey-worker.json";
-import theme from "../../../../data/honey-worker/theme.json";
-
-const { name, sections } = businessData;
+const { name, navigation, sections } = businessData;
+const { hero, footer } = sections;
 ---
 
 <BaseLayout title={name} theme={theme}>
   <Navbar
     client:load
     logo={name}
-    links={[
-      { label: "Services", href: "/services" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ]}
-    cta={{ label: "Book Now", href: "/contact" }}
+    links={navigation.links}
+    cta={navigation.cta}
   />
   <Hero
-    badge="Now Open"
-    title={sections.hero.title}
-    subtitle={sections.hero.subtitle}
-    backgroundImage={sections.hero.backgroundImage}
-    cta={{ label: "Book Appointment", href: "/contact" }}
-    secondaryCta={{ label: "View Services", href: "/services", variant: "outline" }}
+    badge={hero.badge}
+    title={hero.title}
+    subtitle={hero.subtitle}
+    backgroundImage={hero.backgroundImage}
+    cta={hero.cta}
+    secondaryCta={hero.secondaryCta}
     fullHeight
   />
-  <Footer businessName={name} />
+  <Footer
+    businessName={name}
+    links={footer?.links}
+    copyright={footer?.copyright}
+  />
 </BaseLayout>
