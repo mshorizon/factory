@@ -1,0 +1,32 @@
+{
+  "colors": {
+    "primary": "#8B4513",
+    "secondary": "#2C1810",
+    "accent": "#D4A574",
+    "background": "#FDFBF7",
+    "foreground": "#1C1210",
+    "muted": "#6B5B4F",
+    "border": "#E8DED4"
+  },
+  "typography": {
+    "fontFamily": {
+      "sans": "system-ui, -apple-system, sans-serif",
+      "heading": "'Playfair Display', Georgia, serif"
+    },
+    "fontSize": {
+      "base": "16px",
+      "heading": "1.25"
+    }
+  },
+  "borderRadius": {
+    "small": "0.25rem",
+    "default": "0.5rem",
+    "large": "1rem",
+    "full": "9999px"
+  },
+  "shadows": {
+    "small": "0 1px 2px rgba(44, 24, 16, 0.05)",
+    "default": "0 4px 6px rgba(44, 24, 16, 0.1)",
+    "large": "0 10px 25px rgba(44, 24, 16, 0.15)"
+  }
+}

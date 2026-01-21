@@ -1,0 +1,49 @@
+---
+import { Navbar, Footer } from "@mshorizon/ui";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import businessData from "../../../../data/honey-worker/honey-worker.json";
+import theme from "../../../../data/honey-worker/theme.json";
+
+const { name } = businessData;
+
+// Placeholder services until schema is extended
+const services = [
+  { title: "Raw Honey", description: "Pure, unprocessed honey straight from our hives", price: "From $12" },
+  { title: "Honeycomb", description: "Fresh honeycomb, nature's perfect package", price: "From $18" },
+  { title: "Bee Pollen", description: "Nutrient-rich bee pollen for health enthusiasts", price: "From $15" },
+  { title: "Beeswax Candles", description: "Hand-poured natural beeswax candles", price: "From $10" },
+];
+---
+
+<BaseLayout title={`Services | ${name}`} theme={theme}>
+  <Navbar
+    client:load
+    logo={name}
+    links={[
+      { label: "Home", href: "/" },
+      { label: "Services", href: "/services" },
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
+    ]}
+    cta={{ label: "Book Now", href: "/contact" }}
+  />
+  <main class="bg-background py-16">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl font-bold text-foreground mb-4 text-center">Our Products</h1>
+      <p class="text-muted text-center mb-12 max-w-2xl mx-auto">
+        Premium honey products from our family-owned apiaries
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {services.map((service) => (
+          <div class="bg-background border border-border rounded-radius p-6 hover:shadow-lg transition-shadow">
+            <h3 class="text-xl font-bold text-foreground mb-2">{service.title}</h3>
+            <p class="text-muted mb-4">{service.description}</p>
+            <p class="text-primary font-bold">{service.price}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer businessName={name} />
+</BaseLayout>

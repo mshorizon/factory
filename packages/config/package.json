@@ -1,0 +1,19 @@
+{
+  "name": "@mshorizon/config",
+  "version": "1.0.0",
+  "description": "Shared configurations for MS Horizon",
+  "type": "module",
+  "exports": {
+    "./tailwind": "./tailwind.config.js",
+    "./tsconfig/base": "./tsconfig/base.json",
+    "./tsconfig/react": "./tsconfig/react.json"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.0",
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

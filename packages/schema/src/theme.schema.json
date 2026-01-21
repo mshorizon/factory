@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mshorizon.com/schemas/theme.schema.json",
+  "title": "BusinessTheme",
+  "type": "object",
+  "properties": {
+    "colors": {
+      "type": "object",
+      "properties": {
+        "primary": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "secondary": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "accent": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "background": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "foreground": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "muted": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
+        "border": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" }
+      },
+      "required": ["primary", "secondary", "background", "foreground"]
+    },
+    "typography": {
+      "type": "object",
+      "properties": {
+        "fontFamily": {
+          "type": "object",
+          "properties": {
+            "sans": { "type": "string" },
+            "heading": { "type": "string" }
+          }
+        },
+        "fontSize": {
+          "type": "object",
+          "properties": {
+            "base": { "type": "string" },
+            "heading": { "type": "string" }
+          }
+        }
+      }
+    },
+    "borderRadius": {
+      "type": "object",
+      "properties": {
+        "small": { "type": "string" },
+        "default": { "type": "string" },
+        "large": { "type": "string" },
+        "full": { "type": "string" }
+      }
+    },
+    "shadows": {
+      "type": "object",
+      "properties": {
+        "small": { "type": "string" },
+        "default": { "type": "string" },
+        "large": { "type": "string" }
+      }
+    }
+  },
+  "required": ["colors"]
+}

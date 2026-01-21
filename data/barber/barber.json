@@ -1,0 +1,16 @@
+{
+  "id": "barber-001",
+  "name": "Classic Cuts Barbershop",
+  "industry": "barber",
+  "branding": {
+    "primaryColor": "#8B4513",
+    "themeId": "classic-barber"
+  },
+  "sections": {
+    "hero": {
+      "title": "Premium Grooming Experience",
+      "subtitle": "Where tradition meets modern style",
+      "backgroundImage": "/images/barber/hero.jpg"
+    }
+  }
+}
