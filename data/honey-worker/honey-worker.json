@@ -1,0 +1,16 @@
+{
+  "id": "honey-worker-001",
+  "name": "Golden Hive Honey",
+  "industry": "honey-producer",
+  "branding": {
+    "primaryColor": "#F59E0B",
+    "themeId": "natural-honey"
+  },
+  "sections": {
+    "hero": {
+      "title": "Pure Natural Honey",
+      "subtitle": "Locally harvested, sustainably produced honey straight from our family-owned apiaries",
+      "backgroundImage": "/images/honey-worker/hero.jpg"
+    }
+  }
+}

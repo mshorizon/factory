@@ -1,0 +1,96 @@
+---
+import "../styles/global.css";
+
+interface Theme {
+  colors: {
+    primary: string;
+    secondary: string;
+    accent?: string;
+    background: string;
+    foreground: string;
+    muted?: string;
+    border?: string;
+  };
+  typography?: {
+    fontFamily?: {
+      sans?: string;
+      heading?: string;
+    };
+  };
+  borderRadius?: {
+    small?: string;
+    default?: string;
+    large?: string;
+    full?: string;
+  };
+  shadows?: {
+    small?: string;
+    default?: string;
+    large?: string;
+  };
+}
+
+interface Props {
+  title: string;
+  theme: Theme;
+}
+
+const { title, theme } = Astro.props;
+
+const cssVars = {
+  primary: theme.colors.primary,
+  secondary: theme.colors.secondary,
+  accent: theme.colors.accent || theme.colors.primary,
+  background: theme.colors.background,
+  foreground: theme.colors.foreground,
+  muted: theme.colors.muted || "#64748b",
+  border: theme.colors.border || "#e2e8f0",
+  radiusSm: theme.borderRadius?.small || "0.25rem",
+  radius: theme.borderRadius?.default || "0.5rem",
+  radiusLg: theme.borderRadius?.large || "1rem",
+  radiusFull: theme.borderRadius?.full || "9999px",
+  shadowSm: theme.shadows?.small || "0 1px 2px rgba(0,0,0,0.05)",
+  shadow: theme.shadows?.default || "0 4px 6px rgba(0,0,0,0.1)",
+  shadowLg: theme.shadows?.large || "0 10px 25px rgba(0,0,0,0.15)",
+  fontSans: theme.typography?.fontFamily?.sans || "system-ui, -apple-system, sans-serif",
+  fontHeading: theme.typography?.fontFamily?.heading || "system-ui, -apple-system, sans-serif",
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <style define:vars={cssVars}>
+      :root {
+        --primary: var(--primary);
+        --secondary: var(--secondary);
+        --accent: var(--accent);
+        --background: var(--background);
+        --foreground: var(--foreground);
+        --muted: var(--muted);
+        --border: var(--border);
+        --radius-sm: var(--radiusSm);
+        --radius: var(--radius);
+        --radius-lg: var(--radiusLg);
+        --radius-full: var(--radiusFull);
+        --shadow-sm: var(--shadowSm);
+        --shadow: var(--shadow);
+        --shadow-lg: var(--shadowLg);
+        --font-sans: var(--fontSans);
+        --font-heading: var(--fontHeading);
+      }
+      body {
+        font-family: var(--font-sans);
+        background-color: var(--background);
+        color: var(--foreground);
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

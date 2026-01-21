@@ -1,0 +1,16 @@
+{
+  "id": "plumber-001",
+  "name": "QuickFix Plumbing",
+  "industry": "plumber",
+  "branding": {
+    "primaryColor": "#0066CC",
+    "themeId": "professional-plumber"
+  },
+  "sections": {
+    "hero": {
+      "title": "Fast & Reliable Plumbing Services",
+      "subtitle": "24/7 emergency repairs for your home and business",
+      "backgroundImage": "/images/plumber/hero.jpg"
+    }
+  }
+}
