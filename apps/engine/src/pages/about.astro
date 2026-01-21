@@ -1,63 +1,64 @@
 ---
-import { Navbar, Footer } from "@mshorizon/ui";
+import { Navbar, Footer, Card, CardContent, Button } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { businessData, theme } from "../lib/business";
 
-import businessData from "../../../../data/honey-worker/honey-worker.json";
-import theme from "../../../../data/honey-worker/theme.json";
-
-const { name } = businessData;
+const { name, navigation, sections } = businessData;
+const { about, footer } = sections;
 ---
 
-<BaseLayout title={`About | ${name}`} theme={theme}>
+<BaseLayout title={`${about.title} | ${name}`} theme={theme}>
   <Navbar
     client:load
     logo={name}
-    links={[
-      { label: "Home", href: "/" },
-      { label: "Services", href: "/services" },
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact" },
-    ]}
-    cta={{ label: "Book Now", href: "/contact" }}
+    links={navigation.links}
+    cta={navigation.cta}
   />
   <main class="bg-background py-16">
     <div class="container mx-auto px-4 max-w-4xl">
-      <h1 class="text-4xl font-bold text-foreground mb-8 text-center">About {name}</h1>
+      <h1 class="text-4xl font-bold text-foreground mb-8 text-center">{about.title}</h1>
 
-      <div class="prose prose-lg mx-auto">
-        <section class="mb-12">
-          <h2 class="text-2xl font-bold text-foreground mb-4">Our Story</h2>
-          <p class="text-muted mb-4">
-            With years of experience serving our community, we've built a reputation for quality workmanship and exceptional customer service. Our team of licensed professionals is dedicated to solving your problems quickly and efficiently.
-          </p>
-        </section>
+      <div class="space-y-12">
+        {about.story && (
+          <section>
+            <h2 class="text-2xl font-bold text-foreground mb-4">{about.story.title}</h2>
+            <p class="text-muted leading-relaxed">{about.story.content}</p>
+          </section>
+        )}
 
-        <section class="mb-12">
-          <h2 class="text-2xl font-bold text-foreground mb-4">Why Choose Us</h2>
-          <div class="grid md:grid-cols-3 gap-6">
-            <div class="text-center p-4">
-              <div class="text-4xl font-bold text-primary mb-2">100%</div>
-              <p class="text-muted">Pure & Natural</p>
+        {about.stats && about.stats.length > 0 && (
+          <section>
+            <h2 class="text-2xl font-bold text-foreground mb-6">Why Choose Us</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+              {about.stats.map((stat: any) => (
+                <Card className="text-center hover:shadow-lg transition-shadow">
+                  <CardContent className="pt-6">
+                    <div class="text-4xl font-bold text-primary mb-2">{stat.value}</div>
+                    <p class="text-muted">{stat.label}</p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-            <div class="text-center p-4">
-              <div class="text-4xl font-bold text-primary mb-2">Local</div>
-              <p class="text-muted">Family Owned</p>
-            </div>
-            <div class="text-center p-4">
-              <div class="text-4xl font-bold text-primary mb-2">25+</div>
-              <p class="text-muted">Years Experience</p>
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
-        <section>
-          <h2 class="text-2xl font-bold text-foreground mb-4">Our Commitment</h2>
-          <p class="text-muted">
-            We believe in sustainable beekeeping practices and producing the highest quality honey products. Every jar is filled with care and passion for what we do.
-          </p>
-        </section>
+        {about.commitment && (
+          <section>
+            <h2 class="text-2xl font-bold text-foreground mb-4">{about.commitment.title}</h2>
+            <p class="text-muted leading-relaxed mb-6">{about.commitment.content}</p>
+            {about.cta && (
+              <Button asChild size="lg">
+                <a href={about.cta.href}>{about.cta.label}</a>
+              </Button>
+            )}
+          </section>
+        )}
       </div>
     </div>
   </main>
-  <Footer businessName={name} />
+  <Footer
+    businessName={name}
+    links={footer?.links}
+    copyright={footer?.copyright}
+  />
 </BaseLayout>

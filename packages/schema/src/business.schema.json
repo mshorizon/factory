@@ -6,7 +6,7 @@
   "properties": {
     "id": { "type": "string" },
     "name": { "type": "string" },
-    "industry": { "enum": ["barber", "plumber", "auto-dealer", "dentist", "honey-producer"] },
+    "industry": { "type": "string" },
     "branding": {
       "type": "object",
       "properties": {
@@ -15,17 +15,145 @@
       },
       "required": ["primaryColor", "themeId"]
     },
+    "navigation": {
+      "type": "object",
+      "properties": {
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "href": { "type": "string" }
+            },
+            "required": ["label", "href"]
+          }
+        },
+        "cta": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "href": { "type": "string" }
+          },
+          "required": ["label", "href"]
+        }
+      }
+    },
     "sections": {
       "type": "object",
       "properties": {
         "hero": {
           "type": "object",
           "properties": {
+            "badge": { "type": "string" },
             "title": { "type": "string" },
             "subtitle": { "type": "string" },
-            "backgroundImage": { "type": "string" }
+            "backgroundImage": { "type": "string" },
+            "cta": {
+              "type": "object",
+              "properties": {
+                "label": { "type": "string" },
+                "href": { "type": "string" }
+              }
+            },
+            "secondaryCta": {
+              "type": "object",
+              "properties": {
+                "label": { "type": "string" },
+                "href": { "type": "string" }
+              }
+            }
           },
           "required": ["title"]
+        },
+        "services": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "subtitle": { "type": "string" },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "price": { "type": "string" }
+                },
+                "required": ["title", "description"]
+              }
+            }
+          }
+        },
+        "about": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "story": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "content": { "type": "string" }
+              }
+            },
+            "stats": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": { "type": "string" },
+                  "label": { "type": "string" }
+                },
+                "required": ["value", "label"]
+              }
+            },
+            "commitment": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "content": { "type": "string" }
+              }
+            },
+            "cta": {
+              "type": "object",
+              "properties": {
+                "label": { "type": "string" },
+                "href": { "type": "string" }
+              }
+            }
+          }
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "subtitle": { "type": "string" },
+            "form": {
+              "type": "object",
+              "properties": {
+                "namePlaceholder": { "type": "string" },
+                "emailPlaceholder": { "type": "string" },
+                "messagePlaceholder": { "type": "string" },
+                "submitButton": { "type": "string" }
+              }
+            }
+          }
+        },
+        "footer": {
+          "type": "object",
+          "properties": {
+            "copyright": { "type": "string" },
+            "links": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": { "type": "string" },
+                  "href": { "type": "string" }
+                }
+              }
+            }
+          }
         }
       }
     }

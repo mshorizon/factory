@@ -6,11 +6,95 @@
     "primaryColor": "#F59E0B",
     "themeId": "natural-honey"
   },
+  "navigation": {
+    "links": [
+      { "label": "Home", "href": "/" },
+      { "label": "Products", "href": "/services" },
+      { "label": "About", "href": "/about" },
+      { "label": "Contact", "href": "/contact" }
+    ],
+    "cta": {
+      "label": "Order Now",
+      "href": "/contact"
+    }
+  },
   "sections": {
     "hero": {
+      "badge": "100% Natural",
       "title": "Pure Natural Honey",
       "subtitle": "Locally harvested, sustainably produced honey straight from our family-owned apiaries",
-      "backgroundImage": "/images/honey-worker/hero.jpg"
+      "backgroundImage": "/images/honey-worker/hero.jpg",
+      "cta": {
+        "label": "Shop Now",
+        "href": "/services"
+      },
+      "secondaryCta": {
+        "label": "Learn More",
+        "href": "/about"
+      }
+    },
+    "services": {
+      "title": "Our Products",
+      "subtitle": "Premium honey products from our family-owned apiaries",
+      "items": [
+        {
+          "title": "Raw Honey",
+          "description": "Pure, unprocessed honey straight from our hives",
+          "price": "From $12"
+        },
+        {
+          "title": "Honeycomb",
+          "description": "Fresh honeycomb, nature's perfect package",
+          "price": "From $18"
+        },
+        {
+          "title": "Bee Pollen",
+          "description": "Nutrient-rich bee pollen for health enthusiasts",
+          "price": "From $15"
+        },
+        {
+          "title": "Beeswax Candles",
+          "description": "Hand-poured natural beeswax candles",
+          "price": "From $10"
+        }
+      ]
+    },
+    "about": {
+      "title": "About Golden Hive Honey",
+      "story": {
+        "title": "Our Story",
+        "content": "For three generations, our family has been dedicated to the art of beekeeping. What started as a small hobby in our backyard has grown into a passion for producing the finest natural honey. We believe in sustainable practices that protect our bees and the environment."
+      },
+      "stats": [
+        { "value": "100%", "label": "Pure & Natural" },
+        { "value": "Local", "label": "Family Owned" },
+        { "value": "25+", "label": "Years Experience" }
+      ],
+      "commitment": {
+        "title": "Our Commitment",
+        "content": "We believe in sustainable beekeeping practices and producing the highest quality honey products. Every jar is filled with care and passion for what we do. Our bees are treated with respect, and we never use harmful pesticides or chemicals."
+      },
+      "cta": {
+        "label": "Get in Touch",
+        "href": "/contact"
+      }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "subtitle": "Have questions about our honey? Want to place a bulk order? We'd love to hear from you!",
+      "form": {
+        "namePlaceholder": "Your name",
+        "emailPlaceholder": "your@email.com",
+        "messagePlaceholder": "Tell us about your order or ask us anything...",
+        "submitButton": "Send Message"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 Golden Hive Honey. All rights reserved.",
+      "links": [
+        { "label": "Privacy", "href": "/privacy" },
+        { "label": "Terms", "href": "/terms" }
+      ]
     }
   }
 }
