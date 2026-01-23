@@ -1,0 +1,31 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { ContactCentered, ContactSplit } from "@mshorizon/ui";
+import { getSectionVariant } from "../../lib/pages";
+
+interface Props {
+  section: Section;
+}
+
+const { section } = Astro.props;
+const variant = getSectionVariant(section);
+---
+
+<section class="bg-background py-16">
+  <div class="container mx-auto px-4">
+    {variant === "split" ? (
+      <ContactSplit
+        title={section.title}
+        subtitle={section.subtitle}
+        form={section.form}
+        info={section.info}
+      />
+    ) : (
+      <ContactCentered
+        title={section.title}
+        subtitle={section.subtitle}
+        form={section.form}
+      />
+    )}
+  </div>
+</section>

@@ -1,30 +1,10 @@
-import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
-import { cn } from "../lib/utils";
-import { Button } from "../atoms/Button";
-import { Badge } from "../atoms/Badge";
+import { cn } from "../../lib/utils";
+import { Button } from "../../atoms/Button";
+import { Badge } from "../../atoms/Badge";
+import type { HeroProps } from "./types";
 
-interface CTAButton {
-  label: string;
-  href: string;
-  variant?: "default" | "secondary" | "outline" | "ghost";
-}
-
-interface HeroProps {
-  title: string;
-  subtitle?: string;
-  badge?: string;
-  cta?: CTAButton;
-  secondaryCta?: CTAButton;
-  backgroundImage?: string;
-  overlay?: boolean;
-  align?: "left" | "center" | "right";
-  fullHeight?: boolean;
-  children?: ReactNode;
-  className?: string;
-}
-
-export function Hero({
+export function HeroDefault({
   title,
   subtitle,
   badge,

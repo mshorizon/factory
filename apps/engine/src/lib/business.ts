@@ -16,7 +16,7 @@ function getDomainMap(): Record<string, string> {
 }
 
 const domainMap = getDomainMap();
-const defaultBusiness = import.meta.env.DEFAULT_BUSINESS || "honey-worker";
+const defaultBusiness = import.meta.env.DEFAULT_BUSINESS || "barber";
 
 // Import all business data, themes, and translations
 const businessDataFiles = import.meta.glob("../../../../data/*/*.json", { eager: true });

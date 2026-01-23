@@ -6,95 +6,113 @@
     "primaryColor": "#8B4513",
     "themeId": "classic-barber"
   },
-  "navigation": {
-    "links": [
-      { "label": "Home", "href": "/" },
-      { "label": "Services", "href": "/services" },
-      { "label": "About", "href": "/about" },
-      { "label": "Contact", "href": "/contact" }
-    ],
-    "cta": {
-      "label": "Book Now",
-      "href": "/contact"
-    }
-  },
-  "sections": {
-    "hero": {
-      "badge": "Est. 1995",
-      "title": "Premium Grooming Experience",
-      "subtitle": "Where tradition meets modern style. Experience the art of classic barbering with a contemporary twist.",
-      "backgroundImage": "/images/barber/hero.jpg",
-      "cta": {
-        "label": "Book Appointment",
-        "href": "/contact"
-      },
-      "secondaryCta": {
-        "label": "View Services",
-        "href": "/services"
-      }
-    },
-    "services": {
-      "title": "Our Services",
-      "subtitle": "Expert grooming services tailored to the modern gentleman",
-      "items": [
-        {
-          "title": "Classic Haircut",
-          "description": "Traditional cut with hot towel and neck shave",
-          "price": "From $35"
-        },
-        {
-          "title": "Beard Trim",
-          "description": "Precision beard shaping and conditioning",
-          "price": "From $20"
-        },
-        {
-          "title": "Hot Towel Shave",
-          "description": "Luxurious straight razor shave with hot towels",
-          "price": "From $40"
-        },
-        {
-          "title": "The Works",
-          "description": "Haircut, beard trim, and hot towel treatment",
-          "price": "From $65"
-        }
-      ]
-    },
-    "about": {
-      "title": "About Classic Cuts",
-      "story": {
-        "title": "Our Story",
-        "content": "Founded in 1995, Classic Cuts Barbershop has been serving the community with exceptional grooming services for nearly three decades. Our master barbers combine time-honored techniques with modern styles to give you the perfect look."
-      },
-      "stats": [
-        { "value": "28+", "label": "Years Experience" },
-        { "value": "50K+", "label": "Happy Clients" },
-        { "value": "5", "label": "Master Barbers" }
-      ],
-      "commitment": {
-        "title": "Our Commitment",
-        "content": "We believe every man deserves to look and feel his best. Our team is dedicated to providing personalized service in a welcoming atmosphere. We use only premium products and take pride in our craft."
-      },
-      "cta": {
-        "label": "Book Your Visit",
-        "href": "/contact"
-      }
-    },
-    "contact": {
-      "title": "Book an Appointment",
-      "subtitle": "Walk-ins welcome, but appointments are recommended to skip the wait.",
-      "form": {
-        "namePlaceholder": "Your name",
-        "emailPlaceholder": "your@email.com",
-        "messagePlaceholder": "Preferred date, time, and service...",
-        "submitButton": "Request Appointment"
-      }
-    },
+  "layout": {
+    "navbar": { "variant": "standard" },
     "footer": {
+      "variant": "simple",
       "copyright": "© 2024 Classic Cuts Barbershop. All rights reserved.",
       "links": [
         { "label": "Privacy", "href": "/privacy" },
         { "label": "Terms", "href": "/terms" }
       ]
     }
-  }
+  },
+  "navigation": {
+    "cta": { "label": "Book Now", "href": "/contact" }
+  },
+  "pages": [
+    {
+      "slug": "index",
+      "title": "Home",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "default",
+          "badge": "Est. 1995",
+          "title": "Premium Grooming Experience",
+          "subtitle": "Where tradition meets modern style. Experience the art of classic barbering with a contemporary twist.",
+          "backgroundImage": "/images/barber/hero.jpg",
+          "cta": { "label": "Book Appointment", "href": "/contact" },
+          "secondaryCta": { "label": "View Services", "href": "/services" }
+        }
+      ]
+    },
+    {
+      "slug": "services",
+      "title": "Services",
+      "sections": [
+        {
+          "type": "services",
+          "variant": "grid",
+          "title": "Our Services",
+          "subtitle": "Expert grooming services tailored to the modern gentleman",
+          "items": [
+            {
+              "title": "Classic Haircut",
+              "description": "Traditional cut with hot towel and neck shave",
+              "price": "From $35"
+            },
+            {
+              "title": "Beard Trim",
+              "description": "Precision beard shaping and conditioning",
+              "price": "From $20"
+            },
+            {
+              "title": "Hot Towel Shave",
+              "description": "Luxurious straight razor shave with hot towels",
+              "price": "From $40"
+            },
+            {
+              "title": "The Works",
+              "description": "Haircut, beard trim, and hot towel treatment",
+              "price": "From $65"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "about",
+      "title": "About",
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "title": "About Classic Cuts",
+          "story": {
+            "title": "Our Story",
+            "content": "Founded in 1995, Classic Cuts Barbershop has been serving the community with exceptional grooming services for nearly three decades. Our master barbers combine time-honored techniques with modern styles to give you the perfect look."
+          },
+          "stats": [
+            { "value": "28+", "label": "Years Experience" },
+            { "value": "50K+", "label": "Happy Clients" },
+            { "value": "5", "label": "Master Barbers" }
+          ],
+          "commitment": {
+            "title": "Our Commitment",
+            "content": "We believe every man deserves to look and feel his best. Our team is dedicated to providing personalized service in a welcoming atmosphere. We use only premium products and take pride in our craft."
+          },
+          "cta": { "label": "Book Your Visit", "href": "/contact" }
+        }
+      ]
+    },
+    {
+      "slug": "contact",
+      "title": "Contact",
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "centered",
+          "title": "Book an Appointment",
+          "subtitle": "Walk-ins welcome, but appointments are recommended to skip the wait.",
+          "form": {
+            "namePlaceholder": "Your name",
+            "emailPlaceholder": "your@email.com",
+            "messagePlaceholder": "Preferred date, time, and service...",
+            "submitButton": "Request Appointment"
+          }
+        }
+      ]
+    }
+  ]
 }

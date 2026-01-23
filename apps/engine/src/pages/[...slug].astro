@@ -1,0 +1,65 @@
+---
+import { NavbarStandard, NavbarCentered, FooterSimple, FooterMultiColumn } from "@mshorizon/ui";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionDispatcher from "../components/SectionDispatcher.astro";
+import { findPageBySlug, getLayoutConfig, getNavLinks } from "../lib/pages";
+import type { BusinessProfile } from "@mshorizon/schema";
+
+// Get route params
+const { slug } = Astro.params;
+
+// Get business context from middleware
+const { businessData, theme, currentLang } = Astro.locals;
+const business = businessData as BusinessProfile;
+
+// Resolve the page
+const normalizedSlug = slug || "index";
+const page = findPageBySlug(business, normalizedSlug);
+
+// 404 if page not found
+if (!page) {
+  return Astro.redirect("/404");
+}
+
+// Get layout configuration
+const layout = getLayoutConfig(business);
+
+// Get navigation links from pages array
+const navLinks = getNavLinks(business);
+
+// Build page title
+const pageTitle = page.slug === "index" ? business.name : `${page.title} | ${business.name}`;
+
+// Prepare navbar props
+const navbarProps = {
+  logo: business.name,
+  links: navLinks,
+  cta: business.navigation?.cta,
+  currentLanguage: currentLang,
+};
+
+// Prepare footer props
+const footerProps = {
+  businessName: business.name,
+  links: layout.footer.links,
+  copyright: layout.footer.copyright,
+  columns: layout.footer.columns,
+  tagline: layout.footer.tagline,
+};
+---
+
+<BaseLayout title={pageTitle} theme={theme}>
+  {layout.navbar.variant === "centered" ? (
+    <NavbarCentered client:load {...navbarProps} />
+  ) : (
+    <NavbarStandard client:load {...navbarProps} />
+  )}
+  <main class="flex-1">
+    <SectionDispatcher sections={page.sections} />
+  </main>
+  {layout.footer.variant === "multiColumn" ? (
+    <FooterMultiColumn {...footerProps} />
+  ) : (
+    <FooterSimple {...footerProps} />
+  )}
+</BaseLayout>

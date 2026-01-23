@@ -1,28 +1,10 @@
 import { useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
-import { cn } from "../lib/utils";
-import { Button } from "../atoms/Button";
+import { cn } from "../../lib/utils";
+import { Button } from "../../atoms/Button";
+import type { NavbarProps } from "./types";
 
-interface NavLink {
-  label: string;
-  href: string;
-}
-
-interface NavbarProps {
-  logo: string;
-  logoIcon?: React.ReactNode;
-  links: NavLink[];
-  cta?: {
-    label: string;
-    href: string;
-  };
-  currentLanguage?: string;
-  variant?: "solid" | "transparent";
-  sticky?: boolean;
-  className?: string;
-}
-
-export function Navbar({
+export function NavbarCentered({
   logo,
   logoIcon,
   links,
@@ -39,6 +21,11 @@ export function Navbar({
     window.location.reload();
   };
 
+  // Split links for centered layout
+  const midPoint = Math.ceil(links.length / 2);
+  const leftLinks = links.slice(0, midPoint);
+  const rightLinks = links.slice(midPoint);
+
   return (
     <nav
       className={cn(
@@ -52,17 +39,24 @@ export function Navbar({
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-2 group">
-            {logoIcon && <span className="text-2xl">{logoIcon}</span>}
-            <span className="text-xl lg:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
-              {logo}
-            </span>
-          </a>
+          {/* Mobile Menu Button - Left */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </Button>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1 lg:gap-2">
-            {links.map((link) => (
+          {/* Desktop Left Links */}
+          <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1 justify-end">
+            {leftLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -72,7 +66,29 @@ export function Navbar({
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
               </a>
             ))}
-            {/* Language Switcher - PL / EN */}
+          </div>
+
+          {/* Centered Logo */}
+          <a href="/" className="flex items-center gap-2 group mx-8">
+            {logoIcon && <span className="text-3xl">{logoIcon}</span>}
+            <span className="text-2xl lg:text-3xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
+              {logo}
+            </span>
+          </a>
+
+          {/* Desktop Right Links */}
+          <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1">
+            {rightLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="relative px-4 py-2 text-sm lg:text-base font-medium text-foreground/80 hover:text-foreground transition-colors group"
+              >
+                {link.label}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
+              </a>
+            ))}
+            {/* Language Switcher */}
             <div className="flex items-center ml-2 border border-border rounded-radius overflow-hidden">
               <button
                 onClick={() => handleLanguageChange("pl")}
@@ -107,20 +123,14 @@ export function Navbar({
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </Button>
+          {/* Mobile CTA - Right */}
+          {cta && (
+            <Button asChild size="sm" className="md:hidden shadow-lg shadow-primary/25">
+              <a href={cta.href}>
+                {cta.label}
+              </a>
+            </Button>
+          )}
         </div>
 
         {/* Mobile Menu */}
@@ -135,7 +145,7 @@ export function Navbar({
               <a
                 key={link.href}
                 href={link.href}
-                className="px-4 py-3 text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
+                className="px-4 py-3 text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors text-center"
               >
                 {link.label}
               </a>
@@ -159,14 +169,6 @@ export function Navbar({
                 English
               </Button>
             </div>
-            {cta && (
-              <Button asChild size="lg" className="mt-4 w-full shadow-lg shadow-primary/25">
-                <a href={cta.href}>
-                  {cta.label}
-                  <ArrowRight className="ml-1 h-4 w-4" />
-                </a>
-              </Button>
-            )}
           </div>
         </div>
       </div>
