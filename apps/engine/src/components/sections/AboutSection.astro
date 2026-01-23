@@ -1,0 +1,37 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { AboutStory, AboutTimeline } from "@mshorizon/ui";
+import { getSectionVariant } from "../../lib/pages";
+
+interface Props {
+  section: Section;
+}
+
+const { section } = Astro.props;
+const variant = getSectionVariant(section);
+---
+
+<section class="bg-background py-16">
+  <div class="container mx-auto px-4 max-w-4xl">
+    {section.title && (
+      <h1 class="text-4xl font-bold text-foreground mb-8 text-center">{section.title}</h1>
+    )}
+
+    {variant === "timeline" ? (
+      <AboutTimeline
+        timeline={section.timeline || []}
+        stats={section.stats}
+        cta={section.cta?.label}
+        ctaHref={section.cta?.href || "/contact"}
+      />
+    ) : (
+      <AboutStory
+        story={section.story}
+        stats={section.stats}
+        commitment={section.commitment}
+        cta={section.cta?.label}
+        ctaHref={section.cta?.href || "/contact"}
+      />
+    )}
+  </div>
+</section>

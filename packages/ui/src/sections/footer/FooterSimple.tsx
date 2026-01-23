@@ -1,26 +1,8 @@
-import { cn } from "../lib/utils";
-import { Button } from "../atoms/Button";
+import { cn } from "../../lib/utils";
+import { Button } from "../../atoms/Button";
+import type { FooterProps } from "./types";
 
-interface FooterLink {
-  label: string;
-  href: string;
-}
-
-interface SocialLink {
-  icon: React.ReactNode;
-  href: string;
-  label: string;
-}
-
-interface FooterProps {
-  businessName: string;
-  links?: FooterLink[];
-  socialLinks?: SocialLink[];
-  copyright?: string;
-  className?: string;
-}
-
-export function Footer({
+export function FooterSimple({
   businessName,
   links,
   socialLinks,

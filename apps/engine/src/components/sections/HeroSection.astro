@@ -1,0 +1,33 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { HeroDefault, HeroSplit } from "@mshorizon/ui";
+import { getSectionVariant } from "../../lib/pages";
+
+interface Props {
+  section: Section;
+}
+
+const { section } = Astro.props;
+const variant = getSectionVariant(section);
+---
+
+{variant === "split" ? (
+  <HeroSplit
+    badge={section.badge}
+    title={section.title || ""}
+    subtitle={section.subtitle}
+    image={section.image || section.backgroundImage}
+    cta={section.cta}
+    secondaryCta={section.secondaryCta}
+  />
+) : (
+  <HeroDefault
+    badge={section.badge}
+    title={section.title || ""}
+    subtitle={section.subtitle}
+    backgroundImage={section.backgroundImage}
+    cta={section.cta}
+    secondaryCta={section.secondaryCta}
+    fullHeight
+  />
+)}
