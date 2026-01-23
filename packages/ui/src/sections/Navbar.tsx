@@ -1,11 +1,16 @@
-import { useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Menu, X, ArrowRight, ChevronDown, Building2 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { Button } from "../atoms/Button";
 
 interface NavLink {
   label: string;
   href: string;
+}
+
+interface Business {
+  id: string;
+  name: string;
 }
 
 interface NavbarProps {
@@ -20,6 +25,8 @@ interface NavbarProps {
   variant?: "solid" | "transparent";
   sticky?: boolean;
   className?: string;
+  businesses?: Business[];
+  currentBusinessId?: string;
 }
 
 export function Navbar({
@@ -31,13 +38,35 @@ export function Navbar({
   variant = "solid",
   sticky = true,
   className,
+  businesses = [],
+  currentBusinessId,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [businessDropdownOpen, setBusinessDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleLanguageChange = (langCode: string) => {
     document.cookie = `lang=${langCode};path=/;max-age=31536000;SameSite=Lax`;
     window.location.reload();
   };
+
+  const handleBusinessChange = (businessId: string) => {
+    // Navigate to the business subdomain or set cookie
+    document.cookie = `business=${businessId};path=/;max-age=31536000;SameSite=Lax`;
+    window.location.href = `/${businessId === currentBusinessId ? '' : `?business=${businessId}`}`;
+    window.location.reload();
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setBusinessDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <nav
@@ -72,6 +101,38 @@ export function Navbar({
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
               </a>
             ))}
+            {/* Business Switcher */}
+            {businesses.length > 1 && (
+              <div className="relative ml-2" ref={dropdownRef}>
+                <button
+                  onClick={() => setBusinessDropdownOpen(!businessDropdownOpen)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold border border-border rounded-radius bg-background text-foreground hover:bg-primary/10 transition-colors"
+                >
+                  <Building2 className="h-3.5 w-3.5" />
+                  <span className="hidden lg:inline">Switch</span>
+                  <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", businessDropdownOpen && "rotate-180")} />
+                </button>
+                {businessDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-background border border-border rounded-radius shadow-lg z-50 py-1">
+                    {businesses.map((business) => (
+                      <button
+                        key={business.id}
+                        onClick={() => {
+                          handleBusinessChange(business.id);
+                          setBusinessDropdownOpen(false);
+                        }}
+                        className={cn(
+                          "w-full px-4 py-2 text-left text-sm hover:bg-primary/10 transition-colors",
+                          currentBusinessId === business.id && "bg-primary/5 text-primary font-medium"
+                        )}
+                      >
+                        {business.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             {/* Language Switcher - PL / EN */}
             <div className="flex items-center ml-2 border border-border rounded-radius overflow-hidden">
               <button
@@ -140,6 +201,28 @@ export function Navbar({
                 {link.label}
               </a>
             ))}
+            {/* Mobile Business Switcher */}
+            {businesses.length > 1 && (
+              <div className="mt-4 pt-4 border-t border-border">
+                <p className="px-4 text-xs font-semibold text-muted uppercase tracking-wide mb-2">Switch Business</p>
+                <div className="flex flex-col gap-1">
+                  {businesses.map((business) => (
+                    <button
+                      key={business.id}
+                      onClick={() => handleBusinessChange(business.id)}
+                      className={cn(
+                        "px-4 py-2 text-left text-sm rounded-radius transition-colors",
+                        currentBusinessId === business.id
+                          ? "bg-primary/10 text-primary font-medium"
+                          : "text-foreground/80 hover:bg-primary/5"
+                      )}
+                    >
+                      {business.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             {/* Mobile Language Switcher */}
             <div className="flex gap-2 mt-4 pt-4 border-t border-border">
               <Button
