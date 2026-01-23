@@ -1,0 +1,100 @@
+{
+  "id": "game-selector-001",
+  "name": "GamePick",
+  "industry": "gaming",
+  "branding": {
+    "primaryColor": "#8B5CF6",
+    "themeId": "gaming-neon"
+  },
+  "navigation": {
+    "links": [
+      { "label": "Home", "href": "/" },
+      { "label": "Games", "href": "/services" },
+      { "label": "About", "href": "/about" },
+      { "label": "Contact", "href": "/contact" }
+    ],
+    "cta": {
+      "label": "Find Game",
+      "href": "/services"
+    }
+  },
+  "sections": {
+    "hero": {
+      "badge": "Multiplayer Ready",
+      "title": "Find Your Next Multiplayer Adventure",
+      "subtitle": "Discover the perfect game for you and your friends. Browse our curated selection of multiplayer experiences.",
+      "backgroundImage": "/images/game-selector/hero.jpg",
+      "cta": {
+        "label": "Browse Games",
+        "href": "/services"
+      },
+      "secondaryCta": {
+        "label": "Learn More",
+        "href": "/about"
+      }
+    },
+    "services": {
+      "title": "Game Categories",
+      "subtitle": "Find the perfect multiplayer experience for any occasion",
+      "items": [
+        {
+          "title": "Co-op Adventures",
+          "description": "Team up with friends for epic cooperative campaigns",
+          "price": "2-4 Players"
+        },
+        {
+          "title": "Party Games",
+          "description": "Quick fun for groups, perfect for game nights",
+          "price": "4-8 Players"
+        },
+        {
+          "title": "Competitive",
+          "description": "Test your skills against friends in PvP battles",
+          "price": "2-16 Players"
+        },
+        {
+          "title": "MMO & Online",
+          "description": "Massive worlds to explore with thousands of players",
+          "price": "Unlimited"
+        }
+      ]
+    },
+    "about": {
+      "title": "About GamePick",
+      "story": {
+        "title": "Our Mission",
+        "content": "We know how hard it can be to find the right game when you want to play with friends. GamePick was created to solve that problem - helping gamers discover multiplayer experiences that match their group size, preferred genres, and available time."
+      },
+      "stats": [
+        { "value": "500+", "label": "Games Listed" },
+        { "value": "50K+", "label": "Happy Gamers" },
+        { "value": "24/7", "label": "Community" }
+      ],
+      "commitment": {
+        "title": "For Gamers, By Gamers",
+        "content": "Our team consists of passionate gamers who understand what makes multiplayer experiences memorable. We personally test and review every game we recommend, ensuring quality recommendations every time."
+      },
+      "cta": {
+        "label": "Start Browsing",
+        "href": "/services"
+      }
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "subtitle": "Have a game suggestion or need help finding the perfect match? We'd love to hear from you!",
+      "form": {
+        "namePlaceholder": "Your gamer tag",
+        "emailPlaceholder": "your@email.com",
+        "messagePlaceholder": "Tell us what kind of games you're looking for...",
+        "submitButton": "Send Message"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 GamePick. All rights reserved.",
+      "links": [
+        { "label": "Privacy", "href": "/privacy" },
+        { "label": "Terms", "href": "/terms" }
+      ]
+    }
+  }
+}
