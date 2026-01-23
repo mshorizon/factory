@@ -16,6 +16,7 @@ interface NavbarProps {
     label: string;
     href: string;
   };
+  currentLanguage?: string;
   variant?: "solid" | "transparent";
   sticky?: boolean;
   className?: string;
@@ -26,11 +27,17 @@ export function Navbar({
   logoIcon,
   links,
   cta,
+  currentLanguage = "pl",
   variant = "solid",
   sticky = true,
   className,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleLanguageChange = (langCode: string) => {
+    document.cookie = `lang=${langCode};path=/;max-age=31536000;SameSite=Lax`;
+    window.location.reload();
+  };
 
   return (
     <nav
@@ -65,6 +72,31 @@ export function Navbar({
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
               </a>
             ))}
+            {/* Language Switcher - PL / EN */}
+            <div className="flex items-center ml-2 border border-border rounded-radius overflow-hidden">
+              <button
+                onClick={() => handleLanguageChange("pl")}
+                className={cn(
+                  "px-3 py-1.5 text-xs font-semibold transition-colors",
+                  currentLanguage === "pl"
+                    ? "bg-primary text-white"
+                    : "bg-background text-foreground hover:bg-primary/10"
+                )}
+              >
+                PL
+              </button>
+              <button
+                onClick={() => handleLanguageChange("en")}
+                className={cn(
+                  "px-3 py-1.5 text-xs font-semibold transition-colors",
+                  currentLanguage === "en"
+                    ? "bg-primary text-white"
+                    : "bg-background text-foreground hover:bg-primary/10"
+                )}
+              >
+                EN
+              </button>
+            </div>
             {cta && (
               <Button asChild size="lg" className="ml-4 shadow-lg shadow-primary/25">
                 <a href={cta.href}>
@@ -108,6 +140,25 @@ export function Navbar({
                 {link.label}
               </a>
             ))}
+            {/* Mobile Language Switcher */}
+            <div className="flex gap-2 mt-4 pt-4 border-t border-border">
+              <Button
+                variant={currentLanguage === "pl" ? "default" : "outline"}
+                size="sm"
+                onClick={() => handleLanguageChange("pl")}
+                className="flex-1"
+              >
+                Polski
+              </Button>
+              <Button
+                variant={currentLanguage === "en" ? "default" : "outline"}
+                size="sm"
+                onClick={() => handleLanguageChange("en")}
+                className="flex-1"
+              >
+                English
+              </Button>
+            </div>
             {cta && (
               <Button asChild size="lg" className="mt-4 w-full shadow-lg shadow-primary/25">
                 <a href={cta.href}>

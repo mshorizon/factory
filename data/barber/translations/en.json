@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Book Now"
+  },
+  "hero": {
+    "badge": "Est. 1995",
+    "title": "Premium Grooming Experience",
+    "subtitle": "Where tradition meets modern style. Experience the art of classic barbering with a contemporary twist.",
+    "cta": "Book Appointment",
+    "secondaryCta": "View Services"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Expert grooming services tailored to the modern gentleman",
+    "items": [
+      {
+        "title": "Classic Haircut",
+        "description": "Traditional cut with hot towel and neck shave",
+        "price": "From $35"
+      },
+      {
+        "title": "Beard Trim",
+        "description": "Precision beard shaping and conditioning",
+        "price": "From $20"
+      },
+      {
+        "title": "Hot Towel Shave",
+        "description": "Luxurious straight razor shave with hot towels",
+        "price": "From $40"
+      },
+      {
+        "title": "The Works",
+        "description": "Haircut, beard trim, and hot towel treatment",
+        "price": "From $65"
+      }
+    ]
+  },
+  "about": {
+    "title": "About Classic Cuts",
+    "story": {
+      "title": "Our Story",
+      "content": "Founded in 1995, Classic Cuts Barbershop has been serving the community with exceptional grooming services for nearly three decades. Our master barbers combine time-honored techniques with modern styles to give you the perfect look."
+    },
+    "stats": [
+      { "value": "28+", "label": "Years Experience" },
+      { "value": "50K+", "label": "Happy Clients" },
+      { "value": "5", "label": "Master Barbers" }
+    ],
+    "whyChooseUs": "Why Choose Us",
+    "commitment": {
+      "title": "Our Commitment",
+      "content": "We believe every man deserves to look and feel his best. Our team is dedicated to providing personalized service in a welcoming atmosphere. We use only premium products and take pride in our craft."
+    },
+    "cta": "Book Your Visit"
+  },
+  "contact": {
+    "title": "Book an Appointment",
+    "subtitle": "Walk-ins welcome, but appointments are recommended to skip the wait.",
+    "form": {
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Preferred date, time, and service...",
+      "submitButton": "Request Appointment"
+    }
+  },
+  "footer": {
+    "copyright": "© 2024 Classic Cuts Barbershop. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "pl": "Polski"
+  }
+}
