@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "home": "Strona główna",
+    "services": "Gry",
+    "about": "O nas",
+    "contact": "Kontakt",
+    "cta": "Znajdź grę"
+  },
+  "hero": {
+    "badge": "Multiplayer Ready",
+    "title": "Znajdź Swoją Następną Przygodę Multiplayer",
+    "subtitle": "Odkryj idealną grę dla siebie i znajomych. Przeglądaj naszą wyselekcjonowaną kolekcję gier wieloosobowych.",
+    "cta": "Przeglądaj gry",
+    "secondaryCta": "Dowiedz się więcej"
+  },
+  "services": {
+    "title": "Kategorie Gier",
+    "subtitle": "Znajdź idealne doświadczenie multiplayer na każdą okazję",
+    "items": [
+      {
+        "title": "Przygody Co-op",
+        "description": "Połącz siły ze znajomymi w epickich kampaniach kooperacyjnych",
+        "price": "2-4 Graczy"
+      },
+      {
+        "title": "Gry Imprezowe",
+        "description": "Szybka zabawa dla grup, idealna na wieczory z grami",
+        "price": "4-8 Graczy"
+      },
+      {
+        "title": "Rywalizacja",
+        "description": "Sprawdź swoje umiejętności w bitwach PvP ze znajomymi",
+        "price": "2-16 Graczy"
+      },
+      {
+        "title": "MMO i Online",
+        "description": "Ogromne światy do eksploracji z tysiącami graczy",
+        "price": "Bez limitu"
+      }
+    ]
+  },
+  "about": {
+    "title": "O GamePick",
+    "story": {
+      "title": "Nasza Misja",
+      "content": "Wiemy, jak trudno znaleźć odpowiednią grę, gdy chcesz grać ze znajomymi. GamePick został stworzony, aby rozwiązać ten problem - pomagamy graczom odkrywać doświadczenia multiplayer dopasowane do wielkości grupy, preferowanych gatunków i dostępnego czasu."
+    },
+    "stats": [
+      { "value": "500+", "label": "Gier w bazie" },
+      { "value": "50K+", "label": "Zadowolonych graczy" },
+      { "value": "24/7", "label": "Społeczność" }
+    ],
+    "whyChooseUs": "Dlaczego my",
+    "commitment": {
+      "title": "Dla Graczy, Przez Graczy",
+      "content": "Nasz zespół składa się z pasjonatów gier, którzy rozumieją, co sprawia, że doświadczenia multiplayer są niezapomniane. Osobiście testujemy i recenzujemy każdą polecaną grę, zapewniając jakość rekomendacji za każdym razem."
+    },
+    "cta": "Zacznij przeglądać"
+  },
+  "contact": {
+    "title": "Skontaktuj się",
+    "subtitle": "Masz sugestię gry lub potrzebujesz pomocy w znalezieniu idealnego dopasowania? Chętnie Cię wysłuchamy!",
+    "form": {
+      "nameLabel": "Nazwa",
+      "namePlaceholder": "Twój nick gracza",
+      "emailLabel": "Email",
+      "emailPlaceholder": "twoj@email.com",
+      "messageLabel": "Wiadomość",
+      "messagePlaceholder": "Powiedz nam, jakich gier szukasz...",
+      "submitButton": "Wyślij wiadomość"
+    }
+  },
+  "footer": {
+    "copyright": "© 2024 GamePick. Wszelkie prawa zastrzeżone.",
+    "privacy": "Prywatność",
+    "terms": "Regulamin"
+  },
+  "language": {
+    "label": "Język",
+    "en": "English",
+    "pl": "Polski"
+  }
+}
