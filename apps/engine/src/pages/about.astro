@@ -3,7 +3,7 @@ import { Navbar, Footer, Card, CardContent, Button } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getBusinessContext } from "../lib/business";
 
-const { businessData, theme, t, currentLang } = getBusinessContext(Astro.request);
+const { businessId, businessData, theme, t, currentLang, allBusinesses } = getBusinessContext(Astro.request);
 const { name, navigation } = businessData;
 ---
 
@@ -17,6 +17,8 @@ const { name, navigation } = businessData;
     }))}
     cta={{ ...navigation.cta, label: t.nav.cta }}
     currentLanguage={currentLang}
+    businesses={allBusinesses}
+    currentBusinessId={businessId}
   />
   <main class="flex-1 bg-background py-16">
     <div class="container mx-auto px-4 max-w-4xl">
