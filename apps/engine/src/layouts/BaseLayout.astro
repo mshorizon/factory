@@ -83,14 +83,23 @@ const cssVars = {
         --font-sans: var(--fontSans);
         --font-heading: var(--fontHeading);
       }
+      html, body {
+        height: 100%;
+      }
       body {
         font-family: var(--font-sans);
         background-color: var(--background);
         color: var(--foreground);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        flex: 1;
       }
     </style>
   </head>
-  <body>
+  <body class="flex flex-col min-h-screen">
     <slot />
   </body>
 </html>

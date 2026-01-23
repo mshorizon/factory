@@ -18,15 +18,17 @@ const { name, navigation } = businessData;
     cta={{ ...navigation.cta, label: t.nav.cta }}
     currentLanguage={currentLang}
   />
-  <Hero
-    badge={t.hero.badge}
-    title={t.hero.title}
-    subtitle={t.hero.subtitle}
-    backgroundImage={businessData.sections.hero.backgroundImage}
-    cta={{ href: navigation.cta.href, label: t.hero.cta }}
-    secondaryCta={{ href: "/services", label: t.hero.secondaryCta }}
-    fullHeight
-  />
+  <main class="flex-1">
+    <Hero
+      badge={t.hero.badge}
+      title={t.hero.title}
+      subtitle={t.hero.subtitle}
+      backgroundImage={businessData.sections.hero.backgroundImage}
+      cta={{ href: navigation.cta.href, label: t.hero.cta }}
+      secondaryCta={{ href: "/services", label: t.hero.secondaryCta }}
+      fullHeight
+    />
+  </main>
   <Footer
     businessName={name}
     links={[
