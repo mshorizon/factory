@@ -8,7 +8,7 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
-    "start": "astro preview --host 0.0.0.0 --port 4321"
+    "start": "pnpm --filter @mshorizon/engine start"
   },
   "keywords": [],
   "author": "",
