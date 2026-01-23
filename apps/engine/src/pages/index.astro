@@ -1,9 +1,8 @@
 ---
 import { Navbar, Hero, Footer } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getBusinessContext } from "../lib/business";
 
-const { businessData, theme, t, currentLang } = getBusinessContext(Astro.request);
+const { businessData, theme, t, currentLang } = Astro.locals;
 const { name, navigation } = businessData;
 ---
 

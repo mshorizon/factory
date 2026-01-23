@@ -28,12 +28,22 @@ function getJsonFile(pattern: string, files: Record<string, any>): any {
   return key ? (files[key] as any).default : null;
 }
 
-// Extract business ID from hostname
+// Get all available business IDs from data folder
+export function getAvailableBusinessIds(): string[] {
+  const ids = new Set<string>();
+  Object.keys(businessDataFiles).forEach((k) => {
+    const match = k.match(/\/data\/([^/]+)\//);
+    if (match) ids.add(match[1]);
+  });
+  return Array.from(ids);
+}
+
+// Extract business ID from hostname (subdomain-based routing)
 export function getBusinessIdFromHost(hostname: string): string {
   // Remove port if present
   const host = hostname.split(":")[0];
 
-  // Direct domain match
+  // Direct domain match from DOMAIN_MAP env
   if (domainMap[host]) {
     return domainMap[host];
   }
@@ -44,17 +54,23 @@ export function getBusinessIdFromHost(hostname: string): string {
     return domainMap[withoutWww];
   }
 
-  // Try subdomain matching (e.g., barber.example.com -> barber)
-  const subdomain = host.split(".")[0];
-  const availableBusinesses = Object.keys(businessDataFiles)
-    .map((k) => k.match(/\/data\/([^/]+)\//)?.[1])
-    .filter(Boolean);
+  // Subdomain matching (e.g., barber.my-domain.com -> barber)
+  const parts = host.split(".");
+  if (parts.length >= 2) {
+    const subdomain = parts[0];
+    const availableBusinesses = getAvailableBusinessIds();
 
-  if (availableBusinesses.includes(subdomain)) {
-    return subdomain;
+    if (availableBusinesses.includes(subdomain)) {
+      return subdomain;
+    }
   }
 
   return defaultBusiness;
+}
+
+// Check if a business ID is valid
+export function isValidBusiness(businessId: string): boolean {
+  return getAvailableBusinessIds().includes(businessId);
 }
 
 // Load business data for a specific business ID
