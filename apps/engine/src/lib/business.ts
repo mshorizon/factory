@@ -28,34 +28,6 @@ function getJsonFile(pattern: string, files: Record<string, any>): any {
   return key ? (files[key] as any).default : null;
 }
 
-// Get business ID from cookie
-export function getBusinessIdFromCookie(cookieHeader: string | null): string | null {
-  if (!cookieHeader) return null;
-  const match = cookieHeader.match(/business=([^;]+)/);
-  return match ? match[1] : null;
-}
-
-// Extract business ID from hostname, cookie, or query param
-export function getBusinessIdFromRequest(request: Request): string {
-  const url = new URL(request.url);
-  const cookieHeader = request.headers.get("cookie");
-
-  // 1. Check query param first (for switching)
-  const queryBusiness = url.searchParams.get("business");
-  if (queryBusiness && getBusinessData(queryBusiness)) {
-    return queryBusiness;
-  }
-
-  // 2. Check cookie
-  const cookieBusiness = getBusinessIdFromCookie(cookieHeader);
-  if (cookieBusiness && getBusinessData(cookieBusiness)) {
-    return cookieBusiness;
-  }
-
-  // 3. Fall back to hostname-based routing
-  return getBusinessIdFromHost(url.hostname);
-}
-
 // Extract business ID from hostname
 export function getBusinessIdFromHost(hostname: string): string {
   // Remove port if present
@@ -111,31 +83,10 @@ export function getLanguageFromCookie(cookieHeader: string | null): Language {
   return defaultLanguage;
 }
 
-// Get all available businesses (id and name)
-export function getAllBusinesses(): { id: string; name: string }[] {
-  const businessIds = new Set<string>();
-
-  // Extract unique business IDs from the glob pattern
-  Object.keys(businessDataFiles).forEach((key) => {
-    const match = key.match(/\/data\/([^/]+)\//);
-    if (match) {
-      businessIds.add(match[1]);
-    }
-  });
-
-  // Map to objects with id and name
-  return Array.from(businessIds)
-    .map((id) => {
-      const data = getBusinessData(id);
-      return data ? { id, name: data.name } : null;
-    })
-    .filter((b): b is { id: string; name: string } => b !== null)
-    .sort((a, b) => a.name.localeCompare(b.name));
-}
-
 // Helper to get all business context from request
 export function getBusinessContext(request: Request) {
-  const businessId = getBusinessIdFromRequest(request);
+  const url = new URL(request.url);
+  const businessId = getBusinessIdFromHost(url.hostname);
   const currentLang = getLanguageFromCookie(request.headers.get("cookie"));
 
   return {
@@ -144,6 +95,5 @@ export function getBusinessContext(request: Request) {
     businessData: getBusinessData(businessId),
     theme: getTheme(businessId),
     t: getTranslations(businessId, currentLang),
-    allBusinesses: getAllBusinesses(),
   };
 }
