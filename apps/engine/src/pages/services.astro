@@ -1,27 +1,31 @@
 ---
 import { Navbar, Footer, Card, CardHeader, CardTitle, CardDescription, CardContent, Button } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { businessData, theme } from "../lib/business";
+import { getBusinessContext } from "../lib/business";
 
-const { name, navigation, sections } = businessData;
-const { services, footer } = sections;
+const { businessData, theme, t, currentLang } = getBusinessContext(Astro.request);
+const { name, navigation } = businessData;
 ---
 
-<BaseLayout title={`${services.title} | ${name}`} theme={theme}>
+<BaseLayout title={`${t.services.title} | ${name}`} theme={theme}>
   <Navbar
     client:load
     logo={name}
-    links={navigation.links}
-    cta={navigation.cta}
+    links={navigation.links.map((link: any, i: number) => ({
+      ...link,
+      label: [t.nav.home, t.nav.services, t.nav.about, t.nav.contact][i] || link.label
+    }))}
+    cta={{ ...navigation.cta, label: t.nav.cta }}
+    currentLanguage={currentLang}
   />
   <main class="bg-background py-16">
     <div class="container mx-auto px-4">
-      <h1 class="text-4xl font-bold text-foreground mb-4 text-center">{services.title}</h1>
+      <h1 class="text-4xl font-bold text-foreground mb-4 text-center">{t.services.title}</h1>
       <p class="text-muted text-center mb-12 max-w-2xl mx-auto">
-        {services.subtitle}
+        {t.services.subtitle}
       </p>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {services.items.map((item: any) => (
+        {t.services.items.map((item: any) => (
           <Card className="group hover:shadow-lg transition-all hover:-translate-y-1">
             <CardHeader>
               <CardTitle>{item.title}</CardTitle>
@@ -30,7 +34,7 @@ const { services, footer } = sections;
             <CardContent>
               {item.price && <p class="text-2xl font-bold text-primary">{item.price}</p>}
               <Button asChild variant="outline" size="sm" className="mt-4 w-full">
-                <a href="/contact">{navigation.cta.label}</a>
+                <a href="/contact">{t.nav.cta}</a>
               </Button>
             </CardContent>
           </Card>
@@ -40,7 +44,10 @@ const { services, footer } = sections;
   </main>
   <Footer
     businessName={name}
-    links={footer?.links}
-    copyright={footer?.copyright}
+    links={[
+      { label: t.footer.privacy, href: "/privacy" },
+      { label: t.footer.terms, href: "/terms" }
+    ]}
+    copyright={t.footer.copyright}
   />
 </BaseLayout>

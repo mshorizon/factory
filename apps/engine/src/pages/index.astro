@@ -1,31 +1,38 @@
 ---
 import { Navbar, Hero, Footer } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { businessData, theme } from "../lib/business";
+import { getBusinessContext } from "../lib/business";
 
-const { name, navigation, sections } = businessData;
-const { hero, footer } = sections;
+const { businessData, theme, t, currentLang } = getBusinessContext(Astro.request);
+const { name, navigation } = businessData;
 ---
 
 <BaseLayout title={name} theme={theme}>
   <Navbar
     client:load
     logo={name}
-    links={navigation.links}
-    cta={navigation.cta}
+    links={navigation.links.map((link: any, i: number) => ({
+      ...link,
+      label: [t.nav.home, t.nav.services, t.nav.about, t.nav.contact][i] || link.label
+    }))}
+    cta={{ ...navigation.cta, label: t.nav.cta }}
+    currentLanguage={currentLang}
   />
   <Hero
-    badge={hero.badge}
-    title={hero.title}
-    subtitle={hero.subtitle}
-    backgroundImage={hero.backgroundImage}
-    cta={hero.cta}
-    secondaryCta={hero.secondaryCta}
+    badge={t.hero.badge}
+    title={t.hero.title}
+    subtitle={t.hero.subtitle}
+    backgroundImage={businessData.sections.hero.backgroundImage}
+    cta={{ href: navigation.cta.href, label: t.hero.cta }}
+    secondaryCta={{ href: "/services", label: t.hero.secondaryCta }}
     fullHeight
   />
   <Footer
     businessName={name}
-    links={footer?.links}
-    copyright={footer?.copyright}
+    links={[
+      { label: t.footer.privacy, href: "/privacy" },
+      { label: t.footer.terms, href: "/terms" }
+    ]}
+    copyright={t.footer.copyright}
   />
 </BaseLayout>

@@ -1,36 +1,40 @@
 ---
 import { Navbar, Footer, Card, CardContent, Button } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { businessData, theme } from "../lib/business";
+import { getBusinessContext } from "../lib/business";
 
-const { name, navigation, sections } = businessData;
-const { about, footer } = sections;
+const { businessData, theme, t, currentLang } = getBusinessContext(Astro.request);
+const { name, navigation } = businessData;
 ---
 
-<BaseLayout title={`${about.title} | ${name}`} theme={theme}>
+<BaseLayout title={`${t.about.title} | ${name}`} theme={theme}>
   <Navbar
     client:load
     logo={name}
-    links={navigation.links}
-    cta={navigation.cta}
+    links={navigation.links.map((link: any, i: number) => ({
+      ...link,
+      label: [t.nav.home, t.nav.services, t.nav.about, t.nav.contact][i] || link.label
+    }))}
+    cta={{ ...navigation.cta, label: t.nav.cta }}
+    currentLanguage={currentLang}
   />
   <main class="bg-background py-16">
     <div class="container mx-auto px-4 max-w-4xl">
-      <h1 class="text-4xl font-bold text-foreground mb-8 text-center">{about.title}</h1>
+      <h1 class="text-4xl font-bold text-foreground mb-8 text-center">{t.about.title}</h1>
 
       <div class="space-y-12">
-        {about.story && (
+        {t.about.story && (
           <section>
-            <h2 class="text-2xl font-bold text-foreground mb-4">{about.story.title}</h2>
-            <p class="text-muted leading-relaxed">{about.story.content}</p>
+            <h2 class="text-2xl font-bold text-foreground mb-4">{t.about.story.title}</h2>
+            <p class="text-muted leading-relaxed">{t.about.story.content}</p>
           </section>
         )}
 
-        {about.stats && about.stats.length > 0 && (
+        {t.about.stats && t.about.stats.length > 0 && (
           <section>
-            <h2 class="text-2xl font-bold text-foreground mb-6">Why Choose Us</h2>
+            <h2 class="text-2xl font-bold text-foreground mb-6">{t.about.whyChooseUs}</h2>
             <div class="grid md:grid-cols-3 gap-6">
-              {about.stats.map((stat: any) => (
+              {t.about.stats.map((stat: any) => (
                 <Card className="text-center hover:shadow-lg transition-shadow">
                   <CardContent className="pt-6">
                     <div class="text-4xl font-bold text-primary mb-2">{stat.value}</div>
@@ -42,15 +46,13 @@ const { about, footer } = sections;
           </section>
         )}
 
-        {about.commitment && (
+        {t.about.commitment && (
           <section>
-            <h2 class="text-2xl font-bold text-foreground mb-4">{about.commitment.title}</h2>
-            <p class="text-muted leading-relaxed mb-6">{about.commitment.content}</p>
-            {about.cta && (
-              <Button asChild size="lg">
-                <a href={about.cta.href}>{about.cta.label}</a>
-              </Button>
-            )}
+            <h2 class="text-2xl font-bold text-foreground mb-4">{t.about.commitment.title}</h2>
+            <p class="text-muted leading-relaxed mb-6">{t.about.commitment.content}</p>
+            <Button asChild size="lg">
+              <a href="/contact">{t.about.cta}</a>
+            </Button>
           </section>
         )}
       </div>
@@ -58,7 +60,10 @@ const { about, footer } = sections;
   </main>
   <Footer
     businessName={name}
-    links={footer?.links}
-    copyright={footer?.copyright}
+    links={[
+      { label: t.footer.privacy, href: "/privacy" },
+      { label: t.footer.terms, href: "/terms" }
+    ]}
+    copyright={t.footer.copyright}
   />
 </BaseLayout>
