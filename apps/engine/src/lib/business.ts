@@ -1,6 +1,9 @@
 // Domain-based business routing
 // Maps domains to business IDs from data/ folder
 
+import type { BusinessProfile, BusinessProfileV15 } from "@mshorizon/schema";
+import { detectSchemaVersion, adaptV10ToV15 } from "./adapter";
+
 // Supported languages
 export const supportedLanguages = ["en", "pl"] as const;
 export type Language = (typeof supportedLanguages)[number];
@@ -105,11 +108,23 @@ export function getBusinessContext(request: Request) {
   const businessId = getBusinessIdFromHost(url.hostname);
   const currentLang = getLanguageFromCookie(request.headers.get("cookie"));
 
+  const rawBusinessData = getBusinessData(businessId);
+  const rawTheme = getTheme(businessId);
+
+  // Detect schema version and normalize to v1.5
+  const version = detectSchemaVersion(rawBusinessData);
+  const normalizedData: BusinessProfileV15 =
+    version === "1.5"
+      ? (rawBusinessData as BusinessProfileV15)
+      : adaptV10ToV15(rawBusinessData as BusinessProfile, rawTheme);
+
   return {
     businessId,
     currentLang,
-    businessData: getBusinessData(businessId),
-    theme: getTheme(businessId),
+    businessData: normalizedData,
+    // Keep raw data for backwards compatibility during migration
+    rawBusinessData,
+    theme: normalizedData.theme,
     t: getTranslations(businessId, currentLang),
   };
 }

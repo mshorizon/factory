@@ -3,17 +3,21 @@ import { NavbarStandard, NavbarCentered, FooterSimple, FooterMultiColumn } from 
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionDispatcher from "../components/SectionDispatcher.astro";
 import { findPageBySlug, getLayoutConfig, getNavLinks } from "../lib/pages";
-import type { BusinessProfile } from "@mshorizon/schema";
+import { resolveTarget } from "../lib/target";
+import { deepTranslate } from "../lib/i18n";
+import type { BusinessProfileV15, Target } from "@mshorizon/schema";
 
 // Get route params
 const { slug } = Astro.params;
 
 // Get business context from middleware
-const { businessData, theme, currentLang } = Astro.locals;
-const business = businessData as BusinessProfile;
+const { businessData, theme, currentLang, t: translations } = Astro.locals;
 
-// Resolve the page
-const normalizedSlug = slug || "index";
+// Translate all "t:" prefixed strings in business data
+const business = deepTranslate(translations, businessData) as BusinessProfileV15;
+
+// Resolve the page (v1.5: "home" instead of "index")
+const normalizedSlug = slug || "home";
 const page = findPageBySlug(business, normalizedSlug);
 
 // 404 if page not found
@@ -24,27 +28,32 @@ if (!page) {
 // Get layout configuration
 const layout = getLayoutConfig(business);
 
-// Get navigation links from pages array
+// Get navigation links from pages object
 const navLinks = getNavLinks(business);
 
 // Build page title
-const pageTitle = page.slug === "index" ? business.name : `${page.title} | ${business.name}`;
+const pageTitle = normalizedSlug === "home" ? business.business.name : `${page.title} | ${business.business.name}`;
+
+// Target resolver function for navbar/footer
+const targetResolver = (target: Target) => resolveTarget(target, business);
 
 // Prepare navbar props
 const navbarProps = {
-  logo: business.name,
+  logo: business.business.name,
   links: navLinks,
   cta: business.navigation?.cta,
   currentLanguage: currentLang,
+  resolveTarget: targetResolver,
 };
 
 // Prepare footer props
 const footerProps = {
-  businessName: business.name,
+  businessName: business.business.name,
   links: layout.footer.links,
   copyright: layout.footer.copyright,
   columns: layout.footer.columns,
   tagline: layout.footer.tagline,
+  resolveTarget: targetResolver,
 };
 ---
 

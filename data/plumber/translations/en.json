@@ -1,83 +1,62 @@
 {
-  "nav": {
-    "home": "Home",
-    "services": "Services",
-    "about": "About",
-    "contact": "Contact",
-    "cta": "Emergency Call"
-  },
-  "hero": {
-    "badge": "24/7 Service",
-    "title": "Fast & Reliable Plumbing Services",
-    "subtitle": "Professional plumbing solutions for your home and business. Available around the clock for emergencies.",
-    "cta": "Get Free Quote",
-    "secondaryCta": "Our Services"
-  },
-  "services": {
-    "title": "Our Services",
-    "subtitle": "Comprehensive plumbing solutions for residential and commercial properties",
-    "items": [
-      {
-        "title": "Emergency Repairs",
-        "description": "24/7 emergency plumbing services for urgent issues",
-        "price": "From $99"
-      },
-      {
-        "title": "Drain Cleaning",
-        "description": "Professional drain cleaning and unclogging services",
-        "price": "From $79"
-      },
-      {
-        "title": "Water Heater",
-        "description": "Installation, repair, and maintenance of water heaters",
-        "price": "From $149"
-      },
-      {
-        "title": "Pipe Repair",
-        "description": "Fix leaks, burst pipes, and pipe replacements",
-        "price": "From $89"
-      }
-    ]
-  },
-  "about": {
-    "title": "About QuickFix Plumbing",
-    "story": {
-      "title": "Our Story",
-      "content": "QuickFix Plumbing was founded with a simple mission: provide fast, reliable, and affordable plumbing services to our community. Our team of licensed plumbers brings decades of combined experience to every job, big or small."
-    },
-    "stats": [
-      { "value": "24/7", "label": "Emergency Service" },
-      { "value": "100%", "label": "Satisfaction Guaranteed" },
-      { "value": "15+", "label": "Years Experience" }
-    ],
-    "whyChooseUs": "Why Choose Us",
-    "commitment": {
-      "title": "Our Commitment",
-      "content": "We believe in transparent pricing, honest communication, and standing behind our work. Every job comes with a satisfaction guarantee. If you're not happy, we'll make it right."
-    },
-    "cta": "Request Service"
-  },
-  "contact": {
-    "title": "Request Service",
-    "subtitle": "Need a plumber? Fill out the form below or call us for immediate assistance.",
-    "form": {
-      "nameLabel": "Name",
-      "namePlaceholder": "Your name",
-      "emailLabel": "Email",
-      "emailPlaceholder": "your@email.com",
-      "messageLabel": "Message",
-      "messagePlaceholder": "Describe your plumbing issue...",
-      "submitButton": "Request Quote"
-    }
-  },
-  "footer": {
-    "copyright": "© 2024 QuickFix Plumbing. All rights reserved.",
-    "privacy": "Privacy",
-    "terms": "Terms"
-  },
-  "language": {
-    "label": "Language",
-    "en": "English",
-    "pl": "Polski"
-  }
+  "business.name": "QuickFix Plumbing",
+
+  "nav.cta": "Emergency Call",
+
+  "footer.copyright": "2024 QuickFix Plumbing. All rights reserved.",
+  "footer.tagline": "Fast, reliable plumbing services available 24/7.",
+  "footer.privacy": "Privacy",
+  "footer.terms": "Terms",
+  "footer.columns.services.title": "Services",
+  "footer.columns.services.emergency": "Emergency Repairs",
+  "footer.columns.services.drain": "Drain Cleaning",
+  "footer.columns.services.heater": "Water Heater",
+  "footer.columns.services.pipe": "Pipe Repair",
+  "footer.columns.company.title": "Company",
+  "footer.columns.company.about": "About Us",
+  "footer.columns.company.contact": "Contact",
+  "footer.columns.company.careers": "Careers",
+
+  "pages.home.title": "Home",
+  "pages.services.title": "Services",
+  "pages.about.title": "About",
+  "pages.contact.title": "Contact",
+
+  "hero.badge": "24/7 Service",
+  "hero.title": "Fast & Reliable Plumbing Services",
+  "hero.subtitle": "Professional plumbing solutions for your home and business. Available around the clock for emergencies.",
+  "hero.cta": "Get Free Quote",
+  "hero.secondaryCta": "Our Services",
+
+  "services.title": "Our Services",
+  "services.subtitle": "Comprehensive plumbing solutions for residential and commercial properties",
+  "services.items.emergency.title": "Emergency Repairs",
+  "services.items.emergency.description": "24/7 emergency plumbing services for urgent issues",
+  "services.items.emergency.price": "From $99",
+  "services.items.drain.title": "Drain Cleaning",
+  "services.items.drain.description": "Professional drain cleaning and unclogging services",
+  "services.items.drain.price": "From $79",
+  "services.items.heater.title": "Water Heater",
+  "services.items.heater.description": "Installation, repair, and maintenance of water heaters",
+  "services.items.heater.price": "From $149",
+  "services.items.pipe.title": "Pipe Repair",
+  "services.items.pipe.description": "Fix leaks, burst pipes, and pipe replacements",
+  "services.items.pipe.price": "From $89",
+
+  "about.title": "About QuickFix Plumbing",
+  "about.story.title": "Our Story",
+  "about.story.content": "QuickFix Plumbing was founded with a simple mission: provide fast, reliable, and affordable plumbing services to our community. Our team of licensed plumbers brings decades of combined experience to every job, big or small.",
+  "about.stats.service": "Emergency Service",
+  "about.stats.satisfaction": "Satisfaction Guaranteed",
+  "about.stats.experience": "Years Experience",
+  "about.commitment.title": "Our Commitment",
+  "about.commitment.content": "We believe in transparent pricing, honest communication, and standing behind our work. Every job comes with a satisfaction guarantee. If you're not happy, we'll make it right.",
+  "about.cta": "Request Service",
+
+  "contact.title": "Request Service",
+  "contact.subtitle": "Need a plumber? Fill out the form below or call us for immediate assistance.",
+  "contact.form.name": "Your name",
+  "contact.form.email": "your@email.com",
+  "contact.form.message": "Describe your plumbing issue...",
+  "contact.form.submit": "Request Quote"
 }

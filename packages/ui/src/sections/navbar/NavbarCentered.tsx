@@ -3,6 +3,7 @@ import { Menu, X, ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import type { NavbarProps } from "./types";
+import { getLinkHref, getCTAHref } from "./types";
 
 export function NavbarCentered({
   logo,
@@ -13,6 +14,7 @@ export function NavbarCentered({
   variant = "solid",
   sticky = true,
   className,
+  resolveTarget,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -56,16 +58,19 @@ export function NavbarCentered({
 
           {/* Desktop Left Links */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1 justify-end">
-            {leftLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="relative px-4 py-2 text-sm lg:text-base font-medium text-foreground/80 hover:text-foreground transition-colors group"
-              >
-                {link.label}
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
-              </a>
-            ))}
+            {leftLinks.map((link, index) => {
+              const href = getLinkHref(link, resolveTarget);
+              return (
+                <a
+                  key={`left-${link.label}-${index}`}
+                  href={href}
+                  className="relative px-4 py-2 text-sm lg:text-base font-medium text-foreground/80 hover:text-foreground transition-colors group"
+                >
+                  {link.label}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
+                </a>
+              );
+            })}
           </div>
 
           {/* Centered Logo */}
@@ -78,16 +83,19 @@ export function NavbarCentered({
 
           {/* Desktop Right Links */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1">
-            {rightLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="relative px-4 py-2 text-sm lg:text-base font-medium text-foreground/80 hover:text-foreground transition-colors group"
-              >
-                {link.label}
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
-              </a>
-            ))}
+            {rightLinks.map((link, index) => {
+              const href = getLinkHref(link, resolveTarget);
+              return (
+                <a
+                  key={`right-${link.label}-${index}`}
+                  href={href}
+                  className="relative px-4 py-2 text-sm lg:text-base font-medium text-foreground/80 hover:text-foreground transition-colors group"
+                >
+                  {link.label}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
+                </a>
+              );
+            })}
             {/* Language Switcher */}
             <div className="flex items-center ml-2 border border-border rounded-radius overflow-hidden">
               <button
@@ -115,7 +123,7 @@ export function NavbarCentered({
             </div>
             {cta && (
               <Button asChild size="lg" className="ml-4 shadow-lg shadow-primary/25">
-                <a href={cta.href}>
+                <a href={getCTAHref(cta, resolveTarget)}>
                   {cta.label}
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </a>
@@ -126,7 +134,7 @@ export function NavbarCentered({
           {/* Mobile CTA - Right */}
           {cta && (
             <Button asChild size="sm" className="md:hidden shadow-lg shadow-primary/25">
-              <a href={cta.href}>
+              <a href={getCTAHref(cta, resolveTarget)}>
                 {cta.label}
               </a>
             </Button>
@@ -141,15 +149,18 @@ export function NavbarCentered({
           )}
         >
           <div className="flex flex-col gap-1 pt-4 border-t border-border">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="px-4 py-3 text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors text-center"
-              >
-                {link.label}
-              </a>
-            ))}
+            {links.map((link, index) => {
+              const href = getLinkHref(link, resolveTarget);
+              return (
+                <a
+                  key={`mobile-${link.label}-${index}`}
+                  href={href}
+                  className="px-4 py-3 text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors text-center"
+                >
+                  {link.label}
+                </a>
+              );
+            })}
             {/* Mobile Language Switcher */}
             <div className="flex gap-2 mt-4 pt-4 border-t border-border">
               <Button

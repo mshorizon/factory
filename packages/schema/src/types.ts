@@ -1,3 +1,7 @@
+// ==========================================
+// V1.0 TYPES (Legacy - for backwards compatibility)
+// ==========================================
+
 // Layout Variants
 export type NavbarVariant = "standard" | "centered";
 export type FooterVariant = "simple" | "multiColumn";
@@ -133,4 +137,164 @@ export interface BusinessProfile {
   navigation?: {
     cta?: CTAButton;
   };
+}
+
+// ==========================================
+// V1.5 TYPES (New flat schema with embedded theme)
+// ==========================================
+
+// Target for polymorphic links
+export type TargetType = "page" | "section" | "external" | "phone" | "email";
+
+export interface Target {
+  type: TargetType;
+  value?: string;
+}
+
+// Section Header (normalized)
+export interface SectionHeader {
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+// v1.5 Theme color mode
+export interface ThemeColorMode {
+  primary: string;
+  surface: {
+    base: string;
+    alt: string;
+  };
+  text: {
+    main: string;
+    muted: string;
+    onPrimary: string;
+  };
+}
+
+// v1.5 Theme with light/dark modes
+export interface ThemeV15 {
+  globalVariant?: string;
+  mode: "light" | "dark";
+  colors: {
+    light: ThemeColorMode;
+    dark?: ThemeColorMode;
+  };
+  typography: {
+    primary: string;
+    secondary?: string;
+    baseSize?: string;
+  };
+  ui: {
+    radius: string;
+    spacingScale?: number;
+    buttonStyle?: string;
+  };
+}
+
+// v1.5 CTA with Target
+export interface CTAV15 {
+  label: string;
+  target: Target;
+}
+
+// v1.5 Nav Link with Target
+export interface NavLinkV15 {
+  label: string;
+  target: Target;
+}
+
+// v1.5 Footer Column
+export interface FooterColumnV15 {
+  title: string;
+  links: NavLinkV15[];
+}
+
+// v1.5 Footer Configuration
+export interface FooterConfigV15 {
+  variant?: FooterVariant;
+  copyright?: string;
+  tagline?: string;
+  links?: NavLinkV15[];
+  columns?: FooterColumnV15[];
+}
+
+// v1.5 Layout Configuration
+export interface LayoutV15 {
+  navbar?: {
+    variant?: NavbarVariant;
+  };
+  footer?: FooterConfigV15;
+}
+
+// v1.5 Section - with header object
+export interface SectionV15 {
+  type: SectionType;
+  variant?: string;
+  header?: SectionHeader;
+  // Hero fields
+  backgroundImage?: string;
+  image?: string;
+  cta?: CTAV15;
+  secondaryCta?: CTAV15;
+  // Services fields
+  items?: ServiceItem[];
+  // About fields
+  story?: {
+    title?: string;
+    content?: string;
+  };
+  stats?: StatItem[];
+  commitment?: {
+    title?: string;
+    content?: string;
+  };
+  timeline?: TimelineItem[];
+  // Contact fields
+  info?: ContactInfo;
+  form?: ContactForm;
+}
+
+// v1.5 Page Definition
+export interface PageV15 {
+  title: string;
+  sections: SectionV15[];
+}
+
+// v1.5 Business Assets
+export interface BusinessAssets {
+  logo?: string;
+  icon?: string;
+  favicon?: string;
+}
+
+// v1.5 Business Contact
+export interface BusinessContact {
+  phone?: string;
+  email?: string;
+  address?: string;
+  hours?: string;
+}
+
+// v1.5 Navigation Configuration
+export interface NavigationV15 {
+  links?: NavLinkV15[];
+  cta?: CTAV15;
+}
+
+// v1.5 Business Profile (merged theme, object pages)
+export interface BusinessProfileV15 {
+  schemaVersion: "1.5";
+  business: {
+    id: string;
+    name: string;
+    industry?: string;
+    assets?: BusinessAssets;
+    contact?: BusinessContact;
+    socials?: Record<string, string>;
+  };
+  theme: ThemeV15;
+  layout: LayoutV15;
+  navigation?: NavigationV15;
+  pages: Record<string, PageV15>;
 }

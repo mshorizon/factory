@@ -1,83 +1,56 @@
 {
-  "nav": {
-    "home": "Home",
-    "services": "Products",
-    "about": "About",
-    "contact": "Contact",
-    "cta": "Shop Now"
-  },
-  "hero": {
-    "badge": "100% Natural",
-    "title": "Pure Artisan Honey",
-    "subtitle": "From our hives to your table. Experience the authentic taste of locally harvested, raw honey from sustainable apiaries.",
-    "cta": "Order Now",
-    "secondaryCta": "Our Products"
-  },
-  "services": {
-    "title": "Our Products",
-    "subtitle": "Naturally harvested honey varieties from our local apiaries",
-    "items": [
-      {
-        "title": "Wildflower Honey",
-        "description": "Rich, complex flavor from diverse wildflower sources",
-        "price": "$18/jar"
-      },
-      {
-        "title": "Acacia Honey",
-        "description": "Light, mild honey perfect for tea and baking",
-        "price": "$22/jar"
-      },
-      {
-        "title": "Raw Honeycomb",
-        "description": "Pure honeycomb straight from the hive",
-        "price": "$28/piece"
-      },
-      {
-        "title": "Honey Gift Set",
-        "description": "Curated selection of our finest varieties",
-        "price": "$55/set"
-      }
-    ]
-  },
-  "about": {
-    "title": "About Golden Hive Honey",
-    "story": {
-      "title": "Our Story",
-      "content": "Golden Hive Honey started as a passion project in our backyard. Today, we maintain over 50 hives across local meadows and forests, producing premium honey while supporting bee populations and sustainable agriculture."
-    },
-    "stats": [
-      { "value": "50+", "label": "Active Hives" },
-      { "value": "100%", "label": "Raw & Unfiltered" },
-      { "value": "Local", "label": "Sustainably Sourced" }
-    ],
-    "whyChooseUs": "Why Choose Us",
-    "commitment": {
-      "title": "Our Commitment",
-      "content": "We never heat or ultra-filter our honey, preserving all the natural enzymes, pollen, and beneficial properties. Our bees are treated ethically, and we always leave enough honey for them to thrive."
-    },
-    "cta": "Contact Us"
-  },
-  "contact": {
-    "title": "Get in Touch",
-    "subtitle": "Questions about our honey or want to place a bulk order? We'd love to hear from you!",
-    "form": {
-      "nameLabel": "Name",
-      "namePlaceholder": "Your name",
-      "emailLabel": "Email",
-      "emailPlaceholder": "your@email.com",
-      "messageLabel": "Message",
-      "messagePlaceholder": "Tell us about your order or question...",
-      "submitButton": "Send Message"
-    }
-  },
-  "footer": {
-    "copyright": "© 2024 Golden Hive Honey. All rights reserved.",
-    "privacy": "Privacy",
-    "terms": "Terms"
-  },
-  "language": {
-    "label": "Language",
-    "en": "English",
-    "pl": "Polski"
-  }
+  "business.name": "Golden Hive Honey",
+
+  "nav.cta": "Order Now",
+
+  "footer.copyright": "2024 Golden Hive Honey. All rights reserved.",
+  "footer.privacy": "Privacy",
+  "footer.terms": "Terms",
+
+  "pages.home.title": "Home",
+  "pages.services.title": "Products",
+  "pages.about.title": "About",
+  "pages.contact.title": "Contact",
+
+  "hero.badge": "100% Natural",
+  "hero.title": "Pure Natural Honey",
+  "hero.subtitle": "Locally harvested, sustainably produced honey straight from our family-owned apiaries",
+  "hero.cta": "Shop Now",
+  "hero.secondaryCta": "Learn More",
+
+  "services.title": "Our Products",
+  "services.subtitle": "Premium honey products from our family-owned apiaries",
+  "services.items.raw.title": "Raw Honey",
+  "services.items.raw.description": "Pure, unprocessed honey straight from our hives",
+  "services.items.raw.price": "From $12",
+  "services.items.honeycomb.title": "Honeycomb",
+  "services.items.honeycomb.description": "Fresh honeycomb, nature's perfect package",
+  "services.items.honeycomb.price": "From $18",
+  "services.items.pollen.title": "Bee Pollen",
+  "services.items.pollen.description": "Nutrient-rich bee pollen for health enthusiasts",
+  "services.items.pollen.price": "From $15",
+  "services.items.candles.title": "Beeswax Candles",
+  "services.items.candles.description": "Hand-poured natural beeswax candles",
+  "services.items.candles.price": "From $10",
+
+  "about.title": "About Golden Hive Honey",
+  "about.stats.pure": "Pure & Natural",
+  "about.stats.family": "Family Owned",
+  "about.stats.experience": "Years Experience",
+  "about.timeline.1998.title": "The Beginning",
+  "about.timeline.1998.description": "Started with just 2 hives in our backyard as a hobby",
+  "about.timeline.2005.title": "First Farm Stand",
+  "about.timeline.2005.description": "Opened our first roadside stand, selling to local community",
+  "about.timeline.2012.title": "Certified Organic",
+  "about.timeline.2012.description": "Achieved organic certification for all our apiaries",
+  "about.timeline.2020.title": "Regional Expansion",
+  "about.timeline.2020.description": "Now supplying honey to stores across the region",
+  "about.cta": "Get in Touch",
+
+  "contact.title": "Contact Us",
+  "contact.subtitle": "Have questions about our honey? Want to place a bulk order? We'd love to hear from you!",
+  "contact.form.name": "Your name",
+  "contact.form.email": "your@email.com",
+  "contact.form.message": "Tell us about your order or ask us anything...",
+  "contact.form.submit": "Send Message"
 }

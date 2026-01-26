@@ -1,83 +1,62 @@
 {
-  "nav": {
-    "home": "Home",
-    "services": "Games",
-    "about": "About",
-    "contact": "Contact",
-    "cta": "Find Game"
-  },
-  "hero": {
-    "badge": "Multiplayer Ready",
-    "title": "Find Your Next Multiplayer Adventure",
-    "subtitle": "Discover the perfect game for you and your friends. Browse our curated selection of multiplayer experiences.",
-    "cta": "Browse Games",
-    "secondaryCta": "Learn More"
-  },
-  "services": {
-    "title": "Game Categories",
-    "subtitle": "Find the perfect multiplayer experience for any occasion",
-    "items": [
-      {
-        "title": "Co-op Adventures",
-        "description": "Team up with friends for epic cooperative campaigns",
-        "price": "2-4 Players"
-      },
-      {
-        "title": "Party Games",
-        "description": "Quick fun for groups, perfect for game nights",
-        "price": "4-8 Players"
-      },
-      {
-        "title": "Competitive",
-        "description": "Test your skills against friends in PvP battles",
-        "price": "2-16 Players"
-      },
-      {
-        "title": "MMO & Online",
-        "description": "Massive worlds to explore with thousands of players",
-        "price": "Unlimited"
-      }
-    ]
-  },
-  "about": {
-    "title": "About GamePick",
-    "story": {
-      "title": "Our Mission",
-      "content": "We know how hard it can be to find the right game when you want to play with friends. GamePick was created to solve that problem - helping gamers discover multiplayer experiences that match their group size, preferred genres, and available time."
-    },
-    "stats": [
-      { "value": "500+", "label": "Games Listed" },
-      { "value": "50K+", "label": "Happy Gamers" },
-      { "value": "24/7", "label": "Community" }
-    ],
-    "whyChooseUs": "Why Choose Us",
-    "commitment": {
-      "title": "For Gamers, By Gamers",
-      "content": "Our team consists of passionate gamers who understand what makes multiplayer experiences memorable. We personally test and review every game we recommend, ensuring quality recommendations every time."
-    },
-    "cta": "Start Browsing"
-  },
-  "contact": {
-    "title": "Get in Touch",
-    "subtitle": "Have a game suggestion or need help finding the perfect match? We'd love to hear from you!",
-    "form": {
-      "nameLabel": "Name",
-      "namePlaceholder": "Your gamer tag",
-      "emailLabel": "Email",
-      "emailPlaceholder": "your@email.com",
-      "messageLabel": "Message",
-      "messagePlaceholder": "Tell us what kind of games you're looking for...",
-      "submitButton": "Send Message"
-    }
-  },
-  "footer": {
-    "copyright": "© 2024 GamePick. All rights reserved.",
-    "privacy": "Privacy",
-    "terms": "Terms"
-  },
-  "language": {
-    "label": "Language",
-    "en": "English",
-    "pl": "Polski"
-  }
+  "business.name": "GamePick",
+
+  "nav.cta": "Find Game",
+
+  "footer.copyright": "2024 GamePick. All rights reserved.",
+  "footer.tagline": "Find your next multiplayer adventure with GamePick.",
+  "footer.privacy": "Privacy",
+  "footer.terms": "Terms",
+  "footer.columns.categories.title": "Categories",
+  "footer.columns.categories.coop": "Co-op Games",
+  "footer.columns.categories.party": "Party Games",
+  "footer.columns.categories.competitive": "Competitive",
+  "footer.columns.categories.mmo": "MMO & Online",
+  "footer.columns.resources.title": "Resources",
+  "footer.columns.resources.about": "About Us",
+  "footer.columns.resources.contact": "Contact",
+  "footer.columns.resources.blog": "Blog",
+
+  "pages.home.title": "Home",
+  "pages.services.title": "Games",
+  "pages.about.title": "About",
+  "pages.contact.title": "Contact",
+
+  "hero.badge": "Multiplayer Ready",
+  "hero.title": "Find Your Next Multiplayer Adventure",
+  "hero.subtitle": "Discover the perfect game for you and your friends. Browse our curated selection of multiplayer experiences.",
+  "hero.cta": "Browse Games",
+  "hero.secondaryCta": "Learn More",
+
+  "services.title": "Game Categories",
+  "services.subtitle": "Find the perfect multiplayer experience for any occasion",
+  "services.items.coop.title": "Co-op Adventures",
+  "services.items.coop.description": "Team up with friends for epic cooperative campaigns",
+  "services.items.coop.price": "2-4 Players",
+  "services.items.party.title": "Party Games",
+  "services.items.party.description": "Quick fun for groups, perfect for game nights",
+  "services.items.party.price": "4-8 Players",
+  "services.items.competitive.title": "Competitive",
+  "services.items.competitive.description": "Test your skills against friends in PvP battles",
+  "services.items.competitive.price": "2-16 Players",
+  "services.items.mmo.title": "MMO & Online",
+  "services.items.mmo.description": "Massive worlds to explore with thousands of players",
+  "services.items.mmo.price": "Unlimited",
+
+  "about.title": "About GamePick",
+  "about.story.title": "Our Mission",
+  "about.story.content": "We know how hard it can be to find the right game when you want to play with friends. GamePick was created to solve that problem - helping gamers discover multiplayer experiences that match their group size, preferred genres, and available time.",
+  "about.stats.games": "Games Listed",
+  "about.stats.gamers": "Happy Gamers",
+  "about.stats.community": "Community",
+  "about.commitment.title": "For Gamers, By Gamers",
+  "about.commitment.content": "Our team consists of passionate gamers who understand what makes multiplayer experiences memorable. We personally test and review every game we recommend, ensuring quality recommendations every time.",
+  "about.cta": "Start Browsing",
+
+  "contact.title": "Get in Touch",
+  "contact.subtitle": "Have a game suggestion or need help finding the perfect match? We'd love to hear from you!",
+  "contact.form.name": "Your gamer tag",
+  "contact.form.email": "your@email.com",
+  "contact.form.message": "Tell us what kind of games you're looking for...",
+  "contact.form.submit": "Send Message"
 }

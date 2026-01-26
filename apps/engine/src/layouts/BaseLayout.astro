@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
+import type { ThemeV15 } from "@mshorizon/schema";
 
-interface Theme {
+// v1.0 Theme structure (legacy)
+interface ThemeV10 {
   colors: {
     primary: string;
     secondary: string;
@@ -30,6 +32,9 @@ interface Theme {
   };
 }
 
+// Combined theme type that supports both versions
+type Theme = ThemeV10 | ThemeV15;
+
 interface Props {
   title: string;
   theme: Theme;
@@ -37,24 +42,58 @@ interface Props {
 
 const { title, theme } = Astro.props;
 
-const cssVars = {
-  primary: theme.colors.primary,
-  secondary: theme.colors.secondary,
-  accent: theme.colors.accent || theme.colors.primary,
-  background: theme.colors.background,
-  foreground: theme.colors.foreground,
-  muted: theme.colors.muted || "#64748b",
-  border: theme.colors.border || "#e2e8f0",
-  radiusSm: theme.borderRadius?.small || "0.25rem",
-  radius: theme.borderRadius?.default || "0.5rem",
-  radiusLg: theme.borderRadius?.large || "1rem",
-  radiusFull: theme.borderRadius?.full || "9999px",
-  shadowSm: theme.shadows?.small || "0 1px 2px rgba(0,0,0,0.05)",
-  shadow: theme.shadows?.default || "0 4px 6px rgba(0,0,0,0.1)",
-  shadowLg: theme.shadows?.large || "0 10px 25px rgba(0,0,0,0.15)",
-  fontSans: theme.typography?.fontFamily?.sans || "system-ui, -apple-system, sans-serif",
-  fontHeading: theme.typography?.fontFamily?.heading || "system-ui, -apple-system, sans-serif",
-};
+// Helper to detect if theme is v1.5
+function isThemeV15(t: Theme): t is ThemeV15 {
+  return 'mode' in t && 'colors' in t && 'light' in (t as ThemeV15).colors;
+}
+
+// Extract CSS variables based on theme version
+let cssVars: Record<string, string>;
+
+if (isThemeV15(theme)) {
+  // v1.5 theme structure
+  const colors = theme.colors.light;
+  cssVars = {
+    primary: colors.primary,
+    secondary: colors.surface.alt,
+    accent: colors.primary,
+    background: colors.surface.base,
+    foreground: colors.text.main,
+    muted: colors.text.muted,
+    border: colors.text.muted + "40", // Add alpha for border
+    textOnPrimary: colors.text.onPrimary,
+    radiusSm: "0.25rem",
+    radius: theme.ui.radius,
+    radiusLg: "1rem",
+    radiusFull: "9999px",
+    shadowSm: "0 1px 2px rgba(0,0,0,0.05)",
+    shadow: "0 4px 6px rgba(0,0,0,0.1)",
+    shadowLg: "0 10px 25px rgba(0,0,0,0.15)",
+    fontSans: theme.typography.primary,
+    fontHeading: theme.typography.secondary || theme.typography.primary,
+  };
+} else {
+  // v1.0 theme structure (legacy)
+  cssVars = {
+    primary: theme.colors.primary,
+    secondary: theme.colors.secondary,
+    accent: theme.colors.accent || theme.colors.primary,
+    background: theme.colors.background,
+    foreground: theme.colors.foreground,
+    muted: theme.colors.muted || "#64748b",
+    border: theme.colors.border || "#e2e8f0",
+    textOnPrimary: "#ffffff",
+    radiusSm: theme.borderRadius?.small || "0.25rem",
+    radius: theme.borderRadius?.default || "0.5rem",
+    radiusLg: theme.borderRadius?.large || "1rem",
+    radiusFull: theme.borderRadius?.full || "9999px",
+    shadowSm: theme.shadows?.small || "0 1px 2px rgba(0,0,0,0.05)",
+    shadow: theme.shadows?.default || "0 4px 6px rgba(0,0,0,0.1)",
+    shadowLg: theme.shadows?.large || "0 10px 25px rgba(0,0,0,0.15)",
+    fontSans: theme.typography?.fontFamily?.sans || "system-ui, -apple-system, sans-serif",
+    fontHeading: theme.typography?.fontFamily?.heading || "system-ui, -apple-system, sans-serif",
+  };
+}
 ---
 
 <html lang="en">
@@ -73,6 +112,7 @@ const cssVars = {
         --foreground: var(--foreground);
         --muted: var(--muted);
         --border: var(--border);
+        --text-on-primary: var(--textOnPrimary);
         --radius-sm: var(--radiusSm);
         --radius: var(--radius);
         --radius-lg: var(--radiusLg);

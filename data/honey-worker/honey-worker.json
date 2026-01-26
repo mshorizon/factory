@@ -1,132 +1,163 @@
 {
-  "id": "honey-worker-001",
-  "name": "Golden Hive Honey",
-  "industry": "honey-producer",
-  "branding": {
-    "primaryColor": "#F59E0B",
-    "themeId": "natural-honey"
+  "schemaVersion": "1.5",
+  "business": {
+    "id": "honey-worker-001",
+    "name": "t:business.name",
+    "industry": "honey-producer",
+    "contact": {
+      "phone": "(555) 234-5678",
+      "email": "hello@goldenhivehoney.com"
+    }
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#F59E0B",
+        "surface": {
+          "base": "#FFFBEB",
+          "alt": "#92400E"
+        },
+        "text": {
+          "main": "#451A03",
+          "muted": "#78716C",
+          "onPrimary": "#FFFFFF"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'Nunito', system-ui, -apple-system, sans-serif",
+      "secondary": "'Fraunces', Georgia, serif"
+    },
+    "ui": {
+      "radius": "0.75rem"
+    }
   },
   "layout": {
     "navbar": { "variant": "centered" },
     "footer": {
       "variant": "simple",
-      "copyright": "© 2024 Golden Hive Honey. All rights reserved.",
+      "copyright": "t:footer.copyright",
       "links": [
-        { "label": "Privacy", "href": "/privacy" },
-        { "label": "Terms", "href": "/terms" }
+        { "label": "t:footer.privacy", "target": { "type": "page", "value": "privacy" } },
+        { "label": "t:footer.terms", "target": { "type": "page", "value": "terms" } }
       ]
     }
   },
   "navigation": {
-    "cta": { "label": "Order Now", "href": "/contact" }
+    "cta": { "label": "t:nav.cta", "target": { "type": "page", "value": "contact" } }
   },
-  "pages": [
-    {
-      "slug": "index",
-      "title": "Home",
+  "pages": {
+    "home": {
+      "title": "t:pages.home.title",
       "sections": [
         {
           "type": "hero",
           "variant": "default",
-          "badge": "100% Natural",
-          "title": "Pure Natural Honey",
-          "subtitle": "Locally harvested, sustainably produced honey straight from our family-owned apiaries",
+          "header": {
+            "badge": "t:hero.badge",
+            "title": "t:hero.title",
+            "subtitle": "t:hero.subtitle"
+          },
           "backgroundImage": "/images/honey-worker/hero.jpg",
-          "cta": { "label": "Shop Now", "href": "/services" },
-          "secondaryCta": { "label": "Learn More", "href": "/about" }
+          "cta": { "label": "t:hero.cta", "target": { "type": "page", "value": "services" } },
+          "secondaryCta": { "label": "t:hero.secondaryCta", "target": { "type": "page", "value": "about" } }
         }
       ]
     },
-    {
-      "slug": "services",
-      "title": "Products",
+    "services": {
+      "title": "t:pages.services.title",
       "sections": [
         {
           "type": "services",
           "variant": "grid",
-          "title": "Our Products",
-          "subtitle": "Premium honey products from our family-owned apiaries",
+          "header": {
+            "title": "t:services.title",
+            "subtitle": "t:services.subtitle"
+          },
           "items": [
             {
-              "title": "Raw Honey",
-              "description": "Pure, unprocessed honey straight from our hives",
-              "price": "From $12"
+              "title": "t:services.items.raw.title",
+              "description": "t:services.items.raw.description",
+              "price": "t:services.items.raw.price"
             },
             {
-              "title": "Honeycomb",
-              "description": "Fresh honeycomb, nature's perfect package",
-              "price": "From $18"
+              "title": "t:services.items.honeycomb.title",
+              "description": "t:services.items.honeycomb.description",
+              "price": "t:services.items.honeycomb.price"
             },
             {
-              "title": "Bee Pollen",
-              "description": "Nutrient-rich bee pollen for health enthusiasts",
-              "price": "From $15"
+              "title": "t:services.items.pollen.title",
+              "description": "t:services.items.pollen.description",
+              "price": "t:services.items.pollen.price"
             },
             {
-              "title": "Beeswax Candles",
-              "description": "Hand-poured natural beeswax candles",
-              "price": "From $10"
+              "title": "t:services.items.candles.title",
+              "description": "t:services.items.candles.description",
+              "price": "t:services.items.candles.price"
             }
           ]
         }
       ]
     },
-    {
-      "slug": "about",
-      "title": "About",
+    "about": {
+      "title": "t:pages.about.title",
       "sections": [
         {
           "type": "about",
           "variant": "timeline",
-          "title": "About Golden Hive Honey",
+          "header": {
+            "title": "t:about.title"
+          },
           "stats": [
-            { "value": "100%", "label": "Pure & Natural" },
-            { "value": "Local", "label": "Family Owned" },
-            { "value": "25+", "label": "Years Experience" }
+            { "value": "100%", "label": "t:about.stats.pure" },
+            { "value": "Local", "label": "t:about.stats.family" },
+            { "value": "25+", "label": "t:about.stats.experience" }
           ],
           "timeline": [
             {
               "year": "1998",
-              "title": "The Beginning",
-              "description": "Started with just 2 hives in our backyard as a hobby"
+              "title": "t:about.timeline.1998.title",
+              "description": "t:about.timeline.1998.description"
             },
             {
               "year": "2005",
-              "title": "First Farm Stand",
-              "description": "Opened our first roadside stand, selling to local community"
+              "title": "t:about.timeline.2005.title",
+              "description": "t:about.timeline.2005.description"
             },
             {
               "year": "2012",
-              "title": "Certified Organic",
-              "description": "Achieved organic certification for all our apiaries"
+              "title": "t:about.timeline.2012.title",
+              "description": "t:about.timeline.2012.description"
             },
             {
               "year": "2020",
-              "title": "Regional Expansion",
-              "description": "Now supplying honey to stores across the region"
+              "title": "t:about.timeline.2020.title",
+              "description": "t:about.timeline.2020.description"
             }
           ],
-          "cta": { "label": "Get in Touch", "href": "/contact" }
+          "cta": { "label": "t:about.cta", "target": { "type": "page", "value": "contact" } }
         }
       ]
     },
-    {
-      "slug": "contact",
-      "title": "Contact",
+    "contact": {
+      "title": "t:pages.contact.title",
       "sections": [
         {
           "type": "contact",
           "variant": "centered",
-          "title": "Contact Us",
-          "subtitle": "Have questions about our honey? Want to place a bulk order? We'd love to hear from you!",
+          "header": {
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
+          },
           "form": {
-            "namePlaceholder": "Your name",
-            "emailPlaceholder": "your@email.com",
-            "messagePlaceholder": "Tell us about your order or ask us anything...",
-            "submitButton": "Send Message"
+            "namePlaceholder": "t:contact.form.name",
+            "emailPlaceholder": "t:contact.form.email",
+            "messagePlaceholder": "t:contact.form.message",
+            "submitButton": "t:contact.form.submit"
           }
         }
       ]
     }
-  ]
+  }
 }
