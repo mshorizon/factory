@@ -8,3 +8,5 @@ export type { TextareaProps } from "./Textarea";
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "./Card";
 export { Badge, badgeVariants } from "./Badge";
 export type { BadgeProps } from "./Badge";
+export { SectionHeader } from "./SectionHeader";
+export type { SectionHeaderProps } from "./SectionHeader";

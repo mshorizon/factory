@@ -1,83 +1,56 @@
 {
-  "nav": {
-    "home": "Strona główna",
-    "services": "Produkty",
-    "about": "O nas",
-    "contact": "Kontakt",
-    "cta": "Kup teraz"
-  },
-  "hero": {
-    "badge": "100% Naturalny",
-    "title": "Czysty Miód Rzemieślniczy",
-    "subtitle": "Z naszych uli prosto na Twój stół. Doświadcz autentycznego smaku lokalnie pozyskiwanego, surowego miodu ze zrównoważonych pasiek.",
-    "cta": "Zamów teraz",
-    "secondaryCta": "Nasze produkty"
-  },
-  "services": {
-    "title": "Nasze Produkty",
-    "subtitle": "Naturalnie pozyskiwane odmiany miodu z naszych lokalnych pasiek",
-    "items": [
-      {
-        "title": "Miód Wielokwiatowy",
-        "description": "Bogaty, złożony smak z różnorodnych źródeł kwiatowych",
-        "price": "72 zł/słoik"
-      },
-      {
-        "title": "Miód Akacjowy",
-        "description": "Lekki, łagodny miód idealny do herbaty i pieczenia",
-        "price": "88 zł/słoik"
-      },
-      {
-        "title": "Surowy Plaster Miodu",
-        "description": "Czysty plaster miodu prosto z ula",
-        "price": "112 zł/sztuka"
-      },
-      {
-        "title": "Zestaw Prezentowy",
-        "description": "Wyselekcjonowany wybór naszych najlepszych odmian",
-        "price": "220 zł/zestaw"
-      }
-    ]
-  },
-  "about": {
-    "title": "O Golden Hive Honey",
-    "story": {
-      "title": "Nasza Historia",
-      "content": "Golden Hive Honey zaczęło się jako projekt pasji na naszym podwórku. Dziś prowadzimy ponad 50 uli na lokalnych łąkach i w lasach, produkując miód premium, jednocześnie wspierając populacje pszczół i zrównoważone rolnictwo."
-    },
-    "stats": [
-      { "value": "50+", "label": "Aktywnych uli" },
-      { "value": "100%", "label": "Surowy i niefiltrowany" },
-      { "value": "Lokalnie", "label": "Zrównoważone źródło" }
-    ],
-    "whyChooseUs": "Dlaczego my",
-    "commitment": {
-      "title": "Nasze Zobowiązanie",
-      "content": "Nigdy nie podgrzewamy ani nie ultrafiltrujemy naszego miodu, zachowując wszystkie naturalne enzymy, pyłki i właściwości dobroczynne. Nasze pszczoły są traktowane etycznie i zawsze zostawiamy im wystarczająco dużo miodu, by mogły się rozwijać."
-    },
-    "cta": "Skontaktuj się"
-  },
-  "contact": {
-    "title": "Skontaktuj się z nami",
-    "subtitle": "Masz pytania o nasz miód lub chcesz złożyć zamówienie hurtowe? Chętnie Cię wysłuchamy!",
-    "form": {
-      "nameLabel": "Imię",
-      "namePlaceholder": "Twoje imię",
-      "emailLabel": "Email",
-      "emailPlaceholder": "twoj@email.com",
-      "messageLabel": "Wiadomość",
-      "messagePlaceholder": "Opowiedz nam o swoim zamówieniu lub pytaniu...",
-      "submitButton": "Wyślij wiadomość"
-    }
-  },
-  "footer": {
-    "copyright": "© 2024 Golden Hive Honey. Wszelkie prawa zastrzeżone.",
-    "privacy": "Prywatność",
-    "terms": "Regulamin"
-  },
-  "language": {
-    "label": "Język",
-    "en": "English",
-    "pl": "Polski"
-  }
+  "business.name": "Golden Hive Honey",
+
+  "nav.cta": "Zamów teraz",
+
+  "footer.copyright": "2024 Golden Hive Honey. Wszelkie prawa zastrzeżone.",
+  "footer.privacy": "Prywatność",
+  "footer.terms": "Regulamin",
+
+  "pages.home.title": "Strona główna",
+  "pages.services.title": "Produkty",
+  "pages.about.title": "O nas",
+  "pages.contact.title": "Kontakt",
+
+  "hero.badge": "100% Naturalny",
+  "hero.title": "Czysty Naturalny Miód",
+  "hero.subtitle": "Lokalnie pozyskiwany, zrównoważenie produkowany miód prosto z naszych rodzinnych pasiek",
+  "hero.cta": "Kup teraz",
+  "hero.secondaryCta": "Dowiedz się więcej",
+
+  "services.title": "Nasze Produkty",
+  "services.subtitle": "Produkty miodowe premium z naszych rodzinnych pasiek",
+  "services.items.raw.title": "Surowy Miód",
+  "services.items.raw.description": "Czysty, nieprzetworzony miód prosto z naszych uli",
+  "services.items.raw.price": "Od 48 zł",
+  "services.items.honeycomb.title": "Plaster Miodu",
+  "services.items.honeycomb.description": "Świeży plaster miodu, idealne opakowanie od natury",
+  "services.items.honeycomb.price": "Od 72 zł",
+  "services.items.pollen.title": "Pyłek Pszczeli",
+  "services.items.pollen.description": "Bogaty w składniki odżywcze pyłek dla entuzjastów zdrowia",
+  "services.items.pollen.price": "Od 60 zł",
+  "services.items.candles.title": "Świece z Wosku Pszczelego",
+  "services.items.candles.description": "Ręcznie lane naturalne świece z wosku pszczelego",
+  "services.items.candles.price": "Od 40 zł",
+
+  "about.title": "O Golden Hive Honey",
+  "about.stats.pure": "Czysty i Naturalny",
+  "about.stats.family": "Rodzinna Firma",
+  "about.stats.experience": "Lat Doświadczenia",
+  "about.timeline.1998.title": "Początki",
+  "about.timeline.1998.description": "Zaczęliśmy od zaledwie 2 uli na podwórku jako hobby",
+  "about.timeline.2005.title": "Pierwsze Stoisko",
+  "about.timeline.2005.description": "Otworzyliśmy pierwsze stoisko przydrożne, sprzedając lokalnej społeczności",
+  "about.timeline.2012.title": "Certyfikat Ekologiczny",
+  "about.timeline.2012.description": "Uzyskaliśmy certyfikat ekologiczny dla wszystkich naszych pasiek",
+  "about.timeline.2020.title": "Ekspansja Regionalna",
+  "about.timeline.2020.description": "Teraz dostarczamy miód do sklepów w całym regionie",
+  "about.cta": "Skontaktuj się",
+
+  "contact.title": "Skontaktuj się z nami",
+  "contact.subtitle": "Masz pytania o nasz miód? Chcesz złożyć zamówienie hurtowe? Chętnie Cię wysłuchamy!",
+  "contact.form.name": "Twoje imię",
+  "contact.form.email": "twoj@email.com",
+  "contact.form.message": "Opowiedz nam o swoim zamówieniu lub zadaj pytanie...",
+  "contact.form.submit": "Wyślij wiadomość"
 }

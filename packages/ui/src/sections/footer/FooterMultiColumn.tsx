@@ -1,6 +1,7 @@
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
-import type { FooterProps } from "./types";
+import type { FooterProps, FooterLinkCompat } from "./types";
+import { getFooterLinkHref } from "./types";
 
 export function FooterMultiColumn({
   businessName,
@@ -10,6 +11,7 @@ export function FooterMultiColumn({
   tagline,
   columns,
   className,
+  resolveTarget,
 }: FooterProps) {
   const year = new Date().getFullYear();
 
@@ -49,20 +51,23 @@ export function FooterMultiColumn({
           </div>
 
           {/* Link Columns */}
-          {columns && columns.map((column, index) => (
-            <div key={index}>
+          {columns && columns.map((column, colIndex) => (
+            <div key={colIndex}>
               <h3 className="font-semibold text-white mb-4">{column.title}</h3>
               <ul className="space-y-2">
-                {column.links.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      className="text-white/70 hover:text-white text-sm transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                {column.links.map((link: FooterLinkCompat, linkIndex: number) => {
+                  const href = getFooterLinkHref(link, resolveTarget);
+                  return (
+                    <li key={`${link.label}-${linkIndex}`}>
+                      <a
+                        href={href}
+                        className="text-white/70 hover:text-white text-sm transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
@@ -71,15 +76,18 @@ export function FooterMultiColumn({
           {(!columns || columns.length === 0) && links && links.length > 0 && (
             <div className="lg:col-span-3">
               <nav className="flex flex-wrap gap-4">
-                {links.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className="text-white/70 hover:text-white text-sm transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                ))}
+                {links.map((link, index) => {
+                  const href = getFooterLinkHref(link, resolveTarget);
+                  return (
+                    <a
+                      key={`${link.label}-${index}`}
+                      href={href}
+                      className="text-white/70 hover:text-white text-sm transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })}
               </nav>
             </div>
           )}
@@ -93,15 +101,18 @@ export function FooterMultiColumn({
           {/* Legal Links */}
           {links && links.length > 0 && columns && columns.length > 0 && (
             <nav className="flex gap-4">
-              {links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-white/60 hover:text-white text-sm transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
+              {links.map((link, index) => {
+                const href = getFooterLinkHref(link, resolveTarget);
+                return (
+                  <a
+                    key={`legal-${link.label}-${index}`}
+                    href={href}
+                    className="text-white/60 hover:text-white text-sm transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
             </nav>
           )}
         </div>

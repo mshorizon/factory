@@ -1,130 +1,163 @@
 {
-  "id": "plumber-001",
-  "name": "QuickFix Plumbing",
-  "industry": "plumber",
-  "branding": {
-    "primaryColor": "#0066CC",
-    "themeId": "professional-plumber"
+  "schemaVersion": "1.5",
+  "business": {
+    "id": "plumber-001",
+    "name": "t:business.name",
+    "industry": "plumber",
+    "contact": {
+      "address": "123 Main Street, Suite 100, Anytown, USA",
+      "phone": "(555) 123-4567",
+      "email": "service@quickfixplumbing.com",
+      "hours": "Mon-Fri: 7AM-8PM, Sat-Sun: 8AM-6PM"
+    }
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#0066CC",
+        "surface": {
+          "base": "#F8FAFC",
+          "alt": "#003D7A"
+        },
+        "text": {
+          "main": "#0F172A",
+          "muted": "#64748B",
+          "onPrimary": "#FFFFFF"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'Inter', system-ui, -apple-system, sans-serif",
+      "secondary": "'Inter', system-ui, -apple-system, sans-serif"
+    },
+    "ui": {
+      "radius": "0.5rem"
+    }
   },
   "layout": {
     "navbar": { "variant": "standard" },
     "footer": {
       "variant": "multiColumn",
-      "copyright": "© 2024 QuickFix Plumbing. All rights reserved.",
-      "tagline": "Fast, reliable plumbing services available 24/7.",
+      "copyright": "t:footer.copyright",
+      "tagline": "t:footer.tagline",
       "links": [
-        { "label": "Privacy", "href": "/privacy" },
-        { "label": "Terms", "href": "/terms" }
+        { "label": "t:footer.privacy", "target": { "type": "page", "value": "privacy" } },
+        { "label": "t:footer.terms", "target": { "type": "page", "value": "terms" } }
       ],
       "columns": [
         {
-          "title": "Services",
+          "title": "t:footer.columns.services.title",
           "links": [
-            { "label": "Emergency Repairs", "href": "/services" },
-            { "label": "Drain Cleaning", "href": "/services" },
-            { "label": "Water Heater", "href": "/services" },
-            { "label": "Pipe Repair", "href": "/services" }
+            { "label": "t:footer.columns.services.emergency", "target": { "type": "page", "value": "services" } },
+            { "label": "t:footer.columns.services.drain", "target": { "type": "page", "value": "services" } },
+            { "label": "t:footer.columns.services.heater", "target": { "type": "page", "value": "services" } },
+            { "label": "t:footer.columns.services.pipe", "target": { "type": "page", "value": "services" } }
           ]
         },
         {
-          "title": "Company",
+          "title": "t:footer.columns.company.title",
           "links": [
-            { "label": "About Us", "href": "/about" },
-            { "label": "Contact", "href": "/contact" },
-            { "label": "Careers", "href": "/careers" }
+            { "label": "t:footer.columns.company.about", "target": { "type": "page", "value": "about" } },
+            { "label": "t:footer.columns.company.contact", "target": { "type": "page", "value": "contact" } },
+            { "label": "t:footer.columns.company.careers", "target": { "type": "page", "value": "careers" } }
           ]
         }
       ]
     }
   },
   "navigation": {
-    "cta": { "label": "Emergency Call", "href": "/contact" }
+    "cta": { "label": "t:nav.cta", "target": { "type": "phone" } }
   },
-  "pages": [
-    {
-      "slug": "index",
-      "title": "Home",
+  "pages": {
+    "home": {
+      "title": "t:pages.home.title",
       "sections": [
         {
           "type": "hero",
           "variant": "split",
-          "badge": "24/7 Service",
-          "title": "Fast & Reliable Plumbing Services",
-          "subtitle": "Professional plumbing solutions for your home and business. Available around the clock for emergencies.",
+          "header": {
+            "badge": "t:hero.badge",
+            "title": "t:hero.title",
+            "subtitle": "t:hero.subtitle"
+          },
           "backgroundImage": "/images/plumber/hero.jpg",
-          "cta": { "label": "Get Free Quote", "href": "/contact" },
-          "secondaryCta": { "label": "Our Services", "href": "/services" }
+          "cta": { "label": "t:hero.cta", "target": { "type": "page", "value": "contact" } },
+          "secondaryCta": { "label": "t:hero.secondaryCta", "target": { "type": "page", "value": "services" } }
         }
       ]
     },
-    {
-      "slug": "services",
-      "title": "Services",
+    "services": {
+      "title": "t:pages.services.title",
       "sections": [
         {
           "type": "services",
           "variant": "list",
-          "title": "Our Services",
-          "subtitle": "Comprehensive plumbing solutions for residential and commercial properties",
+          "header": {
+            "title": "t:services.title",
+            "subtitle": "t:services.subtitle"
+          },
           "items": [
             {
-              "title": "Emergency Repairs",
-              "description": "24/7 emergency plumbing services for urgent issues",
-              "price": "From $99"
+              "title": "t:services.items.emergency.title",
+              "description": "t:services.items.emergency.description",
+              "price": "t:services.items.emergency.price"
             },
             {
-              "title": "Drain Cleaning",
-              "description": "Professional drain cleaning and unclogging services",
-              "price": "From $79"
+              "title": "t:services.items.drain.title",
+              "description": "t:services.items.drain.description",
+              "price": "t:services.items.drain.price"
             },
             {
-              "title": "Water Heater",
-              "description": "Installation, repair, and maintenance of water heaters",
-              "price": "From $149"
+              "title": "t:services.items.heater.title",
+              "description": "t:services.items.heater.description",
+              "price": "t:services.items.heater.price"
             },
             {
-              "title": "Pipe Repair",
-              "description": "Fix leaks, burst pipes, and pipe replacements",
-              "price": "From $89"
+              "title": "t:services.items.pipe.title",
+              "description": "t:services.items.pipe.description",
+              "price": "t:services.items.pipe.price"
             }
           ]
         }
       ]
     },
-    {
-      "slug": "about",
-      "title": "About",
+    "about": {
+      "title": "t:pages.about.title",
       "sections": [
         {
           "type": "about",
           "variant": "story",
-          "title": "About QuickFix Plumbing",
+          "header": {
+            "title": "t:about.title"
+          },
           "story": {
-            "title": "Our Story",
-            "content": "QuickFix Plumbing was founded with a simple mission: provide fast, reliable, and affordable plumbing services to our community. Our team of licensed plumbers brings decades of combined experience to every job, big or small."
+            "title": "t:about.story.title",
+            "content": "t:about.story.content"
           },
           "stats": [
-            { "value": "24/7", "label": "Emergency Service" },
-            { "value": "100%", "label": "Satisfaction Guaranteed" },
-            { "value": "15+", "label": "Years Experience" }
+            { "value": "24/7", "label": "t:about.stats.service" },
+            { "value": "100%", "label": "t:about.stats.satisfaction" },
+            { "value": "15+", "label": "t:about.stats.experience" }
           ],
           "commitment": {
-            "title": "Our Commitment",
-            "content": "We believe in transparent pricing, honest communication, and standing behind our work. Every job comes with a satisfaction guarantee. If you're not happy, we'll make it right."
+            "title": "t:about.commitment.title",
+            "content": "t:about.commitment.content"
           },
-          "cta": { "label": "Request Service", "href": "/contact" }
+          "cta": { "label": "t:about.cta", "target": { "type": "page", "value": "contact" } }
         }
       ]
     },
-    {
-      "slug": "contact",
-      "title": "Contact",
+    "contact": {
+      "title": "t:pages.contact.title",
       "sections": [
         {
           "type": "contact",
           "variant": "split",
-          "title": "Request Service",
-          "subtitle": "Need a plumber? Fill out the form below or call us for immediate assistance.",
+          "header": {
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
+          },
           "info": {
             "address": "123 Main Street, Suite 100, Anytown, USA",
             "phone": "(555) 123-4567",
@@ -132,13 +165,13 @@
             "hours": "Mon-Fri: 7AM-8PM, Sat-Sun: 8AM-6PM"
           },
           "form": {
-            "namePlaceholder": "Your name",
-            "emailPlaceholder": "your@email.com",
-            "messagePlaceholder": "Describe your plumbing issue...",
-            "submitButton": "Request Quote"
+            "namePlaceholder": "t:contact.form.name",
+            "emailPlaceholder": "t:contact.form.email",
+            "messagePlaceholder": "t:contact.form.message",
+            "submitButton": "t:contact.form.submit"
           }
         }
       ]
     }
-  ]
+  }
 }

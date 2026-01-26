@@ -1,83 +1,62 @@
 {
-  "nav": {
-    "home": "Strona główna",
-    "services": "Usługi",
-    "about": "O nas",
-    "contact": "Kontakt",
-    "cta": "Nagły wypadek"
-  },
-  "hero": {
-    "badge": "Serwis 24/7",
-    "title": "Szybkie i Niezawodne Usługi Hydrauliczne",
-    "subtitle": "Profesjonalne rozwiązania hydrauliczne dla domu i firmy. Dostępni całą dobę w nagłych wypadkach.",
-    "cta": "Darmowa wycena",
-    "secondaryCta": "Nasze usługi"
-  },
-  "services": {
-    "title": "Nasze Usługi",
-    "subtitle": "Kompleksowe rozwiązania hydrauliczne dla nieruchomości mieszkalnych i komercyjnych",
-    "items": [
-      {
-        "title": "Naprawy Awaryjne",
-        "description": "Całodobowe usługi hydrauliczne w nagłych wypadkach",
-        "price": "Od 400 zł"
-      },
-      {
-        "title": "Czyszczenie Rur",
-        "description": "Profesjonalne czyszczenie i udrażnianie odpływów",
-        "price": "Od 320 zł"
-      },
-      {
-        "title": "Podgrzewacz Wody",
-        "description": "Instalacja, naprawa i konserwacja podgrzewaczy wody",
-        "price": "Od 600 zł"
-      },
-      {
-        "title": "Naprawa Rur",
-        "description": "Naprawa wycieków, pękniętych rur i wymiana instalacji",
-        "price": "Od 360 zł"
-      }
-    ]
-  },
-  "about": {
-    "title": "O QuickFix Plumbing",
-    "story": {
-      "title": "Nasza Historia",
-      "content": "QuickFix Plumbing powstało z prostą misją: zapewnić szybkie, niezawodne i przystępne cenowo usługi hydrauliczne dla naszej społeczności. Nasz zespół licencjonowanych hydraulików wnosi dziesiątki lat wspólnego doświadczenia do każdej pracy, dużej czy małej."
-    },
-    "stats": [
-      { "value": "24/7", "label": "Serwis awaryjny" },
-      { "value": "100%", "label": "Gwarancja satysfakcji" },
-      { "value": "15+", "label": "Lat doświadczenia" }
-    ],
-    "whyChooseUs": "Dlaczego my",
-    "commitment": {
-      "title": "Nasze Zobowiązanie",
-      "content": "Wierzymy w przejrzyste ceny, uczciwą komunikację i odpowiedzialność za naszą pracę. Każda usługa objęta jest gwarancją satysfakcji. Jeśli nie jesteś zadowolony, naprawimy to."
-    },
-    "cta": "Zamów usługę"
-  },
-  "contact": {
-    "title": "Zamów Usługę",
-    "subtitle": "Potrzebujesz hydraulika? Wypełnij formularz poniżej lub zadzwoń po natychmiastową pomoc.",
-    "form": {
-      "nameLabel": "Imię",
-      "namePlaceholder": "Twoje imię",
-      "emailLabel": "Email",
-      "emailPlaceholder": "twoj@email.com",
-      "messageLabel": "Wiadomość",
-      "messagePlaceholder": "Opisz swój problem hydrauliczny...",
-      "submitButton": "Wyślij zapytanie"
-    }
-  },
-  "footer": {
-    "copyright": "© 2024 QuickFix Plumbing. Wszelkie prawa zastrzeżone.",
-    "privacy": "Prywatność",
-    "terms": "Regulamin"
-  },
-  "language": {
-    "label": "Język",
-    "en": "English",
-    "pl": "Polski"
-  }
+  "business.name": "QuickFix Plumbing",
+
+  "nav.cta": "Nagły wypadek",
+
+  "footer.copyright": "2024 QuickFix Plumbing. Wszelkie prawa zastrzeżone.",
+  "footer.tagline": "Szybkie, niezawodne usługi hydrauliczne dostępne 24/7.",
+  "footer.privacy": "Prywatność",
+  "footer.terms": "Regulamin",
+  "footer.columns.services.title": "Usługi",
+  "footer.columns.services.emergency": "Naprawy Awaryjne",
+  "footer.columns.services.drain": "Czyszczenie Rur",
+  "footer.columns.services.heater": "Podgrzewacz Wody",
+  "footer.columns.services.pipe": "Naprawa Rur",
+  "footer.columns.company.title": "Firma",
+  "footer.columns.company.about": "O nas",
+  "footer.columns.company.contact": "Kontakt",
+  "footer.columns.company.careers": "Kariera",
+
+  "pages.home.title": "Strona główna",
+  "pages.services.title": "Usługi",
+  "pages.about.title": "O nas",
+  "pages.contact.title": "Kontakt",
+
+  "hero.badge": "Serwis 24/7",
+  "hero.title": "Szybkie i Niezawodne Usługi Hydrauliczne",
+  "hero.subtitle": "Profesjonalne rozwiązania hydrauliczne dla domu i firmy. Dostępni całą dobę w nagłych wypadkach.",
+  "hero.cta": "Darmowa wycena",
+  "hero.secondaryCta": "Nasze usługi",
+
+  "services.title": "Nasze Usługi",
+  "services.subtitle": "Kompleksowe rozwiązania hydrauliczne dla nieruchomości mieszkalnych i komercyjnych",
+  "services.items.emergency.title": "Naprawy Awaryjne",
+  "services.items.emergency.description": "Całodobowe usługi hydrauliczne w nagłych wypadkach",
+  "services.items.emergency.price": "Od 400 zł",
+  "services.items.drain.title": "Czyszczenie Rur",
+  "services.items.drain.description": "Profesjonalne czyszczenie i udrażnianie odpływów",
+  "services.items.drain.price": "Od 320 zł",
+  "services.items.heater.title": "Podgrzewacz Wody",
+  "services.items.heater.description": "Instalacja, naprawa i konserwacja podgrzewaczy wody",
+  "services.items.heater.price": "Od 600 zł",
+  "services.items.pipe.title": "Naprawa Rur",
+  "services.items.pipe.description": "Naprawa wycieków, pękniętych rur i wymiana instalacji",
+  "services.items.pipe.price": "Od 360 zł",
+
+  "about.title": "O QuickFix Plumbing",
+  "about.story.title": "Nasza Historia",
+  "about.story.content": "QuickFix Plumbing powstało z prostą misją: zapewnić szybkie, niezawodne i przystępne cenowo usługi hydrauliczne dla naszej społeczności. Nasz zespół licencjonowanych hydraulików wnosi dziesiątki lat wspólnego doświadczenia do każdej pracy, dużej czy małej.",
+  "about.stats.service": "Serwis awaryjny",
+  "about.stats.satisfaction": "Gwarancja satysfakcji",
+  "about.stats.experience": "Lat doświadczenia",
+  "about.commitment.title": "Nasze Zobowiązanie",
+  "about.commitment.content": "Wierzymy w przejrzyste ceny, uczciwą komunikację i odpowiedzialność za naszą pracę. Każda usługa objęta jest gwarancją satysfakcji. Jeśli nie jesteś zadowolony, naprawimy to.",
+  "about.cta": "Zamów usługę",
+
+  "contact.title": "Zamów Usługę",
+  "contact.subtitle": "Potrzebujesz hydraulika? Wypełnij formularz poniżej lub zadzwoń po natychmiastową pomoc.",
+  "contact.form.name": "Twoje imię",
+  "contact.form.email": "twoj@email.com",
+  "contact.form.message": "Opisz swój problem hydrauliczny...",
+  "contact.form.submit": "Wyślij zapytanie"
 }

@@ -70,6 +70,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@mshorizon/schema':
+        specifier: workspace:*
+        version: link:../schema
       '@radix-ui/react-label':
         specifier: ^2.1.8
         version: 2.1.8(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)

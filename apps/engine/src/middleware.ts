@@ -1,34 +1,21 @@
 import { defineMiddleware } from "astro:middleware";
 import {
-  getBusinessIdFromHost,
-  getBusinessData,
-  getTheme,
-  getTranslations,
-  getLanguageFromCookie,
-  isValidBusiness,
+  getBusinessContext,
   getAvailableBusinessIds,
-  type Language,
 } from "./lib/business";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { request, locals } = context;
-  const url = new URL(request.url);
 
-  // Extract business ID from subdomain
-  const businessId = getBusinessIdFromHost(url.hostname);
-  const currentLang = getLanguageFromCookie(request.headers.get("cookie"));
-
-  // Load business data
-  const businessData = getBusinessData(businessId);
-  const theme = getTheme(businessId);
-  const t = getTranslations(businessId, currentLang);
+  // Get business context (handles v1.0 to v1.5 normalization)
+  const ctx = getBusinessContext(request);
 
   // Store in locals for access in pages
-  locals.businessId = businessId;
-  locals.currentLang = currentLang;
-  locals.businessData = businessData;
-  locals.theme = theme;
-  locals.t = t;
+  locals.businessId = ctx.businessId;
+  locals.currentLang = ctx.currentLang;
+  locals.businessData = ctx.businessData;
+  locals.theme = ctx.theme;
+  locals.t = ctx.t;
   locals.availableBusinesses = getAvailableBusinessIds();
 
   return next();

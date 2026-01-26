@@ -1,7 +1,7 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ServicesGrid, ServicesList } from "@mshorizon/ui";
-import { getSectionVariant } from "../../lib/pages";
+import { ServicesGrid, ServicesList, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
   section: Section;
@@ -10,18 +10,17 @@ interface Props {
 const { section } = Astro.props;
 const variant = getSectionVariant(section);
 const items = section.items || [];
+const header = getSectionHeader(section);
 ---
 
 <section class="bg-background py-16">
   <div class="container mx-auto px-4">
-    {section.title && (
-      <h1 class="text-4xl font-bold text-foreground mb-4 text-center">{section.title}</h1>
-    )}
-    {section.subtitle && (
-      <p class="text-muted text-center mb-12 max-w-2xl mx-auto">
-        {section.subtitle}
-      </p>
-    )}
+    <SectionHeader
+      badge={header.badge}
+      title={header.title}
+      subtitle={header.subtitle}
+      align="center"
+    />
     {variant === "list" ? (
       <ServicesList items={items} />
     ) : (

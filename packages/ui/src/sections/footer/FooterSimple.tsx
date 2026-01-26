@@ -1,6 +1,7 @@
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import type { FooterProps } from "./types";
+import { getFooterLinkHref } from "./types";
 
 export function FooterSimple({
   businessName,
@@ -8,6 +9,7 @@ export function FooterSimple({
   socialLinks,
   copyright,
   className,
+  resolveTarget,
 }: FooterProps) {
   const year = new Date().getFullYear();
 
@@ -23,17 +25,20 @@ export function FooterSimple({
           {/* Navigation Links */}
           {links && links.length > 0 && (
             <nav className="flex flex-wrap justify-center gap-2">
-              {links.map((link) => (
-                <Button
-                  key={link.href}
-                  asChild
-                  variant="ghost"
-                  size="sm"
-                  className="text-white/80 hover:text-white hover:bg-white/10"
-                >
-                  <a href={link.href}>{link.label}</a>
-                </Button>
-              ))}
+              {links.map((link, index) => {
+                const href = getFooterLinkHref(link, resolveTarget);
+                return (
+                  <Button
+                    key={`${link.label}-${index}`}
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="text-white/80 hover:text-white hover:bg-white/10"
+                  >
+                    <a href={href}>{link.label}</a>
+                  </Button>
+                );
+              })}
             </nav>
           )}
 

@@ -1,83 +1,52 @@
 {
-  "nav": {
-    "home": "Strona główna",
-    "services": "Usługi",
-    "about": "O nas",
-    "contact": "Kontakt",
-    "cta": "Zarezerwuj"
-  },
-  "hero": {
-    "badge": "Od 1995",
-    "title": "Ekskluzywne Doświadczenie Fryzjerskie",
-    "subtitle": "Gdzie tradycja spotyka nowoczesny styl. Doświadcz sztuki klasycznego barberingu z nowoczesnym akcentem.",
-    "cta": "Umów wizytę",
-    "secondaryCta": "Zobacz usługi"
-  },
-  "services": {
-    "title": "Nasze Usługi",
-    "subtitle": "Profesjonalne usługi fryzjerskie dostosowane do współczesnego mężczyzny",
-    "items": [
-      {
-        "title": "Klasyczne Strzyżenie",
-        "description": "Tradycyjne strzyżenie z gorącym ręcznikiem i goleniem karku",
-        "price": "Od 140 zł"
-      },
-      {
-        "title": "Trymowanie Brody",
-        "description": "Precyzyjne modelowanie i pielęgnacja brody",
-        "price": "Od 80 zł"
-      },
-      {
-        "title": "Golenie z Gorącym Ręcznikiem",
-        "description": "Luksusowe golenie brzytwą z gorącymi ręcznikami",
-        "price": "Od 160 zł"
-      },
-      {
-        "title": "Pakiet Kompletny",
-        "description": "Strzyżenie, trymowanie brody i zabieg z gorącym ręcznikiem",
-        "price": "Od 260 zł"
-      }
-    ]
-  },
-  "about": {
-    "title": "O Classic Cuts",
-    "story": {
-      "title": "Nasza Historia",
-      "content": "Założony w 1995 roku, Classic Cuts Barbershop od prawie trzech dekad służy społeczności wyjątkowymi usługami fryzjerskimi. Nasi mistrzowie łączą sprawdzone techniki z nowoczesnymi stylami, aby zapewnić Ci idealny wygląd."
-    },
-    "stats": [
-      { "value": "28+", "label": "Lat doświadczenia" },
-      { "value": "50K+", "label": "Zadowolonych klientów" },
-      { "value": "5", "label": "Mistrzów fryzjerstwa" }
-    ],
-    "whyChooseUs": "Dlaczego my",
-    "commitment": {
-      "title": "Nasze Zobowiązanie",
-      "content": "Wierzymy, że każdy mężczyzna zasługuje na to, aby wyglądać i czuć się jak najlepiej. Nasz zespół jest oddany świadczeniu spersonalizowanych usług w przyjaznej atmosferze. Używamy wyłącznie produktów premium i jesteśmy dumni z naszego rzemiosła."
-    },
-    "cta": "Zarezerwuj wizytę"
-  },
-  "contact": {
-    "title": "Umów Wizytę",
-    "subtitle": "Zapraszamy bez rezerwacji, ale umawianie się z wyprzedzeniem pozwala uniknąć czekania.",
-    "form": {
-      "nameLabel": "Imię",
-      "namePlaceholder": "Twoje imię",
-      "emailLabel": "Email",
-      "emailPlaceholder": "twoj@email.com",
-      "messageLabel": "Wiadomość",
-      "messagePlaceholder": "Preferowana data, godzina i usługa...",
-      "submitButton": "Wyślij zapytanie"
-    }
-  },
-  "footer": {
-    "copyright": "© 2024 Classic Cuts Barbershop. Wszelkie prawa zastrzeżone.",
-    "privacy": "Prywatność",
-    "terms": "Regulamin"
-  },
-  "language": {
-    "label": "Język",
-    "en": "English",
-    "pl": "Polski"
-  }
+  "business.name": "Classic Cuts Barbershop",
+
+  "nav.cta": "Zarezerwuj",
+
+  "footer.copyright": "2024 Classic Cuts Barbershop. Wszelkie prawa zastrzeżone.",
+  "footer.privacy": "Prywatność",
+  "footer.terms": "Regulamin",
+
+  "pages.home.title": "Strona główna",
+  "pages.services.title": "Usługi",
+  "pages.about.title": "O nas",
+  "pages.contact.title": "Kontakt",
+
+  "hero.badge": "Od 1995",
+  "hero.title": "Ekskluzywne Doświadczenie Fryzjerskie",
+  "hero.subtitle": "Gdzie tradycja spotyka nowoczesny styl. Doświadcz sztuki klasycznego barberingu z nowoczesnym akcentem.",
+  "hero.cta": "Umów wizytę",
+  "hero.secondaryCta": "Zobacz usługi",
+
+  "services.title": "Nasze Usługi",
+  "services.subtitle": "Profesjonalne usługi fryzjerskie dostosowane do współczesnego mężczyzny",
+  "services.items.haircut.title": "Klasyczne Strzyżenie",
+  "services.items.haircut.description": "Tradycyjne strzyżenie z gorącym ręcznikiem i goleniem karku",
+  "services.items.haircut.price": "Od 140 zł",
+  "services.items.beard.title": "Trymowanie Brody",
+  "services.items.beard.description": "Precyzyjne modelowanie i pielęgnacja brody",
+  "services.items.beard.price": "Od 80 zł",
+  "services.items.shave.title": "Golenie z Gorącym Ręcznikiem",
+  "services.items.shave.description": "Luksusowe golenie brzytwą z gorącymi ręcznikami",
+  "services.items.shave.price": "Od 160 zł",
+  "services.items.works.title": "Pakiet Kompletny",
+  "services.items.works.description": "Strzyżenie, trymowanie brody i zabieg z gorącym ręcznikiem",
+  "services.items.works.price": "Od 260 zł",
+
+  "about.title": "O Classic Cuts",
+  "about.story.title": "Nasza Historia",
+  "about.story.content": "Założony w 1995 roku, Classic Cuts Barbershop od prawie trzech dekad służy społeczności wyjątkowymi usługami fryzjerskimi. Nasi mistrzowie łączą sprawdzone techniki z nowoczesnymi stylami, aby zapewnić Ci idealny wygląd.",
+  "about.stats.experience": "Lat doświadczenia",
+  "about.stats.clients": "Zadowolonych klientów",
+  "about.stats.barbers": "Mistrzów fryzjerstwa",
+  "about.commitment.title": "Nasze Zobowiązanie",
+  "about.commitment.content": "Wierzymy, że każdy mężczyzna zasługuje na to, aby wyglądać i czuć się jak najlepiej. Nasz zespół jest oddany świadczeniu spersonalizowanych usług w przyjaznej atmosferze. Używamy wyłącznie produktów premium i jesteśmy dumni z naszego rzemiosła.",
+  "about.cta": "Zarezerwuj wizytę",
+
+  "contact.title": "Umów Wizytę",
+  "contact.subtitle": "Zapraszamy bez rezerwacji, ale umawianie się z wyprzedzeniem pozwala uniknąć czekania.",
+  "contact.form.name": "Twoje imię",
+  "contact.form.email": "twoj@email.com",
+  "contact.form.message": "Preferowana data, godzina i usługa...",
+  "contact.form.submit": "Wyślij zapytanie"
 }
