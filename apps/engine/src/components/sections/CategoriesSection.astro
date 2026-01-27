@@ -22,7 +22,7 @@ const header = getSectionHeader(section);
       align="center"
     />
     {variant === "featured" ? (
-      <CategoriesFeatured items={items} />
+      <CategoriesFeatured items={items} exploreLabel={section.exploreLabel} />
     ) : (
       <CategoriesCarousel items={items} />
     )}

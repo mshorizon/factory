@@ -8,5 +8,6 @@ export interface CategoryItem {
 
 export interface CategoriesProps {
   items: CategoryItem[];
+  exploreLabel?: string;
   className?: string;
 }

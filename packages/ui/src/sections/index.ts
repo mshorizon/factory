@@ -24,4 +24,8 @@ export type { AboutStoryProps, AboutTimelineProps, StatItem, TimelineItem, Story
 
 // Contact variants
 export { ContactCentered, ContactSplit } from "./contact";
-export type { ContactCenteredProps, ContactSplitProps, ContactForm, ContactInfo } from "./contact";
+export type { ContactCenteredProps, ContactSplitProps, ContactForm, ContactInfo, ContactLabels } from "./contact";
+
+// Shop variants
+export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid } from "./shop";
+export type { ProductCardProps, CartButtonProps, CartPageContentProps, CheckoutPageContentProps, ShopGridProps } from "./shop";

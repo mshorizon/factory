@@ -5,6 +5,7 @@ import ServicesSection from "./sections/ServicesSection.astro";
 import CategoriesSection from "./sections/CategoriesSection.astro";
 import AboutSection from "./sections/AboutSection.astro";
 import ContactSection from "./sections/ContactSection.astro";
+import ShopSection from "./sections/ShopSection.astro";
 
 interface Props {
   sections: Section[];
@@ -19,6 +20,7 @@ const sectionComponents: Record<string, any> = {
   categories: CategoriesSection,
   about: AboutSection,
   contact: ContactSection,
+  shop: ShopSection,
 };
 ---
 

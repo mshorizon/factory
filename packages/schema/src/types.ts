@@ -14,7 +14,7 @@ export type AboutVariant = "story" | "timeline";
 export type ContactVariant = "centered" | "split";
 
 // Section Types
-export type SectionType = "hero" | "services" | "categories" | "about" | "contact";
+export type SectionType = "hero" | "services" | "categories" | "about" | "contact" | "shop";
 
 // Common Types
 export interface CTAButton {
@@ -254,6 +254,9 @@ export interface SectionV15 {
   // Contact fields
   info?: ContactInfo;
   form?: ContactForm;
+  // Shop fields
+  products?: Product[];
+  ctaLabel?: string;
 }
 
 // v1.5 Page Definition
@@ -298,4 +301,55 @@ export interface BusinessProfileV15 {
   layout: LayoutV15;
   navigation?: NavigationV15;
   pages: Record<string, PageV15>;
+}
+
+// ==========================================
+// SHOP & CART TYPES (E-commerce module)
+// ==========================================
+
+// Product attribute (key-value for specs like Material, Warranty)
+export interface ProductAttribute {
+  key: string;
+  value: string;
+}
+
+// Product item
+export interface Product {
+  id: string;
+  title: string;
+  description?: string;
+  price: number;
+  image?: string;
+  category?: string;
+  attributes?: ProductAttribute[];
+  inStock?: boolean;
+}
+
+// Cart item (product snapshot with quantity)
+export interface CartItem {
+  productId: string;
+  title: string;
+  price: number;
+  image?: string;
+  quantity: number;
+}
+
+// Cart store state
+export interface CartStore {
+  items: CartItem[];
+  addItem: (product: Product) => void;
+  removeItem: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
+  clearCart: () => void;
+  getTotalItems: () => number;
+  getTotalPrice: () => number;
+}
+
+// Shop section (for rendering product grids)
+export interface ShopSection {
+  type: "shop";
+  variant?: "grid" | "list";
+  header?: SectionHeader;
+  products: Product[];
+  ctaLabel?: string;
 }
