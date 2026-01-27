@@ -4,16 +4,17 @@
 
 // Layout Variants
 export type NavbarVariant = "standard" | "centered";
-export type FooterVariant = "simple" | "multiColumn";
+export type FooterVariant = "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked";
 
 // Section Variants
-export type HeroVariant = "default" | "split";
+export type HeroVariant = "default" | "split" | "gradient" | "cards" | "video" | "minimal";
 export type ServicesVariant = "grid" | "list";
+export type CategoriesVariant = "carousel" | "featured";
 export type AboutVariant = "story" | "timeline";
 export type ContactVariant = "centered" | "split";
 
 // Section Types
-export type SectionType = "hero" | "services" | "about" | "contact";
+export type SectionType = "hero" | "services" | "categories" | "about" | "contact";
 
 // Common Types
 export interface CTAButton {

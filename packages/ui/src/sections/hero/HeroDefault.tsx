@@ -26,7 +26,7 @@ export function HeroDefault({
   return (
     <section
       className={cn(
-        "relative bg-background",
+        "relative z-0 bg-background",
         fullHeight ? "min-h-screen" : "py-16 md:py-24",
         className
       )}

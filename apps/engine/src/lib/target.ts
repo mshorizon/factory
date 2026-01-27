@@ -3,7 +3,10 @@ import type { Target, BusinessProfileV15 } from "@mshorizon/schema";
 /**
  * Resolves a Target object to a URL string
  */
-export function resolveTarget(target: Target, business?: BusinessProfileV15): string {
+export function resolveTarget(target: Target | undefined, business?: BusinessProfileV15): string {
+  if (!target) {
+    return "#";
+  }
   switch (target.type) {
     case "page":
       return target.value === "home" ? "/" : `/${target.value}`;

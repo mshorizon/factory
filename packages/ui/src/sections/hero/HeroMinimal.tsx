@@ -1,17 +1,15 @@
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
-import { Badge } from "../../atoms/Badge";
 import type { HeroProps } from "./types";
 
-export function HeroSplit({
+export function HeroMinimal({
   title,
   subtitle,
-  badge,
   cta,
   secondaryCta,
-  image,
   backgroundImage,
+  image,
   children,
   className,
 }: HeroProps) {
@@ -20,24 +18,22 @@ export function HeroSplit({
   return (
     <section
       className={cn(
-        "relative z-0 bg-background min-h-[80vh] flex items-center",
+        "relative z-0 min-h-screen bg-background flex items-center",
         className
       )}
     >
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Content Side */}
-          <div className="flex flex-col justify-center py-12 lg:py-24">
-            {badge && (
-              <Badge variant="accent" className="mb-4 text-sm px-4 py-1 w-fit">
-                {badge}
-              </Badge>
-            )}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground">
+      <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
+          <div>
+            {/* Decorative accent line */}
+            <div className="w-24 h-1 bg-primary mb-8" />
+
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 tracking-tight text-primary leading-none">
               {title}
             </h1>
             {subtitle && (
-              <p className="text-lg md:text-xl text-muted mb-8 max-w-lg">
+              <p className="text-xl md:text-2xl text-muted mb-12 max-w-xl">
                 {subtitle}
               </p>
             )}
@@ -70,17 +66,16 @@ export function HeroSplit({
             {children}
           </div>
 
-          {/* Image Side */}
+          {/* Image (if provided) */}
           {heroImage && (
-            <div className="relative lg:h-[600px] h-[400px] rounded-radius overflow-hidden shadow-2xl">
+            <div className="relative lg:h-[500px] h-[350px] rounded-radius overflow-hidden">
               <img
                 src={heroImage}
                 alt=""
-                className="absolute inset-0 w-full h-full object-cover"
+                className="w-full h-full object-cover"
               />
-              {/* Decorative elements */}
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl" />
-              <div className="absolute -top-4 -left-4 w-32 h-32 bg-accent/20 rounded-full blur-3xl" />
+              {/* Decorative overlay */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent" />
             </div>
           )}
         </div>

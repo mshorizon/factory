@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { HeroDefault, HeroSplit } from "@mshorizon/ui";
+import { HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 const { section } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
+const heroImage = section.image || section.backgroundImage;
 ---
 
 {variant === "split" ? (
@@ -17,7 +18,43 @@ const header = getSectionHeader(section);
     badge={header.badge}
     title={header.title || ""}
     subtitle={header.subtitle}
-    image={section.image || section.backgroundImage}
+    image={heroImage}
+    cta={section.cta}
+    secondaryCta={section.secondaryCta}
+  />
+) : variant === "gradient" ? (
+  <HeroGradient
+    badge={header.badge}
+    title={header.title || ""}
+    subtitle={header.subtitle}
+    backgroundImage={section.backgroundImage}
+    cta={section.cta}
+    secondaryCta={section.secondaryCta}
+  />
+) : variant === "cards" ? (
+  <HeroCards
+    badge={header.badge}
+    title={header.title || ""}
+    subtitle={header.subtitle}
+    image={heroImage}
+    cta={section.cta}
+    secondaryCta={section.secondaryCta}
+  />
+) : variant === "video" ? (
+  <HeroVideo
+    badge={header.badge}
+    title={header.title || ""}
+    subtitle={header.subtitle}
+    backgroundImage={section.backgroundImage}
+    cta={section.cta}
+    secondaryCta={section.secondaryCta}
+  />
+) : variant === "minimal" ? (
+  <HeroMinimal
+    badge={header.badge}
+    title={header.title || ""}
+    subtitle={header.subtitle}
+    image={heroImage}
     cta={section.cta}
     secondaryCta={section.secondaryCta}
   />

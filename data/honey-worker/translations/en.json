@@ -18,6 +18,17 @@
   "hero.cta": "Shop Now",
   "hero.secondaryCta": "Learn More",
 
+  "categories.title": "Our Products",
+  "categories.subtitle": "Natural goodness from our family apiaries",
+  "categories.items.raw.title": "Raw Honey",
+  "categories.items.raw.description": "Pure, unprocessed honey from our hives",
+  "categories.items.honeycomb.title": "Honeycomb",
+  "categories.items.honeycomb.description": "Fresh honeycomb, nature's package",
+  "categories.items.pollen.title": "Bee Pollen",
+  "categories.items.pollen.description": "Nutrient-rich superfood",
+  "categories.items.candles.title": "Beeswax Candles",
+  "categories.items.candles.description": "Hand-poured natural candles",
+
   "services.title": "Our Products",
   "services.subtitle": "Premium honey products from our family-owned apiaries",
   "services.items.raw.title": "Raw Honey",

@@ -36,7 +36,7 @@
   "layout": {
     "navbar": { "variant": "centered" },
     "footer": {
-      "variant": "simple",
+      "variant": "centered",
       "copyright": "t:footer.copyright",
       "links": [
         { "label": "t:footer.privacy", "target": { "type": "page", "value": "privacy" } },
@@ -53,7 +53,7 @@
       "sections": [
         {
           "type": "hero",
-          "variant": "default",
+          "variant": "minimal",
           "header": {
             "badge": "t:hero.badge",
             "title": "t:hero.title",
@@ -62,6 +62,20 @@
           "backgroundImage": "/images/honey-worker/hero.jpg",
           "cta": { "label": "t:hero.cta", "target": { "type": "page", "value": "services" } },
           "secondaryCta": { "label": "t:hero.secondaryCta", "target": { "type": "page", "value": "about" } }
+        },
+        {
+          "type": "categories",
+          "variant": "carousel",
+          "header": {
+            "title": "t:categories.title",
+            "subtitle": "t:categories.subtitle"
+          },
+          "items": [
+            { "title": "t:categories.items.raw.title", "description": "t:categories.items.raw.description", "image": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&h=300&fit=crop" },
+            { "title": "t:categories.items.honeycomb.title", "description": "t:categories.items.honeycomb.description", "image": "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&h=300&fit=crop" },
+            { "title": "t:categories.items.pollen.title", "description": "t:categories.items.pollen.description", "image": "https://images.unsplash.com/photo-1471943311424-646960669fbc?w=400&h=300&fit=crop" },
+            { "title": "t:categories.items.candles.title", "description": "t:categories.items.candles.description", "image": "https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=400&h=300&fit=crop" }
+          ]
         }
       ]
     },

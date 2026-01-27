@@ -1,0 +1,184 @@
+---
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface CTA {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  logo: string;
+  links: NavLink[];
+  cta?: CTA;
+  currentLanguage?: string;
+  variant?: "standard" | "centered";
+}
+
+const { logo, links, cta, currentLanguage = "pl", variant = "standard" } = Astro.props;
+---
+
+<nav class="sticky top-0 z-50 bg-background/95 backdrop-blur-md shadow-sm border-b border-border transition-all duration-300">
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class:list={[
+      "flex items-center h-16 lg:h-20",
+      variant === "centered" ? "justify-center" : "justify-between"
+    ]}>
+      {/* Logo */}
+      <a href="/" class:list={[
+        "flex items-center gap-2 group",
+        variant === "centered" && "absolute left-4 lg:left-8"
+      ]}>
+        <span class="text-xl lg:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
+          {logo}
+        </span>
+      </a>
+
+      {/* Desktop Navigation */}
+      <div class:list={[
+        "hidden md:flex items-center gap-1 lg:gap-2",
+        variant === "centered" && "mx-auto"
+      ]}>
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class="relative px-4 py-2 text-sm lg:text-base font-medium text-foreground/80 hover:text-foreground transition-colors group"
+          >
+            {link.label}
+            <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
+          </a>
+        ))}
+      </div>
+
+      {/* Language Switcher & CTA */}
+      <div class:list={[
+        "hidden md:flex items-center gap-4",
+        variant === "centered" && "absolute right-4 lg:right-8"
+      ]}>
+        {/* Language Switcher */}
+        <div class="flex items-center border border-border rounded-radius overflow-hidden">
+          <button
+            data-lang="pl"
+            class:list={[
+              "lang-btn px-3 py-1.5 text-xs font-semibold transition-colors",
+              currentLanguage === "pl"
+                ? "bg-primary text-white"
+                : "bg-background text-foreground hover:bg-primary/10"
+            ]}
+          >
+            PL
+          </button>
+          <button
+            data-lang="en"
+            class:list={[
+              "lang-btn px-3 py-1.5 text-xs font-semibold transition-colors",
+              currentLanguage === "en"
+                ? "bg-primary text-white"
+                : "bg-background text-foreground hover:bg-primary/10"
+            ]}
+          >
+            EN
+          </button>
+        </div>
+
+        {cta && (
+          <a
+            href={cta.href}
+            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
+          >
+            {cta.label}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        )}
+      </div>
+
+      {/* Mobile Menu Button */}
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 text-foreground hover:bg-primary/10 rounded-radius transition-colors"
+        aria-label="Toggle menu"
+      >
+        <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <svg id="close-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+
+    {/* Mobile Menu */}
+    <div id="mobile-menu" class="md:hidden hidden pb-6">
+      <div class="flex flex-col gap-1 pt-4 border-t border-border">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class="px-4 py-3 text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+
+        {/* Mobile Language Switcher */}
+        <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+          <button
+            data-lang="pl"
+            class:list={[
+              "lang-btn flex-1 text-center px-4 py-2 text-sm font-semibold rounded-radius transition-colors",
+              currentLanguage === "pl"
+                ? "bg-primary text-white"
+                : "border border-border text-foreground hover:bg-primary/10"
+            ]}
+          >
+            Polski
+          </button>
+          <button
+            data-lang="en"
+            class:list={[
+              "lang-btn flex-1 text-center px-4 py-2 text-sm font-semibold rounded-radius transition-colors",
+              currentLanguage === "en"
+                ? "bg-primary text-white"
+                : "border border-border text-foreground hover:bg-primary/10"
+            ]}
+          >
+            English
+          </button>
+        </div>
+
+        {cta && (
+          <a
+            href={cta.href}
+            class="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
+          >
+            {cta.label}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu toggle
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+
+  // Language switcher
+  document.querySelectorAll('.lang-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      const lang = (button as HTMLElement).dataset.lang;
+      if (lang) {
+        document.cookie = `lang=${lang};path=/;max-age=31536000;SameSite=Lax`;
+        // Reload without query parameters
+        window.location.href = window.location.pathname;
+      }
+    });
+  });
+</script>

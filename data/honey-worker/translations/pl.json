@@ -18,6 +18,17 @@
   "hero.cta": "Kup teraz",
   "hero.secondaryCta": "Dowiedz się więcej",
 
+  "categories.title": "Nasze Produkty",
+  "categories.subtitle": "Naturalna dobroć z naszych rodzinnych pasiek",
+  "categories.items.raw.title": "Surowy Miód",
+  "categories.items.raw.description": "Czysty, nieprzetworzony miód z naszych uli",
+  "categories.items.honeycomb.title": "Plaster Miodu",
+  "categories.items.honeycomb.description": "Świeży plaster, opakowanie od natury",
+  "categories.items.pollen.title": "Pyłek Pszczeli",
+  "categories.items.pollen.description": "Bogaty w składniki superfood",
+  "categories.items.candles.title": "Świece z Wosku",
+  "categories.items.candles.description": "Ręcznie lane naturalne świece",
+
   "services.title": "Nasze Produkty",
   "services.subtitle": "Produkty miodowe premium z naszych rodzinnych pasiek",
   "services.items.raw.title": "Surowy Miód",

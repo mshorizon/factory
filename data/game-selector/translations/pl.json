@@ -28,6 +28,15 @@
   "hero.cta": "Przeglądaj gry",
   "hero.secondaryCta": "Dowiedz się więcej",
 
+  "categories.title": "Znajdź Swój Styl",
+  "categories.subtitle": "Wybierz preferowane doświadczenie multiplayer",
+  "categories.items.coop.title": "Przygody Co-op",
+  "categories.items.coop.description": "Połącz siły w epickich kampaniach kooperacyjnych",
+  "categories.items.party.title": "Gry Imprezowe",
+  "categories.items.party.description": "Szybka zabawa na wieczory z grami",
+  "categories.items.competitive.title": "Rywalizacja",
+  "categories.items.competitive.description": "Sprawdź umiejętności w bitwach PvP",
+
   "services.title": "Kategorie Gier",
   "services.subtitle": "Znajdź idealne doświadczenie multiplayer na każdą okazję",
   "services.items.coop.title": "Przygody Co-op",

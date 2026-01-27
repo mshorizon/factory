@@ -18,6 +18,17 @@
   "hero.cta": "Book Appointment",
   "hero.secondaryCta": "View Services",
 
+  "categories.title": "Our Specialties",
+  "categories.subtitle": "Discover what makes us different",
+  "categories.items.haircut.title": "Haircuts",
+  "categories.items.haircut.description": "Classic and modern styles for every gentleman",
+  "categories.items.beard.title": "Beard Care",
+  "categories.items.beard.description": "Expert trimming and grooming services",
+  "categories.items.shave.title": "Hot Towel Shave",
+  "categories.items.shave.description": "Traditional straight razor experience",
+  "categories.items.styling.title": "Styling",
+  "categories.items.styling.description": "Premium products and finishing touches",
+
   "services.title": "Our Services",
   "services.subtitle": "Expert grooming services tailored to the modern gentleman",
   "services.items.haircut.title": "Classic Haircut",

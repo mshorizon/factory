@@ -1,11 +1,12 @@
 ---
-import { NavbarStandard, NavbarCentered, FooterSimple, FooterMultiColumn } from "@mshorizon/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
 import SectionDispatcher from "../components/SectionDispatcher.astro";
 import { findPageBySlug, getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
 import { deepTranslate } from "../lib/i18n";
-import type { BusinessProfileV15, Target } from "@mshorizon/schema";
+import type { BusinessProfileV15 } from "@mshorizon/schema";
 
 // Get route params
 const { slug } = Astro.params;
@@ -29,46 +30,56 @@ if (!page) {
 const layout = getLayoutConfig(business);
 
 // Get navigation links from pages object
-const navLinks = getNavLinks(business);
+const navLinksRaw = getNavLinks(business);
+
+// Pre-resolve all navigation links on the server
+const navLinks = navLinksRaw.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+}));
+
+// Pre-resolve CTA on the server
+const navCta = business.navigation?.cta ? {
+  label: business.navigation.cta.label,
+  href: resolveTarget(business.navigation.cta.target, business),
+} : undefined;
 
 // Build page title
 const pageTitle = normalizedSlug === "home" ? business.business.name : `${page.title} | ${business.business.name}`;
 
-// Target resolver function for navbar/footer
-const targetResolver = (target: Target) => resolveTarget(target, business);
+// Pre-resolve footer links
+const footerLinks = layout.footer.links?.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+})) || [];
 
-// Prepare navbar props
-const navbarProps = {
-  logo: business.business.name,
-  links: navLinks,
-  cta: business.navigation?.cta,
-  currentLanguage: currentLang,
-  resolveTarget: targetResolver,
-};
-
-// Prepare footer props
-const footerProps = {
-  businessName: business.business.name,
-  links: layout.footer.links,
-  copyright: layout.footer.copyright,
-  columns: layout.footer.columns,
-  tagline: layout.footer.tagline,
-  resolveTarget: targetResolver,
-};
+// Pre-resolve footer columns
+const footerColumns = layout.footer.columns?.map((col: any) => ({
+  title: col.title,
+  links: col.links?.map((link: any) => ({
+    label: link.label,
+    href: link.href || resolveTarget(link.target, business),
+  })) || [],
+})) || [];
 ---
 
 <BaseLayout title={pageTitle} theme={theme}>
-  {layout.navbar.variant === "centered" ? (
-    <NavbarCentered client:load {...navbarProps} />
-  ) : (
-    <NavbarStandard client:load {...navbarProps} />
-  )}
+  <Navbar
+    logo={business.business.name}
+    links={navLinks}
+    cta={navCta}
+    currentLanguage={currentLang}
+    variant={layout.navbar.variant as "standard" | "centered"}
+  />
   <main class="flex-1">
     <SectionDispatcher sections={page.sections} />
   </main>
-  {layout.footer.variant === "multiColumn" ? (
-    <FooterMultiColumn {...footerProps} />
-  ) : (
-    <FooterSimple {...footerProps} />
-  )}
+  <Footer
+    businessName={business.business.name}
+    links={footerLinks}
+    columns={footerColumns}
+    copyright={layout.footer.copyright}
+    tagline={layout.footer.tagline}
+    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
+  />
 </BaseLayout>

@@ -28,6 +28,15 @@
   "hero.cta": "Darmowa wycena",
   "hero.secondaryCta": "Nasze usługi",
 
+  "categories.title": "Jak Pomagamy",
+  "categories.subtitle": "Profesjonalne rozwiązania dla każdej potrzeby hydraulicznej",
+  "categories.items.emergency.title": "Usługi Awaryjne",
+  "categories.items.emergency.description": "Szybka reakcja 24/7 na pilne problemy hydrauliczne",
+  "categories.items.drain.title": "Rozwiązania Odpływowe",
+  "categories.items.drain.description": "Profesjonalne czyszczenie i udrażnianie",
+  "categories.items.heater.title": "Podgrzewacze Wody",
+  "categories.items.heater.description": "Instalacja, naprawa i konserwacja",
+
   "services.title": "Nasze Usługi",
   "services.subtitle": "Kompleksowe rozwiązania hydrauliczne dla nieruchomości mieszkalnych i komercyjnych",
   "services.items.emergency.title": "Naprawy Awaryjne",

@@ -38,7 +38,7 @@
   "layout": {
     "navbar": { "variant": "standard" },
     "footer": {
-      "variant": "multiColumn",
+      "variant": "branded",
       "copyright": "t:footer.copyright",
       "tagline": "t:footer.tagline",
       "links": [
@@ -75,7 +75,7 @@
       "sections": [
         {
           "type": "hero",
-          "variant": "split",
+          "variant": "cards",
           "header": {
             "badge": "t:hero.badge",
             "title": "t:hero.title",
@@ -84,6 +84,19 @@
           "backgroundImage": "/images/plumber/hero.jpg",
           "cta": { "label": "t:hero.cta", "target": { "type": "page", "value": "contact" } },
           "secondaryCta": { "label": "t:hero.secondaryCta", "target": { "type": "page", "value": "services" } }
+        },
+        {
+          "type": "categories",
+          "variant": "featured",
+          "header": {
+            "title": "t:categories.title",
+            "subtitle": "t:categories.subtitle"
+          },
+          "items": [
+            { "title": "t:categories.items.emergency.title", "description": "t:categories.items.emergency.description", "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=300&fit=crop" },
+            { "title": "t:categories.items.drain.title", "description": "t:categories.items.drain.description", "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=400&h=300&fit=crop" },
+            { "title": "t:categories.items.heater.title", "description": "t:categories.items.heater.description", "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400&h=300&fit=crop" }
+          ]
         }
       ]
     },

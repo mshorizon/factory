@@ -1,0 +1,30 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { CategoriesCarousel, CategoriesFeatured, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
+
+interface Props {
+  section: Section;
+}
+
+const { section } = Astro.props;
+const variant = getSectionVariant(section);
+const items = section.items || [];
+const header = getSectionHeader(section);
+---
+
+<section class="bg-background py-16">
+  <div class="container mx-auto px-4">
+    <SectionHeader
+      badge={header.badge}
+      title={header.title}
+      subtitle={header.subtitle}
+      align="center"
+    />
+    {variant === "featured" ? (
+      <CategoriesFeatured items={items} />
+    ) : (
+      <CategoriesCarousel items={items} />
+    )}
+  </div>
+</section>

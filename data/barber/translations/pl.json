@@ -18,6 +18,17 @@
   "hero.cta": "Umów wizytę",
   "hero.secondaryCta": "Zobacz usługi",
 
+  "categories.title": "Nasze Specjalności",
+  "categories.subtitle": "Odkryj co nas wyróżnia",
+  "categories.items.haircut.title": "Strzyżenie",
+  "categories.items.haircut.description": "Klasyczne i nowoczesne style dla każdego mężczyzny",
+  "categories.items.beard.title": "Pielęgnacja Brody",
+  "categories.items.beard.description": "Profesjonalne trymowanie i modelowanie",
+  "categories.items.shave.title": "Golenie z Gorącym Ręcznikiem",
+  "categories.items.shave.description": "Tradycyjne golenie brzytwą",
+  "categories.items.styling.title": "Stylizacja",
+  "categories.items.styling.description": "Produkty premium i wykończenie",
+
   "services.title": "Nasze Usługi",
   "services.subtitle": "Profesjonalne usługi fryzjerskie dostosowane do współczesnego mężczyzny",
   "services.items.haircut.title": "Klasyczne Strzyżenie",
