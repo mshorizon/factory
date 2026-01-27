@@ -28,6 +28,15 @@
   "hero.cta": "Get Free Quote",
   "hero.secondaryCta": "Our Services",
 
+  "categories.title": "How We Help",
+  "categories.subtitle": "Professional solutions for every plumbing need",
+  "categories.items.emergency.title": "Emergency Services",
+  "categories.items.emergency.description": "24/7 rapid response for urgent plumbing issues",
+  "categories.items.drain.title": "Drain Solutions",
+  "categories.items.drain.description": "Professional cleaning and unclogging services",
+  "categories.items.heater.title": "Water Heaters",
+  "categories.items.heater.description": "Installation, repair and maintenance",
+
   "services.title": "Our Services",
   "services.subtitle": "Comprehensive plumbing solutions for residential and commercial properties",
   "services.items.emergency.title": "Emergency Repairs",

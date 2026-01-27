@@ -3,16 +3,20 @@ export { Navbar, NavbarStandard, NavbarCentered, getNavbarVariant } from "./navb
 export type { NavbarProps, NavLink, NavbarLayoutVariant, NavbarStyleVariant } from "./navbar";
 
 // Footer variants
-export { Footer, FooterSimple, FooterMultiColumn, getFooterVariant } from "./footer";
+export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered, FooterBranded, FooterStacked, getFooterVariant } from "./footer";
 export type { FooterProps, FooterLink, SocialLink, FooterColumn } from "./footer";
 
 // Hero variants
-export { Hero, HeroDefault, HeroSplit } from "./hero";
+export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal } from "./hero";
 export type { HeroProps, CTAButton } from "./hero";
 
 // Services variants
 export { ServicesGrid, ServicesList } from "./services";
 export type { ServicesProps, ServiceItem } from "./services";
+
+// Categories variants
+export { CategoriesCarousel, CategoriesFeatured } from "./categories";
+export type { CategoriesProps, CategoryItem } from "./categories";
 
 // About variants
 export { AboutStory, AboutTimeline } from "./about";

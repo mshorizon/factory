@@ -39,7 +39,7 @@
   "layout": {
     "navbar": { "variant": "centered" },
     "footer": {
-      "variant": "multiColumn",
+      "variant": "stacked",
       "copyright": "t:footer.copyright",
       "tagline": "t:footer.tagline",
       "links": [
@@ -76,7 +76,7 @@
       "sections": [
         {
           "type": "hero",
-          "variant": "split",
+          "variant": "video",
           "header": {
             "badge": "t:hero.badge",
             "title": "t:hero.title",
@@ -85,6 +85,19 @@
           "backgroundImage": "/images/game-selector/hero.jpg",
           "cta": { "label": "t:hero.cta", "target": { "type": "page", "value": "services" } },
           "secondaryCta": { "label": "t:hero.secondaryCta", "target": { "type": "page", "value": "about" } }
+        },
+        {
+          "type": "categories",
+          "variant": "featured",
+          "header": {
+            "title": "t:categories.title",
+            "subtitle": "t:categories.subtitle"
+          },
+          "items": [
+            { "title": "t:categories.items.coop.title", "description": "t:categories.items.coop.description", "image": "https://images.unsplash.com/photo-1493711662062-fa541f7f3d24?w=400&h=300&fit=crop" },
+            { "title": "t:categories.items.party.title", "description": "t:categories.items.party.description", "image": "https://images.unsplash.com/photo-1511882150382-421056c89033?w=400&h=300&fit=crop" },
+            { "title": "t:categories.items.competitive.title", "description": "t:categories.items.competitive.description", "image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=300&fit=crop" }
+          ]
         }
       ]
     },

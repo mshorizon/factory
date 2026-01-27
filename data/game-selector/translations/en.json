@@ -28,6 +28,15 @@
   "hero.cta": "Browse Games",
   "hero.secondaryCta": "Learn More",
 
+  "categories.title": "Find Your Style",
+  "categories.subtitle": "Choose your preferred multiplayer experience",
+  "categories.items.coop.title": "Co-op Adventures",
+  "categories.items.coop.description": "Team up for epic cooperative campaigns",
+  "categories.items.party.title": "Party Games",
+  "categories.items.party.description": "Quick fun for game nights with friends",
+  "categories.items.competitive.title": "Competitive",
+  "categories.items.competitive.description": "Test your skills in PvP battles",
+
   "services.title": "Game Categories",
   "services.subtitle": "Find the perfect multiplayer experience for any occasion",
   "services.items.coop.title": "Co-op Adventures",
