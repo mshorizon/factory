@@ -11,6 +11,7 @@ export function ContactSplit({
   subtitle,
   form,
   info,
+  labels,
   className,
 }: ContactSplitProps) {
   return (
@@ -26,9 +27,9 @@ export function ContactSplit({
         {/* Contact Info */}
         <div className="space-y-8">
           <div>
-            <h2 className="text-2xl font-bold text-foreground mb-6">Get in Touch</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-6">{labels?.getInTouchTitle || "Get in Touch"}</h2>
             <p className="text-muted mb-8">
-              We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              {labels?.getInTouchSubtitle || "We'd love to hear from you. Send us a message and we'll respond as soon as possible."}
             </p>
           </div>
 
@@ -40,7 +41,7 @@ export function ContactSplit({
                     <MapPin className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">Address</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{labels?.addressLabel || "Address"}</h3>
                     <p className="text-muted">{info.address}</p>
                   </div>
                 </div>
@@ -52,7 +53,7 @@ export function ContactSplit({
                     <Phone className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">Phone</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{labels?.phoneLabel || "Phone"}</h3>
                     <p className="text-muted">{info.phone}</p>
                   </div>
                 </div>
@@ -64,7 +65,7 @@ export function ContactSplit({
                     <Mail className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">Email</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{labels?.emailLabel || "Email"}</h3>
                     <p className="text-muted">{info.email}</p>
                   </div>
                 </div>
@@ -76,7 +77,7 @@ export function ContactSplit({
                     <Clock className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">Hours</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{labels?.hoursLabel || "Hours"}</h3>
                     <p className="text-muted">{info.hours}</p>
                   </div>
                 </div>

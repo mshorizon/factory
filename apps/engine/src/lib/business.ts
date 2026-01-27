@@ -105,7 +105,13 @@ export function getLanguageFromCookie(cookieHeader: string | null): Language {
 // Helper to get all business context from request
 export function getBusinessContext(request: Request) {
   const url = new URL(request.url);
-  const businessId = getBusinessIdFromHost(url.hostname);
+
+  // Allow query param override for testing (e.g., ?business=zakletewdrewnie)
+  const queryBusiness = url.searchParams.get("business");
+  const businessId = (queryBusiness && isValidBusiness(queryBusiness))
+    ? queryBusiness
+    : getBusinessIdFromHost(url.hostname);
+
   const currentLang = getLanguageFromCookie(request.headers.get("cookie"));
 
   const rawBusinessData = getBusinessData(businessId);

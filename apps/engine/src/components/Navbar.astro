@@ -1,4 +1,6 @@
 ---
+import { CartButton } from "@mshorizon/ui";
+
 interface NavLink {
   label: string;
   href: string;
@@ -15,12 +17,13 @@ interface Props {
   cta?: CTA;
   currentLanguage?: string;
   variant?: "standard" | "centered";
+  showCart?: boolean;
 }
 
-const { logo, links, cta, currentLanguage = "pl", variant = "standard" } = Astro.props;
+const { logo, links, cta, currentLanguage = "pl", variant = "standard", showCart = false } = Astro.props;
 ---
 
-<nav class="sticky top-0 z-50 bg-background/95 backdrop-blur-md shadow-sm border-b border-border transition-all duration-300">
+<nav class="sticky top-0 z-50 bg-background/95 backdrop-blur-md shadow-sm border-b border-border transition-all duration-300 mb-4 lg:mb-6">
   <div class="container mx-auto px-4 lg:px-8">
     <div class:list={[
       "flex items-center h-16 lg:h-20",
@@ -52,11 +55,14 @@ const { logo, links, cta, currentLanguage = "pl", variant = "standard" } = Astro
         ))}
       </div>
 
-      {/* Language Switcher & CTA */}
+      {/* Cart, Language Switcher & CTA */}
       <div class:list={[
         "hidden md:flex items-center gap-4",
         variant === "centered" && "absolute right-4 lg:right-8"
       ]}>
+        {/* Cart Button */}
+        {showCart && <CartButton client:load />}
+
         {/* Language Switcher */}
         <div class="flex items-center border border-border rounded-radius overflow-hidden">
           <button
@@ -94,15 +100,18 @@ const { logo, links, cta, currentLanguage = "pl", variant = "standard" } = Astro
         )}
       </div>
 
-      {/* Mobile Menu Button */}
-      <button
-        id="mobile-menu-btn"
-        class="md:hidden p-2 text-foreground hover:bg-primary/10 rounded-radius transition-colors"
-        aria-label="Toggle menu"
-      >
-        <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-        <svg id="close-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-      </button>
+      {/* Mobile Cart & Menu Button */}
+      <div class="md:hidden flex items-center gap-2">
+        {showCart && <CartButton client:load />}
+        <button
+          id="mobile-menu-btn"
+          class="p-2 text-foreground hover:bg-primary/10 rounded-radius transition-colors"
+          aria-label="Toggle menu"
+        >
+          <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg id="close-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
     </div>
 
     {/* Mobile Menu */}

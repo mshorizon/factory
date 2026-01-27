@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import type { CategoriesProps } from "./types";
 
-export function CategoriesFeatured({ items, className }: CategoriesProps) {
+export function CategoriesFeatured({ items, exploreLabel, className }: CategoriesProps) {
   // Take first 3 items for featured display
   const featuredItems = items.slice(0, 3);
 
@@ -50,7 +50,7 @@ export function CategoriesFeatured({ items, className }: CategoriesProps) {
               </p>
             )}
             <span className="inline-flex items-center text-sm font-medium text-white group-hover:text-primary transition-colors">
-              Explore
+              {exploreLabel || "Explore"}
               <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </span>
           </div>

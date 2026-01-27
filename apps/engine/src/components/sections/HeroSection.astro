@@ -2,6 +2,7 @@
 import type { Section } from "@mshorizon/schema";
 import { HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
 
 interface Props {
   section: Section;
@@ -11,6 +12,19 @@ const { section } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const heroImage = section.image || section.backgroundImage;
+
+// Resolve CTA targets to hrefs
+const cta = section.cta ? {
+  label: section.cta.label,
+  href: section.cta.href || resolveTarget(section.cta.target),
+  variant: section.cta.variant,
+} : undefined;
+
+const secondaryCta = section.secondaryCta ? {
+  label: section.secondaryCta.label,
+  href: section.secondaryCta.href || resolveTarget(section.secondaryCta.target),
+  variant: section.secondaryCta.variant,
+} : undefined;
 ---
 
 {variant === "split" ? (
@@ -19,8 +33,8 @@ const heroImage = section.image || section.backgroundImage;
     title={header.title || ""}
     subtitle={header.subtitle}
     image={heroImage}
-    cta={section.cta}
-    secondaryCta={section.secondaryCta}
+    cta={cta}
+    secondaryCta={secondaryCta}
   />
 ) : variant === "gradient" ? (
   <HeroGradient
@@ -28,8 +42,8 @@ const heroImage = section.image || section.backgroundImage;
     title={header.title || ""}
     subtitle={header.subtitle}
     backgroundImage={section.backgroundImage}
-    cta={section.cta}
-    secondaryCta={section.secondaryCta}
+    cta={cta}
+    secondaryCta={secondaryCta}
   />
 ) : variant === "cards" ? (
   <HeroCards
@@ -37,8 +51,8 @@ const heroImage = section.image || section.backgroundImage;
     title={header.title || ""}
     subtitle={header.subtitle}
     image={heroImage}
-    cta={section.cta}
-    secondaryCta={section.secondaryCta}
+    cta={cta}
+    secondaryCta={secondaryCta}
   />
 ) : variant === "video" ? (
   <HeroVideo
@@ -46,8 +60,8 @@ const heroImage = section.image || section.backgroundImage;
     title={header.title || ""}
     subtitle={header.subtitle}
     backgroundImage={section.backgroundImage}
-    cta={section.cta}
-    secondaryCta={section.secondaryCta}
+    cta={cta}
+    secondaryCta={secondaryCta}
   />
 ) : variant === "minimal" ? (
   <HeroMinimal
@@ -55,8 +69,8 @@ const heroImage = section.image || section.backgroundImage;
     title={header.title || ""}
     subtitle={header.subtitle}
     image={heroImage}
-    cta={section.cta}
-    secondaryCta={section.secondaryCta}
+    cta={cta}
+    secondaryCta={secondaryCta}
   />
 ) : (
   <HeroDefault
@@ -64,8 +78,8 @@ const heroImage = section.image || section.backgroundImage;
     title={header.title || ""}
     subtitle={header.subtitle}
     backgroundImage={section.backgroundImage}
-    cta={section.cta}
-    secondaryCta={section.secondaryCta}
+    cta={cta}
+    secondaryCta={secondaryCta}
     fullHeight
   />
 )}

@@ -45,6 +45,12 @@
     }
   },
   "navigation": {
+    "links": [
+      { "label": "t:pages.home.title", "target": { "type": "page", "value": "home" } },
+      { "label": "t:pages.shop.title", "target": { "type": "page", "value": "shop" } },
+      { "label": "t:pages.about.title", "target": { "type": "page", "value": "about" } },
+      { "label": "t:pages.contact.title", "target": { "type": "page", "value": "contact" } }
+    ],
     "cta": { "label": "t:nav.cta", "target": { "type": "page", "value": "contact" } }
   },
   "pages": {
@@ -170,6 +176,103 @@
             "messagePlaceholder": "t:contact.form.message",
             "submitButton": "t:contact.form.submit"
           }
+        }
+      ]
+    },
+    "shop": {
+      "title": "t:pages.shop.title",
+      "sections": [
+        {
+          "type": "shop",
+          "variant": "grid",
+          "header": {
+            "badge": "t:shop.badge",
+            "title": "t:shop.title",
+            "subtitle": "t:shop.subtitle"
+          },
+          "ctaLabel": "t:shop.addToCart",
+          "products": [
+            {
+              "id": "wildflower-honey-500g",
+              "title": "t:shop.products.wildflower.title",
+              "description": "t:shop.products.wildflower.description",
+              "price": 14.99,
+              "image": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.honey",
+              "attributes": [
+                { "key": "t:shop.attr.weight", "value": "500g" },
+                { "key": "t:shop.attr.origin", "value": "t:shop.attr.local" },
+                { "key": "t:shop.attr.organic", "value": "t:shop.attr.yes" }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "wildflower-honey-1kg",
+              "title": "t:shop.products.wildflower_large.title",
+              "description": "t:shop.products.wildflower_large.description",
+              "price": 24.99,
+              "image": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.honey",
+              "attributes": [
+                { "key": "t:shop.attr.weight", "value": "1kg" },
+                { "key": "t:shop.attr.origin", "value": "t:shop.attr.local" },
+                { "key": "t:shop.attr.organic", "value": "t:shop.attr.yes" }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "honeycomb-raw",
+              "title": "t:shop.products.honeycomb.title",
+              "description": "t:shop.products.honeycomb.description",
+              "price": 18.99,
+              "image": "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.honeycomb",
+              "attributes": [
+                { "key": "t:shop.attr.weight", "value": "350g" },
+                { "key": "t:shop.attr.raw", "value": "t:shop.attr.yes" }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "bee-pollen",
+              "title": "t:shop.products.pollen.title",
+              "description": "t:shop.products.pollen.description",
+              "price": 15.99,
+              "image": "https://images.unsplash.com/photo-1471943311424-646960669fbc?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.superfood",
+              "attributes": [
+                { "key": "t:shop.attr.weight", "value": "200g" },
+                { "key": "t:shop.attr.source", "value": "t:shop.attr.wildflowers" }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "beeswax-candle-set",
+              "title": "t:shop.products.candles.title",
+              "description": "t:shop.products.candles.description",
+              "price": 22.99,
+              "image": "https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.candles",
+              "attributes": [
+                { "key": "t:shop.attr.quantity", "value": "3" },
+                { "key": "t:shop.attr.burnTime", "value": "t:shop.attr.burnTimeValue" }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "manuka-honey",
+              "title": "t:shop.products.manuka.title",
+              "description": "t:shop.products.manuka.description",
+              "price": 49.99,
+              "image": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.premium",
+              "attributes": [
+                { "key": "t:shop.attr.weight", "value": "250g" },
+                { "key": "t:shop.attr.mgo", "value": "400+" }
+              ],
+              "inStock": false
+            }
+          ]
         }
       ]
     }

@@ -1,0 +1,489 @@
+{
+  "schemaVersion": "1.5",
+  "business": {
+    "id": "zakletewdrewnie-001",
+    "name": "t:business.name",
+    "industry": "handmade-crafts",
+    "contact": {
+      "phone": "+48 123 456 789",
+      "email": "kontakt@zakletewdrewnie.pl"
+    }
+  },
+  "theme": {
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#8B5A2B",
+        "surface": {
+          "base": "#FDF8F3",
+          "alt": "#3E2723"
+        },
+        "text": {
+          "main": "#2C1A0D",
+          "muted": "#6D5D4E",
+          "onPrimary": "#FFFFFF"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'Lato', system-ui, -apple-system, sans-serif",
+      "secondary": "'Playfair Display', Georgia, serif"
+    },
+    "ui": {
+      "radius": "0.5rem"
+    }
+  },
+  "layout": {
+    "navbar": {
+      "variant": "standard"
+    },
+    "footer": {
+      "variant": "minimal",
+      "copyright": "t:footer.copyright",
+      "tagline": "t:footer.tagline",
+      "links": [
+        {
+          "label": "t:nav.home",
+          "target": {
+            "type": "page",
+            "value": "home"
+          }
+        },
+        {
+          "label": "t:nav.shop",
+          "target": {
+            "type": "page",
+            "value": "shop"
+          }
+        },
+        {
+          "label": "t:nav.about",
+          "target": {
+            "type": "page",
+            "value": "about"
+          }
+        },
+        {
+          "label": "t:nav.contact",
+          "target": {
+            "type": "page",
+            "value": "contact"
+          }
+        }
+      ]
+    }
+  },
+  "navigation": {
+    "links": [
+      {
+        "label": "t:nav.home",
+        "target": {
+          "type": "page",
+          "value": "home"
+        }
+      },
+      {
+        "label": "t:nav.shop",
+        "target": {
+          "type": "page",
+          "value": "shop"
+        }
+      },
+      {
+        "label": "t:nav.about",
+        "target": {
+          "type": "page",
+          "value": "about"
+        }
+      },
+      {
+        "label": "t:nav.contact",
+        "target": {
+          "type": "page",
+          "value": "contact"
+        }
+      }
+    ],
+    "cta": {
+      "label": "t:nav.cta",
+      "target": {
+        "type": "page",
+        "value": "shop"
+      }
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "t:pages.home.title",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "split",
+          "header": {
+            "badge": "t:hero.badge",
+            "title": "t:hero.title",
+            "subtitle": "t:hero.subtitle"
+          },
+          "image": "/photos/hero.png",
+          "cta": {
+            "label": "t:hero.cta",
+            "target": {
+              "type": "page",
+              "value": "shop"
+            }
+          },
+          "secondaryCta": {
+            "label": "t:hero.secondaryCta",
+            "target": {
+              "type": "page",
+              "value": "about"
+            }
+          }
+        },
+        {
+          "type": "categories",
+          "variant": "featured",
+          "header": {
+            "title": "t:categories.title",
+            "subtitle": "t:categories.subtitle"
+          },
+          "exploreLabel": "t:categories.explore",
+          "items": [
+            {
+              "title": "t:categories.items.coasters.title",
+              "description": "t:categories.items.coasters.description",
+              "image": "https://images.unsplash.com/photo-1605627079912-97c3810a11a4?w=400&h=300&fit=crop"
+            },
+            {
+              "title": "t:categories.items.frames.title",
+              "description": "t:categories.items.frames.description",
+              "image": "https://images.unsplash.com/photo-1582053433976-25c00369fc93?w=400&h=300&fit=crop"
+            },
+            {
+              "title": "t:categories.items.decorations.title",
+              "description": "t:categories.items.decorations.description",
+              "image": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=400&h=300&fit=crop"
+            }
+          ]
+        }
+      ]
+    },
+    "shop": {
+      "title": "t:pages.shop.title",
+      "sections": [
+        {
+          "type": "shop",
+          "variant": "grid",
+          "header": {
+            "badge": "t:shop.badge",
+            "title": "t:shop.title",
+            "subtitle": "t:shop.subtitle"
+          },
+          "ctaLabel": "t:shop.addToCart",
+          "products": [
+            {
+              "id": "coaster-set-oak-4",
+              "title": "t:shop.products.coaster_oak.title",
+              "description": "t:shop.products.coaster_oak.description",
+              "price": 89.00,
+              "image": "https://images.unsplash.com/photo-1605627079912-97c3810a11a4?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.coasters",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.oak"
+                },
+                {
+                  "key": "t:shop.attr.quantity",
+                  "value": "4"
+                },
+                {
+                  "key": "t:shop.attr.finish",
+                  "value": "t:shop.attr.natural_oil"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "coaster-set-walnut-6",
+              "title": "t:shop.products.coaster_walnut.title",
+              "description": "t:shop.products.coaster_walnut.description",
+              "price": 129.00,
+              "image": "https://images.unsplash.com/photo-1611486212557-88be5ff6f941?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.coasters",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.walnut"
+                },
+                {
+                  "key": "t:shop.attr.quantity",
+                  "value": "6"
+                },
+                {
+                  "key": "t:shop.attr.finish",
+                  "value": "t:shop.attr.beeswax"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "coaster-single-live-edge",
+              "title": "t:shop.products.coaster_live_edge.title",
+              "description": "t:shop.products.coaster_live_edge.description",
+              "price": 45.00,
+              "image": "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.coasters",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.mixed"
+                },
+                {
+                  "key": "t:shop.attr.style",
+                  "value": "t:shop.attr.live_edge"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "frame-photo-oak-13x18",
+              "title": "t:shop.products.frame_oak_small.title",
+              "description": "t:shop.products.frame_oak_small.description",
+              "price": 79.00,
+              "image": "https://images.unsplash.com/photo-1582053433976-25c00369fc93?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.frames",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.oak"
+                },
+                {
+                  "key": "t:shop.attr.size",
+                  "value": "13x18 cm"
+                },
+                {
+                  "key": "t:shop.attr.glass",
+                  "value": "t:shop.attr.yes"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "frame-photo-walnut-20x30",
+              "title": "t:shop.products.frame_walnut_large.title",
+              "description": "t:shop.products.frame_walnut_large.description",
+              "price": 149.00,
+              "image": "https://images.unsplash.com/photo-1579541814924-49fef17c5be5?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.frames",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.walnut"
+                },
+                {
+                  "key": "t:shop.attr.size",
+                  "value": "20x30 cm"
+                },
+                {
+                  "key": "t:shop.attr.glass",
+                  "value": "t:shop.attr.yes"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "frame-collage-3",
+              "title": "t:shop.products.frame_collage.title",
+              "description": "t:shop.products.frame_collage.description",
+              "price": 199.00,
+              "image": "https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.frames",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.ash"
+                },
+                {
+                  "key": "t:shop.attr.photos",
+                  "value": "3"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "deco-tree-slice",
+              "title": "t:shop.products.deco_tree_slice.title",
+              "description": "t:shop.products.deco_tree_slice.description",
+              "price": 65.00,
+              "image": "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.decorations",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.diameter",
+                  "value": "15-20 cm"
+                },
+                {
+                  "key": "t:shop.attr.personalization",
+                  "value": "t:shop.attr.available"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "deco-wall-shelf",
+              "title": "t:shop.products.deco_wall_shelf.title",
+              "description": "t:shop.products.deco_wall_shelf.description",
+              "price": 119.00,
+              "image": "https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.decorations",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.pine"
+                },
+                {
+                  "key": "t:shop.attr.width",
+                  "value": "40 cm"
+                },
+                {
+                  "key": "t:shop.attr.mounting",
+                  "value": "t:shop.attr.included"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "deco-candle-holder",
+              "title": "t:shop.products.deco_candle_holder.title",
+              "description": "t:shop.products.deco_candle_holder.description",
+              "price": 55.00,
+              "image": "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.decorations",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.birch"
+                },
+                {
+                  "key": "t:shop.attr.candles",
+                  "value": "3"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "deco-key-holder",
+              "title": "t:shop.products.deco_key_holder.title",
+              "description": "t:shop.products.deco_key_holder.description",
+              "price": 75.00,
+              "image": "https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.decorations",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.material",
+                  "value": "t:shop.attr.oak"
+                },
+                {
+                  "key": "t:shop.attr.hooks",
+                  "value": "5"
+                },
+                {
+                  "key": "t:shop.attr.personalization",
+                  "value": "t:shop.attr.available"
+                }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "gift-box-premium",
+              "title": "t:shop.products.gift_box.title",
+              "description": "t:shop.products.gift_box.description",
+              "price": 249.00,
+              "image": "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.gifts",
+              "attributes": [
+                {
+                  "key": "t:shop.attr.contents",
+                  "value": "t:shop.attr.gift_contents"
+                },
+                {
+                  "key": "t:shop.attr.packaging",
+                  "value": "t:shop.attr.gift_box"
+                }
+              ],
+              "inStock": false
+            }
+          ]
+        }
+      ]
+    },
+    "about": {
+      "title": "t:pages.about.title",
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "title": "t:about.title",
+            "subtitle": "t:about.subtitle"
+          },
+          "story": {
+            "title": "t:about.story.title",
+            "content": "t:about.story.content"
+          },
+          "stats": [
+            {
+              "value": "100%",
+              "label": "t:about.stats.handmade"
+            },
+            {
+              "value": "500+",
+              "label": "t:about.stats.products"
+            },
+            {
+              "value": "5",
+              "label": "t:about.stats.experience"
+            }
+          ],
+          "commitment": {
+            "title": "t:about.commitment.title",
+            "content": "t:about.commitment.content"
+          }
+        }
+      ]
+    },
+    "contact": {
+      "title": "t:pages.contact.title",
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
+          },
+          "labels": {
+            "getInTouchTitle": "t:contact.labels.getInTouchTitle",
+            "getInTouchSubtitle": "t:contact.labels.getInTouchSubtitle",
+            "addressLabel": "t:contact.labels.addressLabel",
+            "phoneLabel": "t:contact.labels.phoneLabel",
+            "emailLabel": "t:contact.labels.emailLabel",
+            "hoursLabel": "t:contact.labels.hoursLabel"
+          },
+          "info": {
+            "phone": "+48 123 456 789",
+            "email": "kontakt@zakletewdrewnie.pl",
+            "hours": "t:contact.hours"
+          },
+          "form": {
+            "namePlaceholder": "t:contact.form.name",
+            "emailPlaceholder": "t:contact.form.email",
+            "messagePlaceholder": "t:contact.form.message",
+            "submitButton": "t:contact.form.submit"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+---
+import { ShopGrid } from "@mshorizon/ui";
+import type { SectionV15 } from "@mshorizon/schema";
+import { getSectionHeader } from "../../lib/pages";
+
+interface Props {
+  section: SectionV15 & {
+    currency?: string;
+    outOfStockLabel?: string;
+  };
+}
+
+const { section } = Astro.props;
+
+// Extract header (supports both v1.0 and v1.5)
+const header = getSectionHeader(section);
+---
+
+<ShopGrid
+  client:load
+  header={header}
+  products={section.products || []}
+  ctaLabel={section.ctaLabel}
+  currency={section.currency || "zł"}
+  outOfStockLabel={section.outOfStockLabel || "Brak w magazynie"}
+/>

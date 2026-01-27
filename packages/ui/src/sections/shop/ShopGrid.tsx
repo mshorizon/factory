@@ -1,0 +1,46 @@
+import { cn } from "../../lib/utils";
+import { SectionHeader } from "../../atoms/SectionHeader";
+import { ProductCard } from "./ProductCard";
+import { useCart } from "../../store/useCart";
+import type { ShopGridProps } from "./types";
+
+export function ShopGrid({
+  header,
+  products,
+  ctaLabel = "Add to Cart",
+  currency = "zł",
+  outOfStockLabel = "Out of Stock",
+  onAddToCart,
+  className,
+}: ShopGridProps) {
+  const addItem = useCart((state) => state.addItem);
+
+  const handleAddToCart = onAddToCart || addItem;
+
+  return (
+    <section className={cn("py-16 lg:py-24", className)}>
+      <div className="container mx-auto px-4">
+        {header && (
+          <SectionHeader
+            badge={header.badge}
+            title={header.title}
+            subtitle={header.subtitle}
+            className="mb-12"
+          />
+        )}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              ctaLabel={ctaLabel}
+              currency={currency}
+              outOfStockLabel={outOfStockLabel}
+              onAddToCart={handleAddToCart}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

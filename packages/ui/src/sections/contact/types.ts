@@ -15,6 +15,15 @@ export interface ContactInfo {
   hours?: string;
 }
 
+export interface ContactLabels {
+  getInTouchTitle?: string;
+  getInTouchSubtitle?: string;
+  addressLabel?: string;
+  phoneLabel?: string;
+  emailLabel?: string;
+  hoursLabel?: string;
+}
+
 export interface ContactCenteredProps {
   title?: string;
   subtitle?: string;
@@ -27,5 +36,6 @@ export interface ContactSplitProps {
   subtitle?: string;
   form?: ContactForm;
   info?: ContactInfo;
+  labels?: ContactLabels;
   className?: string;
 }

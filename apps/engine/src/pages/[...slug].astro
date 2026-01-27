@@ -6,16 +6,20 @@ import SectionDispatcher from "../components/SectionDispatcher.astro";
 import { findPageBySlug, getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
 import { deepTranslate } from "../lib/i18n";
+import { deepResolveImages } from "../lib/images";
 import type { BusinessProfileV15 } from "@mshorizon/schema";
 
 // Get route params
 const { slug } = Astro.params;
 
 // Get business context from middleware
-const { businessData, theme, currentLang, t: translations } = Astro.locals;
+const { businessId, businessData, theme, currentLang, t: translations } = Astro.locals;
 
 // Translate all "t:" prefixed strings in business data
-const business = deepTranslate(translations, businessData) as BusinessProfileV15;
+const translatedData = deepTranslate(translations, businessData) as BusinessProfileV15;
+
+// Resolve image paths (relative paths become /data/{businessId}/...)
+const business = deepResolveImages(translatedData, businessId);
 
 // Resolve the page (v1.5: "home" instead of "index")
 const normalizedSlug = slug || "home";
@@ -61,15 +65,21 @@ const footerColumns = layout.footer.columns?.map((col: any) => ({
     href: link.href || resolveTarget(link.target, business),
   })) || [],
 })) || [];
+
+// Check if business has any shop sections (to show cart button)
+const hasShopSection = Object.values(business.pages).some((p: any) =>
+  p.sections?.some((s: any) => s.type === "shop")
+);
 ---
 
-<BaseLayout title={pageTitle} theme={theme}>
+<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon}>
   <Navbar
     logo={business.business.name}
     links={navLinks}
     cta={navCta}
     currentLanguage={currentLang}
     variant={layout.navbar.variant as "standard" | "centered"}
+    showCart={hasShopSection}
   />
   <main class="flex-1">
     <SectionDispatcher sections={page.sections} />
