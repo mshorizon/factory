@@ -4,12 +4,16 @@
     "id": "honey-worker-001",
     "name": "t:business.name",
     "industry": "honey-producer",
+    "assets": {
+      "favicon": "/images/honey-worker/favicon.svg"
+    },
     "contact": {
       "phone": "(555) 234-5678",
       "email": "hello@goldenhivehoney.com"
     }
   },
   "theme": {
+    "preset": "wellness",
     "mode": "light",
     "colors": {
       "light": {

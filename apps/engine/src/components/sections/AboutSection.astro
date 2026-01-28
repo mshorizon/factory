@@ -27,6 +27,7 @@ const ctaHref = 'href' in (section.cta || {})
 
     {variant === "timeline" ? (
       <AboutTimeline
+        client:visible
         timeline={section.timeline || []}
         stats={section.stats}
         cta={ctaLabel}
@@ -34,6 +35,7 @@ const ctaHref = 'href' in (section.cta || {})
       />
     ) : (
       <AboutStory
+        client:visible
         story={section.story}
         stats={section.stats}
         commitment={section.commitment}

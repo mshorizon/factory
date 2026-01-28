@@ -3,6 +3,7 @@
 
 import type { BusinessProfile, BusinessProfileV15 } from "@mshorizon/schema";
 import { detectSchemaVersion, adaptV10ToV15 } from "./adapter";
+import { resolveTheme } from "@mshorizon/ui";
 
 // Supported languages
 export const supportedLanguages = ["en", "pl"] as const;
@@ -124,13 +125,19 @@ export function getBusinessContext(request: Request) {
       ? (rawBusinessData as BusinessProfileV15)
       : adaptV10ToV15(rawBusinessData as BusinessProfile, rawTheme);
 
+  // Resolve theme by merging preset with JSON overrides
+  const resolvedTheme = resolveTheme(
+    normalizedData.theme.preset,
+    normalizedData.theme
+  );
+
   return {
     businessId,
     currentLang,
     businessData: normalizedData,
     // Keep raw data for backwards compatibility during migration
     rawBusinessData,
-    theme: normalizedData.theme,
+    theme: resolvedTheme,
     t: getTranslations(businessId, currentLang),
   };
 }

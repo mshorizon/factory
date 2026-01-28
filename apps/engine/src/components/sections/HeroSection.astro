@@ -29,6 +29,7 @@ const secondaryCta = section.secondaryCta ? {
 
 {variant === "split" ? (
   <HeroSplit
+    client:visible
     badge={header.badge}
     title={header.title || ""}
     subtitle={header.subtitle}
@@ -38,6 +39,7 @@ const secondaryCta = section.secondaryCta ? {
   />
 ) : variant === "gradient" ? (
   <HeroGradient
+    client:visible
     badge={header.badge}
     title={header.title || ""}
     subtitle={header.subtitle}
@@ -47,6 +49,7 @@ const secondaryCta = section.secondaryCta ? {
   />
 ) : variant === "cards" ? (
   <HeroCards
+    client:visible
     badge={header.badge}
     title={header.title || ""}
     subtitle={header.subtitle}
@@ -56,6 +59,7 @@ const secondaryCta = section.secondaryCta ? {
   />
 ) : variant === "video" ? (
   <HeroVideo
+    client:visible
     badge={header.badge}
     title={header.title || ""}
     subtitle={header.subtitle}
@@ -65,6 +69,7 @@ const secondaryCta = section.secondaryCta ? {
   />
 ) : variant === "minimal" ? (
   <HeroMinimal
+    client:visible
     badge={header.badge}
     title={header.title || ""}
     subtitle={header.subtitle}
@@ -74,6 +79,7 @@ const secondaryCta = section.secondaryCta ? {
   />
 ) : (
   <HeroDefault
+    client:visible
     badge={header.badge}
     title={header.title || ""}
     subtitle={header.subtitle}

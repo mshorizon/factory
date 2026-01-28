@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import type { ThemeV15 } from "@mshorizon/schema";
+import { ScrollToTop } from "@mshorizon/ui";
+import OverlayScrollbar from "../components/OverlayScrollbar.astro";
 
 // v1.0 Theme structure (legacy)
 interface ThemeV10 {
@@ -141,7 +143,9 @@ if (isThemeV15(theme)) {
       }
     </style>
   </head>
-  <body class="flex flex-col min-h-screen">
+  <body class="flex flex-col min-h-screen" data-overlayscrollbars-initialize>
     <slot />
+    <ScrollToTop client:load threshold={400} />
+    <OverlayScrollbar />
   </body>
 </html>

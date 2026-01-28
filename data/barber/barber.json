@@ -4,12 +4,16 @@
     "id": "barber-001",
     "name": "t:business.name",
     "industry": "barber",
+    "assets": {
+      "favicon": "/images/barber/favicon.svg"
+    },
     "contact": {
       "phone": "(555) 123-4567",
       "email": "info@classiccutsbarbershop.com"
     }
   },
   "theme": {
+    "preset": "wellness",
     "mode": "light",
     "colors": {
       "light": {

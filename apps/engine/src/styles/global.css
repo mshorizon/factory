@@ -1,6 +1,33 @@
+/* Import OverlayScrollbars styles - must be before @tailwind */
+@import 'overlayscrollbars/overlayscrollbars.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Prevent layout shift - use stable scrollbar gutter */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* Custom scrollbar styling for OverlayScrollbars */
+.os-scrollbar {
+  --os-handle-bg: var(--primary);
+  --os-handle-bg-hover: var(--primary);
+  --os-handle-bg-active: var(--primary);
+  --os-size: 10px;
+  --os-padding-perpendicular: 2px;
+  --os-padding-axis: 2px;
+  --os-handle-border-radius: 5px;
+}
+
+.os-scrollbar-handle {
+  opacity: 0.5;
+}
+
+.os-scrollbar-handle:hover {
+  opacity: 0.8;
+}
 
 /* Default fallback values - overridden by theme.json */
 :root {

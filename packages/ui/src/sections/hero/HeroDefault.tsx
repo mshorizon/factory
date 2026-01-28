@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Badge } from "../../atoms/Badge";
+import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { HeroProps } from "./types";
 
 export function HeroDefault({
@@ -51,64 +54,72 @@ export function HeroDefault({
         )}
       >
         {badge && (
-          <Badge variant="accent" className="mb-4 text-sm px-4 py-1">
-            {badge}
-          </Badge>
+          <ScrollReveal delay={0} direction="up">
+            <Badge variant="accent" className="mb-4 text-sm px-4 py-1">
+              {badge}
+            </Badge>
+          </ScrollReveal>
         )}
-        <h1
-          className={cn(
-            "text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight",
-            backgroundImage ? "text-white" : "text-foreground"
-          )}
-        >
-          {title}
-        </h1>
-        {subtitle && (
-          <p
+        <ScrollReveal delay={0.1} direction="up">
+          <h1
             className={cn(
-              "text-lg md:text-xl max-w-2xl mb-8",
-              backgroundImage ? "text-white/90" : "text-muted",
-              align === "center" && "mx-auto"
+              "text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight",
+              backgroundImage ? "text-white" : "text-foreground"
             )}
           >
-            {subtitle}
-          </p>
+            {title}
+          </h1>
+        </ScrollReveal>
+        {subtitle && (
+          <ScrollReveal delay={0.2} direction="up">
+            <p
+              className={cn(
+                "text-lg md:text-xl max-w-2xl mb-8",
+                backgroundImage ? "text-white/90" : "text-muted",
+                align === "center" && "mx-auto"
+              )}
+            >
+              {subtitle}
+            </p>
+          </ScrollReveal>
         )}
         {(cta || secondaryCta) && (
-          <div
-            className={cn(
-              "flex flex-wrap gap-4",
-              align === "center"
-                ? "justify-center"
-                : align === "right"
-                ? "justify-end"
-                : "justify-start"
-            )}
-          >
-            {cta && (
-              <Button
-                asChild
-                size="xl"
-                variant={cta.variant || "default"}
-                className="shadow-lg shadow-primary/25"
-              >
-                <a href={cta.href}>
-                  {cta.label}
-                  <ArrowRight className="ml-1 h-5 w-5" />
-                </a>
-              </Button>
-            )}
-            {secondaryCta && (
-              <Button
-                asChild
-                size="xl"
-                variant={secondaryCta.variant || "outline"}
-                className={backgroundImage ? "border-white text-white hover:bg-white hover:text-foreground" : ""}
-              >
-                <a href={secondaryCta.href}>{secondaryCta.label}</a>
-              </Button>
-            )}
-          </div>
+          <ScrollReveal delay={0.3} direction="up">
+            <div
+              className={cn(
+                "flex flex-wrap gap-4",
+                align === "center"
+                  ? "justify-center"
+                  : align === "right"
+                  ? "justify-end"
+                  : "justify-start"
+              )}
+            >
+              {cta && (
+                <Button
+                  asChild
+                  size="xl"
+                  variant={cta.variant || "default"}
+                  className="shadow-lg shadow-primary/25"
+                >
+                  <a href={cta.href}>
+                    {cta.label}
+                    <ArrowRight className="ml-1 h-5 w-5" />
+                  </a>
+                </Button>
+              )}
+              {secondaryCta && (
+                <Button
+                  asChild
+                  size="xl"
+                  variant={secondaryCta.variant || "outline"}
+                  className={backgroundImage ? "border-white text-white hover:bg-white hover:text-foreground" : ""}
+                >
+                  <a href={secondaryCta.href}>{secondaryCta.label}</a>
+                </Button>
+              )}
+            </div>
+          </ScrollReveal>
         )}
         {children}
       </div>

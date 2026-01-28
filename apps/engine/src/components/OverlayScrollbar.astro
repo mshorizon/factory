@@ -1,0 +1,40 @@
+---
+// OverlayScrollbar - Initializes overlay scrollbars on the document body
+---
+
+<script>
+  import { OverlayScrollbars } from 'overlayscrollbars';
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    OverlayScrollbars(document.body, {
+      scrollbars: {
+        theme: 'os-theme-dark',
+        autoHide: 'scroll',
+        autoHideDelay: 800,
+        clickScroll: true,
+      },
+      overflow: {
+        x: 'hidden',
+      },
+    });
+  });
+
+  // Re-initialize on Astro page transitions (View Transitions)
+  document.addEventListener('astro:page-load', () => {
+    const existingInstance = OverlayScrollbars(document.body);
+    if (!existingInstance) {
+      OverlayScrollbars(document.body, {
+        scrollbars: {
+          theme: 'os-theme-dark',
+          autoHide: 'scroll',
+          autoHideDelay: 800,
+          clickScroll: true,
+        },
+        overflow: {
+          x: 'hidden',
+        },
+      });
+    }
+  });
+</script>

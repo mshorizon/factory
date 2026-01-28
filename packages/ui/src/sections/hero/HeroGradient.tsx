@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Badge } from "../../atoms/Badge";
+import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { HeroProps } from "./types";
 
 export function HeroGradient({
@@ -42,46 +45,54 @@ export function HeroGradient({
 
       <div className="relative container mx-auto px-4 py-16 text-center">
         {badge && (
-          <Badge
-            variant="accent"
-            className="mb-6 text-sm px-4 py-2 backdrop-blur-sm bg-primary/10 border border-primary/20"
-          >
-            {badge}
-          </Badge>
+          <ScrollReveal delay={0} direction="up">
+            <Badge
+              variant="accent"
+              className="mb-6 text-sm px-4 py-2 backdrop-blur-sm bg-primary/10 border border-primary/20"
+            >
+              {badge}
+            </Badge>
+          </ScrollReveal>
         )}
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-foreground max-w-4xl mx-auto">
-          {title}
-        </h1>
+        <ScrollReveal delay={0.1} direction="up">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-foreground max-w-4xl mx-auto">
+            {title}
+          </h1>
+        </ScrollReveal>
         {subtitle && (
-          <p className="text-lg md:text-xl text-muted mb-10 max-w-2xl mx-auto">
-            {subtitle}
-          </p>
+          <ScrollReveal delay={0.2} direction="up">
+            <p className="text-lg md:text-xl text-muted mb-10 max-w-2xl mx-auto">
+              {subtitle}
+            </p>
+          </ScrollReveal>
         )}
         {(cta || secondaryCta) && (
-          <div className="flex flex-wrap gap-4 justify-center">
-            {cta && (
-              <Button
-                asChild
-                size="xl"
-                variant={cta.variant || "default"}
-                className="shadow-lg shadow-primary/25"
-              >
-                <a href={cta.href}>
-                  {cta.label}
-                  <ArrowRight className="ml-1 h-5 w-5" />
-                </a>
-              </Button>
-            )}
-            {secondaryCta && (
-              <Button
-                asChild
-                size="xl"
-                variant={secondaryCta.variant || "outline"}
-              >
-                <a href={secondaryCta.href}>{secondaryCta.label}</a>
-              </Button>
-            )}
-          </div>
+          <ScrollReveal delay={0.3} direction="up">
+            <div className="flex flex-wrap gap-4 justify-center">
+              {cta && (
+                <Button
+                  asChild
+                  size="xl"
+                  variant={cta.variant || "default"}
+                  className="shadow-lg shadow-primary/25"
+                >
+                  <a href={cta.href}>
+                    {cta.label}
+                    <ArrowRight className="ml-1 h-5 w-5" />
+                  </a>
+                </Button>
+              )}
+              {secondaryCta && (
+                <Button
+                  asChild
+                  size="xl"
+                  variant={secondaryCta.variant || "outline"}
+                >
+                  <a href={secondaryCta.href}>{secondaryCta.label}</a>
+                </Button>
+              )}
+            </div>
+          </ScrollReveal>
         )}
         {children}
       </div>
