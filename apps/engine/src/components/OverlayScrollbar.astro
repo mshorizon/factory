@@ -5,36 +5,41 @@
 <script>
   import { OverlayScrollbars } from 'overlayscrollbars';
 
-  // Initialize on page load
-  document.addEventListener('DOMContentLoaded', () => {
-    OverlayScrollbars(document.body, {
-      scrollbars: {
-        theme: 'os-theme-dark',
-        autoHide: 'scroll',
-        autoHideDelay: 800,
-        clickScroll: true,
-      },
-      overflow: {
-        x: 'hidden',
-      },
-    });
-  });
+  const options = {
+    scrollbars: {
+      theme: 'os-theme-dark',
+      autoHide: 'scroll',
+      autoHideDelay: 800,
+      clickScroll: true,
+    },
+    overflow: {
+      x: 'hidden',
+    },
+  };
 
-  // Re-initialize on Astro page transitions (View Transitions)
-  document.addEventListener('astro:page-load', () => {
-    const existingInstance = OverlayScrollbars(document.body);
-    if (!existingInstance) {
-      OverlayScrollbars(document.body, {
-        scrollbars: {
-          theme: 'os-theme-dark',
-          autoHide: 'scroll',
-          autoHideDelay: 800,
-          clickScroll: true,
-        },
-        overflow: {
-          x: 'hidden',
-        },
-      });
+  // Initialize immediately (script runs when parsed)
+  function initScrollbar() {
+    const instance = OverlayScrollbars(document.body);
+    if (!instance) {
+      OverlayScrollbars(document.body, options);
+    }
+  }
+
+  // Initialize as soon as body is available
+  if (document.body) {
+    initScrollbar();
+  } else {
+    document.addEventListener('DOMContentLoaded', initScrollbar);
+  }
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:before-swap', () => {
+    // Destroy existing instance before page swap
+    const instance = OverlayScrollbars(document.body);
+    if (instance) {
+      instance.destroy();
     }
   });
+
+  document.addEventListener('astro:page-load', initScrollbar);
 </script>

@@ -1,0 +1,112 @@
+---
+// ScrollToTopButton - Vanilla JS scroll-to-top button that works with OverlayScrollbars
+// This component creates a button appended to documentElement to stay outside OverlayScrollbars viewport
+---
+
+<script>
+  const threshold = 400;
+  let btn: HTMLButtonElement | null = null;
+
+  function createButton() {
+    // Check if button already exists
+    if (document.getElementById('scroll-to-top-btn')) {
+      btn = document.getElementById('scroll-to-top-btn') as HTMLButtonElement;
+      return;
+    }
+
+    btn = document.createElement('button');
+    btn.id = 'scroll-to-top-btn';
+    btn.setAttribute('aria-label', 'Scroll to top');
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>`;
+
+    // Apply styles directly
+    Object.assign(btn.style, {
+      position: 'fixed',
+      bottom: '24px',
+      right: '24px',
+      zIndex: '99999',
+      padding: '12px',
+      borderRadius: '9999px',
+      backgroundColor: 'var(--primary)',
+      color: 'white',
+      border: 'none',
+      cursor: 'pointer',
+      boxShadow: '0 10px 15px -3px rgba(0,0,0,0.2)',
+      opacity: '0',
+      transform: 'translateY(16px)',
+      transition: 'all 0.3s ease-out',
+      pointerEvents: 'none',
+    });
+
+    btn.addEventListener('click', scrollToTop);
+    btn.addEventListener('mouseenter', () => {
+      if (btn) {
+        btn.style.transform = 'translateY(0) scale(1.1)';
+        btn.style.opacity = '0.9';
+      }
+    });
+    btn.addEventListener('mouseleave', () => {
+      if (btn && btn.style.opacity !== '0') {
+        btn.style.transform = 'translateY(0) scale(1)';
+        btn.style.opacity = '1';
+      }
+    });
+
+    // Append to documentElement (html), outside of body
+    document.documentElement.appendChild(btn);
+  }
+
+  function toggleVisibility() {
+    if (!btn) return;
+
+    // Try OverlayScrollbars viewport first
+    const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
+    const scrollTop = osViewport ? osViewport.scrollTop : (window.scrollY || document.documentElement.scrollTop);
+
+    if (scrollTop > threshold) {
+      btn.style.opacity = '1';
+      btn.style.transform = 'translateY(0)';
+      btn.style.pointerEvents = 'auto';
+    } else {
+      btn.style.opacity = '0';
+      btn.style.transform = 'translateY(16px)';
+      btn.style.pointerEvents = 'none';
+    }
+  }
+
+  function scrollToTop() {
+    const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
+    if (osViewport) {
+      osViewport.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function setupScrollListener() {
+    const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
+
+    if (osViewport) {
+      osViewport.addEventListener('scroll', toggleVisibility, { passive: true });
+    }
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+
+    toggleVisibility();
+  }
+
+  function init() {
+    createButton();
+    // Wait for OverlayScrollbars to initialize
+    setTimeout(setupScrollListener, 150);
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Re-init on Astro page transitions
+  document.addEventListener('astro:page-load', init);
+</script>

@@ -5,9 +5,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Prevent layout shift - use stable scrollbar gutter */
+/* Hide native scrollbar - OverlayScrollbars handles scrolling */
 html {
-  scrollbar-gutter: stable;
+  overflow: hidden;
+}
+
+/* Ensure body is ready for OverlayScrollbars */
+body {
+  overflow: auto;
+}
+
+/* Hide native scrollbar on body until OverlayScrollbars initializes */
+body:not([data-overlayscrollbars]) {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body:not([data-overlayscrollbars])::-webkit-scrollbar {
+  display: none;
 }
 
 /* Custom scrollbar styling for OverlayScrollbars */
