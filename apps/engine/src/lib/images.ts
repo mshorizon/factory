@@ -16,7 +16,8 @@ export function isAbsoluteUrl(url: string): boolean {
 /**
  * Resolve an image path for a specific business
  * - Absolute URLs are returned as-is
- * - Relative paths are prefixed with /data/{businessId}
+ * - Paths starting with /images/ are public folder assets (returned as-is)
+ * - Other relative paths are prefixed with /data/{businessId}
  */
 export function resolveImagePath(imagePath: string | undefined, businessId: string): string | undefined {
   if (!imagePath) return undefined;
@@ -28,6 +29,12 @@ export function resolveImagePath(imagePath: string | undefined, businessId: stri
   // Ensure path starts with /
   const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
 
+  // Paths starting with /images/ are served from public folder
+  if (normalizedPath.startsWith('/images/')) {
+    return normalizedPath;
+  }
+
+  // Other relative paths are in the data folder
   return `/data/${businessId}${normalizedPath}`;
 }
 

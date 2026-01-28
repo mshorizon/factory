@@ -10,3 +10,5 @@ export { Badge, badgeVariants } from "./Badge";
 export type { BadgeProps } from "./Badge";
 export { SectionHeader } from "./SectionHeader";
 export type { SectionHeaderProps } from "./SectionHeader";
+export { ScrollToTop } from "./ScrollToTop";
+export type { ScrollToTopProps } from "./ScrollToTop";

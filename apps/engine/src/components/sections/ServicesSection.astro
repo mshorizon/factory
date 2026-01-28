@@ -22,9 +22,9 @@ const header = getSectionHeader(section);
       align="center"
     />
     {variant === "list" ? (
-      <ServicesList items={items} />
+      <ServicesList client:visible items={items} />
     ) : (
-      <ServicesGrid items={items} />
+      <ServicesGrid client:visible items={items} />
     )}
   </div>
 </section>

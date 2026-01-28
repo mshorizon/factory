@@ -16,6 +16,7 @@ const header = getSectionHeader(section);
   <div class="container mx-auto px-4">
     {variant === "split" ? (
       <ContactSplit
+        client:visible
         title={header.title}
         subtitle={header.subtitle}
         form={section.form}
@@ -24,6 +25,7 @@ const header = getSectionHeader(section);
       />
     ) : (
       <ContactCentered
+        client:visible
         title={header.title}
         subtitle={header.subtitle}
         form={section.form}

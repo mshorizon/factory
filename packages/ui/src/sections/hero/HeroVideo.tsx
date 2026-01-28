@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Badge } from "../../atoms/Badge";
+import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { HeroProps } from "./types";
 
 export function HeroVideo({
@@ -39,46 +42,54 @@ export function HeroVideo({
       {/* Content pinned to bottom */}
       <div className="relative container mx-auto px-4 pb-16 pt-48 md:pb-24 md:pt-64">
         {badge && (
-          <Badge
-            variant="accent"
-            className="mb-4 text-sm px-4 py-2 backdrop-blur-sm bg-background/30 border border-foreground/10"
-          >
-            {badge}
-          </Badge>
+          <ScrollReveal delay={0} direction="up">
+            <Badge
+              variant="accent"
+              className="mb-4 text-sm px-4 py-2 backdrop-blur-sm bg-background/30 border border-foreground/10"
+            >
+              {badge}
+            </Badge>
+          </ScrollReveal>
         )}
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-foreground max-w-3xl">
-          {title}
-        </h1>
+        <ScrollReveal delay={0.1} direction="up">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-foreground max-w-3xl">
+            {title}
+          </h1>
+        </ScrollReveal>
         {subtitle && (
-          <p className="text-lg md:text-xl text-muted mb-8 max-w-2xl">
-            {subtitle}
-          </p>
+          <ScrollReveal delay={0.2} direction="up">
+            <p className="text-lg md:text-xl text-muted mb-8 max-w-2xl">
+              {subtitle}
+            </p>
+          </ScrollReveal>
         )}
         {(cta || secondaryCta) && (
-          <div className="flex flex-wrap gap-4">
-            {cta && (
-              <Button
-                asChild
-                size="xl"
-                variant={cta.variant || "default"}
-                className="shadow-lg shadow-primary/25"
-              >
-                <a href={cta.href}>
-                  {cta.label}
-                  <ArrowRight className="ml-1 h-5 w-5" />
-                </a>
-              </Button>
-            )}
-            {secondaryCta && (
-              <Button
-                asChild
-                size="xl"
-                variant={secondaryCta.variant || "outline"}
-              >
-                <a href={secondaryCta.href}>{secondaryCta.label}</a>
-              </Button>
-            )}
-          </div>
+          <ScrollReveal delay={0.3} direction="up">
+            <div className="flex flex-wrap gap-4">
+              {cta && (
+                <Button
+                  asChild
+                  size="xl"
+                  variant={cta.variant || "default"}
+                  className="shadow-lg shadow-primary/25"
+                >
+                  <a href={cta.href}>
+                    {cta.label}
+                    <ArrowRight className="ml-1 h-5 w-5" />
+                  </a>
+                </Button>
+              )}
+              {secondaryCta && (
+                <Button
+                  asChild
+                  size="xl"
+                  variant={secondaryCta.variant || "outline"}
+                >
+                  <a href={secondaryCta.href}>{secondaryCta.label}</a>
+                </Button>
+              )}
+            </div>
+          </ScrollReveal>
         )}
         {children}
       </div>

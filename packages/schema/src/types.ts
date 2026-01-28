@@ -175,6 +175,7 @@ export interface ThemeColorMode {
 
 // v1.5 Theme with light/dark modes
 export interface ThemeV15 {
+  preset?: "industrial" | "wellness" | "minimal";
   globalVariant?: string;
   mode: "light" | "dark";
   colors: {

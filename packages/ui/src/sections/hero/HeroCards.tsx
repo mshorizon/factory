@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Badge } from "../../atoms/Badge";
+import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { HeroProps } from "./types";
 
 export function HeroCards({
@@ -38,67 +41,71 @@ export function HeroCards({
       <div className="relative container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Main content card */}
-          <div className="relative">
-            {/* Stacked card effect */}
-            <div className="absolute inset-0 bg-background rounded-radius rotate-3 shadow-xl -z-10" />
-            <div className="absolute inset-0 bg-background rounded-radius -rotate-2 shadow-lg -z-20" />
+          <ScrollReveal delay={0} direction="up">
+            <div className="relative">
+              {/* Stacked card effect */}
+              <div className="absolute inset-0 bg-background rounded-radius rotate-3 shadow-xl -z-10" />
+              <div className="absolute inset-0 bg-background rounded-radius -rotate-2 shadow-lg -z-20" />
 
-            <div className="bg-background rounded-radius shadow-2xl p-8 md:p-12">
-              {badge && (
-                <Badge variant="accent" className="mb-4 text-sm px-4 py-1">
-                  {badge}
-                </Badge>
-              )}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground">
-                {title}
-              </h1>
-              {subtitle && (
-                <p className="text-lg md:text-xl text-muted mb-8">
-                  {subtitle}
-                </p>
-              )}
-              {(cta || secondaryCta) && (
-                <div className="flex flex-wrap gap-4">
-                  {cta && (
-                    <Button
-                      asChild
-                      size="xl"
-                      variant={cta.variant || "default"}
-                      className="shadow-lg shadow-primary/25"
-                    >
-                      <a href={cta.href}>
-                        {cta.label}
-                        <ArrowRight className="ml-1 h-5 w-5" />
-                      </a>
-                    </Button>
-                  )}
-                  {secondaryCta && (
-                    <Button
-                      asChild
-                      size="xl"
-                      variant={secondaryCta.variant || "outline"}
-                    >
-                      <a href={secondaryCta.href}>{secondaryCta.label}</a>
-                    </Button>
-                  )}
-                </div>
-              )}
-              {children}
+              <div className="bg-background rounded-radius shadow-2xl p-8 md:p-12">
+                {badge && (
+                  <Badge variant="accent" className="mb-4 text-sm px-4 py-1">
+                    {badge}
+                  </Badge>
+                )}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground">
+                  {title}
+                </h1>
+                {subtitle && (
+                  <p className="text-lg md:text-xl text-muted mb-8">
+                    {subtitle}
+                  </p>
+                )}
+                {(cta || secondaryCta) && (
+                  <div className="flex flex-wrap gap-4">
+                    {cta && (
+                      <Button
+                        asChild
+                        size="xl"
+                        variant={cta.variant || "default"}
+                        className="shadow-lg shadow-primary/25"
+                      >
+                        <a href={cta.href}>
+                          {cta.label}
+                          <ArrowRight className="ml-1 h-5 w-5" />
+                        </a>
+                      </Button>
+                    )}
+                    {secondaryCta && (
+                      <Button
+                        asChild
+                        size="xl"
+                        variant={secondaryCta.variant || "outline"}
+                      >
+                        <a href={secondaryCta.href}>{secondaryCta.label}</a>
+                      </Button>
+                    )}
+                  </div>
+                )}
+                {children}
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Image card (if provided) */}
           {heroImage && (
-            <div className="relative lg:h-[500px] h-[350px]">
-              <div className="absolute inset-4 bg-primary/10 rounded-radius -rotate-6" />
-              <div className="absolute inset-0 rounded-radius overflow-hidden shadow-2xl">
-                <img
-                  src={heroImage}
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
+            <ScrollReveal delay={0.2} direction="right" distance={50}>
+              <div className="relative lg:h-[500px] h-[350px]">
+                <div className="absolute inset-4 bg-primary/10 rounded-radius -rotate-6" />
+                <div className="absolute inset-0 rounded-radius overflow-hidden shadow-2xl">
+                  <img
+                    src={heroImage}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           )}
         </div>
       </div>

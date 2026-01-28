@@ -4,12 +4,16 @@
     "id": "zakletewdrewnie-001",
     "name": "t:business.name",
     "industry": "handmade-crafts",
+    "assets": {
+      "favicon": "/images/zakletewdrewnie/favicon.svg"
+    },
     "contact": {
       "phone": "+48 123 456 789",
       "email": "kontakt@zakletewdrewnie.pl"
     }
   },
   "theme": {
+    "preset": "wellness",
     "mode": "light",
     "colors": {
       "light": {

@@ -4,6 +4,9 @@
     "id": "game-selector-001",
     "name": "t:business.name",
     "industry": "gaming",
+    "assets": {
+      "favicon": "/images/game-selector/favicon.svg"
+    },
     "contact": {
       "email": "hello@gamepick.io"
     },
@@ -13,6 +16,7 @@
     }
   },
   "theme": {
+    "preset": "minimal",
     "mode": "dark",
     "colors": {
       "light": {
