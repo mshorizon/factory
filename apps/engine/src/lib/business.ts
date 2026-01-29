@@ -4,6 +4,8 @@
 import type { BusinessProfile, BusinessProfileV15 } from "@mshorizon/schema";
 import { detectSchemaVersion, adaptV10ToV15 } from "./adapter";
 import { resolveTheme } from "@mshorizon/ui";
+import { readFileSync, readdirSync, existsSync } from "fs";
+import { join } from "path";
 
 // Supported languages
 export const supportedLanguages = ["en", "pl"] as const;
@@ -22,24 +24,32 @@ function getDomainMap(): Record<string, string> {
 const domainMap = getDomainMap();
 const defaultBusiness = import.meta.env.DEFAULT_BUSINESS || "barber";
 
-// Import all business data, themes, and translations
-const businessDataFiles = import.meta.glob("../../../../data/*/*.json", { eager: true });
-const translationFiles = import.meta.glob("../../../../data/*/translations/*.json", { eager: true });
+// Data directory path
+const dataDir = join(process.cwd(), "..", "..", "data");
 
-// Helper to get file content
-function getJsonFile(pattern: string, files: Record<string, any>): any {
-  const key = Object.keys(files).find((k) => k.includes(pattern));
-  return key ? (files[key] as any).default : null;
+// Read JSON file dynamically (no caching - always fresh)
+function readJsonFile(filePath: string): any {
+  try {
+    if (existsSync(filePath)) {
+      const content = readFileSync(filePath, "utf-8");
+      return JSON.parse(content);
+    }
+  } catch (err) {
+    console.error(`Error reading ${filePath}:`, err);
+  }
+  return null;
 }
 
 // Get all available business IDs from data folder
 export function getAvailableBusinessIds(): string[] {
-  const ids = new Set<string>();
-  Object.keys(businessDataFiles).forEach((k) => {
-    const match = k.match(/\/data\/([^/]+)\//);
-    if (match) ids.add(match[1]);
-  });
-  return Array.from(ids);
+  try {
+    const entries = readdirSync(dataDir, { withFileTypes: true });
+    return entries
+      .filter((e) => e.isDirectory())
+      .map((e) => e.name);
+  } catch {
+    return [];
+  }
 }
 
 // Extract business ID from hostname (subdomain-based routing)
@@ -77,20 +87,20 @@ export function isValidBusiness(businessId: string): boolean {
   return getAvailableBusinessIds().includes(businessId);
 }
 
-// Load business data for a specific business ID
+// Load business data for a specific business ID (dynamic - always fresh)
 export function getBusinessData(businessId: string) {
-  return getJsonFile(`/${businessId}/${businessId}.json`, businessDataFiles);
+  return readJsonFile(join(dataDir, businessId, `${businessId}.json`));
 }
 
-// Load theme for a specific business ID
+// Load theme for a specific business ID (dynamic - always fresh)
 export function getTheme(businessId: string) {
-  return getJsonFile(`/${businessId}/theme.json`, businessDataFiles);
+  return readJsonFile(join(dataDir, businessId, "theme.json"));
 }
 
-// Load translations for a specific business and language
+// Load translations for a specific business and language (dynamic - always fresh)
 export function getTranslations(businessId: string, lang: Language = defaultLanguage): Record<string, any> {
   const validLang = supportedLanguages.includes(lang) ? lang : defaultLanguage;
-  return getJsonFile(`/${businessId}/translations/${validLang}.json`, translationFiles) || {};
+  return readJsonFile(join(dataDir, businessId, "translations", `${validLang}.json`)) || {};
 }
 
 // Get language from cookie value
