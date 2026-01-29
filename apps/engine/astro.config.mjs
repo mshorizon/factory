@@ -10,5 +10,13 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
-  integrations: [react(), tailwind()]
+  integrations: [react(), tailwind()],
+  vite: {
+    server: {
+      watch: {
+        // Ignore data folder to prevent HMR on admin saves
+        ignored: ['**/data/**']
+      }
+    }
+  }
 });
