@@ -1,49 +1,31 @@
-Act as a Senior Frontend Architect. Refactor the current business engine to support dynamic routing and multiple layout variants based on the business JSON schema.
+# Task: Build a Schema-Driven Admin Panel for Website Factory
 
-### Objective
-Modify the JSON schema, the Astro engine, and the UI package to allow full control over pages, routing, and section variants.
+## Context
+We are building a website factory using Astro, React, and Turborepo. 
+Current state: 
+- Business data is stored in JSON files (e.g., `data/plumber/plumber.json`).
+- JSONs are validated using AJV based on a strict Schema.
+- Components in `packages/ui` render pages based on this JSON.
 
-### Requirements:
-1.  **JSON Schema Update (AJV):**
-    * Introduce a `pages` array in the business JSON.
-    * Each page object must have: `title`, `slug` (use `index` for home), and a `sections` array.
-    * The order in the `pages` array determines the order in the Navbar.
-    * Add a `variant` key to `navbar`, `footer`, and each `section`.
+## Objective
+Create a prototype of an Admin Panel (`apps/admin`) that allows non-technical users to edit their business JSON without breaking the structure.
 
-2.  **Astro Engine (apps/engine):**
-    * Implement dynamic routing using `[...slug].astro` to handle the pages defined in JSON.
-    * The engine must globally inject the `navbar` and `footer` for every page.
-    * Create a dynamic component dispatcher that renders the correct UI component based on the `type` and `variant` from the JSON.
+## Technical Requirements
+1. **Schema-to-UI**: Use `@rjsf/core` (React JSON Schema Form) to automatically generate the form from the existing AJV schema.
+2. **Dynamic Loading**: The app should be able to fetch a specific business JSON (e.g., `plumber.json`) and populate the form.
+3. **Validation**: Use the same AJV schema for frontend validation to ensure the output JSON is always 100% compliant with our engine.
+4. **Tailwind Styling**: Ensure the form is clean and usable, utilizing Tailwind CSS.
+5. **Output**: On submit, the form should return a cleaned, validated JSON object ready to be saved.
 
-3.  **UI Package (packages/ui):**
-    * Refactor components to provide 2 distinct variants for:
-        * **Navbar:** `VariantA` (logo left, links right) and `VariantB` (centered logo).
-        * **Footer:** `VariantA` (simple copyright) and `VariantB` (multi-column with links).
-        * **Sections:** For all existing sections (Hero, About, etc.), implement `VariantA` and `VariantB` (e.g., Hero with side-by-side image vs. Hero with centered background image).
+## Architecture Guidelines
+- Create a reusable `JsonEditor` component in `packages/ui` or a new package.
+- The editor should handle nested objects (like `theme.colors`) and arrays (like `pages.services.sections[0].items`).
+- For fields like colors, use a color picker widget.
+- For image paths, leave a text input for now, but mark it for future Cloudinary integration.
 
-4.  **Implementation Detail:**
-    * Use Tailwind CSS for styling, respecting the `theme.json` tokens.
-    * Ensure the "Home" page (first in array) is accessible at the root `/` path.
-    * Keep the logic DRY — use a mapping object or a switch statement to resolve variants.
+## Deliverables
+- A working React page in `apps/admin` that loads `plumber.json` schema and data.
+- A submit handler that logs the updated and validated JSON to the console.
+- Setup of RJSF with a Tailwind-friendly theme.
 
-### Example JSON Structure to support:
-{
-  "pages": [
-    {
-      "slug": "index",
-      "title": "Home",
-      "sections": [{ "type": "hero", "variant": "VariantB", "content": { ... } }]
-    },
-    {
-      "slug": "services",
-      "title": "Our Services",
-      "sections": [{ "type": "features", "variant": "VariantA", "content": { ... } }]
-    }
-  ],
-  "layout": {
-    "navbar": { "variant": "VariantA" },
-    "footer": { "variant": "VariantB" }
-  }
-}
-
-Proceed with refactoring the schema files, the Astro routing logic, and the UI components.
+Attached is the current `plumber.json` for structure reference.

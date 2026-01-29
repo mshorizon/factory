@@ -1,47 +1,45 @@
-/* Import OverlayScrollbars styles - must be before @tailwind */
+/* OverlayScrollbars - must be first */
 @import 'overlayscrollbars/overlayscrollbars.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Hide native scrollbar - OverlayScrollbars handles scrolling */
+/* Smooth scrolling */
 html {
-  overflow: hidden;
+  scroll-behavior: smooth;
 }
 
-/* Ensure body is ready for OverlayScrollbars */
-body {
-  overflow: auto;
-}
-
-/* Hide native scrollbar on body until OverlayScrollbars initializes */
-body:not([data-overlayscrollbars]) {
+/* Hide native scrollbar immediately to prevent flash */
+html, body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-
-body:not([data-overlayscrollbars])::-webkit-scrollbar {
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
   display: none;
+  width: 0;
+  height: 0;
 }
 
-/* Custom scrollbar styling for OverlayScrollbars */
+/* Custom scrollbar theme */
 .os-scrollbar {
-  --os-handle-bg: var(--primary);
-  --os-handle-bg-hover: var(--primary);
-  --os-handle-bg-active: var(--primary);
+  --os-handle-bg: var(--primary, #3b82f6);
+  --os-handle-bg-hover: var(--primary, #3b82f6);
+  --os-handle-bg-active: var(--primary, #3b82f6);
   --os-size: 10px;
+  --os-handle-border-radius: 5px;
   --os-padding-perpendicular: 2px;
   --os-padding-axis: 2px;
-  --os-handle-border-radius: 5px;
+  transition: opacity 0.3s ease;
 }
 
 .os-scrollbar-handle {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .os-scrollbar-handle:hover {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 /* Default fallback values - overridden by theme.json */
