@@ -1,112 +1,134 @@
 ---
-// ScrollToTopButton - Vanilla JS scroll-to-top button that works with OverlayScrollbars
-// This component creates a button appended to documentElement to stay outside OverlayScrollbars viewport
+// ScrollToTopButton - Works with OverlayScrollbars by placing button outside viewport
 ---
 
-<script>
-  const threshold = 400;
-  let btn: HTMLButtonElement | null = null;
+<script is:inline>
+(function() {
+  const BUTTON_ID = 'scroll-to-top-btn';
+  const THRESHOLD = 400;
 
   function createButton() {
-    // Check if button already exists
-    if (document.getElementById('scroll-to-top-btn')) {
-      btn = document.getElementById('scroll-to-top-btn') as HTMLButtonElement;
-      return;
-    }
+    // Remove existing button if any
+    const existing = document.getElementById(BUTTON_ID);
+    if (existing) existing.remove();
 
-    btn = document.createElement('button');
-    btn.id = 'scroll-to-top-btn';
+    const btn = document.createElement('button');
+    btn.id = BUTTON_ID;
     btn.setAttribute('aria-label', 'Scroll to top');
-    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>`;
+    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>';
 
-    // Apply styles directly
-    Object.assign(btn.style, {
-      position: 'fixed',
-      bottom: '24px',
-      right: '24px',
-      zIndex: '99999',
-      padding: '12px',
-      borderRadius: '9999px',
-      backgroundColor: 'var(--primary)',
-      color: 'white',
-      border: 'none',
-      cursor: 'pointer',
-      boxShadow: '0 10px 15px -3px rgba(0,0,0,0.2)',
-      opacity: '0',
-      transform: 'translateY(16px)',
-      transition: 'all 0.3s ease-out',
-      pointerEvents: 'none',
-    });
+    btn.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 2147483647;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 9999px;
+      background-color: var(--primary, #3b82f6);
+      color: var(--text-on-primary, #ffffff);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: all 0.3s ease-out;
+      pointer-events: none;
+    `;
 
-    btn.addEventListener('click', scrollToTop);
-    btn.addEventListener('mouseenter', () => {
-      if (btn) {
-        btn.style.transform = 'translateY(0) scale(1.1)';
-        btn.style.opacity = '0.9';
-      }
-    });
-    btn.addEventListener('mouseleave', () => {
-      if (btn && btn.style.opacity !== '0') {
-        btn.style.transform = 'translateY(0) scale(1)';
-        btn.style.opacity = '1';
-      }
-    });
-
-    // Append to documentElement (html), outside of body
+    // Append to html element so it's outside OverlayScrollbars viewport
     document.documentElement.appendChild(btn);
+    return btn;
   }
 
-  function toggleVisibility() {
-    if (!btn) return;
+  function init() {
+    const btn = createButton();
+    let currentViewport = null;
 
-    // Try OverlayScrollbars viewport first
-    const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
-    const scrollTop = osViewport ? osViewport.scrollTop : (window.scrollY || document.documentElement.scrollTop);
-
-    if (scrollTop > threshold) {
+    function show() {
       btn.style.opacity = '1';
       btn.style.transform = 'translateY(0)';
       btn.style.pointerEvents = 'auto';
-    } else {
+    }
+
+    function hide() {
       btn.style.opacity = '0';
       btn.style.transform = 'translateY(16px)';
       btn.style.pointerEvents = 'none';
     }
-  }
 
-  function scrollToTop() {
-    const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
-    if (osViewport) {
-      osViewport.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function getScrollTop() {
+      const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
+      if (osViewport) {
+        return osViewport.scrollTop;
+      }
+      return window.pageYOffset || document.documentElement.scrollTop || 0;
     }
-  }
 
-  function setupScrollListener() {
-    const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
-
-    if (osViewport) {
-      osViewport.addEventListener('scroll', toggleVisibility, { passive: true });
+    function checkScroll() {
+      if (getScrollTop() > THRESHOLD) {
+        show();
+      } else {
+        hide();
+      }
     }
-    window.addEventListener('scroll', toggleVisibility, { passive: true });
 
-    toggleVisibility();
-  }
+    function scrollToTop() {
+      const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
+      if (osViewport) {
+        osViewport.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
 
-  function init() {
-    createButton();
+    btn.addEventListener('click', scrollToTop);
+
+    btn.addEventListener('mouseenter', function() {
+      if (this.style.opacity === '1') {
+        this.style.transform = 'translateY(0) scale(1.1)';
+      }
+    });
+
+    btn.addEventListener('mouseleave', function() {
+      if (this.style.opacity === '1') {
+        this.style.transform = 'translateY(0) scale(1)';
+      }
+    });
+
+    function setupListeners() {
+      // Remove old listener if exists
+      if (currentViewport) {
+        currentViewport.removeEventListener('scroll', checkScroll);
+      }
+
+      const osViewport = document.querySelector('[data-overlayscrollbars-viewport]');
+      if (osViewport) {
+        currentViewport = osViewport;
+        osViewport.addEventListener('scroll', checkScroll, { passive: true });
+      }
+      window.addEventListener('scroll', checkScroll, { passive: true });
+      checkScroll();
+    }
+
     // Wait for OverlayScrollbars to initialize
-    setTimeout(setupScrollListener, 150);
+    setTimeout(setupListeners, 100);
+    setTimeout(setupListeners, 500);
   }
 
-  // Initialize
+  // Initialize when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 
-  // Re-init on Astro page transitions
-  document.addEventListener('astro:page-load', init);
+  // Reinitialize on Astro page transitions
+  document.addEventListener('astro:page-load', function() {
+    setTimeout(init, 150);
+  });
+})();
 </script>
