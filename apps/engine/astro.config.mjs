@@ -11,10 +11,19 @@ export default defineConfig({
     mode: 'standalone'
   }),
   integrations: [react(), tailwind()],
+  
+  // Konfiguracja serwera deweloperskiego
+  server: {
+    host: true,    // Odpowiednik --host, pozwala Traefikowi "zobaczyć" Astro
+    port: parseInt(process.env.PORT || '4321'),
+    allowedHosts: true,
+    hmr: false
+  },
+
   vite: {
     server: {
       watch: {
-        // Ignore data folder to prevent HMR on admin saves
+        // Zostawiamy Twoje ignorowanie folderu data
         ignored: ['**/data/**']
       }
     }

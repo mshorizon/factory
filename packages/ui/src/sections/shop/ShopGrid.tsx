@@ -10,6 +10,8 @@ export function ShopGrid({
   ctaLabel = "Add to Cart",
   currency = "zł",
   outOfStockLabel = "Out of Stock",
+  outOfStockCtaLabel,
+  outOfStockCtaHref,
   onAddToCart,
   className,
 }: ShopGridProps) {
@@ -36,6 +38,8 @@ export function ShopGrid({
               ctaLabel={ctaLabel}
               currency={currency}
               outOfStockLabel={outOfStockLabel}
+              outOfStockCtaLabel={outOfStockCtaLabel}
+              outOfStockCtaHref={outOfStockCtaHref}
               onAddToCart={handleAddToCart}
             />
           ))}

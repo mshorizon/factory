@@ -1,4 +1,4 @@
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, MessageCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "../../atoms/Card";
@@ -10,6 +10,8 @@ export function ProductCard({
   ctaLabel = "Add to Cart",
   currency = "zł",
   outOfStockLabel = "Out of Stock",
+  outOfStockCtaLabel = "Contact Us",
+  outOfStockCtaHref,
   onAddToCart,
   className,
 }: ProductCardProps) {
@@ -70,15 +72,29 @@ export function ProductCard({
         </p>
       </CardContent>
       <CardFooter>
-        <Button
-          onClick={handleAddToCart}
-          disabled={!inStock}
-          className="w-full"
-          size="lg"
-        >
-          <ShoppingCart className="mr-2 h-4 w-4" />
-          {ctaLabel}
-        </Button>
+        {!inStock && outOfStockCtaHref ? (
+          <Button
+            asChild
+            variant="outline"
+            className="w-full"
+            size="lg"
+          >
+            <a href={outOfStockCtaHref}>
+              <MessageCircle className="mr-2 h-4 w-4" />
+              {outOfStockCtaLabel}
+            </a>
+          </Button>
+        ) : (
+          <Button
+            onClick={handleAddToCart}
+            disabled={!inStock}
+            className="w-full"
+            size="lg"
+          >
+            <ShoppingCart className="mr-2 h-4 w-4" />
+            {ctaLabel}
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

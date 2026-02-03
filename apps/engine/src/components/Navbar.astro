@@ -101,7 +101,7 @@ const { logo, links, cta, currentLanguage = "pl", variant = "standard", showCart
       </div>
 
       {/* Mobile Cart & Menu Button */}
-      <div class="md:hidden flex items-center gap-2">
+      <div class="md:hidden flex items-center gap-2 ml-auto">
         {showCart && <CartButton client:load />}
         <button
           id="mobile-menu-btn"

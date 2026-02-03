@@ -70,6 +70,7 @@
   "shop.title": "Our Honey Shop",
   "shop.subtitle": "Premium, locally-sourced honey products delivered to your door",
   "shop.addToCart": "Add to Cart",
+  "shop.contactUs": "Contact Us",
 
   "shop.categories.honey": "Honey",
   "shop.categories.honeycomb": "Honeycomb",
@@ -100,6 +101,9 @@
   "shop.products.pollen.description": "Nutrient-rich bee pollen collected from our hives. A natural superfood.",
   "shop.products.candles.title": "Beeswax Candle Set",
   "shop.products.candles.description": "Hand-poured pure beeswax candles. Natural honey scent, clean burning.",
+  "shop.products.linden.title": "Linden Honey",
+  "shop.products.linden.description": "Aromatic linden honey from our family apiaries. Mild flavor and exceptional aroma.",
+
   "shop.products.manuka.title": "Premium Manuka Honey",
   "shop.products.manuka.description": "Rare, therapeutic-grade Manuka honey. Limited availability.",
 
