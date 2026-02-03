@@ -195,6 +195,8 @@
             "subtitle": "t:shop.subtitle"
           },
           "ctaLabel": "t:shop.addToCart",
+          "outOfStockCtaLabel": "t:shop.contactUs",
+          "outOfStockCtaHref": "/contact",
           "products": [
             {
               "id": "wildflower-honey-500g",
@@ -260,6 +262,20 @@
               "attributes": [
                 { "key": "t:shop.attr.quantity", "value": "3" },
                 { "key": "t:shop.attr.burnTime", "value": "t:shop.attr.burnTimeValue" }
+              ],
+              "inStock": true
+            },
+            {
+              "id": "linden-honey",
+              "title": "t:shop.products.linden.title",
+              "description": "t:shop.products.linden.description",
+              "price": 50,
+              "image": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.honey",
+              "attributes": [
+                { "key": "t:shop.attr.weight", "value": "500g" },
+                { "key": "t:shop.attr.origin", "value": "t:shop.attr.local" },
+                { "key": "t:shop.attr.organic", "value": "t:shop.attr.yes" }
               ],
               "inStock": true
             },

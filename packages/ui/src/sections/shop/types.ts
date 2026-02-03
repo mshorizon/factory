@@ -5,6 +5,8 @@ export interface ProductCardProps {
   ctaLabel?: string;
   currency?: string;
   outOfStockLabel?: string;
+  outOfStockCtaLabel?: string;
+  outOfStockCtaHref?: string;
   onAddToCart?: (product: Product) => void;
   className?: string;
 }
@@ -71,6 +73,8 @@ export interface ShopGridProps {
   ctaLabel?: string;
   currency?: string;
   outOfStockLabel?: string;
+  outOfStockCtaLabel?: string;
+  outOfStockCtaHref?: string;
   onAddToCart?: (product: Product) => void;
   className?: string;
 }

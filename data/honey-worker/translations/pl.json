@@ -70,6 +70,7 @@
   "shop.title": "Nasz Sklep z Miodem",
   "shop.subtitle": "Produkty premium z lokalnych źródeł dostarczane pod Twoje drzwi",
   "shop.addToCart": "Dodaj do koszyka",
+  "shop.contactUs": "Skontaktuj się",
 
   "shop.categories.honey": "Miód",
   "shop.categories.honeycomb": "Plaster Miodu",
@@ -100,6 +101,9 @@
   "shop.products.pollen.description": "Bogaty w składniki odżywcze pyłek pszczeli z naszych uli. Naturalny superfood.",
   "shop.products.candles.title": "Zestaw Świec z Wosku Pszczelego",
   "shop.products.candles.description": "Ręcznie lane świece z czystego wosku pszczelego. Naturalny zapach miodu, czyste spalanie.",
+  "shop.products.linden.title": "Miód Lipowy",
+  "shop.products.linden.description": "Aromatyczny miód lipowy z naszych rodzinnych pasiek. Łagodny smak i wyjątkowy aromat.",
+
   "shop.products.manuka.title": "Miód Manuka Premium",
   "shop.products.manuka.description": "Rzadki, terapeutyczny miód Manuka. Ograniczona dostępność.",
 

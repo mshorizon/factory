@@ -258,6 +258,8 @@ export interface SectionV15 {
   // Shop fields
   products?: Product[];
   ctaLabel?: string;
+  outOfStockCtaLabel?: string;
+  outOfStockCtaHref?: string;
 }
 
 // v1.5 Page Definition

@@ -41,21 +41,6 @@ export function NavbarCentered({
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Mobile Menu Button - Left */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </Button>
-
           {/* Desktop Left Links */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1 justify-end">
             {leftLinks.map((link, index) => {
@@ -131,14 +116,28 @@ export function NavbarCentered({
             )}
           </div>
 
-          {/* Mobile CTA - Right */}
-          {cta && (
-            <Button asChild size="sm" className="md:hidden shadow-lg shadow-primary/25">
-              <a href={getCTAHref(cta, resolveTarget)}>
-                {cta.label}
-              </a>
+          {/* Mobile Cart, CTA & Menu Button - Right */}
+          <div className="md:hidden flex items-center gap-2 ml-auto">
+            {cta && (
+              <Button asChild size="sm" className="shadow-lg shadow-primary/25">
+                <a href={getCTAHref(cta, resolveTarget)}>
+                  {cta.label}
+                </a>
+              </Button>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
-          )}
+          </div>
         </div>
 
         {/* Mobile Menu */}
