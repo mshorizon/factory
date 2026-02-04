@@ -23,6 +23,7 @@ function getDomainMap(): Record<string, string> {
 
 const domainMap = getDomainMap();
 const defaultBusiness = import.meta.env.DEFAULT_BUSINESS || "barber";
+const baseDomain = import.meta.env.BASE_DOMAIN || "";
 
 // Data directory path
 const dataDir = join(process.cwd(), "..", "..", "data");
@@ -68,7 +69,19 @@ export function getBusinessIdFromHost(hostname: string): string {
     return domainMap[withoutWww];
   }
 
-  // Subdomain matching (e.g., barber.my-domain.com -> barber)
+  // Subdomain matching via BASE_DOMAIN (e.g., barber.hazelgrouse.pl or barber.dev.hazelgrouse.pl)
+  if (baseDomain) {
+    const suffix = `.${baseDomain}`;
+    if (host.endsWith(suffix)) {
+      const subdomain = host.slice(0, -suffix.length);
+      const availableBusinesses = getAvailableBusinessIds();
+      if (subdomain && availableBusinesses.includes(subdomain)) {
+        return subdomain;
+      }
+    }
+  }
+
+  // Fallback: first subdomain part (e.g., barber.my-domain.com -> barber)
   const parts = host.split(".");
   if (parts.length >= 2) {
     const subdomain = parts[0];
