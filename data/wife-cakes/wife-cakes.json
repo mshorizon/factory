@@ -1,0 +1,500 @@
+{
+  "schemaVersion": "1.5",
+  "business": {
+    "id": "wife-cakes-001",
+    "name": "t:business.name",
+    "industry": "bakery",
+    "contact": {
+      "phone": "+48 600 300 400",
+      "email": "hello@wifecakes.pl"
+    }
+  },
+  "theme": {
+    "preset": "wellness",
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#E8A0BF",
+        "surface": {
+          "base": "#FFF8F0",
+          "alt": "#3E2723"
+        },
+        "text": {
+          "main": "#2C1810",
+          "muted": "#8D6E63",
+          "onPrimary": "#FFFFFF"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'Playfair Display', Georgia, serif",
+      "secondary": "'Lato', system-ui, sans-serif"
+    },
+    "ui": {
+      "radius": "0.5rem"
+    }
+  },
+  "layout": {
+    "navbar": {
+      "variant": "standard"
+    },
+    "footer": {
+      "variant": "minimal",
+      "copyright": "t:footer.copyright",
+      "tagline": "t:footer.tagline",
+      "links": [
+        {
+          "label": "t:nav.home",
+          "target": { "type": "page", "value": "home" }
+        },
+        {
+          "label": "t:nav.cakes",
+          "target": { "type": "page", "value": "cakes" }
+        },
+        {
+          "label": "t:nav.about",
+          "target": { "type": "page", "value": "about" }
+        },
+        {
+          "label": "t:nav.contact",
+          "target": { "type": "page", "value": "contact" }
+        }
+      ]
+    }
+  },
+  "navigation": {
+    "links": [
+      {
+        "label": "t:nav.home",
+        "target": { "type": "page", "value": "home" }
+      },
+      {
+        "label": "t:nav.cakes",
+        "target": { "type": "page", "value": "cakes" }
+      },
+      {
+        "label": "t:nav.about",
+        "target": { "type": "page", "value": "about" }
+      },
+      {
+        "label": "t:nav.contact",
+        "target": { "type": "page", "value": "contact" }
+      }
+    ],
+    "cta": {
+      "label": "t:nav.cta",
+      "target": { "type": "page", "value": "cakes" }
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "t:pages.home.title",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "split",
+          "header": {
+            "badge": "t:hero.badge",
+            "title": "t:hero.title",
+            "subtitle": "t:hero.subtitle"
+          },
+          "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&h=600&fit=crop",
+          "cta": {
+            "label": "t:hero.cta",
+            "target": { "type": "page", "value": "cakes" }
+          },
+          "secondaryCta": {
+            "label": "t:hero.secondaryCta",
+            "target": { "type": "page", "value": "about" }
+          }
+        },
+        {
+          "type": "categories",
+          "variant": "featured",
+          "header": {
+            "title": "t:categories.title",
+            "subtitle": "t:categories.subtitle"
+          },
+          "items": [
+            {
+              "title": "t:categories.items.birthday.title",
+              "description": "t:categories.items.birthday.description",
+              "image": "https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?w=400&h=300&fit=crop"
+            },
+            {
+              "title": "t:categories.items.occasion.title",
+              "description": "t:categories.items.occasion.description",
+              "image": "https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=400&h=300&fit=crop"
+            },
+            {
+              "title": "t:categories.items.cupcakes.title",
+              "description": "t:categories.items.cupcakes.description",
+              "image": "https://images.unsplash.com/photo-1587668178277-295251f900ce?w=400&h=300&fit=crop"
+            }
+          ]
+        }
+      ]
+    },
+    "cakes": {
+      "title": "t:pages.cakes.title",
+      "sections": [
+        {
+          "type": "shop",
+          "variant": "grid",
+          "header": {
+            "badge": "t:shop.badge",
+            "title": "t:shop.title",
+            "subtitle": "t:shop.subtitle"
+          },
+          "ctaLabel": "t:shop.addToCart",
+          "products": [
+            {
+              "id": "classic-birthday-cake",
+              "title": "t:shop.products.classic_birthday.title",
+              "description": "t:shop.products.classic_birthday.description",
+              "price": 180.00,
+              "image": "https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.birthday",
+              "inStock": true,
+              "customizations": [
+                {
+                  "id": "size",
+                  "label": "t:shop.customizations.size.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "small", "label": "t:shop.customizations.size.small" },
+                    { "value": "medium", "label": "t:shop.customizations.size.medium", "priceModifier": 40 },
+                    { "value": "large", "label": "t:shop.customizations.size.large", "priceModifier": 80 }
+                  ]
+                },
+                {
+                  "id": "cream",
+                  "label": "t:shop.customizations.cream.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "vanilla", "label": "t:shop.customizations.cream.vanilla" },
+                    { "value": "chocolate", "label": "t:shop.customizations.cream.chocolate" },
+                    { "value": "strawberry", "label": "t:shop.customizations.cream.strawberry" }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "label": "t:shop.customizations.color.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "white", "label": "t:shop.customizations.color.white" },
+                    { "value": "pink", "label": "t:shop.customizations.color.pink" },
+                    { "value": "blue", "label": "t:shop.customizations.color.blue" },
+                    { "value": "custom", "label": "t:shop.customizations.color.custom", "priceModifier": 30 }
+                  ]
+                },
+                {
+                  "id": "decorations",
+                  "label": "t:shop.customizations.decorations.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "sprinkles", "label": "t:shop.customizations.decorations.sprinkles" },
+                    { "value": "fondant-flowers", "label": "t:shop.customizations.decorations.fondant_flowers", "priceModifier": 25 },
+                    { "value": "custom-topper", "label": "t:shop.customizations.decorations.custom_topper", "priceModifier": 40 }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "chocolate-dream-cake",
+              "title": "t:shop.products.chocolate_dream.title",
+              "description": "t:shop.products.chocolate_dream.description",
+              "price": 200.00,
+              "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.birthday",
+              "inStock": true,
+              "customizations": [
+                {
+                  "id": "size",
+                  "label": "t:shop.customizations.size.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "small", "label": "t:shop.customizations.size.small" },
+                    { "value": "medium", "label": "t:shop.customizations.size.medium", "priceModifier": 40 },
+                    { "value": "large", "label": "t:shop.customizations.size.large", "priceModifier": 80 }
+                  ]
+                },
+                {
+                  "id": "cream",
+                  "label": "t:shop.customizations.cream.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "dark-chocolate", "label": "t:shop.customizations.cream.dark_chocolate" },
+                    { "value": "milk-chocolate", "label": "t:shop.customizations.cream.milk_chocolate" },
+                    { "value": "hazelnut", "label": "t:shop.customizations.cream.hazelnut" }
+                  ]
+                },
+                {
+                  "id": "decorations",
+                  "label": "t:shop.customizations.decorations.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "sprinkles", "label": "t:shop.customizations.decorations.sprinkles" },
+                    { "value": "fondant-flowers", "label": "t:shop.customizations.decorations.fondant_flowers", "priceModifier": 25 },
+                    { "value": "custom-topper", "label": "t:shop.customizations.decorations.custom_topper", "priceModifier": 40 }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "wedding-mini-cake",
+              "title": "t:shop.products.wedding_mini.title",
+              "description": "t:shop.products.wedding_mini.description",
+              "price": 350.00,
+              "image": "https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.occasion",
+              "inStock": true,
+              "customizations": [
+                {
+                  "id": "size",
+                  "label": "t:shop.customizations.size.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "2-tier", "label": "t:shop.customizations.size.two_tier" },
+                    { "value": "3-tier", "label": "t:shop.customizations.size.three_tier", "priceModifier": 200 }
+                  ]
+                },
+                {
+                  "id": "cream",
+                  "label": "t:shop.customizations.cream.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "vanilla", "label": "t:shop.customizations.cream.vanilla" },
+                    { "value": "chocolate", "label": "t:shop.customizations.cream.chocolate" },
+                    { "value": "strawberry", "label": "t:shop.customizations.cream.strawberry" }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "label": "t:shop.customizations.color.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "white", "label": "t:shop.customizations.color.white" },
+                    { "value": "pink", "label": "t:shop.customizations.color.pink" },
+                    { "value": "blue", "label": "t:shop.customizations.color.blue" },
+                    { "value": "custom", "label": "t:shop.customizations.color.custom", "priceModifier": 30 }
+                  ]
+                },
+                {
+                  "id": "decorations",
+                  "label": "t:shop.customizations.decorations.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "fresh-flowers", "label": "t:shop.customizations.decorations.fresh_flowers" },
+                    { "value": "sugar-flowers", "label": "t:shop.customizations.decorations.sugar_flowers", "priceModifier": 80 },
+                    { "value": "gold-leaf", "label": "t:shop.customizations.decorations.gold_leaf", "priceModifier": 60 }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baby-shower-cake",
+              "title": "t:shop.products.baby_shower.title",
+              "description": "t:shop.products.baby_shower.description",
+              "price": 220.00,
+              "image": "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.occasion",
+              "inStock": true,
+              "customizations": [
+                {
+                  "id": "size",
+                  "label": "t:shop.customizations.size.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "small", "label": "t:shop.customizations.size.small" },
+                    { "value": "medium", "label": "t:shop.customizations.size.medium", "priceModifier": 40 },
+                    { "value": "large", "label": "t:shop.customizations.size.large", "priceModifier": 80 }
+                  ]
+                },
+                {
+                  "id": "cream",
+                  "label": "t:shop.customizations.cream.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "vanilla", "label": "t:shop.customizations.cream.vanilla" },
+                    { "value": "chocolate", "label": "t:shop.customizations.cream.chocolate" },
+                    { "value": "strawberry", "label": "t:shop.customizations.cream.strawberry" }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "label": "t:shop.customizations.color.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "pink", "label": "t:shop.customizations.color.pink" },
+                    { "value": "blue", "label": "t:shop.customizations.color.blue" },
+                    { "value": "green", "label": "t:shop.customizations.color.green" },
+                    { "value": "yellow", "label": "t:shop.customizations.color.yellow" }
+                  ]
+                },
+                {
+                  "id": "decorations",
+                  "label": "t:shop.customizations.decorations.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "sprinkles", "label": "t:shop.customizations.decorations.sprinkles" },
+                    { "value": "fondant-flowers", "label": "t:shop.customizations.decorations.fondant_flowers", "priceModifier": 25 },
+                    { "value": "custom-topper", "label": "t:shop.customizations.decorations.custom_topper", "priceModifier": 40 }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cupcake-box",
+              "title": "t:shop.products.cupcake_box.title",
+              "description": "t:shop.products.cupcake_box.description",
+              "price": 90.00,
+              "image": "https://images.unsplash.com/photo-1587668178277-295251f900ce?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.cupcakes",
+              "inStock": true,
+              "customizations": [
+                {
+                  "id": "flavor",
+                  "label": "t:shop.customizations.flavor.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "vanilla", "label": "t:shop.customizations.flavor.vanilla" },
+                    { "value": "chocolate", "label": "t:shop.customizations.flavor.chocolate" },
+                    { "value": "red-velvet", "label": "t:shop.customizations.flavor.red_velvet" }
+                  ]
+                },
+                {
+                  "id": "topping",
+                  "label": "t:shop.customizations.topping.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "buttercream", "label": "t:shop.customizations.topping.buttercream" },
+                    { "value": "cream-cheese", "label": "t:shop.customizations.topping.cream_cheese" },
+                    { "value": "fondant", "label": "t:shop.customizations.topping.fondant", "priceModifier": 10 }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cake-pops",
+              "title": "t:shop.products.cake_pops.title",
+              "description": "t:shop.products.cake_pops.description",
+              "price": 75.00,
+              "image": "https://images.unsplash.com/photo-1551404973-761c83cd8339?w=400&h=400&fit=crop",
+              "category": "t:shop.categories.cupcakes",
+              "inStock": true,
+              "customizations": [
+                {
+                  "id": "flavor",
+                  "label": "t:shop.customizations.flavor.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "chocolate", "label": "t:shop.customizations.flavor.chocolate" },
+                    { "value": "vanilla", "label": "t:shop.customizations.flavor.vanilla" }
+                  ]
+                },
+                {
+                  "id": "coating",
+                  "label": "t:shop.customizations.coating.label",
+                  "type": "select",
+                  "required": true,
+                  "options": [
+                    { "value": "milk-chocolate", "label": "t:shop.customizations.coating.milk_chocolate" },
+                    { "value": "white-chocolate", "label": "t:shop.customizations.coating.white_chocolate" },
+                    { "value": "colorful-glaze", "label": "t:shop.customizations.coating.colorful_glaze", "priceModifier": 5 }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "about": {
+      "title": "t:pages.about.title",
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "title": "t:about.title",
+            "subtitle": "t:about.subtitle"
+          },
+          "image": "https://images.unsplash.com/photo-1486427944544-d2c246c4df14?w=800&h=500&fit=crop",
+          "story": {
+            "title": "t:about.story.title",
+            "content": "t:about.story.content"
+          },
+          "stats": [
+            {
+              "value": "500+",
+              "label": "t:about.stats.cakes"
+            },
+            {
+              "value": "50+",
+              "label": "t:about.stats.flavors"
+            },
+            {
+              "value": "8",
+              "label": "t:about.stats.experience"
+            }
+          ],
+          "commitment": {
+            "title": "t:about.commitment.title",
+            "content": "t:about.commitment.content"
+          }
+        }
+      ]
+    },
+    "contact": {
+      "title": "t:pages.contact.title",
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
+          },
+          "labels": {
+            "getInTouchTitle": "t:contact.labels.getInTouchTitle",
+            "getInTouchSubtitle": "t:contact.labels.getInTouchSubtitle",
+            "addressLabel": "t:contact.labels.addressLabel",
+            "phoneLabel": "t:contact.labels.phoneLabel",
+            "emailLabel": "t:contact.labels.emailLabel",
+            "hoursLabel": "t:contact.labels.hoursLabel"
+          },
+          "info": {
+            "phone": "+48 600 300 400",
+            "email": "hello@wifecakes.pl",
+            "hours": "t:contact.hours"
+          },
+          "form": {
+            "namePlaceholder": "t:contact.form.name",
+            "emailPlaceholder": "t:contact.form.email",
+            "messagePlaceholder": "t:contact.form.message",
+            "submitButton": "t:contact.form.submit"
+          }
+        }
+      ]
+    }
+  }
+}

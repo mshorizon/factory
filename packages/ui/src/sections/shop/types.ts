@@ -1,4 +1,4 @@
-import type { Product, ProductAttribute, SectionHeader } from "@mshorizon/schema";
+import type { Product, ProductAttribute, ProductCustomization, ProductCustomizationOption, SectionHeader } from "@mshorizon/schema";
 
 export interface ProductCardProps {
   product: Product;
@@ -7,7 +7,7 @@ export interface ProductCardProps {
   outOfStockLabel?: string;
   outOfStockCtaLabel?: string;
   outOfStockCtaHref?: string;
-  onAddToCart?: (product: Product) => void;
+  onAddToCart?: (product: Product, customizations?: Record<string, string>) => void;
   className?: string;
 }
 
@@ -28,6 +28,7 @@ export interface CartPageContentProps {
   quantityLabel?: string;
   subtotalLabel?: string;
   orderSummaryLabel?: string;
+  editLabel?: string;
   currency?: string;
   className?: string;
 }
@@ -75,8 +76,8 @@ export interface ShopGridProps {
   outOfStockLabel?: string;
   outOfStockCtaLabel?: string;
   outOfStockCtaHref?: string;
-  onAddToCart?: (product: Product) => void;
+  onAddToCart?: (product: Product, customizations?: Record<string, string>) => void;
   className?: string;
 }
 
-export type { Product, ProductAttribute };
+export type { Product, ProductAttribute, ProductCustomization, ProductCustomizationOption };
