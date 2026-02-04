@@ -18,6 +18,7 @@ export interface AboutStoryProps {
   story?: StoryContent;
   stats?: StatItem[];
   commitment?: StoryContent;
+  image?: string;
   cta?: string;
   ctaHref?: string;
   whyChooseUs?: string;

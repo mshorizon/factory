@@ -11,6 +11,7 @@ export function AboutStory({
   story,
   stats,
   commitment,
+  image,
   cta,
   ctaHref = "/contact",
   whyChooseUs,
@@ -18,6 +19,18 @@ export function AboutStory({
 }: AboutStoryProps) {
   return (
     <div className={cn("space-y-12", className)}>
+      {image && (
+        <ScrollReveal delay={0} direction="up">
+          <div className="flex justify-center">
+            <img
+              src={image}
+              alt=""
+              className="w-full max-w-2xl h-[400px] object-cover rounded-radius shadow-lg"
+            />
+          </div>
+        </ScrollReveal>
+      )}
+
       {story && (
         <ScrollReveal delay={0} direction="up">
           <section>
