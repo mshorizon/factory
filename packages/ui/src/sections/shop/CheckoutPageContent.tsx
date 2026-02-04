@@ -170,7 +170,7 @@ export function CheckoutPageContent({
               <div className="space-y-3">
                 {items.map((item) => (
                   <div
-                    key={item.productId}
+                    key={item.cartKey}
                     className="flex gap-3"
                   >
                     {item.image && (
@@ -186,6 +186,13 @@ export function CheckoutPageContent({
                       <p className="text-sm font-medium text-foreground truncate">
                         {item.title}
                       </p>
+                      {item.customizationLabels && (
+                        <p className="text-xs text-foreground/60">
+                          {Object.entries(item.customizationLabels)
+                            .map(([key, val]) => `${key}: ${val}`)
+                            .join(" · ")}
+                        </p>
+                      )}
                       <p className="text-sm text-foreground/70">
                         {item.quantity} x {item.price.toFixed(2)} {currency}
                       </p>

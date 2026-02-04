@@ -316,6 +316,22 @@ export interface ProductAttribute {
   value: string;
 }
 
+// Product customization option (e.g. "small", "medium", "large")
+export interface ProductCustomizationOption {
+  value: string;
+  label: string;
+  priceModifier?: number;
+}
+
+// Product customization group (e.g. "size", "cream", "color")
+export interface ProductCustomization {
+  id: string;
+  label: string;
+  type: "select";
+  required?: boolean;
+  options: ProductCustomizationOption[];
+}
+
 // Product item
 export interface Product {
   id: string;
@@ -326,23 +342,29 @@ export interface Product {
   category?: string;
   attributes?: ProductAttribute[];
   inStock?: boolean;
+  customizations?: ProductCustomization[];
 }
 
 // Cart item (product snapshot with quantity)
 export interface CartItem {
   productId: string;
+  cartKey: string;
   title: string;
   price: number;
   image?: string;
   quantity: number;
+  customizations?: Record<string, string>;
+  customizationLabels?: Record<string, string>;
+  productCustomizations?: ProductCustomization[];
 }
 
 // Cart store state
 export interface CartStore {
   items: CartItem[];
-  addItem: (product: Product) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  addItem: (product: Product, customizations?: Record<string, string>) => void;
+  removeItem: (cartKey: string) => void;
+  updateQuantity: (cartKey: string, quantity: number) => void;
+  updateItemCustomizations: (oldCartKey: string, product: Product, newCustomizations: Record<string, string>) => void;
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
