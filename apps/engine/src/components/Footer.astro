@@ -32,7 +32,7 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
 ---
 
 {variant === "minimal" && (
-  <footer class="bg-background border-t border-border">
+  <footer class="bg-background border-t border-border shrink-0">
     <div class="container mx-auto px-4 py-6">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-sm text-muted">{copyrightText}</p>
@@ -51,7 +51,7 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
 )}
 
 {variant === "centered" && (
-  <footer class="bg-secondary text-white">
+  <footer class="bg-secondary text-white shrink-0">
     <div class="container mx-auto px-4 py-16">
       <div class="flex flex-col items-center text-center">
         <span class="font-bold text-3xl tracking-tight mb-4">{businessName}</span>
@@ -73,7 +73,7 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
 )}
 
 {variant === "branded" && (
-  <footer class="bg-secondary text-white relative overflow-hidden">
+  <footer class="bg-secondary text-white relative overflow-hidden shrink-0">
     <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-primary"></div>
     <div class="container mx-auto px-4 py-16">
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-12">
@@ -118,7 +118,7 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
 )}
 
 {variant === "stacked" && (
-  <footer class="bg-background">
+  <footer class="bg-background shrink-0">
     <div class="border-t border-border">
       <div class="container mx-auto px-4 py-12">
         <div class="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -171,7 +171,7 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
 )}
 
 {variant === "multiColumn" && (
-  <footer class="bg-secondary text-white">
+  <footer class="bg-secondary text-white shrink-0">
     <div class="container mx-auto px-4 py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
         <div class="lg:col-span-1">
@@ -210,7 +210,7 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
 )}
 
 {variant === "simple" && (
-  <footer class="bg-secondary text-white">
+  <footer class="bg-secondary text-white shrink-0">
     <div class="container mx-auto px-4 py-12">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="flex flex-col items-center md:items-start gap-2">
