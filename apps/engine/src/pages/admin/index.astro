@@ -2,31 +2,16 @@
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import AdminForm from "../../components/admin/AdminForm";
 import { businessSchemaV15 } from "@mshorizon/schema";
-import { readFileSync, existsSync } from "fs";
-import { join } from "path";
+import { getSiteBySubdomain } from "@mshorizon/db";
 
 const { businessId, businessData, t: translations } = Astro.locals;
 
-// Read JSON files dynamically (always fresh, no cache)
-const dataDir = join(process.cwd(), "..", "..", "data", businessId);
-
-function readJson(filePath: string): any {
-  try {
-    if (existsSync(filePath)) {
-      return JSON.parse(readFileSync(filePath, "utf-8"));
-    }
-  } catch (err) {
-    console.error(`Error reading ${filePath}:`, err);
-  }
-  return {};
-}
-
-// Get the raw JSON data for editing
-const rawBusinessData = readJson(join(dataDir, `${businessId}.json`)) || businessData;
-
-// Get translations
-const enTranslations = readJson(join(dataDir, "translations", "en.json"));
-const plTranslations = readJson(join(dataDir, "translations", "pl.json"));
+// Get fresh data from database for admin editing
+const site = await getSiteBySubdomain(businessId);
+const rawBusinessData = site ? site.config : businessData;
+const allTranslations = (site?.translations || {}) as Record<string, Record<string, unknown>>;
+const enTranslations = allTranslations.en || {};
+const plTranslations = allTranslations.pl || {};
 
 // Get translated business name for display
 const businessName = businessData.business.name.startsWith("t:")
