@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import { upsertSiteConfig } from "@mshorizon/db";
 import { clearDraft } from "../../../lib/draft-store";
 
 export const POST: APIRoute = async ({ request }) => {
@@ -22,16 +21,10 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Construct the file path
-    // In dev, we're in apps/engine, data is at ../../data
-    // In prod, this path may need adjustment based on deployment
-    const dataDir = join(process.cwd(), "..", "..", "data", businessId);
-    const filePath = join(dataDir, `${businessId}.json`);
+    // Save to database
+    await upsertSiteConfig(businessId, data);
 
-    // Write the file with pretty formatting
-    await writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
-
-    // Clear the in-memory draft since data is now persisted to disk
+    // Clear the in-memory draft since data is now persisted
     clearDraft(businessId);
 
     return new Response(

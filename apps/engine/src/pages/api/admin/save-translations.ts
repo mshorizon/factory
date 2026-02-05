@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import { updateSiteTranslations } from "@mshorizon/db";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -13,19 +12,8 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    const dataDir = join(process.cwd(), "..", "..", "data", businessId, "translations");
-
-    // Save EN translations
-    if (translations.en) {
-      const enPath = join(dataDir, "en.json");
-      await writeFile(enPath, JSON.stringify(translations.en, null, 2), "utf-8");
-    }
-
-    // Save PL translations
-    if (translations.pl) {
-      const plPath = join(dataDir, "pl.json");
-      await writeFile(plPath, JSON.stringify(translations.pl, null, 2), "utf-8");
-    }
+    // Save to database (merges with existing translations)
+    await updateSiteTranslations(businessId, translations);
 
     return new Response(
       JSON.stringify({ success: true, message: "Translations saved successfully" }),

@@ -6,25 +6,29 @@ import {
   isValidBusiness,
 } from "./lib/business";
 import { getDraft } from "./lib/draft-store";
+import { initDb } from "@mshorizon/db";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { request, locals } = context;
   const url = new URL(request.url);
+
+  // Bridge Astro's import.meta.env into the DB package (Vite doesn't expose .env to process.env)
+  initDb(import.meta.env.DATABASE_URL);
 
   // Check if this is a preview request from the admin iframe
   const isPreview = url.searchParams.get("_preview") === "1";
 
   // Resolve businessId the same way getBusinessContext does
   const queryBusiness = url.searchParams.get("business");
-  const businessId = (queryBusiness && isValidBusiness(queryBusiness))
+  const businessId = (queryBusiness && (await isValidBusiness(queryBusiness)))
     ? queryBusiness
-    : getBusinessIdFromHost(url.hostname);
+    : await getBusinessIdFromHost(url.hostname);
 
   // If preview mode, check for an in-memory draft
   const draft = isPreview ? getDraft(businessId) : undefined;
 
-  // Get business context (handles v1.0 to v1.5 normalization)
-  const ctx = getBusinessContext(request, draft);
+  // Get business context (all data from DB)
+  const ctx = await getBusinessContext(request, draft);
 
   // Store in locals for access in pages
   locals.businessId = ctx.businessId;
@@ -32,7 +36,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   locals.businessData = ctx.businessData;
   locals.theme = ctx.theme;
   locals.t = ctx.t;
-  locals.availableBusinesses = getAvailableBusinessIds();
+  locals.availableBusinesses = await getAvailableBusinessIds();
 
   return next();
 });

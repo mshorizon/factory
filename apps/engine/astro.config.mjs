@@ -26,6 +26,9 @@ export default defineConfig({
         // Zostawiamy Twoje ignorowanie folderu data
         ignored: ['**/data/**']
       }
+    },
+    ssr: {
+      external: ['@mshorizon/db', 'postgres', 'drizzle-orm']
     }
   }
 });
