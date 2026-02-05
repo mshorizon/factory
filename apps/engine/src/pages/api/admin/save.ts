@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { writeFile } from "fs/promises";
 import { join } from "path";
+import { clearDraft } from "../../../lib/draft-store";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -29,6 +30,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Write the file with pretty formatting
     await writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
+
+    // Clear the in-memory draft since data is now persisted to disk
+    clearDraft(businessId);
 
     return new Response(
       JSON.stringify({ success: true, message: "Saved successfully" }),

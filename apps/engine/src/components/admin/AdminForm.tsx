@@ -106,7 +106,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
   const pages = formData.pages as Record<string, unknown> | undefined;
   const pageNames = pages ? Object.keys(pages) : [];
 
-  // Debounced auto-save for live preview
+  // Track whether there are unsaved changes
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  // Debounced draft update for live preview (no disk write)
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialMount = useRef(true);
 
@@ -117,41 +120,37 @@ export default function AdminForm({ businessId, initialData, schema, translation
       return;
     }
 
+    setHasUnsavedChanges(true);
+
     // Clear previous timer
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
-    // Debounce save and refresh
+    // Debounce draft update and refresh preview
     debounceRef.current = setTimeout(async () => {
       setSaveStatus("saving");
       try {
-        // Save business data
-        const res = await fetch("/api/admin/save", {
+        const res = await fetch("/api/admin/draft", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ businessId, data: formData }),
+          body: JSON.stringify({
+            businessId,
+            data: formData,
+            translations: translationsData,
+          }),
         });
-        if (!res.ok) throw new Error("Save failed");
+        if (!res.ok) throw new Error("Draft update failed");
 
-        // Save translations
-        await fetch("/api/admin/save-translations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ businessId, translations: translationsData }),
-        });
+        setSaveStatus("idle");
 
-        setSaveStatus("success");
-
-        // Refresh preview
+        // Refresh preview iframe
         if (typeof (window as any).refreshPreview === "function") {
           (window as any).refreshPreview();
         }
-
-        setTimeout(() => setSaveStatus("idle"), 1500);
       } catch (err) {
         setSaveStatus("error");
-        setErrorMessage("Auto-save failed");
+        setErrorMessage("Preview update failed");
       }
     }, 800);
 
@@ -208,6 +207,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
         throw new Error(error.message || "Failed to save translations");
       }
 
+      setHasUnsavedChanges(false);
       setSaveStatus("success");
       setTimeout(() => setSaveStatus("idle"), 3000);
 
@@ -757,7 +757,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
             {saveStatus === "saving" && (
               <>
                 <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                <span className="text-xs text-blue-600">Saving...</span>
+                <span className="text-xs text-blue-600">Updating preview...</span>
               </>
             )}
             {saveStatus === "success" && (
@@ -772,10 +772,16 @@ export default function AdminForm({ businessId, initialData, schema, translation
                 <span className="text-xs text-red-500">{errorMessage}</span>
               </>
             )}
-            {saveStatus === "idle" && (
+            {saveStatus === "idle" && hasUnsavedChanges && (
+              <>
+                <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+                <span className="text-xs text-amber-600">Unsaved changes</span>
+              </>
+            )}
+            {saveStatus === "idle" && !hasUnsavedChanges && (
               <>
                 <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <span className="text-xs text-gray-400">Auto-save on</span>
+                <span className="text-xs text-gray-400">Draft preview</span>
               </>
             )}
           </div>
