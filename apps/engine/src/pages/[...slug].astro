@@ -77,7 +77,6 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
     logo={business.business.name}
     links={navLinks}
     cta={navCta}
-    currentLanguage={currentLang}
     variant={layout.navbar.variant as "standard" | "centered"}
     showCart={hasShopSection}
   />
@@ -90,6 +89,7 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
     columns={footerColumns}
     copyright={layout.footer.copyright}
     tagline={layout.footer.tagline}
+    currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
   />
 </BaseLayout>

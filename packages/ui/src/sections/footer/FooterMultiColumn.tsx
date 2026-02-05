@@ -1,5 +1,6 @@
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
+import { LanguageSwitcher } from "../../atoms/LanguageSwitcher";
 import type { FooterProps, FooterLinkCompat } from "./types";
 import { getFooterLinkHref } from "./types";
 
@@ -10,6 +11,8 @@ export function FooterMultiColumn({
   copyright,
   tagline,
   columns,
+  currentLanguage,
+  availableLanguages,
   className,
   resolveTarget,
 }: FooterProps) {
@@ -98,23 +101,32 @@ export function FooterMultiColumn({
           <p className="text-sm text-white/60">
             {copyright || `© ${year} ${businessName}. All rights reserved.`}
           </p>
-          {/* Legal Links */}
-          {links && links.length > 0 && columns && columns.length > 0 && (
-            <nav className="flex gap-4">
-              {links.map((link, index) => {
-                const href = getFooterLinkHref(link, resolveTarget);
-                return (
-                  <a
-                    key={`legal-${link.label}-${index}`}
-                    href={href}
-                    className="text-white/60 hover:text-white text-sm transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                );
-              })}
-            </nav>
-          )}
+          <div className="flex items-center gap-6">
+            {currentLanguage && (
+              <LanguageSwitcher
+                currentLanguage={currentLanguage}
+                availableLanguages={availableLanguages}
+                tone="light"
+              />
+            )}
+            {/* Legal Links */}
+            {links && links.length > 0 && columns && columns.length > 0 && (
+              <nav className="flex gap-4">
+                {links.map((link, index) => {
+                  const href = getFooterLinkHref(link, resolveTarget);
+                  return (
+                    <a
+                      key={`legal-${link.label}-${index}`}
+                      href={href}
+                      className="text-white/60 hover:text-white text-sm transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })}
+              </nav>
+            )}
+          </div>
         </div>
       </div>
     </footer>
