@@ -1,5 +1,6 @@
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
+import { LanguageSwitcher } from "../../atoms/LanguageSwitcher";
 import type { FooterProps, FooterLinkCompat } from "./types";
 import { getFooterLinkHref } from "./types";
 
@@ -10,6 +11,8 @@ export function FooterStacked({
   copyright,
   tagline,
   columns,
+  currentLanguage,
+  availableLanguages,
   className,
   resolveTarget,
 }: FooterProps) {
@@ -93,22 +96,31 @@ export function FooterStacked({
             <p className="text-sm text-muted">
               {copyright || `© ${year} ${businessName}. All rights reserved.`}
             </p>
-            {links && links.length > 0 && (
-              <nav className="flex gap-6">
-                {links.map((link, index) => {
-                  const href = getFooterLinkHref(link, resolveTarget);
-                  return (
-                    <a
-                      key={`legal-${link.label}-${index}`}
-                      href={href}
-                      className="text-muted hover:text-foreground text-sm transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  );
-                })}
-              </nav>
-            )}
+            <div className="flex items-center gap-6">
+              {currentLanguage && (
+                <LanguageSwitcher
+                  currentLanguage={currentLanguage}
+                  availableLanguages={availableLanguages}
+                  tone="dark"
+                />
+              )}
+              {links && links.length > 0 && (
+                <nav className="flex gap-6">
+                  {links.map((link, index) => {
+                    const href = getFooterLinkHref(link, resolveTarget);
+                    return (
+                      <a
+                        key={`legal-${link.label}-${index}`}
+                        href={href}
+                        className="text-muted hover:text-foreground text-sm transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    );
+                  })}
+                </nav>
+              )}
+            </div>
           </div>
         </div>
       </div>

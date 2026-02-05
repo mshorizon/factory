@@ -1,5 +1,6 @@
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
+import { LanguageSwitcher } from "../../atoms/LanguageSwitcher";
 import type { FooterProps } from "./types";
 import { getFooterLinkHref } from "./types";
 
@@ -8,6 +9,8 @@ export function FooterSimple({
   links,
   socialLinks,
   copyright,
+  currentLanguage,
+  availableLanguages,
   className,
   resolveTarget,
 }: FooterProps) {
@@ -63,10 +66,17 @@ export function FooterSimple({
         </div>
 
         {/* Divider & Copyright */}
-        <div className="mt-8 pt-8 border-t border-white/10 text-center">
+        <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-white/60">
             {copyright || `© ${year} ${businessName}. All rights reserved.`}
           </p>
+          {currentLanguage && (
+            <LanguageSwitcher
+              currentLanguage={currentLanguage}
+              availableLanguages={availableLanguages}
+              tone="light"
+            />
+          )}
         </div>
       </div>
     </footer>

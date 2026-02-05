@@ -1,5 +1,6 @@
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
+import { LanguageSwitcher } from "../../atoms/LanguageSwitcher";
 import type { FooterProps } from "./types";
 import { getFooterLinkHref } from "./types";
 
@@ -9,6 +10,8 @@ export function FooterCentered({
   socialLinks,
   copyright,
   tagline,
+  currentLanguage,
+  availableLanguages,
   className,
   resolveTarget,
 }: FooterProps) {
@@ -71,6 +74,17 @@ export function FooterCentered({
 
           {/* Divider */}
           <div className="w-24 h-px bg-white/20 mb-8" />
+
+          {/* Language Switcher */}
+          {currentLanguage && (
+            <div className="mb-4">
+              <LanguageSwitcher
+                currentLanguage={currentLanguage}
+                availableLanguages={availableLanguages}
+                tone="light"
+              />
+            </div>
+          )}
 
           {/* Copyright */}
           <p className="text-sm text-white/60">

@@ -15,12 +15,11 @@ interface Props {
   logo: string;
   links: NavLink[];
   cta?: CTA;
-  currentLanguage?: string;
   variant?: "standard" | "centered";
   showCart?: boolean;
 }
 
-const { logo, links, cta, currentLanguage = "pl", variant = "standard", showCart = false } = Astro.props;
+const { logo, links, cta, variant = "standard", showCart = false } = Astro.props;
 ---
 
 <nav class="sticky top-0 z-50 bg-background/95 backdrop-blur-md shadow-sm border-b border-border transition-all duration-300">
@@ -55,39 +54,12 @@ const { logo, links, cta, currentLanguage = "pl", variant = "standard", showCart
         ))}
       </div>
 
-      {/* Cart, Language Switcher & CTA */}
+      {/* Cart & CTA */}
       <div class:list={[
         "hidden md:flex items-center gap-4",
         variant === "centered" && "absolute right-4 lg:right-8"
       ]}>
-        {/* Cart Button */}
         {showCart && <CartButton client:load />}
-
-        {/* Language Switcher */}
-        <div class="flex items-center border border-border rounded-radius overflow-hidden">
-          <button
-            data-lang="pl"
-            class:list={[
-              "lang-btn px-3 py-1.5 text-xs font-semibold transition-colors",
-              currentLanguage === "pl"
-                ? "bg-primary text-white"
-                : "bg-background text-foreground hover:bg-primary/10"
-            ]}
-          >
-            PL
-          </button>
-          <button
-            data-lang="en"
-            class:list={[
-              "lang-btn px-3 py-1.5 text-xs font-semibold transition-colors",
-              currentLanguage === "en"
-                ? "bg-primary text-white"
-                : "bg-background text-foreground hover:bg-primary/10"
-            ]}
-          >
-            EN
-          </button>
-        </div>
 
         {cta && (
           <a
@@ -126,32 +98,6 @@ const { logo, links, cta, currentLanguage = "pl", variant = "standard", showCart
           </a>
         ))}
 
-        {/* Mobile Language Switcher */}
-        <div class="flex gap-2 mt-4 pt-4 border-t border-border">
-          <button
-            data-lang="pl"
-            class:list={[
-              "lang-btn flex-1 text-center px-4 py-2 text-sm font-semibold rounded-radius transition-colors",
-              currentLanguage === "pl"
-                ? "bg-primary text-white"
-                : "border border-border text-foreground hover:bg-primary/10"
-            ]}
-          >
-            Polski
-          </button>
-          <button
-            data-lang="en"
-            class:list={[
-              "lang-btn flex-1 text-center px-4 py-2 text-sm font-semibold rounded-radius transition-colors",
-              currentLanguage === "en"
-                ? "bg-primary text-white"
-                : "border border-border text-foreground hover:bg-primary/10"
-            ]}
-          >
-            English
-          </button>
-        </div>
-
         {cta && (
           <a
             href={cta.href}
@@ -177,17 +123,5 @@ const { logo, links, cta, currentLanguage = "pl", variant = "standard", showCart
     menu?.classList.toggle('hidden');
     menuIcon?.classList.toggle('hidden');
     closeIcon?.classList.toggle('hidden');
-  });
-
-  // Language switcher
-  document.querySelectorAll('.lang-btn').forEach((button) => {
-    button.addEventListener('click', () => {
-      const lang = (button as HTMLElement).dataset.lang;
-      if (lang) {
-        document.cookie = `lang=${lang};path=/;max-age=31536000;SameSite=Lax`;
-        // Reload without query parameters
-        window.location.href = window.location.pathname;
-      }
-    });
   });
 </script>

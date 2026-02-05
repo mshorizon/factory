@@ -1,4 +1,5 @@
 import type { Target, NavLinkV15, FooterColumnV15 } from "@mshorizon/schema";
+import type { LanguageOption } from "../../lib/languages";
 
 // Legacy v1.0 FooterLink (for backwards compatibility)
 export interface FooterLink {
@@ -54,6 +55,8 @@ export interface FooterProps {
   columns?: FooterColumnCompat[];
   variant?: "simple" | "multiColumn";
   className?: string;
+  currentLanguage?: string;
+  availableLanguages?: LanguageOption[];
   // v1.5: Optional target resolver function
   resolveTarget?: (target: Target) => string;
 }

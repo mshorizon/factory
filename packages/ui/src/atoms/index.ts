@@ -12,3 +12,4 @@ export { SectionHeader } from "./SectionHeader";
 export type { SectionHeaderProps } from "./SectionHeader";
 export { ScrollToTop } from "./ScrollToTop";
 export type { ScrollToTopProps } from "./ScrollToTop";
+export { LanguageSwitcher } from "./LanguageSwitcher";

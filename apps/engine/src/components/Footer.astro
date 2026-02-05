@@ -15,6 +15,7 @@ interface Props {
   columns?: FooterColumn[];
   copyright?: string;
   tagline?: string;
+  currentLanguage?: string;
   variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked";
 }
 
@@ -24,11 +25,20 @@ const {
   columns = [],
   copyright,
   tagline,
+  currentLanguage,
   variant = "simple"
 } = Astro.props;
 
 const year = new Date().getFullYear();
 const copyrightText = copyright || `© ${year} ${businessName}. All rights reserved.`;
+
+const languages = [
+  { code: "pl", label: "Polski" },
+  { code: "en", label: "English" },
+];
+
+// Dark-bg variants use light tone, light-bg variants use dark tone
+const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant);
 ---
 
 {variant === "minimal" && (
@@ -36,15 +46,28 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
     <div class="container mx-auto px-4 py-6">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-sm text-muted">{copyrightText}</p>
-        {links.length > 0 && (
-          <nav class="flex flex-wrap items-center gap-4">
-            {links.map((link) => (
-              <a href={link.href} class="text-sm text-muted hover:text-foreground transition-colors">
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        )}
+        <div class="flex flex-wrap items-center gap-4">
+          {currentLanguage && (
+            <div class="lang-switcher flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-foreground/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              {languages.map((lang, i) => (
+                <>
+                  {i > 0 && <span class="text-[10px] select-none text-foreground/20">/</span>}
+                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-foreground font-medium" : "text-foreground/40 hover:text-foreground/70"]}>{lang.label}</button>
+                </>
+              ))}
+            </div>
+          )}
+          {links.length > 0 && (
+            <nav class="flex flex-wrap items-center gap-4">
+              {links.map((link) => (
+                <a href={link.href} class="text-sm text-muted hover:text-foreground transition-colors">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          )}
+        </div>
       </div>
     </div>
   </footer>
@@ -66,6 +89,17 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
           </nav>
         )}
         <div class="w-24 h-px bg-white/20 mb-8"></div>
+        {currentLanguage && (
+          <div class="lang-switcher flex items-center gap-1.5 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-white/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            {languages.map((lang, i) => (
+              <>
+                {i > 0 && <span class="text-[10px] select-none text-white/20">/</span>}
+                <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-white font-medium" : "text-white/40 hover:text-white/70"]}>{lang.label}</button>
+              </>
+            ))}
+          </div>
+        )}
         <p class="text-sm text-white/60">{copyrightText}</p>
       </div>
     </div>
@@ -103,15 +137,28 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
       )}
       <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
         <p class="text-sm text-white/60">{copyrightText}</p>
-        {links.length > 0 && (
-          <nav class="flex gap-6">
-            {links.map((link) => (
-              <a href={link.href} class="text-white/60 hover:text-white text-sm transition-colors">
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        )}
+        <div class="flex items-center gap-6">
+          {currentLanguage && (
+            <div class="lang-switcher flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-white/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              {languages.map((lang, i) => (
+                <>
+                  {i > 0 && <span class="text-[10px] select-none text-white/20">/</span>}
+                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-white font-medium" : "text-white/40 hover:text-white/70"]}>{lang.label}</button>
+                </>
+              ))}
+            </div>
+          )}
+          {links.length > 0 && (
+            <nav class="flex gap-6">
+              {links.map((link) => (
+                <a href={link.href} class="text-white/60 hover:text-white text-sm transition-colors">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          )}
+        </div>
       </div>
     </div>
   </footer>
@@ -155,15 +202,28 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
       <div class="container mx-auto px-4 py-6">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p class="text-sm text-muted">{copyrightText}</p>
-          {links.length > 0 && (
-            <nav class="flex gap-6">
-              {links.map((link) => (
-                <a href={link.href} class="text-muted hover:text-foreground text-sm transition-colors">
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-          )}
+          <div class="flex items-center gap-6">
+            {currentLanguage && (
+              <div class="lang-switcher flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-foreground/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                {languages.map((lang, i) => (
+                  <>
+                    {i > 0 && <span class="text-[10px] select-none text-foreground/20">/</span>}
+                    <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-foreground font-medium" : "text-foreground/40 hover:text-foreground/70"]}>{lang.label}</button>
+                  </>
+                ))}
+              </div>
+            )}
+            {links.length > 0 && (
+              <nav class="flex gap-6">
+                {links.map((link) => (
+                  <a href={link.href} class="text-muted hover:text-foreground text-sm transition-colors">
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -195,15 +255,28 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
       </div>
       <div class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
         <p class="text-sm text-white/60">{copyrightText}</p>
-        {links.length > 0 && (
-          <nav class="flex gap-4">
-            {links.map((link) => (
-              <a href={link.href} class="text-white/60 hover:text-white text-sm transition-colors">
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        )}
+        <div class="flex items-center gap-6">
+          {currentLanguage && (
+            <div class="lang-switcher flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-white/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              {languages.map((lang, i) => (
+                <>
+                  {i > 0 && <span class="text-[10px] select-none text-white/20">/</span>}
+                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-white font-medium" : "text-white/40 hover:text-white/70"]}>{lang.label}</button>
+                </>
+              ))}
+            </div>
+          )}
+          {links.length > 0 && (
+            <nav class="flex gap-4">
+              {links.map((link) => (
+                <a href={link.href} class="text-white/60 hover:text-white text-sm transition-colors">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          )}
+        </div>
       </div>
     </div>
   </footer>
@@ -226,9 +299,32 @@ const copyrightText = copyright || `© ${year} ${businessName}. All rights reser
           </nav>
         )}
       </div>
-      <div class="mt-8 pt-8 border-t border-white/10 text-center">
+      <div class="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-sm text-white/60">{copyrightText}</p>
+        {currentLanguage && (
+          <div class="lang-switcher flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-white/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            {languages.map((lang, i) => (
+              <>
+                {i > 0 && <span class="text-[10px] select-none text-white/20">/</span>}
+                <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-white font-medium" : "text-white/40 hover:text-white/70"]}>{lang.label}</button>
+              </>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   </footer>
 )}
+
+<script>
+  document.querySelectorAll('.lang-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      const lang = (button as HTMLElement).dataset.lang;
+      if (lang) {
+        document.cookie = `lang=${lang};path=/;max-age=31536000;SameSite=Lax`;
+        window.location.href = window.location.pathname;
+      }
+    });
+  });
+</script>
