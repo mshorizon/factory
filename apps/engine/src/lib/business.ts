@@ -6,6 +6,7 @@ import { detectSchemaVersion, adaptV10ToV15 } from "./adapter";
 import { resolveTheme } from "@mshorizon/ui";
 import { readFileSync, readdirSync, existsSync } from "fs";
 import { join } from "path";
+import type { DraftData } from "./draft-store";
 
 // Supported languages
 export const supportedLanguages = ["en", "pl"] as const;
@@ -127,7 +128,7 @@ export function getLanguageFromCookie(cookieHeader: string | null): Language {
 }
 
 // Helper to get all business context from request
-export function getBusinessContext(request: Request) {
+export function getBusinessContext(request: Request, draftOverride?: DraftData) {
   const url = new URL(request.url);
 
   // Allow query param override for testing (e.g., ?business=zakletewdrewnie)
@@ -138,8 +139,10 @@ export function getBusinessContext(request: Request) {
 
   const currentLang = getLanguageFromCookie(request.headers.get("cookie"));
 
-  const rawBusinessData = getBusinessData(businessId);
-  const rawTheme = getTheme(businessId);
+  const rawBusinessData = draftOverride
+    ? draftOverride.businessData
+    : getBusinessData(businessId);
+  const rawTheme = draftOverride ? null : getTheme(businessId);
 
   // Detect schema version and normalize to v1.5
   const version = detectSchemaVersion(rawBusinessData);
@@ -154,6 +157,10 @@ export function getBusinessContext(request: Request) {
     normalizedData.theme
   );
 
+  const translations = draftOverride
+    ? (draftOverride.translations[currentLang] || {})
+    : getTranslations(businessId, currentLang);
+
   return {
     businessId,
     currentLang,
@@ -161,6 +168,6 @@ export function getBusinessContext(request: Request) {
     // Keep raw data for backwards compatibility during migration
     rawBusinessData,
     theme: resolvedTheme,
-    t: getTranslations(businessId, currentLang),
+    t: translations,
   };
 }

@@ -343,7 +343,7 @@ const { businessId, theme } = Astro.locals;
             ↻ Refresh
           </button>
         </div>
-        <iframe id="preview-iframe" src="/" class="preview-iframe"></iframe>
+        <iframe id="preview-iframe" src="/?_preview=1" class="preview-iframe"></iframe>
       </div>
     </div>
 
@@ -353,7 +353,10 @@ const { businessId, theme } = Astro.locals;
         var iframe = document.getElementById('preview-iframe');
         if (iframe) {
           setTimeout(function() {
-            iframe.src = iframe.src;
+            // Preserve the _preview=1 param on refresh
+            var url = new URL(iframe.src, window.location.origin);
+            url.searchParams.set('_preview', '1');
+            iframe.src = url.toString();
           }, 300);
         }
       };
@@ -362,16 +365,14 @@ const { businessId, theme } = Astro.locals;
       window.navigatePreview = function(page) {
         var iframe = document.getElementById('preview-iframe');
         if (iframe) {
-          iframe.src = page === 'home' ? '/' : '/' + page;
+          var path = page === 'home' ? '/' : '/' + page;
+          iframe.src = path + '?_preview=1';
         }
       };
 
       // Refresh button click
       document.getElementById('refresh-preview').addEventListener('click', function() {
-        var iframe = document.getElementById('preview-iframe');
-        if (iframe) {
-          iframe.src = iframe.src;
-        }
+        window.refreshPreview();
       });
     </script>
   </body>
