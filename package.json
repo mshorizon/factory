@@ -15,6 +15,10 @@
   "license": "ISC",
   "packageManager": "pnpm@10.28.0",
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.984.0",
+    "drizzle-orm": "^0.38.4",
+    "postgres": "^3.4.8",
+    "tsx": "^4.21.0",
     "turbo": "^2.7.5"
   }
 }

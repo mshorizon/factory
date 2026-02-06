@@ -4,6 +4,7 @@ import rjsfValidator from "@rjsf/validator-ajv8";
 import type { RJSFSchema } from "@rjsf/utils";
 import { ColorPickerWidget } from "./widgets/ColorPickerWidget";
 import { ImageUrlWidget } from "./widgets/ImageUrlWidget";
+import { ImageUploadField } from "./widgets/ImageUploadField";
 
 // Handle CJS/ESM interop
 const Form = (rjsfCore as any).default || rjsfCore;
@@ -366,6 +367,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
             formData={{ schemaVersion: formData.schemaVersion, business: formData.business }}
             validator={validator}
             widgets={configWidgets}
+            formContext={{ businessId }}
             onChange={(data: any) => {
               if (data.formData) {
                 setFormData((prev) => ({
@@ -391,6 +393,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
             formData={getNestedValue(formData, ["theme"])}
             validator={validator}
             widgets={configWidgets}
+            formContext={{ businessId }}
             onChange={(data: any) => handleChange(["theme"], data)}
             liveValidate={false}
           ><></></Form>
@@ -407,6 +410,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
             formData={getNestedValue(formData, ["layout", "navbar"])}
             validator={validator}
             widgets={configWidgets}
+            formContext={{ businessId }}
             onChange={(data: any) => handleChange(["layout", "navbar"], data)}
             liveValidate={false}
           ><></></Form>
@@ -423,6 +427,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
             formData={getNestedValue(formData, ["layout", "footer"])}
             validator={validator}
             widgets={configWidgets}
+            formContext={{ businessId }}
             onChange={(data: any) => handleChange(["layout", "footer"], data)}
             liveValidate={false}
           ><></></Form>
@@ -538,6 +543,67 @@ export default function AdminForm({ businessId, initialData, schema, translation
                         handleChange(["pages", pageName, "sections"], { formData: newSections });
                       }}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    />
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Subtitle</label>
+                    <input
+                      type="text"
+                      value={section.header?.subtitle || ""}
+                      onChange={(e) => {
+                        const newSections = [...pageData.sections];
+                        newSections[index] = {
+                          ...section,
+                          header: { ...section.header, subtitle: e.target.value },
+                        };
+                        handleChange(["pages", pageName, "sections"], { formData: newSections });
+                      }}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    />
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Badge</label>
+                    <input
+                      type="text"
+                      value={section.header?.badge || ""}
+                      onChange={(e) => {
+                        const newSections = [...pageData.sections];
+                        newSections[index] = {
+                          ...section,
+                          header: { ...section.header, badge: e.target.value },
+                        };
+                        handleChange(["pages", pageName, "sections"], { formData: newSections });
+                      }}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    />
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Image</label>
+                    <ImageUploadField
+                      value={section.image || ""}
+                      businessId={businessId}
+                      onChange={(url) => {
+                        const newSections = [...pageData.sections];
+                        newSections[index] = { ...section, image: url };
+                        handleChange(["pages", pageName, "sections"], { formData: newSections });
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Background</label>
+                    <ImageUploadField
+                      value={section.backgroundImage || ""}
+                      businessId={businessId}
+                      placeholder="Background image URL"
+                      onChange={(url) => {
+                        const newSections = [...pageData.sections];
+                        newSections[index] = { ...section, backgroundImage: url };
+                        handleChange(["pages", pageName, "sections"], { formData: newSections });
+                      }}
                     />
                   </div>
 
