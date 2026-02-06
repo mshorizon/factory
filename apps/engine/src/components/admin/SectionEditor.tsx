@@ -38,6 +38,7 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
 
 interface SectionEditorProps {
   section: any;
+  savedSection?: any;
   index: number;
   pageName: string;
   businessId: string;
@@ -56,72 +57,97 @@ function useFieldUpdater(section: any, onUpdate: (s: any) => void) {
   };
 }
 
+// --- Revert button icon ---
+function RevertButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title="Revert to saved"
+      className="p-1 text-amber-500 hover:text-red-500 transition-colors flex-shrink-0"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="1 4 1 10 7 10" />
+        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+      </svg>
+    </button>
+  );
+}
+
 // --- Shared field components ---
 
-function TextField({ label, value, onChange, placeholder }: {
-  label: string; value: string; onChange: (v: string) => void; placeholder?: string;
+function TextField({ label, value, savedValue, onChange, placeholder }: {
+  label: string; value: string; savedValue?: string; onChange: (v: string) => void; placeholder?: string;
 }) {
+  const changed = savedValue !== undefined && value !== savedValue;
   return (
-    <div className="flex gap-4 items-start">
-      <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">{label}</label>
+    <div className="flex gap-4 items-center">
+      <label className="w-24 flex-shrink-0 text-sm text-gray-600">{label}</label>
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+        className={`flex-1 px-3 py-2 border rounded-md text-sm ${changed ? "border-amber-400 bg-amber-50" : "border-gray-300"}`}
       />
+      {changed && <RevertButton onClick={() => onChange(savedValue)} />}
     </div>
   );
 }
 
-function ImageField({ label, value, onChange, businessId, placeholder }: {
-  label: string; value: string; onChange: (v: string) => void; businessId: string; placeholder?: string;
+function ImageField({ label, value, savedValue, onChange, businessId, placeholder }: {
+  label: string; value: string; savedValue?: string; onChange: (v: string) => void; businessId: string; placeholder?: string;
 }) {
+  const changed = savedValue !== undefined && value !== savedValue;
   return (
     <div className="flex gap-4 items-start">
       <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">{label}</label>
       <ImageUploadField value={value} onChange={onChange} businessId={businessId} placeholder={placeholder} />
+      {changed && <div className="pt-2"><RevertButton onClick={() => onChange(savedValue)} /></div>}
     </div>
   );
 }
 
 // --- Header fields (shared by all section types) ---
 
-function HeaderFields({ section, updater }: { section: any; updater: ReturnType<typeof useFieldUpdater> }) {
+function HeaderFields({ section, savedSection, updater }: { section: any; savedSection?: any; updater: ReturnType<typeof useFieldUpdater> }) {
   return (
     <>
-      <TextField label="Badge" value={section.header?.badge || ""} onChange={(v) => updater.setHeader("badge", v)} />
-      <TextField label="Title" value={section.header?.title || ""} onChange={(v) => updater.setHeader("title", v)} />
-      <TextField label="Subtitle" value={section.header?.subtitle || ""} onChange={(v) => updater.setHeader("subtitle", v)} />
+      <TextField label="Badge" value={section.header?.badge || ""} savedValue={savedSection?.header?.badge || ""} onChange={(v) => updater.setHeader("badge", v)} />
+      <TextField label="Title" value={section.header?.title || ""} savedValue={savedSection?.header?.title || ""} onChange={(v) => updater.setHeader("title", v)} />
+      <TextField label="Subtitle" value={section.header?.subtitle || ""} savedValue={savedSection?.header?.subtitle || ""} onChange={(v) => updater.setHeader("subtitle", v)} />
     </>
   );
 }
 
 // --- CTA fields ---
 
-function CtaFields({ section, onUpdate }: { section: any; onUpdate: (s: any) => void }) {
+function CtaFields({ section, savedSection, onUpdate }: { section: any; savedSection?: any; onUpdate: (s: any) => void }) {
   return (
     <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
       <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Call to Action</span>
       <TextField
         label="CTA Label"
         value={section.cta?.label || ""}
+        savedValue={savedSection?.cta?.label || ""}
         onChange={(v) => onUpdate({ ...section, cta: { ...section.cta, label: v } })}
       />
       <TextField
         label="CTA Target"
         value={section.cta?.target || ""}
+        savedValue={savedSection?.cta?.target || ""}
         onChange={(v) => onUpdate({ ...section, cta: { ...section.cta, target: v } })}
       />
       <TextField
         label="CTA 2 Label"
         value={section.secondaryCta?.label || ""}
+        savedValue={savedSection?.secondaryCta?.label || ""}
         onChange={(v) => onUpdate({ ...section, secondaryCta: { ...section.secondaryCta, label: v } })}
       />
       <TextField
         label="CTA 2 Target"
         value={section.secondaryCta?.target || ""}
+        savedValue={savedSection?.secondaryCta?.target || ""}
         onChange={(v) => onUpdate({ ...section, secondaryCta: { ...section.secondaryCta, target: v } })}
       />
     </div>
@@ -182,23 +208,23 @@ function ItemsEditor({ section, onUpdate, businessId, fields }: {
 
 // --- Type-specific field renderers ---
 
-function HeroFields({ section, onUpdate, businessId }: { section: any; onUpdate: (s: any) => void; businessId: string }) {
+function HeroFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
   const updater = useFieldUpdater(section, onUpdate);
   return (
     <>
-      <HeaderFields section={section} updater={updater} />
-      <ImageField label="Image" value={section.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
-      <ImageField label="Background" value={section.backgroundImage || ""} onChange={(v) => updater.set("backgroundImage", v)} businessId={businessId} placeholder="Background image URL" />
-      <CtaFields section={section} onUpdate={onUpdate} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
+      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
+      <ImageField label="Background" value={section.backgroundImage || ""} savedValue={savedSection?.backgroundImage || ""} onChange={(v) => updater.set("backgroundImage", v)} businessId={businessId} placeholder="Background image URL" />
+      <CtaFields section={section} savedSection={savedSection} onUpdate={onUpdate} />
     </>
   );
 }
 
-function ServicesFields({ section, onUpdate, businessId }: { section: any; onUpdate: (s: any) => void; businessId: string }) {
+function ServicesFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
   const updater = useFieldUpdater(section, onUpdate);
   return (
     <>
-      <HeaderFields section={section} updater={updater} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
       <ItemsEditor section={section} onUpdate={onUpdate} businessId={businessId} fields={[
         { key: "title", label: "Title", type: "text" },
         { key: "description", label: "Description", type: "text" },
@@ -209,11 +235,11 @@ function ServicesFields({ section, onUpdate, businessId }: { section: any; onUpd
   );
 }
 
-function CategoriesFields({ section, onUpdate, businessId }: { section: any; onUpdate: (s: any) => void; businessId: string }) {
+function CategoriesFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
   const updater = useFieldUpdater(section, onUpdate);
   return (
     <>
-      <HeaderFields section={section} updater={updater} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
       <ItemsEditor section={section} onUpdate={onUpdate} businessId={businessId} fields={[
         { key: "title", label: "Title", type: "text" },
         { key: "description", label: "Description", type: "text" },
@@ -225,23 +251,23 @@ function CategoriesFields({ section, onUpdate, businessId }: { section: any; onU
   );
 }
 
-function AboutFields({ section, onUpdate, businessId }: { section: any; onUpdate: (s: any) => void; businessId: string }) {
+function AboutFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
   const updater = useFieldUpdater(section, onUpdate);
   const variant = section.variant || "story";
 
   return (
     <>
-      <HeaderFields section={section} updater={updater} />
-      <ImageField label="Image" value={section.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
+      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
 
       {variant === "story" && (
         <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Story</span>
-          <TextField label="Title" value={section.story?.title || ""} onChange={(v) => updater.setNested("story", "title", v)} />
-          <TextField label="Content" value={section.story?.content || ""} onChange={(v) => updater.setNested("story", "content", v)} />
+          <TextField label="Title" value={section.story?.title || ""} savedValue={savedSection?.story?.title || ""} onChange={(v) => updater.setNested("story", "title", v)} />
+          <TextField label="Content" value={section.story?.content || ""} savedValue={savedSection?.story?.content || ""} onChange={(v) => updater.setNested("story", "content", v)} />
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block pt-2">Commitment</span>
-          <TextField label="Title" value={section.commitment?.title || ""} onChange={(v) => updater.setNested("commitment", "title", v)} />
-          <TextField label="Content" value={section.commitment?.content || ""} onChange={(v) => updater.setNested("commitment", "content", v)} />
+          <TextField label="Title" value={section.commitment?.title || ""} savedValue={savedSection?.commitment?.title || ""} onChange={(v) => updater.setNested("commitment", "title", v)} />
+          <TextField label="Content" value={section.commitment?.content || ""} savedValue={savedSection?.commitment?.content || ""} onChange={(v) => updater.setNested("commitment", "content", v)} />
         </div>
       )}
 
@@ -262,35 +288,35 @@ function AboutFields({ section, onUpdate, businessId }: { section: any; onUpdate
   );
 }
 
-function ContactFields({ section, onUpdate }: { section: any; onUpdate: (s: any) => void; businessId: string }) {
+function ContactFields({ section, savedSection, onUpdate }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
   const updater = useFieldUpdater(section, onUpdate);
 
   return (
     <>
-      <HeaderFields section={section} updater={updater} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
 
       <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
         <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Form</span>
-        <TextField label="Name Label" value={section.form?.nameLabel || ""} onChange={(v) => updater.setNested("form", "nameLabel", v)} />
-        <TextField label="Email Label" value={section.form?.emailLabel || ""} onChange={(v) => updater.setNested("form", "emailLabel", v)} />
-        <TextField label="Msg Label" value={section.form?.messageLabel || ""} onChange={(v) => updater.setNested("form", "messageLabel", v)} />
-        <TextField label="Submit Btn" value={section.form?.submitButton || ""} onChange={(v) => updater.setNested("form", "submitButton", v)} />
+        <TextField label="Name Label" value={section.form?.nameLabel || ""} savedValue={savedSection?.form?.nameLabel || ""} onChange={(v) => updater.setNested("form", "nameLabel", v)} />
+        <TextField label="Email Label" value={section.form?.emailLabel || ""} savedValue={savedSection?.form?.emailLabel || ""} onChange={(v) => updater.setNested("form", "emailLabel", v)} />
+        <TextField label="Msg Label" value={section.form?.messageLabel || ""} savedValue={savedSection?.form?.messageLabel || ""} onChange={(v) => updater.setNested("form", "messageLabel", v)} />
+        <TextField label="Submit Btn" value={section.form?.submitButton || ""} savedValue={savedSection?.form?.submitButton || ""} onChange={(v) => updater.setNested("form", "submitButton", v)} />
       </div>
 
       {section.variant === "split" && (
         <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Contact Info</span>
-          <TextField label="Address" value={section.info?.address || ""} onChange={(v) => updater.setNested("info", "address", v)} />
-          <TextField label="Phone" value={section.info?.phone || ""} onChange={(v) => updater.setNested("info", "phone", v)} />
-          <TextField label="Email" value={section.info?.email || ""} onChange={(v) => updater.setNested("info", "email", v)} />
-          <TextField label="Hours" value={section.info?.hours || ""} onChange={(v) => updater.setNested("info", "hours", v)} />
+          <TextField label="Address" value={section.info?.address || ""} savedValue={savedSection?.info?.address || ""} onChange={(v) => updater.setNested("info", "address", v)} />
+          <TextField label="Phone" value={section.info?.phone || ""} savedValue={savedSection?.info?.phone || ""} onChange={(v) => updater.setNested("info", "phone", v)} />
+          <TextField label="Email" value={section.info?.email || ""} savedValue={savedSection?.info?.email || ""} onChange={(v) => updater.setNested("info", "email", v)} />
+          <TextField label="Hours" value={section.info?.hours || ""} savedValue={savedSection?.info?.hours || ""} onChange={(v) => updater.setNested("info", "hours", v)} />
         </div>
       )}
     </>
   );
 }
 
-function ShopFields({ section, onUpdate, businessId }: { section: any; onUpdate: (s: any) => void; businessId: string }) {
+function ShopFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
   const updater = useFieldUpdater(section, onUpdate);
   const products = section.products || [];
 
@@ -312,7 +338,7 @@ function ShopFields({ section, onUpdate, businessId }: { section: any; onUpdate:
 
   return (
     <>
-      <HeaderFields section={section} updater={updater} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
 
       <div className="mt-3 pt-3 border-t border-gray-200">
         <div className="flex items-center justify-between mb-3">
@@ -326,8 +352,8 @@ function ShopFields({ section, onUpdate, businessId }: { section: any; onUpdate:
               <button onClick={() => removeProduct(pIdx)} className="text-xs text-red-600 hover:text-red-800">Remove</button>
             </div>
             <TextField label="Name" value={product.name || ""} onChange={(v) => updateProduct(pIdx, "name", v)} />
-            <div className="flex gap-4 items-start">
-              <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Price</label>
+            <div className="flex gap-4 items-center">
+              <label className="w-24 flex-shrink-0 text-sm text-gray-600">Price</label>
               <input
                 type="number"
                 value={product.price || ""}
@@ -345,20 +371,20 @@ function ShopFields({ section, onUpdate, businessId }: { section: any; onUpdate:
   );
 }
 
-function DefaultFields({ section, onUpdate, businessId }: { section: any; onUpdate: (s: any) => void; businessId: string }) {
+function DefaultFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
   const updater = useFieldUpdater(section, onUpdate);
   return (
     <>
-      <HeaderFields section={section} updater={updater} />
-      <ImageField label="Image" value={section.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
-      <ImageField label="Background" value={section.backgroundImage || ""} onChange={(v) => updater.set("backgroundImage", v)} businessId={businessId} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
+      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
+      <ImageField label="Background" value={section.backgroundImage || ""} savedValue={savedSection?.backgroundImage || ""} onChange={(v) => updater.set("backgroundImage", v)} businessId={businessId} />
     </>
   );
 }
 
 // --- Main component ---
 
-export default function SectionEditor({ section, index, pageName, businessId, onUpdate, onRemove }: SectionEditorProps) {
+export default function SectionEditor({ section, savedSection, index, pageName, businessId, onUpdate, onRemove }: SectionEditorProps) {
   const variants = VARIANT_OPTIONS[section.type] || [];
 
   const handleTypeChange = (newType: string) => {
@@ -366,8 +392,12 @@ export default function SectionEditor({ section, index, pageName, businessId, on
     onUpdate({ ...section, type: newType, variant: defaultVariant });
   };
 
+  // Per-field revert for type and variant
+  const typeChanged = savedSection && section.type !== savedSection.type;
+  const variantChanged = savedSection && section.variant !== savedSection.variant;
+
   const renderTypeFields = () => {
-    const props = { section, onUpdate, businessId };
+    const props = { section, savedSection, onUpdate, businessId };
     switch (section.type) {
       case "hero": return <HeroFields {...props} />;
       case "services": return <ServicesFields {...props} />;
@@ -387,12 +417,12 @@ export default function SectionEditor({ section, index, pageName, businessId, on
       </div>
 
       <div className="space-y-3">
-        <div className="flex gap-4 items-start">
-          <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Type</label>
+        <div className="flex gap-4 items-center">
+          <label className="w-24 flex-shrink-0 text-sm text-gray-600">Type</label>
           <select
             value={section.type || "hero"}
             onChange={(e) => handleTypeChange(e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+            className={`flex-1 px-3 py-2 border rounded-md text-sm ${typeChanged ? "border-amber-400 bg-amber-50" : "border-gray-300"}`}
           >
             <option value="hero">Hero</option>
             <option value="services">Services</option>
@@ -403,19 +433,21 @@ export default function SectionEditor({ section, index, pageName, businessId, on
             <option value="testimonials">Testimonials</option>
             <option value="shop">Shop</option>
           </select>
+          {typeChanged && <RevertButton onClick={() => onUpdate({ ...section, type: savedSection.type, variant: savedSection.variant })} />}
         </div>
 
-        <div className="flex gap-4 items-start">
-          <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Variant</label>
+        <div className="flex gap-4 items-center">
+          <label className="w-24 flex-shrink-0 text-sm text-gray-600">Variant</label>
           <select
             value={section.variant || variants[0]?.value || "default"}
             onChange={(e) => onUpdate({ ...section, variant: e.target.value })}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+            className={`flex-1 px-3 py-2 border rounded-md text-sm ${variantChanged ? "border-amber-400 bg-amber-50" : "border-gray-300"}`}
           >
             {variants.map((v) => (
               <option key={v.value} value={v.value}>{v.label}</option>
             ))}
           </select>
+          {variantChanged && <RevertButton onClick={() => onUpdate({ ...section, variant: savedSection.variant })} />}
         </div>
 
         {renderTypeFields()}
