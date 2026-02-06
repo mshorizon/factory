@@ -75,8 +75,20 @@ function setNestedValue(
   };
 }
 
-// Translation files use FLAT keys like "hero.title", not nested objects
-// So we don't need to flatten/unflatten - just work with flat structure directly
+// Deep compare two values
+function deepEqual(a: any, b: any): boolean {
+  if (a === b) return true;
+  if (a == null || b == null) return a === b;
+  if (typeof a !== typeof b) return false;
+  if (typeof a !== "object") return false;
+  if (Array.isArray(a) !== Array.isArray(b)) return false;
+
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  if (keysA.length !== keysB.length) return false;
+
+  return keysA.every((key) => deepEqual(a[key], b[key]));
+}
 
 export default function AdminForm({ businessId, initialData, schema, translations }: AdminFormProps) {
   const [formData, setFormData] = useState<Record<string, unknown>>(initialData);
@@ -84,6 +96,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
     en: translations?.en || {},
     pl: translations?.pl || {},
   });
+
+  // Keep a snapshot of the saved state for revert
+  const savedDataRef = useRef<Record<string, unknown>>(structuredClone(initialData));
+  const savedTransRef = useRef({ en: translations?.en || {}, pl: translations?.pl || {} });
 
   // Persist activeTab across HMR/reloads
   const [activeTab, setActiveTab] = useState<TabType>(() => {
@@ -170,6 +186,59 @@ export default function AdminForm({ businessId, initialData, schema, translation
     { id: "translations-pl", label: "PL" },
   ];
 
+  // --- Change detection per tab ---
+  function isTabChanged(tabId: string): boolean {
+    const saved = savedDataRef.current;
+    const savedTrans = savedTransRef.current;
+
+    if (tabId === "meta") {
+      return !deepEqual(formData.schemaVersion, saved.schemaVersion) ||
+             !deepEqual(formData.business, saved.business);
+    }
+    if (tabId === "theme") return !deepEqual(formData.theme, saved.theme);
+    if (tabId === "navbar") return !deepEqual(getNestedValue(formData, ["layout", "navbar"]), getNestedValue(saved, ["layout", "navbar"]));
+    if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"]));
+    if (tabId === "translations-en") return !deepEqual(translationsData.en, savedTrans.en);
+    if (tabId === "translations-pl") return !deepEqual(translationsData.pl, savedTrans.pl);
+    if (tabId.startsWith("page-")) {
+      const pageName = tabId.replace("page-", "");
+      return !deepEqual(getNestedValue(formData, ["pages", pageName]), getNestedValue(saved, ["pages", pageName]));
+    }
+    return false;
+  }
+
+  function revertTab(tabId: string) {
+    const saved = savedDataRef.current;
+    const savedTrans = savedTransRef.current;
+
+    if (tabId === "meta") {
+      setFormData((prev) => ({
+        ...prev,
+        schemaVersion: structuredClone(saved.schemaVersion),
+        business: structuredClone(saved.business),
+      }));
+    } else if (tabId === "theme") {
+      setFormData((prev) => ({ ...prev, theme: structuredClone(saved.theme) }));
+    } else if (tabId === "navbar") {
+      setFormData((prev) => setNestedValue(prev, ["layout", "navbar"], structuredClone(getNestedValue(saved, ["layout", "navbar"]))));
+    } else if (tabId === "footer") {
+      setFormData((prev) => setNestedValue(prev, ["layout", "footer"], structuredClone(getNestedValue(saved, ["layout", "footer"]))));
+    } else if (tabId === "translations-en") {
+      setTranslationsData((prev) => ({ ...prev, en: structuredClone(savedTrans.en) }));
+    } else if (tabId === "translations-pl") {
+      setTranslationsData((prev) => ({ ...prev, pl: structuredClone(savedTrans.pl) }));
+    } else if (tabId.startsWith("page-")) {
+      const pageName = tabId.replace("page-", "");
+      setFormData((prev) => setNestedValue(prev, ["pages", pageName], structuredClone(getNestedValue(saved, ["pages", pageName]))));
+    }
+  }
+
+  function revertAll() {
+    setFormData(structuredClone(savedDataRef.current));
+    setTranslationsData(structuredClone(savedTransRef.current));
+    setHasUnsavedChanges(false);
+  }
+
   const handleChange = useCallback((path: string[], data: { formData?: unknown }) => {
     if (data.formData !== undefined) {
       setFormData((prev) => setNestedValue(prev, path, data.formData));
@@ -180,10 +249,6 @@ export default function AdminForm({ businessId, initialData, schema, translation
   const handleSave = async () => {
     setSaveStatus("saving");
     setErrorMessage(undefined);
-
-    console.log("Validated JSON:", JSON.stringify(formData, null, 2));
-    console.log("Translations EN:", JSON.stringify(translationsData.en, null, 2));
-    console.log("Translations PL:", JSON.stringify(translationsData.pl, null, 2));
 
     try {
       const response = await fetch(`/api/admin/save`, {
@@ -207,6 +272,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
         const error = await transResponse.json();
         throw new Error(error.message || "Failed to save translations");
       }
+
+      // Update saved snapshots
+      savedDataRef.current = structuredClone(formData);
+      savedTransRef.current = structuredClone(translationsData);
 
       setHasUnsavedChanges(false);
       setSaveStatus("success");
@@ -241,9 +310,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
 
   const removePage = (pageName: string) => {
     if (!confirm(`Delete page "${pageName}"?`)) return;
-    // Switch tab first before updating data
     setActiveTab("meta");
-    // Use setTimeout to ensure tab switch happens before data update
     setTimeout(() => {
       setFormData((prev) => {
         const currentPages = prev.pages as Record<string, unknown> | undefined;
@@ -292,12 +359,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
   };
 
   // Translations editor component with grouping
-  // Translation files use FLAT keys like "hero.title", not nested objects
   const TranslationsEditor = ({ lang }: { lang: "en" | "pl" }) => {
     const translations = (translationsData[lang] || {}) as Record<string, string>;
     const keys = Object.keys(translations).sort();
 
-    // Group keys by first part (before first dot)
     const groups: Record<string, string[]> = {};
     for (const key of keys) {
       const firstPart = key.split(".")[0];
@@ -503,142 +568,165 @@ export default function AdminForm({ businessId, initialData, schema, translation
     return null;
   };
 
+  // --- Sidebar nav item ---
+  const NavItem = ({ tab, onClick }: { tab: { id: TabType; label: string }; onClick: () => void }) => {
+    const isActive = activeTab === tab.id;
+    const changed = isTabChanged(tab.id);
+
+    return (
+      <div className="flex items-center group">
+        <button
+          onClick={onClick}
+          className={`flex-1 text-left px-3 py-1.5 text-sm rounded-md transition-colors ${
+            isActive
+              ? "bg-blue-50 text-blue-700 font-medium"
+              : "text-gray-700 hover:bg-gray-100"
+          }`}
+        >
+          {tab.label}
+        </button>
+        {changed && (
+          <button
+            onClick={(e) => { e.stopPropagation(); revertTab(tab.id); }}
+            title="Revert changes"
+            className="ml-1 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="1 4 1 10 7 10" />
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+            </svg>
+          </button>
+        )}
+        {changed && (
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ml-1 flex-shrink-0" />
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="flex gap-6">
-      {/* Left Sidebar */}
-      <div className="w-48 flex-shrink-0 space-y-4">
-        {/* Config Section */}
-        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
-          <div className="px-3 py-2 bg-slate-100 border-b border-slate-200">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Config</span>
-          </div>
-          <div className="p-1 space-y-0.5">
-            {tabs.filter(t => ["meta", "theme", "navbar", "footer"].includes(t.id)).map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setActiveTab(tab.id);
-                  if (typeof (window as any).navigatePreview === "function") {
-                    (window as any).navigatePreview("home");
-                  }
-                }}
-                className={`w-full text-left px-3 py-2 text-sm font-medium rounded transition-all ${
-                  activeTab === tab.id
-                    ? "bg-slate-700 text-white"
-                    : "text-slate-600 hover:bg-slate-100"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Translations Section */}
-        <div className="bg-white border border-emerald-200 rounded-lg overflow-hidden">
-          <div className="px-3 py-2 bg-emerald-50 border-b border-emerald-200">
-            <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Translations</span>
-          </div>
-          <div className="p-1 space-y-0.5">
-            {tabs.filter(t => t.id.startsWith("translations-")).map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`w-full text-left px-3 py-2 text-sm font-medium rounded transition-all ${
-                  activeTab === tab.id
-                    ? "bg-emerald-600 text-white"
-                    : "text-emerald-700 hover:bg-emerald-100"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Pages Section */}
-        <div className="bg-white border border-amber-200 rounded-lg overflow-hidden">
-          <div className="px-3 py-2 bg-amber-50 border-b border-amber-200">
-            <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider">Pages</span>
-          </div>
-          <div className="p-1 space-y-0.5">
-            {tabs.filter(t => t.id.startsWith("page-")).map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setActiveTab(tab.id);
-                  const pageName = tab.id.replace("page-", "");
-                  if (typeof (window as any).navigatePreview === "function") {
-                    (window as any).navigatePreview(pageName);
-                  }
-                }}
-                className={`w-full text-left px-3 py-2 text-sm font-medium rounded transition-all ${
-                  activeTab === tab.id
-                    ? "bg-amber-600 text-white"
-                    : "text-amber-700 hover:bg-amber-100"
-                }`}
-              >
-                {tab.label.replace("Page: ", "")}
-              </button>
-            ))}
-            <div className="pt-2 px-1">
-              <div className="flex gap-1">
-                <input
-                  type="text"
-                  value={newPageName}
-                  onChange={(e) => setNewPageName(e.target.value)}
-                  placeholder="New page"
-                  className="flex-1 min-w-0 px-2 py-1 text-xs border border-amber-300 rounded"
-                  onKeyDown={(e) => e.key === "Enter" && addPage()}
+      {/* Left Sidebar - RapidAPI style */}
+      <div className="w-52 flex-shrink-0">
+        <nav className="space-y-6">
+          {/* Config group */}
+          <div>
+            <h3 className="px-3 mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Config</h3>
+            <div className="space-y-0.5">
+              {tabs.filter(t => ["meta", "theme", "navbar", "footer"].includes(t.id)).map((tab) => (
+                <NavItem
+                  key={tab.id}
+                  tab={tab}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    if (typeof (window as any).navigatePreview === "function") {
+                      (window as any).navigatePreview("home");
+                    }
+                  }}
                 />
-                <button
-                  onClick={addPage}
-                  className="px-2 py-1 text-xs bg-amber-500 text-white rounded hover:bg-amber-600"
-                >
-                  +
-                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Pages group */}
+          <div>
+            <h3 className="px-3 mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pages</h3>
+            <div className="space-y-0.5">
+              {tabs.filter(t => t.id.startsWith("page-")).map((tab) => (
+                <NavItem
+                  key={tab.id}
+                  tab={tab}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    const pageName = tab.id.replace("page-", "");
+                    if (typeof (window as any).navigatePreview === "function") {
+                      (window as any).navigatePreview(pageName);
+                    }
+                  }}
+                />
+              ))}
+              <div className="px-3 pt-1">
+                <div className="flex gap-1">
+                  <input
+                    type="text"
+                    value={newPageName}
+                    onChange={(e) => setNewPageName(e.target.value)}
+                    placeholder="New page"
+                    className="flex-1 min-w-0 px-2 py-1 text-xs border border-gray-300 rounded"
+                    onKeyDown={(e) => e.key === "Enter" && addPage()}
+                  />
+                  <button
+                    onClick={addPage}
+                    className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded hover:bg-gray-200"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Save Button */}
-        <div className="pt-2 border-t border-gray-200">
-          <button
-            onClick={handleSave}
-            disabled={saveStatus === "saving" || !hasUnsavedChanges}
-            className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {saveStatus === "saving" ? "Saving..." : "Save"}
-          </button>
-
-          <div className="flex items-center justify-center gap-2 py-2">
-            {saveStatus === "success" && (
-              <>
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-xs text-green-600">Saved</span>
-              </>
-            )}
-            {saveStatus === "error" && (
-              <>
-                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-xs text-red-500">{errorMessage}</span>
-              </>
-            )}
-            {saveStatus === "idle" && hasUnsavedChanges && (
-              <>
-                <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
-                <span className="text-xs text-amber-600">Unsaved changes</span>
-              </>
-            )}
-            {saveStatus === "idle" && !hasUnsavedChanges && (
-              <>
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <span className="text-xs text-gray-400">All changes saved</span>
-              </>
-            )}
+          {/* Translations group */}
+          <div>
+            <h3 className="px-3 mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Translations</h3>
+            <div className="space-y-0.5">
+              {tabs.filter(t => t.id.startsWith("translations-")).map((tab) => (
+                <NavItem
+                  key={tab.id}
+                  tab={tab}
+                  onClick={() => setActiveTab(tab.id)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+
+          {/* Actions */}
+          <div className="pt-4 border-t border-gray-200 space-y-2 px-1">
+            <button
+              onClick={handleSave}
+              disabled={saveStatus === "saving" || !hasUnsavedChanges}
+              className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              {saveStatus === "saving" ? "Saving..." : "Save"}
+            </button>
+
+            {hasUnsavedChanges && (
+              <button
+                onClick={revertAll}
+                className="w-full px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Revert All
+              </button>
+            )}
+
+            <div className="flex items-center justify-center gap-2 py-1">
+              {saveStatus === "success" && (
+                <>
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                  <span className="text-xs text-green-600">Saved</span>
+                </>
+              )}
+              {saveStatus === "error" && (
+                <>
+                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
+                  <span className="text-xs text-red-500">{errorMessage}</span>
+                </>
+              )}
+              {saveStatus === "idle" && hasUnsavedChanges && (
+                <>
+                  <span className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
+                  <span className="text-xs text-amber-600">Unsaved changes</span>
+                </>
+              )}
+              {saveStatus === "idle" && !hasUnsavedChanges && (
+                <>
+                  <span className="w-1.5 h-1.5 bg-gray-300 rounded-full" />
+                  <span className="text-xs text-gray-400">All changes saved</span>
+                </>
+              )}
+            </div>
+          </div>
+        </nav>
       </div>
 
       {/* Right Content */}
