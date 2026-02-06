@@ -545,21 +545,26 @@ export default function AdminForm({ businessId, initialData, schema, translation
               </button>
             </div>
 
-            {pageData?.sections?.map((section: any, index: number) => (
-              <SectionEditor
-                key={index}
-                section={section}
-                index={index}
-                pageName={pageName}
-                businessId={businessId}
-                onUpdate={(updatedSection) => {
-                  const newSections = [...pageData.sections];
-                  newSections[index] = updatedSection;
-                  handleChange(["pages", pageName, "sections"], { formData: newSections });
-                }}
-                onRemove={() => removeSection(pageName, index)}
-              />
-            ))}
+            {pageData?.sections?.map((section: any, index: number) => {
+              const savedPageData = getNestedValue(savedDataRef.current, ["pages", pageName]) as any;
+              const savedSection = savedPageData?.sections?.[index];
+              return (
+                <SectionEditor
+                  key={index}
+                  section={section}
+                  savedSection={savedSection}
+                  index={index}
+                  pageName={pageName}
+                  businessId={businessId}
+                  onUpdate={(updatedSection) => {
+                    const newSections = [...pageData.sections];
+                    newSections[index] = updatedSection;
+                    handleChange(["pages", pageName, "sections"], { formData: newSections });
+                  }}
+                  onRemove={() => removeSection(pageName, index)}
+                />
+              );
+            })}
           </div>
         </div>
       );
@@ -604,7 +609,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
   return (
     <div className="flex gap-6">
       {/* Left Sidebar */}
-      <div className="w-64 flex-shrink-0">
+      <div className="w-72 flex-shrink-0">
         <nav className="space-y-3">
           {/* Config group */}
           <div className="bg-slate-50 rounded-lg p-2">
