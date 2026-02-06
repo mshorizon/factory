@@ -16,7 +16,8 @@ export function ProductCard({
   outOfStockCtaHref,
   onAddToCart,
   className,
-}: ProductCardProps) {
+  index,
+}: ProductCardProps & { index?: number }) {
   const { title, description, price, image, category, attributes, inStock = true } = product;
   const hasCustomizations = product.customizations && product.customizations.length > 0;
   const [modalOpen, setModalOpen] = useState(false);
@@ -46,6 +47,7 @@ export function ProductCard({
           !inStock && "opacity-75",
           className
         )}
+        data-field={index != null ? `products.${index}` : undefined}
       >
         {image && (
           <div className="relative aspect-square overflow-hidden bg-muted">
@@ -67,9 +69,9 @@ export function ProductCard({
               {category}
             </Badge>
           )}
-          <CardTitle className="text-lg">{title}</CardTitle>
+          <CardTitle className="text-lg" data-field={index != null ? `products.${index}.name` : undefined}>{title}</CardTitle>
           {description && (
-            <CardDescription className="line-clamp-2">{description}</CardDescription>
+            <CardDescription className="line-clamp-2" data-field={index != null ? `products.${index}.description` : undefined}>{description}</CardDescription>
           )}
         </CardHeader>
         <CardContent className="pb-2">
@@ -83,7 +85,7 @@ export function ProductCard({
               ))}
             </ul>
           )}
-          <p className="mt-4 text-2xl font-bold text-primary">
+          <p className="mt-4 text-2xl font-bold text-primary" data-field={index != null ? `products.${index}.price` : undefined}>
             {price.toFixed(2)} {currency}
           </p>
         </CardContent>

@@ -16,19 +16,19 @@ export function ServicesList({
     <StaggerContainer className={cn("space-y-4", className)} staggerDelay={0.1}>
       {items.map((item, index) => (
         <StaggerItem key={index} direction="up" distance={20}>
-          <div className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-background border border-border rounded-radius hover:shadow-lg hover:border-primary/20 transition-all">
+          <div className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-background border border-border rounded-radius hover:shadow-lg hover:border-primary/20 transition-all" data-field={`items.${index}`}>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
-                <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
+                <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
                   {item.title}
                 </h3>
                 {item.price && (
-                  <span className="px-3 py-1 text-sm font-bold text-primary bg-primary/10 rounded-full">
+                  <span className="px-3 py-1 text-sm font-bold text-primary bg-primary/10 rounded-full" data-field={`items.${index}.price`}>
                     {item.price}
                   </span>
                 )}
               </div>
-              <p className="text-muted">{item.description}</p>
+              <p className="text-muted" data-field={`items.${index}.description`}>{item.description}</p>
             </div>
             {ctaLabel && (
               <Button asChild variant="ghost" className="shrink-0">

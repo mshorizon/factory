@@ -147,5 +147,46 @@ if (isThemeV15(theme)) {
     <slot />
     <ScrollToTopButton />
     <OverlayScrollbar />
+    <script is:inline>
+      // Section/field highlight listener - only active inside preview iframe
+      if (window.parent !== window) {
+        var overlay = null;
+        function getOverlay() {
+          if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'section-highlight-overlay';
+            overlay.style.cssText = 'position:absolute;pointer-events:none;z-index:9999;border:2px solid #3b82f6;background:rgba(59,130,246,0.08);border-radius:4px;transition:opacity 0.15s;opacity:0;';
+            document.body.appendChild(overlay);
+          }
+          return overlay;
+        }
+        function positionOverlay(el) {
+          var ov = getOverlay();
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          var rect = el.getBoundingClientRect();
+          ov.style.top = (rect.top + window.scrollY) + 'px';
+          ov.style.left = (rect.left + window.scrollX) + 'px';
+          ov.style.width = rect.width + 'px';
+          ov.style.height = rect.height + 'px';
+          ov.style.opacity = '1';
+        }
+        window.addEventListener('message', function(e) {
+          if (!e.data || e.data.source !== 'admin-panel') return;
+          var ov = getOverlay();
+          if (e.data.type === 'highlight-field') {
+            var sectionEl = document.querySelector('[data-section-index="' + e.data.index + '"]');
+            if (!sectionEl) return;
+            // Try field-level first, then fall back to section
+            var el = sectionEl.querySelector('[data-field="' + e.data.field + '"]');
+            positionOverlay(el || sectionEl);
+          } else if (e.data.type === 'highlight-section') {
+            var el = document.querySelector('[data-section-index="' + e.data.index + '"]');
+            if (el) positionOverlay(el);
+          } else if (e.data.type === 'clear-highlight') {
+            ov.style.opacity = '0';
+          }
+        });
+      }
+    </script>
   </body>
 </html>

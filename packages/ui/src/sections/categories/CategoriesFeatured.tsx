@@ -21,6 +21,7 @@ export function CategoriesFeatured({ items, exploreLabel, className }: Categorie
           key={index}
           href={item.href || "#"}
           className="group relative overflow-hidden rounded-radius min-h-[280px] flex items-end"
+          data-field={`items.${index}`}
         >
           {/* Background image or gradient */}
           {item.image ? (
@@ -41,11 +42,11 @@ export function CategoriesFeatured({ items, exploreLabel, className }: Categorie
             {item.icon && (
               <span className="text-3xl mb-3 block">{item.icon}</span>
             )}
-            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
+            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
               {item.title}
             </h3>
             {item.description && (
-              <p className="text-white/80 text-sm mb-4 line-clamp-2">
+              <p className="text-white/80 text-sm mb-4 line-clamp-2" data-field={`items.${index}.description`}>
                 {item.description}
               </p>
             )}

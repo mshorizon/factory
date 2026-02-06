@@ -30,12 +30,12 @@ export function SectionHeader({
   return (
     <div className={cn("mb-12", alignClass, className)}>
       {badge && (
-        <Badge variant="accent" className="mb-4">
+        <Badge variant="accent" className="mb-4" data-field="header.badge">
           {badge}
         </Badge>
       )}
       {title && (
-        <h2 className="text-4xl font-bold text-foreground mb-4">{title}</h2>
+        <h2 className="text-4xl font-bold text-foreground mb-4" data-field="header.title">{title}</h2>
       )}
       {subtitle && (
         <p
@@ -43,6 +43,7 @@ export function SectionHeader({
             "text-muted max-w-2xl",
             align === "center" && "mx-auto"
           )}
+          data-field="header.subtitle"
         >
           {subtitle}
         </p>

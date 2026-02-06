@@ -46,14 +46,14 @@ export function AboutTimeline({
                     index % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12"
                   )}
                 >
-                  <Card className="hover:shadow-lg transition-shadow">
+                  <Card className="hover:shadow-lg transition-shadow" data-field={`timeline.${index}`}>
                     <CardContent className="pt-6">
-                      <span className="inline-block px-3 py-1 text-sm font-bold text-primary bg-primary/10 rounded-full mb-3">
+                      <span className="inline-block px-3 py-1 text-sm font-bold text-primary bg-primary/10 rounded-full mb-3" data-field={`timeline.${index}.year`}>
                         {item.year}
                       </span>
-                      <h3 className="text-xl font-bold text-foreground mb-2">{item.title}</h3>
+                      <h3 className="text-xl font-bold text-foreground mb-2" data-field={`timeline.${index}.title`}>{item.title}</h3>
                       {item.description && (
-                        <p className="text-muted">{item.description}</p>
+                        <p className="text-muted" data-field={`timeline.${index}.description`}>{item.description}</p>
                       )}
                     </CardContent>
                   </Card>
@@ -71,10 +71,10 @@ export function AboutTimeline({
             <StaggerContainer className="grid md:grid-cols-3 gap-6" staggerDelay={0.1}>
               {stats.map((stat, index) => (
                 <StaggerItem key={index} direction="up" distance={20}>
-                  <Card className="text-center hover:shadow-lg transition-shadow h-full">
+                  <Card className="text-center hover:shadow-lg transition-shadow h-full" data-field={`stats.${index}`}>
                     <CardContent className="pt-6">
-                      <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
-                      <p className="text-muted">{stat.label}</p>
+                      <div className="text-4xl font-bold text-primary mb-2" data-field={`stats.${index}.value`}>{stat.value}</div>
+                      <p className="text-muted" data-field={`stats.${index}.label`}>{stat.label}</p>
                     </CardContent>
                   </Card>
                 </StaggerItem>

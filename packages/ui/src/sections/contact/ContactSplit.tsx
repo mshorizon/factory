@@ -23,10 +23,10 @@ export function ContactSplit({
         <ScrollReveal delay={0} direction="up">
           <div className="text-center mb-12">
             {title && (
-              <h1 className="text-4xl font-bold text-foreground mb-2">{title}</h1>
+              <h1 className="text-4xl font-bold text-foreground mb-2" data-field="header.title">{title}</h1>
             )}
             {subtitle && (
-              <p className="text-muted">{subtitle}</p>
+              <p className="text-muted" data-field="header.subtitle">{subtitle}</p>
             )}
           </div>
         </ScrollReveal>
@@ -46,7 +46,7 @@ export function ContactSplit({
             {info && (
               <div className="space-y-6">
                 {info.address && (
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4" data-field="info.address">
                     <div className="w-12 h-12 rounded-radius bg-primary/10 flex items-center justify-center shrink-0">
                       <MapPin className="h-6 w-6 text-primary" />
                     </div>
@@ -58,7 +58,7 @@ export function ContactSplit({
                 )}
 
                 {info.phone && (
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4" data-field="info.phone">
                     <div className="w-12 h-12 rounded-radius bg-primary/10 flex items-center justify-center shrink-0">
                       <Phone className="h-6 w-6 text-primary" />
                     </div>
@@ -70,7 +70,7 @@ export function ContactSplit({
                 )}
 
                 {info.email && (
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4" data-field="info.email">
                     <div className="w-12 h-12 rounded-radius bg-primary/10 flex items-center justify-center shrink-0">
                       <Mail className="h-6 w-6 text-primary" />
                     </div>
@@ -82,7 +82,7 @@ export function ContactSplit({
                 )}
 
                 {info.hours && (
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4" data-field="info.hours">
                     <div className="w-12 h-12 rounded-radius bg-primary/10 flex items-center justify-center shrink-0">
                       <Clock className="h-6 w-6 text-primary" />
                     </div>
@@ -100,7 +100,7 @@ export function ContactSplit({
         {/* Contact Form */}
         <ScrollReveal delay={0.1} direction="right" distance={30}>
           <form className="space-y-6 bg-background border border-border rounded-radius p-8 shadow-sm">
-            <div className="space-y-2">
+            <div className="space-y-2" data-field="form.nameLabel">
               <Label htmlFor="name" className="text-foreground">
                 {form?.nameLabel || "Name"}
               </Label>
@@ -112,7 +112,7 @@ export function ContactSplit({
                 required
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2" data-field="form.emailLabel">
               <Label htmlFor="email" className="text-foreground">
                 {form?.emailLabel || "Email"}
               </Label>
@@ -124,7 +124,7 @@ export function ContactSplit({
                 required
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2" data-field="form.messageLabel">
               <Label htmlFor="message" className="text-foreground">
                 {form?.messageLabel || "Message"}
               </Label>
@@ -136,7 +136,7 @@ export function ContactSplit({
                 required
               />
             </div>
-            <Button type="submit" size="lg" className="w-full">
+            <Button type="submit" size="lg" className="w-full" data-field="form.submitButton">
               {form?.submitButton || "Send Message"}
             </Button>
           </form>

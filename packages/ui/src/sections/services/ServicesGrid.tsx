@@ -19,13 +19,13 @@ export function ServicesGrid({
     >
       {items.map((item, index) => (
         <StaggerItem key={index} direction="up" distance={30}>
-          <Card className="group hover:shadow-lg transition-all hover:-translate-y-1 h-full">
+          <Card className="group hover:shadow-lg transition-all hover:-translate-y-1 h-full" data-field={`items.${index}`}>
             <CardHeader>
-              <CardTitle>{item.title}</CardTitle>
-              <CardDescription>{item.description}</CardDescription>
+              <CardTitle data-field={`items.${index}.title`}>{item.title}</CardTitle>
+              <CardDescription data-field={`items.${index}.description`}>{item.description}</CardDescription>
             </CardHeader>
             <CardContent>
-              {item.price && <p className="text-2xl font-bold text-primary">{item.price}</p>}
+              {item.price && <p className="text-2xl font-bold text-primary" data-field={`items.${index}.price`}>{item.price}</p>}
               {ctaLabel && (
                 <Button asChild variant="outline" size="sm" className="mt-4 w-full">
                   <a href={ctaHref}>{ctaLabel}</a>

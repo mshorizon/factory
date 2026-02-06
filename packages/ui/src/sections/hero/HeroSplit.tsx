@@ -33,19 +33,19 @@ export function HeroSplit({
           <div className="flex flex-col justify-center py-12 lg:py-24">
             {badge && (
               <ScrollReveal delay={0} direction="up">
-                <Badge variant="accent" className="mb-4 text-sm px-4 py-1 w-fit">
+                <Badge variant="accent" className="mb-4 text-sm px-4 py-1 w-fit" data-field="header.badge">
                   {badge}
                 </Badge>
               </ScrollReveal>
             )}
             <ScrollReveal delay={0.1} direction="up">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground" data-field="header.title">
                 {title}
               </h1>
             </ScrollReveal>
             {subtitle && (
               <ScrollReveal delay={0.2} direction="up">
-                <p className="text-lg md:text-xl text-muted mb-8 max-w-lg">
+                <p className="text-lg md:text-xl text-muted mb-8 max-w-lg" data-field="header.subtitle">
                   {subtitle}
                 </p>
               </ScrollReveal>
@@ -59,6 +59,7 @@ export function HeroSplit({
                       size="xl"
                       variant={cta.variant || "default"}
                       className="shadow-lg shadow-primary/25"
+                      data-field="cta"
                     >
                       <a href={cta.href}>
                         {cta.label}
@@ -71,6 +72,7 @@ export function HeroSplit({
                       asChild
                       size="xl"
                       variant={secondaryCta.variant || "outline"}
+                      data-field="secondaryCta"
                     >
                       <a href={secondaryCta.href}>{secondaryCta.label}</a>
                     </Button>
@@ -84,7 +86,7 @@ export function HeroSplit({
           {/* Image Side */}
           {heroImage && (
             <ScrollReveal delay={0.2} direction="right" distance={50}>
-              <div className="relative lg:h-[600px] h-[400px] rounded-radius overflow-hidden shadow-2xl">
+              <div className="relative lg:h-[600px] h-[400px] rounded-radius overflow-hidden shadow-2xl" data-field="image">
                 <img
                   src={heroImage}
                   alt=""
