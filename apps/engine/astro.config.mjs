@@ -21,14 +21,8 @@ export default defineConfig({
   },
 
   vite: {
-    server: {
-      watch: {
-        // Zostawiamy Twoje ignorowanie folderu data
-        ignored: ['**/data/**']
-      }
-    },
     ssr: {
-      external: ['@mshorizon/db', 'postgres', 'drizzle-orm']
+      external: ['@mshorizon/db', 'postgres', 'drizzle-orm', '@aws-sdk/client-s3']
     }
   }
 });

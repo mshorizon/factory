@@ -1,10 +1,12 @@
 /**
  * Image Path Resolver
  *
- * Resolves image paths that can be either:
- * - Absolute URLs (http:// or https://) - returned as-is
- * - Business-relative paths (e.g., /photos/hero.jpg) - resolved to /data/{businessId}/...
+ * After R2 migration, all image URLs in the DB should be absolute R2 URLs.
+ * This module provides a safety fallback: any remaining relative paths
+ * are resolved to R2 URLs using the configured public base URL.
  */
+
+import { getR2PublicUrl } from "./r2";
 
 /**
  * Check if a string is an absolute URL
@@ -14,10 +16,9 @@ export function isAbsoluteUrl(url: string): boolean {
 }
 
 /**
- * Resolve an image path for a specific business
- * - Absolute URLs are returned as-is
- * - Paths starting with /images/ are public folder assets (returned as-is)
- * - Other relative paths are prefixed with /data/{businessId}
+ * Resolve an image path for a specific business.
+ * - Absolute URLs are returned as-is (including R2 URLs)
+ * - Relative paths are resolved to R2: {R2_PUBLIC_URL}/{businessId}/{path}
  */
 export function resolveImagePath(imagePath: string | undefined, businessId: string): string | undefined {
   if (!imagePath) return undefined;
@@ -26,16 +27,24 @@ export function resolveImagePath(imagePath: string | undefined, businessId: stri
     return imagePath;
   }
 
-  // Ensure path starts with /
-  const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+  // Strip leading slash and known prefixes for legacy paths
+  let cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
 
-  // Paths starting with /images/ are served from public folder
-  if (normalizedPath.startsWith('/images/')) {
-    return normalizedPath;
+  // Remove legacy prefixes like "images/{businessId}/" or "data/{businessId}/"
+  const legacyPrefixes = [
+    `images/${businessId}/`,
+    `data/${businessId}/`,
+  ];
+  for (const prefix of legacyPrefixes) {
+    if (cleanPath.startsWith(prefix)) {
+      cleanPath = cleanPath.slice(prefix.length);
+      break;
+    }
   }
 
-  // Other relative paths are in the data folder
-  return `/data/${businessId}${normalizedPath}`;
+  // Resolve to R2 URL
+  const baseUrl = getR2PublicUrl();
+  return `${baseUrl}/${businessId}/${cleanPath}`;
 }
 
 /**
