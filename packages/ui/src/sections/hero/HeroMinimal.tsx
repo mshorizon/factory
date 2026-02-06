@@ -35,13 +35,13 @@ export function HeroMinimal({
             </ScrollReveal>
 
             <ScrollReveal delay={0.1} direction="up">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 tracking-tight text-primary leading-none">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 tracking-tight text-primary leading-none" data-field="header.title">
                 {title}
               </h1>
             </ScrollReveal>
             {subtitle && (
               <ScrollReveal delay={0.2} direction="up">
-                <p className="text-xl md:text-2xl text-muted mb-12 max-w-xl">
+                <p className="text-xl md:text-2xl text-muted mb-12 max-w-xl" data-field="header.subtitle">
                   {subtitle}
                 </p>
               </ScrollReveal>
@@ -55,6 +55,7 @@ export function HeroMinimal({
                       size="xl"
                       variant={cta.variant || "default"}
                       className="shadow-lg shadow-primary/25"
+                      data-field="cta"
                     >
                       <a href={cta.href}>
                         {cta.label}
@@ -67,6 +68,7 @@ export function HeroMinimal({
                       asChild
                       size="xl"
                       variant={secondaryCta.variant || "outline"}
+                      data-field="secondaryCta"
                     >
                       <a href={secondaryCta.href}>{secondaryCta.label}</a>
                     </Button>
@@ -80,7 +82,7 @@ export function HeroMinimal({
           {/* Image (if provided) */}
           {heroImage && (
             <ScrollReveal delay={0.2} direction="right" distance={50}>
-              <div className="relative lg:h-[500px] h-[350px] rounded-radius overflow-hidden">
+              <div className="relative lg:h-[500px] h-[350px] rounded-radius overflow-hidden" data-field="image">
                 <img
                   src={heroImage}
                   alt=""

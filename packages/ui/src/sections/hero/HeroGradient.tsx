@@ -28,6 +28,7 @@ export function HeroGradient({
       {backgroundImage && (
         <div
           className="absolute inset-0 opacity-20"
+          data-field="backgroundImage"
           style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: "cover",
@@ -49,19 +50,20 @@ export function HeroGradient({
             <Badge
               variant="accent"
               className="mb-6 text-sm px-4 py-2 backdrop-blur-sm bg-primary/10 border border-primary/20"
+              data-field="header.badge"
             >
               {badge}
             </Badge>
           </ScrollReveal>
         )}
         <ScrollReveal delay={0.1} direction="up">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-foreground max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-foreground max-w-4xl mx-auto" data-field="header.title">
             {title}
           </h1>
         </ScrollReveal>
         {subtitle && (
           <ScrollReveal delay={0.2} direction="up">
-            <p className="text-lg md:text-xl text-muted mb-10 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted mb-10 max-w-2xl mx-auto" data-field="header.subtitle">
               {subtitle}
             </p>
           </ScrollReveal>
@@ -75,6 +77,7 @@ export function HeroGradient({
                   size="xl"
                   variant={cta.variant || "default"}
                   className="shadow-lg shadow-primary/25"
+                  data-field="cta"
                 >
                   <a href={cta.href}>
                     {cta.label}
@@ -87,6 +90,7 @@ export function HeroGradient({
                   asChild
                   size="xl"
                   variant={secondaryCta.variant || "outline"}
+                  data-field="secondaryCta"
                 >
                   <a href={secondaryCta.href}>{secondaryCta.label}</a>
                 </Button>

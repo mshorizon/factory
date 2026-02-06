@@ -57,6 +57,22 @@ function useFieldUpdater(section: any, onUpdate: (s: any) => void) {
   };
 }
 
+// --- Highlight helpers ---
+
+function postHighlight(type: 'highlight-section' | 'highlight-field' | 'clear-highlight', index?: number, field?: string) {
+  const iframe = document.getElementById('preview-iframe') as HTMLIFrameElement | null;
+  if (iframe?.contentWindow) {
+    iframe.contentWindow.postMessage({ source: 'admin-panel', type, index, field }, '*');
+  }
+}
+
+function fieldHoverProps(sectionIndex: number, fieldPath: string) {
+  return {
+    onMouseEnter: () => postHighlight('highlight-field', sectionIndex, fieldPath),
+    onMouseLeave: () => postHighlight('clear-highlight'),
+  };
+}
+
 // --- Revert button icon ---
 function RevertButton({ onClick }: { onClick: () => void }) {
   return (
@@ -76,12 +92,14 @@ function RevertButton({ onClick }: { onClick: () => void }) {
 
 // --- Shared field components ---
 
-function TextField({ label, value, savedValue, onChange, placeholder }: {
+function TextField({ label, value, savedValue, onChange, placeholder, sectionIndex, fieldPath }: {
   label: string; value: string; savedValue?: string; onChange: (v: string) => void; placeholder?: string;
+  sectionIndex?: number; fieldPath?: string;
 }) {
   const changed = savedValue !== undefined && value !== savedValue;
+  const hover = sectionIndex != null && fieldPath ? fieldHoverProps(sectionIndex, fieldPath) : {};
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-4 items-center" {...hover}>
       <label className="w-24 flex-shrink-0 text-sm text-gray-600">{label}</label>
       <input
         type="text"
@@ -95,12 +113,14 @@ function TextField({ label, value, savedValue, onChange, placeholder }: {
   );
 }
 
-function ImageField({ label, value, savedValue, onChange, businessId, placeholder }: {
+function ImageField({ label, value, savedValue, onChange, businessId, placeholder, sectionIndex, fieldPath }: {
   label: string; value: string; savedValue?: string; onChange: (v: string) => void; businessId: string; placeholder?: string;
+  sectionIndex?: number; fieldPath?: string;
 }) {
   const changed = savedValue !== undefined && value !== savedValue;
+  const hover = sectionIndex != null && fieldPath ? fieldHoverProps(sectionIndex, fieldPath) : {};
   return (
-    <div className="flex gap-4 items-start">
+    <div className="flex gap-4 items-start" {...hover}>
       <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">{label}</label>
       <ImageUploadField value={value} onChange={onChange} businessId={businessId} placeholder={placeholder} />
       {changed && <div className="pt-2"><RevertButton onClick={() => onChange(savedValue)} /></div>}
@@ -110,19 +130,19 @@ function ImageField({ label, value, savedValue, onChange, businessId, placeholde
 
 // --- Header fields (shared by all section types) ---
 
-function HeaderFields({ section, savedSection, updater }: { section: any; savedSection?: any; updater: ReturnType<typeof useFieldUpdater> }) {
+function HeaderFields({ section, savedSection, updater, si }: { section: any; savedSection?: any; updater: ReturnType<typeof useFieldUpdater>; si: number }) {
   return (
     <>
-      <TextField label="Badge" value={section.header?.badge || ""} savedValue={savedSection?.header?.badge || ""} onChange={(v) => updater.setHeader("badge", v)} />
-      <TextField label="Title" value={section.header?.title || ""} savedValue={savedSection?.header?.title || ""} onChange={(v) => updater.setHeader("title", v)} />
-      <TextField label="Subtitle" value={section.header?.subtitle || ""} savedValue={savedSection?.header?.subtitle || ""} onChange={(v) => updater.setHeader("subtitle", v)} />
+      <TextField label="Badge" value={section.header?.badge || ""} savedValue={savedSection?.header?.badge || ""} onChange={(v) => updater.setHeader("badge", v)} sectionIndex={si} fieldPath="header.badge" />
+      <TextField label="Title" value={section.header?.title || ""} savedValue={savedSection?.header?.title || ""} onChange={(v) => updater.setHeader("title", v)} sectionIndex={si} fieldPath="header.title" />
+      <TextField label="Subtitle" value={section.header?.subtitle || ""} savedValue={savedSection?.header?.subtitle || ""} onChange={(v) => updater.setHeader("subtitle", v)} sectionIndex={si} fieldPath="header.subtitle" />
     </>
   );
 }
 
 // --- CTA fields ---
 
-function CtaFields({ section, savedSection, onUpdate }: { section: any; savedSection?: any; onUpdate: (s: any) => void }) {
+function CtaFields({ section, savedSection, onUpdate, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; si: number }) {
   return (
     <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
       <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Call to Action</span>
@@ -131,24 +151,28 @@ function CtaFields({ section, savedSection, onUpdate }: { section: any; savedSec
         value={section.cta?.label || ""}
         savedValue={savedSection?.cta?.label || ""}
         onChange={(v) => onUpdate({ ...section, cta: { ...section.cta, label: v } })}
+        sectionIndex={si} fieldPath="cta"
       />
       <TextField
         label="CTA Target"
         value={section.cta?.target || ""}
         savedValue={savedSection?.cta?.target || ""}
         onChange={(v) => onUpdate({ ...section, cta: { ...section.cta, target: v } })}
+        sectionIndex={si} fieldPath="cta"
       />
       <TextField
         label="CTA 2 Label"
         value={section.secondaryCta?.label || ""}
         savedValue={savedSection?.secondaryCta?.label || ""}
         onChange={(v) => onUpdate({ ...section, secondaryCta: { ...section.secondaryCta, label: v } })}
+        sectionIndex={si} fieldPath="secondaryCta"
       />
       <TextField
         label="CTA 2 Target"
         value={section.secondaryCta?.target || ""}
         savedValue={savedSection?.secondaryCta?.target || ""}
         onChange={(v) => onUpdate({ ...section, secondaryCta: { ...section.secondaryCta, target: v } })}
+        sectionIndex={si} fieldPath="secondaryCta"
       />
     </div>
   );
@@ -156,11 +180,13 @@ function CtaFields({ section, savedSection, onUpdate }: { section: any; savedSec
 
 // --- Items editor (services, categories) ---
 
-function ItemsEditor({ section, onUpdate, businessId, fields }: {
+function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = "items" }: {
   section: any;
   onUpdate: (s: any) => void;
   businessId: string;
   fields: { key: string; label: string; type: "text" | "image" }[];
+  si: number;
+  fieldPrefix?: string;
 }) {
   const items = section.items || [];
 
@@ -187,16 +213,20 @@ function ItemsEditor({ section, onUpdate, businessId, fields }: {
         <button onClick={addItem} className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200">+ Add Item</button>
       </div>
       {items.map((item: any, idx: number) => (
-        <div key={idx} className="mb-3 p-3 bg-white border border-gray-200 rounded space-y-2">
+        <div
+          key={idx}
+          className="mb-3 p-3 bg-white border border-gray-200 rounded space-y-2"
+          {...fieldHoverProps(si, `${fieldPrefix}.${idx}`)}
+        >
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-gray-500">Item {idx + 1}</span>
             <button onClick={() => removeItem(idx)} className="text-xs text-red-600 hover:text-red-800">Remove</button>
           </div>
           {fields.map((f) =>
             f.type === "image" ? (
-              <ImageField key={f.key} label={f.label} value={item[f.key] || ""} onChange={(v) => updateItem(idx, f.key, v)} businessId={businessId} />
+              <ImageField key={f.key} label={f.label} value={item[f.key] || ""} onChange={(v) => updateItem(idx, f.key, v)} businessId={businessId} sectionIndex={si} fieldPath={`${fieldPrefix}.${idx}.${f.key}`} />
             ) : (
-              <TextField key={f.key} label={f.label} value={item[f.key] || ""} onChange={(v) => updateItem(idx, f.key, v)} />
+              <TextField key={f.key} label={f.label} value={item[f.key] || ""} onChange={(v) => updateItem(idx, f.key, v)} sectionIndex={si} fieldPath={`${fieldPrefix}.${idx}.${f.key}`} />
             )
           )}
         </div>
@@ -208,24 +238,24 @@ function ItemsEditor({ section, onUpdate, businessId, fields }: {
 
 // --- Type-specific field renderers ---
 
-function HeroFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
+function HeroFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = useFieldUpdater(section, onUpdate);
   return (
     <>
-      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
-      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
-      <ImageField label="Background" value={section.backgroundImage || ""} savedValue={savedSection?.backgroundImage || ""} onChange={(v) => updater.set("backgroundImage", v)} businessId={businessId} placeholder="Background image URL" />
-      <CtaFields section={section} savedSection={savedSection} onUpdate={onUpdate} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} sectionIndex={si} fieldPath="image" />
+      <ImageField label="Background" value={section.backgroundImage || ""} savedValue={savedSection?.backgroundImage || ""} onChange={(v) => updater.set("backgroundImage", v)} businessId={businessId} placeholder="Background image URL" sectionIndex={si} fieldPath="backgroundImage" />
+      <CtaFields section={section} savedSection={savedSection} onUpdate={onUpdate} si={si} />
     </>
   );
 }
 
-function ServicesFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
+function ServicesFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = useFieldUpdater(section, onUpdate);
   return (
     <>
-      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
-      <ItemsEditor section={section} onUpdate={onUpdate} businessId={businessId} fields={[
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <ItemsEditor section={section} onUpdate={onUpdate} businessId={businessId} si={si} fields={[
         { key: "title", label: "Title", type: "text" },
         { key: "description", label: "Description", type: "text" },
         { key: "price", label: "Price", type: "text" },
@@ -235,12 +265,12 @@ function ServicesFields({ section, savedSection, onUpdate, businessId }: { secti
   );
 }
 
-function CategoriesFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
+function CategoriesFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = useFieldUpdater(section, onUpdate);
   return (
     <>
-      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
-      <ItemsEditor section={section} onUpdate={onUpdate} businessId={businessId} fields={[
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <ItemsEditor section={section} onUpdate={onUpdate} businessId={businessId} si={si} fields={[
         { key: "title", label: "Title", type: "text" },
         { key: "description", label: "Description", type: "text" },
         { key: "image", label: "Image", type: "image" },
@@ -251,28 +281,28 @@ function CategoriesFields({ section, savedSection, onUpdate, businessId }: { sec
   );
 }
 
-function AboutFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
+function AboutFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = useFieldUpdater(section, onUpdate);
   const variant = section.variant || "story";
 
   return (
     <>
-      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
-      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} sectionIndex={si} fieldPath="image" />
 
       {variant === "story" && (
         <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Story</span>
-          <TextField label="Title" value={section.story?.title || ""} savedValue={savedSection?.story?.title || ""} onChange={(v) => updater.setNested("story", "title", v)} />
-          <TextField label="Content" value={section.story?.content || ""} savedValue={savedSection?.story?.content || ""} onChange={(v) => updater.setNested("story", "content", v)} />
+          <TextField label="Title" value={section.story?.title || ""} savedValue={savedSection?.story?.title || ""} onChange={(v) => updater.setNested("story", "title", v)} sectionIndex={si} fieldPath="story.title" />
+          <TextField label="Content" value={section.story?.content || ""} savedValue={savedSection?.story?.content || ""} onChange={(v) => updater.setNested("story", "content", v)} sectionIndex={si} fieldPath="story.content" />
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block pt-2">Commitment</span>
-          <TextField label="Title" value={section.commitment?.title || ""} savedValue={savedSection?.commitment?.title || ""} onChange={(v) => updater.setNested("commitment", "title", v)} />
-          <TextField label="Content" value={section.commitment?.content || ""} savedValue={savedSection?.commitment?.content || ""} onChange={(v) => updater.setNested("commitment", "content", v)} />
+          <TextField label="Title" value={section.commitment?.title || ""} savedValue={savedSection?.commitment?.title || ""} onChange={(v) => updater.setNested("commitment", "title", v)} sectionIndex={si} fieldPath="commitment.title" />
+          <TextField label="Content" value={section.commitment?.content || ""} savedValue={savedSection?.commitment?.content || ""} onChange={(v) => updater.setNested("commitment", "content", v)} sectionIndex={si} fieldPath="commitment.content" />
         </div>
       )}
 
       {variant === "timeline" && (
-        <ItemsEditor section={{ ...section, items: section.timeline }} onUpdate={(s) => onUpdate({ ...section, timeline: s.items })} businessId={businessId} fields={[
+        <ItemsEditor section={{ ...section, items: section.timeline }} onUpdate={(s) => onUpdate({ ...section, timeline: s.items })} businessId={businessId} si={si} fieldPrefix="timeline" fields={[
           { key: "year", label: "Year", type: "text" },
           { key: "title", label: "Title", type: "text" },
           { key: "description", label: "Description", type: "text" },
@@ -280,7 +310,7 @@ function AboutFields({ section, savedSection, onUpdate, businessId }: { section:
       )}
 
       {/* Stats editor */}
-      <ItemsEditor section={{ ...section, items: section.stats }} onUpdate={(s) => onUpdate({ ...section, stats: s.items })} businessId={businessId} fields={[
+      <ItemsEditor section={{ ...section, items: section.stats }} onUpdate={(s) => onUpdate({ ...section, stats: s.items })} businessId={businessId} si={si} fieldPrefix="stats" fields={[
         { key: "value", label: "Value", type: "text" },
         { key: "label", label: "Label", type: "text" },
       ]} />
@@ -288,35 +318,35 @@ function AboutFields({ section, savedSection, onUpdate, businessId }: { section:
   );
 }
 
-function ContactFields({ section, savedSection, onUpdate }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
+function ContactFields({ section, savedSection, onUpdate, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = useFieldUpdater(section, onUpdate);
 
   return (
     <>
-      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
 
       <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
         <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Form</span>
-        <TextField label="Name Label" value={section.form?.nameLabel || ""} savedValue={savedSection?.form?.nameLabel || ""} onChange={(v) => updater.setNested("form", "nameLabel", v)} />
-        <TextField label="Email Label" value={section.form?.emailLabel || ""} savedValue={savedSection?.form?.emailLabel || ""} onChange={(v) => updater.setNested("form", "emailLabel", v)} />
-        <TextField label="Msg Label" value={section.form?.messageLabel || ""} savedValue={savedSection?.form?.messageLabel || ""} onChange={(v) => updater.setNested("form", "messageLabel", v)} />
-        <TextField label="Submit Btn" value={section.form?.submitButton || ""} savedValue={savedSection?.form?.submitButton || ""} onChange={(v) => updater.setNested("form", "submitButton", v)} />
+        <TextField label="Name Label" value={section.form?.nameLabel || ""} savedValue={savedSection?.form?.nameLabel || ""} onChange={(v) => updater.setNested("form", "nameLabel", v)} sectionIndex={si} fieldPath="form.nameLabel" />
+        <TextField label="Email Label" value={section.form?.emailLabel || ""} savedValue={savedSection?.form?.emailLabel || ""} onChange={(v) => updater.setNested("form", "emailLabel", v)} sectionIndex={si} fieldPath="form.emailLabel" />
+        <TextField label="Msg Label" value={section.form?.messageLabel || ""} savedValue={savedSection?.form?.messageLabel || ""} onChange={(v) => updater.setNested("form", "messageLabel", v)} sectionIndex={si} fieldPath="form.messageLabel" />
+        <TextField label="Submit Btn" value={section.form?.submitButton || ""} savedValue={savedSection?.form?.submitButton || ""} onChange={(v) => updater.setNested("form", "submitButton", v)} sectionIndex={si} fieldPath="form.submitButton" />
       </div>
 
       {section.variant === "split" && (
         <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Contact Info</span>
-          <TextField label="Address" value={section.info?.address || ""} savedValue={savedSection?.info?.address || ""} onChange={(v) => updater.setNested("info", "address", v)} />
-          <TextField label="Phone" value={section.info?.phone || ""} savedValue={savedSection?.info?.phone || ""} onChange={(v) => updater.setNested("info", "phone", v)} />
-          <TextField label="Email" value={section.info?.email || ""} savedValue={savedSection?.info?.email || ""} onChange={(v) => updater.setNested("info", "email", v)} />
-          <TextField label="Hours" value={section.info?.hours || ""} savedValue={savedSection?.info?.hours || ""} onChange={(v) => updater.setNested("info", "hours", v)} />
+          <TextField label="Address" value={section.info?.address || ""} savedValue={savedSection?.info?.address || ""} onChange={(v) => updater.setNested("info", "address", v)} sectionIndex={si} fieldPath="info.address" />
+          <TextField label="Phone" value={section.info?.phone || ""} savedValue={savedSection?.info?.phone || ""} onChange={(v) => updater.setNested("info", "phone", v)} sectionIndex={si} fieldPath="info.phone" />
+          <TextField label="Email" value={section.info?.email || ""} savedValue={savedSection?.info?.email || ""} onChange={(v) => updater.setNested("info", "email", v)} sectionIndex={si} fieldPath="info.email" />
+          <TextField label="Hours" value={section.info?.hours || ""} savedValue={savedSection?.info?.hours || ""} onChange={(v) => updater.setNested("info", "hours", v)} sectionIndex={si} fieldPath="info.hours" />
         </div>
       )}
     </>
   );
 }
 
-function ShopFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
+function ShopFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = useFieldUpdater(section, onUpdate);
   const products = section.products || [];
 
@@ -338,7 +368,7 @@ function ShopFields({ section, savedSection, onUpdate, businessId }: { section: 
 
   return (
     <>
-      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
 
       <div className="mt-3 pt-3 border-t border-gray-200">
         <div className="flex items-center justify-between mb-3">
@@ -346,13 +376,17 @@ function ShopFields({ section, savedSection, onUpdate, businessId }: { section: 
           <button onClick={addProduct} className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200">+ Add Product</button>
         </div>
         {products.map((product: any, pIdx: number) => (
-          <div key={pIdx} className="mb-3 p-3 bg-white border border-gray-200 rounded space-y-2">
+          <div
+            key={pIdx}
+            className="mb-3 p-3 bg-white border border-gray-200 rounded space-y-2"
+            {...fieldHoverProps(si, `products.${pIdx}`)}
+          >
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-gray-500">Product {pIdx + 1}</span>
               <button onClick={() => removeProduct(pIdx)} className="text-xs text-red-600 hover:text-red-800">Remove</button>
             </div>
-            <TextField label="Name" value={product.name || ""} onChange={(v) => updateProduct(pIdx, "name", v)} />
-            <div className="flex gap-4 items-center">
+            <TextField label="Name" value={product.name || ""} onChange={(v) => updateProduct(pIdx, "name", v)} sectionIndex={si} fieldPath={`products.${pIdx}.name`} />
+            <div className="flex gap-4 items-center" {...fieldHoverProps(si, `products.${pIdx}.price`)}>
               <label className="w-24 flex-shrink-0 text-sm text-gray-600">Price</label>
               <input
                 type="number"
@@ -361,8 +395,8 @@ function ShopFields({ section, savedSection, onUpdate, businessId }: { section: 
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
               />
             </div>
-            <TextField label="Description" value={product.description || ""} onChange={(v) => updateProduct(pIdx, "description", v)} />
-            <ImageField label="Image" value={product.image || ""} onChange={(v) => updateProduct(pIdx, "image", v)} businessId={businessId} />
+            <TextField label="Description" value={product.description || ""} onChange={(v) => updateProduct(pIdx, "description", v)} sectionIndex={si} fieldPath={`products.${pIdx}.description`} />
+            <ImageField label="Image" value={product.image || ""} onChange={(v) => updateProduct(pIdx, "image", v)} businessId={businessId} sectionIndex={si} fieldPath={`products.${pIdx}.image`} />
           </div>
         ))}
         {products.length === 0 && <p className="text-xs text-gray-400 italic">No products yet</p>}
@@ -371,13 +405,13 @@ function ShopFields({ section, savedSection, onUpdate, businessId }: { section: 
   );
 }
 
-function DefaultFields({ section, savedSection, onUpdate, businessId }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string }) {
+function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = useFieldUpdater(section, onUpdate);
   return (
     <>
-      <HeaderFields section={section} savedSection={savedSection} updater={updater} />
-      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} />
-      <ImageField label="Background" value={section.backgroundImage || ""} savedValue={savedSection?.backgroundImage || ""} onChange={(v) => updater.set("backgroundImage", v)} businessId={businessId} />
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} sectionIndex={si} fieldPath="image" />
+      <ImageField label="Background" value={section.backgroundImage || ""} savedValue={savedSection?.backgroundImage || ""} onChange={(v) => updater.set("backgroundImage", v)} businessId={businessId} sectionIndex={si} fieldPath="backgroundImage" />
     </>
   );
 }
@@ -397,7 +431,7 @@ export default function SectionEditor({ section, savedSection, index, pageName, 
   const variantChanged = savedSection && section.variant !== savedSection.variant;
 
   const renderTypeFields = () => {
-    const props = { section, savedSection, onUpdate, businessId };
+    const props = { section, savedSection, onUpdate, businessId, si: index };
     switch (section.type) {
       case "hero": return <HeroFields {...props} />;
       case "services": return <ServicesFields {...props} />;
@@ -410,7 +444,11 @@ export default function SectionEditor({ section, savedSection, index, pageName, 
   };
 
   return (
-    <div className="mb-4 p-4 border rounded-lg bg-gray-50">
+    <div
+      className="mb-4 p-4 border rounded-lg bg-gray-50"
+      onMouseEnter={() => postHighlight('highlight-section', index)}
+      onMouseLeave={() => postHighlight('clear-highlight')}
+    >
       <div className="flex items-center justify-between mb-3">
         <span className="font-medium text-sm">Section {index + 1}: {section.type}</span>
         <button onClick={onRemove} className="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200">Remove</button>

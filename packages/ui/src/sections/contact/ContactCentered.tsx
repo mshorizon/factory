@@ -20,10 +20,10 @@ export function ContactCentered({
         <ScrollReveal delay={0} direction="up">
           <div className="text-center mb-8">
             {title && (
-              <h1 className="text-4xl font-bold text-foreground mb-2">{title}</h1>
+              <h1 className="text-4xl font-bold text-foreground mb-2" data-field="header.title">{title}</h1>
             )}
             {subtitle && (
-              <p className="text-muted">{subtitle}</p>
+              <p className="text-muted" data-field="header.subtitle">{subtitle}</p>
             )}
           </div>
         </ScrollReveal>
@@ -31,7 +31,7 @@ export function ContactCentered({
 
       <ScrollReveal delay={0.1} direction="up">
         <form className="space-y-6 bg-background border border-border rounded-radius p-8 shadow-sm">
-          <div className="space-y-2">
+          <div className="space-y-2" data-field="form.nameLabel">
             <Label htmlFor="name" className="text-foreground">
               {form?.nameLabel || "Name"}
             </Label>
@@ -43,7 +43,7 @@ export function ContactCentered({
               required
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2" data-field="form.emailLabel">
             <Label htmlFor="email" className="text-foreground">
               {form?.emailLabel || "Email"}
             </Label>
@@ -55,7 +55,7 @@ export function ContactCentered({
               required
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2" data-field="form.messageLabel">
             <Label htmlFor="message" className="text-foreground">
               {form?.messageLabel || "Message"}
             </Label>
@@ -67,7 +67,7 @@ export function ContactCentered({
               required
             />
           </div>
-          <Button type="submit" size="lg" className="w-full">
+          <Button type="submit" size="lg" className="w-full" data-field="form.submitButton">
             {form?.submitButton || "Send Message"}
           </Button>
         </form>

@@ -49,15 +49,15 @@ export function HeroCards({
 
               <div className="bg-background rounded-radius shadow-2xl p-8 md:p-12">
                 {badge && (
-                  <Badge variant="accent" className="mb-4 text-sm px-4 py-1">
+                  <Badge variant="accent" className="mb-4 text-sm px-4 py-1" data-field="header.badge">
                     {badge}
                   </Badge>
                 )}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground" data-field="header.title">
                   {title}
                 </h1>
                 {subtitle && (
-                  <p className="text-lg md:text-xl text-muted mb-8">
+                  <p className="text-lg md:text-xl text-muted mb-8" data-field="header.subtitle">
                     {subtitle}
                   </p>
                 )}
@@ -69,6 +69,7 @@ export function HeroCards({
                         size="xl"
                         variant={cta.variant || "default"}
                         className="shadow-lg shadow-primary/25"
+                        data-field="cta"
                       >
                         <a href={cta.href}>
                           {cta.label}
@@ -81,6 +82,7 @@ export function HeroCards({
                         asChild
                         size="xl"
                         variant={secondaryCta.variant || "outline"}
+                        data-field="secondaryCta"
                       >
                         <a href={secondaryCta.href}>{secondaryCta.label}</a>
                       </Button>
@@ -97,7 +99,7 @@ export function HeroCards({
             <ScrollReveal delay={0.2} direction="right" distance={50}>
               <div className="relative lg:h-[500px] h-[350px]">
                 <div className="absolute inset-4 bg-primary/10 rounded-radius -rotate-6" />
-                <div className="absolute inset-0 rounded-radius overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 rounded-radius overflow-hidden shadow-2xl" data-field="image">
                   <img
                     src={heroImage}
                     alt=""

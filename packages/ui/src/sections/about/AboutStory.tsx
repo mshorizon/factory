@@ -26,6 +26,7 @@ export function AboutStory({
               src={image}
               alt=""
               className="w-full max-w-2xl h-[400px] object-cover rounded-radius shadow-lg"
+              data-field="image"
             />
           </div>
         </ScrollReveal>
@@ -34,8 +35,8 @@ export function AboutStory({
       {story && (
         <ScrollReveal delay={0} direction="up">
           <section>
-            <h2 className="text-2xl font-bold text-foreground mb-4">{story.title}</h2>
-            <p className="text-muted leading-relaxed">{story.content}</p>
+            <h2 className="text-2xl font-bold text-foreground mb-4" data-field="story.title">{story.title}</h2>
+            <p className="text-muted leading-relaxed" data-field="story.content">{story.content}</p>
           </section>
         </ScrollReveal>
       )}
@@ -49,10 +50,10 @@ export function AboutStory({
             <StaggerContainer className="grid md:grid-cols-3 gap-6" staggerDelay={0.1}>
               {stats.map((stat, index) => (
                 <StaggerItem key={index} direction="up" distance={20}>
-                  <Card className="text-center hover:shadow-lg transition-shadow h-full">
+                  <Card className="text-center hover:shadow-lg transition-shadow h-full" data-field={`stats.${index}`}>
                     <CardContent className="pt-6">
-                      <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
-                      <p className="text-muted">{stat.label}</p>
+                      <div className="text-4xl font-bold text-primary mb-2" data-field={`stats.${index}.value`}>{stat.value}</div>
+                      <p className="text-muted" data-field={`stats.${index}.label`}>{stat.label}</p>
                     </CardContent>
                   </Card>
                 </StaggerItem>
@@ -65,8 +66,8 @@ export function AboutStory({
       {commitment && (
         <ScrollReveal delay={0.2} direction="up">
           <section>
-            <h2 className="text-2xl font-bold text-foreground mb-4">{commitment.title}</h2>
-            <p className="text-muted leading-relaxed mb-6">{commitment.content}</p>
+            <h2 className="text-2xl font-bold text-foreground mb-4" data-field="commitment.title">{commitment.title}</h2>
+            <p className="text-muted leading-relaxed mb-6" data-field="commitment.content">{commitment.content}</p>
             {cta && (
               <Button asChild size="lg">
                 <a href={ctaHref}>{cta}</a>

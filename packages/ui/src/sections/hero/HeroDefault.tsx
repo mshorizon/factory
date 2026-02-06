@@ -44,7 +44,7 @@ export function HeroDefault({
       }
     >
       {backgroundImage && overlay && (
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/50" data-field="backgroundImage" />
       )}
       <div
         className={cn(
@@ -55,7 +55,7 @@ export function HeroDefault({
       >
         {badge && (
           <ScrollReveal delay={0} direction="up">
-            <Badge variant="accent" className="mb-4 text-sm px-4 py-1">
+            <Badge variant="accent" className="mb-4 text-sm px-4 py-1" data-field="header.badge">
               {badge}
             </Badge>
           </ScrollReveal>
@@ -66,6 +66,7 @@ export function HeroDefault({
               "text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight",
               backgroundImage ? "text-white" : "text-foreground"
             )}
+            data-field="header.title"
           >
             {title}
           </h1>
@@ -78,6 +79,7 @@ export function HeroDefault({
                 backgroundImage ? "text-white/90" : "text-muted",
                 align === "center" && "mx-auto"
               )}
+              data-field="header.subtitle"
             >
               {subtitle}
             </p>
@@ -101,6 +103,7 @@ export function HeroDefault({
                   size="xl"
                   variant={cta.variant || "default"}
                   className="shadow-lg shadow-primary/25"
+                  data-field="cta"
                 >
                   <a href={cta.href}>
                     {cta.label}
@@ -114,6 +117,7 @@ export function HeroDefault({
                   size="xl"
                   variant={secondaryCta.variant || "outline"}
                   className={backgroundImage ? "border-white text-white hover:bg-white hover:text-foreground" : ""}
+                  data-field="secondaryCta"
                 >
                   <a href={secondaryCta.href}>{secondaryCta.label}</a>
                 </Button>

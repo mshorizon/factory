@@ -579,42 +579,43 @@ export default function AdminForm({ businessId, initialData, schema, translation
     const changed = isTabChanged(tab.id);
 
     return (
-      <div className="flex items-center">
-        <button
-          onClick={onClick}
-          className={`flex-1 text-left px-3 py-1.5 text-sm rounded-md transition-colors ${
-            isActive
-              ? "bg-blue-50 text-blue-700 font-medium"
-              : "text-gray-700 hover:bg-white/60"
-          }`}
-        >
-          {tab.label}
-        </button>
-        {changed && (
-          <button
+      <button
+        onClick={onClick}
+        className={`w-full flex items-center justify-between px-3 py-[7px] text-[13px] rounded-md transition-all ${
+          isActive
+            ? "bg-[var(--primary)] text-white font-medium shadow-sm"
+            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+        }`}
+      >
+        <span className="truncate">{tab.label}</span>
+        {changed && !isActive && (
+          <span
             onClick={(e) => { e.stopPropagation(); revertTab(tab.id); }}
-            title="Revert changes"
-            className="ml-1 p-1 text-amber-500 hover:text-red-500 transition-colors flex-shrink-0"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="1 4 1 10 7 10" />
-              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
-            </svg>
-          </button>
+            title="Revert"
+            className="ml-1.5 w-[6px] h-[6px] rounded-full bg-amber-400 flex-shrink-0 hover:bg-red-400 cursor-pointer"
+          />
         )}
-      </div>
+        {changed && isActive && (
+          <span
+            onClick={(e) => { e.stopPropagation(); revertTab(tab.id); }}
+            title="Revert"
+            className="ml-1.5 text-[10px] text-white/70 hover:text-white cursor-pointer flex-shrink-0"
+          >undo</span>
+        )}
+      </button>
     );
   };
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-0 h-full">
       {/* Left Sidebar */}
-      <div className="w-72 flex-shrink-0">
-        <nav className="space-y-3">
-          {/* Config group */}
-          <div className="bg-slate-50 rounded-lg p-2">
-            <h3 className="px-2 mb-1 text-xs font-semibold text-slate-500 tracking-wide">Config</h3>
-            <div className="space-y-0.5">
+      <div className="w-[180px] flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
+        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
+
+          {/* Config */}
+          <div>
+            <div className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Config</div>
+            <div className="space-y-[2px]">
               {tabs.filter(t => ["meta", "theme", "navbar", "footer"].includes(t.id)).map((tab) => (
                 <NavItem
                   key={tab.id}
@@ -630,10 +631,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
             </div>
           </div>
 
-          {/* Pages group */}
-          <div className="bg-amber-50 rounded-lg p-2">
-            <h3 className="px-2 mb-1 text-xs font-semibold text-amber-600 tracking-wide">Pages</h3>
-            <div className="space-y-0.5">
+          {/* Pages */}
+          <div>
+            <div className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Pages</div>
+            <div className="space-y-[2px]">
               {tabs.filter(t => t.id.startsWith("page-")).map((tab) => (
                 <NavItem
                   key={tab.id}
@@ -647,31 +648,29 @@ export default function AdminForm({ businessId, initialData, schema, translation
                   }}
                 />
               ))}
-              <div className="px-2 pt-1">
-                <div className="flex gap-1">
-                  <input
-                    type="text"
-                    value={newPageName}
-                    onChange={(e) => setNewPageName(e.target.value)}
-                    placeholder="New page"
-                    className="flex-1 min-w-0 px-2 py-1 text-xs border border-amber-300 rounded bg-white"
-                    onKeyDown={(e) => e.key === "Enter" && addPage()}
-                  />
-                  <button
-                    onClick={addPage}
-                    className="px-2 py-1 text-xs bg-amber-100 text-amber-700 rounded hover:bg-amber-200"
-                  >
-                    +
-                  </button>
-                </div>
+            </div>
+            <div className="mt-2 px-1">
+              <div className="flex gap-1">
+                <input
+                  type="text"
+                  value={newPageName}
+                  onChange={(e) => setNewPageName(e.target.value)}
+                  placeholder="New page..."
+                  className="flex-1 min-w-0 px-2 py-1 text-xs border border-gray-200 rounded bg-gray-50 focus:bg-white focus:border-gray-300 focus:outline-none transition-colors"
+                  onKeyDown={(e) => e.key === "Enter" && addPage()}
+                />
+                <button
+                  onClick={addPage}
+                  className="px-2 py-1 text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded hover:bg-gray-100 hover:text-gray-700 transition-colors"
+                >+</button>
               </div>
             </div>
           </div>
 
-          {/* Translations group */}
-          <div className="bg-emerald-50 rounded-lg p-2">
-            <h3 className="px-2 mb-1 text-xs font-semibold text-emerald-600 tracking-wide">Translations</h3>
-            <div className="space-y-0.5">
+          {/* Translations */}
+          <div>
+            <div className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Translations</div>
+            <div className="space-y-[2px]">
               {tabs.filter(t => t.id.startsWith("translations-")).map((tab) => (
                 <NavItem
                   key={tab.id}
@@ -681,59 +680,56 @@ export default function AdminForm({ businessId, initialData, schema, translation
               ))}
             </div>
           </div>
-
-          {/* Actions */}
-          <div className="pt-2 space-y-2 px-1">
-            <button
-              onClick={handleSave}
-              disabled={saveStatus === "saving" || !hasUnsavedChanges}
-              className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-            >
-              {saveStatus === "saving" ? "Saving..." : "Save"}
-            </button>
-
-            {hasUnsavedChanges && (
-              <button
-                onClick={revertAll}
-                className="w-full px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-              >
-                Revert All
-              </button>
-            )}
-
-            <div className="flex items-center justify-center gap-2 py-1">
-              {saveStatus === "success" && (
-                <>
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
-                  <span className="text-xs text-green-600">Saved</span>
-                </>
-              )}
-              {saveStatus === "error" && (
-                <>
-                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                  <span className="text-xs text-red-500">{errorMessage}</span>
-                </>
-              )}
-              {saveStatus === "idle" && hasUnsavedChanges && (
-                <>
-                  <span className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
-                  <span className="text-xs text-amber-600">Unsaved changes</span>
-                </>
-              )}
-              {saveStatus === "idle" && !hasUnsavedChanges && (
-                <>
-                  <span className="w-1.5 h-1.5 bg-gray-300 rounded-full" />
-                  <span className="text-xs text-gray-400">All changes saved</span>
-                </>
-              )}
-            </div>
-          </div>
         </nav>
+
+        {/* Bottom actions - pinned */}
+        <div className="p-3 border-t border-gray-200 space-y-2 bg-gray-50/50">
+          <button
+            onClick={handleSave}
+            disabled={saveStatus === "saving" || !hasUnsavedChanges}
+            className="w-full py-2 text-[13px] font-medium text-white bg-[var(--primary)] rounded-md hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+          >
+            {saveStatus === "saving" ? "Saving..." : "Save Changes"}
+          </button>
+
+          {hasUnsavedChanges && (
+            <button
+              onClick={revertAll}
+              className="w-full py-1.5 text-[12px] text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              Discard all changes
+            </button>
+          )}
+
+          <div className="flex items-center justify-center gap-1.5 pt-0.5">
+            {saveStatus === "success" && (
+              <>
+                <span className="w-[5px] h-[5px] bg-green-500 rounded-full" />
+                <span className="text-[11px] text-green-600">Saved</span>
+              </>
+            )}
+            {saveStatus === "error" && (
+              <>
+                <span className="w-[5px] h-[5px] bg-red-500 rounded-full" />
+                <span className="text-[11px] text-red-500">{errorMessage}</span>
+              </>
+            )}
+            {saveStatus === "idle" && hasUnsavedChanges && (
+              <>
+                <span className="w-[5px] h-[5px] bg-amber-400 rounded-full" />
+                <span className="text-[11px] text-amber-600">Unsaved changes</span>
+              </>
+            )}
+            {saveStatus === "idle" && !hasUnsavedChanges && (
+              <span className="text-[11px] text-gray-400">All changes saved</span>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Right Content */}
-      <div className="flex-1 min-w-0">
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
+      <div className="flex-1 min-w-0 overflow-y-auto">
+        <div className="p-5">
           {getTabContent()}
         </div>
       </div>

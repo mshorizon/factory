@@ -24,9 +24,9 @@ const sectionComponents: Record<string, any> = {
 };
 ---
 
-{sections.map((section) => {
+{sections.map((section, index) => {
   const Component = sectionComponents[section.type];
   if (!Component) return null;
 
-  return <Component section={section} />;
+  return <div data-section-index={index}><Component section={section} /></div>;
 })}

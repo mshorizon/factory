@@ -12,10 +12,10 @@ export function CategoriesCarousel({ items, className }: CategoriesProps) {
             href={item.href || "#"}
             className="flex-shrink-0 snap-start group"
           >
-            <div className="w-64 bg-background border border-border rounded-radius overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1">
+            <div className="w-64 bg-background border border-border rounded-radius overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1" data-field={`items.${index}`}>
               {/* Image or Icon */}
               {item.image ? (
-                <div className="h-40 overflow-hidden">
+                <div className="h-40 overflow-hidden" data-field={`items.${index}.image`}>
                   <img
                     src={item.image}
                     alt={item.title}
@@ -34,11 +34,11 @@ export function CategoriesCarousel({ items, className }: CategoriesProps) {
 
               {/* Content */}
               <div className="p-4">
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
                   {item.title}
                 </h3>
                 {item.description && (
-                  <p className="text-sm text-muted mt-1 line-clamp-2">
+                  <p className="text-sm text-muted mt-1 line-clamp-2" data-field={`items.${index}.description`}>
                     {item.description}
                   </p>
                 )}

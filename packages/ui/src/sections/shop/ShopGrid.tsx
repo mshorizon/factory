@@ -31,10 +31,11 @@ export function ShopGrid({
           />
         )}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {products.map((product) => (
+          {products.map((product, index) => (
             <ProductCard
               key={product.id}
               product={product}
+              index={index}
               ctaLabel={ctaLabel}
               currency={currency}
               outOfStockLabel={outOfStockLabel}

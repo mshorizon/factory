@@ -28,6 +28,7 @@ export function HeroVideo({
       {backgroundImage && (
         <div
           className="absolute inset-0"
+          data-field="backgroundImage"
           style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: "cover",
@@ -46,19 +47,20 @@ export function HeroVideo({
             <Badge
               variant="accent"
               className="mb-4 text-sm px-4 py-2 backdrop-blur-sm bg-background/30 border border-foreground/10"
+              data-field="header.badge"
             >
               {badge}
             </Badge>
           </ScrollReveal>
         )}
         <ScrollReveal delay={0.1} direction="up">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-foreground max-w-3xl">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-foreground max-w-3xl" data-field="header.title">
             {title}
           </h1>
         </ScrollReveal>
         {subtitle && (
           <ScrollReveal delay={0.2} direction="up">
-            <p className="text-lg md:text-xl text-muted mb-8 max-w-2xl">
+            <p className="text-lg md:text-xl text-muted mb-8 max-w-2xl" data-field="header.subtitle">
               {subtitle}
             </p>
           </ScrollReveal>
@@ -72,6 +74,7 @@ export function HeroVideo({
                   size="xl"
                   variant={cta.variant || "default"}
                   className="shadow-lg shadow-primary/25"
+                  data-field="cta"
                 >
                   <a href={cta.href}>
                     {cta.label}
@@ -84,6 +87,7 @@ export function HeroVideo({
                   asChild
                   size="xl"
                   variant={secondaryCta.variant || "outline"}
+                  data-field="secondaryCta"
                 >
                   <a href={secondaryCta.href}>{secondaryCta.label}</a>
                 </Button>
