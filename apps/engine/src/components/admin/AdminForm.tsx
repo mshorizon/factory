@@ -817,15 +817,17 @@ export default function AdminForm({ businessId, initialData, schema, translation
           </div>
         </div>
 
-        {/* Auto-save Status */}
+        {/* Save Button */}
         <div className="pt-2 border-t border-gray-200">
+          <button
+            onClick={handleSave}
+            disabled={saveStatus === "saving" || !hasUnsavedChanges}
+            className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {saveStatus === "saving" ? "Saving..." : "Save"}
+          </button>
+
           <div className="flex items-center justify-center gap-2 py-2">
-            {saveStatus === "saving" && (
-              <>
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                <span className="text-xs text-blue-600">Updating preview...</span>
-              </>
-            )}
             {saveStatus === "success" && (
               <>
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -847,7 +849,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
             {saveStatus === "idle" && !hasUnsavedChanges && (
               <>
                 <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <span className="text-xs text-gray-400">Draft preview</span>
+                <span className="text-xs text-gray-400">All changes saved</span>
               </>
             )}
           </div>
