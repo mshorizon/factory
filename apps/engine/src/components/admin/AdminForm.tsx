@@ -4,7 +4,7 @@ import rjsfValidator from "@rjsf/validator-ajv8";
 import type { RJSFSchema } from "@rjsf/utils";
 import { ColorPickerWidget } from "./widgets/ColorPickerWidget";
 import { ImageUrlWidget } from "./widgets/ImageUrlWidget";
-import { ImageUploadField } from "./widgets/ImageUploadField";
+import SectionEditor from "./SectionEditor";
 
 // Handle CJS/ESM interop
 const Form = (rjsfCore as any).default || rjsfCore;
@@ -481,234 +481,19 @@ export default function AdminForm({ businessId, initialData, schema, translation
             </div>
 
             {pageData?.sections?.map((section: any, index: number) => (
-              <div key={index} className="mb-4 p-4 border rounded-lg bg-gray-50">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="font-medium text-sm">Section {index + 1}: {section.type}</span>
-                  <button
-                    onClick={() => removeSection(pageName, index)}
-                    className="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200"
-                  >
-                    Remove
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex gap-4 items-start">
-                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Type</label>
-                    <select
-                      value={section.type || "hero"}
-                      onChange={(e) => {
-                        const newSections = [...pageData.sections];
-                        newSections[index] = { ...section, type: e.target.value };
-                        handleChange(["pages", pageName, "sections"], { formData: newSections });
-                      }}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
-                    >
-                      <option value="hero">Hero</option>
-                      <option value="services">Services</option>
-                      <option value="categories">Categories</option>
-                      <option value="about">About</option>
-                      <option value="contact">Contact</option>
-                      <option value="gallery">Gallery</option>
-                      <option value="testimonials">Testimonials</option>
-                      <option value="shop">Shop</option>
-                    </select>
-                  </div>
-
-                  <div className="flex gap-4 items-start">
-                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Variant</label>
-                    <input
-                      type="text"
-                      value={section.variant || ""}
-                      onChange={(e) => {
-                        const newSections = [...pageData.sections];
-                        newSections[index] = { ...section, variant: e.target.value };
-                        handleChange(["pages", pageName, "sections"], { formData: newSections });
-                      }}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
-                    />
-                  </div>
-
-                  <div className="flex gap-4 items-start">
-                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Title</label>
-                    <input
-                      type="text"
-                      value={section.header?.title || ""}
-                      onChange={(e) => {
-                        const newSections = [...pageData.sections];
-                        newSections[index] = {
-                          ...section,
-                          header: { ...section.header, title: e.target.value },
-                        };
-                        handleChange(["pages", pageName, "sections"], { formData: newSections });
-                      }}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
-                    />
-                  </div>
-
-                  <div className="flex gap-4 items-start">
-                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Subtitle</label>
-                    <input
-                      type="text"
-                      value={section.header?.subtitle || ""}
-                      onChange={(e) => {
-                        const newSections = [...pageData.sections];
-                        newSections[index] = {
-                          ...section,
-                          header: { ...section.header, subtitle: e.target.value },
-                        };
-                        handleChange(["pages", pageName, "sections"], { formData: newSections });
-                      }}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
-                    />
-                  </div>
-
-                  <div className="flex gap-4 items-start">
-                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Badge</label>
-                    <input
-                      type="text"
-                      value={section.header?.badge || ""}
-                      onChange={(e) => {
-                        const newSections = [...pageData.sections];
-                        newSections[index] = {
-                          ...section,
-                          header: { ...section.header, badge: e.target.value },
-                        };
-                        handleChange(["pages", pageName, "sections"], { formData: newSections });
-                      }}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
-                    />
-                  </div>
-
-                  <div className="flex gap-4 items-start">
-                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Image</label>
-                    <ImageUploadField
-                      value={section.image || ""}
-                      businessId={businessId}
-                      onChange={(url) => {
-                        const newSections = [...pageData.sections];
-                        newSections[index] = { ...section, image: url };
-                        handleChange(["pages", pageName, "sections"], { formData: newSections });
-                      }}
-                    />
-                  </div>
-
-                  <div className="flex gap-4 items-start">
-                    <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">Background</label>
-                    <ImageUploadField
-                      value={section.backgroundImage || ""}
-                      businessId={businessId}
-                      placeholder="Background image URL"
-                      onChange={(url) => {
-                        const newSections = [...pageData.sections];
-                        newSections[index] = { ...section, backgroundImage: url };
-                        handleChange(["pages", pageName, "sections"], { formData: newSections });
-                      }}
-                    />
-                  </div>
-
-                  {/* Products editor for shop sections */}
-                  {section.type === "shop" && (
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <div className="flex items-center justify-between mb-3">
-                        <label className="text-sm font-medium text-gray-700">Products</label>
-                        <button
-                          onClick={() => {
-                            const newSections = [...pageData.sections];
-                            const products = section.products || [];
-                            newSections[index] = {
-                              ...section,
-                              products: [...products, { name: "New Product", price: 0, description: "" }],
-                            };
-                            handleChange(["pages", pageName, "sections"], { formData: newSections });
-                          }}
-                          className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200"
-                        >
-                          + Add Product
-                        </button>
-                      </div>
-                      {(section.products || []).map((product: any, pIdx: number) => (
-                        <div key={pIdx} className="mb-3 p-3 bg-white border border-gray-200 rounded">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-medium text-gray-500">Product {pIdx + 1}</span>
-                            <button
-                              onClick={() => {
-                                const newSections = [...pageData.sections];
-                                const newProducts = [...section.products];
-                                newProducts.splice(pIdx, 1);
-                                newSections[index] = { ...section, products: newProducts };
-                                handleChange(["pages", pageName, "sections"], { formData: newSections });
-                              }}
-                              className="text-xs text-red-600 hover:text-red-800"
-                            >
-                              Remove
-                            </button>
-                          </div>
-                          <div className="space-y-2">
-                            <input
-                              type="text"
-                              placeholder="Product name"
-                              value={product.name || ""}
-                              onChange={(e) => {
-                                const newSections = [...pageData.sections];
-                                const newProducts = [...section.products];
-                                newProducts[pIdx] = { ...product, name: e.target.value };
-                                newSections[index] = { ...section, products: newProducts };
-                                handleChange(["pages", pageName, "sections"], { formData: newSections });
-                              }}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
-                            />
-                            <div className="flex gap-2">
-                              <input
-                                type="number"
-                                placeholder="Price"
-                                value={product.price || ""}
-                                onChange={(e) => {
-                                  const newSections = [...pageData.sections];
-                                  const newProducts = [...section.products];
-                                  newProducts[pIdx] = { ...product, price: parseFloat(e.target.value) || 0 };
-                                  newSections[index] = { ...section, products: newProducts };
-                                  handleChange(["pages", pageName, "sections"], { formData: newSections });
-                                }}
-                                className="w-24 px-2 py-1 text-sm border border-gray-300 rounded"
-                              />
-                              <input
-                                type="text"
-                                placeholder="Image URL"
-                                value={product.image || ""}
-                                onChange={(e) => {
-                                  const newSections = [...pageData.sections];
-                                  const newProducts = [...section.products];
-                                  newProducts[pIdx] = { ...product, image: e.target.value };
-                                  newSections[index] = { ...section, products: newProducts };
-                                  handleChange(["pages", pageName, "sections"], { formData: newSections });
-                                }}
-                                className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
-                              />
-                            </div>
-                            <input
-                              type="text"
-                              placeholder="Description"
-                              value={product.description || ""}
-                              onChange={(e) => {
-                                const newSections = [...pageData.sections];
-                                const newProducts = [...section.products];
-                                newProducts[pIdx] = { ...product, description: e.target.value };
-                                newSections[index] = { ...section, products: newProducts };
-                                handleChange(["pages", pageName, "sections"], { formData: newSections });
-                              }}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
-                            />
-                          </div>
-                        </div>
-                      ))}
-                      {(!section.products || section.products.length === 0) && (
-                        <p className="text-xs text-gray-400 italic">No products yet</p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
+              <SectionEditor
+                key={index}
+                section={section}
+                index={index}
+                pageName={pageName}
+                businessId={businessId}
+                onUpdate={(updatedSection) => {
+                  const newSections = [...pageData.sections];
+                  newSections[index] = updatedSection;
+                  handleChange(["pages", pageName, "sections"], { formData: newSections });
+                }}
+                onRemove={() => removeSection(pageName, index)}
+              />
             ))}
           </div>
         </div>
