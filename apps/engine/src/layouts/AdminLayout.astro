@@ -309,28 +309,28 @@ const { businessId, theme } = Astro.locals;
 
     <div class="admin-layout">
       <div class="admin-panel">
-        <nav class="bg-white border-b border-border px-4 py-3">
+        <nav style="background:#1d1d1d;border-bottom:1px solid rgba(255,255,255,0.06);padding:0.625rem 1rem;">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
-              <a href="/admin" class="text-base font-semibold text-primary">Admin</a>
-              <span class="text-muted">|</span>
-              <span class="text-xs text-muted">{businessId}</span>
+              <a href="/admin" style="color:rgba(255,255,255,0.9);font-weight:600;font-size:0.875rem;text-decoration:none;">Admin</a>
+              <span style="color:rgba(255,255,255,0.2);">|</span>
+              <span style="color:rgba(255,255,255,0.4);font-size:0.75rem;">{businessId}</span>
             </div>
-            <a href="/" target="_blank" class="text-xs text-muted hover:text-foreground transition-colors">
+            <a href="/" target="_blank" style="color:rgba(255,255,255,0.4);font-size:0.75rem;text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='rgba(255,255,255,0.8)'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
               Open site ↗
             </a>
           </div>
         </nav>
 
-        <main class="admin-content px-4 py-6">
+        <main class="admin-content">
           <slot />
         </main>
       </div>
 
       <div class="preview-panel">
         <div class="preview-header">
-          <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Live Preview</span>
-          <button id="refresh-preview" class="text-xs text-blue-600 hover:text-blue-800">
+          <span style="font-size:0.6875rem;font-weight:500;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;">Live Preview</span>
+          <button id="refresh-preview" style="font-size:0.6875rem;color:var(--primary);background:none;border:none;cursor:pointer;opacity:0.8;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">
             ↻ Refresh
           </button>
         </div>
