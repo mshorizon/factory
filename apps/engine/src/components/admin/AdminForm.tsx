@@ -574,13 +574,13 @@ export default function AdminForm({ businessId, initialData, schema, translation
     const changed = isTabChanged(tab.id);
 
     return (
-      <div className="flex items-center group">
+      <div className="flex items-center">
         <button
           onClick={onClick}
           className={`flex-1 text-left px-3 py-1.5 text-sm rounded-md transition-colors ${
             isActive
               ? "bg-blue-50 text-blue-700 font-medium"
-              : "text-gray-700 hover:bg-gray-100"
+              : "text-gray-700 hover:bg-white/60"
           }`}
         >
           {tab.label}
@@ -589,7 +589,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
           <button
             onClick={(e) => { e.stopPropagation(); revertTab(tab.id); }}
             title="Revert changes"
-            className="ml-1 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="ml-1 p-1 text-amber-500 hover:text-red-500 transition-colors flex-shrink-0"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="1 4 1 10 7 10" />
@@ -597,21 +597,18 @@ export default function AdminForm({ businessId, initialData, schema, translation
             </svg>
           </button>
         )}
-        {changed && (
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ml-1 flex-shrink-0" />
-        )}
       </div>
     );
   };
 
   return (
     <div className="flex gap-6">
-      {/* Left Sidebar - RapidAPI style */}
-      <div className="w-52 flex-shrink-0">
-        <nav className="space-y-6">
+      {/* Left Sidebar */}
+      <div className="w-64 flex-shrink-0">
+        <nav className="space-y-3">
           {/* Config group */}
-          <div>
-            <h3 className="px-3 mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Config</h3>
+          <div className="bg-slate-50 rounded-lg p-2">
+            <h3 className="px-2 mb-1 text-xs font-semibold text-slate-500 tracking-wide">Config</h3>
             <div className="space-y-0.5">
               {tabs.filter(t => ["meta", "theme", "navbar", "footer"].includes(t.id)).map((tab) => (
                 <NavItem
@@ -629,8 +626,8 @@ export default function AdminForm({ businessId, initialData, schema, translation
           </div>
 
           {/* Pages group */}
-          <div>
-            <h3 className="px-3 mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pages</h3>
+          <div className="bg-amber-50 rounded-lg p-2">
+            <h3 className="px-2 mb-1 text-xs font-semibold text-amber-600 tracking-wide">Pages</h3>
             <div className="space-y-0.5">
               {tabs.filter(t => t.id.startsWith("page-")).map((tab) => (
                 <NavItem
@@ -645,19 +642,19 @@ export default function AdminForm({ businessId, initialData, schema, translation
                   }}
                 />
               ))}
-              <div className="px-3 pt-1">
+              <div className="px-2 pt-1">
                 <div className="flex gap-1">
                   <input
                     type="text"
                     value={newPageName}
                     onChange={(e) => setNewPageName(e.target.value)}
                     placeholder="New page"
-                    className="flex-1 min-w-0 px-2 py-1 text-xs border border-gray-300 rounded"
+                    className="flex-1 min-w-0 px-2 py-1 text-xs border border-amber-300 rounded bg-white"
                     onKeyDown={(e) => e.key === "Enter" && addPage()}
                   />
                   <button
                     onClick={addPage}
-                    className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded hover:bg-gray-200"
+                    className="px-2 py-1 text-xs bg-amber-100 text-amber-700 rounded hover:bg-amber-200"
                   >
                     +
                   </button>
@@ -667,8 +664,8 @@ export default function AdminForm({ businessId, initialData, schema, translation
           </div>
 
           {/* Translations group */}
-          <div>
-            <h3 className="px-3 mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Translations</h3>
+          <div className="bg-emerald-50 rounded-lg p-2">
+            <h3 className="px-2 mb-1 text-xs font-semibold text-emerald-600 tracking-wide">Translations</h3>
             <div className="space-y-0.5">
               {tabs.filter(t => t.id.startsWith("translations-")).map((tab) => (
                 <NavItem
@@ -681,7 +678,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
           </div>
 
           {/* Actions */}
-          <div className="pt-4 border-t border-gray-200 space-y-2 px-1">
+          <div className="pt-2 space-y-2 px-1">
             <button
               onClick={handleSave}
               disabled={saveStatus === "saving" || !hasUnsavedChanges}
