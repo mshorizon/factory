@@ -65,7 +65,7 @@ export function ImageUploadField({ value, onChange, businessId, placeholder }: I
           onChange={(e) => handleChange(e.target.value)}
           disabled={uploadStatus === "uploading"}
           placeholder={placeholder || "https://example.com/image.jpg"}
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+          className="flex-1 px-3 py-2 border border-white/10 bg-white/[0.05] text-white/90 placeholder:text-white/25 rounded-md text-sm"
         />
         <input
           ref={fileInputRef}
@@ -78,18 +78,19 @@ export function ImageUploadField({ value, onChange, businessId, placeholder }: I
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploadStatus === "uploading"}
-          className="px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+          className="px-3 py-2 text-sm rounded hover:opacity-85 disabled:opacity-50 text-white"
+          style={{ background: 'var(--primary)' }}
         >
           {uploadStatus === "uploading" ? "Uploading..." : "Upload"}
         </button>
       </div>
 
       {uploadStatus === "error" && uploadError && (
-        <p className="text-xs text-red-500">{uploadError}</p>
+        <p className="text-xs text-red-400">{uploadError}</p>
       )}
 
       {value && !imageError && (
-        <div className="p-1 bg-gray-100 rounded inline-block">
+        <div className="p-1 bg-white/[0.05] rounded inline-block">
           <img
             src={value}
             alt="Preview"

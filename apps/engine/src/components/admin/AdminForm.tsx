@@ -514,32 +514,35 @@ export default function AdminForm({ businessId, initialData, schema, translation
 
       return (
         <div className="space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b">
-            <h3 className="text-lg font-semibold">Page: {pageName}</h3>
+          <div className="flex items-center justify-between pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <h3 className="text-[15px] font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>Page: {pageName}</h3>
             <button
               onClick={() => removePage(pageName)}
-              className="px-3 py-1 text-sm bg-red-100 text-red-700 rounded hover:bg-red-200"
+              className="px-3 py-1 text-xs rounded transition-colors"
+              style={{ background: 'rgba(220,38,38,0.15)', color: '#ff6b6b', border: '1px solid rgba(220,38,38,0.2)' }}
             >
               Delete Page
             </button>
           </div>
 
           <div className="flex gap-4 items-start">
-            <label className="w-32 flex-shrink-0 text-sm font-medium text-gray-700 pt-2">Title</label>
+            <label className="w-24 flex-shrink-0 text-[13px] pt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Title</label>
             <input
               type="text"
               value={pageData?.title || ""}
               onChange={(e) => handleChange(["pages", pageName, "title"], { formData: e.target.value })}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+              className="flex-1 px-3 py-2 rounded-md text-[13px] transition-colors focus:outline-none"
+              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}
             />
           </div>
 
-          <div className="pt-4 border-t">
+          <div className="pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
             <div className="flex items-center justify-between mb-4">
-              <h4 className="font-medium">Sections ({pageData?.sections?.length || 0})</h4>
+              <h4 className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.7)' }}>Sections ({pageData?.sections?.length || 0})</h4>
               <button
                 onClick={() => addSection(pageName)}
-                className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+                className="px-3 py-1 text-xs rounded transition-colors"
+                style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}
               >
                 + Add Section
               </button>
@@ -581,10 +584,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
     return (
       <button
         onClick={onClick}
-        className={`w-full flex items-center justify-between px-3 py-[7px] text-[13px] rounded-md transition-all ${
+        className={`w-full flex items-center justify-between px-3 py-[6px] text-[13px] rounded-md transition-all ${
           isActive
-            ? "bg-[var(--primary)] text-white font-medium shadow-sm"
-            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+            ? "bg-white/[0.08] text-white font-medium"
+            : "text-white/50 hover:bg-white/[0.04] hover:text-white/80"
         }`}
       >
         <span className="truncate">{tab.label}</span>
@@ -599,7 +602,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
           <span
             onClick={(e) => { e.stopPropagation(); revertTab(tab.id); }}
             title="Revert"
-            className="ml-1.5 text-[10px] text-white/70 hover:text-white cursor-pointer flex-shrink-0"
+            className="ml-1.5 text-[10px] text-white/40 hover:text-white/80 cursor-pointer flex-shrink-0"
           >undo</span>
         )}
       </button>
@@ -607,15 +610,17 @@ export default function AdminForm({ businessId, initialData, schema, translation
   };
 
   return (
-    <div className="flex gap-0 h-full">
+    <div className="flex h-full" style={{ gap: 0 }}>
       {/* Left Sidebar */}
-      <div className="w-[180px] flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
-        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
+      <div className="flex-shrink-0 flex flex-col" style={{ width: 200, background: '#1d1d1d', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+        <nav className="flex-1 overflow-y-auto py-4 px-2.5 space-y-5">
 
           {/* Config */}
           <div>
-            <div className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Config</div>
-            <div className="space-y-[2px]">
+            <div className="flex items-center justify-between px-3 mb-1.5">
+              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-wider">Config</span>
+            </div>
+            <div className="space-y-px">
               {tabs.filter(t => ["meta", "theme", "navbar", "footer"].includes(t.id)).map((tab) => (
                 <NavItem
                   key={tab.id}
@@ -633,8 +638,11 @@ export default function AdminForm({ businessId, initialData, schema, translation
 
           {/* Pages */}
           <div>
-            <div className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Pages</div>
-            <div className="space-y-[2px]">
+            <div className="flex items-center justify-between px-3 mb-1.5">
+              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-wider">Pages</span>
+              <span className="text-white/20 text-[11px]">+</span>
+            </div>
+            <div className="space-y-px">
               {tabs.filter(t => t.id.startsWith("page-")).map((tab) => (
                 <NavItem
                   key={tab.id}
@@ -656,12 +664,14 @@ export default function AdminForm({ businessId, initialData, schema, translation
                   value={newPageName}
                   onChange={(e) => setNewPageName(e.target.value)}
                   placeholder="New page..."
-                  className="flex-1 min-w-0 px-2 py-1 text-xs border border-gray-200 rounded bg-gray-50 focus:bg-white focus:border-gray-300 focus:outline-none transition-colors"
+                  className="flex-1 min-w-0 px-2 py-1 text-xs rounded transition-colors focus:outline-none"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}
                   onKeyDown={(e) => e.key === "Enter" && addPage()}
                 />
                 <button
                   onClick={addPage}
-                  className="px-2 py-1 text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded hover:bg-gray-100 hover:text-gray-700 transition-colors"
+                  className="px-2 py-1 text-xs rounded transition-colors"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.4)' }}
                 >+</button>
               </div>
             </div>
@@ -669,8 +679,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
 
           {/* Translations */}
           <div>
-            <div className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Translations</div>
-            <div className="space-y-[2px]">
+            <div className="flex items-center justify-between px-3 mb-1.5">
+              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-wider">Translations</span>
+            </div>
+            <div className="space-y-px">
               {tabs.filter(t => t.id.startsWith("translations-")).map((tab) => (
                 <NavItem
                   key={tab.id}
@@ -683,11 +695,12 @@ export default function AdminForm({ businessId, initialData, schema, translation
         </nav>
 
         {/* Bottom actions - pinned */}
-        <div className="p-3 border-t border-gray-200 space-y-2 bg-gray-50/50">
+        <div className="p-3 space-y-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <button
             onClick={handleSave}
             disabled={saveStatus === "saving" || !hasUnsavedChanges}
-            className="w-full py-2 text-[13px] font-medium text-white bg-[var(--primary)] rounded-md hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+            className="w-full py-2 text-[13px] font-medium text-white rounded-md hover:opacity-90 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+            style={{ background: 'var(--primary)' }}
           >
             {saveStatus === "saving" ? "Saving..." : "Save Changes"}
           </button>
@@ -695,7 +708,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
           {hasUnsavedChanges && (
             <button
               onClick={revertAll}
-              className="w-full py-1.5 text-[12px] text-gray-500 hover:text-gray-700 transition-colors"
+              className="w-full py-1.5 text-[12px] transition-colors"
+              style={{ color: 'rgba(255,255,255,0.35)' }}
+              onMouseOver={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+              onMouseOut={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}
             >
               Discard all changes
             </button>
@@ -704,31 +720,31 @@ export default function AdminForm({ businessId, initialData, schema, translation
           <div className="flex items-center justify-center gap-1.5 pt-0.5">
             {saveStatus === "success" && (
               <>
-                <span className="w-[5px] h-[5px] bg-green-500 rounded-full" />
-                <span className="text-[11px] text-green-600">Saved</span>
+                <span className="w-[5px] h-[5px] rounded-full" style={{ background: '#4cd964' }} />
+                <span className="text-[11px]" style={{ color: '#4cd964' }}>Saved</span>
               </>
             )}
             {saveStatus === "error" && (
               <>
-                <span className="w-[5px] h-[5px] bg-red-500 rounded-full" />
-                <span className="text-[11px] text-red-500">{errorMessage}</span>
+                <span className="w-[5px] h-[5px] rounded-full" style={{ background: '#ff6b6b' }} />
+                <span className="text-[11px]" style={{ color: '#ff6b6b' }}>{errorMessage}</span>
               </>
             )}
             {saveStatus === "idle" && hasUnsavedChanges && (
               <>
                 <span className="w-[5px] h-[5px] bg-amber-400 rounded-full" />
-                <span className="text-[11px] text-amber-600">Unsaved changes</span>
+                <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>Unsaved changes</span>
               </>
             )}
             {saveStatus === "idle" && !hasUnsavedChanges && (
-              <span className="text-[11px] text-gray-400">All changes saved</span>
+              <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.2)' }}>All changes saved</span>
             )}
           </div>
         </div>
       </div>
 
       {/* Right Content */}
-      <div className="flex-1 min-w-0 overflow-y-auto">
+      <div className="flex-1 min-w-0 overflow-y-auto" style={{ background: '#252525' }}>
         <div className="p-5">
           {getTabContent()}
         </div>

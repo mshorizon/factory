@@ -100,13 +100,13 @@ function TextField({ label, value, savedValue, onChange, placeholder, sectionInd
   const hover = sectionIndex != null && fieldPath ? fieldHoverProps(sectionIndex, fieldPath) : {};
   return (
     <div className="flex gap-4 items-center" {...hover}>
-      <label className="w-24 flex-shrink-0 text-sm text-gray-600">{label}</label>
+      <label className="w-24 flex-shrink-0 text-sm text-white/50">{label}</label>
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`flex-1 px-3 py-2 border rounded-md text-sm ${changed ? "border-amber-400 bg-amber-50" : "border-gray-300"}`}
+        className={`flex-1 px-3 py-2 border rounded-md text-sm bg-white/[0.05] text-white/90 placeholder:text-white/25 ${changed ? "border-amber-400/60 bg-amber-500/10" : "border-white/10"}`}
       />
       {changed && <RevertButton onClick={() => onChange(savedValue)} />}
     </div>
@@ -121,7 +121,7 @@ function ImageField({ label, value, savedValue, onChange, businessId, placeholde
   const hover = sectionIndex != null && fieldPath ? fieldHoverProps(sectionIndex, fieldPath) : {};
   return (
     <div className="flex gap-4 items-start" {...hover}>
-      <label className="w-24 flex-shrink-0 text-sm text-gray-600 pt-2">{label}</label>
+      <label className="w-24 flex-shrink-0 text-sm text-white/50 pt-2">{label}</label>
       <ImageUploadField value={value} onChange={onChange} businessId={businessId} placeholder={placeholder} />
       {changed && <div className="pt-2"><RevertButton onClick={() => onChange(savedValue)} /></div>}
     </div>
@@ -144,8 +144,8 @@ function HeaderFields({ section, savedSection, updater, si }: { section: any; sa
 
 function CtaFields({ section, savedSection, onUpdate, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; si: number }) {
   return (
-    <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
-      <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Call to Action</span>
+    <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3">
+      <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Call to Action</span>
       <TextField
         label="CTA Label"
         value={section.cta?.label || ""}
@@ -207,20 +207,20 @@ function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = 
   };
 
   return (
-    <div className="mt-3 pt-3 border-t border-gray-200">
+    <div className="mt-3 pt-3 border-t border-white/[0.06]">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Items ({items.length})</span>
-        <button onClick={addItem} className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200">+ Add Item</button>
+        <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Items ({items.length})</span>
+        <button onClick={addItem} className="px-2 py-1 text-xs bg-green-500/15 text-green-400 rounded hover:bg-green-500/25">+ Add Item</button>
       </div>
       {items.map((item: any, idx: number) => (
         <div
           key={idx}
-          className="mb-3 p-3 bg-white border border-gray-200 rounded space-y-2"
+          className="mb-3 p-3 bg-white/[0.03] border border-white/[0.08] rounded space-y-2"
           {...fieldHoverProps(si, `${fieldPrefix}.${idx}`)}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-500">Item {idx + 1}</span>
-            <button onClick={() => removeItem(idx)} className="text-xs text-red-600 hover:text-red-800">Remove</button>
+            <span className="text-xs font-medium text-white/40">Item {idx + 1}</span>
+            <button onClick={() => removeItem(idx)} className="text-xs text-red-400 hover:text-red-300">Remove</button>
           </div>
           {fields.map((f) =>
             f.type === "image" ? (
@@ -231,7 +231,7 @@ function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = 
           )}
         </div>
       ))}
-      {items.length === 0 && <p className="text-xs text-gray-400 italic">No items yet</p>}
+      {items.length === 0 && <p className="text-xs text-white/25 italic">No items yet</p>}
     </div>
   );
 }
@@ -291,11 +291,11 @@ function AboutFields({ section, savedSection, onUpdate, businessId, si }: { sect
       <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} sectionIndex={si} fieldPath="image" />
 
       {variant === "story" && (
-        <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Story</span>
+        <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3">
+          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Story</span>
           <TextField label="Title" value={section.story?.title || ""} savedValue={savedSection?.story?.title || ""} onChange={(v) => updater.setNested("story", "title", v)} sectionIndex={si} fieldPath="story.title" />
           <TextField label="Content" value={section.story?.content || ""} savedValue={savedSection?.story?.content || ""} onChange={(v) => updater.setNested("story", "content", v)} sectionIndex={si} fieldPath="story.content" />
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block pt-2">Commitment</span>
+          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide block pt-2">Commitment</span>
           <TextField label="Title" value={section.commitment?.title || ""} savedValue={savedSection?.commitment?.title || ""} onChange={(v) => updater.setNested("commitment", "title", v)} sectionIndex={si} fieldPath="commitment.title" />
           <TextField label="Content" value={section.commitment?.content || ""} savedValue={savedSection?.commitment?.content || ""} onChange={(v) => updater.setNested("commitment", "content", v)} sectionIndex={si} fieldPath="commitment.content" />
         </div>
@@ -325,8 +325,8 @@ function ContactFields({ section, savedSection, onUpdate, si }: { section: any; 
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
 
-      <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Form</span>
+      <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3">
+        <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Form</span>
         <TextField label="Name Label" value={section.form?.nameLabel || ""} savedValue={savedSection?.form?.nameLabel || ""} onChange={(v) => updater.setNested("form", "nameLabel", v)} sectionIndex={si} fieldPath="form.nameLabel" />
         <TextField label="Email Label" value={section.form?.emailLabel || ""} savedValue={savedSection?.form?.emailLabel || ""} onChange={(v) => updater.setNested("form", "emailLabel", v)} sectionIndex={si} fieldPath="form.emailLabel" />
         <TextField label="Msg Label" value={section.form?.messageLabel || ""} savedValue={savedSection?.form?.messageLabel || ""} onChange={(v) => updater.setNested("form", "messageLabel", v)} sectionIndex={si} fieldPath="form.messageLabel" />
@@ -334,8 +334,8 @@ function ContactFields({ section, savedSection, onUpdate, si }: { section: any; 
       </div>
 
       {section.variant === "split" && (
-        <div className="mt-3 pt-3 border-t border-gray-200 space-y-3">
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Contact Info</span>
+        <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3">
+          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Contact Info</span>
           <TextField label="Address" value={section.info?.address || ""} savedValue={savedSection?.info?.address || ""} onChange={(v) => updater.setNested("info", "address", v)} sectionIndex={si} fieldPath="info.address" />
           <TextField label="Phone" value={section.info?.phone || ""} savedValue={savedSection?.info?.phone || ""} onChange={(v) => updater.setNested("info", "phone", v)} sectionIndex={si} fieldPath="info.phone" />
           <TextField label="Email" value={section.info?.email || ""} savedValue={savedSection?.info?.email || ""} onChange={(v) => updater.setNested("info", "email", v)} sectionIndex={si} fieldPath="info.email" />
@@ -370,36 +370,36 @@ function ShopFields({ section, savedSection, onUpdate, businessId, si }: { secti
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
 
-      <div className="mt-3 pt-3 border-t border-gray-200">
+      <div className="mt-3 pt-3 border-t border-white/[0.06]">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Products ({products.length})</span>
-          <button onClick={addProduct} className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200">+ Add Product</button>
+          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Products ({products.length})</span>
+          <button onClick={addProduct} className="px-2 py-1 text-xs bg-green-500/15 text-green-400 rounded hover:bg-green-500/25">+ Add Product</button>
         </div>
         {products.map((product: any, pIdx: number) => (
           <div
             key={pIdx}
-            className="mb-3 p-3 bg-white border border-gray-200 rounded space-y-2"
+            className="mb-3 p-3 bg-white/[0.03] border border-white/[0.08] rounded space-y-2"
             {...fieldHoverProps(si, `products.${pIdx}`)}
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-gray-500">Product {pIdx + 1}</span>
-              <button onClick={() => removeProduct(pIdx)} className="text-xs text-red-600 hover:text-red-800">Remove</button>
+              <span className="text-xs font-medium text-white/40">Product {pIdx + 1}</span>
+              <button onClick={() => removeProduct(pIdx)} className="text-xs text-red-400 hover:text-red-300">Remove</button>
             </div>
             <TextField label="Name" value={product.name || ""} onChange={(v) => updateProduct(pIdx, "name", v)} sectionIndex={si} fieldPath={`products.${pIdx}.name`} />
             <div className="flex gap-4 items-center" {...fieldHoverProps(si, `products.${pIdx}.price`)}>
-              <label className="w-24 flex-shrink-0 text-sm text-gray-600">Price</label>
+              <label className="w-24 flex-shrink-0 text-sm text-white/50">Price</label>
               <input
                 type="number"
                 value={product.price || ""}
                 onChange={(e) => updateProduct(pIdx, "price", parseFloat(e.target.value) || 0)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="flex-1 px-3 py-2 border border-white/10 bg-white/[0.05] text-white/90 rounded-md text-sm"
               />
             </div>
             <TextField label="Description" value={product.description || ""} onChange={(v) => updateProduct(pIdx, "description", v)} sectionIndex={si} fieldPath={`products.${pIdx}.description`} />
             <ImageField label="Image" value={product.image || ""} onChange={(v) => updateProduct(pIdx, "image", v)} businessId={businessId} sectionIndex={si} fieldPath={`products.${pIdx}.image`} />
           </div>
         ))}
-        {products.length === 0 && <p className="text-xs text-gray-400 italic">No products yet</p>}
+        {products.length === 0 && <p className="text-xs text-white/25 italic">No products yet</p>}
       </div>
     </>
   );
@@ -445,22 +445,22 @@ export default function SectionEditor({ section, savedSection, index, pageName, 
 
   return (
     <div
-      className="mb-4 p-4 border rounded-lg bg-gray-50"
+      className="mb-4 p-4 border border-white/[0.08] rounded-lg bg-white/[0.03]"
       onMouseEnter={() => postHighlight('highlight-section', index)}
       onMouseLeave={() => postHighlight('clear-highlight')}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="font-medium text-sm">Section {index + 1}: {section.type}</span>
-        <button onClick={onRemove} className="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200">Remove</button>
+        <span className="font-medium text-sm text-white/90">Section {index + 1}: {section.type}</span>
+        <button onClick={onRemove} className="px-2 py-1 text-xs bg-red-500/15 text-red-400 rounded hover:bg-red-500/25">Remove</button>
       </div>
 
       <div className="space-y-3">
         <div className="flex gap-4 items-center">
-          <label className="w-24 flex-shrink-0 text-sm text-gray-600">Type</label>
+          <label className="w-24 flex-shrink-0 text-sm text-white/50">Type</label>
           <select
             value={section.type || "hero"}
             onChange={(e) => handleTypeChange(e.target.value)}
-            className={`flex-1 px-3 py-2 border rounded-md text-sm ${typeChanged ? "border-amber-400 bg-amber-50" : "border-gray-300"}`}
+            className={`flex-1 px-3 py-2 border rounded-md text-sm bg-white/[0.05] text-white/90 ${typeChanged ? "border-amber-400/60 bg-amber-500/10" : "border-white/10"}`}
           >
             <option value="hero">Hero</option>
             <option value="services">Services</option>
@@ -475,11 +475,11 @@ export default function SectionEditor({ section, savedSection, index, pageName, 
         </div>
 
         <div className="flex gap-4 items-center">
-          <label className="w-24 flex-shrink-0 text-sm text-gray-600">Variant</label>
+          <label className="w-24 flex-shrink-0 text-sm text-white/50">Variant</label>
           <select
             value={section.variant || variants[0]?.value || "default"}
             onChange={(e) => onUpdate({ ...section, variant: e.target.value })}
-            className={`flex-1 px-3 py-2 border rounded-md text-sm ${variantChanged ? "border-amber-400 bg-amber-50" : "border-gray-300"}`}
+            className={`flex-1 px-3 py-2 border rounded-md text-sm bg-white/[0.05] text-white/90 ${variantChanged ? "border-amber-400/60 bg-amber-500/10" : "border-white/10"}`}
           >
             {variants.map((v) => (
               <option key={v.value} value={v.value}>{v.label}</option>
