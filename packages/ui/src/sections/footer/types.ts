@@ -53,7 +53,7 @@ export interface FooterProps {
   copyright?: string;
   tagline?: string;
   columns?: FooterColumnCompat[];
-  variant?: "simple" | "multiColumn";
+  variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked";
   className?: string;
   currentLanguage?: string;
   availableLanguages?: LanguageOption[];

@@ -8,6 +8,8 @@ import { useCart } from "../../store/useCart";
 import type { CheckoutPageContentProps } from "./types";
 
 export function CheckoutPageContent({
+  emptyCartMessage = "Your cart is empty",
+  continueShoppingLabel = "Continue Shopping",
   pageTitle = "Checkout",
   backToCartLabel = "Back to cart",
   backToCartHref = "/cart",
@@ -48,9 +50,9 @@ export function CheckoutPageContent({
         )}
       >
         <ShoppingBag className="h-16 w-16 text-foreground/30 mb-4" />
-        <p className="text-xl text-foreground/70 mb-6">Your cart is empty</p>
+        <p className="text-xl text-foreground/70 mb-6">{emptyCartMessage}</p>
         <Button asChild size="lg">
-          <a href="/">Continue Shopping</a>
+          <a href="/">{continueShoppingLabel}</a>
         </Button>
       </div>
     );

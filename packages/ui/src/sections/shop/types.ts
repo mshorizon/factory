@@ -34,6 +34,9 @@ export interface CartPageContentProps {
 }
 
 export interface CheckoutPageContentProps {
+  // Empty state labels
+  emptyCartMessage?: string;
+  continueShoppingLabel?: string;
   // Page labels
   pageTitle?: string;
   backToCartLabel?: string;

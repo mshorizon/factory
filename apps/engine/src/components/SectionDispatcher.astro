@@ -1,5 +1,5 @@
 ---
-import type { Section } from "@mshorizon/schema";
+import type { SectionV15 } from "@mshorizon/schema";
 import HeroSection from "./sections/HeroSection.astro";
 import ServicesSection from "./sections/ServicesSection.astro";
 import CategoriesSection from "./sections/CategoriesSection.astro";
@@ -8,7 +8,7 @@ import ContactSection from "./sections/ContactSection.astro";
 import ShopSection from "./sections/ShopSection.astro";
 
 interface Props {
-  sections: Section[];
+  sections: SectionV15[];
 }
 
 const { sections } = Astro.props;

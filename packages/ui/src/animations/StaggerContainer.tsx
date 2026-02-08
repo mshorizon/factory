@@ -27,15 +27,6 @@ export interface StaggerItemProps {
   distance?: number;
 }
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
 const getItemVariants = (
   direction: "up" | "down" | "left" | "right" | "none",
   distance: number

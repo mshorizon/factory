@@ -48,7 +48,8 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const sanitizedName = sanitizeFilename(file.name);
-    const key = `${businessId}/${sanitizedName}`;
+    const sanitizedBusinessId = sanitizeFilename(businessId);
+    const key = `${sanitizedBusinessId}/${sanitizedName}`;
 
     const buffer = new Uint8Array(await file.arrayBuffer());
     const url = await uploadToR2(key, buffer, file.type);
