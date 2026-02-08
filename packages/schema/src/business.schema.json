@@ -11,7 +11,7 @@
     },
     "footerVariant": {
       "type": "string",
-      "enum": ["simple", "multiColumn"],
+      "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked"],
       "default": "simple"
     },
     "cta": {
@@ -35,7 +35,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["hero", "services", "about", "contact"]
+          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials"]
         },
         "variant": { "type": "string" },
         "badge": { "type": "string" },

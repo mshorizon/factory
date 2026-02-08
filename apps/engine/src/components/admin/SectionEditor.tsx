@@ -47,7 +47,7 @@ interface SectionEditorProps {
 }
 
 // Helper to create a field updater
-function useFieldUpdater(section: any, onUpdate: (s: any) => void) {
+function createFieldUpdater(section: any, onUpdate: (s: any) => void) {
   return {
     set: (field: string, value: any) => onUpdate({ ...section, [field]: value }),
     setHeader: (field: string, value: any) =>
@@ -130,7 +130,7 @@ function ImageField({ label, value, savedValue, onChange, businessId, placeholde
 
 // --- Header fields (shared by all section types) ---
 
-function HeaderFields({ section, savedSection, updater, si }: { section: any; savedSection?: any; updater: ReturnType<typeof useFieldUpdater>; si: number }) {
+function HeaderFields({ section, savedSection, updater, si }: { section: any; savedSection?: any; updater: ReturnType<typeof createFieldUpdater>; si: number }) {
   return (
     <>
       <TextField label="Badge" value={section.header?.badge || ""} savedValue={savedSection?.header?.badge || ""} onChange={(v) => updater.setHeader("badge", v)} sectionIndex={si} fieldPath="header.badge" />
@@ -239,7 +239,7 @@ function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = 
 // --- Type-specific field renderers ---
 
 function HeroFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
-  const updater = useFieldUpdater(section, onUpdate);
+  const updater = createFieldUpdater(section, onUpdate);
   return (
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
@@ -251,7 +251,7 @@ function HeroFields({ section, savedSection, onUpdate, businessId, si }: { secti
 }
 
 function ServicesFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
-  const updater = useFieldUpdater(section, onUpdate);
+  const updater = createFieldUpdater(section, onUpdate);
   return (
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
@@ -266,7 +266,7 @@ function ServicesFields({ section, savedSection, onUpdate, businessId, si }: { s
 }
 
 function CategoriesFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
-  const updater = useFieldUpdater(section, onUpdate);
+  const updater = createFieldUpdater(section, onUpdate);
   return (
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
@@ -282,7 +282,7 @@ function CategoriesFields({ section, savedSection, onUpdate, businessId, si }: {
 }
 
 function AboutFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
-  const updater = useFieldUpdater(section, onUpdate);
+  const updater = createFieldUpdater(section, onUpdate);
   const variant = section.variant || "story";
 
   return (
@@ -319,7 +319,7 @@ function AboutFields({ section, savedSection, onUpdate, businessId, si }: { sect
 }
 
 function ContactFields({ section, savedSection, onUpdate, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
-  const updater = useFieldUpdater(section, onUpdate);
+  const updater = createFieldUpdater(section, onUpdate);
 
   return (
     <>
@@ -347,7 +347,7 @@ function ContactFields({ section, savedSection, onUpdate, si }: { section: any; 
 }
 
 function ShopFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
-  const updater = useFieldUpdater(section, onUpdate);
+  const updater = createFieldUpdater(section, onUpdate);
   const products = section.products || [];
 
   const updateProduct = (idx: number, field: string, value: any) => {
@@ -406,7 +406,7 @@ function ShopFields({ section, savedSection, onUpdate, businessId, si }: { secti
 }
 
 function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
-  const updater = useFieldUpdater(section, onUpdate);
+  const updater = createFieldUpdater(section, onUpdate);
   return (
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />

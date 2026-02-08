@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { upsertSiteConfig } from "@mshorizon/db";
+import { validateV15 } from "@mshorizon/schema";
 import { clearDraft } from "../../../lib/draft-store";
 
 export const POST: APIRoute = async ({ request }) => {
@@ -13,10 +14,11 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Basic validation
-    if (!data.schemaVersion || !data.business || !data.theme) {
+    // Validate against v1.5 JSON schema
+    const { valid, errors } = validateV15(data);
+    if (!valid) {
       return new Response(
-        JSON.stringify({ message: "Invalid data: missing required fields" }),
+        JSON.stringify({ message: "Schema validation failed", errors }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }

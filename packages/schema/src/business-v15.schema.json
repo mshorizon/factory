@@ -55,7 +55,7 @@
         "type": {
           "type": "string",
           "title": "Section Type",
-          "enum": ["hero", "services", "categories", "about", "contact", "gallery", "testimonials"]
+          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials"]
         },
         "variant": { "type": "string", "title": "Variant" },
         "header": { "$ref": "#/definitions/sectionHeader" },
@@ -181,7 +181,7 @@
         "preset": {
           "type": "string",
           "title": "Theme Preset",
-          "enum": ["industrial", "elegant", "modern", "classic", "bold"]
+          "enum": ["industrial", "wellness", "minimal", "elegant", "modern", "classic", "bold"]
         },
         "mode": {
           "type": "string",
@@ -310,7 +310,7 @@
             "variant": {
               "type": "string",
               "title": "Footer Variant",
-              "enum": ["simple", "multiColumn", "branded"],
+              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked"],
               "default": "simple"
             },
             "copyright": { "type": "string", "title": "Copyright Text" },

@@ -4,8 +4,12 @@ import type { BusinessProfileV15, PageV15, Section, SectionType, SectionV15, Sec
 const DEFAULT_VARIANTS: Record<SectionType, string> = {
   hero: "default",
   services: "grid",
+  categories: "carousel",
   about: "story",
   contact: "centered",
+  shop: "grid",
+  gallery: "default",
+  testimonials: "default",
 };
 
 /**

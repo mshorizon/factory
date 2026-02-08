@@ -1,38 +1,8 @@
 ---
 import "../styles/global.css";
-import type { ThemeV15 } from "@mshorizon/schema";
+import type { ThemeV10, ThemeV15 } from "@mshorizon/schema";
 import ScrollToTopButton from "../components/ScrollToTopButton.astro";
 import OverlayScrollbar from "../components/OverlayScrollbar.astro";
-
-// v1.0 Theme structure (legacy)
-interface ThemeV10 {
-  colors: {
-    primary: string;
-    secondary: string;
-    accent?: string;
-    background: string;
-    foreground: string;
-    muted?: string;
-    border?: string;
-  };
-  typography?: {
-    fontFamily?: {
-      sans?: string;
-      heading?: string;
-    };
-  };
-  borderRadius?: {
-    small?: string;
-    default?: string;
-    large?: string;
-    full?: string;
-  };
-  shadows?: {
-    small?: string;
-    default?: string;
-    large?: string;
-  };
-}
 
 // Combined theme type that supports both versions
 type Theme = ThemeV10 | ThemeV15;
@@ -41,9 +11,10 @@ interface Props {
   title: string;
   theme: Theme;
   favicon?: string;
+  lang?: string;
 }
 
-const { title, theme, favicon } = Astro.props;
+const { title, theme, favicon, lang = "en" } = Astro.props;
 
 // Helper to detect if theme is v1.5
 function isThemeV15(t: Theme): t is ThemeV15 {
@@ -99,7 +70,7 @@ if (isThemeV15(theme)) {
 }
 ---
 
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     {favicon && <link rel="icon" href={favicon} />}

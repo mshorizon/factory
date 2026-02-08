@@ -8,7 +8,7 @@ export function ShopGrid({
   header,
   products,
   ctaLabel = "Add to Cart",
-  currency = "zł",
+  currency = "$",
   outOfStockLabel = "Out of Stock",
   outOfStockCtaLabel,
   outOfStockCtaHref,

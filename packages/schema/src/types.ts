@@ -14,7 +14,7 @@ export type AboutVariant = "story" | "timeline";
 export type ContactVariant = "centered" | "split";
 
 // Section Types
-export type SectionType = "hero" | "services" | "categories" | "about" | "contact" | "shop";
+export type SectionType = "hero" | "services" | "categories" | "about" | "contact" | "shop" | "gallery" | "testimonials";
 
 // Common Types
 export interface CTAButton {
@@ -140,6 +140,40 @@ export interface BusinessProfile {
   };
 }
 
+// V1.0 Theme structure (legacy)
+export interface ThemeV10 {
+  colors: {
+    primary: string;
+    secondary: string;
+    accent?: string;
+    background: string;
+    foreground: string;
+    muted?: string;
+    border?: string;
+  };
+  typography?: {
+    fontFamily?: {
+      sans?: string;
+      heading?: string;
+    };
+    fontSize?: {
+      base?: string;
+      heading?: string;
+    };
+  };
+  borderRadius?: {
+    small?: string;
+    default?: string;
+    large?: string;
+    full?: string;
+  };
+  shadows?: {
+    small?: string;
+    default?: string;
+    large?: string;
+  };
+}
+
 // ==========================================
 // V1.5 TYPES (New flat schema with embedded theme)
 // ==========================================
@@ -175,7 +209,7 @@ export interface ThemeColorMode {
 
 // v1.5 Theme with light/dark modes
 export interface ThemeV15 {
-  preset?: "industrial" | "wellness" | "minimal";
+  preset?: "industrial" | "wellness" | "minimal" | "elegant" | "modern" | "classic" | "bold";
   globalVariant?: string;
   mode: "light" | "dark";
   colors: {
@@ -255,8 +289,12 @@ export interface SectionV15 {
   // Contact fields
   info?: ContactInfo;
   form?: ContactForm;
+  labels?: Record<string, string>;
+  // Categories fields
+  exploreLabel?: string;
   // Shop fields
   products?: Product[];
+  currency?: string;
   ctaLabel?: string;
   outOfStockCtaLabel?: string;
   outOfStockCtaHref?: string;
