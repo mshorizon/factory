@@ -5,13 +5,13 @@
     "name": "t:business.name",
     "industry": "plumber",
     "assets": {
-      "favicon": "/images/specialist/favicon.svg"
+      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231E6FBA'/><path d='M10 22V14a6 6 0 0 1 12 0v8' stroke='white' stroke-width='2.5' stroke-linecap='round' fill='none'/><circle cx='16' cy='24' r='2' fill='white'/><path d='M8 12h4M20 12h4' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>"
     },
     "contact": {
-      "address": "127 Pipe Works Lane, Unit 3, Denver, CO 80205",
-      "phone": "(720) 555-0193",
-      "email": "service@proplumbingdenver.com",
-      "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM, Sun: Emergency Only"
+      "address": "ul. Instalatorska 27, 02-237 Warszawa",
+      "phone": "+48 22 123 45 67",
+      "email": "biuro@prohydraulik.pl",
+      "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Ndz: Tylko Awarie"
     },
     "serviceArea": [
       "t:serviceArea.areas.0",
@@ -249,7 +249,7 @@
             },
             {
               "title": "t:galleryBA.pairs.1.title",
-              "before": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop",
+              "before": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=300&fit=crop",
               "after": "https://images.unsplash.com/photo-1564540586988-aa4e53c3d799?w=400&h=300&fit=crop",
               "description": "t:galleryBA.pairs.1.description"
             },
@@ -301,10 +301,10 @@
             "subtitle": "t:contact.subtitle"
           },
           "info": {
-            "address": "127 Pipe Works Lane, Unit 3, Denver, CO 80205",
-            "phone": "(720) 555-0193",
-            "email": "service@proplumbingdenver.com",
-            "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM, Sun: Emergency Only"
+            "address": "ul. Instalatorska 27, 02-237 Warszawa",
+            "phone": "+48 22 123 45 67",
+            "email": "biuro@prohydraulik.pl",
+            "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Ndz: Tylko Awarie"
           },
           "form": {
             "namePlaceholder": "t:contact.form.name",
@@ -405,7 +405,7 @@
             {
               "title": "t:gallery.items.5.title",
               "description": "t:gallery.items.5.description",
-              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop"
+              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=400&fit=crop"
             }
           ]
         }
@@ -422,10 +422,10 @@
             "subtitle": "t:contact.subtitle"
           },
           "info": {
-            "address": "127 Pipe Works Lane, Unit 3, Denver, CO 80205",
-            "phone": "(720) 555-0193",
-            "email": "service@proplumbingdenver.com",
-            "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM, Sun: Emergency Only"
+            "address": "ul. Instalatorska 27, 02-237 Warszawa",
+            "phone": "+48 22 123 45 67",
+            "email": "biuro@prohydraulik.pl",
+            "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Ndz: Tylko Awarie"
           },
           "form": {
             "namePlaceholder": "t:contact.form.name",
