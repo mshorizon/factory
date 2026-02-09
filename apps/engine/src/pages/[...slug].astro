@@ -74,6 +74,11 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
 
 // Extract phone for sticky mobile CTA
 const businessPhone = business.business.contact?.phone;
+
+// Convert socials Record<string, string> to SocialLink[] for footer
+const socialLinks = business.business.socials
+  ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
+  : [];
 ---
 
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
@@ -95,6 +100,7 @@ const businessPhone = business.business.contact?.phone;
     tagline={layout.footer.tagline}
     currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
+    socialLinks={socialLinks}
   />
   {businessPhone && (
     <StickyMobileCTA client:load phone={businessPhone} />
