@@ -151,7 +151,7 @@
         "industry": {
           "type": "string",
           "title": "Industry",
-          "enum": ["plumber", "barber", "restaurant", "shop", "service"]
+          "enum": ["plumber", "barber", "restaurant", "shop", "service", "specialist"]
         },
         "assets": {
           "type": "object",
