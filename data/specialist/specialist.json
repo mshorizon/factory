@@ -8,10 +8,10 @@
       "favicon": "/images/specialist/favicon.svg"
     },
     "contact": {
-      "address": "45 Industrial Avenue, Workshop District, Anytown, USA",
-      "phone": "(555) 987-6543",
-      "email": "info@proplumbingsolutions.com",
-      "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM"
+      "address": "127 Pipe Works Lane, Unit 3, Denver, CO 80205",
+      "phone": "(720) 555-0193",
+      "email": "service@proplumbingdenver.com",
+      "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM, Sun: Emergency Only"
     },
     "serviceArea": [
       "t:serviceArea.areas.0",
@@ -39,14 +39,14 @@
     "mode": "light",
     "colors": {
       "light": {
-        "primary": "#D97706",
+        "primary": "#1E6FBA",
         "surface": {
-          "base": "#FAFAF9",
-          "alt": "#1C1917"
+          "base": "#F8FAFC",
+          "alt": "#0F172A"
         },
         "text": {
-          "main": "#1C1917",
-          "muted": "#78716C",
+          "main": "#0F172A",
+          "muted": "#64748B",
           "onPrimary": "#FFFFFF"
         }
       }
@@ -89,31 +89,19 @@
           "links": [
             {
               "label": "t:footer.columns.services.leakDetection",
-              "target": {
-                "type": "page",
-                "value": "services"
-              }
+              "target": { "type": "page", "value": "services" }
             },
             {
               "label": "t:footer.columns.services.drainCleaning",
-              "target": {
-                "type": "page",
-                "value": "services"
-              }
+              "target": { "type": "page", "value": "services" }
             },
             {
               "label": "t:footer.columns.services.waterHeater",
-              "target": {
-                "type": "page",
-                "value": "services"
-              }
+              "target": { "type": "page", "value": "services" }
             },
             {
               "label": "t:footer.columns.services.emergency",
-              "target": {
-                "type": "page",
-                "value": "services"
-              }
+              "target": { "type": "page", "value": "services" }
             }
           ]
         },
@@ -122,24 +110,15 @@
           "links": [
             {
               "label": "t:footer.columns.company.about",
-              "target": {
-                "type": "page",
-                "value": "about"
-              }
+              "target": { "type": "page", "value": "about" }
             },
             {
               "label": "t:footer.columns.company.contact",
-              "target": {
-                "type": "page",
-                "value": "contact"
-              }
+              "target": { "type": "page", "value": "contact" }
             },
             {
               "label": "t:footer.columns.company.gallery",
-              "target": {
-                "type": "page",
-                "value": "gallery"
-              }
+              "target": { "type": "page", "value": "gallery" }
             }
           ]
         }
@@ -166,19 +145,14 @@
             "title": "t:hero.title",
             "subtitle": "t:hero.subtitle"
           },
-          "backgroundImage": "/images/specialist/hero.jpg",
+          "backgroundImage": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1200&h=800&fit=crop",
           "cta": {
             "label": "t:hero.cta",
-            "target": {
-              "type": "phone"
-            }
+            "target": { "type": "phone" }
           },
           "secondaryCta": {
             "label": "t:hero.secondaryCta",
-            "target": {
-              "type": "page",
-              "value": "services"
-            }
+            "target": { "type": "page", "value": "services" }
           }
         },
         {
@@ -253,30 +227,10 @@
             "subtitle": "t:process.subtitle"
           },
           "steps": [
-            {
-              "number": 1,
-              "title": "t:process.steps.0.title",
-              "description": "t:process.steps.0.description",
-              "icon": "phone"
-            },
-            {
-              "number": 2,
-              "title": "t:process.steps.1.title",
-              "description": "t:process.steps.1.description",
-              "icon": "search"
-            },
-            {
-              "number": 3,
-              "title": "t:process.steps.2.title",
-              "description": "t:process.steps.2.description",
-              "icon": "wrench"
-            },
-            {
-              "number": 4,
-              "title": "t:process.steps.3.title",
-              "description": "t:process.steps.3.description",
-              "icon": "shield"
-            }
+            { "number": 1, "title": "t:process.steps.0.title", "description": "t:process.steps.0.description", "icon": "phone" },
+            { "number": 2, "title": "t:process.steps.1.title", "description": "t:process.steps.1.description", "icon": "search" },
+            { "number": 3, "title": "t:process.steps.2.title", "description": "t:process.steps.2.description", "icon": "wrench" },
+            { "number": 4, "title": "t:process.steps.3.title", "description": "t:process.steps.3.description", "icon": "shield" }
           ]
         },
         {
@@ -289,20 +243,20 @@
           "pairs": [
             {
               "title": "t:galleryBA.pairs.0.title",
-              "before": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=400&h=300&fit=crop",
-              "after": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=300&fit=crop",
+              "before": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=300&fit=crop",
+              "after": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=400&h=300&fit=crop",
               "description": "t:galleryBA.pairs.0.description"
             },
             {
               "title": "t:galleryBA.pairs.1.title",
               "before": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop",
-              "after": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop",
+              "after": "https://images.unsplash.com/photo-1564540586988-aa4e53c3d799?w=400&h=300&fit=crop",
               "description": "t:galleryBA.pairs.1.description"
             },
             {
               "title": "t:galleryBA.pairs.2.title",
               "before": "https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=400&h=300&fit=crop",
-              "after": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=300&fit=crop",
+              "after": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop",
               "description": "t:galleryBA.pairs.2.description"
             }
           ]
@@ -334,18 +288,9 @@
             "subtitle": "t:testimonials.subtitle"
           },
           "items": [
-            {
-              "title": "t:testimonials.items.0.author",
-              "description": "t:testimonials.items.0.text"
-            },
-            {
-              "title": "t:testimonials.items.1.author",
-              "description": "t:testimonials.items.1.text"
-            },
-            {
-              "title": "t:testimonials.items.2.author",
-              "description": "t:testimonials.items.2.text"
-            }
+            { "title": "t:testimonials.items.0.author", "description": "t:testimonials.items.0.text" },
+            { "title": "t:testimonials.items.1.author", "description": "t:testimonials.items.1.text" },
+            { "title": "t:testimonials.items.2.author", "description": "t:testimonials.items.2.text" }
           ]
         },
         {
@@ -356,10 +301,10 @@
             "subtitle": "t:contact.subtitle"
           },
           "info": {
-            "address": "45 Industrial Avenue, Workshop District, Anytown, USA",
-            "phone": "(555) 987-6543",
-            "email": "info@proplumbingsolutions.com",
-            "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM"
+            "address": "127 Pipe Works Lane, Unit 3, Denver, CO 80205",
+            "phone": "(720) 555-0193",
+            "email": "service@proplumbingdenver.com",
+            "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM, Sun: Emergency Only"
           },
           "form": {
             "namePlaceholder": "t:contact.form.name",
@@ -381,42 +326,12 @@
             "subtitle": "t:services.subtitle"
           },
           "items": [
-            {
-              "title": "t:services.items.leakDetection.title",
-              "description": "t:services.items.leakDetection.description",
-              "price": "t:services.items.leakDetection.price",
-              "icon": "search"
-            },
-            {
-              "title": "t:services.items.drainCleaning.title",
-              "description": "t:services.items.drainCleaning.description",
-              "price": "t:services.items.drainCleaning.price",
-              "icon": "wrench"
-            },
-            {
-              "title": "t:services.items.waterHeater.title",
-              "description": "t:services.items.waterHeater.description",
-              "price": "t:services.items.waterHeater.price",
-              "icon": "bolt"
-            },
-            {
-              "title": "t:services.items.pipeRepair.title",
-              "description": "t:services.items.pipeRepair.description",
-              "price": "t:services.items.pipeRepair.price",
-              "icon": "shield"
-            },
-            {
-              "title": "t:services.items.emergency.title",
-              "description": "t:services.items.emergency.description",
-              "price": "t:services.items.emergency.price",
-              "icon": "alert"
-            },
-            {
-              "title": "t:services.items.estimates.title",
-              "description": "t:services.items.estimates.description",
-              "price": "t:services.items.estimates.price",
-              "icon": "clipboard"
-            }
+            { "title": "t:services.items.leakDetection.title", "description": "t:services.items.leakDetection.description", "price": "t:services.items.leakDetection.price", "icon": "search" },
+            { "title": "t:services.items.drainCleaning.title", "description": "t:services.items.drainCleaning.description", "price": "t:services.items.drainCleaning.price", "icon": "wrench" },
+            { "title": "t:services.items.waterHeater.title", "description": "t:services.items.waterHeater.description", "price": "t:services.items.waterHeater.price", "icon": "bolt" },
+            { "title": "t:services.items.pipeRepair.title", "description": "t:services.items.pipeRepair.description", "price": "t:services.items.pipeRepair.price", "icon": "shield" },
+            { "title": "t:services.items.emergency.title", "description": "t:services.items.emergency.description", "price": "t:services.items.emergency.price", "icon": "alert" },
+            { "title": "t:services.items.estimates.title", "description": "t:services.items.estimates.description", "price": "t:services.items.estimates.price", "icon": "clipboard" }
           ]
         }
       ]
@@ -427,30 +342,17 @@
         {
           "type": "about",
           "variant": "story",
-          "header": {
-            "title": "t:about.title"
-          },
+          "header": { "title": "t:about.title" },
+          "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&h=600&fit=crop",
           "story": {
             "title": "t:about.story.title",
             "content": "t:about.story.content"
           },
           "stats": [
-            {
-              "value": "15+",
-              "label": "t:about.stats.experience"
-            },
-            {
-              "value": "2,500+",
-              "label": "t:about.stats.projects"
-            },
-            {
-              "value": "100%",
-              "label": "t:about.stats.satisfaction"
-            },
-            {
-              "value": "24/7",
-              "label": "t:about.stats.availability"
-            }
+            { "value": "18+", "label": "t:about.stats.experience" },
+            { "value": "4,200+", "label": "t:about.stats.projects" },
+            { "value": "99%", "label": "t:about.stats.satisfaction" },
+            { "value": "24/7", "label": "t:about.stats.availability" }
           ],
           "commitment": {
             "title": "t:about.commitment.title",
@@ -458,10 +360,7 @@
           },
           "cta": {
             "label": "t:about.cta",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
+            "target": { "type": "page", "value": "contact" }
           }
         }
       ]
@@ -481,32 +380,32 @@
             {
               "title": "t:gallery.items.0.title",
               "description": "t:gallery.items.0.description",
-              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=400&fit=crop"
+              "image": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600&h=400&fit=crop"
             },
             {
               "title": "t:gallery.items.1.title",
               "description": "t:gallery.items.1.description",
-              "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop"
+              "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=600&h=400&fit=crop"
             },
             {
               "title": "t:gallery.items.2.title",
               "description": "t:gallery.items.2.description",
-              "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop"
+              "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop"
             },
             {
               "title": "t:gallery.items.3.title",
               "description": "t:gallery.items.3.description",
-              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop"
+              "image": "https://images.unsplash.com/photo-1564540586988-aa4e53c3d799?w=600&h=400&fit=crop"
             },
             {
               "title": "t:gallery.items.4.title",
               "description": "t:gallery.items.4.description",
-              "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=600&h=400&fit=crop"
+              "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop"
             },
             {
               "title": "t:gallery.items.5.title",
               "description": "t:gallery.items.5.description",
-              "image": "https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=600&h=400&fit=crop"
+              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop"
             }
           ]
         }
@@ -523,10 +422,10 @@
             "subtitle": "t:contact.subtitle"
           },
           "info": {
-            "address": "45 Industrial Avenue, Workshop District, Anytown, USA",
-            "phone": "(555) 987-6543",
-            "email": "info@proplumbingsolutions.com",
-            "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM"
+            "address": "127 Pipe Works Lane, Unit 3, Denver, CO 80205",
+            "phone": "(720) 555-0193",
+            "email": "service@proplumbingdenver.com",
+            "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM, Sun: Emergency Only"
           },
           "form": {
             "namePlaceholder": "t:contact.form.name",
