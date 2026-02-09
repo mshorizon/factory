@@ -6,6 +6,10 @@ import CategoriesSection from "./sections/CategoriesSection.astro";
 import AboutSection from "./sections/AboutSection.astro";
 import ContactSection from "./sections/ContactSection.astro";
 import ShopSection from "./sections/ShopSection.astro";
+import ProcessSection from "./sections/ProcessSection.astro";
+import ServiceAreaSection from "./sections/ServiceAreaSection.astro";
+import TrustBarSection from "./sections/TrustBarSection.astro";
+import GalleryBASection from "./sections/GalleryBASection.astro";
 
 interface Props {
   sections: SectionV15[];
@@ -21,6 +25,10 @@ const sectionComponents: Record<string, any> = {
   about: AboutSection,
   contact: ContactSection,
   shop: ShopSection,
+  process: ProcessSection,
+  serviceArea: ServiceAreaSection,
+  trustBar: TrustBarSection,
+  galleryBA: GalleryBASection,
 };
 ---
 

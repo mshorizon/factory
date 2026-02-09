@@ -10,6 +10,10 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
   shop: "grid",
   gallery: "default",
   testimonials: "default",
+  process: "default",
+  serviceArea: "default",
+  trustBar: "default",
+  galleryBA: "default",
 };
 
 /**
