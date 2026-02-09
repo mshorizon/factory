@@ -10,6 +10,8 @@ import ProcessSection from "./sections/ProcessSection.astro";
 import ServiceAreaSection from "./sections/ServiceAreaSection.astro";
 import TrustBarSection from "./sections/TrustBarSection.astro";
 import GalleryBASection from "./sections/GalleryBASection.astro";
+import GallerySection from "./sections/GallerySection.astro";
+import TestimonialsSection from "./sections/TestimonialsSection.astro";
 
 interface Props {
   sections: SectionV15[];
@@ -29,6 +31,8 @@ const sectionComponents: Record<string, any> = {
   serviceArea: ServiceAreaSection,
   trustBar: TrustBarSection,
   galleryBA: GalleryBASection,
+  gallery: GallerySection,
+  testimonials: TestimonialsSection,
 };
 ---
 

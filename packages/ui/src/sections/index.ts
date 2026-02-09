@@ -45,3 +45,11 @@ export type { TrustBarProps, TrustSignal, GoogleRating } from "./trustBar";
 // GalleryBA variants
 export { GalleryBA } from "./galleryBA";
 export type { GalleryBAProps, BeforeAfterPair } from "./galleryBA";
+
+// Gallery variants
+export { GalleryGrid } from "./gallery";
+export type { GalleryGridProps, GalleryItem } from "./gallery";
+
+// Testimonials variants
+export { TestimonialsGrid } from "./testimonials";
+export type { TestimonialsGridProps, TestimonialItem } from "./testimonials";
