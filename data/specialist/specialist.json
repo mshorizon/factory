@@ -3,16 +3,36 @@
   "business": {
     "id": "specialist-001",
     "name": "t:business.name",
-    "industry": "specialist",
+    "industry": "plumber",
     "assets": {
       "favicon": "/images/specialist/favicon.svg"
     },
     "contact": {
       "address": "45 Industrial Avenue, Workshop District, Anytown, USA",
       "phone": "(555) 987-6543",
-      "email": "info@protradeservices.com",
+      "email": "info@proplumbingsolutions.com",
       "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM"
-    }
+    },
+    "serviceArea": [
+      "t:serviceArea.areas.0",
+      "t:serviceArea.areas.1",
+      "t:serviceArea.areas.2",
+      "t:serviceArea.areas.3",
+      "t:serviceArea.areas.4",
+      "t:serviceArea.areas.5",
+      "t:serviceArea.areas.6",
+      "t:serviceArea.areas.7"
+    ],
+    "googleRating": {
+      "score": 4.9,
+      "count": 312
+    },
+    "trustSignals": [
+      { "icon": "shield", "text": "t:trustBar.signals.licensed" },
+      { "icon": "clock", "text": "t:trustBar.signals.response" },
+      { "icon": "award", "text": "t:trustBar.signals.guarantee" },
+      { "icon": "check-circle", "text": "t:trustBar.signals.estimates" }
+    ]
   },
   "theme": {
     "preset": "industrial",
@@ -68,21 +88,21 @@
           "title": "t:footer.columns.services.title",
           "links": [
             {
-              "label": "t:footer.columns.services.repairs",
+              "label": "t:footer.columns.services.leakDetection",
               "target": {
                 "type": "page",
                 "value": "services"
               }
             },
             {
-              "label": "t:footer.columns.services.installation",
+              "label": "t:footer.columns.services.drainCleaning",
               "target": {
                 "type": "page",
                 "value": "services"
               }
             },
             {
-              "label": "t:footer.columns.services.maintenance",
+              "label": "t:footer.columns.services.waterHeater",
               "target": {
                 "type": "page",
                 "value": "services"
@@ -150,8 +170,7 @@
           "cta": {
             "label": "t:hero.cta",
             "target": {
-              "type": "page",
-              "value": "contact"
+              "type": "phone"
             }
           },
           "secondaryCta": {
@@ -163,29 +182,21 @@
           }
         },
         {
-          "type": "categories",
-          "variant": "featured",
+          "type": "trustBar",
           "header": {
-            "title": "t:categories.title",
-            "subtitle": "t:categories.subtitle"
+            "badge": "t:trustBar.badge",
+            "title": "t:trustBar.title"
           },
-          "items": [
-            {
-              "title": "t:categories.items.repairs.title",
-              "description": "t:categories.items.repairs.description",
-              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=300&fit=crop"
-            },
-            {
-              "title": "t:categories.items.installation.title",
-              "description": "t:categories.items.installation.description",
-              "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=300&fit=crop"
-            },
-            {
-              "title": "t:categories.items.maintenance.title",
-              "description": "t:categories.items.maintenance.description",
-              "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop"
-            }
-          ]
+          "trustSignals": [
+            { "icon": "shield", "text": "t:trustBar.signals.licensed" },
+            { "icon": "clock", "text": "t:trustBar.signals.response" },
+            { "icon": "award", "text": "t:trustBar.signals.guarantee" },
+            { "icon": "check-circle", "text": "t:trustBar.signals.estimates" }
+          ],
+          "googleRating": {
+            "score": 4.9,
+            "count": 312
+          }
         },
         {
           "type": "services",
@@ -197,29 +208,121 @@
           },
           "items": [
             {
-              "title": "t:services.items.diagnostics.title",
-              "description": "t:services.items.diagnostics.description",
-              "price": "t:services.items.diagnostics.price",
+              "title": "t:services.items.leakDetection.title",
+              "description": "t:services.items.leakDetection.description",
+              "price": "t:services.items.leakDetection.price",
               "icon": "search"
             },
             {
-              "title": "t:services.items.repair.title",
-              "description": "t:services.items.repair.description",
-              "price": "t:services.items.repair.price",
+              "title": "t:services.items.drainCleaning.title",
+              "description": "t:services.items.drainCleaning.description",
+              "price": "t:services.items.drainCleaning.price",
               "icon": "wrench"
             },
             {
-              "title": "t:services.items.installation.title",
-              "description": "t:services.items.installation.description",
-              "price": "t:services.items.installation.price",
+              "title": "t:services.items.waterHeater.title",
+              "description": "t:services.items.waterHeater.description",
+              "price": "t:services.items.waterHeater.price",
               "icon": "bolt"
             },
             {
-              "title": "t:services.items.maintenance.title",
-              "description": "t:services.items.maintenance.description",
-              "price": "t:services.items.maintenance.price",
+              "title": "t:services.items.pipeRepair.title",
+              "description": "t:services.items.pipeRepair.description",
+              "price": "t:services.items.pipeRepair.price",
+              "icon": "shield"
+            },
+            {
+              "title": "t:services.items.emergency.title",
+              "description": "t:services.items.emergency.description",
+              "price": "t:services.items.emergency.price",
+              "icon": "alert"
+            },
+            {
+              "title": "t:services.items.estimates.title",
+              "description": "t:services.items.estimates.description",
+              "price": "t:services.items.estimates.price",
+              "icon": "clipboard"
+            }
+          ]
+        },
+        {
+          "type": "process",
+          "header": {
+            "badge": "t:process.badge",
+            "title": "t:process.title",
+            "subtitle": "t:process.subtitle"
+          },
+          "steps": [
+            {
+              "number": 1,
+              "title": "t:process.steps.0.title",
+              "description": "t:process.steps.0.description",
+              "icon": "phone"
+            },
+            {
+              "number": 2,
+              "title": "t:process.steps.1.title",
+              "description": "t:process.steps.1.description",
+              "icon": "search"
+            },
+            {
+              "number": 3,
+              "title": "t:process.steps.2.title",
+              "description": "t:process.steps.2.description",
+              "icon": "wrench"
+            },
+            {
+              "number": 4,
+              "title": "t:process.steps.3.title",
+              "description": "t:process.steps.3.description",
               "icon": "shield"
             }
+          ]
+        },
+        {
+          "type": "galleryBA",
+          "header": {
+            "badge": "t:galleryBA.badge",
+            "title": "t:galleryBA.title",
+            "subtitle": "t:galleryBA.subtitle"
+          },
+          "pairs": [
+            {
+              "title": "t:galleryBA.pairs.0.title",
+              "before": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=400&h=300&fit=crop",
+              "after": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=300&fit=crop",
+              "description": "t:galleryBA.pairs.0.description"
+            },
+            {
+              "title": "t:galleryBA.pairs.1.title",
+              "before": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop",
+              "after": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop",
+              "description": "t:galleryBA.pairs.1.description"
+            },
+            {
+              "title": "t:galleryBA.pairs.2.title",
+              "before": "https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=400&h=300&fit=crop",
+              "after": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=300&fit=crop",
+              "description": "t:galleryBA.pairs.2.description"
+            }
+          ]
+        },
+        {
+          "type": "serviceArea",
+          "header": {
+            "badge": "t:serviceArea.badge",
+            "title": "t:serviceArea.title",
+            "subtitle": "t:serviceArea.subtitle"
+          },
+          "areas": [
+            "t:serviceArea.areas.0",
+            "t:serviceArea.areas.1",
+            "t:serviceArea.areas.2",
+            "t:serviceArea.areas.3",
+            "t:serviceArea.areas.4",
+            "t:serviceArea.areas.5",
+            "t:serviceArea.areas.6",
+            "t:serviceArea.areas.7"
           ]
         },
         {
@@ -244,6 +347,26 @@
               "description": "t:testimonials.items.2.text"
             }
           ]
+        },
+        {
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
+          },
+          "info": {
+            "address": "45 Industrial Avenue, Workshop District, Anytown, USA",
+            "phone": "(555) 987-6543",
+            "email": "info@proplumbingsolutions.com",
+            "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM"
+          },
+          "form": {
+            "namePlaceholder": "t:contact.form.name",
+            "emailPlaceholder": "t:contact.form.email",
+            "messagePlaceholder": "t:contact.form.message",
+            "submitButton": "t:contact.form.submit"
+          }
         }
       ]
     },
@@ -259,27 +382,27 @@
           },
           "items": [
             {
-              "title": "t:services.items.diagnostics.title",
-              "description": "t:services.items.diagnostics.description",
-              "price": "t:services.items.diagnostics.price",
+              "title": "t:services.items.leakDetection.title",
+              "description": "t:services.items.leakDetection.description",
+              "price": "t:services.items.leakDetection.price",
               "icon": "search"
             },
             {
-              "title": "t:services.items.repair.title",
-              "description": "t:services.items.repair.description",
-              "price": "t:services.items.repair.price",
+              "title": "t:services.items.drainCleaning.title",
+              "description": "t:services.items.drainCleaning.description",
+              "price": "t:services.items.drainCleaning.price",
               "icon": "wrench"
             },
             {
-              "title": "t:services.items.installation.title",
-              "description": "t:services.items.installation.description",
-              "price": "t:services.items.installation.price",
+              "title": "t:services.items.waterHeater.title",
+              "description": "t:services.items.waterHeater.description",
+              "price": "t:services.items.waterHeater.price",
               "icon": "bolt"
             },
             {
-              "title": "t:services.items.maintenance.title",
-              "description": "t:services.items.maintenance.description",
-              "price": "t:services.items.maintenance.price",
+              "title": "t:services.items.pipeRepair.title",
+              "description": "t:services.items.pipeRepair.description",
+              "price": "t:services.items.pipeRepair.price",
               "icon": "shield"
             },
             {
@@ -289,9 +412,9 @@
               "icon": "alert"
             },
             {
-              "title": "t:services.items.consultation.title",
-              "description": "t:services.items.consultation.description",
-              "price": "t:services.items.consultation.price",
+              "title": "t:services.items.estimates.title",
+              "description": "t:services.items.estimates.description",
+              "price": "t:services.items.estimates.price",
               "icon": "clipboard"
             }
           ]
@@ -402,7 +525,7 @@
           "info": {
             "address": "45 Industrial Avenue, Workshop District, Anytown, USA",
             "phone": "(555) 987-6543",
-            "email": "info@protradeservices.com",
+            "email": "info@proplumbingsolutions.com",
             "hours": "Mon-Fri: 7AM-6PM, Sat: 8AM-2PM"
           },
           "form": {

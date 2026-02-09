@@ -7,6 +7,7 @@ import { findPageBySlug, getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
 import { deepTranslate } from "../lib/i18n";
 import { deepResolveImages } from "../lib/images";
+import { StickyMobileCTA } from "@mshorizon/ui";
 import type { BusinessProfileV15 } from "@mshorizon/schema";
 
 // Get route params
@@ -70,6 +71,9 @@ const footerColumns = layout.footer.columns?.map((col: any) => ({
 const hasShopSection = Object.values(business.pages).some((p: any) =>
   p.sections?.some((s: any) => s.type === "shop")
 );
+
+// Extract phone for sticky mobile CTA
+const businessPhone = business.business.contact?.phone;
 ---
 
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
@@ -92,4 +96,7 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
     currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
   />
+  {businessPhone && (
+    <StickyMobileCTA client:load phone={businessPhone} />
+  )}
 </BaseLayout>

@@ -55,7 +55,7 @@
         "type": {
           "type": "string",
           "title": "Section Type",
-          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials"]
+          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA"]
         },
         "variant": { "type": "string", "title": "Variant" },
         "header": { "$ref": "#/definitions/sectionHeader" },
@@ -118,6 +118,56 @@
             "messagePlaceholder": { "type": "string" },
             "submitButton": { "type": "string" }
           }
+        },
+        "steps": {
+          "type": "array",
+          "title": "Process Steps",
+          "items": {
+            "type": "object",
+            "properties": {
+              "number": { "type": "integer" },
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "icon": { "type": "string" }
+            }
+          }
+        },
+        "areas": {
+          "type": "array",
+          "title": "Service Areas",
+          "items": { "type": "string" }
+        },
+        "pairs": {
+          "type": "array",
+          "title": "Before/After Pairs",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "before": { "type": "string" },
+              "after": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "trustSignals": {
+          "type": "array",
+          "title": "Trust Signals",
+          "items": {
+            "type": "object",
+            "properties": {
+              "icon": { "type": "string" },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "googleRating": {
+          "type": "object",
+          "title": "Google Rating",
+          "properties": {
+            "score": { "type": "number" },
+            "count": { "type": "integer" }
+          }
         }
       },
       "required": ["type"]
@@ -169,6 +219,30 @@
             "phone": { "type": "string", "title": "Phone" },
             "email": { "type": "string", "format": "email", "title": "Email" },
             "hours": { "type": "string", "title": "Business Hours" }
+          }
+        },
+        "serviceArea": {
+          "type": "array",
+          "title": "Service Area",
+          "items": { "type": "string" }
+        },
+        "googleRating": {
+          "type": "object",
+          "title": "Google Rating",
+          "properties": {
+            "score": { "type": "number" },
+            "count": { "type": "integer" }
+          }
+        },
+        "trustSignals": {
+          "type": "array",
+          "title": "Trust Signals",
+          "items": {
+            "type": "object",
+            "properties": {
+              "icon": { "type": "string" },
+              "text": { "type": "string" }
+            }
           }
         }
       },

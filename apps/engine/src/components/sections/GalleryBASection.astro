@@ -1,0 +1,25 @@
+---
+import type { SectionV15 } from "@mshorizon/schema";
+import { GalleryBA, SectionHeader } from "@mshorizon/ui";
+import { getSectionHeader } from "../../lib/pages";
+
+interface Props {
+  section: SectionV15;
+}
+
+const { section } = Astro.props;
+const header = getSectionHeader(section);
+const pairs = section.pairs || [];
+---
+
+<section class="bg-background py-16">
+  <div class="container mx-auto px-4">
+    <SectionHeader
+      badge={header.badge}
+      title={header.title}
+      subtitle={header.subtitle}
+      align="center"
+    />
+    <GalleryBA client:visible pairs={pairs} />
+  </div>
+</section>

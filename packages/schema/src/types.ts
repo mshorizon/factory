@@ -14,7 +14,7 @@ export type AboutVariant = "story" | "timeline";
 export type ContactVariant = "centered" | "split";
 
 // Section Types
-export type SectionType = "hero" | "services" | "categories" | "about" | "contact" | "shop" | "gallery" | "testimonials";
+export type SectionType = "hero" | "services" | "categories" | "about" | "contact" | "shop" | "gallery" | "testimonials" | "process" | "serviceArea" | "trustBar" | "galleryBA";
 
 // Common Types
 export interface CTAButton {
@@ -62,6 +62,34 @@ export interface ContactForm {
   emailPlaceholder?: string;
   messagePlaceholder?: string;
   submitButton?: string;
+}
+
+// Process Step
+export interface ProcessStep {
+  number: number;
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+// Before/After Pair
+export interface BeforeAfterPair {
+  title: string;
+  before: string;
+  after: string;
+  description?: string;
+}
+
+// Trust Signal
+export interface TrustSignal {
+  icon: string;
+  text: string;
+}
+
+// Google Rating
+export interface GoogleRating {
+  score: number;
+  count: number;
 }
 
 // Footer Column
@@ -298,6 +326,15 @@ export interface SectionV15 {
   ctaLabel?: string;
   outOfStockCtaLabel?: string;
   outOfStockCtaHref?: string;
+  // Process fields
+  steps?: ProcessStep[];
+  // ServiceArea fields
+  areas?: string[];
+  // GalleryBA fields
+  pairs?: BeforeAfterPair[];
+  // TrustBar fields
+  trustSignals?: TrustSignal[];
+  googleRating?: GoogleRating;
 }
 
 // v1.5 Page Definition
@@ -337,6 +374,9 @@ export interface BusinessProfileV15 {
     assets?: BusinessAssets;
     contact?: BusinessContact;
     socials?: Record<string, string>;
+    serviceArea?: string[];
+    googleRating?: GoogleRating;
+    trustSignals?: TrustSignal[];
   };
   theme: ThemeV15;
   layout: LayoutV15;

@@ -29,3 +29,19 @@ export type { ContactCenteredProps, ContactSplitProps, ContactForm, ContactInfo,
 // Shop variants
 export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid } from "./shop";
 export type { ProductCardProps, CartButtonProps, CartPageContentProps, CheckoutPageContentProps, ShopGridProps } from "./shop";
+
+// Process variants
+export { ProcessSteps } from "./process";
+export type { ProcessStepsProps, ProcessStep } from "./process";
+
+// ServiceArea variants
+export { ServiceArea } from "./serviceArea";
+export type { ServiceAreaProps } from "./serviceArea";
+
+// TrustBar variants
+export { TrustBar } from "./trustBar";
+export type { TrustBarProps, TrustSignal, GoogleRating } from "./trustBar";
+
+// GalleryBA variants
+export { GalleryBA } from "./galleryBA";
+export type { GalleryBAProps, BeforeAfterPair } from "./galleryBA";
