@@ -143,8 +143,21 @@ const googleFontsUrl = googleFonts.length > 0
     <ScrollToTopButton />
     <OverlayScrollbar />
     <script is:inline>
-      // Section/field highlight listener - only active inside preview iframe
+      // Preview iframe enhancements - only active inside preview iframe
       if (window.parent !== window) {
+        // Preserve _preview=1 on all same-origin navigation
+        document.addEventListener('click', function(e) {
+          var anchor = e.target.closest ? e.target.closest('a') : null;
+          if (!anchor || !anchor.href) return;
+          try {
+            var url = new URL(anchor.href, window.location.origin);
+            if (url.origin !== window.location.origin) return;
+            if (url.searchParams.get('_preview') === '1') return;
+            e.preventDefault();
+            url.searchParams.set('_preview', '1');
+            window.location.href = url.toString();
+          } catch (err) {}
+        });
         var overlay = null;
         function getOverlay() {
           if (!overlay) {
