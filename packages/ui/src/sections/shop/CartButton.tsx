@@ -23,7 +23,7 @@ export function CartButton({ cartHref = "/cart", label, className }: CartButtonP
         {label && <span className="font-medium text-foreground">{label}</span>}
         {totalItems > 0 && (
           <span className={cn(
-            "flex items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-white",
+            "flex items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-on-primary",
             label ? "ml-1 h-5 w-5" : "absolute -top-1.5 -right-1.5 h-5 w-5"
           )}>
             {totalItems > 99 ? "99+" : totalItems}

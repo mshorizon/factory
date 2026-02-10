@@ -467,19 +467,132 @@ export default function AdminForm({ businessId, initialData, schema, translation
     }
 
     if (activeTab === "theme") {
-      const themeSchema = getSubSchema(schema, ["theme"]);
+      const themeData = (formData.theme || {}) as Record<string, any>;
+      const currentMode: "light" | "dark" = themeData.mode || "light";
+
+      // When switching to dark, ensure dark colors exist (copy from light)
+      const ensureDarkColors = () => {
+        const colors = themeData.colors || {};
+        if (!colors.dark || !colors.dark.primary) {
+          const lightColors = colors.light || {};
+          handleChange(["theme", "colors", "dark"], {
+            formData: structuredClone(lightColors),
+          });
+        }
+      };
+
+      const toggleMode = (mode: "light" | "dark") => {
+        if (mode === "dark") ensureDarkColors();
+        handleChange(["theme", "mode"], { formData: mode });
+      };
+
+      // Build color schema for the active mode with consistent titles
+      const colorModeSchema: RJSFSchema = {
+        type: "object",
+        title: "Colors",
+        properties: {
+          primary: { type: "string", title: "Primary Color", pattern: "^#[0-9A-Fa-f]{6}$" },
+          surface: {
+            type: "object", title: "Surface Colors",
+            properties: {
+              base: { type: "string", title: "Base Surface", pattern: "^#[0-9A-Fa-f]{6}$" },
+              alt: { type: "string", title: "Alt Surface", pattern: "^#[0-9A-Fa-f]{6}$" },
+            },
+          },
+          text: {
+            type: "object", title: "Text Colors",
+            properties: {
+              main: { type: "string", title: "Main Text", pattern: "^#[0-9A-Fa-f]{6}$" },
+              muted: { type: "string", title: "Muted Text", pattern: "^#[0-9A-Fa-f]{6}$" },
+              onPrimary: { type: "string", title: "Text on Primary", pattern: "^#[0-9A-Fa-f]{6}$" },
+            },
+          },
+        },
+      };
+
+      // Remaining theme fields (preset, typography, ui)
+      const themeMetaSchema: RJSFSchema = {
+        type: "object",
+        properties: {
+          preset: schema.properties?.theme ? (schema.properties.theme as any).properties?.preset : undefined,
+          typography: schema.properties?.theme ? (schema.properties.theme as any).properties?.typography : undefined,
+          ui: schema.properties?.theme ? (schema.properties.theme as any).properties?.ui : undefined,
+        },
+        definitions: schema.definitions,
+      };
+
+      const colorData = getNestedValue(formData, ["theme", "colors", currentMode]) || {};
+
       return (
-        <div className="rjsf-wrapper">
-          <Form
-            schema={themeSchema}
-            uiSchema={generateColorUiSchema(themeSchema)}
-            formData={getNestedValue(formData, ["theme"])}
-            validator={validator}
-            widgets={configWidgets}
-            formContext={{ businessId }}
-            onChange={(data: any) => handleChange(["theme"], data)}
-            liveValidate={false}
-          ><></></Form>
+        <div className="space-y-6">
+          {/* Mode toggle */}
+          <div className="flex items-center justify-between px-1 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <span className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Color Mode</span>
+            <div
+              className="relative flex items-center rounded-full cursor-pointer select-none"
+              style={{ background: 'rgba(255,255,255,0.08)', padding: '3px', width: '120px', height: '32px' }}
+              onClick={() => toggleMode(currentMode === "light" ? "dark" : "light")}
+            >
+              <div
+                className="absolute rounded-full transition-all duration-200"
+                style={{
+                  width: '56px',
+                  height: '26px',
+                  background: 'var(--primary)',
+                  left: currentMode === "light" ? '3px' : '61px',
+                }}
+              />
+              <span
+                className="relative z-10 flex-1 text-center text-[12px] font-medium transition-colors"
+                style={{ color: currentMode === "light" ? '#fff' : 'rgba(255,255,255,0.4)' }}
+              >Light</span>
+              <span
+                className="relative z-10 flex-1 text-center text-[12px] font-medium transition-colors"
+                style={{ color: currentMode === "dark" ? '#fff' : 'rgba(255,255,255,0.4)' }}
+              >Dark</span>
+            </div>
+          </div>
+
+          {/* Color fields for active mode */}
+          <div className="rjsf-wrapper">
+            <Form
+              key={currentMode}
+              schema={colorModeSchema}
+              uiSchema={generateColorUiSchema(colorModeSchema)}
+              formData={colorData}
+              validator={validator}
+              widgets={configWidgets}
+              formContext={{ businessId }}
+              onChange={(data: any) => handleChange(["theme", "colors", currentMode], data)}
+              liveValidate={false}
+            ><></></Form>
+          </div>
+
+          {/* Preset, Typography, UI */}
+          <div className="rjsf-wrapper">
+            <Form
+              schema={themeMetaSchema}
+              formData={{ preset: themeData.preset, typography: themeData.typography, ui: themeData.ui }}
+              validator={validator}
+              widgets={configWidgets}
+              formContext={{ businessId }}
+              onChange={(data: any) => {
+                if (data.formData) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    theme: {
+                      ...(prev.theme as Record<string, unknown>),
+                      preset: data.formData.preset,
+                      typography: data.formData.typography,
+                      ui: data.formData.ui,
+                    },
+                  }));
+                  setSaveStatus("idle");
+                }
+              }}
+              liveValidate={false}
+            ><></></Form>
+          </div>
         </div>
       );
     }

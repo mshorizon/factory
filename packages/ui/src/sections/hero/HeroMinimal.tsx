@@ -35,7 +35,7 @@ export function HeroMinimal({
             </ScrollReveal>
 
             <ScrollReveal delay={0.1} direction="up">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 tracking-tight text-primary leading-none" data-field="header.title">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 tracking-tight text-foreground leading-none" data-field="header.title">
                 {title}
               </h1>
             </ScrollReveal>
