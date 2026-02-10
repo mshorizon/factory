@@ -184,7 +184,7 @@ function replaceImagePaths(data: any, replacements: Map<string, string>): any {
 async function main() {
   const __dirname = dirname(fileURLToPath(import.meta.url));
   const rootDir = join(__dirname, "..");
-  const dataDir = join(rootDir, "data");
+  const dataDir = join(rootDir, "templates");
   const publicImagesDir = join(rootDir, "apps", "engine", "public", "images");
 
   // 1. Collect all images

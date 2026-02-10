@@ -11,7 +11,7 @@ if (!DATABASE_URL) {
   process.exit(1);
 }
 
-const dataDir = join(import.meta.dirname, "..", "..", "..", "data");
+const dataDir = join(import.meta.dirname, "..", "..", "..", "templates");
 
 function readJson(filePath: string): any {
   try {
