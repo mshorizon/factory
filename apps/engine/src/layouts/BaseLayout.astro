@@ -25,8 +25,8 @@ function isThemeV15(t: Theme): t is ThemeV15 {
 let cssVars: Record<string, string>;
 
 if (isThemeV15(theme)) {
-  // v1.5 theme structure
-  const colors = theme.colors.light;
+  // v1.5 theme structure — use dark palette when mode is "dark" and dark colors exist
+  const colors = theme.mode === "dark" && theme.colors.dark ? theme.colors.dark : theme.colors.light;
   cssVars = {
     primary: colors.primary,
     secondary: colors.surface.alt,

@@ -92,7 +92,7 @@ export function ScrollToTop({ threshold = 300, className }: ScrollToTopProps) {
     <button
       onClick={scrollToTop}
       className={cn(
-        "fixed bottom-6 right-6 z-[9999] p-3 rounded-full bg-primary text-white shadow-lg shadow-primary/25",
+        "fixed bottom-6 right-6 z-[9999] p-3 rounded-full bg-primary text-on-primary shadow-lg shadow-primary/25",
         "hover:bg-primary/90 hover:scale-110 active:scale-95",
         "transition-all duration-300 ease-out",
         isVisible

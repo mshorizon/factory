@@ -327,17 +327,19 @@
                 },
                 "surface": {
                   "type": "object",
+                  "title": "Surface Colors",
                   "properties": {
-                    "base": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
-                    "alt": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+                    "base": { "type": "string", "title": "Base Surface", "pattern": "^#[0-9A-Fa-f]{6}$" },
+                    "alt": { "type": "string", "title": "Alt Surface", "pattern": "^#[0-9A-Fa-f]{6}$" }
                   }
                 },
                 "text": {
                   "type": "object",
+                  "title": "Text Colors",
                   "properties": {
-                    "main": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
-                    "muted": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
-                    "onPrimary": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+                    "main": { "type": "string", "title": "Main Text", "pattern": "^#[0-9A-Fa-f]{6}$" },
+                    "muted": { "type": "string", "title": "Muted Text", "pattern": "^#[0-9A-Fa-f]{6}$" },
+                    "onPrimary": { "type": "string", "title": "Text on Primary", "pattern": "^#[0-9A-Fa-f]{6}$" }
                   }
                 }
               }

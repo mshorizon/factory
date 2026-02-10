@@ -64,7 +64,7 @@ export function HeroDefault({
           <h1
             className={cn(
               "text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight",
-              backgroundImage ? "text-white" : "text-foreground"
+              backgroundImage ? "text-on-primary" : "text-foreground"
             )}
             data-field="header.title"
           >
@@ -76,7 +76,7 @@ export function HeroDefault({
             <p
               className={cn(
                 "text-lg md:text-xl max-w-2xl mb-8",
-                backgroundImage ? "text-white/90" : "text-muted",
+                backgroundImage ? "text-on-primary/90" : "text-muted",
                 align === "center" && "mx-auto"
               )}
               data-field="header.subtitle"
@@ -116,7 +116,7 @@ export function HeroDefault({
                   asChild
                   size="xl"
                   variant={secondaryCta.variant || "outline"}
-                  className={backgroundImage ? "border-white text-white hover:bg-white hover:text-foreground" : ""}
+                  className={backgroundImage ? "border-on-primary text-on-primary hover:bg-on-primary hover:text-foreground" : ""}
                   data-field="secondaryCta"
                 >
                   <a href={secondaryCta.href}>{secondaryCta.label}</a>

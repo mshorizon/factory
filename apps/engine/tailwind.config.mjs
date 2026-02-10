@@ -14,6 +14,7 @@ export default {
         muted: 'var(--muted)',
         accent: 'var(--accent)',
         border: 'var(--border)',
+        'on-primary': 'var(--text-on-primary)',
       },
       borderRadius: {
         radius: 'var(--radius)',
