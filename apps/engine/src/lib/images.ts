@@ -43,7 +43,13 @@ export function resolveImagePath(imagePath: string | undefined, businessId: stri
   }
 
   // Resolve to R2 URL
-  const baseUrl = getR2PublicUrl();
+  let baseUrl: string;
+  try {
+    baseUrl = getR2PublicUrl();
+  } catch {
+    // R2 not configured — return the original path unchanged
+    return imagePath;
+  }
   return `${baseUrl}/${businessId}/${cleanPath}`;
 }
 

@@ -74,8 +74,10 @@ export async function uploadToR2(
  * Get the configured public base URL for R2.
  */
 export function getR2PublicUrl(): string {
-  if (!r2Config) {
-    throw new Error("R2 not initialized. Call initR2() first.");
+  if (!r2Config || !r2Config.publicUrl) {
+    throw new Error(
+      "R2 public URL not configured. Set the R2_PUBLIC_DOMAIN environment variable."
+    );
   }
   return r2Config.publicUrl.replace(/\/+$/, "");
 }
