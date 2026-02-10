@@ -68,6 +68,25 @@ if (isThemeV15(theme)) {
     fontHeading: theme.typography?.fontFamily?.heading || "system-ui, -apple-system, sans-serif",
   };
 }
+// Extract Google Font names from font-family strings
+function extractGoogleFonts(...fontStrings: string[]): string[] {
+  const systemFonts = new Set(['system-ui', '-apple-system', 'sans-serif', 'serif', 'monospace', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial']);
+  const fonts = new Set<string>();
+  for (const str of fontStrings) {
+    for (const part of str.split(',')) {
+      const name = part.trim().replace(/^['"]|['"]$/g, '');
+      if (name && !systemFonts.has(name)) {
+        fonts.add(name);
+      }
+    }
+  }
+  return [...fonts];
+}
+
+const googleFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
+const googleFontsUrl = googleFonts.length > 0
+  ? `https://fonts.googleapis.com/css2?${googleFonts.map(f => `family=${f.replace(/ /g, '+')}:wght@400;500;600;700;800`).join('&')}&display=swap`
+  : null;
 ---
 
 <html lang={lang}>
@@ -77,6 +96,11 @@ if (isThemeV15(theme)) {
     {!favicon && <link rel="icon" type="image/svg+xml" href="/favicon.svg" />}
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    {googleFontsUrl && (
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="stylesheet" href={googleFontsUrl} />
+    )}
     <title>{title}</title>
     <style define:vars={cssVars}>
       :root {

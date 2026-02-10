@@ -15,7 +15,7 @@ MS Horizon Factory is a multi-tenant "Site Factory" that generates unique websit
 | `apps/engine` | Astro hybrid SSR/SSG renderer - takes client_id/domain, fetches JSON, renders site |
 | `packages/ui` | React + Tailwind design system - industry-agnostic components |
 | `packages/schema` | Zod schemas - single source of truth for business profile structure |
-| `data/*.json` | Git-based CMS - each file is a unique client configuration |
+| `templates/*.json` | Git-based CMS - each file is a unique client configuration |
 
 ## Commands
 
@@ -43,7 +43,7 @@ pnpm add <pkg> --filter <workspace>  # Add dependency to specific workspace
 ### Astro & Performance
 - Zero JS by default - use Astro components for static content
 - React only for interactivity (booking widgets, forms) with `client:*` directives
-- Use Astro's native image components for `data/` assets
+- Use Astro's native image components for `templates/` assets
 
 ### Schema-First Development
 - Before adding any feature, check `packages/schema/src/client.ts` first

@@ -41,13 +41,14 @@ export function ColorPickerWidget(props: WidgetProps) {
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
           readOnly={readonly}
-          className="flex-1 px-3 py-2 border border-[var(--border)] rounded-[var(--radius)] bg-white text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+          className="flex-1 px-3 py-2 border rounded-[var(--radius)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+          style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}
           placeholder="#000000"
         />
       </div>
 
       {isOpen && (
-        <div className="absolute z-50 mt-2 p-3 bg-white border border-[var(--border)] rounded-[var(--radius)] shadow-lg">
+        <div className="absolute z-50 mt-2 p-3 rounded-[var(--radius)] shadow-lg" style={{ background: '#2a2a2a', border: '1px solid rgba(255,255,255,0.1)' }}>
           <HexColorPicker color={colorValue} onChange={onChange} />
         </div>
       )}

@@ -28,6 +28,22 @@ const configWidgets = {
   ImageUrlWidget,
 };
 
+// Auto-detect color fields by their hex pattern and map them to ColorPickerWidget
+function generateColorUiSchema(schema: RJSFSchema): Record<string, any> {
+  const uiSchema: Record<string, any> = {};
+  if (!schema.properties) return uiSchema;
+  for (const [key, prop] of Object.entries(schema.properties)) {
+    const p = prop as any;
+    if (p.type === "string" && p.pattern?.includes("#[0-9A-Fa-f]")) {
+      uiSchema[key] = { "ui:widget": "ColorPickerWidget" };
+    } else if (p.type === "object" && p.properties) {
+      const nested = generateColorUiSchema(p);
+      if (Object.keys(nested).length > 0) uiSchema[key] = nested;
+    }
+  }
+  return uiSchema;
+}
+
 // Extract a sub-schema for a specific path, preserving definitions
 function getSubSchema(schema: RJSFSchema, path: string[]): RJSFSchema {
   let current: any = schema;
@@ -429,6 +445,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
         <div className="rjsf-wrapper">
           <Form
             schema={metaSchema}
+            uiSchema={generateColorUiSchema(metaSchema)}
             formData={{ schemaVersion: formData.schemaVersion, business: formData.business }}
             validator={validator}
             widgets={configWidgets}
@@ -455,6 +472,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
         <div className="rjsf-wrapper">
           <Form
             schema={themeSchema}
+            uiSchema={generateColorUiSchema(themeSchema)}
             formData={getNestedValue(formData, ["theme"])}
             validator={validator}
             widgets={configWidgets}
