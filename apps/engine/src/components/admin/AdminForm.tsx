@@ -128,6 +128,8 @@ export default function AdminForm({ businessId, initialData, schema, translation
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string>();
   const [newPageName, setNewPageName] = useState("");
+  const [dragOverPage, setDragOverPage] = useState<string | null>(null);
+  const dragPageRef = useRef<string | null>(null);
 
   // Save activeTab to sessionStorage
   useEffect(() => {
@@ -192,14 +194,24 @@ export default function AdminForm({ businessId, initialData, schema, translation
     };
   }, [formData, translationsData, businessId]);
 
-  const tabs: { id: TabType; label: string }[] = [
-    { id: "meta", label: "Business Info" },
-    { id: "theme", label: "Theme" },
-    { id: "navbar", label: "Navbar" },
-    { id: "footer", label: "Footer" },
-    ...pageNames.map((name) => ({ id: `page-${name}` as TabType, label: name })),
-    { id: "translations-en", label: "EN" },
-    { id: "translations-pl", label: "PL" },
+  // SVG icons for sidebar (14x14, stroke-based)
+  const icons: Record<string, React.ReactNode> = {
+    meta: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+    theme: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="13.5" r="2.5"/><circle cx="17.5" cy="13.5" r="2.5"/><path d="M13.5 9v2.5"/><path d="M6.5 11V9"/><path d="M17.5 11V9"/></svg>,
+    navbar: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>,
+    footer: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15h18"/></svg>,
+    page: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>,
+    translations: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>,
+  };
+
+  const tabs: { id: TabType; label: string; icon?: React.ReactNode }[] = [
+    { id: "meta", label: "Business Info", icon: icons.meta },
+    { id: "theme", label: "Theme", icon: icons.theme },
+    { id: "navbar", label: "Navbar", icon: icons.navbar },
+    { id: "footer", label: "Footer", icon: icons.footer },
+    ...pageNames.map((name) => ({ id: `page-${name}` as TabType, label: name, icon: icons.page })),
+    { id: "translations-en", label: "EN", icon: icons.translations },
+    { id: "translations-pl", label: "PL", icon: icons.translations },
   ];
 
   // --- Change detection per tab ---
@@ -371,6 +383,21 @@ export default function AdminForm({ businessId, initialData, schema, translation
           [pageName]: { ...page, sections: newSections },
         },
       };
+    });
+  };
+
+  const reorderPages = (fromName: string, toName: string) => {
+    if (fromName === toName) return;
+    setFormData((prev) => {
+      const currentPages = prev.pages as Record<string, unknown> | undefined;
+      if (!currentPages) return prev;
+      const entries = Object.entries(currentPages);
+      const fromIdx = entries.findIndex(([k]) => k === fromName);
+      const toIdx = entries.findIndex(([k]) => k === toName);
+      if (fromIdx === -1 || toIdx === -1) return prev;
+      const [moved] = entries.splice(fromIdx, 1);
+      entries.splice(toIdx, 0, moved);
+      return { ...prev, pages: Object.fromEntries(entries) };
     });
   };
 
@@ -708,7 +735,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
   };
 
   // --- Sidebar nav item ---
-  const NavItem = ({ tab, onClick }: { tab: { id: TabType; label: string }; onClick: () => void }) => {
+  const NavItem = ({ tab, onClick }: { tab: { id: TabType; label: string; icon?: React.ReactNode }; onClick: () => void }) => {
     const isActive = activeTab === tab.id;
     const changed = isTabChanged(tab.id);
 
@@ -721,7 +748,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
             : "text-white/50 hover:bg-white/[0.04] hover:text-white/80"
         }`}
       >
-        <span className="truncate">{tab.label}</span>
+        <span className="flex items-center gap-2 truncate">
+          {tab.icon && <span className="flex-shrink-0 opacity-60">{tab.icon}</span>}
+          <span className="truncate">{tab.label}</span>
+        </span>
         {changed && !isActive && (
           <span
             onClick={(e) => { e.stopPropagation(); revertTab(tab.id); }}
@@ -774,19 +804,39 @@ export default function AdminForm({ businessId, initialData, schema, translation
               <span className="text-white/20 text-[11px]">+</span>
             </div>
             <div className="space-y-px">
-              {tabs.filter(t => t.id.startsWith("page-")).map((tab) => (
-                <NavItem
-                  key={tab.id}
-                  tab={tab}
-                  onClick={() => {
-                    setActiveTab(tab.id);
-                    const pageName = tab.id.replace("page-", "");
-                    if (typeof (window as any).navigatePreview === "function") {
-                      (window as any).navigatePreview(pageName);
-                    }
-                  }}
-                />
-              ))}
+              {tabs.filter(t => t.id.startsWith("page-")).map((tab) => {
+                const pageName = tab.id.replace("page-", "");
+                return (
+                  <div
+                    key={tab.id}
+                    draggable
+                    onDragStart={() => { dragPageRef.current = pageName; }}
+                    onDragOver={(e) => { e.preventDefault(); setDragOverPage(pageName); }}
+                    onDragLeave={() => setDragOverPage(null)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      if (dragPageRef.current) reorderPages(dragPageRef.current, pageName);
+                      dragPageRef.current = null;
+                      setDragOverPage(null);
+                    }}
+                    onDragEnd={() => { dragPageRef.current = null; setDragOverPage(null); }}
+                    style={{
+                      borderTop: dragOverPage === pageName ? '2px solid var(--primary)' : '2px solid transparent',
+                      cursor: 'grab',
+                    }}
+                  >
+                    <NavItem
+                      tab={tab}
+                      onClick={() => {
+                        setActiveTab(tab.id);
+                        if (typeof (window as any).navigatePreview === "function") {
+                          (window as any).navigatePreview(pageName);
+                        }
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </div>
             <div className="mt-2 px-1">
               <div className="flex gap-1">

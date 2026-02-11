@@ -200,8 +200,7 @@
         "name": { "type": "string", "title": "Business Name" },
         "industry": {
           "type": "string",
-          "title": "Industry",
-          "enum": ["plumber", "barber", "restaurant", "shop", "service", "specialist"]
+          "title": "Industry"
         },
         "assets": {
           "type": "object",
