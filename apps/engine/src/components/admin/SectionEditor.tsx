@@ -40,10 +40,13 @@ interface SectionEditorProps {
   section: any;
   savedSection?: any;
   index: number;
+  sectionCount: number;
   pageName: string;
   businessId: string;
   onUpdate: (updatedSection: any) => void;
   onRemove: () => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
 }
 
 // Helper to create a field updater
@@ -206,6 +209,14 @@ function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = 
     onUpdate({ ...section, items: newItems });
   };
 
+  const moveItem = (idx: number, direction: 'up' | 'down') => {
+    const newItems = [...items];
+    const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (newIdx < 0 || newIdx >= newItems.length) return;
+    [newItems[idx], newItems[newIdx]] = [newItems[newIdx], newItems[idx]];
+    onUpdate({ ...section, items: newItems });
+  };
+
   return (
     <div className="mt-3 pt-3 border-t border-white/[0.06]">
       <div className="flex items-center justify-between mb-3">
@@ -220,7 +231,25 @@ function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = 
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-white/40">Item {idx + 1}</span>
-            <button onClick={() => removeItem(idx)} className="text-xs text-red-400 hover:text-red-300">Remove</button>
+            <div className="flex items-center gap-1">
+              <button
+                disabled={idx === 0}
+                onClick={() => moveItem(idx, 'up')}
+                className="p-0.5 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
+                title="Move up"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button
+                disabled={idx === items.length - 1}
+                onClick={() => moveItem(idx, 'down')}
+                className="p-0.5 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
+                title="Move down"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button onClick={() => removeItem(idx)} className="text-xs text-red-400 hover:text-red-300">Remove</button>
+            </div>
           </div>
           {fields.map((f) =>
             f.type === "image" ? (
@@ -366,6 +395,14 @@ function ShopFields({ section, savedSection, onUpdate, businessId, si }: { secti
     onUpdate({ ...section, products: newProducts });
   };
 
+  const moveProduct = (idx: number, direction: 'up' | 'down') => {
+    const newProducts = [...products];
+    const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (newIdx < 0 || newIdx >= newProducts.length) return;
+    [newProducts[idx], newProducts[newIdx]] = [newProducts[newIdx], newProducts[idx]];
+    onUpdate({ ...section, products: newProducts });
+  };
+
   return (
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
@@ -383,7 +420,25 @@ function ShopFields({ section, savedSection, onUpdate, businessId, si }: { secti
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-white/40">Product {pIdx + 1}</span>
-              <button onClick={() => removeProduct(pIdx)} className="text-xs text-red-400 hover:text-red-300">Remove</button>
+              <div className="flex items-center gap-1">
+                <button
+                  disabled={pIdx === 0}
+                  onClick={() => moveProduct(pIdx, 'up')}
+                  className="p-0.5 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
+                  title="Move up"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <button
+                  disabled={pIdx === products.length - 1}
+                  onClick={() => moveProduct(pIdx, 'down')}
+                  className="p-0.5 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
+                  title="Move down"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <button onClick={() => removeProduct(pIdx)} className="text-xs text-red-400 hover:text-red-300">Remove</button>
+              </div>
             </div>
             <TextField label="Name" value={product.name || ""} onChange={(v) => updateProduct(pIdx, "name", v)} sectionIndex={si} fieldPath={`products.${pIdx}.name`} />
             <div className="flex gap-4 items-center" {...fieldHoverProps(si, `products.${pIdx}.price`)}>
@@ -418,7 +473,7 @@ function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { se
 
 // --- Main component ---
 
-export default function SectionEditor({ section, savedSection, index, pageName, businessId, onUpdate, onRemove }: SectionEditorProps) {
+export default function SectionEditor({ section, savedSection, index, sectionCount, pageName, businessId, onUpdate, onRemove, onMoveUp, onMoveDown }: SectionEditorProps) {
   const variants = VARIANT_OPTIONS[section.type] || [];
 
   const handleTypeChange = (newType: string) => {
@@ -451,7 +506,25 @@ export default function SectionEditor({ section, savedSection, index, pageName, 
     >
       <div className="flex items-center justify-between mb-3">
         <span className="font-medium text-sm text-white/90">Section {index + 1}: {section.type}</span>
-        <button onClick={onRemove} className="px-2 py-1 text-xs bg-red-500/15 text-red-400 rounded hover:bg-red-500/25">Remove</button>
+        <div className="flex items-center gap-1">
+          <button
+            disabled={index === 0}
+            onClick={onMoveUp}
+            className="p-1 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
+            title="Move up"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
+          <button
+            disabled={index === sectionCount - 1}
+            onClick={onMoveDown}
+            className="p-1 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
+            title="Move down"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <button onClick={onRemove} className="px-2 py-1 text-xs bg-red-500/15 text-red-400 rounded hover:bg-red-500/25">Remove</button>
+        </div>
       </div>
 
       <div className="space-y-3">

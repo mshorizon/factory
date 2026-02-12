@@ -128,8 +128,6 @@ export default function AdminForm({ businessId, initialData, schema, translation
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string>();
   const [newPageName, setNewPageName] = useState("");
-  const [dragOverPage, setDragOverPage] = useState<string | null>(null);
-  const dragPageRef = useRef<string | null>(null);
 
   // Save activeTab to sessionStorage
   useEffect(() => {
@@ -386,18 +384,33 @@ export default function AdminForm({ businessId, initialData, schema, translation
     });
   };
 
-  const reorderPages = (fromName: string, toName: string) => {
-    if (fromName === toName) return;
+  const movePage = (pageName: string, direction: 'up' | 'down') => {
     setFormData((prev) => {
       const currentPages = prev.pages as Record<string, unknown> | undefined;
       if (!currentPages) return prev;
       const entries = Object.entries(currentPages);
-      const fromIdx = entries.findIndex(([k]) => k === fromName);
-      const toIdx = entries.findIndex(([k]) => k === toName);
-      if (fromIdx === -1 || toIdx === -1) return prev;
-      const [moved] = entries.splice(fromIdx, 1);
-      entries.splice(toIdx, 0, moved);
+      const idx = entries.findIndex(([k]) => k === pageName);
+      if (idx === -1) return prev;
+      const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+      if (newIdx < 0 || newIdx >= entries.length) return prev;
+      const [moved] = entries.splice(idx, 1);
+      entries.splice(newIdx, 0, moved);
       return { ...prev, pages: Object.fromEntries(entries) };
+    });
+  };
+
+  const moveSection = (pageName: string, index: number, direction: 'up' | 'down') => {
+    setFormData((prev) => {
+      const pages = prev.pages as Record<string, any>;
+      const page = pages[pageName];
+      const sections = [...page.sections];
+      const newIdx = direction === 'up' ? index - 1 : index + 1;
+      if (newIdx < 0 || newIdx >= sections.length) return prev;
+      [sections[index], sections[newIdx]] = [sections[newIdx], sections[index]];
+      return {
+        ...prev,
+        pages: { ...pages, [pageName]: { ...page, sections } },
+      };
     });
   };
 
@@ -715,6 +728,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
                   section={section}
                   savedSection={savedSection}
                   index={index}
+                  sectionCount={pageData.sections.length}
                   pageName={pageName}
                   businessId={businessId}
                   onUpdate={(updatedSection) => {
@@ -723,6 +737,8 @@ export default function AdminForm({ businessId, initialData, schema, translation
                     handleChange(["pages", pageName, "sections"], { formData: newSections });
                   }}
                   onRemove={() => removeSection(pageName, index)}
+                  onMoveUp={() => moveSection(pageName, index, 'up')}
+                  onMoveDown={() => moveSection(pageName, index, 'down')}
                 />
               );
             })}
@@ -804,36 +820,37 @@ export default function AdminForm({ businessId, initialData, schema, translation
               <span className="text-white/20 text-[11px]">+</span>
             </div>
             <div className="space-y-px">
-              {tabs.filter(t => t.id.startsWith("page-")).map((tab) => {
+              {tabs.filter(t => t.id.startsWith("page-")).map((tab, tabIdx, arr) => {
                 const pageName = tab.id.replace("page-", "");
                 return (
-                  <div
-                    key={tab.id}
-                    draggable
-                    onDragStart={() => { dragPageRef.current = pageName; }}
-                    onDragOver={(e) => { e.preventDefault(); setDragOverPage(pageName); }}
-                    onDragLeave={() => setDragOverPage(null)}
-                    onDrop={(e) => {
-                      e.preventDefault();
-                      if (dragPageRef.current) reorderPages(dragPageRef.current, pageName);
-                      dragPageRef.current = null;
-                      setDragOverPage(null);
-                    }}
-                    onDragEnd={() => { dragPageRef.current = null; setDragOverPage(null); }}
-                    style={{
-                      borderTop: dragOverPage === pageName ? '2px solid var(--primary)' : '2px solid transparent',
-                      cursor: 'grab',
-                    }}
-                  >
-                    <NavItem
-                      tab={tab}
-                      onClick={() => {
-                        setActiveTab(tab.id);
-                        if (typeof (window as any).navigatePreview === "function") {
-                          (window as any).navigatePreview(pageName);
-                        }
-                      }}
-                    />
+                  <div key={tab.id} className="flex items-center">
+                    <div className="flex flex-col flex-shrink-0">
+                      <button
+                        disabled={tabIdx === 0}
+                        onClick={() => movePage(pageName, 'up')}
+                        className="text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed p-0 leading-none"
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                      </button>
+                      <button
+                        disabled={tabIdx === arr.length - 1}
+                        onClick={() => movePage(pageName, 'down')}
+                        className="text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed p-0 leading-none"
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                      </button>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <NavItem
+                        tab={tab}
+                        onClick={() => {
+                          setActiveTab(tab.id);
+                          if (typeof (window as any).navigatePreview === "function") {
+                            (window as any).navigatePreview(pageName);
+                          }
+                        }}
+                      />
+                    </div>
                   </div>
                 );
               })}
