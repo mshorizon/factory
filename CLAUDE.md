@@ -8,21 +8,75 @@ MS Horizon Factory is a multi-tenant "Site Factory" that generates unique websit
 
 ## Architecture
 
-**Monorepo:** Turborepo + pnpm
+### Monorepo: Turborepo + pnpm
 
 | Workspace | Purpose |
 |-----------|---------|
 | `apps/engine` | Astro hybrid SSR/SSG renderer - takes client_id/domain, fetches JSON, renders site |
+| `packages/config` | Shared configurations for MS Horizon |
+| `packages/db` | PostgreSQL database (on coolify) layer with Drizzle ORM - here are stored bussineses jsons like plumber.json, barber.json. Those jsons are build based on bussines templates stored in templates folder |
+| `packages/schema` | Ajv schemas - single source of truth for business profile structure with validation |
 | `packages/ui` | React + Tailwind design system - industry-agnostic components |
-| `packages/schema` | Zod schemas - single source of truth for business profile structure |
-| `templates/*.json` | Git-based CMS - each file is a unique client configuration |
+| `templates/{bussines_template_name}/{bussines_template_name}.json` | Git-based CMS - each file is a unique client configuration |
+
+### Machines & enviroments**
+There is one machine where code is run and production is hosted. This machine is Hetzner VPS on ip: 46.224.191.237
+`ssh root@46.224.191.237`
+
+Main domain is hazelgrouse.pl
+
+
+There are two environments:
+
+#### Dev:
+Websites are public visible on url *.dev.hazelgrouse.pl e.g. specialist.dev.hazelgrouse.pl (from bussines template), plumber.dev.hazelgrouse.pl(for bussines from database)
+
+To achive visibility from VSP to public i Use coolify and traffic on configuration:
+
+```bash
+cat <<'EOF' | sudo tee /data/coolify/proxy/dynamic/dev-astro.yaml > /dev/null
+http:
+  routers:
+    astro-dev-static-router:
+      rule: "Host(`plumber.dev.hazelgrouse.pl`) || Host(`barber.dev.hazelgrouse.pl`) || Host(`honey-worker.dev.hazelgrouse.pl`) || Host(`game-selector.dev.hazelgrouse.pl`) || Host(`wife-art-gallery.dev.hazelgrouse.pl`) || Host(`wife-cakes.dev.hazelgrouse.pl`) || Host(`specialist.dev.hazelgrouse.pl`) || Host(`szater.dev.hazelgrouse.pl`)"
+      entryPoints:
+        - https
+      service: astro-dev-service
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    astro-dev-service:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.0.1:4321"
+EOF
+```
+
+after change configuration > there is need to run: `docker stop coolify-proxy && docker start coolify-proxy`
+logs are visible under: `docker logs coolify-proxy --tail 50`
+
+PM2 run pnpm dev as a servise:
+`PORT=4321 HOST=0.0.0.0 pm2 start npm --name "astro-dev" -- run dev -- -- --host 0.0.0.0 --disable-host-check`  # to run pnpm dev inside pm2 as a servise
+`pm2 status`                                                                                                    # to checking pm2 status of astro-dev
+`pm2 delete astro-dev 2>/dev/null`                                                                              # if status of `astro-dev` is errored then delete then run pm2 again
+
+#### Prod:
+
+Production is running on Coolify project/app. After `git push` there is autodeploy and changes are visible on *.hazelgrouse.pl e.g. specialist.hazelgrouse.pl (from bussines template), plumber.hazelgrouse.pl(for bussines from database)
+
+Actual domains:
+`https://hazelgrouse.pl/,https://barber.hazelgrouse.pl/,https://plumber.hazelgrouse.pl/,https://honey-worker.hazelgrouse.pl/,https://game-selector.hazelgrouse.pl/,https://zakletewdrewnie.hazelgrouse.pl/,https://wife-art-gallery.hazelgrouse.pl/,https://wife-cakes.hazelgrouse.pl/,https://specialist.hazelgrouse.pl/,https://szater.hazelgrouse.pl/`
+
+`pnpm start` # Start command
+
 
 ## Commands
 
 ```bash
 pnpm install              # Install dependencies
-pnpm dev                  # Run all workspaces in dev mode
 pnpm build                # Build all workspaces
+pnpm dev                  # Run all workspaces in dev mode - it is running inside pm2 everytime when VPS machine starts so claude dont have to start it mannually
 pnpm lint                 # Lint all workspaces
 pnpm type-check           # Type-check all workspaces
 pnpm add <pkg> --filter <workspace>  # Add dependency to specific workspace
