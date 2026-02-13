@@ -9,7 +9,9 @@
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "start": "pnpm --filter @mshorizon/engine start",
-    "tmux-open": "tmux new -s ai",
+    "tmux-new": "tmux new -s ai",
+    "tmux-open": "tmux attach -t ai",
+    "tmux-ls": "tmux ls",
     "sonnet": "claude --model sonnet --dangerously-skip-permissions",
     "opus": "claude --dangerously-skip-permissions",
     "claude": "claude --dangerously-skip-permissions"
