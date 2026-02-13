@@ -14,6 +14,10 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
   serviceArea: "default",
   trustBar: "default",
   galleryBA: "default",
+  faq: "default",
+  features: "default",
+  ctaBanner: "default",
+  blog: "default",
 };
 
 /**

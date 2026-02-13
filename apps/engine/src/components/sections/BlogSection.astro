@@ -1,6 +1,6 @@
 ---
 import type { SectionV15 } from "@mshorizon/schema";
-import { TrustBar, SectionHeader } from "@mshorizon/ui";
+import { BlogGrid, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -9,6 +9,8 @@ interface Props {
 
 const { section } = Astro.props;
 const header = getSectionHeader(section);
+const posts = section.blogPosts || [];
+const ctaLabel = section.ctaLabel;
 ---
 
 <section class="py-16">
@@ -19,10 +21,6 @@ const header = getSectionHeader(section);
       subtitle={header.subtitle}
       align="center"
     />
-    <TrustBar
-      client:visible
-      trustSignals={section.trustSignals}
-      googleRating={section.googleRating}
-    />
+    <BlogGrid client:visible posts={posts} ctaLabel={ctaLabel} />
   </div>
 </section>

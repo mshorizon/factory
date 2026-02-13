@@ -3,15 +3,20 @@
   "business": {
     "id": "specialist-001",
     "name": "t:business.name",
-    "industry": "plumber",
+    "industry": "electrician",
     "assets": {
-      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231E6FBA'/><path d='M10 22V14a6 6 0 0 1 12 0v8' stroke='white' stroke-width='2.5' stroke-linecap='round' fill='none'/><circle cx='16' cy='24' r='2' fill='white'/><path d='M8 12h4M20 12h4' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>"
+      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FFC633'/><path d='M18 4L10 18h5l-1 10 8-14h-5l1-10z' fill='%2316181D'/></svg>"
     },
     "contact": {
-      "address": "ul. Instalatorska 27, 02-237 Warszawa",
-      "phone": "+48 22 123 45 67",
-      "email": "biuro@prohydraulik.pl",
-      "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Ndz: Tylko Awarie"
+      "address": "142 W 57th St, New York, NY 10019",
+      "phone": "+1 (212) 555-0173",
+      "email": "info@electria.com",
+      "hours": "Mon-Fri: 7:00AM-6:00PM, Sat: 8:00AM-2:00PM, Sun: Emergency Only"
+    },
+    "socials": {
+      "facebook": "https://facebook.com/electria",
+      "instagram": "https://instagram.com/electria",
+      "linkedin": "https://linkedin.com/company/electria"
     },
     "serviceArea": [
       "t:serviceArea.areas.0",
@@ -25,7 +30,7 @@
     ],
     "googleRating": {
       "score": 4.9,
-      "count": 312
+      "count": 487
     },
     "trustSignals": [
       { "icon": "shield", "text": "t:trustBar.signals.licensed" },
@@ -35,28 +40,40 @@
     ]
   },
   "theme": {
-    "preset": "industrial",
+    "preset": "bold",
     "mode": "light",
     "colors": {
       "light": {
-        "primary": "#1E6FBA",
+        "primary": "#FFC633",
         "surface": {
-          "base": "#F8FAFC",
-          "alt": "#0F172A"
+          "base": "#FFFFFF",
+          "alt": "#16181D"
         },
         "text": {
-          "main": "#0F172A",
-          "muted": "#64748B",
-          "onPrimary": "#FFFFFF"
+          "main": "#16181D",
+          "muted": "#8A8A8A",
+          "onPrimary": "#16181D"
+        }
+      },
+      "dark": {
+        "primary": "#FFC633",
+        "surface": {
+          "base": "#16181D",
+          "alt": "#2D2F34"
+        },
+        "text": {
+          "main": "#FFFFFF",
+          "muted": "#9CA3AF",
+          "onPrimary": "#16181D"
         }
       }
     },
     "typography": {
-      "primary": "'Inter', system-ui, -apple-system, sans-serif",
-      "secondary": "'Inter', system-ui, -apple-system, sans-serif"
+      "primary": "'Space Grotesk', system-ui, -apple-system, sans-serif",
+      "secondary": "'Open Sans', system-ui, -apple-system, sans-serif"
     },
     "ui": {
-      "radius": "0.5rem"
+      "radius": "0.75rem"
     }
   },
   "layout": {
@@ -70,56 +87,28 @@
       "links": [
         {
           "label": "t:footer.privacy",
-          "target": {
-            "type": "page",
-            "value": "privacy"
-          }
+          "target": { "type": "page", "value": "privacy" }
         },
         {
           "label": "t:footer.terms",
-          "target": {
-            "type": "page",
-            "value": "terms"
-          }
+          "target": { "type": "page", "value": "terms" }
         }
       ],
       "columns": [
         {
-          "title": "t:footer.columns.services.title",
+          "title": "t:footer.columns.pages.title",
           "links": [
-            {
-              "label": "t:footer.columns.services.leakDetection",
-              "target": { "type": "page", "value": "services" }
-            },
-            {
-              "label": "t:footer.columns.services.drainCleaning",
-              "target": { "type": "page", "value": "services" }
-            },
-            {
-              "label": "t:footer.columns.services.waterHeater",
-              "target": { "type": "page", "value": "services" }
-            },
-            {
-              "label": "t:footer.columns.services.emergency",
-              "target": { "type": "page", "value": "services" }
-            }
+            { "label": "t:footer.columns.pages.home", "target": { "type": "page", "value": "home" } },
+            { "label": "t:footer.columns.pages.about", "target": { "type": "page", "value": "about" } },
+            { "label": "t:footer.columns.pages.contact", "target": { "type": "page", "value": "contact" } }
           ]
         },
         {
-          "title": "t:footer.columns.company.title",
+          "title": "t:footer.columns.contact.title",
           "links": [
-            {
-              "label": "t:footer.columns.company.about",
-              "target": { "type": "page", "value": "about" }
-            },
-            {
-              "label": "t:footer.columns.company.contact",
-              "target": { "type": "page", "value": "contact" }
-            },
-            {
-              "label": "t:footer.columns.company.gallery",
-              "target": { "type": "page", "value": "gallery" }
-            }
+            { "label": "+1 (212) 555-0173", "target": { "type": "phone", "value": "+12125550173" } },
+            { "label": "info@electria.com", "target": { "type": "email", "value": "info@electria.com" } },
+            { "label": "142 W 57th St, New York", "target": { "type": "external", "value": "https://maps.google.com" } }
           ]
         }
       ]
@@ -129,7 +118,8 @@
     "cta": {
       "label": "t:nav.cta",
       "target": {
-        "type": "phone"
+        "type": "phone",
+        "value": "+12125550173"
       }
     }
   },
@@ -140,15 +130,16 @@
         {
           "type": "hero",
           "variant": "split",
+          "background": "dark",
           "header": {
             "badge": "t:hero.badge",
             "title": "t:hero.title",
             "subtitle": "t:hero.subtitle"
           },
-          "backgroundImage": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1200&h=800&fit=crop",
+          "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop",
           "cta": {
             "label": "t:hero.cta",
-            "target": { "type": "phone" }
+            "target": { "type": "phone", "value": "+12125550173" }
           },
           "secondaryCta": {
             "label": "t:hero.secondaryCta",
@@ -157,10 +148,6 @@
         },
         {
           "type": "trustBar",
-          "header": {
-            "badge": "t:trustBar.badge",
-            "title": "t:trustBar.title"
-          },
           "trustSignals": [
             { "icon": "shield", "text": "t:trustBar.signals.licensed" },
             { "icon": "clock", "text": "t:trustBar.signals.response" },
@@ -169,12 +156,12 @@
           ],
           "googleRating": {
             "score": 4.9,
-            "count": 312
+            "count": 487
           }
         },
         {
           "type": "services",
-          "variant": "grid",
+          "variant": "imageGrid",
           "header": {
             "badge": "t:services.badge",
             "title": "t:services.title",
@@ -182,87 +169,44 @@
           },
           "items": [
             {
-              "title": "t:services.items.leakDetection.title",
-              "description": "t:services.items.leakDetection.description",
-              "price": "t:services.items.leakDetection.price",
-              "icon": "search"
+              "title": "t:services.items.residential.title",
+              "description": "t:services.items.residential.description",
+              "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600&h=450&fit=crop"
             },
             {
-              "title": "t:services.items.drainCleaning.title",
-              "description": "t:services.items.drainCleaning.description",
-              "price": "t:services.items.drainCleaning.price",
-              "icon": "wrench"
+              "title": "t:services.items.commercial.title",
+              "description": "t:services.items.commercial.description",
+              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop"
             },
             {
-              "title": "t:services.items.waterHeater.title",
-              "description": "t:services.items.waterHeater.description",
-              "price": "t:services.items.waterHeater.price",
-              "icon": "bolt"
-            },
-            {
-              "title": "t:services.items.pipeRepair.title",
-              "description": "t:services.items.pipeRepair.description",
-              "price": "t:services.items.pipeRepair.price",
-              "icon": "shield"
+              "title": "t:services.items.panel.title",
+              "description": "t:services.items.panel.description",
+              "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=450&fit=crop"
             },
             {
               "title": "t:services.items.emergency.title",
               "description": "t:services.items.emergency.description",
-              "price": "t:services.items.emergency.price",
-              "icon": "alert"
+              "image": "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=600&h=450&fit=crop"
             },
             {
-              "title": "t:services.items.estimates.title",
-              "description": "t:services.items.estimates.description",
-              "price": "t:services.items.estimates.price",
-              "icon": "clipboard"
+              "title": "t:services.items.lighting.title",
+              "description": "t:services.items.lighting.description",
+              "image": "https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=600&h=450&fit=crop"
+            },
+            {
+              "title": "t:services.items.ev.title",
+              "description": "t:services.items.ev.description",
+              "image": "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=450&fit=crop"
             }
-          ]
-        },
-        {
-          "type": "process",
-          "header": {
-            "badge": "t:process.badge",
-            "title": "t:process.title",
-            "subtitle": "t:process.subtitle"
-          },
-          "steps": [
-            { "number": 1, "title": "t:process.steps.0.title", "description": "t:process.steps.0.description", "icon": "phone" },
-            { "number": 2, "title": "t:process.steps.1.title", "description": "t:process.steps.1.description", "icon": "search" },
-            { "number": 3, "title": "t:process.steps.2.title", "description": "t:process.steps.2.description", "icon": "wrench" },
-            { "number": 4, "title": "t:process.steps.3.title", "description": "t:process.steps.3.description", "icon": "shield" }
-          ]
-        },
-        {
-          "type": "galleryBA",
-          "header": {
-            "badge": "t:galleryBA.badge",
-            "title": "t:galleryBA.title",
-            "subtitle": "t:galleryBA.subtitle"
-          },
-          "pairs": [
-            {
-              "title": "t:galleryBA.pairs.0.title",
-              "before": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=300&fit=crop",
-              "after": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=400&h=300&fit=crop",
-              "description": "t:galleryBA.pairs.0.description"
-            },
-            {
-              "title": "t:galleryBA.pairs.1.title",
-              "before": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=300&fit=crop",
-              "after": "https://images.unsplash.com/photo-1564540586988-aa4e53c3d799?w=400&h=300&fit=crop",
-              "description": "t:galleryBA.pairs.1.description"
-            },
-            {
-              "title": "t:galleryBA.pairs.2.title",
-              "before": "https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=400&h=300&fit=crop",
-              "after": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop",
-              "description": "t:galleryBA.pairs.2.description"
-            }
-          ]
+          ],
+          "cta": {
+            "label": "t:services.cta",
+            "target": { "type": "page", "value": "services" }
+          }
         },
         {
           "type": "serviceArea",
+          "background": "dark",
           "header": {
             "badge": "t:serviceArea.badge",
             "title": "t:serviceArea.title",
@@ -277,11 +221,75 @@
             "t:serviceArea.areas.5",
             "t:serviceArea.areas.6",
             "t:serviceArea.areas.7"
+          ],
+          "stats": [
+            { "value": "487+", "label": "t:serviceArea.stats.reviews" },
+            { "value": "15+", "label": "t:serviceArea.stats.experience" },
+            { "value": "24/7", "label": "t:serviceArea.stats.availability" },
+            { "value": "10K+", "label": "t:serviceArea.stats.projects" }
           ]
         },
         {
+          "type": "features",
+          "header": {
+            "badge": "t:features.badge",
+            "title": "t:features.title",
+            "subtitle": "t:features.subtitle"
+          },
+          "items": [
+            { "title": "t:features.items.swift.title", "description": "t:features.items.swift.description", "icon": "zap" },
+            { "title": "t:features.items.trusted.title", "description": "t:features.items.trusted.description", "icon": "shield" },
+            { "title": "t:features.items.safety.title", "description": "t:features.items.safety.description", "icon": "check-circle" },
+            { "title": "t:features.items.affordable.title", "description": "t:features.items.affordable.description", "icon": "dollar-sign" }
+          ]
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "background": "dark",
+          "header": { "title": "t:about.title" },
+          "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop",
+          "story": {
+            "title": "t:about.story.title",
+            "content": "t:about.story.content"
+          },
+          "stats": [
+            { "value": "15+", "label": "t:about.stats.experience" },
+            { "value": "10,000+", "label": "t:about.stats.projects" },
+            { "value": "99%", "label": "t:about.stats.satisfaction" },
+            { "value": "24/7", "label": "t:about.stats.availability" }
+          ],
+          "cta": {
+            "label": "t:about.cta",
+            "target": { "type": "page", "value": "contact" }
+          }
+        },
+        {
+          "type": "faq",
+          "header": {
+            "badge": "t:faq.badge",
+            "title": "t:faq.title",
+            "subtitle": "t:faq.subtitle"
+          },
+          "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600&h=800&fit=crop",
+          "faqItems": [
+            { "question": "t:faq.items.0.question", "answer": "t:faq.items.0.answer" },
+            { "question": "t:faq.items.1.question", "answer": "t:faq.items.1.answer" },
+            { "question": "t:faq.items.2.question", "answer": "t:faq.items.2.answer" },
+            { "question": "t:faq.items.3.question", "answer": "t:faq.items.3.answer" },
+            { "question": "t:faq.items.4.question", "answer": "t:faq.items.4.answer" },
+            { "question": "t:faq.items.5.question", "answer": "t:faq.items.5.answer" }
+          ]
+        },
+        {
+          "type": "ctaBanner",
+          "variant": "ticker",
+          "background": "primary",
+          "marqueeText": "t:ctaTicker.text"
+        },
+        {
           "type": "testimonials",
-          "variant": "grid",
+          "background": "dark",
           "header": {
             "badge": "t:testimonials.badge",
             "title": "t:testimonials.title",
@@ -294,45 +302,39 @@
           ]
         },
         {
-          "type": "contact",
-          "variant": "split",
+          "type": "blog",
           "header": {
-            "title": "t:contact.title",
-            "subtitle": "t:contact.subtitle"
+            "badge": "t:blog.badge",
+            "title": "t:blog.title",
+            "subtitle": "t:blog.subtitle"
           },
-          "info": {
-            "address": "ul. Instalatorska 27, 02-237 Warszawa",
-            "phone": "+48 22 123 45 67",
-            "email": "biuro@prohydraulik.pl",
-            "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Ndz: Tylko Awarie"
-          },
-          "form": {
-            "namePlaceholder": "t:contact.form.name",
-            "emailPlaceholder": "t:contact.form.email",
-            "messagePlaceholder": "t:contact.form.message",
-            "submitButton": "t:contact.form.submit"
-          }
-        }
-      ]
-    },
-    "services": {
-      "title": "t:pages.services.title",
-      "sections": [
-        {
-          "type": "services",
-          "variant": "list",
-          "header": {
-            "title": "t:services.title",
-            "subtitle": "t:services.subtitle"
-          },
-          "items": [
-            { "title": "t:services.items.leakDetection.title", "description": "t:services.items.leakDetection.description", "price": "t:services.items.leakDetection.price", "icon": "search" },
-            { "title": "t:services.items.drainCleaning.title", "description": "t:services.items.drainCleaning.description", "price": "t:services.items.drainCleaning.price", "icon": "wrench" },
-            { "title": "t:services.items.waterHeater.title", "description": "t:services.items.waterHeater.description", "price": "t:services.items.waterHeater.price", "icon": "bolt" },
-            { "title": "t:services.items.pipeRepair.title", "description": "t:services.items.pipeRepair.description", "price": "t:services.items.pipeRepair.price", "icon": "shield" },
-            { "title": "t:services.items.emergency.title", "description": "t:services.items.emergency.description", "price": "t:services.items.emergency.price", "icon": "alert" },
-            { "title": "t:services.items.estimates.title", "description": "t:services.items.estimates.description", "price": "t:services.items.estimates.price", "icon": "clipboard" }
+          "ctaLabel": "t:blog.readMore",
+          "blogPosts": [
+            {
+              "title": "t:blog.posts.0.title",
+              "description": "t:blog.posts.0.description",
+              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=375&fit=crop",
+              "date": "t:blog.posts.0.date"
+            },
+            {
+              "title": "t:blog.posts.1.title",
+              "description": "t:blog.posts.1.description",
+              "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=375&fit=crop",
+              "date": "t:blog.posts.1.date"
+            }
           ]
+        },
+        {
+          "type": "ctaBanner",
+          "variant": "default",
+          "background": "dark",
+          "header": {
+            "title": "t:ctaBottom.title"
+          },
+          "cta": {
+            "label": "t:ctaBottom.cta",
+            "target": { "type": "phone", "value": "+12125550173" }
+          }
         }
       ]
     },
@@ -343,71 +345,21 @@
           "type": "about",
           "variant": "story",
           "header": { "title": "t:about.title" },
-          "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&h=600&fit=crop",
+          "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop",
           "story": {
             "title": "t:about.story.title",
             "content": "t:about.story.content"
           },
           "stats": [
-            { "value": "18+", "label": "t:about.stats.experience" },
-            { "value": "4,200+", "label": "t:about.stats.projects" },
+            { "value": "15+", "label": "t:about.stats.experience" },
+            { "value": "10,000+", "label": "t:about.stats.projects" },
             { "value": "99%", "label": "t:about.stats.satisfaction" },
             { "value": "24/7", "label": "t:about.stats.availability" }
           ],
-          "commitment": {
-            "title": "t:about.commitment.title",
-            "content": "t:about.commitment.content"
-          },
           "cta": {
             "label": "t:about.cta",
             "target": { "type": "page", "value": "contact" }
           }
-        }
-      ]
-    },
-    "gallery": {
-      "title": "t:pages.gallery.title",
-      "sections": [
-        {
-          "type": "gallery",
-          "variant": "grid",
-          "header": {
-            "badge": "t:gallery.badge",
-            "title": "t:gallery.title",
-            "subtitle": "t:gallery.subtitle"
-          },
-          "items": [
-            {
-              "title": "t:gallery.items.0.title",
-              "description": "t:gallery.items.0.description",
-              "image": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600&h=400&fit=crop"
-            },
-            {
-              "title": "t:gallery.items.1.title",
-              "description": "t:gallery.items.1.description",
-              "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=600&h=400&fit=crop"
-            },
-            {
-              "title": "t:gallery.items.2.title",
-              "description": "t:gallery.items.2.description",
-              "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop"
-            },
-            {
-              "title": "t:gallery.items.3.title",
-              "description": "t:gallery.items.3.description",
-              "image": "https://images.unsplash.com/photo-1564540586988-aa4e53c3d799?w=600&h=400&fit=crop"
-            },
-            {
-              "title": "t:gallery.items.4.title",
-              "description": "t:gallery.items.4.description",
-              "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop"
-            },
-            {
-              "title": "t:gallery.items.5.title",
-              "description": "t:gallery.items.5.description",
-              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=400&fit=crop"
-            }
-          ]
         }
       ]
     },
@@ -422,10 +374,10 @@
             "subtitle": "t:contact.subtitle"
           },
           "info": {
-            "address": "ul. Instalatorska 27, 02-237 Warszawa",
-            "phone": "+48 22 123 45 67",
-            "email": "biuro@prohydraulik.pl",
-            "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Ndz: Tylko Awarie"
+            "address": "142 W 57th St, New York, NY 10019",
+            "phone": "+1 (212) 555-0173",
+            "email": "info@electria.com",
+            "hours": "Mon-Fri: 7:00AM-6:00PM, Sat: 8:00AM-2:00PM, Sun: Emergency Only"
           },
           "form": {
             "namePlaceholder": "t:contact.form.name",

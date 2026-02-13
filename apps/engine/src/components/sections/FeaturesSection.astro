@@ -1,0 +1,38 @@
+---
+import type { SectionV15 } from "@mshorizon/schema";
+import { FeaturesGrid, Badge } from "@mshorizon/ui";
+import { getSectionHeader } from "../../lib/pages";
+
+interface Props {
+  section: SectionV15;
+}
+
+const { section } = Astro.props;
+const header = getSectionHeader(section);
+const items = section.items || [];
+---
+
+<section class="py-16">
+  <div class="container mx-auto px-4">
+    <div class="mb-12">
+      {header.badge && (
+        <Badge variant="accent" className="mb-4" data-field="header.badge">
+          {header.badge}
+        </Badge>
+      )}
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        {header.title && (
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading" data-field="header.title">
+            {header.title}
+          </h2>
+        )}
+        {header.subtitle && (
+          <p class="text-muted leading-relaxed" data-field="header.subtitle">
+            {header.subtitle}
+          </p>
+        )}
+      </div>
+    </div>
+    <FeaturesGrid client:visible items={items} />
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+import type { SectionV15 } from "@mshorizon/schema";
+import { CtaBannerDefault, CtaBannerTicker } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
+
+interface Props {
+  section: SectionV15;
+}
+
+const { section } = Astro.props;
+const variant = getSectionVariant(section);
+const header = getSectionHeader(section);
+
+// Resolve CTA href from target
+const ctaHref = section.cta?.target?.type === "phone"
+  ? `tel:${section.cta.target.value || ""}`
+  : section.cta?.target?.value
+    ? `/${section.cta.target.value}`
+    : "/contact";
+---
+
+{variant === "ticker" ? (
+  <section class="py-6">
+    <CtaBannerTicker
+      client:visible
+      marqueeText={section.marqueeText || header.title}
+    />
+  </section>
+) : (
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <CtaBannerDefault
+        client:visible
+        title={header.title}
+        ctaLabel={section.cta?.label}
+        ctaHref={ctaHref}
+      />
+    </div>
+  </section>
+)}

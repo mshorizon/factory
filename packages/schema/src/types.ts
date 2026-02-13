@@ -14,7 +14,7 @@ export type AboutVariant = "story" | "timeline";
 export type ContactVariant = "centered" | "split";
 
 // Section Types
-export type SectionType = "hero" | "services" | "categories" | "about" | "contact" | "shop" | "gallery" | "testimonials" | "process" | "serviceArea" | "trustBar" | "galleryBA";
+export type SectionType = "hero" | "services" | "categories" | "about" | "contact" | "shop" | "gallery" | "testimonials" | "process" | "serviceArea" | "trustBar" | "galleryBA" | "faq" | "features" | "ctaBanner" | "blog";
 
 // Common Types
 export interface CTAButton {
@@ -33,6 +33,7 @@ export interface ServiceItem {
   description: string;
   price?: string;
   icon?: string;
+  image?: string;
 }
 
 // Stat Item
@@ -291,10 +292,26 @@ export interface LayoutV15 {
   footer?: FooterConfigV15;
 }
 
+// FAQ Item
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+// Blog Post
+export interface BlogPost {
+  title: string;
+  description: string;
+  image?: string;
+  date?: string;
+  href?: string;
+}
+
 // v1.5 Section - with header object
 export interface SectionV15 {
   type: SectionType;
   variant?: string;
+  background?: "light" | "dark" | "primary";
   header?: SectionHeader;
   // Hero fields
   backgroundImage?: string;
@@ -335,6 +352,12 @@ export interface SectionV15 {
   // TrustBar fields
   trustSignals?: TrustSignal[];
   googleRating?: GoogleRating;
+  // FAQ fields
+  faqItems?: FAQItem[];
+  // Blog fields
+  blogPosts?: BlogPost[];
+  // CTA Banner fields
+  marqueeText?: string;
 }
 
 // v1.5 Page Definition

@@ -12,6 +12,10 @@ import TrustBarSection from "./sections/TrustBarSection.astro";
 import GalleryBASection from "./sections/GalleryBASection.astro";
 import GallerySection from "./sections/GallerySection.astro";
 import TestimonialsSection from "./sections/TestimonialsSection.astro";
+import FAQSection from "./sections/FAQSection.astro";
+import FeaturesSection from "./sections/FeaturesSection.astro";
+import CTABannerSection from "./sections/CTABannerSection.astro";
+import BlogSection from "./sections/BlogSection.astro";
 
 interface Props {
   sections: SectionV15[];
@@ -33,12 +37,24 @@ const sectionComponents: Record<string, any> = {
   galleryBA: GalleryBASection,
   gallery: GallerySection,
   testimonials: TestimonialsSection,
+  faq: FAQSection,
+  features: FeaturesSection,
+  ctaBanner: CTABannerSection,
+  blog: BlogSection,
 };
+
+// Map background prop to CSS class
+function getBgClass(bg?: string): string {
+  if (bg === "dark") return "section-bg-dark";
+  if (bg === "primary") return "section-bg-primary";
+  return "";
+}
 ---
 
 {sections.map((section, index) => {
   const Component = sectionComponents[section.type];
   if (!Component) return null;
+  const bgClass = getBgClass(section.background);
 
-  return <div data-section-index={index}><Component section={section} /></div>;
+  return <div data-section-index={index} class={bgClass}><Component section={section} /></div>;
 })}
