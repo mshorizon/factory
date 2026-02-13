@@ -10,8 +10,9 @@
     "type-check": "turbo type-check",
     "start": "pnpm --filter @mshorizon/engine start",
     "tmux-new": "tmux new -s ai",
-    "tmux-open": "tmux attach -t ai",
+    "tmux": "tmux attach -t ai",
     "tmux-ls": "tmux ls",
+    "tmux-kill": "tmux kill-session -t ai",
     "sonnet": "claude --model sonnet --dangerously-skip-permissions",
     "opus": "claude --dangerously-skip-permissions",
     "claude": "claude --dangerously-skip-permissions"
