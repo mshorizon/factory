@@ -35,7 +35,7 @@ export function SectionHeader({
         </Badge>
       )}
       {title && (
-        <h2 className="text-4xl font-bold text-foreground mb-4" data-field="header.title">{title}</h2>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-heading" data-field="header.title">{title}</h2>
       )}
       {subtitle && (
         <p

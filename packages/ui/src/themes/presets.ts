@@ -5,7 +5,7 @@ import type { ThemeV15 } from "@mshorizon/schema";
  * Pre-configured theme bundles for different business categories
  */
 
-export type ThemePreset = "industrial" | "wellness" | "minimal";
+export type ThemePreset = "industrial" | "wellness" | "minimal" | "bold";
 
 /**
  * Industrial preset - for plumbers, contractors, technical services
@@ -143,12 +143,58 @@ export const minimalPreset: ThemeV15 = {
 };
 
 /**
+ * Bold preset - for electricians, contractors, bold trade businesses
+ * Yellow primary, dark surface alt, Space Grotesk + Open Sans
+ */
+export const boldPreset: ThemeV15 = {
+  preset: "bold",
+  mode: "light",
+  colors: {
+    light: {
+      primary: "#FFC633",
+      surface: {
+        base: "#FFFFFF",
+        alt: "#16181D",
+      },
+      text: {
+        main: "#16181D",
+        muted: "#8A8A8A",
+        onPrimary: "#16181D",
+      },
+    },
+    dark: {
+      primary: "#FFC633",
+      surface: {
+        base: "#16181D",
+        alt: "#2D2F34",
+      },
+      text: {
+        main: "#FFFFFF",
+        muted: "#9CA3AF",
+        onPrimary: "#16181D",
+      },
+    },
+  },
+  typography: {
+    primary: "'Space Grotesk', system-ui, -apple-system, sans-serif",
+    secondary: "'Open Sans', system-ui, -apple-system, sans-serif",
+    baseSize: "16px",
+  },
+  ui: {
+    radius: "0.75rem",
+    spacingScale: 1,
+    buttonStyle: "solid",
+  },
+};
+
+/**
  * Map of preset names to their configurations
  */
 export const themePresets: Record<ThemePreset, ThemeV15> = {
   industrial: industrialPreset,
   wellness: wellnessPreset,
   minimal: minimalPreset,
+  bold: boldPreset,
 };
 
 /**

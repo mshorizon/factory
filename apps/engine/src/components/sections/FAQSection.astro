@@ -1,6 +1,6 @@
 ---
 import type { SectionV15 } from "@mshorizon/schema";
-import { TrustBar, SectionHeader } from "@mshorizon/ui";
+import { FAQAccordion, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
 
 const { section } = Astro.props;
 const header = getSectionHeader(section);
+const faqItems = section.faqItems || [];
 ---
 
 <section class="py-16">
@@ -17,12 +18,8 @@ const header = getSectionHeader(section);
       badge={header.badge}
       title={header.title}
       subtitle={header.subtitle}
-      align="center"
+      align="left"
     />
-    <TrustBar
-      client:visible
-      trustSignals={section.trustSignals}
-      googleRating={section.googleRating}
-    />
+    <FAQAccordion client:visible items={faqItems} image={section.image} />
   </div>
 </section>

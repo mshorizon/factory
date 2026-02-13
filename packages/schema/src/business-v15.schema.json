@@ -55,9 +55,14 @@
         "type": {
           "type": "string",
           "title": "Section Type",
-          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA"]
+          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog"]
         },
         "variant": { "type": "string", "title": "Variant" },
+        "background": {
+          "type": "string",
+          "title": "Section Background",
+          "enum": ["light", "dark", "primary"]
+        },
         "header": { "$ref": "#/definitions/sectionHeader" },
         "backgroundImage": { "type": "string", "title": "Background Image URL" },
         "image": { "type": "string", "title": "Image URL" },
@@ -168,6 +173,35 @@
             "score": { "type": "number" },
             "count": { "type": "integer" }
           }
+        },
+        "faqItems": {
+          "type": "array",
+          "title": "FAQ Items",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "answer": { "type": "string" }
+            }
+          }
+        },
+        "blogPosts": {
+          "type": "array",
+          "title": "Blog Posts",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "image": { "type": "string" },
+              "date": { "type": "string" },
+              "href": { "type": "string" }
+            }
+          }
+        },
+        "marqueeText": {
+          "type": "string",
+          "title": "Marquee Text"
         }
       },
       "required": ["type"]

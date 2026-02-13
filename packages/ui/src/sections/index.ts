@@ -11,7 +11,7 @@ export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroM
 export type { HeroProps, CTAButton } from "./hero";
 
 // Services variants
-export { ServicesGrid, ServicesList } from "./services";
+export { ServicesGrid, ServicesList, ServicesImageGrid } from "./services";
 export type { ServicesProps, ServiceItem } from "./services";
 
 // Categories variants
@@ -53,3 +53,19 @@ export type { GalleryGridProps, GalleryItem } from "./gallery";
 // Testimonials variants
 export { TestimonialsGrid } from "./testimonials";
 export type { TestimonialsGridProps, TestimonialItem } from "./testimonials";
+
+// FAQ variants
+export { FAQAccordion } from "./faq";
+export type { FAQAccordionProps, FAQItem } from "./faq";
+
+// Features variants
+export { FeaturesGrid } from "./features";
+export type { FeaturesGridProps, FeatureItem } from "./features";
+
+// CTA Banner variants
+export { CtaBannerDefault, CtaBannerTicker } from "./ctaBanner";
+export type { CtaBannerProps } from "./ctaBanner";
+
+// Blog variants
+export { BlogGrid } from "./blog";
+export type { BlogGridProps, BlogPost } from "./blog";

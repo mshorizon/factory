@@ -10,9 +10,10 @@ interface Props {
 const { section } = Astro.props;
 const header = getSectionHeader(section);
 const areas = section.areas || [];
+const stats = section.stats || [];
 ---
 
-<section class="bg-background py-16">
+<section class="py-16">
   <div class="container mx-auto px-4">
     <SectionHeader
       badge={header.badge}
@@ -20,6 +21,6 @@ const areas = section.areas || [];
       subtitle={header.subtitle}
       align="center"
     />
-    <ServiceArea client:visible areas={areas} />
+    <ServiceArea client:visible areas={areas} stats={stats} />
   </div>
 </section>

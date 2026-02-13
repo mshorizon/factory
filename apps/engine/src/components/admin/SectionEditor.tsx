@@ -12,6 +12,7 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
   services: [
     { value: "grid", label: "Grid" },
     { value: "list", label: "List" },
+    { value: "imageGrid", label: "Image Grid" },
   ],
   categories: [
     { value: "carousel", label: "Carousel" },
@@ -32,6 +33,19 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
     { value: "default", label: "Default" },
   ],
   testimonials: [
+    { value: "default", label: "Default" },
+  ],
+  faq: [
+    { value: "default", label: "Default" },
+  ],
+  features: [
+    { value: "default", label: "Default" },
+  ],
+  ctaBanner: [
+    { value: "default", label: "Default" },
+    { value: "ticker", label: "Ticker" },
+  ],
+  blog: [
     { value: "default", label: "Default" },
   ],
 };

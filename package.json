@@ -8,7 +8,10 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
-    "start": "pnpm --filter @mshorizon/engine start"
+    "start": "pnpm --filter @mshorizon/engine start",
+    "tmux-open": "tmux new -s ai",
+    "sonnet": "claude --model sonnet",
+    "opus": "claude"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +20,7 @@
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.984.0",
     "drizzle-orm": "^0.38.4",
+    "playwright": "^1.58.2",
     "postgres": "^3.4.8",
     "tsx": "^4.21.0",
     "turbo": "^2.7.5"

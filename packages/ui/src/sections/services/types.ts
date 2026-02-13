@@ -3,6 +3,7 @@ export interface ServiceItem {
   description: string;
   price?: string;
   icon?: string;
+  image?: string;
 }
 
 export interface ServicesProps {
