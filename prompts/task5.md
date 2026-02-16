@@ -1,0 +1,1 @@
+i want my bussines template templates/specialist looks the same as website: https://electria.framer.website/ there is running pm2 with pnpm dev so if you do chages those are visible on https://specialist.dev.hazelgrouse.pl/ use playwight when you want. if there are not good section variant to achieve gool feel free to add new variants of sections

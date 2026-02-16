@@ -122,34 +122,32 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 )}
 
 {variant === "branded" && (
-  <footer class="bg-secondary text-on-primary relative overflow-hidden shrink-0">
-    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-primary"></div>
+  <footer class="section-bg-dark relative overflow-hidden shrink-0">
     <div class="container mx-auto px-4 py-16">
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-12">
         <div>
-          <span class="font-bold text-4xl tracking-tight block mb-2">{businessName}</span>
-          {tagline && <p class="text-on-primary/70 text-lg max-w-md">{tagline}</p>}
+          <span class="font-bold text-4xl tracking-tight block mb-2 text-foreground">{businessName}</span>
+          {tagline && <p class="text-muted text-lg max-w-md">{tagline}</p>}
         </div>
         {socialLinks.length > 0 && (
           <div class="flex items-center gap-4">
             {socialLinks.map((social) => (
-              <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.platform} class="text-on-primary/60 hover:text-primary transition-colors">
+              <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.platform} class="text-muted hover:text-primary transition-colors">
                 <Fragment set:html={socialIcons[social.platform] || ''} />
               </a>
             ))}
           </div>
         )}
       </div>
-      <div class="h-px bg-gradient-to-r from-primary/50 via-primary to-primary/50 mb-12"></div>
       {columns.length > 0 && (
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
           {columns.map((column) => (
             <div>
-              <h3 class="font-semibold text-on-primary mb-4 text-lg">{column.title}</h3>
+              <h3 class="font-semibold text-foreground mb-4 text-sm uppercase tracking-wider">{column.title}</h3>
               <ul class="space-y-3">
                 {column.links.map((link) => (
                   <li>
-                    <a href={link.href} class="text-on-primary/70 hover:text-primary text-sm transition-colors">
+                    <a href={link.href} class="text-muted hover:text-primary text-sm transition-colors">
                       {link.label}
                     </a>
                   </li>
@@ -159,16 +157,16 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
           ))}
         </div>
       )}
-      <div class="pt-8 border-t border-on-primary/10 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-sm text-on-primary/60">{copyrightText}</p>
+      <div class="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-muted">{copyrightText}</p>
         <div class="flex items-center gap-6">
           {currentLanguage && (
             <div class="lang-switcher flex items-center gap-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-muted"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               {languages.map((lang, i) => (
                 <>
-                  {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
-                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
+                  {i > 0 && <span class="text-[10px] select-none text-muted/40">/</span>}
+                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-foreground font-medium" : "text-muted hover:text-foreground"]}>{lang.label}</button>
                 </>
               ))}
             </div>
@@ -176,7 +174,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
           {links.length > 0 && (
             <nav class="flex gap-6">
               {links.map((link) => (
-                <a href={link.href} class="text-on-primary/60 hover:text-on-primary text-sm transition-colors">
+                <a href={link.href} class="text-muted hover:text-foreground text-sm transition-colors">
                   {link.label}
                 </a>
               ))}

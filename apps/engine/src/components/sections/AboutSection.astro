@@ -2,6 +2,7 @@
 import type { Section } from "@mshorizon/schema";
 import { AboutStory, AboutTimeline, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
 
 interface Props {
   section: Section;
@@ -13,35 +14,42 @@ const header = getSectionHeader(section);
 
 // Handle CTA for both v1.0 and v1.5 formats
 const ctaLabel = section.cta?.label;
-const ctaHref = 'href' in (section.cta || {})
-  ? (section.cta as { href: string })?.href
-  : "/contact";
+const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : (
+  'href' in (section.cta || {})
+    ? (section.cta as { href: string })?.href
+    : "/contact"
+);
 ---
 
 <section class="py-16">
   <div class="container mx-auto px-4">
-    <SectionHeader
-      title={header.title}
-      align="center"
-    />
-
     {variant === "timeline" ? (
-      <AboutTimeline
-        client:visible
-        timeline={section.timeline || []}
-        stats={section.stats}
-        cta={ctaLabel}
-        ctaHref={ctaHref}
-      />
+      <>
+        <SectionHeader
+          title={header.title}
+          align="center"
+        />
+        <AboutTimeline
+          client:visible
+          timeline={section.timeline || []}
+          stats={section.stats}
+          cta={ctaLabel}
+          ctaHref={ctaHref}
+        />
+      </>
     ) : (
       <AboutStory
         client:visible
+        badge={header.badge}
+        title={header.title}
         story={section.story}
         stats={section.stats}
         commitment={section.commitment}
         image={section.image}
         cta={ctaLabel}
         ctaHref={ctaHref}
+        experienceBadge={section.experienceBadge}
+        experienceBadgeLabel={section.experienceBadgeLabel}
       />
     )}
   </div>

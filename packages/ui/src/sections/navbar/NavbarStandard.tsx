@@ -21,10 +21,9 @@ export function NavbarStandard({
     <nav
       className={cn(
         "transition-all duration-300",
-        sticky && "sticky top-0 z-50",
         variant === "transparent"
-          ? "bg-transparent"
-          : "bg-background/95 backdrop-blur-md shadow-sm border-b border-border",
+          ? "absolute top-0 left-0 right-0 z-50 bg-transparent"
+          : cn(sticky && "sticky top-0 z-50", "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"),
         className
       )}
     >

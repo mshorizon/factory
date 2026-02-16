@@ -9,16 +9,26 @@ interface Props {
 
 const { section } = Astro.props;
 const header = getSectionHeader(section);
-const items = section.items || [];
+import { resolveTarget } from "../../lib/target";
+
+const rawItems = section.items || [];
+const items = rawItems.map((item: any) => ({
+  ...item,
+  linkLabel: item.linkLabel,
+  linkHref: item.linkHref || (item.linkTarget ? resolveTarget(item.linkTarget) : undefined),
+}));
 ---
 
 <section class="py-16">
   <div class="container mx-auto px-4">
     <div class="mb-12">
       {header.badge && (
-        <Badge variant="accent" className="mb-4" data-field="header.badge">
-          {header.badge}
-        </Badge>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-8 h-0.5 bg-primary"></span>
+          <Badge variant="accent" data-field="header.badge">
+            {header.badge}
+          </Badge>
+        </div>
       )}
       <div class="grid md:grid-cols-2 gap-8 items-start">
         {header.title && (
