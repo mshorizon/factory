@@ -1,6 +1,6 @@
 ---
 import type { SectionV15 } from "@mshorizon/schema";
-import { ServiceArea, SectionHeader } from "@mshorizon/ui";
+import { ServiceArea, SectionHeader, Badge } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -15,12 +15,62 @@ const stats = section.stats || [];
 
 <section class="py-16">
   <div class="container mx-auto px-4">
-    <SectionHeader
-      badge={header.badge}
-      title={header.title}
-      subtitle={header.subtitle}
-      align="center"
-    />
-    <ServiceArea client:visible areas={areas} stats={stats} />
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      {/* Content side */}
+      <div>
+        {header.badge && (
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-0.5 bg-primary"></span>
+            <Badge variant="accent" data-field="header.badge">
+              {header.badge}
+            </Badge>
+          </div>
+        )}
+        {header.title && (
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-heading" data-field="header.title">
+            {header.title}
+          </h2>
+        )}
+        {header.subtitle && (
+          <p class="text-muted mb-8" data-field="header.subtitle">
+            {header.subtitle}
+          </p>
+        )}
+        {stats.length > 0 && (
+          <div class="flex gap-12">
+            {stats.map((stat: any, index: number) => (
+              <div data-field={`stats.${index}`}>
+                <div class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-2 font-heading" data-field={`stats.${index}.value`}>
+                  {stat.value}
+                </div>
+                <p class="text-sm text-muted" data-field={`stats.${index}.label`}>
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Decorative map side */}
+      <div class="relative flex items-center justify-center">
+        <div class="dotted-map" style="width: 400px; height: 300px; opacity: 0.4;"></div>
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  .dotted-map {
+    background-image: radial-gradient(circle, var(--foreground) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cellipse cx='200' cy='150' rx='190' ry='140' fill='white'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cellipse cx='200' cy='150' rx='190' ry='140' fill='white'/%3E%3C/svg%3E");
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+  }
+</style>

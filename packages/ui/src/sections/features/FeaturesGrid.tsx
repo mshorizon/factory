@@ -14,6 +14,7 @@ import {
   Phone,
   Users,
   ThumbsUp,
+  ArrowRight,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Card, CardHeader, CardTitle, CardDescription } from "../../atoms/Card";
@@ -45,9 +46,9 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
         const IconComponent = iconMap[item.icon || ""] || Zap;
         return (
           <StaggerItem key={index} direction="up" distance={30}>
-            <Card className="h-full" data-field={`items.${index}`}>
-              <CardHeader>
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-radius bg-primary/10">
+            <Card className="h-full flex flex-col" data-field={`items.${index}`}>
+              <CardHeader className="flex-1">
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-radius bg-secondary">
                   <IconComponent className="h-6 w-6 text-primary" />
                 </div>
                 <CardTitle data-field={`items.${index}.title`}>
@@ -57,6 +58,17 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
                   {item.description}
                 </CardDescription>
               </CardHeader>
+              {item.linkLabel && (
+                <div className="px-6 pb-6">
+                  <a
+                    href={item.linkHref || "#"}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                  >
+                    {item.linkLabel}
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
+              )}
             </Card>
           </StaggerItem>
         );

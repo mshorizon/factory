@@ -15,6 +15,8 @@ export interface StoryContent {
 }
 
 export interface AboutStoryProps {
+  badge?: string;
+  title?: string;
   story?: StoryContent;
   stats?: StatItem[];
   commitment?: StoryContent;
@@ -22,6 +24,8 @@ export interface AboutStoryProps {
   cta?: string;
   ctaHref?: string;
   whyChooseUs?: string;
+  experienceBadge?: string;
+  experienceBadgeLabel?: string;
   className?: string;
 }
 

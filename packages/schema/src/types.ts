@@ -284,10 +284,18 @@ export interface FooterConfigV15 {
   columns?: FooterColumnV15[];
 }
 
+// Navbar Extensions
+export interface NavbarUpperBarExtension {
+  type: "upper-bar";
+}
+
+export type NavbarExtension = NavbarUpperBarExtension;
+
 // v1.5 Layout Configuration
 export interface LayoutV15 {
   navbar?: {
     variant?: NavbarVariant;
+    extensions?: NavbarExtension[];
   };
   footer?: FooterConfigV15;
 }

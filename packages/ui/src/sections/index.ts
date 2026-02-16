@@ -11,7 +11,7 @@ export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroM
 export type { HeroProps, CTAButton } from "./hero";
 
 // Services variants
-export { ServicesGrid, ServicesList, ServicesImageGrid } from "./services";
+export { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards } from "./services";
 export type { ServicesProps, ServiceItem } from "./services";
 
 // Categories variants

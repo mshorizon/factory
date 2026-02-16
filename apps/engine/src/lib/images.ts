@@ -12,7 +12,7 @@ import { getR2PublicUrl } from "./r2";
  * Check if a string is an absolute URL
  */
 export function isAbsoluteUrl(url: string): boolean {
-  return url.startsWith('http://') || url.startsWith('https://');
+  return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:');
 }
 
 /**

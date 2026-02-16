@@ -63,6 +63,7 @@ export function getLayoutConfig(businessData: BusinessProfileV15) {
   return {
     navbar: {
       variant: layout.navbar?.variant || "standard",
+      extensions: layout.navbar?.extensions || [],
     },
     footer: {
       variant: layout.footer?.variant || "simple",
