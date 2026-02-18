@@ -71,6 +71,7 @@ export function getLayoutConfig(businessData: BusinessProfileV15) {
       tagline: layout.footer?.tagline,
       links: layout.footer?.links || [],
       columns: layout.footer?.columns || [],
+      extensions: layout.footer?.extensions || [],
     },
   };
 }

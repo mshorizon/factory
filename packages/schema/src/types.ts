@@ -275,6 +275,15 @@ export interface FooterColumnV15 {
   links: NavLinkV15[];
 }
 
+// v1.5 Footer Extensions
+export interface FooterCallExtension {
+  type: "call";
+  headline: string;
+  phone: string;
+}
+
+export type FooterExtension = FooterCallExtension;
+
 // v1.5 Footer Configuration
 export interface FooterConfigV15 {
   variant?: FooterVariant;
@@ -282,6 +291,7 @@ export interface FooterConfigV15 {
   tagline?: string;
   links?: NavLinkV15[];
   columns?: FooterColumnV15[];
+  extensions?: FooterExtension[];
 }
 
 // Navbar Extensions
@@ -315,6 +325,12 @@ export interface BlogPost {
   href?: string;
 }
 
+// Testimonial Item
+export interface Testimonial {
+  title: string;
+  quote?: string;
+}
+
 // v1.5 Section - with header object
 export interface SectionV15 {
   type: SectionType;
@@ -326,6 +342,8 @@ export interface SectionV15 {
   image?: string;
   cta?: CTAV15;
   secondaryCta?: CTAV15;
+  testimonial?: Testimonial;
+  testimonials?: Testimonial[];
   // Services fields
   items?: ServiceItem[];
   // About fields

@@ -10,6 +10,7 @@ interface Props {
 const { section } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
+const businessId = Astro.locals.businessId;
 ---
 
 <section class="py-16">
@@ -22,6 +23,7 @@ const header = getSectionHeader(section);
         form={section.form}
         info={section.info}
         labels={section.labels}
+        businessId={businessId}
       />
     ) : (
       <ContactCentered

@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  hasUpperBar?: boolean;
+}
+
+const { title, hasUpperBar = false } = Astro.props;
+const navbarHeight = hasUpperBar ? '136px' : '96px';
+---
+
+<section
+  class="page-hero section-bg-dark relative flex items-center justify-center overflow-hidden"
+  style={`height: calc(312px + ${navbarHeight}); padding-top: ${navbarHeight};`}
+>
+  <div class="page-hero-dots page-hero-dots-left" aria-hidden="true"></div>
+  <div class="page-hero-dots page-hero-dots-right" aria-hidden="true"></div>
+  <h1 class="relative z-10 font-heading text-center px-4 leading-none" style="font-size: 60px;">{title}</h1>
+</section>
+
+<style>
+  .page-hero-dots {
+    position: absolute;
+    top: 0;
+    width: 160px;
+    height: 100%;
+    background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);
+    background-size: 18px 18px;
+    opacity: 0.12;
+  }
+  .page-hero-dots-left {
+    left: 0;
+  }
+  .page-hero-dots-right {
+    right: 0;
+  }
+</style>

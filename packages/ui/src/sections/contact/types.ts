@@ -37,5 +37,6 @@ export interface ContactSplitProps {
   form?: ContactForm;
   info?: ContactInfo;
   labels?: ContactLabels;
+  businessId?: string;
   className?: string;
 }

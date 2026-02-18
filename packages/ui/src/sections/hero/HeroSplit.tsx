@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Star, Phone } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Badge } from "../../atoms/Badge";
@@ -41,29 +41,33 @@ export function HeroSplit({
   return (
     <section
       className={cn(
-        "relative z-0 bg-background min-h-[80vh] flex flex-col justify-center",
+        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center py-20 lg:py-0",
         className
       )}
     >
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Content Side */}
-          <div className="flex flex-col justify-center py-12 lg:py-24">
+          <div className="flex flex-col justify-center">
             {badge && (
               <ScrollReveal delay={0} direction="up">
-                <Badge variant="accent" className="mb-4 text-sm px-4 py-1 w-fit" data-field="header.badge">
-                  {badge}
-                </Badge>
+                <div className="flex items-center gap-3 mb-6">
+                  {/* Horizontal decorative line */}
+                  <div className="w-12 h-[2px] bg-primary" />
+                  <Badge variant="accent" className="text-base font-medium px-4 py-1.5 uppercase tracking-wide" data-field="header.badge">
+                    {badge}
+                  </Badge>
+                </div>
               </ScrollReveal>
             )}
             <ScrollReveal delay={0.1} direction="up">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground" data-field="header.title">
+              <h1 className="text-[36px] sm:text-[48px] lg:text-[60px] leading-[1.1] font-bold tracking-tight text-foreground mb-6" data-field="header.title">
                 {title}
               </h1>
             </ScrollReveal>
             {subtitle && (
               <ScrollReveal delay={0.2} direction="up">
-                <p className="text-lg md:text-xl text-muted mb-8 max-w-lg" data-field="header.subtitle">
+                <p className="text-base text-muted mb-10 max-w-lg leading-relaxed" data-field="header.subtitle">
                   {subtitle}
                 </p>
               </ScrollReveal>
@@ -76,12 +80,15 @@ export function HeroSplit({
                       asChild
                       size="xl"
                       variant={cta.variant || "default"}
-                      className="shadow-lg shadow-primary/25"
+                      className="shadow-lg shadow-primary/25 h-16 px-6 text-base font-semibold"
                       data-field="cta"
                     >
-                      <a href={cta.href}>
+                      <a href={cta.href} className="flex items-center gap-3">
+                        {/* White circle with phone icon */}
+                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                          <Phone className="h-5 w-5 text-foreground" />
+                        </div>
                         {cta.label}
-                        <ArrowRight className="ml-1 h-5 w-5" />
                       </a>
                     </Button>
                   )}
@@ -89,7 +96,8 @@ export function HeroSplit({
                     <Button
                       asChild
                       size="xl"
-                      variant={secondaryCta.variant || "outline"}
+                      variant="ghost"
+                      className="h-16 px-8 text-base font-semibold border-2 border-border hover:bg-foreground/5"
                       data-field="secondaryCta"
                     >
                       <a href={secondaryCta.href}>{secondaryCta.label}</a>
@@ -104,9 +112,27 @@ export function HeroSplit({
           {/* Image Side */}
           {heroImage && (
             <ScrollReveal delay={0.2} direction="right" distance={50}>
-              <div className="space-y-6">
-                <div className="relative lg:h-[500px] h-[350px]" data-field="image">
-                  <div className="relative w-full h-full rounded-radius overflow-hidden">
+              <div className="w-full max-w-[384px] mx-auto lg:ml-auto lg:mr-0">
+                {/* Image with dots behind (z-index) */}
+                <div className="relative w-full h-[300px] sm:h-[380px] lg:h-[460px]" data-field="image">
+                  {/* Dots BEHIND image (z-index) - 2x bigger dots, 2x less dense */}
+                  <div
+                    className="absolute -top-6 -left-6 w-32 h-32 opacity-30 pointer-events-none text-foreground -z-10"
+                    style={{
+                      backgroundImage: "radial-gradient(circle, currentColor 2px, transparent 2px)",
+                      backgroundSize: "16px 16px",
+                    }}
+                  />
+                  <div
+                    className="absolute -bottom-6 -right-6 w-32 h-32 opacity-30 pointer-events-none text-foreground -z-10"
+                    style={{
+                      backgroundImage: "radial-gradient(circle, currentColor 2px, transparent 2px)",
+                      backgroundSize: "16px 16px",
+                    }}
+                  />
+
+                  {/* Image on top */}
+                  <div className="relative w-full h-full rounded-[100px] overflow-hidden z-10">
                     <img
                       src={heroImage}
                       alt=""
@@ -114,27 +140,44 @@ export function HeroSplit({
                     />
                   </div>
                 </div>
-
-                {/* Testimonial below image */}
-                {allTestimonials.length > 0 && (
-                  <div className="flex items-start gap-4" data-field="testimonial">
-                    <div className="flex-shrink-0">
-                      <div className="flex gap-0.5 mb-1">
-                        {[...Array(5)].map((_, j) => (
-                          <Star key={j} className="h-4 w-4 fill-primary text-primary" />
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-base font-semibold text-foreground mb-1">{allTestimonials[0].title}</h3>
-                      <p className="text-sm text-muted">&ldquo;{allTestimonials[0].quote}&rdquo;</p>
-                    </div>
-                  </div>
-                )}
               </div>
             </ScrollReveal>
           )}
         </div>
+
+        {/* Person Ratings at bottom - Electria style */}
+        {allTestimonials.length > 0 && (
+          <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 max-w-6xl">
+            {allTestimonials.slice(0, 2).map((testimonialItem, idx) => (
+              <ScrollReveal key={idx} delay={0.4 + idx * 0.1} direction="up">
+                <div className="flex items-start gap-5" data-field="testimonial">
+                  {/* Avatar image - larger */}
+                  <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                    <img
+                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${idx === 0 ? 'John' : 'Emily'}`}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    {/* Stars - gold/yellow */}
+                    <div className="flex gap-0.5">
+                      {[...Array(5)].map((_, j) => (
+                        <Star key={j} className="h-5 w-5 fill-[#FFC633] text-[#FFC633]" />
+                      ))}
+                    </div>
+                    {/* Title - larger and bold */}
+                    <h3 className="text-xl font-bold text-foreground leading-tight">{testimonialItem.title}</h3>
+                    {/* Quote - muted */}
+                    {testimonialItem.quote && (
+                      <p className="text-sm text-muted leading-relaxed">&ldquo;{testimonialItem.quote}&rdquo;</p>
+                    )}
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
