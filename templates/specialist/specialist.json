@@ -11,7 +11,7 @@
     "contact": {
       "address": "142 W 57th St, New York, NY 10019",
       "phone": "+1 (212) 555-0173",
-      "email": "info@electria.com",
+      "email": "metju312@gmail.com",
       "hours": "Mon-Fri: 7:00AM-6:00PM, Sat: 8:00AM-2:00PM, Sun: Emergency Only"
     },
     "socials": {
@@ -86,6 +86,13 @@
       "variant": "branded",
       "copyright": "t:footer.copyright",
       "tagline": "t:footer.tagline",
+      "extensions": [
+        {
+          "type": "call",
+          "headline": "t:footer.callExtension.headline",
+          "phone": "t:footer.callExtension.phone"
+        }
+      ],
       "links": [
         {
           "label": "t:footer.privacy",
@@ -139,10 +146,16 @@
             "subtitle": "t:hero.subtitle"
           },
           "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop",
-          "testimonial": {
-            "title": "t:hero.testimonial.title",
-            "quote": "t:hero.testimonial.quote"
-          },
+          "testimonials": [
+            {
+              "title": "t:hero.testimonial.title",
+              "quote": "t:hero.testimonial.quote"
+            },
+            {
+              "title": "t:hero.testimonial2.title",
+              "quote": "t:hero.testimonial2.quote"
+            }
+          ],
           "cta": {
             "label": "t:hero.cta",
             "target": { "type": "phone", "value": "+12125550173" }
@@ -298,18 +311,6 @@
               "date": "t:blog.posts.1.date"
             }
           ]
-        },
-        {
-          "type": "ctaBanner",
-          "variant": "default",
-          "background": "dark",
-          "header": {
-            "title": "t:ctaBottom.title"
-          },
-          "cta": {
-            "label": "t:ctaBottom.cta",
-            "target": { "type": "phone", "value": "+12125550173" }
-          }
         }
       ]
     },

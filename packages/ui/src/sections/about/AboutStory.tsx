@@ -98,7 +98,7 @@ export function AboutStory({
       {/* Stats row */}
       {stats && stats.length > 0 && (
         <ScrollReveal delay={0.2} direction="up">
-          <StaggerContainer className="flex flex-col items-center gap-12 py-8" staggerDelay={0.1}>
+          <StaggerContainer className="flex flex-row flex-wrap justify-center gap-8 md:gap-12 py-8" staggerDelay={0.1}>
             {stats.map((stat, index) => (
               <StaggerItem key={index} direction="up" distance={20}>
                 <div className="text-center" data-field={`stats.${index}`}>

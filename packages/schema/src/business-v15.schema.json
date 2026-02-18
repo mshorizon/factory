@@ -68,6 +68,25 @@
         "image": { "type": "string", "title": "Image URL" },
         "cta": { "$ref": "#/definitions/cta" },
         "secondaryCta": { "$ref": "#/definitions/cta" },
+        "testimonial": {
+          "type": "object",
+          "title": "Single Testimonial",
+          "properties": {
+            "title": { "type": "string" },
+            "quote": { "type": "string" }
+          }
+        },
+        "testimonials": {
+          "type": "array",
+          "title": "Testimonials",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "quote": { "type": "string" }
+            }
+          }
+        },
         "items": {
           "type": "array",
           "title": "Items",
@@ -433,6 +452,19 @@
               "type": "array",
               "title": "Footer Columns",
               "items": { "$ref": "#/definitions/footerColumn" }
+            },
+            "extensions": {
+              "type": "array",
+              "title": "Footer Extensions",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["call"], "title": "Extension Type" },
+                  "headline": { "type": "string", "title": "Headline" },
+                  "phone": { "type": "string", "title": "Phone" }
+                },
+                "required": ["type"]
+              }
             }
           }
         }

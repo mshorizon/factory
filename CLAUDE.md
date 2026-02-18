@@ -60,6 +60,7 @@ PM2 run pnpm dev as a servise:
 `PORT=4321 HOST=0.0.0.0 pm2 start npm --name "astro-dev" -- run dev -- -- --host 0.0.0.0 --disable-host-check`  # to run pnpm dev inside pm2 as a servise
 `pm2 status`                                                                                                    # to checking pm2 status of astro-dev
 `pm2 delete astro-dev 2>/dev/null`                                                                              # if status of `astro-dev` is errored then delete then run pm2 again
+`pm2 logs astro-dev --lines 200 --no-daemon`                                                                    # logs
 
 #### Prod:
 

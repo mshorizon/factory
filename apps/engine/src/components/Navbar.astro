@@ -80,16 +80,17 @@ const isTransparent = variant === "transparent";
   </div>
 )}
 
-{/* Fixed Navbar — starts below upper bar, slides to top:0 on scroll */}
+{/* Fixed Navbar — starts below upper bar on md+, always top:0 on mobile */}
 <nav id="main-nav" class:list={[
-  "fixed left-0 right-0 z-50",
+  "fixed left-0 right-0 z-50 top-0",
+  hasUpperBar && "md:top-10",
   isTransparent
     ? "bg-transparent"
     : "bg-background shadow-sm border-b border-border"
-]} style={hasUpperBar ? "top: 40px" : "top: 0"}>
+]}>
   <div class="container mx-auto px-4 lg:px-8">
     <div class:list={[
-      "flex items-center h-24",
+      "flex items-center h-16 md:h-24",
       variant === "centered" ? "justify-center" : "justify-between"
     ]}>
       {/* Left: Logo + Nav Links */}
@@ -188,9 +189,9 @@ const isTransparent = variant === "transparent";
   </div>
 </nav>
 
-{/* Spacer — accounts for upper bar (40px on md+) + navbar (96px) */}
+{/* Spacer — accounts for upper bar (40px on md+) + navbar (64px mobile / 96px desktop) */}
 {!isTransparent && (
-  <div id="nav-spacer" class:list={["h-24", hasUpperBar && "md:h-[136px]"]} />
+  <div id="nav-spacer" class:list={["h-16 md:h-24", hasUpperBar && "md:h-[136px]"]} />
 )}
 
 <script define:vars={{ hasUpperBar }}>
@@ -203,6 +204,10 @@ const isTransparent = variant === "transparent";
     const scrollContainer = document.querySelector('[data-overlayscrollbars-viewport]') || document.documentElement;
 
     function onScroll() {
+      if (window.innerWidth < 768) {
+        if (nav) nav.style.top = '0px';
+        return;
+      }
       const scrollY = scrollContainer === document.documentElement
         ? window.scrollY
         : scrollContainer.scrollTop;

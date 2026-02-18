@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import SectionDispatcher from "../components/SectionDispatcher.astro";
+import PageHero from "../components/PageHero.astro";
 import { findPageBySlug, getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
 import { deepTranslate } from "../lib/i18n";
@@ -94,6 +95,17 @@ const socialLinks = business.business.socials
     socials={business.business.socials}
   />
   <main class="flex-1">
+    <!-- Spacer for non-hero first sections (home page only — non-home pages use PageHero instead) -->
+    {normalizedSlug === 'home' && page.sections?.[0]?.type !== 'hero' && layout.navbar.variant !== 'transparent' && (
+      <div class:list={["h-24", layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') && "md:h-[136px]"]} />
+    )}
+    <!-- Page hero banner for all non-home pages -->
+    {normalizedSlug !== 'home' && (
+      <PageHero
+        title={page.title}
+        hasUpperBar={layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') ?? false}
+      />
+    )}
     <SectionDispatcher sections={page.sections} />
   </main>
   <Footer
@@ -105,6 +117,7 @@ const socialLinks = business.business.socials
     currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
     socialLinks={socialLinks}
+    extensions={layout.footer.extensions}
   />
   {businessPhone && (
     <StickyMobileCTA client:load phone={businessPhone} />
