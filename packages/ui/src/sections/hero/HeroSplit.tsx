@@ -41,11 +41,11 @@ export function HeroSplit({
   return (
     <section
       className={cn(
-        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center py-20 lg:py-0",
+        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center pt-[184px] pb-[120px] lg:py-0",
         className
       )}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-[40px]">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Content Side */}
           <div className="flex flex-col justify-center">

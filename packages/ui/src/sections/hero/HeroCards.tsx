@@ -23,7 +23,7 @@ export function HeroCards({
   return (
     <section
       className={cn(
-        "relative z-0 min-h-screen bg-primary/5 flex items-center py-16 md:py-24",
+        "relative z-0 min-h-screen bg-primary/5 flex items-center pt-[184px] md:pt-[216px] pb-[120px]",
         className
       )}
     >
@@ -38,7 +38,7 @@ export function HeroCards({
         />
       </div>
 
-      <div className="relative container mx-auto px-4">
+      <div className="relative container mx-auto px-[40px]">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Main content card */}
           <ScrollReveal delay={0} direction="up">

@@ -25,7 +25,7 @@ export function HeroMinimal({
         className
       )}
     >
-      <div className="container mx-auto px-4 py-16 md:py-24">
+      <div className="container mx-auto px-[40px] pt-[184px] md:pt-[216px] pb-[120px]">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div>

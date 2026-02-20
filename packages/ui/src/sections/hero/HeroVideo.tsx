@@ -41,7 +41,7 @@ export function HeroVideo({
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
 
       {/* Content pinned to bottom */}
-      <div className="relative container mx-auto px-4 pb-16 pt-48 md:pb-24 md:pt-64">
+      <div className="relative container mx-auto px-[40px] pt-[184px] md:pt-[216px] pb-[120px]">
         {badge && (
           <ScrollReveal delay={0} direction="up">
             <Badge
