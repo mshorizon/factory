@@ -23,7 +23,7 @@ This file provides critical guidance for Claude Code and AI assistants working i
 ## 🌐 Infrastructure & Environments
 **Host:** Hetzner VPS (`46.224.191.237`) | **Control Panel:** Coolify | **Main Domain:** `hazelgrouse.pl`
 
-### 1. Dev Environment (`*.dev.hazelgrouse.pl`)
+### Dev Environment (`*.dev.hazelgrouse.pl`)
 * **Mechanism:** PM2 running directly on the host.
 * **Port:** `4321` (mapped via Traefik in `/data/coolify/proxy/dynamic/dev-astro.yaml`).
 * **Deployment:** Managed manually or via script on the VPS.
@@ -32,10 +32,16 @@ This file provides critical guidance for Claude Code and AI assistants working i
     * `pm2 logs astro-dev --lines 200` — View logs.
     * `PORT=4321 HOST=0.0.0.0 pm2 start npm --name "astro-dev" -- run dev -- -- --host 0.0.0.0 --disable-host-check`
 
-### 2. Prod Environment (`*.hazelgrouse.pl`)
+### Prod Environment (`*.hazelgrouse.pl`)
 * **Mechanism:** Docker containers managed by Coolify.
 * **Deployment:** Auto-deploy on `git push`.
 * **Port:** `3000`.
+
+### Live websites
+
+| Name/Domain | Kind | Links | Description |
+| :--- | :--- | :--- | :--- |
+| `specialist` | template | [prod](https://specialist.hazelgrouse.pl/), [dev](https://specialist.dev.hazelgrouse.pl/), [dev-admin-panel](https://specialist.dev.hazelgrouse.pl/admin), [design](https://electria.framer.website/) | Specialist template for bussineses like electrician, plumber, barber e.g. |
 
 ---
 
