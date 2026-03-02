@@ -18,7 +18,7 @@ export function FooterSimple({
 
   return (
     <footer className={cn("bg-secondary text-white", className)}>
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand */}
           <div className="flex flex-col items-center md:items-start gap-2">

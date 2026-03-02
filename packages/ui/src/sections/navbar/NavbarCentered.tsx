@@ -33,7 +33,7 @@ export function NavbarCentered({
         className
       )}
     >
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container mx-auto">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Desktop Left Links */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1 justify-end">

@@ -48,7 +48,7 @@ export function HeroDefault({
       )}
       <div
         className={cn(
-          "relative container mx-auto px-[40px] flex flex-col justify-center",
+          "relative container mx-auto flex flex-col justify-center",
           alignmentClasses[align],
           fullHeight && "min-h-screen pt-[184px] md:pt-[216px] pb-[120px]"
         )}

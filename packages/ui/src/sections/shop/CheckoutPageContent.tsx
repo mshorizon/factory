@@ -59,7 +59,7 @@ export function CheckoutPageContent({
   }
 
   return (
-    <div className={cn("container mx-auto px-4 py-8", className)}>
+    <div className={cn("container mx-auto py-8", className)}>
       <Button asChild variant="ghost" className="mb-6">
         <a href={backToCartHref}>
           <ArrowLeft className="mr-2 h-4 w-4" />

@@ -34,19 +34,20 @@ export function HeroSplit({
   testimonials,
   children,
   className,
-}: HeroProps) {
+  phone,
+}: HeroProps & { phone?: string }) {
   const heroImage = image || backgroundImage;
   const allTestimonials = testimonials || (testimonial ? [testimonial] : []);
 
   return (
     <section
       className={cn(
-        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center pt-[184px] pb-[120px] lg:py-0",
+        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center pt-[248px] pb-[120px] lg:pt-20 lg:pb-0",
         className
       )}
     >
-      <div className="container mx-auto px-[40px]">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+      <div className="container mx-auto">
+        <div className="grid lg:grid-cols-[65fr_35fr] gap-8 lg:gap-16 items-center">
           {/* Content Side */}
           <div className="flex flex-col justify-center">
             {badge && (
@@ -61,7 +62,7 @@ export function HeroSplit({
               </ScrollReveal>
             )}
             <ScrollReveal delay={0.1} direction="up">
-              <h1 className="text-[36px] sm:text-[48px] lg:text-[60px] leading-[1.1] font-bold tracking-tight text-foreground mb-6" data-field="header.title">
+              <h1 className="text-[36px] sm:text-[48px] lg:text-[60px] leading-[1.1] font-semibold tracking-tight text-foreground mb-6" data-field="header.title">
                 {title}
               </h1>
             </ScrollReveal>
@@ -80,15 +81,18 @@ export function HeroSplit({
                       asChild
                       size="xl"
                       variant={cta.variant || "default"}
-                      className="shadow-lg shadow-primary/25 h-16 px-6 text-base font-semibold"
+                      className="shadow-lg shadow-primary/25 h-16 pl-8 pr-3 text-base font-semibold hover:brightness-90 transition-all group"
                       data-field="cta"
                     >
-                      <a href={cta.href} className="flex items-center gap-3">
-                        {/* White circle with phone icon */}
-                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
-                          <Phone className="h-5 w-5 text-foreground" />
+                      <a href={cta.href} className="flex items-center gap-4">
+                        {/* Phone number on the left */}
+                        <span className="text-lg font-bold tracking-wide">
+                          {phone || cta.label}
+                        </span>
+                        {/* White circle with phone icon on the right */}
+                        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110">
+                          <Phone className="h-5 w-5 text-[#16181D] fill-[#16181D] group-hover:animate-wiggle" />
                         </div>
-                        {cta.label}
                       </a>
                     </Button>
                   )}
@@ -97,10 +101,10 @@ export function HeroSplit({
                       asChild
                       size="xl"
                       variant="ghost"
-                      className="h-16 px-8 text-base font-semibold border-2 border-border hover:bg-foreground/5"
+                      className="h-16 px-8 text-base font-semibold border-2 border-border text-muted hover:bg-white hover:border-white hover:text-[#16181D] transition-all"
                       data-field="secondaryCta"
                     >
-                      <a href={secondaryCta.href}>{secondaryCta.label}</a>
+                      <a href={secondaryCta.href} className="hover:!text-[#16181D]">{secondaryCta.label}</a>
                     </Button>
                   )}
                 </div>
@@ -147,7 +151,7 @@ export function HeroSplit({
 
         {/* Person Ratings at bottom - Electria style */}
         {allTestimonials.length > 0 && (
-          <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 max-w-6xl">
+          <div className="mt-40 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 max-w-6xl">
             {allTestimonials.slice(0, 2).map((testimonialItem, idx) => (
               <ScrollReveal key={idx} delay={0.4 + idx * 0.1} direction="up">
                 <div className="flex items-start gap-5" data-field="testimonial">

@@ -1,15 +1,15 @@
 {
-  "business.name": "Electria",
+  "business.name": "MasterVolt",
 
   "nav.cta": "Get An Estimate",
 
   "hero.badge": "Electrician and more",
   "hero.title": "Reliable Electrical Services, Whenever You Need Them",
   "hero.subtitle": "Expert solutions for all your electrical needs -- fast, safe, and efficient.",
-  "hero.testimonial.title": "Electria helped me so fast!",
+  "hero.testimonial.title": "MasterVolt helped me so fast!",
   "hero.testimonial.quote": "Super friendly and got everything working perfectly. Will definitely call again!",
   "hero.testimonial2.title": "Top-notch service from start to finish!",
-  "hero.testimonial2.quote": "Electria's team was professional, punctual, and got the job done right the first time.",
+  "hero.testimonial2.quote": "MasterVolt's team was professional, punctual, and got the job done right the first time.",
   "hero.cta": "123 456 789",
   "hero.secondaryCta": "Explore Our Services",
 
@@ -123,7 +123,7 @@
   "contact.form.message": "Describe your electrical needs...",
   "contact.form.submit": "Send Message",
 
-  "footer.copyright": "2024 Electria. All rights reserved.",
+  "footer.copyright": "2024 MasterVolt. All rights reserved.",
   "footer.tagline": "Expert solutions for all your electrical needs -- fast, safe, and efficient.",
   "footer.privacy": "Privacy Policy",
   "footer.terms": "Terms of Service",
@@ -137,5 +137,15 @@
 
   "pages.home.title": "Home",
   "pages.about.title": "About",
-  "pages.contact.title": "Contact"
+  "pages.services.title": "Services",
+  "pages.contact.title": "Contact",
+
+  "servicesPage.badge": "Full Service List",
+  "servicesPage.title": "Complete Electrical Solutions",
+  "servicesPage.subtitle": "From routine maintenance to emergency repairs, we handle all your electrical needs with expertise and care.",
+  "servicesPage.cta.title": "Need Electrical Work?",
+  "servicesPage.cta.subtitle": "Contact us today for a free estimate on any of our services.",
+  "servicesPage.cta.button": "Get Free Estimate",
+
+  "footer.columns.pages.services": "Services"
 }

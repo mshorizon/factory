@@ -23,7 +23,7 @@ export function FooterBranded({
       {/* Decorative gradient accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-primary" />
 
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto py-16">
         {/* Top Section - Brand */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-12">
           <div>

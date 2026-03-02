@@ -10,14 +10,14 @@
     },
     "contact": {
       "address": "142 W 57th St, New York, NY 10019",
-      "phone": "+1 (212) 555-0173",
-      "email": "metju312@gmail.com",
+      "phone": "+48 504 472 002",
+      "email": "sadlo.mateusz@gmail.com",
       "hours": "Mon-Fri: 7:00AM-6:00PM, Sat: 8:00AM-2:00PM, Sun: Emergency Only"
     },
     "socials": {
-      "facebook": "https://facebook.com/electria",
-      "instagram": "https://instagram.com/electria",
-      "linkedin": "https://linkedin.com/company/electria"
+      "facebook": "https://facebook.com/mastervolt",
+      "instagram": "https://instagram.com/mastervolt",
+      "linkedin": "https://linkedin.com/company/mastervolt"
     },
     "serviceArea": [
       "t:serviceArea.areas.0",
@@ -80,7 +80,11 @@
   "layout": {
     "navbar": {
       "variant": "standard",
-      "extensions": [{ "type": "upper-bar" }]
+      "extensions": [
+        {
+          "type": "upper-bar"
+        }
+      ]
     },
     "footer": {
       "variant": "branded",
@@ -109,6 +113,7 @@
           "links": [
             { "label": "t:footer.columns.pages.home", "target": { "type": "page", "value": "home" } },
             { "label": "t:footer.columns.pages.about", "target": { "type": "page", "value": "about" } },
+            { "label": "t:footer.columns.pages.services", "target": { "type": "page", "value": "services" } },
             { "label": "t:footer.columns.pages.contact", "target": { "type": "page", "value": "contact" } }
           ]
         },
@@ -116,7 +121,7 @@
           "title": "t:footer.columns.contact.title",
           "links": [
             { "label": "+1 (212) 555-0173", "target": { "type": "phone", "value": "+12125550173" } },
-            { "label": "info@electria.com", "target": { "type": "email", "value": "info@electria.com" } },
+            { "label": "info@mastervolt.com", "target": { "type": "email", "value": "info@mastervolt.com" } },
             { "label": "142 W 57th St, New York", "target": { "type": "external", "value": "https://maps.google.com" } }
           ]
         }
@@ -339,6 +344,65 @@
         }
       ]
     },
+    "services": {
+      "title": "t:pages.services.title",
+      "sections": [
+        {
+          "type": "services",
+          "variant": "imageGrid",
+          "header": {
+            "badge": "t:servicesPage.badge",
+            "title": "t:servicesPage.title",
+            "subtitle": "t:servicesPage.subtitle"
+          },
+          "items": [
+            {
+              "title": "t:services.items.residential.title",
+              "description": "t:services.items.residential.description",
+              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=450&fit=crop"
+            },
+            {
+              "title": "t:services.items.commercial.title",
+              "description": "t:services.items.commercial.description",
+              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop"
+            },
+            {
+              "title": "t:services.items.panel.title",
+              "description": "t:services.items.panel.description",
+              "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=450&fit=crop"
+            },
+            {
+              "title": "t:services.items.emergency.title",
+              "description": "t:services.items.emergency.description",
+              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=450&fit=crop"
+            },
+            {
+              "title": "t:services.items.lighting.title",
+              "description": "t:services.items.lighting.description",
+              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop"
+            },
+            {
+              "title": "t:services.items.ev.title",
+              "description": "t:services.items.ev.description",
+              "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=450&fit=crop"
+            }
+          ]
+        },
+        {
+          "type": "ctaBanner",
+          "variant": "default",
+          "background": "primary",
+          "header": {
+            "title": "t:servicesPage.cta.title",
+            "subtitle": "t:servicesPage.cta.subtitle"
+          },
+          "cta": {
+            "label": "t:servicesPage.cta.button",
+            "target": { "type": "page", "value": "contact" }
+          }
+        }
+      ]
+    },
     "contact": {
       "title": "t:pages.contact.title",
       "sections": [
@@ -352,7 +416,7 @@
           "info": {
             "address": "142 W 57th St, New York, NY 10019",
             "phone": "+1 (212) 555-0173",
-            "email": "info@electria.com",
+            "email": "info@mastervolt.com",
             "hours": "Mon-Fri: 7:00AM-6:00PM, Sat: 8:00AM-2:00PM, Sun: Emergency Only"
           },
           "form": {

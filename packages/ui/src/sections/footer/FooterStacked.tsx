@@ -22,7 +22,7 @@ export function FooterStacked({
     <footer className={cn("bg-background", className)}>
       {/* Top Section - Brand */}
       <div className="border-t border-border">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto py-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
               <span className="font-bold text-2xl text-foreground tracking-tight block">
@@ -60,7 +60,7 @@ export function FooterStacked({
       {/* Middle Section - Column Links */}
       {columns && columns.length > 0 && (
         <div className="border-t border-border">
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto py-8">
             <div className="flex flex-wrap justify-center gap-x-12 gap-y-6">
               {columns.map((column, colIndex) => (
                 <div key={colIndex} className="text-center">
@@ -91,7 +91,7 @@ export function FooterStacked({
 
       {/* Bottom Section - Copyright & Legal */}
       <div className="border-t border-border bg-primary/5">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted">
               {copyright || `© ${year} ${businessName}. All rights reserved.`}

@@ -48,7 +48,7 @@ export function CartPageContent({
   }
 
   return (
-    <div className={cn("container mx-auto px-4 py-8", className)}>
+    <div className={cn("container mx-auto py-8", className)}>
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
