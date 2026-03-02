@@ -38,7 +38,7 @@ export function HeroCards({
         />
       </div>
 
-      <div className="relative container mx-auto px-[40px]">
+      <div className="relative container mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Main content card */}
           <ScrollReveal delay={0} direction="up">

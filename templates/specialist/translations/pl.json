@@ -1,15 +1,15 @@
 {
-  "business.name": "Electria",
+  "business.name": "MasterVolt",
 
   "nav.cta": "Bezpłatna Wycena",
 
-  "hero.badge": "Elektryk i więcej",
+  "hero.badge": "Elektryk Warszawa i okolice",
   "hero.title": "Niezawodne Usługi Elektryczne, Kiedy Tylko Potrzebujesz",
   "hero.subtitle": "Profesjonalne rozwiązania dla wszystkich Twoich potrzeb elektrycznych -- szybko, bezpiecznie i sprawnie.",
-  "hero.testimonial.title": "Electria pomogła mi błyskawicznie!",
+  "hero.testimonial.title": "MasterVolt pomogła mi błyskawicznie!",
   "hero.testimonial.quote": "Super mili i wszystko naprawili perfekcyjnie. Na pewno zadzwonię ponownie!",
   "hero.testimonial2.title": "Najwyższa jakość od początku do końca!",
-  "hero.testimonial2.quote": "Zespół Electrii był profesjonalny, punktualny i wykonał pracę perfekcyjnie za pierwszym razem.",
+  "hero.testimonial2.quote": "Zespół MasterVolt był profesjonalny, punktualny i wykonał pracę perfekcyjnie za pierwszym razem.",
   "hero.cta": "123 456 789",
   "hero.secondaryCta": "Zobacz Nasze Usługi",
 
@@ -123,7 +123,7 @@
   "contact.form.message": "Opisz swoje potrzeby elektryczne...",
   "contact.form.submit": "Wyślij Wiadomość",
 
-  "footer.copyright": "2024 Electria. Wszelkie prawa zastrzeżone.",
+  "footer.copyright": "2024 MasterVolt. Wszelkie prawa zastrzeżone.",
   "footer.tagline": "Profesjonalne rozwiązania dla wszystkich potrzeb elektrycznych -- szybko, bezpiecznie i sprawnie.",
   "footer.privacy": "Polityka Prywatności",
   "footer.terms": "Regulamin",
@@ -137,5 +137,15 @@
 
   "pages.home.title": "Główna",
   "pages.about.title": "O Nas",
-  "pages.contact.title": "Kontakt"
+  "pages.services.title": "Usługi",
+  "pages.contact.title": "Kontakt",
+
+  "servicesPage.badge": "Pełna Lista Usług",
+  "servicesPage.title": "Kompleksowe Rozwiązania Elektryczne",
+  "servicesPage.subtitle": "Od rutynowej konserwacji po naprawy awaryjne, zajmujemy się wszystkimi Twoimi potrzebami elektrycznymi z profesjonalizmem i troską.",
+  "servicesPage.cta.title": "Potrzebujesz Usług Elektrycznych?",
+  "servicesPage.cta.subtitle": "Skontaktuj się z nami już dziś, aby otrzymać bezpłatną wycenę na dowolną z naszych usług.",
+  "servicesPage.cta.button": "Otrzymaj Bezpłatną Wycenę",
+
+  "footer.columns.pages.services": "Usługi"
 }

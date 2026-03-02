@@ -21,7 +21,7 @@ export function ShopGrid({
 
   return (
     <section className={cn("py-16 lg:py-24", className)}>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto">
         {header && (
           <SectionHeader
             badge={header.badge}

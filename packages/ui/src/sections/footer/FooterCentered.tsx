@@ -19,7 +19,7 @@ export function FooterCentered({
 
   return (
     <footer className={cn("bg-secondary text-white", className)}>
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto py-16">
         <div className="flex flex-col items-center text-center">
           {/* Brand */}
           <span className="font-bold text-3xl tracking-tight mb-4">

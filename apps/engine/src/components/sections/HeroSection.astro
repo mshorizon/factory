@@ -13,6 +13,10 @@ const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const heroImage = section.image || section.backgroundImage;
 
+// Get business phone from locals
+const { businessData } = Astro.locals;
+const businessPhone = businessData?.business?.contact?.phone;
+
 // Resolve CTA targets to hrefs
 const cta = section.cta ? {
   label: section.cta.label,
@@ -38,6 +42,7 @@ const secondaryCta = section.secondaryCta ? {
     secondaryCta={secondaryCta}
     testimonial={section.testimonial}
     testimonials={section.testimonials}
+    phone={businessPhone}
   />
 ) : variant === "gradient" ? (
   <HeroGradient

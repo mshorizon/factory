@@ -68,7 +68,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
 {callExtension && (
   <div class="section-bg-dark overflow-hidden shrink-0">
-    <div class="container mx-auto px-4 py-12 md:py-16 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="container mx-auto py-12 md:py-16 flex flex-col md:flex-row md:items-center justify-between gap-6">
       <h2 class="font-bold text-3xl md:text-4xl lg:text-5xl uppercase leading-tight text-foreground max-w-xl">
         {callExtension.headline}
       </h2>
@@ -88,7 +88,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
 {variant === "minimal" && (
   <footer class="bg-background border-t border-border shrink-0">
-    <div class="container mx-auto px-4 py-6">
+    <div class="container mx-auto py-6">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-sm text-muted">{copyrightText}</p>
         <div class="flex flex-wrap items-center gap-4">
@@ -120,7 +120,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
 {variant === "centered" && (
   <footer class="bg-secondary text-on-primary shrink-0">
-    <div class="container mx-auto px-4 py-16">
+    <div class="container mx-auto py-16">
       <div class="flex flex-col items-center text-center">
         <span class="font-bold text-3xl tracking-tight mb-4">{businessName}</span>
         {tagline && <p class="text-on-primary/70 text-lg max-w-md mb-8">{tagline}</p>}
@@ -153,7 +153,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
 {variant === "branded" && (
   <footer class="section-bg-dark relative overflow-hidden shrink-0">
-    <div class="container mx-auto px-4 py-16">
+    <div class="container mx-auto py-16">
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-12">
         <div>
           <span class="font-bold text-4xl tracking-tight block mb-2 text-foreground">{businessName}</span>
@@ -219,7 +219,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 {variant === "stacked" && (
   <footer class="bg-background shrink-0">
     <div class="border-t border-border">
-      <div class="container mx-auto px-4 py-12">
+      <div class="container mx-auto py-12">
         <div class="flex flex-col md:flex-row items-center justify-between gap-6">
           <div class="text-center md:text-left">
             <span class="font-bold text-2xl text-foreground tracking-tight block">{businessName}</span>
@@ -230,7 +230,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
     </div>
     {columns.length > 0 && (
       <div class="border-t border-border">
-        <div class="container mx-auto px-4 py-8">
+        <div class="container mx-auto py-8">
           <div class="flex flex-wrap justify-center gap-x-12 gap-y-6">
             {columns.map((column) => (
               <div class="text-center">
@@ -251,7 +251,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
       </div>
     )}
     <div class="border-t border-border bg-primary/5">
-      <div class="container mx-auto px-4 py-6">
+      <div class="container mx-auto py-6">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p class="text-sm text-muted">{copyrightText}</p>
           <div class="flex items-center gap-6">
@@ -284,7 +284,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
 {variant === "multiColumn" && (
   <footer class="bg-secondary text-on-primary shrink-0">
-    <div class="container mx-auto px-4 py-16">
+    <div class="container mx-auto py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
         <div class="lg:col-span-1">
           <span class="font-bold text-2xl tracking-tight block mb-4">{businessName}</span>
@@ -336,7 +336,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
 {variant === "simple" && (
   <footer class="bg-secondary text-on-primary shrink-0">
-    <div class="container mx-auto px-4 py-12">
+    <div class="container mx-auto py-12">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="flex flex-col items-center md:items-start gap-2">
           <span class="font-bold text-xl tracking-tight">{businessName}</span>
