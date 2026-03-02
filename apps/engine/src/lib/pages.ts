@@ -1,4 +1,4 @@
-import type { BusinessProfileV15, PageV15, Section, SectionType, SectionV15, SectionHeader } from "@mshorizon/schema";
+import type { BusinessProfile, Page, Section, SectionType, SectionHeader } from "@mshorizon/schema";
 
 // Default variant for each section type
 const DEFAULT_VARIANTS: Record<SectionType, string> = {
@@ -21,21 +21,20 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
 };
 
 /**
- * Get pages object from business data (v1.5 format)
+ * Get pages object from business data
  */
-export function getPages(businessData: BusinessProfileV15): Record<string, PageV15> {
+export function getPages(businessData: BusinessProfile): Record<string, Page> {
   return businessData.pages || {};
 }
 
 /**
- * Find a page by its slug (v1.5 format - pages is an object keyed by slug)
+ * Find a page by its slug
  */
 export function findPageBySlug(
-  businessData: BusinessProfileV15,
+  businessData: BusinessProfile,
   slug: string
-): PageV15 | undefined {
+): Page | undefined {
   const pages = getPages(businessData);
-  // Normalize slug - treat empty/undefined as "home"
   const normalizedSlug = slug || "home";
   return pages[normalizedSlug];
 }
@@ -43,7 +42,7 @@ export function findPageBySlug(
 /**
  * Get all valid slugs for static path generation
  */
-export function getAllSlugs(businessData: BusinessProfileV15): string[] {
+export function getAllSlugs(businessData: BusinessProfile): string[] {
   const pages = getPages(businessData);
   return Object.keys(pages);
 }
@@ -51,14 +50,14 @@ export function getAllSlugs(businessData: BusinessProfileV15): string[] {
 /**
  * Get variant for a section with default fallback
  */
-export function getSectionVariant(section: Section | SectionV15): string {
+export function getSectionVariant(section: Section): string {
   return section.variant || DEFAULT_VARIANTS[section.type] || "default";
 }
 
 /**
  * Get layout configuration with defaults
  */
-export function getLayoutConfig(businessData: BusinessProfileV15) {
+export function getLayoutConfig(businessData: BusinessProfile) {
   const layout = businessData.layout || {};
   return {
     navbar: {
@@ -78,13 +77,11 @@ export function getLayoutConfig(businessData: BusinessProfileV15) {
 
 /**
  * Get navigation links from pages object
- * Returns links in a consistent order (home first, then alphabetical)
  */
-export function getNavLinks(businessData: BusinessProfileV15): { label: string; href: string }[] {
+export function getNavLinks(businessData: BusinessProfile): { label: string; href: string }[] {
   const pages = getPages(businessData);
   const slugs = Object.keys(pages);
 
-  // Sort: home first, then alphabetically
   slugs.sort((a, b) => {
     if (a === "home") return -1;
     if (b === "home") return 1;
@@ -97,23 +94,9 @@ export function getNavLinks(businessData: BusinessProfileV15): { label: string; 
   }));
 }
 
-// Type that covers both v1.0 Section and v1.5 SectionV15
-type SectionCompat = Section | SectionV15;
-
 /**
- * Extract header information from either v1.0 or v1.5 section format
- * v1.0: badge, title, subtitle at top level
- * v1.5: header object with badge, title, subtitle
+ * Extract header information from a section
  */
-export function getSectionHeader(section: SectionCompat): SectionHeader {
-  // Check if v1.5 format (has header object)
-  if ('header' in section && section.header) {
-    return section.header;
-  }
-  // v1.0 format - extract from top level
-  return {
-    badge: (section as Section).badge,
-    title: (section as Section).title,
-    subtitle: (section as Section).subtitle,
-  };
+export function getSectionHeader(section: Section): SectionHeader {
+  return section.header || {};
 }

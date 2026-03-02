@@ -57,9 +57,12 @@ This file provides critical guidance for Claude Code and AI assistants working i
 * **Zero Hardcoded Strings.** All copy, image URLs, and prices must come from the business JSON.
 
 ### 🛠 Schema-First Development
-1. If a feature needs new data, update `packages/schema/src/client.ts` **first**.
-2. Validate the JSON against the updated schema.
-3. Only then implement the UI in `packages/ui`.
+1. If a feature needs new data, update `packages/schema/src/business.schema.json` **first**.
+2. Run `pnpm generate` in `packages/schema` to regenerate TypeScript types from the schema.
+3. Validate the JSON against the updated schema.
+4. Only then implement the UI in `packages/ui`.
+
+**Note:** `packages/schema/src/generated.ts` is auto-generated from `business.schema.json` — never edit it manually. Supplementary types (variant unions, cart runtime types) live in `packages/schema/src/extras.ts`.
 
 ---
 

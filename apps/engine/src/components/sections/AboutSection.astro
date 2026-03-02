@@ -12,13 +12,8 @@ const { section } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 
-// Handle CTA for both v1.0 and v1.5 formats
 const ctaLabel = section.cta?.label;
-const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : (
-  'href' in (section.cta || {})
-    ? (section.cta as { href: string })?.href
-    : "/contact"
-);
+const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/contact";
 ---
 
 <section class="py-[120px] overflow-hidden">

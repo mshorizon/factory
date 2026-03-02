@@ -1,4 +1,4 @@
-import type { ThemeV15 } from "@mshorizon/schema";
+import type { Theme } from "@mshorizon/schema";
 
 /**
  * Theme Presets
@@ -11,7 +11,7 @@ export type ThemePreset = "industrial" | "wellness" | "minimal" | "bold";
  * Industrial preset - for plumbers, contractors, technical services
  * Blue primary, sharp corners, Inter font
  */
-export const industrialPreset: ThemeV15 = {
+export const industrialPreset: Theme = {
   preset: "industrial",
   mode: "light",
   colors: {
@@ -56,7 +56,7 @@ export const industrialPreset: ThemeV15 = {
  * Wellness preset - for barbers, spas, organic/natural businesses
  * Green primary, soft corners, Nunito + Playfair Display
  */
-export const wellnessPreset: ThemeV15 = {
+export const wellnessPreset: Theme = {
   preset: "wellness",
   mode: "light",
   colors: {
@@ -101,7 +101,7 @@ export const wellnessPreset: ThemeV15 = {
  * Minimal preset - for modern offices, tech, clean aesthetics
  * Monochrome, minimal radius, system fonts
  */
-export const minimalPreset: ThemeV15 = {
+export const minimalPreset: Theme = {
   preset: "minimal",
   mode: "light",
   colors: {
@@ -146,7 +146,7 @@ export const minimalPreset: ThemeV15 = {
  * Bold preset - for electricians, contractors, bold trade businesses
  * Yellow primary, dark surface alt, Space Grotesk + Open Sans
  */
-export const boldPreset: ThemeV15 = {
+export const boldPreset: Theme = {
   preset: "bold",
   mode: "light",
   colors: {
@@ -190,7 +190,7 @@ export const boldPreset: ThemeV15 = {
 /**
  * Map of preset names to their configurations
  */
-export const themePresets: Record<ThemePreset, ThemeV15> = {
+export const themePresets: Record<ThemePreset, Theme> = {
   industrial: industrialPreset,
   wellness: wellnessPreset,
   minimal: minimalPreset,
@@ -200,7 +200,7 @@ export const themePresets: Record<ThemePreset, ThemeV15> = {
 /**
  * Get a preset by name, returns minimal as fallback
  */
-export function getPreset(presetName?: string): ThemeV15 {
+export function getPreset(presetName?: string): Theme {
   if (presetName && presetName in themePresets) {
     return themePresets[presetName as ThemePreset];
   }

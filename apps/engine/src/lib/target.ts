@@ -1,9 +1,9 @@
-import type { Target, BusinessProfileV15 } from "@mshorizon/schema";
+import type { Target, BusinessProfile } from "@mshorizon/schema";
 
 /**
  * Resolves a Target object to a URL string
  */
-export function resolveTarget(target: Target | undefined, business?: BusinessProfileV15): string {
+export function resolveTarget(target: Target | undefined, business?: BusinessProfile): string {
   if (!target) {
     return "#";
   }
@@ -25,7 +25,7 @@ export function resolveTarget(target: Target | undefined, business?: BusinessPro
 
 /**
  * Converts a legacy href string to a Target object
- * Used by the v1.0 to v1.5 adapter
+ * Used to convert href strings to Target objects
  */
 export function hrefToTarget(href: string): Target {
   // Check for phone links

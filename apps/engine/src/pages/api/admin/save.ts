@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { upsertSiteConfig } from "@mshorizon/db";
-import { validateV15 } from "@mshorizon/schema";
+import { validate } from "@mshorizon/schema";
 import { clearDraft } from "../../../lib/draft-store";
 
 export const POST: APIRoute = async ({ request }) => {
@@ -14,8 +14,8 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Validate against v1.5 JSON schema
-    const { valid, errors } = validateV15(data);
+    // Validate against JSON schema
+    const { valid, errors } = validate(data);
     if (!valid) {
       console.error("Schema validation errors:", JSON.stringify(errors, null, 2));
       const errorDetail = errors?.map((e: any) => `${e.instancePath}: ${e.message}`).join("; ") || "Unknown";

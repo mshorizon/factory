@@ -1,7 +1,7 @@
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { LanguageSwitcher } from "../../atoms/LanguageSwitcher";
-import type { FooterProps, FooterLinkCompat } from "./types";
+import type { FooterProps, Link } from "./types";
 import { getFooterLinkHref } from "./types";
 
 export function FooterStacked({
@@ -68,7 +68,7 @@ export function FooterStacked({
                     {column.title}
                   </h3>
                   <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2">
-                    {column.links.map((link: FooterLinkCompat, linkIndex: number) => {
+                    {(column.links || []).map((link: Link, linkIndex: number) => {
                       const href = getFooterLinkHref(link, resolveTarget);
                       return (
                         <li key={`${link.label}-${linkIndex}`}>

@@ -3,7 +3,7 @@ import { NavbarCentered } from "./NavbarCentered";
 
 export { NavbarStandard } from "./NavbarStandard";
 export { NavbarCentered } from "./NavbarCentered";
-export type { NavbarProps, NavLink, NavbarLayoutVariant, NavbarStyleVariant } from "./types";
+export type { NavbarProps, NavbarLayoutVariant, NavbarStyleVariant } from "./types";
 
 // Re-export standard as default Navbar for backwards compatibility
 export { NavbarStandard as Navbar } from "./NavbarStandard";

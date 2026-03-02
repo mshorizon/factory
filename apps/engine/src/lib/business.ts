@@ -1,7 +1,7 @@
 // Domain-based business routing
 // Maps domains to business IDs from database
 
-import type { BusinessProfileV15 } from "@mshorizon/schema";
+import type { BusinessProfile } from "@mshorizon/schema";
 import { resolveTheme } from "@mshorizon/ui";
 import {
   getAllSubdomains,
@@ -106,18 +106,18 @@ export async function getBusinessContext(request: Request, draftOverride?: Draft
 
   const currentLang = getLanguageFromCookie(request.headers.get("cookie"));
 
-  let normalizedData: BusinessProfileV15;
+  let normalizedData: BusinessProfile;
   let translations: Record<string, any> = {};
 
   if (draftOverride) {
-    normalizedData = draftOverride.businessData as BusinessProfileV15;
+    normalizedData = draftOverride.businessData as BusinessProfile;
     translations = draftOverride.translations[currentLang] || {};
   } else {
     const site = await getSiteBySubdomain(businessId);
     if (!site) {
       throw new Error(`Business not found: ${businessId}`);
     }
-    normalizedData = site.config as BusinessProfileV15;
+    normalizedData = site.config as BusinessProfile;
     const allTranslations = (site.translations || {}) as Record<string, Record<string, any>>;
     translations = allTranslations[currentLang] || {};
   }

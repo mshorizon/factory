@@ -12,7 +12,8 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "generate": "tsx scripts/generate-types.ts",
+    "build": "pnpm generate && tsc",
     "type-check": "tsc --noEmit"
   },
   "keywords": [],
@@ -24,6 +25,8 @@
     "ajv-formats": "^3.0.1"
   },
   "devDependencies": {
+    "json-schema-to-typescript": "^15.0.4",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

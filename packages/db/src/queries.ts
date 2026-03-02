@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { getDb } from "./client.js";
 import { sites } from "./schema.js";
-import type { BusinessProfileV15 } from "@mshorizon/schema";
+import type { BusinessProfile } from "@mshorizon/schema";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -23,7 +23,7 @@ export async function getSiteBySubdomain(subdomain: string) {
 
 export async function upsertSiteConfig(
   subdomain: string,
-  config: BusinessProfileV15
+  config: BusinessProfile
 ) {
   const db = getDb();
   const existing = await getSiteBySubdomain(subdomain);

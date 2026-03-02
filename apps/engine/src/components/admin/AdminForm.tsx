@@ -218,8 +218,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
     const savedTrans = savedTransRef.current;
 
     if (tabId === "meta") {
-      return !deepEqual(formData.schemaVersion, saved.schemaVersion) ||
-             !deepEqual(formData.business, saved.business);
+      return !deepEqual(formData.business, saved.business);
     }
     if (tabId === "theme") return !deepEqual(formData.theme, saved.theme);
     if (tabId === "navbar") return !deepEqual(getNestedValue(formData, ["layout", "navbar"]), getNestedValue(saved, ["layout", "navbar"]));
@@ -240,7 +239,6 @@ export default function AdminForm({ businessId, initialData, schema, translation
     if (tabId === "meta") {
       setFormData((prev) => ({
         ...prev,
-        schemaVersion: structuredClone(saved.schemaVersion),
         business: structuredClone(saved.business),
       }));
     } else if (tabId === "theme") {
@@ -476,7 +474,6 @@ export default function AdminForm({ businessId, initialData, schema, translation
       const metaSchema: RJSFSchema = {
         type: "object",
         properties: {
-          schemaVersion: schema.properties?.schemaVersion,
           business: schema.properties?.business,
         },
         definitions: schema.definitions,
@@ -486,7 +483,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
           <Form
             schema={metaSchema}
             uiSchema={generateColorUiSchema(metaSchema)}
-            formData={{ schemaVersion: formData.schemaVersion, business: formData.business }}
+            formData={{ business: formData.business }}
             validator={validator}
             widgets={configWidgets}
             formContext={{ businessId }}
@@ -494,7 +491,6 @@ export default function AdminForm({ businessId, initialData, schema, translation
               if (data.formData) {
                 setFormData((prev) => ({
                   ...prev,
-                  schemaVersion: data.formData.schemaVersion,
                   business: data.formData.business,
                 }));
                 setSaveStatus("idle");

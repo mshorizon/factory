@@ -1,29 +1,17 @@
-import type { Target, NavLinkV15, FooterColumnV15 } from "@mshorizon/schema";
+import type { Target, Link, FooterColumn } from "@mshorizon/schema";
 import type { LanguageOption } from "../../lib/languages";
 
-// Legacy v1.0 FooterLink (for backwards compatibility)
-export interface FooterLink {
-  label: string;
-  href: string;
-}
+export type { Link, FooterColumn };
 
-// Type that supports both v1.0 and v1.5 link formats
-export type FooterLinkCompat = FooterLink | NavLinkV15;
-
-// Type guard to check if a link is v1.5 format
-export function isFooterLinkV15(link: FooterLinkCompat): link is NavLinkV15 {
-  return "target" in link;
-}
-
-// Helper to get href from either link format
+// Helper to get href from a link
 export function getFooterLinkHref(
-  link: FooterLinkCompat,
+  link: Link,
   resolveTarget?: (target: Target) => string
 ): string {
-  if (isFooterLinkV15(link)) {
-    return resolveTarget ? resolveTarget(link.target) : "#";
+  if (link.target && resolveTarget) {
+    return resolveTarget(link.target);
   }
-  return link.href;
+  return "#";
 }
 
 export interface SocialLink {
@@ -32,31 +20,16 @@ export interface SocialLink {
   label: string;
 }
 
-// Legacy v1.0 FooterColumn
-export interface FooterColumn {
-  title: string;
-  links: FooterLink[];
-}
-
-// Type that supports both column formats
-export type FooterColumnCompat = FooterColumn | FooterColumnV15;
-
-// Type guard for column
-export function isFooterColumnV15(column: FooterColumnCompat): column is FooterColumnV15 {
-  return column.links.length > 0 && "target" in column.links[0];
-}
-
 export interface FooterProps {
   businessName: string;
-  links?: FooterLinkCompat[];
+  links?: Link[];
   socialLinks?: SocialLink[];
   copyright?: string;
   tagline?: string;
-  columns?: FooterColumnCompat[];
+  columns?: FooterColumn[];
   variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked";
   className?: string;
   currentLanguage?: string;
   availableLanguages?: LanguageOption[];
-  // v1.5: Optional target resolver function
   resolveTarget?: (target: Target) => string;
 }
