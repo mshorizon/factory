@@ -1,51 +1,82 @@
-# MS Horizon: The Site Factory 🏭
+# Hazelgrouse Studio / MS Horizon Factory
 
-## 🤖 AI Context & Mission (Read this first)
-You are working on **MS Horizon Factory**, a high-scale production engine for local business websites (SMBs). 
+This file provides critical guidance for Claude Code and AI assistants working in this repository. We are building a high-velocity "Site Factory" for local businesses.
 
-**The Core Concept:** We do NOT build websites manually. We build a **Single Engine (Astro)** and a **Standardized UI Library (React/Tailwind)** that dynamically renders websites based on a **JSON Business Configuration**.
-
-If you are asked to "create a website for a plumber," your task is to ensure the **JSON data** exists and that the **Engine** knows how to render it using existing or new generic components.
+## 🎯 Project Vision
+**Hazelgrouse Studio** (MS Horizon Factory) is NOT a traditional agency. We don't build sites manually. We develop a **single rendering engine** that dynamically generates unique, high-performance websites for local businesses (barbers, plumbers, etc.) based on structured JSON configurations.
 
 ---
 
-## 🏗 System Architecture
+## 🏗 Architecture (Turborepo + pnpm)
 
-This is a **Turborepo** monorepo managed with **pnpm**:
-
-- **`apps/engine` (Astro):** The core full-stack renderer. It acts as a multi-tenant system that takes a `client_id` or `domain`, fetches the corresponding JSON, and renders the site.
-- **`packages/ui` (React + Tailwind):** The Design System. Components here MUST be "industry-agnostic." They use **CSS Variables** (`--primary`, `--radius`, etc.) for theming. Hardcoded Tailwind colors are strictly forbidden.
-- **`packages/schema` (Zod + TS):** The Single Source of Truth. Contains the Zod schemas that define what a "Business Profile" JSON looks like.
-- **`data/` (JSON Storage):** Our Git-based CMS. Each `.json` file here represents a unique client (e.g., `barber-stach.json`).
-
----
-
-## 🛠 Tech Stack
-- **Framework:** Astro (Hybrid SSR/SSG)
-- **UI:** React (Islands Architecture)
-- **Styling:** Tailwind CSS with a Global CSS Variable Theming Strategy
-- **Validation:** Zod (Strict contract enforcement)
-- **Build Tool:** Turborepo & Vite
+| Workspace | Description |
+| :--- | :--- |
+| `apps/engine` | **Astro Hybrid Renderer.** Fetches JSON based on domain/subdomain and renders the site. |
+| `packages/ui` | **React + Tailwind Design System.** Industry-agnostic atomic components and sections. |
+| `packages/schema` | **Source of Truth.** AJV/Zod schemas for business profiles and validation. |
+| `packages/db` | **Data Layer.** PostgreSQL (Coolify) + Drizzle ORM. Stores business JSONs. |
+| `packages/config` | Shared ESLint, TypeScript, and Tailwind configurations. |
+| `templates/` | **Git-based CMS.** Blueprint JSON files used to scaffold new businesses. |
 
 ---
 
-## 📜 AI Operational Rules
+## 🌐 Infrastructure & Environments
+**Host:** Hetzner VPS (`46.224.191.237`) | **Control Panel:** Coolify | **Main Domain:** `hazelgrouse.pl`
 
-1. **Schema Sovereignty:** Before adding a feature, check `packages/schema`. If the data isn't in the JSON schema, it shouldn't be in the UI.
-2. **Theming via Tokens:** Never use specific color classes like `bg-blue-600`. Always use semantic tokens: `bg-primary`, `bg-secondary`, `text-foreground`, etc.
-3. **Component Genericness:** Every component in `packages/ui` must be reusable. A `ServiceCard` should work for both a dental clinic and a car wash.
-4. **Zero-JS by Default:** Leverage Astro's strengths. Only use React (`client:load`) for components that require actual client-side state (e.g., booking forms, interactive maps).
-5. **Data Driven:** Every string, image URL, and price must come from the JSON configuration.
+### 1. Dev Environment (`*.dev.hazelgrouse.pl`)
+* **Mechanism:** PM2 running directly on the host.
+* **Port:** `4321` (mapped via Traefik in `/data/coolify/proxy/dynamic/dev-astro.yaml`).
+* **Deployment:** Managed manually or via script on the VPS.
+* **Commands:**
+    * `pm2 status` — Check `astro-dev` status.
+    * `pm2 logs astro-dev --lines 200` — View logs.
+    * `PORT=4321 HOST=0.0.0.0 pm2 start npm --name "astro-dev" -- run dev -- -- --host 0.0.0.0 --disable-host-check`
+
+### 2. Prod Environment (`*.hazelgrouse.pl`)
+* **Mechanism:** Docker containers managed by Coolify.
+* **Deployment:** Auto-deploy on `git push`.
+* **Port:** `3000`.
 
 ---
 
-## 🚀 Development Workflow
+## 📜 Strict Coding Rules (Non-Negotiable)
 
-1. **Define the Business:** Create/Update a JSON file in `data/`.
-2. **Validate:** Ensure it passes the Zod schema in `packages/schema`.
-3. **Render:** The `apps/engine` maps the JSON sections to `packages/ui` components.
-4. **Theme:** Apply industry-specific styling via CSS variables defined in the client's metadata.
+### 🎨 Theming & Styling
+* **NO hardcoded colors.** Never use `bg-blue-500` or `text-gray-900`.
+* **Semantic Tokens ONLY.** Use `bg-primary`, `bg-secondary`, `bg-background`, `text-foreground`, `rounded-radius`.
+* **Dynamic Injection.** All styles must be driven by `theme.json` metadata injected as CSS variables at the layout level.
+
+### 🧩 Component Design
+* **Industry Agnostic.** Every component in `packages/ui` must be reusable across any niche (from a plumber to a lawyer).
+* **Structure.** Use `atoms/` (buttons, inputs) and `sections/` (Hero, Navbar, Footer).
+* **Type Safety.** Component props MUST strictly map to the Zod/AJV schemas in `packages/schema`.
+
+### ⚡ Astro & Performance
+* **Static by Default.** Use Astro components for content.
+* **Selective Hydration.** Use React ONLY for interactivity (forms, widgets) using `client:*` directives.
+* **Zero Hardcoded Strings.** All copy, image URLs, and prices must come from the business JSON.
+
+### 🛠 Schema-First Development
+1. If a feature needs new data, update `packages/schema/src/client.ts` **first**.
+2. Validate the JSON against the updated schema.
+3. Only then implement the UI in `packages/ui`.
 
 ---
 
-**Note to AI:** You are a Principal Engineer. Optimize for scale, maintainability, and lighthouse scores. If you see a way to further automate the "JSON-to-Site" pipeline, suggest it.
+## 🛠 Useful Commands
+
+| Command | Action |
+| :--- | :--- |
+| `pnpm install` | Install dependencies. |
+| `pnpm build` | Build all workspaces. |
+| `pnpm dev` | Run development mode (usually handled by PM2 on VPS). |
+| `pnpm type-check` | Validate TypeScript across the monorepo. |
+| `pnpm add <pkg> --filter <workspace>` | Add dependency to a specific package. |
+
+---
+
+## 🤖 AI Interaction Guidelines
+* **Communication Style:** Technical, "dev-to-dev", 100% honest. No fluff.
+* **Scalability Mindset:** Every piece of code must work for 100+ different businesses simultaneously.
+* **Workspace Boundaries:** `@mshorizon/ui` must NOT import from `apps/engine`. Abstract logic if it becomes too specific.
+* **Remote Context:** I am a Senior Frontend Dev. I often run commands via VSCode Tunnel or mobile. Keep commands copy-paste friendly.
