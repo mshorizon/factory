@@ -11,7 +11,7 @@ export { FooterMinimal } from "./FooterMinimal";
 export { FooterCentered } from "./FooterCentered";
 export { FooterBranded } from "./FooterBranded";
 export { FooterStacked } from "./FooterStacked";
-export type { FooterProps, FooterLink, SocialLink, FooterColumn } from "./types";
+export type { FooterProps, SocialLink, Link, FooterColumn } from "./types";
 
 // Re-export simple as default Footer for backwards compatibility
 export { FooterSimple as Footer } from "./FooterSimple";

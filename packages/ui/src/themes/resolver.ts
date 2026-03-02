@@ -1,4 +1,4 @@
-import type { ThemeV15, ThemeColorMode } from "@mshorizon/schema";
+import type { Theme, ThemeColorMode } from "@mshorizon/schema";
 import { getPreset } from "./presets";
 
 /**
@@ -44,7 +44,7 @@ function mergeColorMode(
  *
  * @param presetName - The name of the preset to use (industrial, wellness, minimal)
  * @param overrides - Optional partial theme to override preset values
- * @returns Complete ThemeV15 with preset as base and overrides applied
+ * @returns Complete Theme with preset as base and overrides applied
  *
  * @example
  * // Use preset with custom primary color
@@ -54,8 +54,8 @@ function mergeColorMode(
  */
 export function resolveTheme(
   presetName: string | undefined,
-  overrides?: Partial<ThemeV15>
-): ThemeV15 {
+  overrides?: Partial<Theme>
+): Theme {
   // Get the base preset
   const basePreset = getPreset(presetName);
 
@@ -65,7 +65,7 @@ export function resolveTheme(
   }
 
   // Start with base preset
-  const result: ThemeV15 = { ...basePreset };
+  const result: Theme = { ...basePreset };
 
   // Override mode if specified
   if (overrides.mode) {
@@ -77,26 +77,26 @@ export function resolveTheme(
     result.globalVariant = overrides.globalVariant;
   }
 
-  // Deep merge colors
-  if (overrides.colors) {
+  // Deep merge colors (presets always define colors)
+  if (overrides.colors && basePreset.colors) {
     result.colors = {
-      light: mergeColorMode(basePreset.colors.light, overrides.colors.light),
+      light: mergeColorMode(basePreset.colors.light!, overrides.colors.light),
       dark: overrides.colors.dark || basePreset.colors.dark
         ? mergeColorMode(
-            basePreset.colors.dark || basePreset.colors.light,
+            basePreset.colors.dark || basePreset.colors.light!,
             overrides.colors.dark
           )
         : undefined,
     };
   }
 
-  // Deep merge typography
-  if (overrides.typography) {
+  // Deep merge typography (presets always define typography)
+  if (overrides.typography && basePreset.typography) {
     result.typography = deepMerge(basePreset.typography, overrides.typography);
   }
 
-  // Deep merge UI settings
-  if (overrides.ui) {
+  // Deep merge UI settings (presets always define ui)
+  if (overrides.ui && basePreset.ui) {
     result.ui = deepMerge(basePreset.ui, overrides.ui);
   }
 

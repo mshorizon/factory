@@ -1,10 +1,10 @@
 // Navbar variants
 export { Navbar, NavbarStandard, NavbarCentered, getNavbarVariant } from "./navbar";
-export type { NavbarProps, NavLink, NavbarLayoutVariant, NavbarStyleVariant } from "./navbar";
+export type { NavbarProps, NavbarLayoutVariant, NavbarStyleVariant } from "./navbar";
 
 // Footer variants
 export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered, FooterBranded, FooterStacked, getFooterVariant } from "./footer";
-export type { FooterProps, FooterLink, SocialLink, FooterColumn } from "./footer";
+export type { FooterProps, SocialLink, Link, FooterColumn } from "./footer";
 
 // Hero variants
 export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal } from "./hero";

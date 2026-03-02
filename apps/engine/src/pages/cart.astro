@@ -7,13 +7,13 @@ import { getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
 import { deepTranslate } from "../lib/i18n";
 import { deepResolveImages } from "../lib/images";
-import type { BusinessProfileV15 } from "@mshorizon/schema";
+import type { BusinessProfile } from "@mshorizon/schema";
 
 // Get business context from middleware
 const { businessId, businessData, theme, currentLang, t: translations } = Astro.locals;
 
 // Translate all "t:" prefixed strings in business data
-const translatedData = deepTranslate(translations, businessData) as BusinessProfileV15;
+const translatedData = deepTranslate(translations, businessData) as BusinessProfile;
 
 // Resolve image paths (relative paths become /data/{businessId}/...)
 const business = deepResolveImages(translatedData, businessId);

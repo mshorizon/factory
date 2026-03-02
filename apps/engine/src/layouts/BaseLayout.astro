@@ -1,11 +1,8 @@
 ---
 import "../styles/global.css";
-import type { ThemeV10, ThemeV15 } from "@mshorizon/schema";
+import type { Theme } from "@mshorizon/schema";
 import ScrollToTopButton from "../components/ScrollToTopButton.astro";
 import OverlayScrollbar from "../components/OverlayScrollbar.astro";
-
-// Combined theme type that supports both versions
-type Theme = ThemeV10 | ThemeV15;
 
 interface Props {
   title: string;
@@ -16,76 +13,40 @@ interface Props {
 
 const { title, theme, favicon, lang = "en" } = Astro.props;
 
-// Helper to detect if theme is v1.5
-function isThemeV15(t: Theme): t is ThemeV15 {
-  return 'mode' in t && 'colors' in t && 'light' in (t as ThemeV15).colors;
-}
+// Extract CSS variables from theme
+const colors = theme.mode === "dark" && theme.colors?.dark ? theme.colors.dark : theme.colors?.light;
+const darkColors = theme.colors?.dark || {
+  primary: colors?.primary,
+  surface: { base: "#16181D", alt: "#2D2F34" },
+  text: { main: "#FFFFFF", muted: "#9CA3AF", onPrimary: colors?.text?.onPrimary },
+};
 
-// Extract CSS variables based on theme version
-let cssVars: Record<string, string>;
+const cssVars: Record<string, string> = {
+  primary: colors?.primary || "#0066CC",
+  secondary: colors?.surface?.alt || "#003D7A",
+  accent: colors?.primary || "#0066CC",
+  background: colors?.surface?.base || "#F8FAFC",
+  foreground: colors?.text?.main || "#0F172A",
+  muted: colors?.text?.muted || "#64748B",
+  border: (colors?.text?.muted || "#64748B") + "40",
+  textOnPrimary: colors?.text?.onPrimary || "#FFFFFF",
+  darkBackground: darkColors.surface?.base || "#16181D",
+  darkForeground: darkColors.text?.main || "#FFFFFF",
+  darkMuted: darkColors.text?.muted || "#9CA3AF",
+  darkBorder: (darkColors.text?.muted || "#9CA3AF") + "40",
+  radiusSm: "0.25rem",
+  radius: theme.ui?.radius || "0.5rem",
+  radiusLg: "1rem",
+  radiusFull: "9999px",
+  shadowSm: "0 1px 2px rgba(0,0,0,0.05)",
+  shadow: "0 4px 6px rgba(0,0,0,0.1)",
+  shadowLg: "0 10px 25px rgba(0,0,0,0.15)",
+  fontSans: theme.typography?.primary || "system-ui, -apple-system, sans-serif",
+  fontHeading: theme.typography?.secondary || theme.typography?.primary || "system-ui, -apple-system, sans-serif",
+  headingTransform: theme.preset === "bold" ? "uppercase" : "none",
+  headingLetterSpacing: theme.preset === "bold" ? "-0.02em" : "normal",
+};
 
-if (isThemeV15(theme)) {
-  // v1.5 theme structure — use dark palette when mode is "dark" and dark colors exist
-  const colors = theme.mode === "dark" && theme.colors.dark ? theme.colors.dark : theme.colors.light;
-  // Extract dark-mode colors for section-bg-dark overrides
-  const darkColors = theme.colors.dark || {
-    primary: colors.primary,
-    surface: { base: "#16181D", alt: "#2D2F34" },
-    text: { main: "#FFFFFF", muted: "#9CA3AF", onPrimary: colors.text.onPrimary },
-  };
-  cssVars = {
-    primary: colors.primary,
-    secondary: colors.surface.alt,
-    accent: colors.primary,
-    background: colors.surface.base,
-    foreground: colors.text.main,
-    muted: colors.text.muted,
-    border: colors.text.muted + "40", // Add alpha for border
-    textOnPrimary: colors.text.onPrimary,
-    darkBackground: darkColors.surface.base,
-    darkForeground: darkColors.text.main,
-    darkMuted: darkColors.text.muted,
-    darkBorder: darkColors.text.muted + "40",
-    radiusSm: "0.25rem",
-    radius: theme.ui.radius,
-    radiusLg: "1rem",
-    radiusFull: "9999px",
-    shadowSm: "0 1px 2px rgba(0,0,0,0.05)",
-    shadow: "0 4px 6px rgba(0,0,0,0.1)",
-    shadowLg: "0 10px 25px rgba(0,0,0,0.15)",
-    fontSans: theme.typography.primary,
-    fontHeading: theme.typography.secondary || theme.typography.primary,
-    headingTransform: theme.preset === "bold" ? "uppercase" : "none",
-    headingLetterSpacing: theme.preset === "bold" ? "-0.02em" : "normal",
-  };
-} else {
-  // v1.0 theme structure (legacy)
-  cssVars = {
-    primary: theme.colors.primary,
-    secondary: theme.colors.secondary,
-    accent: theme.colors.accent || theme.colors.primary,
-    background: theme.colors.background,
-    foreground: theme.colors.foreground,
-    muted: theme.colors.muted || "#64748b",
-    border: theme.colors.border || "#e2e8f0",
-    textOnPrimary: "#ffffff",
-    darkBackground: "#16181D",
-    darkForeground: "#FFFFFF",
-    darkMuted: "#9CA3AF",
-    darkBorder: "#9CA3AF40",
-    radiusSm: theme.borderRadius?.small || "0.25rem",
-    radius: theme.borderRadius?.default || "0.5rem",
-    radiusLg: theme.borderRadius?.large || "1rem",
-    radiusFull: theme.borderRadius?.full || "9999px",
-    shadowSm: theme.shadows?.small || "0 1px 2px rgba(0,0,0,0.05)",
-    shadow: theme.shadows?.default || "0 4px 6px rgba(0,0,0,0.1)",
-    shadowLg: theme.shadows?.large || "0 10px 25px rgba(0,0,0,0.15)",
-    fontSans: theme.typography?.fontFamily?.sans || "system-ui, -apple-system, sans-serif",
-    fontHeading: theme.typography?.fontFamily?.heading || "system-ui, -apple-system, sans-serif",
-    headingTransform: "none",
-    headingLetterSpacing: "normal",
-  };
-}
 // Extract Google Font names from font-family strings
 function extractGoogleFonts(...fontStrings: string[]): string[] {
   const systemFonts = new Set(['system-ui', '-apple-system', 'sans-serif', 'serif', 'monospace', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial']);

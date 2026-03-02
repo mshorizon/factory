@@ -1,7 +1,7 @@
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { LanguageSwitcher } from "../../atoms/LanguageSwitcher";
-import type { FooterProps, FooterLinkCompat } from "./types";
+import type { FooterProps, Link } from "./types";
 import { getFooterLinkHref } from "./types";
 
 export function FooterMultiColumn({
@@ -58,7 +58,7 @@ export function FooterMultiColumn({
             <div key={colIndex}>
               <h3 className="font-semibold text-white mb-4">{column.title}</h3>
               <ul className="space-y-2">
-                {column.links.map((link: FooterLinkCompat, linkIndex: number) => {
+                {(column.links || []).map((link: Link, linkIndex: number) => {
                   const href = getFooterLinkHref(link, resolveTarget);
                   return (
                     <li key={`${link.label}-${linkIndex}`}>

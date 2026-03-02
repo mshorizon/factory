@@ -1,10 +1,10 @@
 ---
 import { ShopGrid } from "@mshorizon/ui";
-import type { SectionV15 } from "@mshorizon/schema";
+import type { Section } from "@mshorizon/schema";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
-  section: SectionV15 & {
+  section: Section & {
     currency?: string;
     outOfStockLabel?: string;
     outOfStockCtaLabel?: string;
@@ -14,7 +14,7 @@ interface Props {
 
 const { section } = Astro.props;
 
-// Extract header (supports both v1.0 and v1.5)
+// Extract section header
 const header = getSectionHeader(section);
 ---
 

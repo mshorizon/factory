@@ -4,56 +4,162 @@
   "title": "BusinessProfile",
   "type": "object",
   "definitions": {
-    "navbarVariant": {
-      "type": "string",
-      "enum": ["standard", "centered"],
-      "default": "standard"
-    },
-    "footerVariant": {
-      "type": "string",
-      "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked"],
-      "default": "simple"
-    },
-    "cta": {
+    "target": {
       "type": "object",
-      "properties": {
-        "label": { "type": "string" },
-        "href": { "type": "string" }
-      },
-      "required": ["label", "href"]
-    },
-    "link": {
-      "type": "object",
-      "properties": {
-        "label": { "type": "string" },
-        "href": { "type": "string" }
-      },
-      "required": ["label", "href"]
-    },
-    "section": {
-      "type": "object",
+      "title": "Target",
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials"]
+          "enum": ["page", "section", "external", "phone", "email"],
+          "title": "TargetType"
         },
-        "variant": { "type": "string" },
-        "badge": { "type": "string" },
+        "value": { "type": "string", "title": "Target Value" }
+      }
+    },
+    "cta": {
+      "type": "object",
+      "title": "Cta",
+      "properties": {
+        "label": { "type": "string", "title": "Label" },
+        "target": { "$ref": "#/definitions/target" }
+      },
+      "required": ["label"]
+    },
+    "link": {
+      "type": "object",
+      "title": "Link",
+      "properties": {
+        "label": { "type": "string", "title": "Label" },
+        "target": { "$ref": "#/definitions/target" }
+      },
+      "required": ["label"]
+    },
+    "footerColumn": {
+      "type": "object",
+      "title": "FooterColumn",
+      "properties": {
+        "title": { "type": "string", "title": "Column Title" },
+        "links": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/link" }
+        }
+      }
+    },
+    "sectionHeader": {
+      "type": "object",
+      "title": "SectionHeader",
+      "properties": {
+        "badge": { "type": "string", "title": "Badge Text" },
+        "title": { "type": "string", "title": "Title" },
+        "subtitle": { "type": "string", "title": "Subtitle" }
+      }
+    },
+    "productCustomizationOption": {
+      "type": "object",
+      "title": "ProductCustomizationOption",
+      "properties": {
+        "value": { "type": "string" },
+        "label": { "type": "string" },
+        "priceModifier": { "type": "number" }
+      },
+      "required": ["value", "label"]
+    },
+    "productCustomization": {
+      "type": "object",
+      "title": "ProductCustomization",
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "type": { "type": "string", "enum": ["select"] },
+        "required": { "type": "boolean" },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/productCustomizationOption" }
+        }
+      },
+      "required": ["id", "label", "type", "options"]
+    },
+    "product": {
+      "type": "object",
+      "title": "Product",
+      "properties": {
+        "id": { "type": "string" },
         "title": { "type": "string" },
-        "subtitle": { "type": "string" },
-        "backgroundImage": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
         "image": { "type": "string" },
+        "category": { "type": "string" },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "ProductAttribute",
+            "properties": {
+              "key": { "type": "string" },
+              "value": { "type": "string" }
+            },
+            "required": ["key", "value"]
+          }
+        },
+        "inStock": { "type": "boolean" },
+        "customizations": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/productCustomization" }
+        }
+      },
+      "required": ["id", "title", "price"]
+    },
+    "section": {
+      "type": "object",
+      "title": "Section",
+      "properties": {
+        "type": {
+          "type": "string",
+          "title": "SectionType",
+          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog"]
+        },
+        "variant": { "type": "string", "title": "Variant" },
+        "background": {
+          "type": "string",
+          "title": "Section Background",
+          "enum": ["light", "dark", "primary"]
+        },
+        "header": { "$ref": "#/definitions/sectionHeader" },
+        "backgroundImage": { "type": "string", "title": "Background Image URL" },
+        "image": { "type": "string", "title": "Image URL" },
         "cta": { "$ref": "#/definitions/cta" },
         "secondaryCta": { "$ref": "#/definitions/cta" },
-        "items": {
+        "testimonial": {
+          "type": "object",
+          "title": "Testimonial",
+          "properties": {
+            "title": { "type": "string" },
+            "quote": { "type": "string" }
+          }
+        },
+        "testimonials": {
           "type": "array",
+          "title": "Testimonials",
           "items": {
             "type": "object",
             "properties": {
               "title": { "type": "string" },
+              "quote": { "type": "string" }
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "title": "Items",
+          "items": {
+            "type": "object",
+            "title": "ServiceItem",
+            "properties": {
+              "title": { "type": "string" },
               "description": { "type": "string" },
               "price": { "type": "string" },
-              "icon": { "type": "string" }
+              "icon": { "type": "string" },
+              "image": { "type": "string" }
             }
           }
         },
@@ -68,6 +174,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "title": "StatItem",
             "properties": {
               "value": { "type": "string" },
               "label": { "type": "string" }
@@ -83,8 +190,10 @@
         },
         "timeline": {
           "type": "array",
+          "title": "Timeline",
           "items": {
             "type": "object",
+            "title": "TimelineItem",
             "properties": {
               "year": { "type": "string" },
               "title": { "type": "string" },
@@ -94,6 +203,7 @@
         },
         "info": {
           "type": "object",
+          "title": "ContactInfo",
           "properties": {
             "address": { "type": "string" },
             "phone": { "type": "string" },
@@ -103,89 +213,368 @@
         },
         "form": {
           "type": "object",
+          "title": "ContactForm",
           "properties": {
             "namePlaceholder": { "type": "string" },
             "emailPlaceholder": { "type": "string" },
             "messagePlaceholder": { "type": "string" },
             "submitButton": { "type": "string" }
           }
+        },
+        "labels": {
+          "type": "object",
+          "title": "Labels",
+          "additionalProperties": { "type": "string" }
+        },
+        "exploreLabel": { "type": "string", "title": "Explore Label" },
+        "products": {
+          "type": "array",
+          "title": "Products",
+          "items": { "$ref": "#/definitions/product" }
+        },
+        "currency": { "type": "string", "title": "Currency" },
+        "ctaLabel": { "type": "string", "title": "CTA Label" },
+        "outOfStockCtaLabel": { "type": "string", "title": "Out of Stock CTA Label" },
+        "outOfStockCtaHref": { "type": "string", "title": "Out of Stock CTA Href" },
+        "steps": {
+          "type": "array",
+          "title": "Process Steps",
+          "items": {
+            "type": "object",
+            "title": "ProcessStep",
+            "properties": {
+              "number": { "type": "integer" },
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "icon": { "type": "string" }
+            }
+          }
+        },
+        "areas": {
+          "type": "array",
+          "title": "Service Areas",
+          "items": { "type": "string" }
+        },
+        "pairs": {
+          "type": "array",
+          "title": "Before/After Pairs",
+          "items": {
+            "type": "object",
+            "title": "BeforeAfterPair",
+            "properties": {
+              "title": { "type": "string" },
+              "before": { "type": "string" },
+              "after": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "trustSignals": {
+          "type": "array",
+          "title": "Trust Signals",
+          "items": {
+            "type": "object",
+            "title": "TrustSignal",
+            "properties": {
+              "icon": { "type": "string" },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "googleRating": { "$ref": "#/definitions/googleRating" },
+        "faqItems": {
+          "type": "array",
+          "title": "FAQ Items",
+          "items": {
+            "type": "object",
+            "title": "FAQItem",
+            "properties": {
+              "question": { "type": "string" },
+              "answer": { "type": "string" }
+            }
+          }
+        },
+        "blogPosts": {
+          "type": "array",
+          "title": "Blog Posts",
+          "items": {
+            "type": "object",
+            "title": "BlogPost",
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "image": { "type": "string" },
+              "date": { "type": "string" },
+              "href": { "type": "string" }
+            }
+          }
+        },
+        "marqueeText": {
+          "type": "string",
+          "title": "Marquee Text"
         }
       },
       "required": ["type"]
     },
     "page": {
       "type": "object",
+      "title": "Page",
       "properties": {
-        "slug": { "type": "string" },
-        "title": { "type": "string" },
+        "title": { "type": "string", "title": "Page Title" },
         "sections": {
           "type": "array",
+          "title": "Sections",
           "items": { "$ref": "#/definitions/section" }
         }
       },
-      "required": ["slug", "title", "sections"]
+      "required": ["title", "sections"]
     },
-    "footerColumn": {
+    "googleRating": {
       "type": "object",
+      "title": "GoogleRating",
       "properties": {
-        "title": { "type": "string" },
-        "links": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/link" }
+        "score": { "type": "number" },
+        "count": { "type": "integer" }
+      }
+    },
+    "themeColorMode": {
+      "type": "object",
+      "title": "ThemeColorMode",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "title": "Primary Color",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "default": "#0066CC"
+        },
+        "surface": {
+          "type": "object",
+          "title": "Surface Colors",
+          "properties": {
+            "base": {
+              "type": "string",
+              "title": "Base Surface",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "alt": {
+              "type": "string",
+              "title": "Alt Surface",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            }
+          }
+        },
+        "text": {
+          "type": "object",
+          "title": "Text Colors",
+          "properties": {
+            "main": {
+              "type": "string",
+              "title": "Main Text",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "muted": {
+              "type": "string",
+              "title": "Muted Text",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "onPrimary": {
+              "type": "string",
+              "title": "Text on Primary",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            }
+          }
         }
-      },
-      "required": ["title", "links"]
+      }
     }
   },
   "properties": {
-    "id": { "type": "string" },
-    "name": { "type": "string" },
-    "industry": { "type": "string" },
-    "branding": {
+    "business": {
       "type": "object",
+      "title": "Business",
       "properties": {
-        "primaryColor": { "type": "string", "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" },
-        "themeId": { "type": "string" }
+        "id": { "type": "string", "title": "Business ID" },
+        "name": { "type": "string", "title": "Business Name" },
+        "industry": {
+          "type": "string",
+          "title": "Industry"
+        },
+        "assets": {
+          "type": "object",
+          "title": "BusinessAssets",
+          "properties": {
+            "favicon": { "type": "string", "title": "Favicon URL" },
+            "logo": { "type": "string", "title": "Logo URL" },
+            "icon": { "type": "string", "title": "Icon URL" }
+          }
+        },
+        "contact": {
+          "type": "object",
+          "title": "BusinessContact",
+          "properties": {
+            "address": { "type": "string", "title": "Address" },
+            "phone": { "type": "string", "title": "Phone" },
+            "email": { "type": "string", "format": "email", "title": "Email" },
+            "hours": { "type": "string", "title": "Business Hours" }
+          }
+        },
+        "socials": {
+          "type": "object",
+          "title": "Socials",
+          "additionalProperties": { "type": "string" }
+        },
+        "serviceArea": {
+          "type": "array",
+          "title": "Service Area",
+          "items": { "type": "string" }
+        },
+        "googleRating": { "$ref": "#/definitions/googleRating" },
+        "trustSignals": {
+          "type": "array",
+          "title": "Trust Signals",
+          "items": {
+            "type": "object",
+            "properties": {
+              "icon": { "type": "string" },
+              "text": { "type": "string" }
+            }
+          }
+        }
       },
-      "required": ["primaryColor", "themeId"]
+      "required": ["id", "name", "industry"]
+    },
+    "theme": {
+      "type": "object",
+      "title": "Theme",
+      "properties": {
+        "preset": {
+          "type": "string",
+          "title": "Theme Preset",
+          "enum": ["industrial", "wellness", "minimal", "elegant", "modern", "classic", "bold"]
+        },
+        "globalVariant": {
+          "type": "string",
+          "title": "Global Variant"
+        },
+        "mode": {
+          "type": "string",
+          "title": "Color Mode",
+          "enum": ["light", "dark"],
+          "default": "light"
+        },
+        "colors": {
+          "type": "object",
+          "title": "Color Schemes",
+          "properties": {
+            "light": { "$ref": "#/definitions/themeColorMode" },
+            "dark": { "$ref": "#/definitions/themeColorMode" }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "title": "Typography",
+          "properties": {
+            "primary": { "type": "string", "title": "Primary Font Family" },
+            "secondary": { "type": "string", "title": "Secondary Font Family" },
+            "baseSize": { "type": "string", "title": "Base Font Size" }
+          }
+        },
+        "ui": {
+          "type": "object",
+          "title": "UI Settings",
+          "properties": {
+            "radius": { "type": "string", "title": "Border Radius", "default": "0.5rem" },
+            "spacingScale": { "type": "number", "title": "Spacing Scale" },
+            "buttonStyle": { "type": "string", "title": "Button Style" }
+          }
+        }
+      }
     },
     "layout": {
       "type": "object",
+      "title": "Layout",
       "properties": {
         "navbar": {
           "type": "object",
+          "title": "Navbar",
           "properties": {
-            "variant": { "$ref": "#/definitions/navbarVariant" }
+            "variant": {
+              "type": "string",
+              "title": "Navbar Variant",
+              "enum": ["standard", "centered"],
+              "default": "standard"
+            },
+            "extensions": {
+              "type": "array",
+              "title": "Navbar Extensions",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["upper-bar"], "title": "Extension Type" }
+                },
+                "required": ["type"]
+              }
+            }
           }
         },
         "footer": {
           "type": "object",
+          "title": "FooterConfig",
           "properties": {
-            "variant": { "$ref": "#/definitions/footerVariant" },
-            "copyright": { "type": "string" },
-            "tagline": { "type": "string" },
+            "variant": {
+              "type": "string",
+              "title": "Footer Variant",
+              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked"],
+              "default": "simple"
+            },
+            "copyright": { "type": "string", "title": "Copyright Text" },
+            "tagline": { "type": "string", "title": "Tagline" },
             "links": {
               "type": "array",
+              "title": "Footer Links",
               "items": { "$ref": "#/definitions/link" }
             },
             "columns": {
               "type": "array",
+              "title": "Footer Columns",
               "items": { "$ref": "#/definitions/footerColumn" }
+            },
+            "extensions": {
+              "type": "array",
+              "title": "Footer Extensions",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["call"], "title": "Extension Type" },
+                  "headline": { "type": "string", "title": "Headline" },
+                  "phone": { "type": "string", "title": "Phone" }
+                },
+                "required": ["type"]
+              }
             }
           }
         }
       }
     },
-    "pages": {
-      "type": "array",
-      "items": { "$ref": "#/definitions/page" }
-    },
     "navigation": {
       "type": "object",
+      "title": "Navigation",
       "properties": {
-        "cta": { "$ref": "#/definitions/cta" }
+        "links": {
+          "type": "array",
+          "title": "Navigation Links",
+          "items": { "$ref": "#/definitions/link" }
+        },
+        "cta": {
+          "$ref": "#/definitions/cta",
+          "title": "Navigation CTA"
+        }
       }
+    },
+    "pages": {
+      "type": "object",
+      "title": "Pages",
+      "additionalProperties": { "$ref": "#/definitions/page" }
     }
   },
-  "required": ["id", "name", "industry", "branding", "layout", "pages"]
+  "required": ["business", "theme"]
 }

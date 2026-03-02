@@ -1,7 +1,7 @@
 ---
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import AdminForm from "../../components/admin/AdminForm";
-import { businessSchemaV15 } from "@mshorizon/schema";
+import { businessSchema } from "@mshorizon/schema";
 import { getSiteBySubdomain } from "@mshorizon/db";
 
 const { businessId, businessData, t: translations } = Astro.locals;
@@ -24,7 +24,7 @@ const businessName = businessData.business.name.startsWith("t:")
     client:load
     businessId={businessId}
     initialData={rawBusinessData}
-    schema={businessSchemaV15}
+    schema={businessSchema}
     translations={{ en: enTranslations, pl: plTranslations }}
   />
 </AdminLayout>
