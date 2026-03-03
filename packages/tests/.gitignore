@@ -1,0 +1,19 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Environment variables (contains credentials)
+.env
+
+# Build output
+dist
+
+# Playwright
+playwright-report/
+test-results/
+playwright/.cache/
+
+# Screenshots are COMMITTED for visual regression
+# Only ignore test artifacts
+*-diff.png
+*-actual.png
