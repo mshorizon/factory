@@ -8,6 +8,9 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
+    "test:visual": "pnpm --filter @mshorizon/tests test:visual",
+    "test:visual:update": "pnpm --filter @mshorizon/tests test:visual:update",
+    "test:validate": "pnpm --filter @mshorizon/tests test:validate",
     "start": "pnpm --filter @mshorizon/engine start",
     "tmux-new": "tmux new -s ai",
     "tmux": "tmux attach -t ai",
@@ -15,7 +18,8 @@
     "tmux-kill": "tmux kill-session -t ai",
     "sonnet": "claude --model sonnet --dangerously-skip-permissions",
     "opus": "claude --dangerously-skip-permissions",
-    "claude": "claude --dangerously-skip-permissions"
+    "claude": "claude --dangerously-skip-permissions",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +28,7 @@
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.984.0",
     "drizzle-orm": "^0.38.4",
+    "husky": "^9.0.11",
     "playwright": "^1.58.2",
     "postgres": "^3.4.8",
     "tsx": "^4.21.0",

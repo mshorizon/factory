@@ -1,0 +1,14 @@
+{
+  "extends": "@mshorizon/config/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "types": ["node"]
+  },
+  "include": ["src/**/*", "playwright.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}

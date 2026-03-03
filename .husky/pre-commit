@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Validate all templates before commit
+echo "🔍 Validating templates against AJV schema..."
+pnpm run test:validate
