@@ -1,24 +1,29 @@
 #!/usr/bin/env tsx
 /**
- * Template Validation Script
+ * Template & Database Validation Script
  *
- * Validates all JSON files in templates/ directory against the AJV schema.
+ * Validates all JSON files in templates/ directory AND all businesses from the database
+ * against the AJV schema.
+ *
  * Usage:
  *   pnpm run test:validate
  *
  * Exit codes:
- *   0 - All templates valid
- *   1 - One or more templates invalid
+ *   0 - All templates and database businesses valid
+ *   1 - One or more templates or database businesses invalid
  */
 
 import { readdir, readFile } from "fs/promises";
 import { join, resolve } from "path";
 import { validate, type BusinessProfile } from "@mshorizon/schema";
+import { getDb, initDb } from "@mshorizon/db";
+import { sites } from "@mshorizon/db";
+import "dotenv/config";
 
 const TEMPLATES_DIR = resolve(process.cwd(), "../../templates");
 
 interface ValidationResult {
-  file: string;
+  source: string; // file path or "DB: subdomain"
   valid: boolean;
   errors: any[] | null | undefined;
 }
@@ -60,56 +65,125 @@ async function validateTemplate(filePath: string): Promise<ValidationResult> {
     const result = validate(data);
 
     return {
-      file: filePath,
+      source: filePath,
       valid: result.valid,
       errors: result.errors,
     };
   } catch (error: any) {
     return {
-      file: filePath,
+      source: filePath,
       valid: false,
       errors: [{ message: `Failed to parse JSON: ${error.message}` }],
     };
   }
 }
 
-async function main() {
-  console.log(`🔍 Scanning for templates in: ${TEMPLATES_DIR}\n`);
-
-  const jsonFiles = await findJsonFiles(TEMPLATES_DIR);
-
-  if (jsonFiles.length === 0) {
-    console.log("⚠️  No JSON files found in templates directory");
-    process.exit(0);
-  }
-
-  console.log(`Found ${jsonFiles.length} JSON file(s):\n`);
-
+async function validateDatabaseBusinesses(): Promise<ValidationResult[]> {
   const results: ValidationResult[] = [];
 
-  for (const file of jsonFiles) {
-    const relativePath = file.replace(process.cwd(), "").replace("../../", "");
-    process.stdout.write(`  Validating ${relativePath}... `);
+  try {
+    // Initialize database connection
+    if (process.env.DATABASE_URL) {
+      initDb(process.env.DATABASE_URL);
+    }
 
-    const result = await validateTemplate(file);
-    results.push(result);
+    const db = getDb();
+    const allSites = await db.select().from(sites);
 
-    if (result.valid) {
-      console.log("✅");
-    } else {
-      console.log("❌");
+    console.log(`Found ${allSites.length} business(es) in database:\n`);
+
+    for (const site of allSites) {
+      process.stdout.write(`  Validating DB: ${site.subdomain}... `);
+
+      try {
+        const result = validate(site.config);
+
+        results.push({
+          source: `DB: ${site.subdomain}`,
+          valid: result.valid,
+          errors: result.errors,
+        });
+
+        if (result.valid) {
+          console.log("✅");
+        } else {
+          console.log("❌");
+        }
+      } catch (error: any) {
+        results.push({
+          source: `DB: ${site.subdomain}`,
+          valid: false,
+          errors: [{ message: `Validation error: ${error.message}` }],
+        });
+        console.log("❌");
+      }
+    }
+  } catch (error: any) {
+    console.error(`\n⚠️  Database connection failed: ${error.message}`);
+    console.log("Skipping database validation...\n");
+  }
+
+  return results;
+}
+
+async function main() {
+  console.log("═".repeat(70));
+  console.log("🔍 BUSINESS PROFILE VALIDATION");
+  console.log("═".repeat(70));
+  console.log("");
+
+  // Validate template files
+  console.log(`📁 Scanning for templates in: ${TEMPLATES_DIR}\n`);
+
+  const jsonFiles = await findJsonFiles(TEMPLATES_DIR);
+  const templateResults: ValidationResult[] = [];
+
+  if (jsonFiles.length === 0) {
+    console.log("⚠️  No JSON files found in templates directory\n");
+  } else {
+    console.log(`Found ${jsonFiles.length} JSON file(s):\n`);
+
+    for (const file of jsonFiles) {
+      const relativePath = file.replace(process.cwd(), "").replace("../../", "");
+      process.stdout.write(`  Validating ${relativePath}... `);
+
+      const result = await validateTemplate(file);
+      templateResults.push(result);
+
+      if (result.valid) {
+        console.log("✅");
+      } else {
+        console.log("❌");
+      }
     }
   }
 
-  // Print detailed errors
-  const failed = results.filter((r) => !r.valid);
+  console.log("");
+  console.log("─".repeat(70));
+  console.log("");
 
+  // Validate database businesses
+  console.log("🗄️  Validating businesses from database:\n");
+  const dbResults = await validateDatabaseBusinesses();
+
+  console.log("");
+  console.log("═".repeat(70));
+
+  // Combine all results
+  const allResults = [...templateResults, ...dbResults];
+  const failed = allResults.filter((r) => !r.valid);
+
+  // Print detailed errors if any
   if (failed.length > 0) {
-    console.log("\n❌ Validation Errors:\n");
+    console.log("\n❌ VALIDATION ERRORS:\n");
 
     for (const result of failed) {
-      const relativePath = result.file.replace(process.cwd(), "").replace("../../", "");
-      console.log(`  ${relativePath}:`);
+      let displaySource = result.source;
+      if (!result.source.startsWith("DB:")) {
+        displaySource = result.source.replace(process.cwd(), "").replace("../../", "");
+      }
+
+      console.log(`  ${displaySource}:`);
 
       if (result.errors) {
         for (const error of result.errors) {
@@ -121,12 +195,26 @@ async function main() {
       }
       console.log("");
     }
+  }
 
-    console.log(`\n❌ ${failed.length} of ${results.length} template(s) failed validation\n`);
+  // Print summary
+  const templateFailed = templateResults.filter((r) => !r.valid).length;
+  const dbFailed = dbResults.filter((r) => !r.valid).length;
+
+  console.log("📊 SUMMARY:");
+  console.log("─".repeat(70));
+  console.log(`  Templates:  ${templateResults.length - templateFailed}/${templateResults.length} valid`);
+  console.log(`  Database:   ${dbResults.length - dbFailed}/${dbResults.length} valid`);
+  console.log(`  Total:      ${allResults.length - failed.length}/${allResults.length} valid`);
+  console.log("═".repeat(70));
+  console.log("");
+
+  if (failed.length > 0) {
+    console.log(`❌ ${failed.length} of ${allResults.length} business profile(s) failed validation\n`);
     process.exit(1);
   }
 
-  console.log(`\n✅ All ${results.length} template(s) valid!\n`);
+  console.log(`✅ All ${allResults.length} business profile(s) valid!\n`);
   process.exit(0);
 }
 
