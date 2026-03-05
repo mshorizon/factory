@@ -8,13 +8,13 @@ import type { ServicesProps } from "./types";
 export function ServicesDarkCards({ items, className }: ServicesProps) {
   return (
     <StaggerContainer
-      className={cn("grid grid-cols-1 gap-4", className)}
+      className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", className)}
       staggerDelay={0.1}
     >
       {items.map((item, index) => (
         <StaggerItem key={index} direction="up" distance={30}>
           <div
-            className="group relative flex items-end justify-between gap-4 rounded-radius bg-secondary p-6 min-h-[250px] overflow-hidden transition-all cursor-pointer"
+            className="group relative flex flex-col items-start justify-end gap-2 rounded-radius bg-secondary p-6 min-h-[280px] overflow-hidden transition-all cursor-pointer hover:shadow-xl"
             data-field={`items.${index}`}
             style={{
               "--foreground": "var(--dark-foreground)",
@@ -28,17 +28,29 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
                   alt={item.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
               </>
             )}
-            <h3
-              className="relative z-10 text-xl font-semibold text-foreground"
-              data-field={`items.${index}.title`}
-            >
-              {item.title}
-            </h3>
-            <div className="relative z-10 flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-primary text-on-primary transition-transform group-hover:scale-110">
-              <ArrowUpRight className="h-5 w-5" />
+            <div className="relative z-10 w-full flex items-start justify-between gap-3">
+              <div className="flex-1">
+                <h3
+                  className="text-lg font-semibold text-white mb-1"
+                  data-field={`items.${index}.title`}
+                >
+                  {item.title}
+                </h3>
+                {item.description && (
+                  <p
+                    className="text-sm text-white/80 line-clamp-2"
+                    data-field={`items.${index}.description`}
+                  >
+                    {item.description}
+                  </p>
+                )}
+              </div>
+              <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
+                <ArrowUpRight className="h-5 w-5 text-white" />
+              </div>
             </div>
           </div>
         </StaggerItem>

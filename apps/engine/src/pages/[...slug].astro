@@ -106,7 +106,7 @@ const socialLinks = business.business.socials
         hasUpperBar={layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') ?? false}
       />
     )}
-    <SectionDispatcher sections={page.sections} />
+    <SectionDispatcher sections={page.sections} business={business} />
   </main>
   <Footer
     businessName={business.business.name}

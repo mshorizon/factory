@@ -99,6 +99,8 @@ export type FAQItems = FAQItem[];
 export type BlogPosts = BlogPost[];
 export type MarqueeText = string;
 export type Sections = Section[];
+export type Services = Service[];
+export type Products1 = Product[];
 
 export interface BusinessProfile {
   business: Business;
@@ -106,6 +108,7 @@ export interface BusinessProfile {
   layout?: Layout;
   navigation?: Navigation;
   pages?: Pages;
+  data?: Data;
 }
 export interface Business {
   id: BusinessID;
@@ -352,4 +355,21 @@ export interface BlogPost {
   image?: string;
   date?: string;
   href?: string;
+}
+export interface Data {
+  services?: Services;
+  products?: Products1;
+}
+export interface Service {
+  id: string;
+  title: string;
+  description?: string;
+  price?: number;
+  priceLabel?: string;
+  image?: string;
+  icon?: string;
+  category?: string;
+  duration?: string;
+  features?: string[];
+  available?: boolean;
 }

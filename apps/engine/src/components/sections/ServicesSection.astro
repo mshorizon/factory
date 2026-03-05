@@ -1,16 +1,22 @@
 ---
-import type { Section } from "@mshorizon/schema";
+import type { Section, BusinessProfile } from "@mshorizon/schema";
 import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, SectionHeader, Button } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
 interface Props {
   section: Section;
+  business: BusinessProfile;
 }
 
-const { section } = Astro.props;
+const { section, business } = Astro.props;
 const variant = getSectionVariant(section);
-const items = section.items || [];
+
+// Use section.items if provided, otherwise fallback to business.data.services
+const items = (section.items && section.items.length > 0)
+  ? section.items
+  : (business?.data?.services || []);
+
 const header = getSectionHeader(section);
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);

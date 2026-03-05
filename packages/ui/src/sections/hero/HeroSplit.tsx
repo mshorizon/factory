@@ -42,7 +42,7 @@ export function HeroSplit({
   return (
     <section
       className={cn(
-        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center pt-[248px] pb-[120px] lg:pt-20 lg:pb-0",
+        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center pt-[248px] pb-[120px] lg:pt-40 lg:pb-0",
         className
       )}
     >
