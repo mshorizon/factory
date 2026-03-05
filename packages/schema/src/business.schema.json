@@ -109,6 +109,27 @@
       },
       "required": ["id", "title", "price"]
     },
+    "service": {
+      "type": "object",
+      "title": "Service",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "priceLabel": { "type": "string" },
+        "image": { "type": "string" },
+        "icon": { "type": "string" },
+        "category": { "type": "string" },
+        "duration": { "type": "string" },
+        "features": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "available": { "type": "boolean" }
+      },
+      "required": ["id", "title"]
+    },
     "section": {
       "type": "object",
       "title": "Section",
@@ -574,6 +595,22 @@
       "type": "object",
       "title": "Pages",
       "additionalProperties": { "$ref": "#/definitions/page" }
+    },
+    "data": {
+      "type": "object",
+      "title": "Data",
+      "properties": {
+        "services": {
+          "type": "array",
+          "title": "Services",
+          "items": { "$ref": "#/definitions/service" }
+        },
+        "products": {
+          "type": "array",
+          "title": "Products",
+          "items": { "$ref": "#/definitions/product" }
+        }
+      }
     }
   },
   "required": ["business", "theme"]

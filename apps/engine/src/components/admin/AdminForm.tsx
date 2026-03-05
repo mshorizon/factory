@@ -198,6 +198,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
     theme: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="13.5" r="2.5"/><circle cx="17.5" cy="13.5" r="2.5"/><path d="M13.5 9v2.5"/><path d="M6.5 11V9"/><path d="M17.5 11V9"/></svg>,
     navbar: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>,
     footer: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15h18"/></svg>,
+    data: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
     page: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>,
     translations: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>,
   };
@@ -207,6 +208,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
     { id: "theme", label: "Theme", icon: icons.theme },
     { id: "navbar", label: "Navbar", icon: icons.navbar },
     { id: "footer", label: "Footer", icon: icons.footer },
+    { id: "data", label: "Data", icon: icons.data },
     ...pageNames.map((name) => ({ id: `page-${name}` as TabType, label: name, icon: icons.page })),
     { id: "translations-en", label: "EN", icon: icons.translations },
     { id: "translations-pl", label: "PL", icon: icons.translations },
@@ -223,6 +225,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
     if (tabId === "theme") return !deepEqual(formData.theme, saved.theme);
     if (tabId === "navbar") return !deepEqual(getNestedValue(formData, ["layout", "navbar"]), getNestedValue(saved, ["layout", "navbar"]));
     if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"]));
+    if (tabId === "data") return !deepEqual(formData.data, saved.data);
     if (tabId === "translations-en") return !deepEqual(translationsData.en, savedTrans.en);
     if (tabId === "translations-pl") return !deepEqual(translationsData.pl, savedTrans.pl);
     if (tabId.startsWith("page-")) {
@@ -247,6 +250,8 @@ export default function AdminForm({ businessId, initialData, schema, translation
       setFormData((prev) => setNestedValue(prev, ["layout", "navbar"], structuredClone(getNestedValue(saved, ["layout", "navbar"]))));
     } else if (tabId === "footer") {
       setFormData((prev) => setNestedValue(prev, ["layout", "footer"], structuredClone(getNestedValue(saved, ["layout", "footer"]))));
+    } else if (tabId === "data") {
+      setFormData((prev) => ({ ...prev, data: structuredClone(saved.data) }));
     } else if (tabId === "translations-en") {
       setTranslationsData((prev) => ({ ...prev, en: structuredClone(savedTrans.en) }));
     } else if (tabId === "translations-pl") {
@@ -667,6 +672,23 @@ export default function AdminForm({ businessId, initialData, schema, translation
       );
     }
 
+    if (activeTab === "data") {
+      const dataSchema = getSubSchema(schema, ["data"]);
+      return (
+        <div className="rjsf-wrapper">
+          <Form
+            schema={dataSchema}
+            formData={getNestedValue(formData, ["data"]) || {}}
+            validator={validator}
+            widgets={configWidgets}
+            formContext={{ businessId }}
+            onChange={(data: any) => handleChange(["data"], data)}
+            liveValidate={false}
+          ><></></Form>
+        </div>
+      );
+    }
+
     if (activeTab === "translations-en") {
       return <TranslationsEditor lang="en" />;
     }
@@ -794,7 +816,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
               <span className="text-[11px] font-semibold text-white/30 uppercase tracking-wider">Config</span>
             </div>
             <div className="space-y-px">
-              {tabs.filter(t => ["meta", "theme", "navbar", "footer"].includes(t.id)).map((tab) => (
+              {tabs.filter(t => ["meta", "theme", "navbar", "footer", "data"].includes(t.id)).map((tab) => (
                 <NavItem
                   key={tab.id}
                   tab={tab}

@@ -13,7 +13,7 @@ This file provides critical guidance for Claude Code and AI assistants working i
 | :--- | :--- |
 | `apps/engine` | **Astro Hybrid Renderer.** Fetches JSON based on domain/subdomain and renders the site. |
 | `packages/ui` | **React + Tailwind Design System.** Industry-agnostic atomic components and sections. |
-| `packages/schema` | **Source of Truth.** AJV/Zod schemas for business profiles and validation. |
+| `packages/schema` | **Source of Truth.** AJV schemas for business profiles and validation. |
 | `packages/db` | **Data Layer.** PostgreSQL (Coolify) + Drizzle ORM. Stores business JSONs. |
 | `packages/config` | Shared ESLint, TypeScript, and Tailwind configurations. |
 | `templates/` | **Git-based CMS.** Blueprint JSON files used to scaffold new businesses. |

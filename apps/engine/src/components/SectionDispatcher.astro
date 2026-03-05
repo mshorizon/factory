@@ -1,5 +1,5 @@
 ---
-import type { Section } from "@mshorizon/schema";
+import type { Section, BusinessProfile } from "@mshorizon/schema";
 import HeroSection from "./sections/HeroSection.astro";
 import ServicesSection from "./sections/ServicesSection.astro";
 import CategoriesSection from "./sections/CategoriesSection.astro";
@@ -19,9 +19,10 @@ import BlogSection from "./sections/BlogSection.astro";
 
 interface Props {
   sections: Section[];
+  business: BusinessProfile;
 }
 
-const { sections } = Astro.props;
+const { sections, business } = Astro.props;
 
 // Map section types to components
 const sectionComponents: Record<string, any> = {
@@ -56,5 +57,9 @@ function getBgClass(bg?: string): string {
   if (!Component) return null;
   const bgClass = getBgClass(section.background);
 
-  return <div data-section-index={index} class={bgClass}><Component section={section} /></div>;
+  // Only pass business prop to sections that need it
+  const needsBusiness = ['services', 'shop'].includes(section.type);
+  const props = needsBusiness ? { section, business } : { section };
+
+  return <div data-section-index={index} class={bgClass}><Component {...props} /></div>;
 })}

@@ -136,6 +136,115 @@
       }
     }
   },
+  "data": {
+    "services": [
+      {
+        "id": "residential-electrical",
+        "title": "t:services.items.residential.title",
+        "description": "t:services.items.residential.description",
+        "price": 150,
+        "priceLabel": "Starting at",
+        "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=450&fit=crop",
+        "icon": "home",
+        "category": "electrical",
+        "available": true
+      },
+      {
+        "id": "commercial-electrical",
+        "title": "t:services.items.commercial.title",
+        "description": "t:services.items.commercial.description",
+        "price": 300,
+        "priceLabel": "Starting at",
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop",
+        "icon": "building",
+        "category": "electrical",
+        "available": true
+      },
+      {
+        "id": "panel-upgrade",
+        "title": "t:services.items.panel.title",
+        "description": "t:services.items.panel.description",
+        "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=450&fit=crop",
+        "icon": "box",
+        "category": "electrical",
+        "available": true
+      },
+      {
+        "id": "emergency-service",
+        "title": "t:services.items.emergency.title",
+        "description": "t:services.items.emergency.description",
+        "price": 200,
+        "priceLabel": "Starting at",
+        "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=450&fit=crop",
+        "icon": "alert-circle",
+        "category": "electrical",
+        "duration": "1-2 hours",
+        "available": true
+      },
+      {
+        "id": "lighting-installation",
+        "title": "t:services.items.lighting.title",
+        "description": "t:services.items.lighting.description",
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop",
+        "icon": "lightbulb",
+        "category": "electrical",
+        "available": true
+      },
+      {
+        "id": "ev-charging",
+        "title": "t:services.items.ev.title",
+        "description": "t:services.items.ev.description",
+        "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=450&fit=crop",
+        "icon": "zap",
+        "category": "electrical",
+        "available": true
+      }
+    ],
+    "products": [
+      {
+        "id": "smart-thermostat",
+        "title": "t:data.products.thermostat.title",
+        "description": "t:data.products.thermostat.description",
+        "price": 249.99,
+        "image": "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?w=400&h=400&fit=crop",
+        "category": "smart-home",
+        "inStock": true,
+        "attributes": [
+          { "key": "Brand", "value": "Nest" },
+          { "key": "Warranty", "value": "2 years" },
+          { "key": "Compatibility", "value": "Works with Alexa & Google" }
+        ]
+      },
+      {
+        "id": "led-panel-light",
+        "title": "t:data.products.ledPanel.title",
+        "description": "t:data.products.ledPanel.description",
+        "price": 89.99,
+        "image": "https://images.unsplash.com/photo-1565814636199-ae8133055c1c?w=400&h=400&fit=crop",
+        "category": "lighting",
+        "inStock": true,
+        "attributes": [
+          { "key": "Power", "value": "40W" },
+          { "key": "Color Temperature", "value": "3000K-6000K" },
+          { "key": "Dimmable", "value": "Yes" }
+        ]
+      },
+      {
+        "id": "circuit-breaker",
+        "title": "t:data.products.breaker.title",
+        "description": "t:data.products.breaker.description",
+        "price": 45.00,
+        "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=400&fit=crop",
+        "category": "electrical-parts",
+        "inStock": true,
+        "attributes": [
+          { "key": "Amperage", "value": "20A" },
+          { "key": "Type", "value": "GFCI" },
+          { "key": "Poles", "value": "2" }
+        ]
+      }
+    ]
+  },
   "pages": {
     "home": {
       "title": "t:pages.home.title",
@@ -177,23 +286,6 @@
             "title": "t:services.title",
             "subtitle": "t:services.subtitle"
           },
-          "items": [
-            {
-              "title": "t:services.items.residential.title",
-              "description": "t:services.items.residential.description",
-              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=450&fit=crop"
-            },
-            {
-              "title": "t:services.items.commercial.title",
-              "description": "t:services.items.commercial.description",
-              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop"
-            },
-            {
-              "title": "t:services.items.panel.title",
-              "description": "t:services.items.panel.description",
-              "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=450&fit=crop"
-            }
-          ],
           "cta": {
             "label": "t:services.cta",
             "target": { "type": "page", "value": "services" }
@@ -353,39 +445,7 @@
             "badge": "t:servicesPage.badge",
             "title": "t:servicesPage.title",
             "subtitle": "t:servicesPage.subtitle"
-          },
-          "items": [
-            {
-              "title": "t:services.items.residential.title",
-              "description": "t:services.items.residential.description",
-              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=450&fit=crop"
-            },
-            {
-              "title": "t:services.items.commercial.title",
-              "description": "t:services.items.commercial.description",
-              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop"
-            },
-            {
-              "title": "t:services.items.panel.title",
-              "description": "t:services.items.panel.description",
-              "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=450&fit=crop"
-            },
-            {
-              "title": "t:services.items.emergency.title",
-              "description": "t:services.items.emergency.description",
-              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=450&fit=crop"
-            },
-            {
-              "title": "t:services.items.lighting.title",
-              "description": "t:services.items.lighting.description",
-              "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop"
-            },
-            {
-              "title": "t:services.items.ev.title",
-              "description": "t:services.items.ev.description",
-              "image": "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?w=600&h=450&fit=crop"
-            }
-          ]
+          }
         },
         {
           "type": "ctaBanner",
