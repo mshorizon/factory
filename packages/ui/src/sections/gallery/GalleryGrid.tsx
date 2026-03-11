@@ -11,8 +11,12 @@ export function GalleryGrid({ items, className }: GalleryGridProps) {
       className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-6", className)}
       staggerDelay={0.1}
     >
-      {items.map((item, index) => (
-        <StaggerItem key={index} direction="up" distance={30}>
+      {items.map((item, index) => {
+        // Varied directions for 3-column grid: left, up, right pattern
+        const directions = ["left", "up", "right"] as const;
+        const direction = directions[index % 3];
+        return (
+        <StaggerItem key={index} direction={direction} distance={30}>
           <Card
             className="group overflow-hidden"
             data-field={`items.${index}`}
@@ -45,7 +49,8 @@ export function GalleryGrid({ items, className }: GalleryGridProps) {
             </CardContent>
           </Card>
         </StaggerItem>
-      ))}
+        );
+      })}
     </StaggerContainer>
   );
 }

@@ -44,8 +44,10 @@ export function TrustBar({ trustSignals, googleRating, className }: TrustBarProp
         )}
         {trustSignals?.map((signal, index) => {
           const IconComponent = iconMap[signal.icon] || CheckCircle;
+          // Alternate directions for trust signals
+          const direction = index % 2 === 0 ? "left" : "right";
           return (
-            <StaggerItem key={index} direction="up" distance={20}>
+            <StaggerItem key={index} direction={direction} distance={20}>
               <div
                 className="flex items-center gap-2"
                 data-field={`trustSignals.${index}`}

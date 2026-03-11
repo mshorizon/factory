@@ -44,11 +44,13 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
     >
       {items.map((item, index) => {
         const IconComponent = iconMap[item.icon || ""] || Zap;
+        // Alternate directions: left for even (0,2,4), right for odd (1,3,5)
+        const direction = index % 2 === 0 ? "left" : "right";
         return (
-          <StaggerItem key={index} direction="up" distance={30}>
-            <Card className="h-full flex flex-col" data-field={`items.${index}`}>
+          <StaggerItem key={index} direction={direction} distance={30}>
+            <Card className="h-full flex flex-col !rounded-radius-secondary" data-field={`items.${index}`}>
               <CardHeader className="flex-1">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-radius bg-secondary">
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-radius-secondary bg-secondary">
                   <IconComponent className="h-6 w-6 text-primary" />
                 </div>
                 <CardTitle data-field={`items.${index}.title`}>

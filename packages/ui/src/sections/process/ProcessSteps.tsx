@@ -11,8 +11,12 @@ export function ProcessSteps({ steps, className }: ProcessStepsProps) {
       className={cn("grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative", className)}
       staggerDelay={0.15}
     >
-      {steps.map((step, index) => (
-        <StaggerItem key={index} direction="up" distance={30}>
+      {steps.map((step, index) => {
+        // Varied directions for 4-column grid: left, up, up, right pattern
+        const directions = ["left", "up", "up", "right"] as const;
+        const direction = directions[index % 4];
+        return (
+        <StaggerItem key={index} direction={direction} distance={30}>
           <div className="relative" data-field={`steps.${index}`}>
             {/* Connecting line on desktop */}
             {index < steps.length - 1 && (
@@ -33,7 +37,8 @@ export function ProcessSteps({ steps, className }: ProcessStepsProps) {
             </Card>
           </div>
         </StaggerItem>
-      ))}
+        );
+      })}
     </StaggerContainer>
   );
 }

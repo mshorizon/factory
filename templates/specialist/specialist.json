@@ -8,10 +8,10 @@
       "icon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FFC633'/><path d='M18 4L10 18h5l-1 10 8-14h-5l1-10z' fill='%2316181D'/></svg>"
     },
     "contact": {
-      "address": "142 W 57th St, New York, NY 10019",
+      "address": "ul. Marszałkowska 115, 00-102 Warszawa",
       "phone": "+48 504 472 002",
-      "email": "sadlo.mateusz@gmail.com",
-      "hours": "Mon-Fri: 7:00AM-6:00PM, Sat: 8:00AM-2:00PM, Sun: Emergency Only"
+      "email": "kontakt@mastervolt.pl",
+      "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Niedz: Tylko awarie"
     },
     "socials": {
       "facebook": "https://facebook.com/mastervolt",
@@ -85,7 +85,7 @@
       "secondary": "'Open Sans', system-ui, -apple-system, sans-serif"
     },
     "ui": {
-      "radius": "1.5rem"
+      "radius": "64px"
     }
   },
   "layout": {

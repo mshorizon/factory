@@ -16,8 +16,11 @@ export function FAQAccordion({ items, image, className }: FAQAccordionProps) {
   return (
     <div className={cn("grid gap-8", image ? "lg:grid-cols-2" : "", className)}>
       <StaggerContainer className="flex flex-col gap-4" staggerDelay={0.08}>
-        {items.map((item, index) => (
-          <StaggerItem key={index} direction="up" distance={20}>
+        {items.map((item, index) => {
+          // Alternate left/right for list items
+          const direction = index % 2 === 0 ? "left" : "right";
+          return (
+          <StaggerItem key={index} direction={direction} distance={20}>
             <div
               className="border border-border rounded-radius overflow-hidden"
               data-field={`faqItems.${index}`}
@@ -57,7 +60,8 @@ export function FAQAccordion({ items, image, className }: FAQAccordionProps) {
               </div>
             </div>
           </StaggerItem>
-        ))}
+          );
+        })}
       </StaggerContainer>
 
       {image && (

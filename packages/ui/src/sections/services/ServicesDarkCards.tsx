@@ -11,11 +11,15 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
       className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", className)}
       staggerDelay={0.1}
     >
-      {items.map((item, index) => (
-        <StaggerItem key={index} direction="up" distance={30}>
+      {items.map((item, index) => {
+        // Varied directions for 3-column grid: left, up, right pattern
+        const directions = ["left", "up", "right"] as const;
+        const direction = directions[index % 3];
+        return (
+        <StaggerItem key={index} direction={direction} distance={30}>
           <a
             href={`/services/${item.slug || item.id}`}
-            className="group relative flex flex-col items-start justify-end gap-2 rounded-radius bg-secondary p-6 min-h-[280px] overflow-hidden transition-all cursor-pointer hover:shadow-xl block"
+            className="group relative flex flex-col items-start justify-end gap-2 rounded-radius-secondary bg-secondary p-6 min-h-[280px] overflow-hidden transition-all cursor-pointer hover:shadow-xl block"
             data-field={`items.${index}`}
             style={{
               "--foreground": "var(--dark-foreground)",
@@ -55,7 +59,8 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
             </div>
           </a>
         </StaggerItem>
-      ))}
+        );
+      })}
     </StaggerContainer>
   );
 }

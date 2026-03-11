@@ -10,11 +10,15 @@ export function ServicesImageGrid({ items, className }: ServicesProps) {
       className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-6", className)}
       staggerDelay={0.1}
     >
-      {items.map((item, index) => (
-        <StaggerItem key={index} direction="up" distance={30}>
+      {items.map((item, index) => {
+        // Varied directions for 3-column grid: left, up, right pattern
+        const directions = ["left", "up", "right"] as const;
+        const direction = directions[index % 3];
+        return (
+        <StaggerItem key={index} direction={direction} distance={30}>
           <a
             href={`/services/${item.slug || item.id}`}
-            className="group relative h-[300px] overflow-hidden rounded-radius block cursor-pointer"
+            className="group relative h-[300px] overflow-hidden rounded-radius-secondary block cursor-pointer"
             data-field={`items.${index}`}
           >
             {item.image && (
@@ -56,7 +60,8 @@ export function ServicesImageGrid({ items, className }: ServicesProps) {
             </div>
           </a>
         </StaggerItem>
-      ))}
+        );
+      })}
     </StaggerContainer>
   );
 }
