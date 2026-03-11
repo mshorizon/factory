@@ -1,0 +1,214 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { getLayoutConfig, getNavLinks } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
+import { deepTranslate } from "../../lib/i18n";
+import { deepResolveImages } from "../../lib/images";
+import { StickyMobileCTA } from "@mshorizon/ui";
+import type { BusinessProfile, Service } from "@mshorizon/schema";
+
+// Get route params
+const { slug } = Astro.params;
+
+// Get business context from middleware
+const { businessId, businessData, theme, currentLang, t: translations } = Astro.locals;
+
+// Translate all "t:" prefixed strings in business data
+const translatedData = deepTranslate(translations, businessData) as BusinessProfile;
+
+// Resolve image paths (relative paths become /data/{businessId}/...)
+const business = deepResolveImages(translatedData, businessId);
+
+// Find the service by slug
+const service = business.data.services?.find((s: Service) => s.slug === slug);
+
+// 404 if service not found
+if (!service) {
+  return new Response(null, { status: 404, statusText: "Service Not Found" });
+}
+
+// Get layout configuration
+const layout = getLayoutConfig(business);
+
+// Get navigation links from pages object
+const navLinksRaw = getNavLinks(business);
+
+// Pre-resolve all navigation links on the server
+const navLinks = navLinksRaw.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+}));
+
+// Pre-resolve CTA on the server
+const navCta = business.navigation?.cta ? {
+  label: business.navigation.cta.label,
+  href: resolveTarget(business.navigation.cta.target, business),
+} : undefined;
+
+// Build page title
+const pageTitle = `${service.title} | ${business.business.name}`;
+
+// Pre-resolve footer links
+const footerLinks = layout.footer.links?.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+})) || [];
+
+// Pre-resolve footer columns
+const footerColumns = layout.footer.columns?.map((col: any) => ({
+  title: col.title,
+  links: col.links?.map((link: any) => ({
+    label: link.label,
+    href: link.href || resolveTarget(link.target, business),
+  })) || [],
+})) || [];
+
+// Check if business has any shop sections (to show cart button)
+const hasShopSection = Object.values(business.pages).some((p: any) =>
+  p.sections?.some((s: any) => s.type === "shop")
+);
+
+// Extract phone for sticky mobile CTA
+const businessPhone = business.business.contact?.phone;
+
+// Convert socials Record<string, string> to SocialLink[] for footer
+const socialLinks = business.business.socials
+  ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
+  : [];
+---
+
+<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
+  <Navbar
+    logo={business.business.name}
+    logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    links={navLinks}
+    cta={navCta}
+    variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
+    showCart={hasShopSection}
+    extensions={layout.navbar.extensions}
+    contact={business.business.contact}
+    socials={business.business.socials}
+  />
+  <!-- Navbar height spacer - pushes content down so it's not hidden behind fixed navbar -->
+  <div class:list={[
+    "bg-secondary",
+    "h-16 md:h-24",
+    layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') && "md:h-[136px]"
+  ]} />
+  <main class="flex-1">
+    <!-- Dark Hero Section -->
+    <section class="relative bg-secondary pt-16 pb-16 mb-48 md:mb-64 overflow-visible">
+      <!-- Decorative dot pattern -->
+      <div class="absolute top-8 left-8 w-24 h-24 opacity-20">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="dots-1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.5" fill="currentColor" class="text-primary" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#dots-1)" />
+        </svg>
+      </div>
+      <div class="absolute bottom-8 right-8 w-32 h-32 opacity-20">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="dots-2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.5" fill="currentColor" class="text-primary" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#dots-2)" />
+        </svg>
+      </div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <!-- Text Content -->
+        <div class="max-w-4xl mx-auto text-center mb-12">
+          <p class="text-primary text-sm font-semibold uppercase tracking-wider mb-4">
+            Services
+          </p>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 uppercase">
+            {service.title}
+          </h1>
+          {service.description && (
+            <p class="text-lg md:text-xl text-muted max-w-2xl mx-auto">
+              {service.description}
+            </p>
+          )}
+        </div>
+
+        <!-- Service Image - Absolutely Positioned at Bottom of Dark Section -->
+        {service.image && (
+          <div class="absolute left-0 right-0 bottom-0 translate-y-[calc(50%+100px)] z-30">
+            <div class="container mx-auto px-4">
+              <div class="max-w-5xl mx-auto">
+                <div class="relative w-full max-w-[930px] h-[320px] mx-auto rounded-radius overflow-hidden shadow-2xl">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- White Content Section -->
+    <section class="relative bg-background pt-16 md:pt-24 pb-16 md:pb-24">
+      <!-- Service Content -->
+      {service.content && (
+        <div class="container mx-auto px-4">
+          <div class="max-w-3xl mx-auto prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground">
+            <Fragment set:html={service.content} />
+          </div>
+        </div>
+      )}
+    </section>
+  </main>
+  <Footer
+    businessName={business.business.name}
+    links={footerLinks}
+    columns={footerColumns}
+    copyright={layout.footer.copyright}
+    tagline={layout.footer.tagline}
+    currentLanguage={currentLang}
+    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
+    socialLinks={socialLinks}
+    extensions={layout.footer.extensions}
+  />
+  {businessPhone && (
+    <StickyMobileCTA client:load phone={businessPhone} />
+  )}
+</BaseLayout>
+
+<style>
+  /* Ensure proper styling for the rich text content */
+  .prose :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose :global(h4) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .prose :global(ul) {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.75rem;
+  }
+
+  .prose :global(strong) {
+    font-weight: 600;
+  }
+</style>

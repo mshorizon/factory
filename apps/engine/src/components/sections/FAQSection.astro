@@ -20,6 +20,7 @@ const faqItems = section.faqItems || [];
       subtitle={header.subtitle}
       layout="split"
       align="left"
+      background={section.background}
     />
     <FAQAccordion client:visible items={faqItems} image={section.image} />
   </div>

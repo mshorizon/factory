@@ -23,6 +23,7 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
         <SectionHeader
           title={header.title}
           align="center"
+          background={section.background}
         />
         <AboutTimeline
           client:visible
@@ -45,6 +46,7 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
         ctaHref={ctaHref}
         experienceBadge={section.experienceBadge}
         experienceBadgeLabel={section.experienceBadgeLabel}
+        background={section.background}
       />
     )}
   </div>

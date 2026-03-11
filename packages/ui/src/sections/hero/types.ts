@@ -9,6 +9,7 @@ export interface CTAButton {
 export interface HeroTestimonial {
   title: string;
   quote: string;
+  image?: string;
 }
 
 export interface HeroProps {
@@ -26,4 +27,5 @@ export interface HeroProps {
   testimonials?: HeroTestimonial[];
   children?: ReactNode;
   className?: string;
+  background?: string;
 }

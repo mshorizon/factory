@@ -27,6 +27,7 @@ export interface AboutStoryProps {
   experienceBadge?: string;
   experienceBadgeLabel?: string;
   className?: string;
+  background?: string;
 }
 
 export interface AboutTimelineProps {

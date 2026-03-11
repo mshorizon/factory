@@ -30,7 +30,7 @@ export function HeroDefault({
     <section
       className={cn(
         "relative z-0 bg-background",
-        fullHeight ? "min-h-screen" : "pt-[184px] md:pt-[216px] pb-[120px]",
+        fullHeight ? "min-h-screen" : "",
         className
       )}
       style={
@@ -50,7 +50,7 @@ export function HeroDefault({
         className={cn(
           "relative container mx-auto flex flex-col justify-center",
           alignmentClasses[align],
-          fullHeight && "min-h-screen pt-[184px] md:pt-[216px] pb-[120px]"
+          fullHeight && "min-h-screen"
         )}
       >
         {badge && (

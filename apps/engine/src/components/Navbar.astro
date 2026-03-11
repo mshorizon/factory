@@ -32,7 +32,7 @@ const isTransparent = variant === "transparent";
 
 {/* Upper Bar — scrolls away naturally */}
 {hasUpperBar && (
-  <div id="upper-bar" class="hidden md:block bg-secondary text-white relative z-40">
+  <div id="upper-bar" class="hidden md:block bg-secondary text-white relative z-40 mb-16 md:mb-24">
     <div class="container mx-auto">
       <div class="relative flex items-center justify-between h-10 text-xs">
         {/* Left: Social Media Icons */}
@@ -117,7 +117,7 @@ const isTransparent = variant === "transparent";
             <a
               href={link.href}
               class:list={[
-                "relative px-3 py-2 text-sm font-medium transition-colors group",
+                "relative px-3 py-2 text-[16px] font-medium transition-colors group",
                 isTransparent ? "text-white/80 hover:text-white" : "text-foreground/60 hover:text-foreground"
               ]}
             >
@@ -169,7 +169,7 @@ const isTransparent = variant === "transparent";
         {links.map((link) => (
           <a
             href={link.href}
-            class="px-4 py-3 text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
+            class="px-4 py-3 text-[16px] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
           >
             {link.label}
           </a>
@@ -188,11 +188,6 @@ const isTransparent = variant === "transparent";
     </div>
   </div>
 </nav>
-
-{/* Spacer — accounts for upper bar (40px on md+) + navbar (64px mobile / 96px desktop) */}
-{!isTransparent && (
-  <div id="nav-spacer" class:list={["h-16 md:h-24", hasUpperBar && "md:h-[136px]"]} />
-)}
 
 <script define:vars={{ hasUpperBar }}>
   // Upper bar scroll-away behavior

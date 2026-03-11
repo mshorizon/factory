@@ -23,7 +23,7 @@ export function HeroCards({
   return (
     <section
       className={cn(
-        "relative z-0 min-h-screen bg-primary/5 flex items-center pt-[184px] md:pt-[216px] pb-[120px]",
+        "relative z-0 min-h-screen bg-primary/5 flex items-center",
         className
       )}
     >

@@ -23,9 +23,16 @@ const items = rawItems.map((item: any) => ({
   <div class="container mx-auto">
     <div class="mb-12">
       {header.badge && (
-        <div class="flex items-center gap-3 mb-4">
-          <span class="w-8 h-0.5 bg-primary"></span>
-          <Badge variant="accent" data-field="header.badge">
+        <div class="flex items-center gap-3 mb-6">
+          <span
+            class="w-12 h-[2px]"
+            style={`background-color: ${section.background === "dark" ? "var(--primary)" : "var(--primary-dark)"}`}
+          ></span>
+          <Badge
+            variant="accent"
+            data-field="header.badge"
+            style={{ color: section.background === "dark" ? "var(--primary)" : "var(--primary-dark)" }}
+          >
             {header.badge}
           </Badge>
         </div>

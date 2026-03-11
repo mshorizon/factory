@@ -1,4 +1,6 @@
 export interface ServiceItem {
+  id?: string;
+  slug?: string;
   title: string;
   description: string;
   price?: string;
