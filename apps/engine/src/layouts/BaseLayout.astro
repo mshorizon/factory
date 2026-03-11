@@ -41,7 +41,7 @@ function divideRadius(radius: string, divisor: number = 4): string {
 
 const cssVars: Record<string, string> = {
   primary: colors?.primary || "#0066CC",
-  primaryDark: darkenColor(colors?.primary || "#0066CC"),
+  primaryDark: (colors as any)?.primaryDark || darkenColor(colors?.primary || "#0066CC"),
   secondary: colors?.surface?.alt || "#003D7A",
   accent: colors?.primary || "#0066CC",
   background: colors?.surface?.base || "#F8FAFC",

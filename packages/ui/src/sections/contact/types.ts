@@ -28,15 +28,18 @@ export interface ContactCenteredProps {
   title?: string;
   subtitle?: string;
   form?: ContactForm;
+  businessId?: string;
   className?: string;
 }
 
 export interface ContactSplitProps {
   title?: string;
   subtitle?: string;
+  badge?: string;
   form?: ContactForm;
   info?: ContactInfo;
   labels?: ContactLabels;
   businessId?: string;
+  business?: any;
   className?: string;
 }

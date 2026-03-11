@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Input } from "../../atoms/Input";
@@ -12,8 +14,39 @@ export function ContactCentered({
   title,
   subtitle,
   form,
+  businessId,
   className,
 }: ContactCenteredProps) {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("loading");
+
+    const data = new FormData(e.currentTarget);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          email: data.get("email"),
+          message: data.get("message"),
+          businessId,
+        }),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        (e.target as HTMLFormElement).reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <div className={cn("max-w-2xl mx-auto", className)}>
       {(title || subtitle) && (
@@ -30,7 +63,7 @@ export function ContactCentered({
       )}
 
       <ScrollReveal delay={0.1} direction="up">
-        <form className="space-y-6 bg-background border border-border rounded-radius p-8 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-6 bg-background border border-border rounded-radius-secondary p-8 shadow-sm">
           <div className="space-y-2" data-field="form.nameLabel">
             <Label htmlFor="name" className="text-foreground">
               {form?.nameLabel || "Name"}
@@ -41,6 +74,7 @@ export function ContactCentered({
               name="name"
               placeholder={form?.namePlaceholder}
               required
+              disabled={status === "loading"}
             />
           </div>
           <div className="space-y-2" data-field="form.emailLabel">
@@ -53,6 +87,7 @@ export function ContactCentered({
               name="email"
               placeholder={form?.emailPlaceholder}
               required
+              disabled={status === "loading"}
             />
           </div>
           <div className="space-y-2" data-field="form.messageLabel">
@@ -65,10 +100,23 @@ export function ContactCentered({
               placeholder={form?.messagePlaceholder}
               rows={5}
               required
+              disabled={status === "loading"}
             />
           </div>
-          <Button type="submit" size="lg" className="w-full" data-field="form.submitButton">
-            {form?.submitButton || "Send Message"}
+          {status === "error" && (
+            <div className="flex items-center gap-2 text-sm text-red-500">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <span>Something went wrong. Please try again.</span>
+            </div>
+          )}
+          {status === "success" && (
+            <div className="flex items-center gap-2 text-sm text-green-500">
+              <CheckCircle className="h-4 w-4 shrink-0" />
+              <span>Message sent successfully!</span>
+            </div>
+          )}
+          <Button type="submit" size="lg" className="w-full" data-field="form.submitButton" disabled={status === "loading"}>
+            {status === "loading" ? "Sending..." : (form?.submitButton || "Send Message")}
           </Button>
         </form>
       </ScrollReveal>
