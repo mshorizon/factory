@@ -61,6 +61,7 @@ This file provides critical guidance for Claude Code and AI assistants working i
 * **Static by Default.** Use Astro components for content.
 * **Selective Hydration.** Use React ONLY for interactivity (forms, widgets) using `client:*` directives.
 * **Zero Hardcoded Strings.** All copy, image URLs, and prices must come from the business JSON.
+* **Root Rules.** Do not save images and secondary files in root folder. If needed create subfolders.
 
 ### 🛠 Schema-First Development
 1. If a feature needs new data, update `packages/schema/src/business.schema.json` **first**.
