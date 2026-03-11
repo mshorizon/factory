@@ -57,6 +57,7 @@
     "colors": {
       "light": {
         "primary": "#FFC633",
+        "primaryDark": "#CA9102",
         "surface": {
           "base": "#FFFFFF",
           "alt": "#16181D"
@@ -69,6 +70,7 @@
       },
       "dark": {
         "primary": "#FFC633",
+        "primaryDark": "#CA9102",
         "surface": {
           "base": "#16181D",
           "alt": "#2D2F34"
@@ -684,20 +686,18 @@
           "type": "contact",
           "variant": "split",
           "header": {
+            "badge": "t:contact.badge",
             "title": "t:contact.title",
             "subtitle": "t:contact.subtitle"
           },
-          "info": {
-            "address": "142 W 57th St, New York, NY 10019",
-            "phone": "+1 (212) 555-0173",
-            "email": "info@mastervolt.com",
-            "hours": "Mon-Fri: 7:00AM-6:00PM, Sat: 8:00AM-2:00PM, Sun: Emergency Only"
-          },
           "form": {
-            "namePlaceholder": "t:contact.form.name",
-            "emailPlaceholder": "t:contact.form.email",
-            "messagePlaceholder": "t:contact.form.message",
-            "submitButton": "t:contact.form.submit"
+            "nameLabel": "t:contact.form.nameLabel",
+            "namePlaceholder": "t:contact.form.namePlaceholder",
+            "emailLabel": "t:contact.form.emailLabel",
+            "emailPlaceholder": "t:contact.form.emailPlaceholder",
+            "messageLabel": "t:contact.form.messageLabel",
+            "messagePlaceholder": "t:contact.form.messagePlaceholder",
+            "submitButton": "t:contact.form.submitButton"
           }
         }
       ]

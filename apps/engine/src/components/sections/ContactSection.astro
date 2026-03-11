@@ -11,6 +11,7 @@ const { section } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const businessId = Astro.locals.businessId;
+const business = Astro.locals.businessData;
 ---
 
 <section class="py-[120px]">
@@ -20,10 +21,12 @@ const businessId = Astro.locals.businessId;
         client:visible
         title={header.title}
         subtitle={header.subtitle}
+        badge={header.badge}
         form={section.form}
         info={section.info}
         labels={section.labels}
         businessId={businessId}
+        business={business}
       />
     ) : (
       <ContactCentered
@@ -31,6 +34,7 @@ const businessId = Astro.locals.businessId;
         title={header.title}
         subtitle={header.subtitle}
         form={section.form}
+        businessId={businessId}
       />
     )}
   </div>
