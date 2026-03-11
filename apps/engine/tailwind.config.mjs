@@ -29,6 +29,7 @@ export default {
       },
       borderRadius: {
         radius: 'var(--radius)',
+        'radius-secondary': 'var(--radius-secondary)',
       },
     },
   },

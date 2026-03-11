@@ -123,22 +123,27 @@ export function HeroSplit({
                 <div className="relative w-full h-[300px] sm:h-[380px] lg:h-[460px]" data-field="image">
                   {/* Dots BEHIND image (z-index) - 2x bigger dots, 2x less dense */}
                   <div
-                    className="absolute -top-6 -left-6 w-32 h-32 opacity-30 pointer-events-none text-foreground -z-10"
+                    className="absolute top-[26px] -left-[46px] w-[36px] h-[216px] opacity-15 pointer-events-none text-foreground -z-10"
                     style={{
-                      backgroundImage: "radial-gradient(circle, currentColor 2px, transparent 2px)",
-                      backgroundSize: "16px 16px",
+                      backgroundImage: "radial-gradient(circle, currentColor 4px, transparent 4px)",
+                      backgroundSize: "18px 18px",
                     }}
                   />
                   <div
-                    className="absolute -bottom-6 -right-6 w-32 h-32 opacity-30 pointer-events-none text-foreground -z-10"
+                    className="absolute bottom-[26px] -right-[46px] w-[36px] h-[144px] opacity-15 pointer-events-none text-foreground -z-10"
                     style={{
-                      backgroundImage: "radial-gradient(circle, currentColor 2px, transparent 2px)",
-                      backgroundSize: "16px 16px",
+                      backgroundImage: "radial-gradient(circle, currentColor 4px, transparent 4px)",
+                      backgroundSize: "18px 18px",
                     }}
                   />
 
                   {/* Image on top */}
-                  <div className="relative w-full h-full rounded-[100px] overflow-hidden z-10">
+                  <div
+                    className="relative w-full h-full overflow-hidden z-10"
+                    style={{
+                      borderRadius: "var(--radius-secondary) 100px var(--radius-secondary) 100px"
+                    }}
+                  >
                     <img
                       src={heroImage}
                       alt=""

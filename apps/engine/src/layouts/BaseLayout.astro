@@ -30,6 +30,15 @@ const darkColors = theme.colors?.dark || {
   text: { main: "#FFFFFF", muted: "#9CA3AF", onPrimary: colors?.text?.onPrimary },
 };
 
+// Helper function to calculate 1/4 of a CSS unit
+function divideRadius(radius: string, divisor: number = 4): string {
+  const match = radius.match(/^([\d.]+)(.*)$/);
+  if (!match) return radius;
+  const value = parseFloat(match[1]) / divisor;
+  const unit = match[2] || 'rem';
+  return `${value}${unit}`;
+}
+
 const cssVars: Record<string, string> = {
   primary: colors?.primary || "#0066CC",
   primaryDark: darkenColor(colors?.primary || "#0066CC"),
@@ -46,6 +55,7 @@ const cssVars: Record<string, string> = {
   darkBorder: (darkColors.text?.muted || "#9CA3AF") + "40",
   radiusSm: "0.25rem",
   radius: theme.ui?.radius || "0.5rem",
+  radiusSecondary: divideRadius(theme.ui?.radius || "0.5rem", 4),
   radiusLg: "1rem",
   radiusFull: "9999px",
   shadowSm: "0 1px 2px rgba(0,0,0,0.05)",
@@ -108,6 +118,7 @@ const googleFontsUrl = googleFonts.length > 0
         --dark-border: var(--darkBorder);
         --radius-sm: var(--radiusSm);
         --radius: var(--radius);
+        --radius-secondary: var(--radiusSecondary);
         --radius-lg: var(--radiusLg);
         --radius-full: var(--radiusFull);
         --shadow-sm: var(--shadowSm);

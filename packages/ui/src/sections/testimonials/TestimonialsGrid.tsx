@@ -12,8 +12,12 @@ export function TestimonialsGrid({ items, className }: TestimonialsGridProps) {
       className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-6", className)}
       staggerDelay={0.12}
     >
-      {items.map((item, index) => (
-        <StaggerItem key={index} direction="up" distance={30}>
+      {items.map((item, index) => {
+        // Varied directions for 3-column grid: left, up, right pattern
+        const directions = ["left", "up", "right"] as const;
+        const direction = directions[index % 3];
+        return (
+        <StaggerItem key={index} direction={direction} distance={30}>
           <Card className="h-full" data-field={`items.${index}`}>
             <CardHeader className="pb-2">
               <div className="flex gap-0.5">
@@ -41,7 +45,8 @@ export function TestimonialsGrid({ items, className }: TestimonialsGridProps) {
             </CardContent>
           </Card>
         </StaggerItem>
-      ))}
+        );
+      })}
     </StaggerContainer>
   );
 }

@@ -11,8 +11,11 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
       className={cn("grid md:grid-cols-2 gap-8", className)}
       staggerDelay={0.12}
     >
-      {posts.map((post, index) => (
-        <StaggerItem key={index} direction="up" distance={30}>
+      {posts.map((post, index) => {
+        // Alternate left/right for 2-column grid
+        const direction = index % 2 === 0 ? "left" : "right";
+        return (
+        <StaggerItem key={index} direction={direction} distance={30}>
           <Card
             className="overflow-hidden h-full flex flex-col"
             data-field={`blogPosts.${index}`}
@@ -59,7 +62,8 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
             </div>
           </Card>
         </StaggerItem>
-      ))}
+        );
+      })}
     </StaggerContainer>
   );
 }

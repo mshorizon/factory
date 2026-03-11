@@ -14,9 +14,12 @@ export function ServicesList({
 }: ServicesProps) {
   return (
     <StaggerContainer className={cn("space-y-4", className)} staggerDelay={0.1}>
-      {items.map((item, index) => (
-        <StaggerItem key={index} direction="up" distance={20}>
-          <a href={`/services/${item.slug || item.id}`} className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-background border border-border rounded-radius hover:shadow-lg hover:border-primary/20 transition-all block cursor-pointer" data-field={`items.${index}`}>
+      {items.map((item, index) => {
+        // Alternate left/right for list items
+        const direction = index % 2 === 0 ? "left" : "right";
+        return (
+        <StaggerItem key={index} direction={direction} distance={20}>
+          <a href={`/services/${item.slug || item.id}`} className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-background border border-border rounded-radius-secondary hover:shadow-lg hover:border-primary/20 transition-all block cursor-pointer" data-field={`items.${index}`}>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
@@ -38,7 +41,8 @@ export function ServicesList({
             )}
           </a>
         </StaggerItem>
-      ))}
+        );
+      })}
     </StaggerContainer>
   );
 }
