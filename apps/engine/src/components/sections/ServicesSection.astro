@@ -28,8 +28,9 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
       badge={header.badge}
       title={header.title}
       subtitle={header.subtitle}
-      layout={variant === "darkCards" ? "split" : "center"}
-      align={variant === "darkCards" ? "left" : "center"}
+      layout={variant === "darkCards" || variant === "imageGrid" ? "split" : "center"}
+      align={variant === "darkCards" || variant === "imageGrid" ? "left" : "center"}
+      background={section.background}
     />
     {variant === "list" ? (
       <ServicesList client:visible items={items} />
@@ -41,7 +42,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
       <ServicesGrid client:visible items={items} />
     )}
     {ctaLabel && (
-      <div class={`mt-10 ${variant === "darkCards" ? "text-left" : "text-center"}`}>
+      <div class={`mt-10 ${variant === "darkCards" || variant === "imageGrid" ? "text-left" : "text-center"}`}>
         <a
           href={ctaHref}
           class="inline-flex items-center justify-center gap-2 rounded-radius bg-primary text-on-primary px-8 py-3 text-base font-medium shadow hover:bg-primary/90 transition-all"

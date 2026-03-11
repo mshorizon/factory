@@ -13,8 +13,9 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
     >
       {items.map((item, index) => (
         <StaggerItem key={index} direction="up" distance={30}>
-          <div
-            className="group relative flex flex-col items-start justify-end gap-2 rounded-radius bg-secondary p-6 min-h-[280px] overflow-hidden transition-all cursor-pointer hover:shadow-xl"
+          <a
+            href={`/services/${item.slug || item.id}`}
+            className="group relative flex flex-col items-start justify-end gap-2 rounded-radius bg-secondary p-6 min-h-[280px] overflow-hidden transition-all cursor-pointer hover:shadow-xl block"
             data-field={`items.${index}`}
             style={{
               "--foreground": "var(--dark-foreground)",
@@ -52,7 +53,7 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
                 <ArrowUpRight className="h-5 w-5 text-white" />
               </div>
             </div>
-          </div>
+          </a>
         </StaggerItem>
       ))}
     </StaggerContainer>

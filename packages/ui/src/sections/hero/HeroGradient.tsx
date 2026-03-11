@@ -44,7 +44,7 @@ export function HeroGradient({
         <div className="absolute -bottom-16 left-1/3 w-72 h-72 bg-primary/25 rounded-full blur-3xl animate-pulse" />
       </div>
 
-      <div className="relative container mx-auto pt-[184px] md:pt-[216px] pb-[120px] text-center">
+      <div className="relative container mx-auto text-center">
         {badge && (
           <ScrollReveal delay={0} direction="up">
             <Badge

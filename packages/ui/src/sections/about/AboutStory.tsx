@@ -2,6 +2,7 @@
 
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
+import { Badge } from "../../atoms/Badge";
 import { Card, CardContent } from "../../atoms/Card";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
@@ -20,7 +21,9 @@ export function AboutStory({
   experienceBadge,
   experienceBadgeLabel,
   className,
+  background,
 }: AboutStoryProps) {
+  const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   return (
     <div className={cn("space-y-12", className)}>
       {/* Split layout: image left, text right */}
@@ -68,9 +71,9 @@ export function AboutStory({
         <div className="space-y-6">
           {badge && (
             <ScrollReveal delay={0.05} direction="up">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="w-8 h-0.5 bg-primary" />
-                <span className="text-sm font-semibold text-primary uppercase tracking-wider">{badge}</span>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+                <Badge variant="accent" style={{ color: badgeColor }}>{badge}</Badge>
               </div>
             </ScrollReveal>
           )}

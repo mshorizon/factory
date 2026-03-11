@@ -35,18 +35,20 @@ export function HeroSplit({
   children,
   className,
   phone,
+  background,
 }: HeroProps & { phone?: string }) {
   const heroImage = image || backgroundImage;
   const allTestimonials = testimonials || (testimonial ? [testimonial] : []);
+  const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
 
   return (
     <section
       className={cn(
-        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center pt-[248px] pb-[120px] lg:pt-40 lg:pb-0",
+        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center",
         className
       )}
     >
-      <div className="container mx-auto">
+      <div className="container mx-auto flex flex-col gap-40">
         <div className="grid lg:grid-cols-[65fr_35fr] gap-8 lg:gap-16 items-center">
           {/* Content Side */}
           <div className="flex flex-col justify-center">
@@ -54,8 +56,8 @@ export function HeroSplit({
               <ScrollReveal delay={0} direction="up">
                 <div className="flex items-center gap-3 mb-6">
                   {/* Horizontal decorative line */}
-                  <div className="w-12 h-[2px] bg-primary" />
-                  <Badge variant="accent" className="text-base font-medium px-4 py-1.5 uppercase tracking-wide" data-field="header.badge">
+                  <div className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+                  <Badge variant="accent" className="text-base font-medium px-4 py-1.5 uppercase tracking-wide" data-field="header.badge" style={{ color: badgeColor }}>
                     {badge}
                   </Badge>
                 </div>
@@ -151,14 +153,14 @@ export function HeroSplit({
 
         {/* Person Ratings at bottom - Electria style */}
         {allTestimonials.length > 0 && (
-          <div className="mt-40 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 max-w-6xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 max-w-6xl">
             {allTestimonials.slice(0, 2).map((testimonialItem, idx) => (
               <ScrollReveal key={idx} delay={0.4 + idx * 0.1} direction="up">
                 <div className="flex items-start gap-5" data-field="testimonial">
                   {/* Avatar image - larger */}
                   <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
                     <img
-                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${idx === 0 ? 'John' : 'Emily'}`}
+                      src={testimonialItem.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${idx === 0 ? 'John' : 'Emily'}`}
                       alt=""
                       className="w-full h-full object-cover"
                     />

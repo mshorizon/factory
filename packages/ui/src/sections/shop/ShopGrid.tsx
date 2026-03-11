@@ -20,7 +20,7 @@ export function ShopGrid({
   const handleAddToCart = onAddToCart || addItem;
 
   return (
-    <section className={cn("py-16 lg:py-24", className)}>
+    <section className={cn("py-[120px]", className)}>
       <div className="container mx-auto">
         {header && (
           <SectionHeader

@@ -16,7 +16,7 @@ export function ServicesList({
     <StaggerContainer className={cn("space-y-4", className)} staggerDelay={0.1}>
       {items.map((item, index) => (
         <StaggerItem key={index} direction="up" distance={20}>
-          <div className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-background border border-border rounded-radius hover:shadow-lg hover:border-primary/20 transition-all" data-field={`items.${index}`}>
+          <a href={`/services/${item.slug || item.id}`} className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-background border border-border rounded-radius hover:shadow-lg hover:border-primary/20 transition-all block cursor-pointer" data-field={`items.${index}`}>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
@@ -31,14 +31,12 @@ export function ServicesList({
               <p className="text-muted" data-field={`items.${index}.description`}>{item.description}</p>
             </div>
             {ctaLabel && (
-              <Button asChild variant="ghost" className="shrink-0">
-                <a href={ctaHref} className="flex items-center gap-2">
-                  {ctaLabel}
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
+              <div className="shrink-0 flex items-center gap-2 text-muted group-hover:text-primary transition-colors">
+                <span>{ctaLabel}</span>
+                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </div>
             )}
-          </div>
+          </a>
         </StaggerItem>
       ))}
     </StaggerContainer>

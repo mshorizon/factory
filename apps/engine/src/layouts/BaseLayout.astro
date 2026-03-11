@@ -13,6 +13,15 @@ interface Props {
 
 const { title, theme, favicon, lang = "en" } = Astro.props;
 
+// Helper function to darken a hex color
+function darkenColor(hex: string, percent: number = 35): string {
+  const num = parseInt(hex.replace("#", ""), 16);
+  const r = Math.max(0, Math.floor((num >> 16) * (1 - percent / 100)));
+  const g = Math.max(0, Math.floor(((num >> 8) & 0x00FF) * (1 - percent / 100)));
+  const b = Math.max(0, Math.floor((num & 0x0000FF) * (1 - percent / 100)));
+  return "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
+}
+
 // Extract CSS variables from theme
 const colors = theme.mode === "dark" && theme.colors?.dark ? theme.colors.dark : theme.colors?.light;
 const darkColors = theme.colors?.dark || {
@@ -23,6 +32,7 @@ const darkColors = theme.colors?.dark || {
 
 const cssVars: Record<string, string> = {
   primary: colors?.primary || "#0066CC",
+  primaryDark: darkenColor(colors?.primary || "#0066CC"),
   secondary: colors?.surface?.alt || "#003D7A",
   accent: colors?.primary || "#0066CC",
   background: colors?.surface?.base || "#F8FAFC",
@@ -84,6 +94,7 @@ const googleFontsUrl = googleFonts.length > 0
     <style define:vars={cssVars}>
       :root {
         --primary: var(--primary);
+        --primary-dark: var(--primaryDark);
         --secondary: var(--secondary);
         --accent: var(--accent);
         --background: var(--background);

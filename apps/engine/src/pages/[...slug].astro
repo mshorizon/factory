@@ -94,11 +94,9 @@ const socialLinks = business.business.socials
     contact={business.business.contact}
     socials={business.business.socials}
   />
+  <!-- Spacer for mobile (no upper-bar on mobile) -->
+  <div class="h-16 md:hidden" aria-hidden="true"></div>
   <main class="flex-1">
-    <!-- Spacer for non-hero first sections (home page only — non-home pages use PageHero instead) -->
-    {normalizedSlug === 'home' && page.sections?.[0]?.type !== 'hero' && layout.navbar.variant !== 'transparent' && (
-      <div class:list={["h-24", layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') && "md:h-[136px]"]} />
-    )}
     <!-- Page hero banner for all non-home pages -->
     {normalizedSlug !== 'home' && (
       <PageHero

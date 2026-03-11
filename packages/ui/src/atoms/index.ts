@@ -15,3 +15,5 @@ export type { ScrollToTopProps } from "./ScrollToTop";
 export { LanguageSwitcher } from "./LanguageSwitcher";
 export { StickyMobileCTA } from "./StickyMobileCTA";
 export type { StickyMobileCTAProps } from "./StickyMobileCTA";
+export { DottedMap } from "./DottedMap";
+export type { DottedMapProps } from "./DottedMap";

@@ -9,6 +9,7 @@ export interface SectionHeaderProps {
   align?: "left" | "center" | "right";
   layout?: "stacked" | "split";
   className?: string;
+  background?: string;
 }
 
 export function SectionHeader({
@@ -18,12 +19,16 @@ export function SectionHeader({
   align = "center",
   layout = "stacked",
   className,
+  background,
 }: SectionHeaderProps) {
   const alignClass = {
     left: "text-left",
     center: "text-center",
     right: "text-right",
   }[align];
+
+  // Determine badge color based on background
+  const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
 
   if (!badge && !title && !subtitle) {
     return null;
@@ -33,9 +38,13 @@ export function SectionHeader({
     return (
       <div className={cn("mb-12", className)}>
         {badge && (
-          <div className="flex items-center gap-3 mb-4">
-            <span className="w-8 h-0.5" style={{ backgroundColor: "#CA9102" }} />
-            <Badge variant="accent" className="mb-4" data-field="header.badge" style={{ color: "#CA9102" }}>
+          <div className={cn(
+            "flex items-center gap-3 mb-6",
+            align === "center" && "justify-center",
+            align === "right" && "justify-end"
+          )}>
+            <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+            <Badge variant="accent" data-field="header.badge" style={{ color: badgeColor }}>
               {badge}
             </Badge>
           </div>
@@ -57,9 +66,14 @@ export function SectionHeader({
   return (
     <div className={cn("mb-12", alignClass, className)}>
       {badge && (
-        <Badge variant="accent" className="mb-4" data-field="header.badge" style={{ color: "#CA9102" }}>
-          {badge}
-        </Badge>
+        <div className={cn(
+          "mb-4",
+          align === "center" && "flex justify-center"
+        )}>
+          <Badge variant="accent" data-field="header.badge" style={{ color: badgeColor }}>
+            {badge}
+          </Badge>
+        </div>
       )}
       {title && (
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-heading" data-field="header.title">{title}</h2>
