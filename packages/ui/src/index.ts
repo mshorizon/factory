@@ -6,3 +6,6 @@ export * from "./animations";
 export { cn } from "./lib/utils";
 export type { LanguageOption } from "./lib/languages";
 export { DEFAULT_LANGUAGES } from "./lib/languages";
+export { MapDots } from "./MapDots";
+export * from "./data/poland-geojson";
+export * from "./data/service-area-dots";

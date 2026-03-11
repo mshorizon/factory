@@ -114,8 +114,10 @@
       "title": "Service",
       "properties": {
         "id": { "type": "string" },
+        "slug": { "type": "string" },
         "title": { "type": "string" },
         "description": { "type": "string" },
+        "content": { "type": "string" },
         "price": { "type": "number" },
         "priceLabel": { "type": "string" },
         "image": { "type": "string" },
@@ -128,7 +130,7 @@
         },
         "available": { "type": "boolean" }
       },
-      "required": ["id", "title"]
+      "required": ["id", "title", "slug"]
     },
     "section": {
       "type": "object",
@@ -155,7 +157,8 @@
           "title": "Testimonial",
           "properties": {
             "title": { "type": "string" },
-            "quote": { "type": "string" }
+            "quote": { "type": "string" },
+            "image": { "type": "string", "title": "Avatar Image URL" }
           }
         },
         "testimonials": {
@@ -165,7 +168,8 @@
             "type": "object",
             "properties": {
               "title": { "type": "string" },
-              "quote": { "type": "string" }
+              "quote": { "type": "string" },
+              "image": { "type": "string", "title": "Avatar Image URL" }
             }
           }
         },
@@ -176,6 +180,8 @@
             "type": "object",
             "title": "ServiceItem",
             "properties": {
+              "id": { "type": "string" },
+              "slug": { "type": "string" },
               "title": { "type": "string" },
               "description": { "type": "string" },
               "price": { "type": "string" },
@@ -333,6 +339,22 @@
         "marqueeText": {
           "type": "string",
           "title": "Marquee Text"
+        },
+        "area": {
+          "type": "object",
+          "title": "Service Area Configuration",
+          "properties": {
+            "country": {
+              "type": "string",
+              "title": "Country",
+              "enum": ["polska"]
+            },
+            "region": {
+              "type": "string",
+              "title": "Region",
+              "enum": ["mazowsze", "slaskie", "malopolskie", "wielkopolskie", "dolnoslaskie", "pomorskie", "kujawsko-pomorskie", "zachodnio-pomorskie", "lubelskie", "podkarpackie", "warminsko-mazurskie", "lodzkie", "swietokrzyskie", "podlaskie", "opolskie", "lubuskie"]
+            }
+          }
         }
       },
       "required": ["type"]

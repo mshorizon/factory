@@ -79,9 +79,12 @@ export type Title = string;
 export type Subtitle = string;
 export type BackgroundImageURL = string;
 export type ImageURL = string;
+export type AvatarImageURL = string;
+export type AvatarImageURL1 = string;
 export type Testimonials = {
   title?: string;
   quote?: string;
+  image?: AvatarImageURL1;
 }[];
 export type Items = ServiceItem[];
 export type Timeline = TimelineItem[];
@@ -98,6 +101,24 @@ export type TrustSignals1 = TrustSignal[];
 export type FAQItems = FAQItem[];
 export type BlogPosts = BlogPost[];
 export type MarqueeText = string;
+export type Country = "polska";
+export type Region =
+  | "mazowsze"
+  | "slaskie"
+  | "malopolskie"
+  | "wielkopolskie"
+  | "dolnoslaskie"
+  | "pomorskie"
+  | "kujawsko-pomorskie"
+  | "zachodnio-pomorskie"
+  | "lubelskie"
+  | "podkarpackie"
+  | "warminsko-mazurskie"
+  | "lodzkie"
+  | "swietokrzyskie"
+  | "podlaskie"
+  | "opolskie"
+  | "lubuskie";
 export type Sections = Section[];
 export type Services = Service[];
 export type Products1 = Product[];
@@ -257,6 +278,7 @@ export interface Section {
   faqItems?: FAQItems;
   blogPosts?: BlogPosts;
   marqueeText?: MarqueeText;
+  area?: ServiceAreaConfiguration;
 }
 export interface SectionHeader {
   badge?: BadgeText;
@@ -270,8 +292,11 @@ export interface Cta1 {
 export interface Testimonial {
   title?: string;
   quote?: string;
+  image?: AvatarImageURL;
 }
 export interface ServiceItem {
+  id?: string;
+  slug?: string;
   title?: string;
   description?: string;
   price?: string;
@@ -356,14 +381,20 @@ export interface BlogPost {
   date?: string;
   href?: string;
 }
+export interface ServiceAreaConfiguration {
+  country?: Country;
+  region?: Region;
+}
 export interface Data {
   services?: Services;
   products?: Products1;
 }
 export interface Service {
   id: string;
+  slug: string;
   title: string;
   description?: string;
+  content?: string;
   price?: number;
   priceLabel?: string;
   image?: string;
