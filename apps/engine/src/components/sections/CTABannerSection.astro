@@ -20,14 +20,14 @@ const ctaHref = section.cta?.target?.type === "phone"
 ---
 
 {variant === "ticker" ? (
-  <section class="py-[120px]">
+  <section class="py-40">
     <CtaBannerTicker
       client:visible
       marqueeText={section.marqueeText || header.title}
     />
   </section>
 ) : (
-  <section class="py-[120px]">
+  <section class="py-40">
     <div class="container mx-auto">
       <CtaBannerDefault
         client:visible

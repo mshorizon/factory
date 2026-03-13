@@ -139,7 +139,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog"]
+          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map"]
         },
         "variant": { "type": "string", "title": "Variant" },
         "background": {
@@ -457,7 +457,16 @@
             "address": { "type": "string", "title": "Address" },
             "phone": { "type": "string", "title": "Phone" },
             "email": { "type": "string", "format": "email", "title": "Email" },
-            "hours": { "type": "string", "title": "Business Hours" }
+            "hours": { "type": "string", "title": "Business Hours" },
+            "location": {
+              "type": "object",
+              "title": "Geographic Location",
+              "properties": {
+                "latitude": { "type": "number", "title": "Latitude" },
+                "longitude": { "type": "number", "title": "Longitude" }
+              },
+              "required": ["latitude", "longitude"]
+            }
           }
         },
         "socials": {

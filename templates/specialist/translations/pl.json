@@ -62,17 +62,17 @@
   "features.items.affordable.title": "Transparentne Ceny",
   "features.items.affordable.description": "Jasne wyceny przed realizacją. Brak ukrytych kosztów i dojazdu.",
 
-  "about.badge": "O nas",
-  "about.title": "Sprawdzona Ekspertyza, Której Możesz Zaufać",
+  "about.badge": "KIM JESTEŚMY",
+  "about.title": "Zaufani Profesjonaliści Od Ponad Dekady",
   "about.experienceBadge": "15 Lat",
   "about.experienceBadgeLabel": "Doświadczenia w pracach elektrycznych",
   "about.story.title": "15 Lat Doświadczenia",
-  "about.story.content": "Z ponad piętnastoletnim praktycznym doświadczeniem na warszawskim rynku, specjalizujemy się w obsłudze zarówno starych kamienic z PRL-owską instalacją, jak i nowoczesnych inwestycji. Od wymiany przestarzałych bezpieczników po kompleksowe instalacje inteligentnych systemów -- każde zlecenie wykonujemy solidnie i z pełną dokumentacją.",
+  "about.story.content": "Od ponad dekady dostarczamy najwyższej jakości usługi elektryczne z naciskiem na bezpieczeństwo i niezawodność. Wierzymy w budowanie trwałych relacji poprzez zaufanie, wyjątkową obsługę i konsekwentne wyniki przekraczające oczekiwania.\n\nNasz zespół wysoko wykwalifikowanych elektryków wnosi ogromną wiedzę i doświadczenie do każdego projektu, zapewniając, że każda praca jest wykonywana z najwyższą precyzją i starannością. Niezależnie od tego, czy jest to prosta naprawa, czy złożona instalacja, podchodzimy do każdego zadania z takim samym poziomem zaangażowania i dążenia do jakości. Śledzimy najnowsze osiągnięcia branżowe i najlepsze praktyki, co pozwala nam oferować innowacyjne rozwiązania, które nie tylko spełniają, ale przekraczają potrzeby naszych klientów.",
   "about.stats.experience": "Uprawnienia SEP",
   "about.stats.projects": "Zrealizowanych Projektów",
   "about.stats.satisfaction": "Zadowolonych Klientów",
   "about.stats.availability": "Awarie 24/7",
-  "about.cta": "Dowiedz Się Więcej",
+  "about.cta": "Skontaktuj się",
 
   "faq.badge": "FAQ",
   "faq.title": "Najczęściej Zadawane Pytania",
@@ -151,5 +151,9 @@
   "servicesPage.cta.subtitle": "Skontaktuj się z nami już dziś, aby otrzymać bezpłatną wycenę na dowolną z naszych usług.",
   "servicesPage.cta.button": "Otrzymaj Bezpłatną Wycenę",
 
-  "footer.columns.pages.services": "Usługi"
+  "footer.columns.pages.services": "Usługi",
+
+  "map.badge": "ZNAJDŹ NAS",
+  "map.title": "Nasza Lokalizacja",
+  "map.subtitle": "Odwiedź nas w naszym biurze lub sprawdź nasz obszar działania na mapie poniżej."
 }
