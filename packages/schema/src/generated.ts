@@ -10,6 +10,8 @@ export type Address = string;
 export type Phone = string;
 export type Email = string;
 export type BusinessHours = string;
+export type Latitude = number;
+export type Longitude = number;
 export type ServiceArea = string[];
 export type TrustSignals = {
   icon?: string;
@@ -71,7 +73,8 @@ export type SectionType =
   | "faq"
   | "features"
   | "ctaBanner"
-  | "blog";
+  | "blog"
+  | "map";
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "primary";
 export type BadgeText = string;
@@ -152,6 +155,11 @@ export interface BusinessContact {
   phone?: Phone;
   email?: Email;
   hours?: BusinessHours;
+  location?: GeographicLocation;
+}
+export interface GeographicLocation {
+  latitude: Latitude;
+  longitude: Longitude;
 }
 export interface Socials {
   [k: string]: string;

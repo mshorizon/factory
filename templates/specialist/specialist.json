@@ -11,7 +11,11 @@
       "address": "ul. Marszałkowska 115, 00-102 Warszawa",
       "phone": "+48 504 472 002",
       "email": "kontakt@mastervolt.pl",
-      "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Niedz: Tylko awarie"
+      "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Niedz: Tylko awarie",
+      "location": {
+        "latitude": 52.2297,
+        "longitude": 21.0122
+      }
     },
     "socials": {
       "facebook": "https://facebook.com/mastervolt",
@@ -494,7 +498,7 @@
             "badge": "t:about.badge",
             "title": "t:about.title"
           },
-          "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop",
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/about-electrician.jpg",
           "experienceBadge": "t:about.experienceBadge",
           "experienceBadgeLabel": "t:about.experienceBadgeLabel",
           "story": {
@@ -614,9 +618,10 @@
           "type": "about",
           "variant": "story",
           "header": {
+            "badge": "t:about.badge",
             "title": "t:about.title"
           },
-          "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop",
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/about-electrician.jpg",
           "story": {
             "title": "t:about.story.title",
             "content": "t:about.story.content"
@@ -698,6 +703,14 @@
             "messageLabel": "t:contact.form.messageLabel",
             "messagePlaceholder": "t:contact.form.messagePlaceholder",
             "submitButton": "t:contact.form.submitButton"
+          }
+        },
+        {
+          "type": "map",
+          "header": {
+            "badge": "t:map.badge",
+            "title": "t:map.title",
+            "subtitle": "t:map.subtitle"
           }
         }
       ]

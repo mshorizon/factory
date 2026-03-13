@@ -58,7 +58,13 @@ export function ContactSplit({
     phone: business?.business?.contact?.phone || info?.phone,
     email: business?.business?.contact?.email || info?.email,
     hours: business?.business?.contact?.hours || info?.hours,
+    location: business?.business?.contact?.location,
   };
+
+  // Generate Google Maps URL from location coordinates
+  const mapsUrl = contactInfo.location
+    ? `https://www.google.com/maps?q=${contactInfo.location.latitude},${contactInfo.location.longitude}`
+    : null;
 
   return (
     <div className={cn("max-w-6xl mx-auto", className)}>
@@ -159,10 +165,22 @@ export function ContactSplit({
 
             <div className="space-y-6">
               {contactInfo.address && (
-                <div className="flex items-center gap-3">
-                  <MapPin className="h-5 w-5 shrink-0" style={{ color: "var(--primary-dark)" }} />
-                  <p className="text-foreground">{contactInfo.address}</p>
-                </div>
+                mapsUrl ? (
+                  <a
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 group cursor-pointer"
+                  >
+                    <MapPin className="h-5 w-5 shrink-0 transition-opacity group-hover:opacity-80" style={{ color: "var(--primary-dark)" }} />
+                    <p className="text-foreground transition-colors" style={{ "--hover-color": "var(--primary-dark)" } as React.CSSProperties} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary-dark)")} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>{contactInfo.address}</p>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <MapPin className="h-5 w-5 shrink-0" style={{ color: "var(--primary-dark)" }} />
+                    <p className="text-foreground">{contactInfo.address}</p>
+                  </div>
+                )
               )}
 
               {contactInfo.phone && (

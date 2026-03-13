@@ -62,17 +62,17 @@
   "features.items.affordable.title": "Affordable Solutions",
   "features.items.affordable.description": "High-quality service at prices that work for you.",
 
-  "about.badge": "About us",
-  "about.title": "Proven Expertise You Can Trust",
+  "about.badge": "WHO WE ARE",
+  "about.title": "Trusted Professionals For Over A Decade",
   "about.experienceBadge": "15 Years",
   "about.experienceBadgeLabel": "Of experience in electrical work",
   "about.story.title": "15 Years of Experience",
-  "about.story.content": "With over a decade and a half of hands-on experience, we've mastered the art of delivering top-quality electrical services that consistently exceed expectations. From complex troubleshooting and minor repairs to comprehensive installations and system upgrades, we ensure that every job is completed to the highest standards -- right the first time, every time.",
+  "about.story.content": "For over a decade, we've been delivering top-quality electrical services with a focus on safety and reliability. We believe in building lasting relationships through trust, exceptional service, and consistent results that exceed expectations.\n\nOur team of highly skilled electricians brings a wealth of knowledge and expertise to every project, ensuring each job is completed with the utmost precision and care. Whether it's a simple repair or a complex installation, we approach every task with the same level of dedication and commitment to quality. We stay up-to-date with the latest industry advancements and best practices, allowing us to offer innovative solutions that not only meet but exceed our clients' needs.",
   "about.stats.experience": "Certifications",
   "about.stats.projects": "Completed Jobs",
   "about.stats.satisfaction": "Satisfaction Rate",
   "about.stats.availability": "Emergency Availability",
-  "about.cta": "Learn More",
+  "about.cta": "Contact us",
 
   "faq.badge": "FAQ",
   "faq.title": "Frequently Asked Questions",
@@ -151,5 +151,9 @@
   "servicesPage.cta.subtitle": "Contact us today for a free estimate on any of our services.",
   "servicesPage.cta.button": "Get Free Estimate",
 
-  "footer.columns.pages.services": "Services"
+  "footer.columns.pages.services": "Services",
+
+  "map.badge": "FIND US",
+  "map.title": "Our Location",
+  "map.subtitle": "Visit us at our office or check out our service area on the map below."
 }

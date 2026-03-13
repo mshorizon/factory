@@ -69,3 +69,7 @@ export type { CtaBannerProps } from "./ctaBanner";
 // Blog variants
 export { BlogGrid } from "./blog";
 export type { BlogGridProps, BlogPost } from "./blog";
+
+// Map variants
+export { GoogleMap } from "./map";
+export type { GoogleMapProps } from "./map";

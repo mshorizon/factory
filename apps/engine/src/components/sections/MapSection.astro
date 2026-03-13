@@ -1,0 +1,34 @@
+---
+import type { Section, BusinessProfile } from "@mshorizon/schema";
+import { GoogleMap } from "@mshorizon/ui";
+
+interface Props {
+  section: Section;
+  business: BusinessProfile;
+}
+
+const { section, business } = Astro.props;
+
+// Get location from business contact
+const location = business.business.contact?.location;
+
+if (!location) {
+  console.warn("Map section requires location data in business.contact.location");
+}
+---
+
+{location && (
+  <section class="py-20">
+    <GoogleMap
+      client:load
+      latitude={location.latitude}
+      longitude={location.longitude}
+      width={1136}
+      height={500}
+      zoom={15}
+      badge={section.header?.badge}
+      title={section.header?.title}
+      subtitle={section.header?.subtitle}
+    />
+  </section>
+)}
