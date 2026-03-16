@@ -5,6 +5,7 @@ export interface FAQItem {
 
 export interface FAQAccordionProps {
   items: FAQItem[];
-  image?: string;
   className?: string;
+  ctaText?: string;
+  ctaHref?: string;
 }

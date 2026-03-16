@@ -2,6 +2,7 @@
 import type { Section } from "@mshorizon/schema";
 import { FAQAccordion, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
 
 interface Props {
   isHomePage?: boolean;
@@ -11,18 +12,39 @@ interface Props {
 const { section, isHomePage = false } = Astro.props;
 const header = getSectionHeader(section);
 const faqItems = section.faqItems || [];
+const ctaLabel = section.cta?.label;
+const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 ---
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
-    <SectionHeader
-      badge={header.badge}
-      title={header.title}
-      subtitle={header.subtitle}
-      layout="split"
-      align="left"
-      background={section.background}
-    />
-    <FAQAccordion client:visible items={faqItems} image={section.image} />
+    <div class="grid lg:grid-cols-[1fr,448px] gap-spacing-3xl lg:gap-spacing-2xl items-start">
+      <div class="flex flex-col min-w-0">
+        <SectionHeader
+          badge={header.badge}
+          title={header.title}
+          subtitle={header.subtitle}
+          layout="stacked"
+          align="left"
+          background={section.background}
+          className="!mb-spacing-xl"
+        />
+        <FAQAccordion
+          client:visible
+          items={faqItems}
+          ctaText={ctaLabel}
+          ctaHref={ctaHref}
+        />
+      </div>
+      {section.image && (
+        <div class="hidden lg:block sticky top-32">
+          <img
+            src={section.image}
+            alt=""
+            class="w-[448px] h-[448px] object-cover rounded-2xl"
+          />
+        </div>
+      )}
+    </div>
   </div>
 </section>

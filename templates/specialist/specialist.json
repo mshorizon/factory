@@ -64,7 +64,8 @@
         "primaryDark": "#CA9102",
         "surface": {
           "base": "#FFFFFF",
-          "alt": "#16181D"
+          "alt": "#16181D",
+          "card": "#FAFAFA"
         },
         "text": {
           "main": "#16181D",
@@ -77,7 +78,8 @@
         "primaryDark": "#CA9102",
         "surface": {
           "base": "#16181D",
-          "alt": "#2D2F34"
+          "alt": "#2D2F34",
+          "card": "#1C1E23"
         },
         "text": {
           "main": "#FFFFFF",
@@ -101,7 +103,7 @@
         "2xl": "3rem",
         "3xl": "4rem",
         "section-sm": "5rem",
-        "section": "10rem",
+        "section": "7.5rem",
         "container": "2.5rem"
       }
     }
@@ -443,11 +445,11 @@
           ],
           "stats": [
             {
-              "value": "3",
+              "value": "18",
               "label": "t:serviceArea.stats.states"
             },
             {
-              "value": "100+",
+              "value": "9000+",
               "label": "t:serviceArea.stats.cities"
             }
           ]
@@ -463,7 +465,7 @@
             {
               "title": "t:features.items.swift.title",
               "description": "t:features.items.swift.description",
-              "icon": "zap",
+              "icon": "timer",
               "linkLabel": "t:features.learnMore",
               "linkTarget": {
                 "type": "page",
@@ -473,7 +475,7 @@
             {
               "title": "t:features.items.trusted.title",
               "description": "t:features.items.trusted.description",
-              "icon": "shield",
+              "icon": "badge-check",
               "linkLabel": "t:features.learnMore",
               "linkTarget": {
                 "type": "page",
@@ -483,7 +485,7 @@
             {
               "title": "t:features.items.safety.title",
               "description": "t:features.items.safety.description",
-              "icon": "check-circle",
+              "icon": "shield-check",
               "linkLabel": "t:features.learnMore",
               "linkTarget": {
                 "type": "page",
@@ -493,7 +495,7 @@
             {
               "title": "t:features.items.affordable.title",
               "description": "t:features.items.affordable.description",
-              "icon": "dollar-sign",
+              "icon": "wallet",
               "linkLabel": "t:features.learnMore",
               "linkTarget": {
                 "type": "page",
@@ -503,39 +505,35 @@
           ]
         },
         {
-          "type": "about",
-          "variant": "story",
+          "type": "about-summary",
           "background": "dark",
           "header": {
-            "badge": "t:about.badge",
-            "title": "t:about.title"
+            "badge": "t:aboutSummary.badge",
+            "title": "t:aboutSummary.title"
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/about-electrician.jpg",
-          "experienceBadge": "t:about.experienceBadge",
-          "experienceBadgeLabel": "t:about.experienceBadgeLabel",
-          "story": {
-            "title": "t:about.story.title",
-            "content": "t:about.story.content"
-          },
+          "experienceYears": "t:aboutSummary.experienceYears",
+          "experienceLabel": "t:aboutSummary.experienceLabel",
+          "description": "t:aboutSummary.description",
           "stats": [
             {
               "value": "20+",
-              "label": "t:about.stats.experience"
+              "label": "t:aboutSummary.stats.certifications"
             },
             {
               "value": "6,000+",
-              "label": "t:about.stats.projects"
+              "label": "t:aboutSummary.stats.completedJobs"
             },
             {
               "value": "24/7",
-              "label": "t:about.stats.availability"
+              "label": "t:aboutSummary.stats.emergency"
             }
           ],
           "cta": {
-            "label": "t:about.cta",
+            "label": "t:aboutSummary.cta",
             "target": {
               "type": "page",
-              "value": "contact"
+              "value": "about"
             }
           }
         },
@@ -546,6 +544,7 @@
             "title": "t:faq.title",
             "subtitle": "t:faq.subtitle"
           },
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/faq-electrician.jpg",
           "faqItems": [
             {
               "question": "t:faq.items.0.question",
@@ -571,7 +570,14 @@
               "question": "t:faq.items.5.question",
               "answer": "t:faq.items.5.answer"
             }
-          ]
+          ],
+          "cta": {
+            "label": "t:faq.moreCta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
         },
         {
           "type": "ctaBanner",

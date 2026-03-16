@@ -74,6 +74,16 @@
   "about.stats.availability": "Awarie 24/7",
   "about.cta": "Skontaktuj się",
 
+  "aboutSummary.badge": "O NAS",
+  "aboutSummary.title": "Sprawdzona Wiedza, Której Możesz Zaufać",
+  "aboutSummary.experienceYears": "15 LAT",
+  "aboutSummary.experienceLabel": "Doświadczenia w pracach elektrycznych",
+  "aboutSummary.description": "Z ponad półtorej dekady praktycznego doświadczenia, opanowaliśmy sztukę dostarczania najwyższej jakości usług elektrycznych, które konsekwentnie przekraczają oczekiwania.\n\nOd skomplikowanej diagnostyki i drobnych napraw po kompleksowe instalacje i modernizacje systemów, zapewniamy, że każda praca jest wykonana zgodnie z najwyższymi standardami—za pierwszym razem, za każdym razem.",
+  "aboutSummary.stats.certifications": "Certyfikaty",
+  "aboutSummary.stats.completedJobs": "Zrealizowanych zleceń",
+  "aboutSummary.stats.emergency": "Dostępność awaryjna",
+  "aboutSummary.cta": "Dowiedz się więcej",
+
   "faq.badge": "FAQ",
   "faq.title": "Najczęściej Zadawane Pytania",
   "faq.subtitle": "",
@@ -89,6 +99,7 @@
   "faq.items.4.answer": "Ceny zależą od zakresu prac. Oferujemy konkurencyjne stawki z możliwością wyceny ryczałtowej, abyś znał koszt przed rozpoczęciem. Transparentne rozliczenia, bez niespodzianek.",
   "faq.items.5.question": "Czy oferujecie usługi awaryjne?",
   "faq.items.5.answer": "Tak, świadczymy całodobowe awaryjne usługi elektryczne. Przepalony bezpiecznik, iskrzące gniazdka, zapach spalenizny, brak prądu -- zadzwoń o dowolnej porze, a wyślemy uprawnionego elektryka.",
+  "faq.moreCta": "Masz więcej pytań?",
 
   "ctaTicker.text": "Skontaktuj się z nami",
 
