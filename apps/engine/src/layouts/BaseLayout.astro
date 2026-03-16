@@ -45,11 +45,13 @@ const cssVars: Record<string, string> = {
   secondary: colors?.surface?.alt || "#003D7A",
   accent: colors?.primary || "#0066CC",
   background: colors?.surface?.base || "#F8FAFC",
+  card: colors?.surface?.card || "#FAFAFA",
   foreground: colors?.text?.main || "#0F172A",
   muted: colors?.text?.muted || "#64748B",
   border: (colors?.text?.muted || "#64748B") + "40",
   textOnPrimary: colors?.text?.onPrimary || "#FFFFFF",
   darkBackground: darkColors.surface?.base || "#16181D",
+  darkCard: darkColors.surface?.card || "#1C1E23",
   darkForeground: darkColors.text?.main || "#FFFFFF",
   darkMuted: darkColors.text?.muted || "#9CA3AF",
   darkBorder: (darkColors.text?.muted || "#9CA3AF") + "40",
@@ -118,11 +120,13 @@ const googleFontsUrl = googleFonts.length > 0
         --secondary: var(--secondary);
         --accent: var(--accent);
         --background: var(--background);
+        --card: var(--card);
         --foreground: var(--foreground);
         --muted: var(--muted);
         --border: var(--border);
         --text-on-primary: var(--textOnPrimary);
         --dark-background: var(--darkBackground);
+        --dark-card: var(--darkCard);
         --dark-foreground: var(--darkForeground);
         --dark-muted: var(--darkMuted);
         --dark-border: var(--darkBorder);
@@ -171,6 +175,7 @@ const googleFontsUrl = googleFonts.length > 0
       }
       .section-bg-dark {
         --background: var(--dark-background);
+        --card: var(--dark-card);
         --foreground: var(--dark-foreground);
         --muted: var(--dark-muted);
         --border: var(--dark-border);

@@ -21,6 +21,7 @@ export default {
         primary: 'var(--primary)',
         secondary: 'var(--secondary)',
         background: 'var(--background)',
+        card: 'var(--card)',
         foreground: 'var(--foreground)',
         muted: 'var(--muted)',
         accent: 'var(--accent)',

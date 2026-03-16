@@ -20,6 +20,35 @@ This file provides critical guidance for Claude Code and AI assistants working i
 
 ---
 
+## ⚠️ CRITICAL: Template → Database Workflow
+
+**IMPORTANT:** Websites load data from the **DATABASE**, NOT from template files.
+
+### How It Works:
+```
+templates/{name}/{name}.json  →  [db:seed]  →  PostgreSQL  →  Live Website
+      (Git source)              (sync script)   (runtime)    (renders from DB)
+```
+
+### The Flow:
+1. **Edit** template files in `templates/specialist/specialist.json`
+2. **Sync** to database: `cd packages/db && DATABASE_URL="..." pnpm run db:seed`
+3. **Restart** dev server: `pm2 restart astro-dev`
+4. Changes are now **live** (data pulled from DB, not files)
+
+### Why This Architecture:
+- **Templates** = version-controlled source of truth, easy to edit in Git
+- **Database** = fast runtime storage, serves 100+ businesses simultaneously
+- **Sync** = bridges development (files) to production (database)
+
+### Critical Rules:
+- ✅ **ALWAYS sync after editing template files** — changes won't appear otherwise
+- ✅ The rendering engine (`apps/engine`) queries PostgreSQL, not the filesystem
+- ✅ Template files are blueprints; database is the live data store
+- ❌ **NEVER assume template edits are live** without running `db:seed`
+
+---
+
 ## 🌐 Infrastructure & Environments
 **Host:** Hetzner VPS (`46.224.191.237`) | **Control Panel:** Coolify | **Main Domain:** `hazelgrouse.pl`
 

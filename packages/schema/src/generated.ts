@@ -23,6 +23,7 @@ export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
 export type BaseSurface = string;
 export type AltSurface = string;
+export type CardSurface = string;
 export type MainText = string;
 export type MutedText = string;
 export type TextOnPrimary = string;
@@ -72,6 +73,7 @@ export type SectionType =
   | "services"
   | "categories"
   | "about"
+  | "about-summary"
   | "contact"
   | "shop"
   | "gallery"
@@ -198,6 +200,7 @@ export interface ThemeColorMode {
 export interface SurfaceColors {
   base?: BaseSurface;
   alt?: AltSurface;
+  card?: CardSurface;
 }
 export interface TextColors {
   main?: MainText;

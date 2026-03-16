@@ -20,6 +20,7 @@ export const industrialPreset: Theme = {
       surface: {
         base: "#F8FAFC",
         alt: "#003D7A",
+        card: "#F1F5F9",
       },
       text: {
         main: "#0F172A",
@@ -32,6 +33,7 @@ export const industrialPreset: Theme = {
       surface: {
         base: "#0F172A",
         alt: "#1E3A5F",
+        card: "#1E293B",
       },
       text: {
         main: "#F8FAFC",
@@ -56,7 +58,7 @@ export const industrialPreset: Theme = {
       "2xl": "3rem",
       "3xl": "4rem",
       "section-sm": "5rem",
-      section: "10rem",
+      section: "7.5rem",
       container: "2.5rem",
     },
     spacingScale: 1,
@@ -77,6 +79,7 @@ export const wellnessPreset: Theme = {
       surface: {
         base: "#F0FDF4",
         alt: "#065F46",
+        card: "#DCFCE7",
       },
       text: {
         main: "#022C22",
@@ -89,6 +92,7 @@ export const wellnessPreset: Theme = {
       surface: {
         base: "#022C22",
         alt: "#065F46",
+        card: "#064E3B",
       },
       text: {
         main: "#ECFDF5",
@@ -134,6 +138,7 @@ export const minimalPreset: Theme = {
       surface: {
         base: "#FFFFFF",
         alt: "#27272A",
+        card: "#FAFAFA",
       },
       text: {
         main: "#18181B",
@@ -146,6 +151,7 @@ export const minimalPreset: Theme = {
       surface: {
         base: "#18181B",
         alt: "#3F3F46",
+        card: "#27272A",
       },
       text: {
         main: "#FAFAFA",
@@ -191,6 +197,7 @@ export const boldPreset: Theme = {
       surface: {
         base: "#FFFFFF",
         alt: "#16181D",
+        card: "#FAFAFA",
       },
       text: {
         main: "#16181D",
@@ -203,6 +210,7 @@ export const boldPreset: Theme = {
       surface: {
         base: "#16181D",
         alt: "#2D2F34",
+        card: "#1C1E23",
       },
       text: {
         main: "#FFFFFF",
@@ -227,7 +235,7 @@ export const boldPreset: Theme = {
       "2xl": "3rem",
       "3xl": "4rem",
       "section-sm": "5rem",
-      section: "10rem",
+      section: "7.5rem",
       container: "2.5rem",
     },
     spacingScale: 1,

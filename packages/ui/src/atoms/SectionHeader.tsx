@@ -67,9 +67,11 @@ export function SectionHeader({
     <div className={cn("mb-spacing-3xl", alignClass, className)}>
       {badge && (
         <div className={cn(
-          "mb-spacing-md",
-          align === "center" && "flex justify-center"
+          "flex items-center gap-spacing-sm mb-spacing-lg",
+          align === "center" && "justify-center",
+          align === "right" && "justify-end"
         )}>
+          <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
           <Badge variant="accent" data-field="header.badge" style={{ color: badgeColor }}>
             {badge}
           </Badge>
