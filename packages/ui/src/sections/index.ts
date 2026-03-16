@@ -19,8 +19,8 @@ export { CategoriesCarousel, CategoriesFeatured } from "./categories";
 export type { CategoriesProps, CategoryItem } from "./categories";
 
 // About variants
-export { AboutStory, AboutTimeline } from "./about";
-export type { AboutStoryProps, AboutTimelineProps, StatItem, TimelineItem, StoryContent } from "./about";
+export { AboutStory, AboutTimeline, AboutSummary } from "./about";
+export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, StatItem, TimelineItem, StoryContent } from "./about";
 
 // Contact variants
 export { ContactCentered, ContactSplit } from "./contact";

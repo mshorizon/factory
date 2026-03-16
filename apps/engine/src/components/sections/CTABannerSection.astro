@@ -21,12 +21,10 @@ const ctaHref = section.cta?.target?.type === "phone"
 ---
 
 {variant === "ticker" ? (
-  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
-    <CtaBannerTicker
-      client:visible
-      marqueeText={section.marqueeText || header.title}
-    />
-  </section>
+  <CtaBannerTicker
+    client:visible
+    marqueeText={section.marqueeText || header.title}
+  />
 ) : (
   <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
     <div class="container mx-auto">

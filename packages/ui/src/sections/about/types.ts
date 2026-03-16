@@ -37,3 +37,17 @@ export interface AboutTimelineProps {
   ctaHref?: string;
   className?: string;
 }
+
+export interface AboutSummaryProps {
+  badge?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  experienceYears?: string;
+  experienceLabel?: string;
+  cta?: string;
+  ctaHref?: string;
+  stats?: StatItem[];
+  className?: string;
+  background?: string;
+}

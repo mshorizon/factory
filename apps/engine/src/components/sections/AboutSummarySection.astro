@@ -1,0 +1,35 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { AboutSummary } from "@mshorizon/ui";
+import { getSectionHeader } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
+
+interface Props {
+  isHomePage?: boolean;
+  section: Section;
+}
+
+const { section, isHomePage = false } = Astro.props;
+const header = getSectionHeader(section);
+
+const ctaLabel = section.cta?.label;
+const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/about";
+---
+
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"} overflow-hidden`}>
+  <div class="container mx-auto">
+    <AboutSummary
+      client:visible
+      badge={header.badge}
+      title={header.title}
+      description={section.description}
+      image={section.image}
+      experienceYears={section.experienceYears}
+      experienceLabel={section.experienceLabel}
+      cta={ctaLabel}
+      ctaHref={ctaHref}
+      stats={section.stats}
+      background={section.background}
+    />
+  </div>
+</section>

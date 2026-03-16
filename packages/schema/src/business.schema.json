@@ -139,7 +139,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map"]
         },
         "variant": { "type": "string", "title": "Variant" },
         "background": {
@@ -403,6 +403,11 @@
               "type": "string",
               "title": "Alt Surface",
               "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "card": {
+              "type": "string",
+              "title": "Card Surface",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
             }
           }
         },
@@ -476,7 +481,7 @@
         "section": {
           "type": "string",
           "title": "Section Spacing",
-          "default": "10rem"
+          "default": "7.5rem"
         },
         "container": {
           "type": "string",
