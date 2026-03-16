@@ -22,6 +22,7 @@ export default {
         muted: 'var(--muted)',
         accent: 'var(--accent)',
         border: 'var(--border)',
+        'on-accent': 'var(--text-on-primary)',
       },
       borderRadius: {
         radius: 'var(--radius)',
