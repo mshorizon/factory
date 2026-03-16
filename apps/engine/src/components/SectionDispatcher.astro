@@ -21,9 +21,10 @@ import MapSection from "./sections/MapSection.astro";
 interface Props {
   sections: Section[];
   business: BusinessProfile;
+  isHomePage?: boolean;
 }
 
-const { sections, business } = Astro.props;
+const { sections, business, isHomePage = false } = Astro.props;
 
 // Map section types to components
 const sectionComponents: Record<string, any> = {
@@ -61,7 +62,7 @@ function getBgClass(bg?: string): string {
 
   // Only pass business prop to sections that need it
   const needsBusiness = ['services', 'shop', 'map'].includes(section.type);
-  const props = needsBusiness ? { section, business } : { section };
+  const props = needsBusiness ? { section, business, isHomePage } : { section, isHomePage };
 
   return <div data-section-index={index} class={bgClass}><Component {...props} /></div>;
 })}

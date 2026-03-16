@@ -4,16 +4,17 @@ import { CategoriesCarousel, CategoriesFeatured, SectionHeader } from "@mshorizo
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
+  isHomePage?: boolean;
   section: Section;
 }
 
-const { section } = Astro.props;
+const { section, isHomePage = false } = Astro.props;
 const variant = getSectionVariant(section);
 const items = section.items || [];
 const header = getSectionHeader(section);
 ---
 
-<section class="py-[120px]">
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
     <SectionHeader
       badge={header.badge}

@@ -14,7 +14,7 @@ export function CartButton({ cartHref = "/cart", label, className }: CartButtonP
       size={label ? "default" : "icon"}
       className={cn(
         "relative border border-border hover:border-primary hover:bg-primary/5 transition-colors",
-        label ? "px-4 gap-2" : "h-10 w-10",
+        label ? "px-spacing-md gap-spacing-xs" : "h-10 w-10",
         className
       )}
     >

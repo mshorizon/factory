@@ -16,11 +16,13 @@ export function HeroVideo({
   backgroundImage,
   children,
   className,
+  isHomePage = false,
 }: HeroProps) {
   return (
     <section
       className={cn(
-        "relative z-0 min-h-screen flex items-end",
+        "relative z-0 flex items-end",
+        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >
@@ -46,7 +48,7 @@ export function HeroVideo({
           <ScrollReveal delay={0} direction="up">
             <Badge
               variant="accent"
-              className="mb-4 text-sm px-4 py-2 backdrop-blur-sm bg-background/30 border border-foreground/10"
+              className="mb-spacing-md text-sm px-spacing-md py-spacing-sm backdrop-blur-sm bg-background/30 border border-foreground/10"
               data-field="header.badge"
             >
               {badge}
@@ -54,20 +56,20 @@ export function HeroVideo({
           </ScrollReveal>
         )}
         <ScrollReveal delay={0.1} direction="up">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-foreground max-w-3xl" data-field="header.title">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-spacing-md tracking-tight text-foreground max-w-3xl" data-field="header.title">
             {title}
           </h1>
         </ScrollReveal>
         {subtitle && (
           <ScrollReveal delay={0.2} direction="up">
-            <p className="text-lg md:text-xl text-muted mb-8 max-w-2xl" data-field="header.subtitle">
+            <p className="text-lg md:text-xl text-muted mb-spacing-2xl max-w-2xl" data-field="header.subtitle">
               {subtitle}
             </p>
           </ScrollReveal>
         )}
         {(cta || secondaryCta) && (
           <ScrollReveal delay={0.3} direction="up">
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-spacing-md">
               {cta && (
                 <Button
                   asChild

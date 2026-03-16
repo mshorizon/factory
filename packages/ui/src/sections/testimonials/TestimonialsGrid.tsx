@@ -9,7 +9,7 @@ import type { TestimonialsGridProps } from "./types";
 export function TestimonialsGrid({ items, className }: TestimonialsGridProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-6", className)}
+      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-spacing-lg", className)}
       staggerDelay={0.12}
     >
       {items.map((item, index) => {
@@ -37,7 +37,7 @@ export function TestimonialsGrid({ items, className }: TestimonialsGridProps) {
                 &ldquo;{item.description}&rdquo;
               </p>
               <p
-                className="mt-4 text-sm font-semibold text-foreground"
+                className="mt-spacing-md text-sm font-semibold text-foreground"
                 data-field={`items.${index}.title`}
               >
                 {item.title}

@@ -8,7 +8,7 @@ import type { ServicesProps } from "./types";
 export function ServicesDarkCards({ items, className }: ServicesProps) {
   return (
     <StaggerContainer
-      className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", className)}
+      className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-spacing-md", className)}
       staggerDelay={0.1}
     >
       {items.map((item, index) => {
@@ -19,7 +19,7 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
         <StaggerItem key={index} direction={direction} distance={30}>
           <a
             href={`/services/${item.slug || item.id}`}
-            className="group relative flex flex-col items-start justify-end gap-2 rounded-radius-secondary bg-secondary p-6 min-h-[280px] overflow-hidden transition-all cursor-pointer hover:shadow-xl block"
+            className="group relative flex flex-col items-start justify-end gap-spacing-xs rounded-radius-secondary bg-secondary p-spacing-lg min-h-[280px] overflow-hidden transition-all cursor-pointer hover:shadow-xl block"
             data-field={`items.${index}`}
             style={{
               "--foreground": "var(--dark-foreground)",
@@ -36,7 +36,7 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
               </>
             )}
-            <div className="relative z-10 w-full flex items-start justify-between gap-3">
+            <div className="relative z-10 w-full flex items-start justify-between gap-spacing-sm">
               <div className="flex-1">
                 <h3
                   className="text-lg font-semibold text-white mb-1"

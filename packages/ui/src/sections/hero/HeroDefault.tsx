@@ -19,6 +19,7 @@ export function HeroDefault({
   fullHeight = false,
   children,
   className,
+  isHomePage = false,
 }: HeroProps) {
   const alignmentClasses = {
     left: "text-left items-start",
@@ -30,7 +31,7 @@ export function HeroDefault({
     <section
       className={cn(
         "relative z-0 bg-background",
-        fullHeight ? "min-h-screen" : "",
+        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
       style={
@@ -49,13 +50,12 @@ export function HeroDefault({
       <div
         className={cn(
           "relative container mx-auto flex flex-col justify-center",
-          alignmentClasses[align],
-          fullHeight && "min-h-screen"
+          alignmentClasses[align]
         )}
       >
         {badge && (
           <ScrollReveal delay={0} direction="up">
-            <Badge variant="accent" className="mb-4 text-sm px-4 py-1" data-field="header.badge">
+            <Badge variant="accent" className="mb-spacing-md text-sm px-spacing-md py-1" data-field="header.badge">
               {badge}
             </Badge>
           </ScrollReveal>
@@ -63,7 +63,7 @@ export function HeroDefault({
         <ScrollReveal delay={0.1} direction="up">
           <h1
             className={cn(
-              "text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight",
+              "text-4xl md:text-5xl lg:text-6xl font-bold mb-spacing-md tracking-tight",
               backgroundImage ? "text-on-primary" : "text-foreground"
             )}
             data-field="header.title"
@@ -75,7 +75,7 @@ export function HeroDefault({
           <ScrollReveal delay={0.2} direction="up">
             <p
               className={cn(
-                "text-lg md:text-xl max-w-2xl mb-8",
+                "text-lg md:text-xl max-w-2xl mb-spacing-2xl",
                 backgroundImage ? "text-on-primary/90" : "text-muted",
                 align === "center" && "mx-auto"
               )}
@@ -89,7 +89,7 @@ export function HeroDefault({
           <ScrollReveal delay={0.3} direction="up">
             <div
               className={cn(
-                "flex flex-wrap gap-4",
+                "flex flex-wrap gap-spacing-md",
                 align === "center"
                   ? "justify-center"
                   : align === "right"

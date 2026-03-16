@@ -16,11 +16,13 @@ export function HeroGradient({
   backgroundImage,
   children,
   className,
+  isHomePage = false,
 }: HeroProps) {
   return (
     <section
       className={cn(
-        "relative z-0 min-h-screen bg-background overflow-hidden flex items-center justify-center",
+        "relative z-0 bg-background overflow-hidden flex items-center justify-center",
+        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >
@@ -49,7 +51,7 @@ export function HeroGradient({
           <ScrollReveal delay={0} direction="up">
             <Badge
               variant="accent"
-              className="mb-6 text-sm px-4 py-2 backdrop-blur-sm bg-primary/10 border border-primary/20"
+              className="mb-spacing-lg text-sm px-spacing-md py-spacing-sm backdrop-blur-sm bg-primary/10 border border-primary/20"
               data-field="header.badge"
             >
               {badge}
@@ -57,20 +59,20 @@ export function HeroGradient({
           </ScrollReveal>
         )}
         <ScrollReveal delay={0.1} direction="up">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-foreground max-w-4xl mx-auto" data-field="header.title">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-spacing-lg tracking-tight text-foreground max-w-4xl mx-auto" data-field="header.title">
             {title}
           </h1>
         </ScrollReveal>
         {subtitle && (
           <ScrollReveal delay={0.2} direction="up">
-            <p className="text-lg md:text-xl text-muted mb-10 max-w-2xl mx-auto" data-field="header.subtitle">
+            <p className="text-lg md:text-xl text-muted mb-spacing-2xl max-w-2xl mx-auto" data-field="header.subtitle">
               {subtitle}
             </p>
           </ScrollReveal>
         )}
         {(cta || secondaryCta) && (
           <ScrollReveal delay={0.3} direction="up">
-            <div className="flex flex-wrap gap-4 justify-center">
+            <div className="flex flex-wrap gap-spacing-md justify-center">
               {cta && (
                 <Button
                   asChild

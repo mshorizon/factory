@@ -27,10 +27,10 @@ export function ShopGrid({
             badge={header.badge}
             title={header.title}
             subtitle={header.subtitle}
-            className="mb-12"
+            className="mb-spacing-3xl"
           />
         )}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-spacing-lg sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {products.map((product, index) => (
             <ProductCard
               key={product.id}

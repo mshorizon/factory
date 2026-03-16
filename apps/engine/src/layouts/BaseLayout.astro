@@ -65,6 +65,16 @@ const cssVars: Record<string, string> = {
   fontHeading: theme.typography?.secondary || theme.typography?.primary || "system-ui, -apple-system, sans-serif",
   headingTransform: theme.preset === "bold" ? "uppercase" : "none",
   headingLetterSpacing: theme.preset === "bold" ? "-0.02em" : "normal",
+  spacingXs: theme.ui?.spacing?.xs || "0.5rem",
+  spacingSm: theme.ui?.spacing?.sm || "0.75rem",
+  spacingMd: theme.ui?.spacing?.md || "1rem",
+  spacingLg: theme.ui?.spacing?.lg || "1.5rem",
+  spacingXl: theme.ui?.spacing?.xl || "2rem",
+  spacing2xl: theme.ui?.spacing?.["2xl"] || "3rem",
+  spacing3xl: theme.ui?.spacing?.["3xl"] || "4rem",
+  spacingSectionSm: theme.ui?.spacing?.["section-sm"] || "5rem",
+  spacingSection: theme.ui?.spacing?.section || "10rem",
+  spacingContainer: theme.ui?.spacing?.container || "2.5rem",
 };
 
 // Extract Google Font names from font-family strings
@@ -128,6 +138,16 @@ const googleFontsUrl = googleFonts.length > 0
         --font-heading: var(--fontHeading);
         --heading-transform: var(--headingTransform);
         --heading-letter-spacing: var(--headingLetterSpacing);
+        --spacing-xs: var(--spacingXs);
+        --spacing-sm: var(--spacingSm);
+        --spacing-md: var(--spacingMd);
+        --spacing-lg: var(--spacingLg);
+        --spacing-xl: var(--spacingXl);
+        --spacing-2xl: var(--spacing2xl);
+        --spacing-3xl: var(--spacing3xl);
+        --spacing-section-sm: var(--spacingSectionSm);
+        --spacing-section: var(--spacingSection);
+        --spacing-container: var(--spacingContainer);
       }
       html, body {
         height: 100%;

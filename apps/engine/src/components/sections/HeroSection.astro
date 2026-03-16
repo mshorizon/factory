@@ -5,10 +5,11 @@ import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
 interface Props {
+  isHomePage?: boolean;
   section: Section;
 }
 
-const { section } = Astro.props;
+const { section, isHomePage = false } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const heroImage = section.image || section.backgroundImage;
@@ -44,6 +45,7 @@ const secondaryCta = section.secondaryCta ? {
     testimonials={section.testimonials}
     phone={businessPhone}
     background={section.background}
+    isHomePage={isHomePage}
   />
 ) : variant === "gradient" ? (
   <HeroGradient
@@ -54,6 +56,7 @@ const secondaryCta = section.secondaryCta ? {
     backgroundImage={section.backgroundImage}
     cta={cta}
     secondaryCta={secondaryCta}
+    isHomePage={isHomePage}
   />
 ) : variant === "cards" ? (
   <HeroCards
@@ -64,6 +67,7 @@ const secondaryCta = section.secondaryCta ? {
     image={heroImage}
     cta={cta}
     secondaryCta={secondaryCta}
+    isHomePage={isHomePage}
   />
 ) : variant === "video" ? (
   <HeroVideo
@@ -74,6 +78,7 @@ const secondaryCta = section.secondaryCta ? {
     backgroundImage={section.backgroundImage}
     cta={cta}
     secondaryCta={secondaryCta}
+    isHomePage={isHomePage}
   />
 ) : variant === "minimal" ? (
   <HeroMinimal
@@ -84,6 +89,7 @@ const secondaryCta = section.secondaryCta ? {
     image={heroImage}
     cta={cta}
     secondaryCta={secondaryCta}
+    isHomePage={isHomePage}
   />
 ) : (
   <HeroDefault
@@ -95,5 +101,6 @@ const secondaryCta = section.secondaryCta ? {
     cta={cta}
     secondaryCta={secondaryCta}
     fullHeight
+    isHomePage={isHomePage}
   />
 )}

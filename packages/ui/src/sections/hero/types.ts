@@ -28,4 +28,5 @@ export interface HeroProps {
   children?: ReactNode;
   className?: string;
   background?: string;
+  isHomePage?: boolean;
 }

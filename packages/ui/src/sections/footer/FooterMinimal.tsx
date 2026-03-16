@@ -16,14 +16,14 @@ export function FooterMinimal({
 
   return (
     <footer className={cn("bg-background border-t border-border", className)}>
-      <div className="container mx-auto py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="container mx-auto py-spacing-lg">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-spacing-md">
           {/* Copyright */}
           <p className="text-sm text-muted">
             {copyright || `© ${year} ${businessName}`}
           </p>
 
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-spacing-md">
             {/* Language Switcher */}
             {currentLanguage && (
               <LanguageSwitcher
@@ -35,7 +35,7 @@ export function FooterMinimal({
 
             {/* Links */}
             {links && links.length > 0 && (
-              <nav className="flex flex-wrap items-center gap-4">
+              <nav className="flex flex-wrap items-center gap-spacing-md">
                 {links.map((link, index) => {
                   const href = getFooterLinkHref(link, resolveTarget);
                   return (

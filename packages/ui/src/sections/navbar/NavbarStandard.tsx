@@ -30,7 +30,7 @@ export function NavbarStandard({
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 group">
+          <a href="/" className="flex items-center gap-spacing-xs group">
             {logoIcon && <span className="text-2xl">{logoIcon}</span>}
             <span className="text-xl lg:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
               {logo}
@@ -38,14 +38,14 @@ export function NavbarStandard({
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1 lg:gap-2">
+          <div className="hidden md:flex items-center gap-1 lg:gap-spacing-xs">
             {links.map((link, index) => {
               const href = getLinkHref(link, resolveTarget);
               return (
                 <a
                   key={`${link.label}-${index}`}
                   href={href}
-                  className="relative px-4 py-2 text-[16px] font-medium text-foreground/80 hover:text-foreground transition-colors group"
+                  className="relative px-spacing-md py-spacing-sm text-[16px] font-medium text-foreground/80 hover:text-foreground transition-colors group"
                 >
                   {link.label}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
@@ -92,14 +92,14 @@ export function NavbarStandard({
                 <a
                   key={`mobile-${link.label}-${index}`}
                   href={href}
-                  className="px-4 py-3 text-[16px] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
+                  className="px-spacing-md py-3 text-[16px] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
                 >
                   {link.label}
                 </a>
               );
             })}
             {cta && (
-              <Button asChild size="lg" className="mt-4 w-full shadow-lg shadow-primary/25">
+              <Button asChild size="lg" className="mt-spacing-md w-full shadow-lg shadow-primary/25">
                 <a href={getCTAHref(cta, resolveTarget)}>
                   {cta.label}
                   <ArrowRight className="ml-1 h-4 w-4" />

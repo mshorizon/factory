@@ -4,17 +4,18 @@ import { ContactCentered, ContactSplit } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
+  isHomePage?: boolean;
   section: Section;
 }
 
-const { section } = Astro.props;
+const { section, isHomePage = false } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const businessId = Astro.locals.businessId;
 const business = Astro.locals.businessData;
 ---
 
-<section class="py-20">
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
     {variant === "split" ? (
       <ContactSplit

@@ -8,7 +8,7 @@ import type { ProcessStepsProps } from "./types";
 export function ProcessSteps({ steps, className }: ProcessStepsProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative", className)}
+      className={cn("grid md:grid-cols-2 lg:grid-cols-4 gap-spacing-lg relative", className)}
       staggerDelay={0.15}
     >
       {steps.map((step, index) => {
@@ -20,7 +20,7 @@ export function ProcessSteps({ steps, className }: ProcessStepsProps) {
           <div className="relative" data-field={`steps.${index}`}>
             {/* Connecting line on desktop */}
             {index < steps.length - 1 && (
-              <div className="hidden lg:block absolute top-8 left-[60%] w-[80%] border-t-2 border-dashed border-primary/30 z-0" />
+              <div className="hidden lg:block absolute top-spacing-2xl left-[60%] w-[80%] border-t-2 border-dashed border-primary/30 z-0" />
             )}
             <Card className="relative z-10 h-full text-center">
               <CardHeader>

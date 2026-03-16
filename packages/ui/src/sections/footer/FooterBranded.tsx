@@ -23,11 +23,11 @@ export function FooterBranded({
       {/* Decorative gradient accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-primary" />
 
-      <div className="container mx-auto py-16">
+      <div className="container mx-auto py-spacing-3xl">
         {/* Top Section - Brand */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-12">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-spacing-2xl mb-spacing-3xl">
           <div>
-            <span className="font-bold text-4xl tracking-tight block mb-2">
+            <span className="font-bold text-4xl tracking-tight block mb-spacing-xs">
               {businessName}
             </span>
             {tagline && (
@@ -39,7 +39,7 @@ export function FooterBranded({
 
           {/* Social Links */}
           {socialLinks && socialLinks.length > 0 && (
-            <div className="flex gap-3">
+            <div className="flex gap-spacing-sm">
               {socialLinks.map((social) => (
                 <Button
                   key={social.href}
@@ -58,14 +58,14 @@ export function FooterBranded({
         </div>
 
         {/* Primary accent divider */}
-        <div className="h-px bg-gradient-to-r from-primary/50 via-primary to-primary/50 mb-12" />
+        <div className="h-px bg-gradient-to-r from-primary/50 via-primary to-primary/50 mb-spacing-3xl" />
 
         {/* Columns */}
         {columns && columns.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-spacing-2xl mb-spacing-3xl">
             {columns.map((column, colIndex) => (
               <div key={colIndex}>
-                <h3 className="font-semibold text-white mb-4 text-lg">{column.title}</h3>
+                <h3 className="font-semibold text-white mb-spacing-md text-lg">{column.title}</h3>
                 <ul className="space-y-3">
                   {(column.links || []).map((link: Link, linkIndex: number) => {
                     const href = getFooterLinkHref(link, resolveTarget);
@@ -87,11 +87,11 @@ export function FooterBranded({
         )}
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-spacing-md">
           <p className="text-sm text-white/60">
             {copyright || `© ${year} ${businessName}. All rights reserved.`}
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-spacing-lg">
             {currentLanguage && (
               <LanguageSwitcher
                 currentLanguage={currentLanguage}
@@ -100,7 +100,7 @@ export function FooterBranded({
               />
             )}
             {links && links.length > 0 && (
-              <nav className="flex gap-6">
+              <nav className="flex gap-spacing-lg">
                 {links.map((link, index) => {
                   const href = getFooterLinkHref(link, resolveTarget);
                   return (

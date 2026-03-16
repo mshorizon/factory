@@ -14,7 +14,7 @@ export function ServicesGrid({
 }: ServicesProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 lg:grid-cols-4 gap-6", className)}
+      className={cn("grid md:grid-cols-2 lg:grid-cols-4 gap-spacing-lg", className)}
       staggerDelay={0.1}
     >
       {items.map((item, index) => {
@@ -32,7 +32,7 @@ export function ServicesGrid({
               <CardContent>
                 {item.price && <p className="text-2xl font-bold text-primary" data-field={`items.${index}.price`}>{item.price}</p>}
                 {ctaLabel && (
-                  <Button asChild variant="outline" size="sm" className="mt-4 w-full pointer-events-none">
+                  <Button asChild variant="outline" size="sm" className="mt-spacing-md w-full pointer-events-none">
                     <span>{ctaLabel}</span>
                   </Button>
                 )}

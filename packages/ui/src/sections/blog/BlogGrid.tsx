@@ -8,7 +8,7 @@ import type { BlogGridProps } from "./types";
 export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 gap-8", className)}
+      className={cn("grid md:grid-cols-2 gap-spacing-2xl", className)}
       staggerDelay={0.12}
     >
       {posts.map((post, index) => {
@@ -29,17 +29,17 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
                 />
               </div>
             )}
-            <div className="p-6 flex flex-col flex-1">
+            <div className="p-spacing-lg flex flex-col flex-1">
               {post.date && (
                 <span
-                  className="text-xs text-muted mb-2"
+                  className="text-xs text-muted mb-spacing-xs"
                   data-field={`blogPosts.${index}.date`}
                 >
                   {post.date}
                 </span>
               )}
               <h3
-                className="text-lg font-semibold text-foreground mb-2"
+                className="text-lg font-semibold text-foreground mb-spacing-xs"
                 data-field={`blogPosts.${index}.title`}
               >
                 {post.title}
@@ -53,7 +53,7 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
               {ctaLabel && (
                 <a
                   href={post.href || "#"}
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+                  className="mt-spacing-md inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
                 >
                   {ctaLabel}
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>

@@ -9,7 +9,7 @@ export function CategoriesFeatured({ items, exploreLabel, className }: Categorie
   return (
     <div
       className={cn(
-        "grid gap-6",
+        "grid gap-spacing-lg",
         featuredItems.length === 1 && "grid-cols-1",
         featuredItems.length === 2 && "grid-cols-1 md:grid-cols-2",
         featuredItems.length >= 3 && "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
@@ -38,15 +38,15 @@ export function CategoriesFeatured({ items, exploreLabel, className }: Categorie
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
           {/* Content */}
-          <div className="relative z-10 p-6 w-full">
+          <div className="relative z-10 p-spacing-lg w-full">
             {item.icon && (
               <span className="text-3xl mb-3 block">{item.icon}</span>
             )}
-            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
+            <h3 className="text-xl font-bold text-white mb-spacing-xs group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
               {item.title}
             </h3>
             {item.description && (
-              <p className="text-white/80 text-sm mb-4 line-clamp-2" data-field={`items.${index}.description`}>
+              <p className="text-white/80 text-sm mb-spacing-md line-clamp-2" data-field={`items.${index}.description`}>
                 {item.description}
               </p>
             )}

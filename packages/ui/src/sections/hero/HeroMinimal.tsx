@@ -15,40 +15,42 @@ export function HeroMinimal({
   image,
   children,
   className,
+  isHomePage = false,
 }: HeroProps) {
   const heroImage = image || backgroundImage;
 
   return (
     <section
       className={cn(
-        "relative z-0 min-h-screen bg-background flex items-center",
+        "relative z-0 bg-background flex items-center",
+        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >
       <div className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-spacing-3xl items-center">
           {/* Content */}
           <div>
             {/* Decorative accent line */}
             <ScrollReveal delay={0} direction="left" distance={20}>
-              <div className="w-24 h-1 bg-primary mb-8" />
+              <div className="w-24 h-1 bg-primary mb-spacing-2xl" />
             </ScrollReveal>
 
             <ScrollReveal delay={0.1} direction="up">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 tracking-tight text-foreground leading-none" data-field="header.title">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-spacing-2xl tracking-tight text-foreground leading-none" data-field="header.title">
                 {title}
               </h1>
             </ScrollReveal>
             {subtitle && (
               <ScrollReveal delay={0.2} direction="up">
-                <p className="text-xl md:text-2xl text-muted mb-12 max-w-xl" data-field="header.subtitle">
+                <p className="text-xl md:text-2xl text-muted mb-spacing-3xl max-w-xl" data-field="header.subtitle">
                   {subtitle}
                 </p>
               </ScrollReveal>
             )}
             {(cta || secondaryCta) && (
               <ScrollReveal delay={0.3} direction="up">
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-spacing-md">
                   {cta && (
                     <Button
                       asChild

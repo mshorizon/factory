@@ -5,10 +5,11 @@ import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
 interface Props {
+  isHomePage?: boolean;
   section: Section;
 }
 
-const { section } = Astro.props;
+const { section, isHomePage = false } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 
@@ -16,7 +17,7 @@ const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/contact";
 ---
 
-<section class="py-40 overflow-hidden">
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"} overflow-hidden`}>
   <div class="container mx-auto">
     {variant === "timeline" ? (
       <>

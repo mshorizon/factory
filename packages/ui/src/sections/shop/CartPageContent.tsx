@@ -31,12 +31,12 @@ export function CartPageContent({
     return (
       <div
         className={cn(
-          "flex flex-col items-center justify-center py-16 px-4",
+          "flex flex-col items-center justify-center py-spacing-3xl px-spacing-md",
           className
         )}
       >
-        <ShoppingBag className="h-16 w-16 text-foreground/30 mb-4" />
-        <p className="text-xl text-foreground/70 mb-6">{emptyCartMessage}</p>
+        <ShoppingBag className="h-16 w-16 text-foreground/30 mb-spacing-md" />
+        <p className="text-xl text-foreground/70 mb-spacing-lg">{emptyCartMessage}</p>
         <Button asChild size="lg">
           <a href={continueShoppingHref}>
             {continueShoppingLabel}
@@ -48,14 +48,14 @@ export function CartPageContent({
   }
 
   return (
-    <div className={cn("container mx-auto py-8", className)}>
-      <div className="grid gap-8 lg:grid-cols-3">
+    <div className={cn("container mx-auto py-spacing-2xl", className)}>
+      <div className="grid gap-spacing-2xl lg:grid-cols-3">
         {/* Cart Items */}
-        <div className="lg:col-span-2 space-y-4">
+        <div className="lg:col-span-2 space-y-spacing-md">
           {items.map((item) => (
             <Card key={item.cartKey} className="overflow-hidden">
-              <CardContent className="p-4">
-                <div className="flex gap-4">
+              <CardContent className="p-spacing-md">
+                <div className="flex gap-spacing-md">
                   {item.image && (
                     <div className="flex-shrink-0 w-24 h-24 rounded-radius overflow-hidden bg-muted">
                       <img
@@ -91,9 +91,9 @@ export function CartPageContent({
                     <p className="text-lg font-bold text-primary mt-1">
                       {item.price.toFixed(2)} {currency}
                     </p>
-                    <div className="flex items-center gap-4 mt-3">
+                    <div className="flex items-center gap-spacing-md mt-3">
                       {/* Quantity Controls */}
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-spacing-xs">
                         <span className="text-sm text-foreground/70">
                           {quantityLabel}:
                         </span>
@@ -152,12 +152,12 @@ export function CartPageContent({
 
         {/* Order Summary */}
         <div className="lg:col-span-1">
-          <Card className="sticky top-24">
+          <Card className="sticky top-spacing-3xl">
             <CardHeader>
               <CardTitle>{orderSummaryLabel}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
+            <CardContent className="space-y-spacing-md">
+              <div className="space-y-spacing-xs">
                 {items.map((item) => (
                   <div
                     key={item.cartKey}
