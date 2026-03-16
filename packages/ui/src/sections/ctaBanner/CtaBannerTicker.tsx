@@ -15,7 +15,7 @@ export function CtaBannerTicker({
   );
 
   return (
-    <div className={cn("overflow-hidden py-6", className)}>
+    <div className={cn("overflow-hidden py-spacing-lg", className)}>
       <div className="marquee-track flex whitespace-nowrap">
         <span className="marquee-content text-3xl md:text-5xl font-bold font-heading text-foreground">
           {repeated} &mdash;&nbsp;

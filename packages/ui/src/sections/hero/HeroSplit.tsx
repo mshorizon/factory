@@ -36,6 +36,7 @@ export function HeroSplit({
   className,
   phone,
   background,
+  isHomePage = false,
 }: HeroProps & { phone?: string }) {
   const heroImage = image || backgroundImage;
   const allTestimonials = testimonials || (testimonial ? [testimonial] : []);
@@ -44,40 +45,41 @@ export function HeroSplit({
   return (
     <section
       className={cn(
-        "relative z-0 bg-background min-h-[600px] lg:h-[1000px] flex items-center",
+        "relative z-0 bg-background flex items-center",
+        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >
-      <div className="container mx-auto flex flex-col gap-40">
-        <div className="grid lg:grid-cols-[65fr_35fr] gap-8 lg:gap-16 items-center">
+      <div className="container mx-auto flex flex-col gap-spacing-section">
+        <div className="grid lg:grid-cols-[65fr_35fr] gap-spacing-2xl lg:gap-16 items-center">
           {/* Content Side */}
           <div className="flex flex-col justify-center">
             {badge && (
               <ScrollReveal delay={0} direction="up">
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-spacing-sm mb-spacing-lg">
                   {/* Horizontal decorative line */}
                   <div className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
-                  <Badge variant="accent" className="text-base font-medium px-4 py-1.5 uppercase tracking-wide" data-field="header.badge" style={{ color: badgeColor }}>
+                  <Badge variant="accent" className="text-base font-medium px-spacing-md py-1.5 uppercase tracking-wide" data-field="header.badge" style={{ color: badgeColor }}>
                     {badge}
                   </Badge>
                 </div>
               </ScrollReveal>
             )}
             <ScrollReveal delay={0.1} direction="up">
-              <h1 className="text-[36px] sm:text-[48px] lg:text-[60px] leading-[1.1] font-semibold tracking-tight text-foreground mb-6" data-field="header.title">
+              <h1 className="text-[36px] sm:text-[48px] lg:text-[60px] leading-[1.1] font-semibold tracking-tight text-foreground mb-spacing-lg" data-field="header.title">
                 {title}
               </h1>
             </ScrollReveal>
             {subtitle && (
               <ScrollReveal delay={0.2} direction="up">
-                <p className="text-base text-muted mb-10 max-w-lg leading-relaxed" data-field="header.subtitle">
+                <p className="text-base text-muted mb-spacing-2xl max-w-lg leading-relaxed" data-field="header.subtitle">
                   {subtitle}
                 </p>
               </ScrollReveal>
             )}
             {(cta || secondaryCta) && (
               <ScrollReveal delay={0.3} direction="up">
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-spacing-md">
                   {cta && (
                     <Button
                       asChild
@@ -86,7 +88,7 @@ export function HeroSplit({
                       className="shadow-lg shadow-primary/25 h-16 pl-8 pr-3 text-base font-semibold hover:brightness-90 transition-all group"
                       data-field="cta"
                     >
-                      <a href={cta.href} className="flex items-center gap-4">
+                      <a href={cta.href} className="flex items-center gap-spacing-md">
                         {/* Phone number on the left */}
                         <span className="text-lg font-bold tracking-wide">
                           {phone || cta.label}
@@ -103,7 +105,7 @@ export function HeroSplit({
                       asChild
                       size="xl"
                       variant="ghost"
-                      className="h-16 px-8 text-base font-semibold border-2 border-border text-muted hover:bg-white hover:border-white hover:text-[#16181D] transition-all"
+                      className="h-16 px-spacing-2xl text-base font-semibold border-2 border-border text-muted hover:bg-white hover:border-white hover:text-[#16181D] transition-all"
                       data-field="secondaryCta"
                     >
                       <a href={secondaryCta.href} className="hover:!text-[#16181D]">{secondaryCta.label}</a>
@@ -158,7 +160,7 @@ export function HeroSplit({
 
         {/* Person Ratings at bottom - Electria style */}
         {allTestimonials.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 max-w-6xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-spacing-2xl sm:gap-spacing-3xl max-w-6xl">
             {allTestimonials.slice(0, 2).map((testimonialItem, idx) => (
               <ScrollReveal key={idx} delay={0.4 + idx * 0.1} direction="up">
                 <div className="flex items-start gap-5" data-field="testimonial">
@@ -170,7 +172,7 @@ export function HeroSplit({
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-spacing-sm">
                     {/* Stars - gold/yellow */}
                     <div className="flex gap-0.5">
                       {[...Array(5)].map((_, j) => (

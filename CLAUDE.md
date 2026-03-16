@@ -49,8 +49,35 @@ This file provides critical guidance for Claude Code and AI assistants working i
 
 ### 🎨 Theming & Styling
 * **NO hardcoded colors.** Never use `bg-blue-500` or `text-gray-900`.
+* **NO hardcoded spacing.** Never use `py-40`, `gap-6`, `mb-8`, etc. Always use spacing design tokens from `themeSpacing` (e.g., `py-spacing-section`, `gap-spacing-lg`, `mb-spacing-2xl`).
 * **Semantic Tokens ONLY.** Use `bg-primary`, `bg-secondary`, `bg-background`, `text-foreground`, `rounded-radius`.
 * **Dynamic Injection.** All styles must be driven by `theme.json` metadata injected as CSS variables at the layout level.
+
+#### Spacing Design Tokens
+All spacing must use the following tokens from `theme.ui.spacing`:
+- `spacing-xs` (0.5rem/8px) - Tight gaps, icon margins
+- `spacing-sm` (0.75rem/12px) - Compact spacing
+- `spacing-md` (1rem/16px) - Default gaps
+- `spacing-lg` (1.5rem/24px) - Comfortable spacing (most common)
+- `spacing-xl` (2rem/32px) - Generous spacing
+- `spacing-2xl` (3rem/48px) - Large gaps
+- `spacing-3xl` (4rem/64px) - Major separations
+- `spacing-section-sm` (5rem/80px) - Small section vertical padding (used on non-home pages)
+- `spacing-section` (10rem/160px) - Large section vertical padding (used on home page)
+- `spacing-container` (2.5rem/40px) - Container horizontal padding
+
+**Page-Specific Spacing:**
+- **Home page sections**: Use `py-spacing-section` (160px) for more dramatic spacing
+- **Other pages** (about, services, contact): Automatically use `py-spacing-section-sm` (80px) for tighter layouts
+- Section components automatically adjust spacing based on `isHomePage` prop
+
+**Examples:**
+- Section padding: `py-spacing-section` or `py-spacing-section-sm`
+- Flexbox gaps: `gap-spacing-lg`
+- Margins: `mb-spacing-3xl`, `mt-spacing-2xl`
+- All-side padding: `p-spacing-md`
+
+**Exception:** Fine-grained utilities like `px-2.5`, `py-0.5`, `gap-1.5` are allowed for micro-spacing adjustments within components.
 
 ### 🧩 Component Design
 * **Industry Agnostic.** Every component in `packages/ui` must be reusable across any niche (from a plumber to a lawyer).

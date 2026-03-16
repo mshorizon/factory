@@ -17,13 +17,15 @@ export function HeroCards({
   backgroundImage,
   children,
   className,
+  isHomePage = false,
 }: HeroProps) {
   const heroImage = image || backgroundImage;
 
   return (
     <section
       className={cn(
-        "relative z-0 min-h-screen bg-primary/5 flex items-center",
+        "relative z-0 bg-primary/5 flex items-center",
+        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >
@@ -39,7 +41,7 @@ export function HeroCards({
       </div>
 
       <div className="relative container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-spacing-2xl lg:gap-spacing-3xl items-center">
           {/* Main content card */}
           <ScrollReveal delay={0} direction="up">
             <div className="relative">
@@ -47,22 +49,22 @@ export function HeroCards({
               <div className="absolute inset-0 bg-background rounded-radius rotate-3 shadow-xl -z-10" />
               <div className="absolute inset-0 bg-background rounded-radius -rotate-2 shadow-lg -z-20" />
 
-              <div className="bg-background rounded-radius shadow-2xl p-8 md:p-12">
+              <div className="bg-background rounded-radius shadow-2xl p-spacing-2xl md:p-spacing-3xl">
                 {badge && (
-                  <Badge variant="accent" className="mb-4 text-sm px-4 py-1" data-field="header.badge">
+                  <Badge variant="accent" className="mb-spacing-md text-sm px-spacing-md py-1" data-field="header.badge">
                     {badge}
                   </Badge>
                 )}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-foreground" data-field="header.title">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-spacing-lg tracking-tight text-foreground" data-field="header.title">
                   {title}
                 </h1>
                 {subtitle && (
-                  <p className="text-lg md:text-xl text-muted mb-8" data-field="header.subtitle">
+                  <p className="text-lg md:text-xl text-muted mb-spacing-2xl" data-field="header.subtitle">
                     {subtitle}
                   </p>
                 )}
                 {(cta || secondaryCta) && (
-                  <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-wrap gap-spacing-md">
                     {cta && (
                       <Button
                         asChild

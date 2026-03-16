@@ -3,7 +3,7 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: '2.5rem',
+      padding: 'var(--spacing-container)',
       screens: {
         sm: '1200px',
         md: '1200px',
@@ -29,6 +29,30 @@ export default {
       fontFamily: {
         sans: 'var(--font-sans)',
         heading: 'var(--font-heading)',
+      },
+      spacing: {
+        'spacing-xs': 'var(--spacing-xs)',
+        'spacing-sm': 'var(--spacing-sm)',
+        'spacing-md': 'var(--spacing-md)',
+        'spacing-lg': 'var(--spacing-lg)',
+        'spacing-xl': 'var(--spacing-xl)',
+        'spacing-2xl': 'var(--spacing-2xl)',
+        'spacing-3xl': 'var(--spacing-3xl)',
+        'spacing-section-sm': 'var(--spacing-section-sm)',
+        'spacing-section': 'var(--spacing-section)',
+        'spacing-container': 'var(--spacing-container)',
+      },
+      gap: {
+        'spacing-xs': 'var(--spacing-xs)',
+        'spacing-sm': 'var(--spacing-sm)',
+        'spacing-md': 'var(--spacing-md)',
+        'spacing-lg': 'var(--spacing-lg)',
+        'spacing-xl': 'var(--spacing-xl)',
+        'spacing-2xl': 'var(--spacing-2xl)',
+        'spacing-3xl': 'var(--spacing-3xl)',
+        'spacing-section-sm': 'var(--spacing-section-sm)',
+        'spacing-section': 'var(--spacing-section)',
+        'spacing-container': 'var(--spacing-container)',
       },
       keyframes: {
         wiggle: {

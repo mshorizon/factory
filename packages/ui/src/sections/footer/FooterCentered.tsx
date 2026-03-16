@@ -19,23 +19,23 @@ export function FooterCentered({
 
   return (
     <footer className={cn("bg-secondary text-white", className)}>
-      <div className="container mx-auto py-16">
+      <div className="container mx-auto py-spacing-3xl">
         <div className="flex flex-col items-center text-center">
           {/* Brand */}
-          <span className="font-bold text-3xl tracking-tight mb-4">
+          <span className="font-bold text-3xl tracking-tight mb-spacing-md">
             {businessName}
           </span>
 
           {/* Tagline */}
           {tagline && (
-            <p className="text-white/70 text-lg max-w-md mb-8">
+            <p className="text-white/70 text-lg max-w-md mb-spacing-2xl">
               {tagline}
             </p>
           )}
 
           {/* Navigation Links */}
           {links && links.length > 0 && (
-            <nav className="flex flex-wrap justify-center gap-2 mb-8">
+            <nav className="flex flex-wrap justify-center gap-spacing-xs mb-spacing-2xl">
               {links.map((link, index) => {
                 const href = getFooterLinkHref(link, resolveTarget);
                 return (
@@ -55,7 +55,7 @@ export function FooterCentered({
 
           {/* Social Links */}
           {socialLinks && socialLinks.length > 0 && (
-            <div className="flex gap-3 mb-8">
+            <div className="flex gap-spacing-sm mb-spacing-2xl">
               {socialLinks.map((social) => (
                 <Button
                   key={social.href}
@@ -73,11 +73,11 @@ export function FooterCentered({
           )}
 
           {/* Divider */}
-          <div className="w-24 h-px bg-white/20 mb-8" />
+          <div className="w-24 h-px bg-white/20 mb-spacing-2xl" />
 
           {/* Language Switcher */}
           {currentLanguage && (
-            <div className="mb-4">
+            <div className="mb-spacing-md">
               <LanguageSwitcher
                 currentLanguage={currentLanguage}
                 availableLanguages={availableLanguages}

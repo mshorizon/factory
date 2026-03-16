@@ -39,7 +39,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 export function FeaturesGrid({ items, className }: FeaturesGridProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 gap-6", className)}
+      className={cn("grid md:grid-cols-2 gap-spacing-lg", className)}
       staggerDelay={0.1}
     >
       {items.map((item, index) => {
@@ -61,7 +61,7 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
                 </CardDescription>
               </CardHeader>
               {item.linkLabel && (
-                <div className="px-6 pb-6">
+                <div className="px-spacing-lg pb-6">
                   <a
                     href={item.linkHref || "#"}
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"

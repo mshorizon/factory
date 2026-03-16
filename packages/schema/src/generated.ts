@@ -30,6 +30,16 @@ export type PrimaryFontFamily = string;
 export type SecondaryFontFamily = string;
 export type BaseFontSize = string;
 export type BorderRadius = string;
+export type ExtraSmallSpacing = string;
+export type SmallSpacing = string;
+export type MediumSpacing = string;
+export type LargeSpacing = string;
+export type ExtraLargeSpacing = string;
+export type XLSpacing = string;
+export type XLSpacing1 = string;
+export type SmallSectionSpacing = string;
+export type SectionSpacing = string;
+export type ContainerSpacing = string;
 export type SpacingScale = number;
 export type ButtonStyle = string;
 export type NavbarVariant = "standard" | "centered";
@@ -201,8 +211,21 @@ export interface Typography {
 }
 export interface UISettings {
   radius?: BorderRadius;
+  spacing?: ThemeSpacing;
   spacingScale?: SpacingScale;
   buttonStyle?: ButtonStyle;
+}
+export interface ThemeSpacing {
+  xs?: ExtraSmallSpacing;
+  sm?: SmallSpacing;
+  md?: MediumSpacing;
+  lg?: LargeSpacing;
+  xl?: ExtraLargeSpacing;
+  "2xl"?: XLSpacing;
+  "3xl"?: XLSpacing1;
+  "section-sm"?: SmallSectionSpacing;
+  section?: SectionSpacing;
+  container?: ContainerSpacing;
 }
 export interface Layout {
   navbar?: Navbar;

@@ -45,12 +45,12 @@ export function CheckoutPageContent({
     return (
       <div
         className={cn(
-          "flex flex-col items-center justify-center py-16 px-4",
+          "flex flex-col items-center justify-center py-spacing-3xl px-spacing-md",
           className
         )}
       >
-        <ShoppingBag className="h-16 w-16 text-foreground/30 mb-4" />
-        <p className="text-xl text-foreground/70 mb-6">{emptyCartMessage}</p>
+        <ShoppingBag className="h-16 w-16 text-foreground/30 mb-spacing-md" />
+        <p className="text-xl text-foreground/70 mb-spacing-lg">{emptyCartMessage}</p>
         <Button asChild size="lg">
           <a href="/">{continueShoppingLabel}</a>
         </Button>
@@ -59,24 +59,24 @@ export function CheckoutPageContent({
   }
 
   return (
-    <div className={cn("container mx-auto py-8", className)}>
-      <Button asChild variant="ghost" className="mb-6">
+    <div className={cn("container mx-auto py-spacing-2xl", className)}>
+      <Button asChild variant="ghost" className="mb-spacing-lg">
         <a href={backToCartHref}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           {backToCartLabel}
         </a>
       </Button>
 
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="grid gap-spacing-2xl lg:grid-cols-3">
         {/* Checkout Form */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-spacing-lg">
           {/* Contact Information */}
           <Card>
             <CardHeader>
               <CardTitle>{contactSectionTitle}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
+            <CardContent className="space-y-spacing-md">
+              <div className="space-y-spacing-xs">
                 <Label htmlFor="email">{emailLabel}</Label>
                 <Input
                   type="email"
@@ -86,7 +86,7 @@ export function CheckoutPageContent({
                   required
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-spacing-xs">
                 <Label htmlFor="phone">{phoneLabel}</Label>
                 <Input
                   type="tel"
@@ -103,9 +103,9 @@ export function CheckoutPageContent({
             <CardHeader>
               <CardTitle>{shippingSectionTitle}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
+            <CardContent className="space-y-spacing-md">
+              <div className="grid gap-spacing-md sm:grid-cols-2">
+                <div className="space-y-spacing-xs">
                   <Label htmlFor="firstName">{firstNameLabel}</Label>
                   <Input
                     type="text"
@@ -115,7 +115,7 @@ export function CheckoutPageContent({
                     required
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-spacing-xs">
                   <Label htmlFor="lastName">{lastNameLabel}</Label>
                   <Input
                     type="text"
@@ -126,7 +126,7 @@ export function CheckoutPageContent({
                   />
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-spacing-xs">
                 <Label htmlFor="address">{addressLabel}</Label>
                 <Input
                   type="text"
@@ -136,8 +136,8 @@ export function CheckoutPageContent({
                   required
                 />
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
+              <div className="grid gap-spacing-md sm:grid-cols-2">
+                <div className="space-y-spacing-xs">
                   <Label htmlFor="city">{cityLabel}</Label>
                   <Input
                     type="text"
@@ -147,7 +147,7 @@ export function CheckoutPageContent({
                     required
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-spacing-xs">
                   <Label htmlFor="postalCode">{postalCodeLabel}</Label>
                   <Input
                     type="text"
@@ -164,16 +164,16 @@ export function CheckoutPageContent({
 
         {/* Order Summary */}
         <div className="lg:col-span-1">
-          <Card className="sticky top-24">
+          <Card className="sticky top-spacing-3xl">
             <CardHeader>
               <CardTitle>{orderSummaryTitle}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-spacing-md">
               <div className="space-y-3">
                 {items.map((item) => (
                   <div
                     key={item.cartKey}
-                    className="flex gap-3"
+                    className="flex gap-spacing-sm"
                   >
                     {item.image && (
                       <div className="flex-shrink-0 w-16 h-16 rounded-radius overflow-hidden bg-muted">
@@ -205,7 +205,7 @@ export function CheckoutPageContent({
                   </div>
                 ))}
               </div>
-              <div className="border-t border-border pt-4 space-y-2">
+              <div className="border-t border-border pt-4 space-y-spacing-xs">
                 <div className="flex justify-between text-sm">
                   <span className="text-foreground/70">{subtotalLabel}</span>
                   <span>{totalPrice.toFixed(2)} {currency}</span>

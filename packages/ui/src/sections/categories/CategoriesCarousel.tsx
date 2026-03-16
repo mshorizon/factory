@@ -5,7 +5,7 @@ export function CategoriesCarousel({ items, className }: CategoriesProps) {
   return (
     <div className={cn("relative", className)}>
       {/* Horizontal scrollable container */}
-      <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+      <div className="flex gap-spacing-lg overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
         {items.map((item, index) => (
           <a
             key={index}
@@ -33,7 +33,7 @@ export function CategoriesCarousel({ items, className }: CategoriesProps) {
               )}
 
               {/* Content */}
-              <div className="p-4">
+              <div className="p-spacing-md">
                 <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
                   {item.title}
                 </h3>

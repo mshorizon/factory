@@ -15,8 +15,8 @@ export function CtaBannerDefault({
   const isPhone = ctaHref.startsWith("tel:");
 
   return (
-    <ScrollReveal className={cn("py-12 md:py-20", className)}>
-      <div className="space-y-8">
+    <ScrollReveal className={cn("py-spacing-3xl md:py-spacing-section", className)}>
+      <div className="space-y-spacing-2xl">
         {title && (
           <h2
             className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-foreground leading-tight max-w-3xl"

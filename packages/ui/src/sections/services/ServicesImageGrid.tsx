@@ -7,7 +7,7 @@ import type { ServicesProps } from "./types";
 export function ServicesImageGrid({ items, className }: ServicesProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-6", className)}
+      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-spacing-lg", className)}
       staggerDelay={0.1}
     >
       {items.map((item, index) => {
@@ -30,8 +30,8 @@ export function ServicesImageGrid({ items, className }: ServicesProps) {
             )}
 
             {/* Black overlay at bottom - expands on hover */}
-            <div className="absolute left-0 right-0 bottom-0 bg-black px-6 pt-6 pb-3 transition-all duration-500 ease-out">
-              <div className="flex items-start justify-between gap-4 mb-3">
+            <div className="absolute left-0 right-0 bottom-0 bg-black px-spacing-lg pt-6 pb-3 transition-all duration-500 ease-out">
+              <div className="flex items-start justify-between gap-spacing-md mb-3">
                 <h3
                   className="text-xl font-semibold text-white leading-tight"
                   data-field={`items.${index}.title`}

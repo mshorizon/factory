@@ -428,6 +428,62 @@
           }
         }
       }
+    },
+    "themeSpacing": {
+      "type": "object",
+      "title": "ThemeSpacing",
+      "properties": {
+        "xs": {
+          "type": "string",
+          "title": "Extra Small Spacing",
+          "default": "0.5rem"
+        },
+        "sm": {
+          "type": "string",
+          "title": "Small Spacing",
+          "default": "0.75rem"
+        },
+        "md": {
+          "type": "string",
+          "title": "Medium Spacing",
+          "default": "1rem"
+        },
+        "lg": {
+          "type": "string",
+          "title": "Large Spacing",
+          "default": "1.5rem"
+        },
+        "xl": {
+          "type": "string",
+          "title": "Extra Large Spacing",
+          "default": "2rem"
+        },
+        "2xl": {
+          "type": "string",
+          "title": "2XL Spacing",
+          "default": "3rem"
+        },
+        "3xl": {
+          "type": "string",
+          "title": "3XL Spacing",
+          "default": "4rem"
+        },
+        "section-sm": {
+          "type": "string",
+          "title": "Small Section Spacing",
+          "default": "5rem"
+        },
+        "section": {
+          "type": "string",
+          "title": "Section Spacing",
+          "default": "10rem"
+        },
+        "container": {
+          "type": "string",
+          "title": "Container Spacing",
+          "default": "2.5rem"
+        }
+      }
     }
   },
   "properties": {
@@ -535,6 +591,7 @@
           "title": "UI Settings",
           "properties": {
             "radius": { "type": "string", "title": "Border Radius", "default": "0.5rem" },
+            "spacing": { "$ref": "#/definitions/themeSpacing" },
             "spacingScale": { "type": "number", "title": "Spacing Scale" },
             "buttonStyle": { "type": "string", "title": "Button Style" }
           }

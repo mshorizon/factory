@@ -9,7 +9,7 @@ import type { GalleryBAProps } from "./types";
 export function GalleryBA({ pairs, className }: GalleryBAProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-8", className)}
+      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-spacing-2xl", className)}
       staggerDelay={0.15}
     >
       {pairs.map((pair, index) => {
@@ -27,7 +27,7 @@ export function GalleryBA({ pairs, className }: GalleryBAProps) {
                     alt={`${pair.title} - Before`}
                     className="h-full w-full object-cover"
                   />
-                  <Badge className="absolute bottom-2 left-2" variant="default">
+                  <Badge className="absolute bottom-spacing-xs left-spacing-xs" variant="default">
                     Before
                   </Badge>
                 </div>
@@ -37,7 +37,7 @@ export function GalleryBA({ pairs, className }: GalleryBAProps) {
                     alt={`${pair.title} - After`}
                     className="h-full w-full object-cover"
                   />
-                  <Badge className="absolute bottom-2 left-2" variant="default">
+                  <Badge className="absolute bottom-spacing-xs left-spacing-xs" variant="default">
                     After
                   </Badge>
                 </div>

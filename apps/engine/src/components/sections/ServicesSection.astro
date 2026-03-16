@@ -5,11 +5,12 @@ import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
 interface Props {
+  isHomePage?: boolean;
   section: Section;
   business: BusinessProfile;
 }
 
-const { section, business } = Astro.props;
+const { section, business, isHomePage = false } = Astro.props;
 const variant = getSectionVariant(section);
 
 // Use section.items if provided, otherwise fallback to business.data.services
@@ -22,7 +23,7 @@ const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 ---
 
-<section class="py-40">
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
     <SectionHeader
       badge={header.badge}
@@ -42,10 +43,10 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
       <ServicesGrid client:visible items={items} />
     )}
     {ctaLabel && (
-      <div class={`mt-10 ${variant === "darkCards" || variant === "imageGrid" ? "text-left" : "text-center"}`}>
+      <div class={`mt-spacing-2xl ${variant === "darkCards" || variant === "imageGrid" ? "text-left" : "text-center"}`}>
         <a
           href={ctaHref}
-          class="inline-flex items-center justify-center gap-2 rounded-radius bg-primary text-on-primary px-8 py-3 text-base font-medium shadow hover:bg-primary/90 transition-all"
+          class="inline-flex items-center justify-center gap-spacing-xs rounded-radius bg-primary text-on-primary px-spacing-2xl py-3 text-base font-medium shadow hover:bg-primary/90 transition-all"
           data-field="cta"
         >
           {ctaLabel}

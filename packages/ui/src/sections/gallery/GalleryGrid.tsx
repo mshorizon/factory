@@ -8,7 +8,7 @@ import type { GalleryGridProps } from "./types";
 export function GalleryGrid({ items, className }: GalleryGridProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-6", className)}
+      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-spacing-lg", className)}
       staggerDelay={0.1}
     >
       {items.map((item, index) => {
@@ -30,7 +30,7 @@ export function GalleryGrid({ items, className }: GalleryGridProps) {
                   loading="lazy"
                 />
               </div>
-              <div className="p-4">
+              <div className="p-spacing-md">
                 <h3
                   className="font-semibold text-foreground"
                   data-field={`items.${index}.title`}

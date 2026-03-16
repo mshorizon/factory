@@ -71,8 +71,8 @@ export function ContactSplit({
       <div className="grid lg:grid-cols-2 gap-0">
         {/* Contact Form - Left side with dark background */}
         <ScrollReveal delay={0.1} direction="left" distance={30}>
-          <form onSubmit={handleSubmit} className="space-y-6 bg-[#16181D] p-12 rounded-radius-secondary text-white min-h-[600px]">
-            <div className="space-y-2">
+          <form onSubmit={handleSubmit} className="space-y-spacing-lg bg-[#16181D] p-spacing-3xl rounded-radius-secondary text-white min-h-[600px]">
+            <div className="space-y-spacing-xs">
               <Label htmlFor="name" className="text-white">
                 {form?.nameLabel || "Name"}
               </Label>
@@ -86,7 +86,7 @@ export function ContactSplit({
                 className="bg-white text-black border-none"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-spacing-xs">
               <Label htmlFor="email" className="text-white">
                 {form?.emailLabel || "Email"}
               </Label>
@@ -100,7 +100,7 @@ export function ContactSplit({
                 className="bg-white text-black border-none"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-spacing-xs">
               <Label htmlFor="message" className="text-white">
                 {form?.messageLabel || "Message"}
               </Label>
@@ -115,13 +115,13 @@ export function ContactSplit({
               />
             </div>
             {status === "error" && (
-              <div className="flex items-center gap-2 text-sm text-red-400">
+              <div className="flex items-center gap-spacing-xs text-sm text-red-400">
                 <AlertCircle className="h-4 w-4 shrink-0" />
                 <span>Something went wrong. Please try again.</span>
               </div>
             )}
             {status === "success" && (
-              <div className="flex items-center gap-2 text-sm text-green-400">
+              <div className="flex items-center gap-spacing-xs text-sm text-green-400">
                 <CheckCircle className="h-4 w-4 shrink-0" />
                 <span>Message sent successfully!</span>
               </div>
@@ -139,9 +139,9 @@ export function ContactSplit({
 
         {/* Contact Info - Right side */}
         <ScrollReveal delay={0.1} direction="right" distance={30}>
-          <div className="space-y-8 px-16 pt-8 pb-12 bg-background flex flex-col justify-center rounded-radius-secondary">
+          <div className="space-y-spacing-2xl px-spacing-3xl pt-8 pb-12 bg-background flex flex-col justify-center rounded-radius-secondary">
             {badge && (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-spacing-sm">
                 <span className="w-12 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
                 <Badge variant="accent" data-field="header.badge" style={{ color: "var(--primary-dark)" }}>
                   {badge}
@@ -163,20 +163,20 @@ export function ContactSplit({
 
             <div className="h-px bg-border my-4"></div>
 
-            <div className="space-y-6">
+            <div className="space-y-spacing-lg">
               {contactInfo.address && (
                 mapsUrl ? (
                   <a
                     href={mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 group cursor-pointer"
+                    className="flex items-center gap-spacing-sm group cursor-pointer"
                   >
                     <MapPin className="h-5 w-5 shrink-0 transition-opacity group-hover:opacity-80" style={{ color: "var(--primary-dark)" }} />
                     <p className="text-foreground transition-colors" style={{ "--hover-color": "var(--primary-dark)" } as React.CSSProperties} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary-dark)")} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>{contactInfo.address}</p>
                   </a>
                 ) : (
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-spacing-sm">
                     <MapPin className="h-5 w-5 shrink-0" style={{ color: "var(--primary-dark)" }} />
                     <p className="text-foreground">{contactInfo.address}</p>
                   </div>
@@ -186,7 +186,7 @@ export function ContactSplit({
               {contactInfo.phone && (
                 <a
                   href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
-                  className="flex items-center gap-3 group cursor-pointer"
+                  className="flex items-center gap-spacing-sm group cursor-pointer"
                 >
                   <Phone className="h-5 w-5 shrink-0 transition-opacity group-hover:opacity-80" style={{ color: "var(--primary-dark)" }} />
                   <p className="text-foreground transition-colors" style={{ "--hover-color": "var(--primary-dark)" } as React.CSSProperties} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary-dark)")} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>{contactInfo.phone}</p>
@@ -196,7 +196,7 @@ export function ContactSplit({
               {contactInfo.email && (
                 <a
                   href={`mailto:${contactInfo.email}`}
-                  className="flex items-center gap-3 group cursor-pointer"
+                  className="flex items-center gap-spacing-sm group cursor-pointer"
                 >
                   <Mail className="h-5 w-5 shrink-0 transition-opacity group-hover:opacity-80" style={{ color: "var(--primary-dark)" }} />
                   <p className="text-foreground transition-colors" style={{ "--hover-color": "var(--primary-dark)" } as React.CSSProperties} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary-dark)")} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>{contactInfo.email}</p>
@@ -204,7 +204,7 @@ export function ContactSplit({
               )}
 
               {contactInfo.hours && (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-spacing-sm">
                   <Clock className="h-5 w-5 shrink-0" style={{ color: "var(--primary-dark)" }} />
                   <p className="text-foreground">{contactInfo.hours}</p>
                 </div>

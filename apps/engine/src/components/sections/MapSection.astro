@@ -3,11 +3,12 @@ import type { Section, BusinessProfile } from "@mshorizon/schema";
 import { GoogleMap } from "@mshorizon/ui";
 
 interface Props {
+  isHomePage?: boolean;
   section: Section;
   business: BusinessProfile;
 }
 
-const { section, business } = Astro.props;
+const { section, business, isHomePage = false } = Astro.props;
 
 // Get location from business contact
 const location = business.business.contact?.location;
@@ -18,7 +19,7 @@ if (!location) {
 ---
 
 {location && (
-  <section class="py-20">
+  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
     <GoogleMap
       client:load
       latitude={location.latitude}

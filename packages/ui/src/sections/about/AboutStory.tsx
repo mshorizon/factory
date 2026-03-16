@@ -25,12 +25,12 @@ export function AboutStory({
 }: AboutStoryProps) {
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   return (
-    <div className={cn("space-y-12", className)}>
+    <div className={cn("space-y-spacing-3xl", className)}>
       {/* Split layout: image left, text right */}
       <div className="grid lg:grid-cols-2 gap-0 items-stretch">
         {image && (
           <ScrollReveal delay={0} direction="left" distance={30}>
-            <div className="relative flex items-center justify-center lg:justify-start p-8">
+            <div className="relative flex items-center justify-center lg:justify-start p-spacing-2xl">
               <img
                 src={image}
                 alt=""
@@ -42,9 +42,9 @@ export function AboutStory({
         )}
 
         <ScrollReveal delay={0.1} direction="right" distance={30}>
-          <div className="space-y-6 px-8 lg:px-16 py-12 flex flex-col justify-center">
+          <div className="space-y-spacing-lg px-spacing-2xl lg:px-spacing-3xl py-spacing-3xl flex flex-col justify-center">
             {badge && (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-spacing-sm">
                 <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
                 <Badge variant="accent" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
               </div>
@@ -53,7 +53,7 @@ export function AboutStory({
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading leading-tight" data-field="header.title">{title}</h2>
             )}
             {story && story.content && (
-              <div className="space-y-4">
+              <div className="space-y-spacing-md">
                 {story.content.split('\n\n').map((paragraph: string, index: number) => (
                   <p key={index} className="text-muted leading-relaxed" data-field={`story.content.${index}`}>{paragraph}</p>
                 ))}
@@ -74,11 +74,11 @@ export function AboutStory({
       {/* Stats row */}
       {stats && stats.length > 0 && (
         <ScrollReveal delay={0.2} direction="up">
-          <StaggerContainer className="flex flex-row flex-wrap justify-center gap-8 md:gap-12 py-8" staggerDelay={0.1}>
+          <StaggerContainer className="flex flex-row flex-wrap justify-center gap-spacing-2xl md:gap-spacing-3xl py-spacing-2xl" staggerDelay={0.1}>
             {stats.map((stat, index) => (
               <StaggerItem key={index} direction="up" distance={20}>
                 <div className="text-center" data-field={`stats.${index}`}>
-                  <div className="text-5xl md:text-6xl font-bold text-foreground mb-2 font-heading" data-field={`stats.${index}.value`}>{stat.value}</div>
+                  <div className="text-5xl md:text-6xl font-bold text-foreground mb-spacing-xs font-heading" data-field={`stats.${index}.value`}>{stat.value}</div>
                   <p className="text-sm text-muted" data-field={`stats.${index}.label`}>{stat.label}</p>
                 </div>
               </StaggerItem>
@@ -90,8 +90,8 @@ export function AboutStory({
       {commitment && (
         <ScrollReveal delay={0.3} direction="up">
           <section>
-            <h2 className="text-2xl font-bold text-foreground mb-4" data-field="commitment.title">{commitment.title}</h2>
-            <p className="text-muted leading-relaxed mb-6" data-field="commitment.content">{commitment.content}</p>
+            <h2 className="text-2xl font-bold text-foreground mb-spacing-md" data-field="commitment.title">{commitment.title}</h2>
+            <p className="text-muted leading-relaxed mb-spacing-lg" data-field="commitment.content">{commitment.content}</p>
             {!cta && commitment && (
               <Button asChild size="lg">
                 <a href={ctaHref}>{cta}</a>

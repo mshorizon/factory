@@ -15,13 +15,13 @@ export function AboutTimeline({
   className,
 }: AboutTimelineProps) {
   return (
-    <div className={cn("space-y-12", className)}>
+    <div className={cn("space-y-spacing-3xl", className)}>
       {/* Timeline */}
       <section className="relative">
         {/* Vertical line */}
-        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-1/2" />
+        <div className="absolute left-spacing-md md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-1/2" />
 
-        <StaggerContainer className="space-y-8" staggerDelay={0.15}>
+        <StaggerContainer className="space-y-spacing-2xl" staggerDelay={0.15}>
           {timeline.map((item, index) => (
             <StaggerItem
               key={index}
@@ -30,12 +30,12 @@ export function AboutTimeline({
             >
               <div
                 className={cn(
-                  "relative flex items-start gap-6 md:gap-0",
+                  "relative flex items-start gap-spacing-lg md:gap-0",
                   index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                 )}
               >
                 {/* Year marker */}
-                <div className="absolute left-4 md:left-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center md:-translate-x-1/2 z-10">
+                <div className="absolute left-spacing-md md:left-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center md:-translate-x-1/2 z-10">
                   <span className="text-on-primary text-xs font-bold">{index + 1}</span>
                 </div>
 
@@ -51,7 +51,7 @@ export function AboutTimeline({
                       <span className="inline-block px-3 py-1 text-sm font-bold text-primary bg-primary/10 rounded-full mb-3" data-field={`timeline.${index}.year`}>
                         {item.year}
                       </span>
-                      <h3 className="text-xl font-bold text-foreground mb-2" data-field={`timeline.${index}.title`}>{item.title}</h3>
+                      <h3 className="text-xl font-bold text-foreground mb-spacing-xs" data-field={`timeline.${index}.title`}>{item.title}</h3>
                       {item.description && (
                         <p className="text-muted" data-field={`timeline.${index}.description`}>{item.description}</p>
                       )}
@@ -68,12 +68,12 @@ export function AboutTimeline({
       {stats && stats.length > 0 && (
         <ScrollReveal delay={0.1} direction="up">
           <section>
-            <StaggerContainer className="grid md:grid-cols-3 gap-6" staggerDelay={0.1}>
+            <StaggerContainer className="grid md:grid-cols-3 gap-spacing-lg" staggerDelay={0.1}>
               {stats.map((stat, index) => (
                 <StaggerItem key={index} direction="up" distance={20}>
                   <Card className="text-center hover:shadow-lg transition-shadow h-full" data-field={`stats.${index}`}>
                     <CardContent className="pt-6">
-                      <div className="text-4xl font-bold text-primary mb-2" data-field={`stats.${index}.value`}>{stat.value}</div>
+                      <div className="text-4xl font-bold text-primary mb-spacing-xs" data-field={`stats.${index}.value`}>{stat.value}</div>
                       <p className="text-muted" data-field={`stats.${index}.label`}>{stat.label}</p>
                     </CardContent>
                   </Card>

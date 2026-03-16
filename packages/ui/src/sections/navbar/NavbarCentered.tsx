@@ -36,14 +36,14 @@ export function NavbarCentered({
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Desktop Left Links */}
-          <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1 justify-end">
+          <div className="hidden md:flex items-center gap-1 lg:gap-spacing-xs flex-1 justify-end">
             {leftLinks.map((link, index) => {
               const href = getLinkHref(link, resolveTarget);
               return (
                 <a
                   key={`left-${link.label}-${index}`}
                   href={href}
-                  className="relative px-4 py-2 text-[16px] font-medium text-foreground/80 hover:text-foreground transition-colors group"
+                  className="relative px-spacing-md py-spacing-sm text-[16px] font-medium text-foreground/80 hover:text-foreground transition-colors group"
                 >
                   {link.label}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
@@ -53,7 +53,7 @@ export function NavbarCentered({
           </div>
 
           {/* Centered Logo */}
-          <a href="/" className="flex items-center gap-2 group mx-8">
+          <a href="/" className="flex items-center gap-spacing-xs group mx-8">
             {logoIcon && <span className="text-3xl">{logoIcon}</span>}
             <span className="text-2xl lg:text-3xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
               {logo}
@@ -61,14 +61,14 @@ export function NavbarCentered({
           </a>
 
           {/* Desktop Right Links */}
-          <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1">
+          <div className="hidden md:flex items-center gap-1 lg:gap-spacing-xs flex-1">
             {rightLinks.map((link, index) => {
               const href = getLinkHref(link, resolveTarget);
               return (
                 <a
                   key={`right-${link.label}-${index}`}
                   href={href}
-                  className="relative px-4 py-2 text-[16px] font-medium text-foreground/80 hover:text-foreground transition-colors group"
+                  className="relative px-spacing-md py-spacing-sm text-[16px] font-medium text-foreground/80 hover:text-foreground transition-colors group"
                 >
                   {link.label}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
@@ -86,7 +86,7 @@ export function NavbarCentered({
           </div>
 
           {/* Mobile Cart, CTA & Menu Button - Right */}
-          <div className="md:hidden flex items-center gap-2 ml-auto">
+          <div className="md:hidden flex items-center gap-spacing-xs ml-auto">
             {cta && (
               <Button asChild size="sm" className="shadow-lg shadow-primary/25">
                 <a href={getCTAHref(cta, resolveTarget)}>
@@ -123,7 +123,7 @@ export function NavbarCentered({
                 <a
                   key={`mobile-${link.label}-${index}`}
                   href={href}
-                  className="px-4 py-3 text-[16px] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors text-center"
+                  className="px-spacing-md py-3 text-[16px] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors text-center"
                 >
                   {link.label}
                 </a>

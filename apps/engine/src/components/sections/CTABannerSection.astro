@@ -4,10 +4,11 @@ import { CtaBannerDefault, CtaBannerTicker } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
+  isHomePage?: boolean;
   section: Section;
 }
 
-const { section } = Astro.props;
+const { section, isHomePage = false } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 
@@ -20,14 +21,14 @@ const ctaHref = section.cta?.target?.type === "phone"
 ---
 
 {variant === "ticker" ? (
-  <section class="py-40">
+  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
     <CtaBannerTicker
       client:visible
       marqueeText={section.marqueeText || header.title}
     />
   </section>
 ) : (
-  <section class="py-40">
+  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
     <div class="container mx-auto">
       <CtaBannerDefault
         client:visible

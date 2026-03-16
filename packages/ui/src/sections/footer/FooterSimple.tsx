@@ -18,16 +18,16 @@ export function FooterSimple({
 
   return (
     <footer className={cn("bg-secondary text-white", className)}>
-      <div className="container mx-auto py-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="container mx-auto py-spacing-3xl">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-spacing-lg">
           {/* Brand */}
-          <div className="flex flex-col items-center md:items-start gap-2">
+          <div className="flex flex-col items-center md:items-start gap-spacing-xs">
             <span className="font-bold text-xl tracking-tight">{businessName}</span>
           </div>
 
           {/* Navigation Links */}
           {links && links.length > 0 && (
-            <nav className="flex flex-wrap justify-center gap-2">
+            <nav className="flex flex-wrap justify-center gap-spacing-xs">
               {links.map((link, index) => {
                 const href = getFooterLinkHref(link, resolveTarget);
                 return (
@@ -47,7 +47,7 @@ export function FooterSimple({
 
           {/* Social Links */}
           {socialLinks && socialLinks.length > 0 && (
-            <div className="flex gap-2">
+            <div className="flex gap-spacing-xs">
               {socialLinks.map((social) => (
                 <Button
                   key={social.href}
@@ -66,7 +66,7 @@ export function FooterSimple({
         </div>
 
         {/* Divider & Copyright */}
-        <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-spacing-2xl pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-spacing-md">
           <p className="text-sm text-white/60">
             {copyright || `© ${year} ${businessName}. All rights reserved.`}
           </p>

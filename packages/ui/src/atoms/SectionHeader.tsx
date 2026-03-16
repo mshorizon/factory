@@ -36,10 +36,10 @@ export function SectionHeader({
 
   if (layout === "split") {
     return (
-      <div className={cn("mb-12", className)}>
+      <div className={cn("mb-spacing-3xl", className)}>
         {badge && (
           <div className={cn(
-            "flex items-center gap-3 mb-6",
+            "flex items-center gap-spacing-sm mb-spacing-lg",
             align === "center" && "justify-center",
             align === "right" && "justify-end"
           )}>
@@ -49,7 +49,7 @@ export function SectionHeader({
             </Badge>
           </div>
         )}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-16">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-spacing-md lg:gap-16">
           {title && (
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading flex-shrink-0" data-field="header.title">{title}</h2>
           )}
@@ -64,10 +64,10 @@ export function SectionHeader({
   }
 
   return (
-    <div className={cn("mb-12", alignClass, className)}>
+    <div className={cn("mb-spacing-3xl", alignClass, className)}>
       {badge && (
         <div className={cn(
-          "mb-4",
+          "mb-spacing-md",
           align === "center" && "flex justify-center"
         )}>
           <Badge variant="accent" data-field="header.badge" style={{ color: badgeColor }}>
@@ -76,7 +76,7 @@ export function SectionHeader({
         </div>
       )}
       {title && (
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-heading" data-field="header.title">{title}</h2>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-spacing-md font-heading" data-field="header.title">{title}</h2>
       )}
       {subtitle && (
         <p

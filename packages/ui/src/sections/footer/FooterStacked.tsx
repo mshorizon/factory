@@ -22,8 +22,8 @@ export function FooterStacked({
     <footer className={cn("bg-background", className)}>
       {/* Top Section - Brand */}
       <div className="border-t border-border">
-        <div className="container mx-auto py-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="container mx-auto py-spacing-3xl">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-spacing-lg">
             <div className="text-center md:text-left">
               <span className="font-bold text-2xl text-foreground tracking-tight block">
                 {businessName}
@@ -37,7 +37,7 @@ export function FooterStacked({
 
             {/* Social Links */}
             {socialLinks && socialLinks.length > 0 && (
-              <div className="flex gap-2">
+              <div className="flex gap-spacing-xs">
                 {socialLinks.map((social) => (
                   <Button
                     key={social.href}
@@ -60,7 +60,7 @@ export function FooterStacked({
       {/* Middle Section - Column Links */}
       {columns && columns.length > 0 && (
         <div className="border-t border-border">
-          <div className="container mx-auto py-8">
+          <div className="container mx-auto py-spacing-2xl">
             <div className="flex flex-wrap justify-center gap-x-12 gap-y-6">
               {columns.map((column, colIndex) => (
                 <div key={colIndex} className="text-center">
@@ -91,12 +91,12 @@ export function FooterStacked({
 
       {/* Bottom Section - Copyright & Legal */}
       <div className="border-t border-border bg-primary/5">
-        <div className="container mx-auto py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="container mx-auto py-spacing-lg">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-spacing-md">
             <p className="text-sm text-muted">
               {copyright || `© ${year} ${businessName}. All rights reserved.`}
             </p>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-spacing-lg">
               {currentLanguage && (
                 <LanguageSwitcher
                   currentLanguage={currentLanguage}
@@ -105,7 +105,7 @@ export function FooterStacked({
                 />
               )}
               {links && links.length > 0 && (
-                <nav className="flex gap-6">
+                <nav className="flex gap-spacing-lg">
                   {links.map((link, index) => {
                     const href = getFooterLinkHref(link, resolveTarget);
                     return (

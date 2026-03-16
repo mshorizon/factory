@@ -65,7 +65,7 @@ export function ProductCard({
         )}
         <CardHeader className="pb-2">
           {category && (
-            <Badge variant="outline" className="w-fit mb-2 text-xs">
+            <Badge variant="outline" className="w-fit mb-spacing-xs text-xs">
               {category}
             </Badge>
           )}
@@ -85,7 +85,7 @@ export function ProductCard({
               ))}
             </ul>
           )}
-          <p className="mt-4 text-2xl font-bold text-primary" data-field={index != null ? `products.${index}.price` : undefined}>
+          <p className="mt-spacing-md text-2xl font-bold text-primary" data-field={index != null ? `products.${index}.price` : undefined}>
             {price.toFixed(2)} {currency}
           </p>
         </CardContent>

@@ -51,9 +51,9 @@ export function ContactCentered({
     <div className={cn("max-w-2xl mx-auto", className)}>
       {(title || subtitle) && (
         <ScrollReveal delay={0} direction="up">
-          <div className="text-center mb-8">
+          <div className="text-center mb-spacing-2xl">
             {title && (
-              <h1 className="text-4xl font-bold text-foreground mb-2" data-field="header.title">{title}</h1>
+              <h1 className="text-4xl font-bold text-foreground mb-spacing-xs" data-field="header.title">{title}</h1>
             )}
             {subtitle && (
               <p className="text-muted" data-field="header.subtitle">{subtitle}</p>
@@ -63,8 +63,8 @@ export function ContactCentered({
       )}
 
       <ScrollReveal delay={0.1} direction="up">
-        <form onSubmit={handleSubmit} className="space-y-6 bg-background border border-border rounded-radius-secondary p-8 shadow-sm">
-          <div className="space-y-2" data-field="form.nameLabel">
+        <form onSubmit={handleSubmit} className="space-y-spacing-lg bg-background border border-border rounded-radius-secondary p-spacing-2xl shadow-sm">
+          <div className="space-y-spacing-xs" data-field="form.nameLabel">
             <Label htmlFor="name" className="text-foreground">
               {form?.nameLabel || "Name"}
             </Label>
@@ -77,7 +77,7 @@ export function ContactCentered({
               disabled={status === "loading"}
             />
           </div>
-          <div className="space-y-2" data-field="form.emailLabel">
+          <div className="space-y-spacing-xs" data-field="form.emailLabel">
             <Label htmlFor="email" className="text-foreground">
               {form?.emailLabel || "Email"}
             </Label>
@@ -90,7 +90,7 @@ export function ContactCentered({
               disabled={status === "loading"}
             />
           </div>
-          <div className="space-y-2" data-field="form.messageLabel">
+          <div className="space-y-spacing-xs" data-field="form.messageLabel">
             <Label htmlFor="message" className="text-foreground">
               {form?.messageLabel || "Message"}
             </Label>
@@ -104,13 +104,13 @@ export function ContactCentered({
             />
           </div>
           {status === "error" && (
-            <div className="flex items-center gap-2 text-sm text-red-500">
+            <div className="flex items-center gap-spacing-xs text-sm text-red-500">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>Something went wrong. Please try again.</span>
             </div>
           )}
           {status === "success" && (
-            <div className="flex items-center gap-2 text-sm text-green-500">
+            <div className="flex items-center gap-spacing-xs text-sm text-green-500">
               <CheckCircle className="h-4 w-4 shrink-0" />
               <span>Message sent successfully!</span>
             </div>
