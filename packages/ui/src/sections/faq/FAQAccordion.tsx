@@ -71,7 +71,7 @@ export function FAQAccordion({ items, className, ctaText, ctaHref }: FAQAccordio
       {ctaText && ctaHref && (
         <a
           href={ctaHref}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-foreground font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-accent font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
         >
           {ctaText}
           <ArrowRight className="h-5 w-5" />

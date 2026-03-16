@@ -170,6 +170,13 @@
               }
             },
             {
+              "label": "t:footer.columns.pages.testimonials",
+              "target": {
+                "type": "page",
+                "value": "testimonials"
+              }
+            },
+            {
               "label": "t:footer.columns.pages.contact",
               "target": {
                 "type": "page",
@@ -588,6 +595,7 @@
         {
           "type": "testimonials",
           "background": "dark",
+          "variant": "summary",
           "header": {
             "badge": "t:testimonials.badge",
             "title": "t:testimonials.title",
@@ -596,13 +604,27 @@
           "items": [
             {
               "title": "t:testimonials.items.0.author",
-              "description": "t:testimonials.items.0.text"
+              "description": "t:testimonials.items.0.text",
+              "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
             },
             {
               "title": "t:testimonials.items.1.author",
-              "description": "t:testimonials.items.1.text"
+              "description": "t:testimonials.items.1.text",
+              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "t:testimonials.items.2.author",
+              "description": "t:testimonials.items.2.text",
+              "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
             }
-          ]
+          ],
+          "cta": {
+            "label": "t:testimonials.viewAll",
+            "target": {
+              "type": "page",
+              "value": "testimonials"
+            }
+          }
         },
         {
           "type": "blog",
@@ -730,6 +752,52 @@
             "title": "t:map.title",
             "subtitle": "t:map.subtitle"
           }
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "t:pages.testimonials.title",
+      "sections": [
+        {
+          "type": "testimonials",
+          "variant": "full",
+          "header": {
+            "badge": "t:testimonials.badge",
+            "title": "t:testimonials.title",
+            "subtitle": "t:testimonials.subtitle"
+          },
+          "items": [
+            {
+              "title": "t:testimonials.items.0.author",
+              "description": "t:testimonials.items.0.text",
+              "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "t:testimonials.items.1.author",
+              "description": "t:testimonials.items.1.text",
+              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "t:testimonials.items.2.author",
+              "description": "t:testimonials.items.2.text",
+              "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "t:testimonials.items.3.author",
+              "description": "t:testimonials.items.3.text",
+              "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "t:testimonials.items.4.author",
+              "description": "t:testimonials.items.4.text",
+              "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "t:testimonials.items.5.author",
+              "description": "t:testimonials.items.5.text",
+              "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face"
+            }
+          ]
         }
       ]
     }

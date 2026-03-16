@@ -1,28 +1,52 @@
 ---
-import type { Section } from "@mshorizon/schema";
+import type { Section, BusinessProfile } from "@mshorizon/schema";
 import { TestimonialsGrid, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
 
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  business?: BusinessProfile;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, business } = Astro.props;
 const header = getSectionHeader(section);
 const items = section.items || [];
+const cta = section.cta;
+const ctaHref = cta && business ? resolveTarget(cta.target, business) : undefined;
+const showHeader = section.variant !== 'full';
 ---
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
-    <SectionHeader
-      badge={header.badge}
-      title={header.title}
-      subtitle={header.subtitle}
-      layout="split"
-      align="left"
-      background={section.background}
-    />
-    <TestimonialsGrid client:visible items={items} />
+    {showHeader && (
+      <SectionHeader
+        badge={header.badge}
+        title={header.title}
+        subtitle={header.subtitle}
+        layout="split"
+        align="left"
+        background={section.background}
+      />
+    )}
+    <div class="mb-12">
+      <TestimonialsGrid client:visible items={items} />
+    </div>
+    {cta && ctaHref && (
+      <div class="mt-[8rem]">
+        <a
+          href={ctaHref}
+          class="inline-flex items-center gap-2 px-6 py-3 bg-accent font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
+          style="color: var(--text-on-primary);"
+        >
+          {cta.label}
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/>
+            <path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    )}
   </div>
 </section>
