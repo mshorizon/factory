@@ -22,7 +22,18 @@ export default defineConfig({
 
   vite: {
     ssr: {
-      external: ['@mshorizon/db', 'postgres', 'drizzle-orm', '@aws-sdk/client-s3']
+      external: [
+        '@mshorizon/db',
+        'postgres',
+        'drizzle-orm',
+        '@aws-sdk/client-s3',
+        'lexical',
+        '@lexical/react',
+        '@lexical/rich-text',
+        '@lexical/list',
+        '@lexical/link',
+        '@lexical/selection'
+      ]
     }
   }
 });

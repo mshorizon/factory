@@ -2,6 +2,8 @@
 import type { Section } from "@mshorizon/schema";
 import { BlogGrid, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
+import { getLatestBlogs } from "@mshorizon/db";
+import type { BlogPost } from "@mshorizon/ui/sections/blog/types";
 
 interface Props {
   isHomePage?: boolean;
@@ -9,21 +11,40 @@ interface Props {
 }
 
 const { section, isHomePage = false } = Astro.props;
+const { site, currentLang } = Astro.locals;
+
 const header = getSectionHeader(section);
-const posts = section.blogPosts || [];
-const ctaLabel = section.ctaLabel;
+const ctaLabel = section.ctaLabel || "Czytaj więcej";
+
+// Fetch latest 2 blogs from database
+const blogs = site ? await getLatestBlogs(site.id, 2) : [];
+
+// Transform blogs to BlogPost[] format
+const posts: BlogPost[] = blogs.map((blog) => ({
+  title: blog.title,
+  description: blog.description || "",
+  image: blog.image || undefined,
+  date: blog.publishedAt ? new Date(blog.publishedAt).toLocaleDateString(currentLang, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }) : undefined,
+  href: `/blog/${blog.slug}`,
+}));
 ---
 
-<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
-  <div class="container mx-auto">
-    <SectionHeader
-      badge={header.badge}
-      title={header.title}
-      subtitle={header.subtitle}
-      layout="split"
-      align="left"
-      background={section.background}
-    />
-    <BlogGrid client:visible posts={posts} ctaLabel={ctaLabel} />
-  </div>
-</section>
+{posts.length > 0 && (
+  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+    <div class="container mx-auto px-spacing-container">
+      <SectionHeader
+        badge={header.badge}
+        title={header.title}
+        subtitle={header.subtitle}
+        layout="split"
+        align="left"
+        background={section.background}
+      />
+      <BlogGrid client:visible posts={posts} ctaLabel={ctaLabel} />
+    </div>
+  </section>
+)}

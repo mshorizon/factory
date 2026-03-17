@@ -5,6 +5,7 @@ import type { RJSFSchema } from "@rjsf/utils";
 import { ColorPickerWidget } from "./widgets/ColorPickerWidget";
 import { ImageUrlWidget } from "./widgets/ImageUrlWidget";
 import SectionEditor from "./SectionEditor";
+import { BlogManagement } from "./BlogManagement";
 
 // Handle CJS/ESM interop
 const Form = (rjsfCore as any).default || rjsfCore;
@@ -201,6 +202,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
     data: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
     page: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>,
     translations: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>,
+    blog: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>,
   };
 
   const tabs: { id: TabType; label: string; icon?: React.ReactNode }[] = [
@@ -209,6 +211,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
     { id: "navbar", label: "Navbar", icon: icons.navbar },
     { id: "footer", label: "Footer", icon: icons.footer },
     { id: "data", label: "Data", icon: icons.data },
+    { id: "blog", label: "Blog", icon: icons.blog },
     ...pageNames.map((name) => ({ id: `page-${name}` as TabType, label: name, icon: icons.page })),
     { id: "translations-en", label: "EN", icon: icons.translations },
     { id: "translations-pl", label: "PL", icon: icons.translations },
@@ -689,6 +692,10 @@ export default function AdminForm({ businessId, initialData, schema, translation
       );
     }
 
+    if (activeTab === "blog") {
+      return <BlogManagement businessId={businessId} />;
+    }
+
     if (activeTab === "translations-en") {
       return <TranslationsEditor lang="en" />;
     }
@@ -816,7 +823,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
               <span className="text-[11px] font-semibold text-white/30 uppercase tracking-wider">Config</span>
             </div>
             <div className="space-y-px">
-              {tabs.filter(t => ["meta", "theme", "navbar", "footer", "data"].includes(t.id)).map((tab) => (
+              {tabs.filter(t => ["meta", "theme", "navbar", "footer", "data", "blog"].includes(t.id)).map((tab) => (
                 <NavItem
                   key={tab.id}
                   tab={tab}

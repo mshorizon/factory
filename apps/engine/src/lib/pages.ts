@@ -88,10 +88,20 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
     return a.localeCompare(b);
   });
 
-  return slugs.map((slug) => ({
+  const links = slugs.map((slug) => ({
     label: pages[slug].title,
     href: slug === "home" ? "/" : `/${slug}`,
   }));
+
+  // Always add blog link if not already present
+  if (!slugs.includes("blog")) {
+    links.push({
+      label: "Blog",
+      href: "/blog",
+    });
+  }
+
+  return links;
 }
 
 /**

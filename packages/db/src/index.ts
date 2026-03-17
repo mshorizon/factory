@@ -1,8 +1,30 @@
-export { sites, type Site, type NewSite } from "./schema.js";
+export {
+  sites,
+  blogs,
+  comments,
+  type Site,
+  type NewSite,
+  type Blog,
+  type NewBlog,
+  type Comment,
+  type NewComment,
+} from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
   getAllSubdomains,
   getSiteBySubdomain,
   upsertSiteConfig,
   updateSiteTranslations,
+  getBlogsBySiteId,
+  getBlogBySlug,
+  getLatestBlogs,
+  createBlog,
+  updateBlog,
+  deleteBlog,
+  getCommentsByBlogId,
+  getPendingCommentsBySiteId,
+  getCommentsBySiteId,
+  createComment,
+  moderateComment,
+  deleteComment,
 } from "./queries.js";

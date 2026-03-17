@@ -2,8 +2,8 @@ import { readFileSync, readdirSync, existsSync } from "fs";
 import { join } from "path";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { sites } from "./schema.js";
-import { eq } from "drizzle-orm";
+import { sites, blogs } from "./schema.js";
+import { eq, and } from "drizzle-orm";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {
@@ -85,6 +85,57 @@ async function seed() {
         translations,
       });
       console.log(`  Inserted: ${subdomain}`);
+    }
+
+    // Seed blogs if they exist
+    const blogsDir = join(dataDir, subdomain, "blogs");
+    if (existsSync(blogsDir)) {
+      const blogFiles = readdirSync(blogsDir).filter((f) => f.endsWith(".json"));
+
+      // Get site ID for blog foreign key
+      const [site] = await db
+        .select({ id: sites.id })
+        .from(sites)
+        .where(eq(sites.subdomain, subdomain))
+        .limit(1);
+
+      if (site) {
+        for (const blogFile of blogFiles) {
+          const blogData = readJson(join(blogsDir, blogFile));
+          if (!blogData || !blogData.slug) {
+            console.warn(`    Skipping invalid blog: ${blogFile}`);
+            continue;
+          }
+
+          // Check if blog already exists (don't overwrite admin-edited blogs)
+          const [existingBlog] = await db
+            .select({ id: blogs.id })
+            .from(blogs)
+            .where(and(eq(blogs.siteId, site.id), eq(blogs.slug, blogData.slug)))
+            .limit(1);
+
+          if (!existingBlog) {
+            await db.insert(blogs).values({
+              siteId: site.id,
+              slug: blogData.slug,
+              title: blogData.title,
+              description: blogData.description || null,
+              content: blogData.content,
+              image: blogData.image || null,
+              author: blogData.author || null,
+              category: blogData.category || null,
+              tags: blogData.tags || [],
+              status: blogData.status || "published",
+              publishedAt: blogData.publishedAt ? new Date(blogData.publishedAt) : new Date(),
+              metaTitle: blogData.metaTitle || null,
+              metaDescription: blogData.metaDescription || null,
+            });
+            console.log(`    Seeded blog: ${blogData.slug}`);
+          } else {
+            console.log(`    Skipped existing blog: ${blogData.slug}`);
+          }
+        }
+      }
     }
   }
 
