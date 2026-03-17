@@ -38,8 +38,8 @@ async function findJsonFiles(dir: string): Promise<string[]> {
       const fullPath = join(dir, entry.name);
 
       if (entry.isDirectory()) {
-        // Skip translations directories - they contain i18n files, not BusinessProfiles
-        if (entry.name === "translations") {
+        // Skip translations and blogs directories - they contain i18n/blog files, not BusinessProfiles
+        if (entry.name === "translations" || entry.name === "blogs") {
           continue;
         }
 

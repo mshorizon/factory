@@ -1,7 +1,8 @@
-import { eq } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites } from "./schema.js";
+import { sites, blogs, comments } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
+import type { NewBlog, NewComment } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -69,4 +70,149 @@ export async function updateSiteTranslations(
       updatedAt: new Date(),
     })
     .where(eq(sites.subdomain, subdomain));
+}
+
+// ========== Blog Queries ==========
+
+export async function getBlogsBySiteId(siteId: number, publishedOnly = true) {
+  const db = getDb();
+  let query = db
+    .select()
+    .from(blogs)
+    .where(eq(blogs.siteId, siteId))
+    .orderBy(desc(blogs.publishedAt));
+
+  if (publishedOnly) {
+    query = db
+      .select()
+      .from(blogs)
+      .where(and(eq(blogs.siteId, siteId), eq(blogs.status, "published")))
+      .orderBy(desc(blogs.publishedAt));
+  }
+
+  return await query;
+}
+
+export async function getBlogBySlug(siteId: number, slug: string) {
+  const db = getDb();
+  const [row] = await db
+    .select()
+    .from(blogs)
+    .where(and(eq(blogs.siteId, siteId), eq(blogs.slug, slug)))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function getLatestBlogs(siteId: number, limit = 2) {
+  const db = getDb();
+  return await db
+    .select()
+    .from(blogs)
+    .where(and(eq(blogs.siteId, siteId), eq(blogs.status, "published")))
+    .orderBy(desc(blogs.publishedAt))
+    .limit(limit);
+}
+
+export async function createBlog(blog: NewBlog) {
+  const db = getDb();
+  const [newBlog] = await db.insert(blogs).values(blog).returning();
+  return newBlog;
+}
+
+export async function updateBlog(id: number, blog: Partial<NewBlog>) {
+  const db = getDb();
+  const [updated] = await db
+    .update(blogs)
+    .set({ ...blog, updatedAt: new Date() })
+    .where(eq(blogs.id, id))
+    .returning();
+  return updated;
+}
+
+export async function deleteBlog(id: number) {
+  const db = getDb();
+  await db.delete(blogs).where(eq(blogs.id, id));
+}
+
+// ========== Comment Queries ==========
+
+export async function getCommentsByBlogId(blogId: number, approvedOnly = true) {
+  const db = getDb();
+  let query = db
+    .select()
+    .from(comments)
+    .where(eq(comments.blogId, blogId))
+    .orderBy(desc(comments.createdAt));
+
+  if (approvedOnly) {
+    query = db
+      .select()
+      .from(comments)
+      .where(and(eq(comments.blogId, blogId), eq(comments.status, "approved")))
+      .orderBy(desc(comments.createdAt));
+  }
+
+  return await query;
+}
+
+export async function getPendingCommentsBySiteId(siteId: number) {
+  const db = getDb();
+  return await db
+    .select({
+      comment: comments,
+      blog: blogs,
+    })
+    .from(comments)
+    .innerJoin(blogs, eq(comments.blogId, blogs.id))
+    .where(and(eq(blogs.siteId, siteId), eq(comments.status, "pending")))
+    .orderBy(desc(comments.createdAt));
+}
+
+export async function getCommentsBySiteId(siteId: number, status?: string) {
+  const db = getDb();
+  const conditions = [eq(blogs.siteId, siteId)];
+
+  if (status) {
+    conditions.push(eq(comments.status, status));
+  }
+
+  return await db
+    .select({
+      comment: comments,
+      blog: blogs,
+    })
+    .from(comments)
+    .innerJoin(blogs, eq(comments.blogId, blogs.id))
+    .where(and(...conditions))
+    .orderBy(desc(comments.createdAt));
+}
+
+export async function createComment(comment: NewComment) {
+  const db = getDb();
+  const [newComment] = await db.insert(comments).values(comment).returning();
+  return newComment;
+}
+
+export async function moderateComment(
+  id: number,
+  status: "approved" | "rejected" | "spam",
+  moderatedBy: string
+) {
+  const db = getDb();
+  const [updated] = await db
+    .update(comments)
+    .set({
+      status,
+      moderatedBy,
+      moderatedAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .where(eq(comments.id, id))
+    .returning();
+  return updated;
+}
+
+export async function deleteComment(id: number) {
+  const db = getDb();
+  await db.delete(comments).where(eq(comments.id, id));
 }

@@ -1,0 +1,62 @@
+import type { APIRoute } from "astro";
+import { createBlog, getSiteBySubdomain } from "@mshorizon/db";
+
+export const POST: APIRoute = async ({ request }) => {
+  try {
+    const body = await request.json();
+    const { businessId, blog } = body;
+
+    if (!businessId || !blog) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const site = await getSiteBySubdomain(businessId);
+    if (!site) {
+      return new Response(
+        JSON.stringify({ error: "Site not found" }),
+        { status: 404, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Validate required blog fields
+    if (!blog.slug || !blog.title || !blog.content) {
+      return new Response(
+        JSON.stringify({ error: "Missing required blog fields (slug, title, content)" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Set publishedAt if status is published
+    const publishedAt = blog.status === "published" ? new Date() : null;
+
+    const newBlog = await createBlog({
+      siteId: site.id,
+      slug: blog.slug,
+      title: blog.title,
+      description: blog.description || null,
+      content: blog.content,
+      image: blog.image || null,
+      author: blog.author || null,
+      category: blog.category || null,
+      tags: blog.tags || [],
+      status: blog.status || "draft",
+      publishedAt,
+      metaTitle: blog.metaTitle || null,
+      metaDescription: blog.metaDescription || null,
+    });
+
+    return new Response(
+      JSON.stringify({ success: true, blog: newBlog }),
+      { status: 201, headers: { "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    console.error("Error creating blog:", error);
+    return new Response(
+      JSON.stringify({ error: "Failed to create blog" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+};

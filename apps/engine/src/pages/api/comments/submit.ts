@@ -1,0 +1,73 @@
+import type { APIRoute } from "astro";
+import { createComment } from "@mshorizon/db";
+
+export const POST: APIRoute = async ({ request }) => {
+  try {
+    const body = await request.json();
+    const { blogId, authorName, authorEmail, content } = body;
+
+    // Validate required fields
+    if (!blogId || !authorName || !authorEmail || !content) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(authorEmail)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email format" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Validate content length
+    if (content.length < 10) {
+      return new Response(
+        JSON.stringify({ error: "Comment must be at least 10 characters long" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    if (content.length > 5000) {
+      return new Response(
+        JSON.stringify({ error: "Comment must be less than 5000 characters" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Get IP address and user agent for spam detection
+    const ipAddress = request.headers.get("x-forwarded-for") ||
+                      request.headers.get("x-real-ip") ||
+                      "unknown";
+    const userAgent = request.headers.get("user-agent") || "unknown";
+
+    // Create comment with pending status
+    const comment = await createComment({
+      blogId: parseInt(blogId),
+      authorName: authorName.trim(),
+      authorEmail: authorEmail.trim().toLowerCase(),
+      content: content.trim(),
+      status: "pending",
+      ipAddress,
+      userAgent,
+    });
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: "Comment submitted successfully and is pending moderation",
+        commentId: comment.id
+      }),
+      { status: 201, headers: { "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    console.error("Error submitting comment:", error);
+    return new Response(
+      JSON.stringify({ error: "Failed to submit comment" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+};

@@ -6,7 +6,7 @@ import {
   isValidBusiness,
 } from "./lib/business";
 import { getDraft } from "./lib/draft-store";
-import { initDb } from "@mshorizon/db";
+import { initDb, getSiteBySubdomain } from "@mshorizon/db";
 import { initR2 } from "./lib/r2";
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -40,6 +40,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Get business context (all data from DB)
   const ctx = await getBusinessContext(request, draft);
 
+  // Get full site object for blog queries
+  const site = await getSiteBySubdomain(ctx.businessId);
+
   // Store in locals for access in pages
   locals.businessId = ctx.businessId;
   locals.currentLang = ctx.currentLang;
@@ -47,6 +50,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   locals.theme = ctx.theme;
   locals.t = ctx.t;
   locals.availableBusinesses = await getAvailableBusinessIds();
+  locals.site = site;
 
   return next();
 });
