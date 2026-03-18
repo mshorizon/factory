@@ -84,3 +84,45 @@
   min-height: 0 !important;
   overflow: hidden;
 }
+
+/*
+ * Force horizontal orientation for nested form tabs
+ */
+[data-slot="tabs"][data-orientation="horizontal"] {
+  flex-direction: column !important;
+}
+
+[data-slot="tabs-list"][data-variant="line"] {
+  flex-direction: row !important;
+  display: flex !important;
+}
+
+/*
+ * Enhanced active tab styling for line variant
+ */
+[data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"] {
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+/* Active state - support multiple possible attributes */
+[data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-active],
+[data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][aria-selected="true"],
+[data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-selected="true"] {
+  color: hsl(var(--foreground)) !important;
+  font-weight: 600 !important;
+}
+
+/* Active underline */
+[data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-active]::after,
+[data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][aria-selected="true"]::after,
+[data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-selected="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: hsl(var(--primary));
+  opacity: 1 !important;
+}

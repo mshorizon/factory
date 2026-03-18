@@ -439,13 +439,13 @@ export default function AdminForm({
       };
 
       return (
-        <Tabs value={metaSubTab} onValueChange={(v) => setMetaSubTab(v as "business" | "assets")}>
-          <TabsList>
+        <Tabs value={metaSubTab} onValueChange={(v) => setMetaSubTab(v as "business" | "assets")} orientation="horizontal">
+          <TabsList variant="line" className="flex flex-row w-full justify-start border-b border-border mb-6">
             <TabsTrigger value="business">Business Info</TabsTrigger>
             <TabsTrigger value="assets">Assets</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="business" className="mt-4">
+          <TabsContent value="business" className="mt-0">
             <div className="rjsf-wrapper">
               <Form
                 schema={businessInfoSchema}
@@ -468,7 +468,7 @@ export default function AdminForm({
             </div>
           </TabsContent>
 
-          <TabsContent value="assets" className="mt-4">
+          <TabsContent value="assets" className="mt-0">
             <div className="rjsf-wrapper">
               <Form
                 schema={assetsSchema}
@@ -554,13 +554,13 @@ export default function AdminForm({
       const colorData = getNestedValue(formData, ["theme", "colors", currentMode]) || {};
 
       return (
-        <Tabs value={themeSubTab} onValueChange={(v) => setThemeSubTab(v as "colors" | "typography")}>
-          <TabsList>
+        <Tabs value={themeSubTab} onValueChange={(v) => setThemeSubTab(v as "colors" | "typography")} orientation="horizontal">
+          <TabsList variant="line" className="flex flex-row w-full justify-start border-b border-border mb-6">
             <TabsTrigger value="colors">Colors & UI</TabsTrigger>
             <TabsTrigger value="typography">Typography</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="colors" className="space-y-6 mt-4">
+          <TabsContent value="colors" className="space-y-6 mt-0">
             <div className="flex items-center justify-between px-1 py-3 border-b border-border">
               <span className="text-[13px] font-medium text-muted-foreground">Color Mode</span>
               <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
@@ -614,7 +614,7 @@ export default function AdminForm({
             </div>
           </TabsContent>
 
-          <TabsContent value="typography" className="mt-4">
+          <TabsContent value="typography" className="mt-0">
             <div className="rjsf-wrapper">
               <Form
                 schema={typographySchema}
@@ -691,13 +691,13 @@ export default function AdminForm({
       const dataContent = getNestedValue(formData, ["data"]) || {};
 
       return (
-        <Tabs value={dataSubTab} onValueChange={(v) => setDataSubTab(v as "services" | "products")}>
-          <TabsList>
+        <Tabs value={dataSubTab} onValueChange={(v) => setDataSubTab(v as "services" | "products")} orientation="horizontal">
+          <TabsList variant="line" className="flex flex-row w-full justify-start border-b border-border mb-6">
             <TabsTrigger value="services">Services</TabsTrigger>
             <TabsTrigger value="products">Products</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="services" className="mt-4">
+          <TabsContent value="services" className="mt-0">
             <div className="rjsf-wrapper">
               <Form
                 schema={servicesSchema}
@@ -719,7 +719,7 @@ export default function AdminForm({
             </div>
           </TabsContent>
 
-          <TabsContent value="products" className="mt-4">
+          <TabsContent value="products" className="mt-0">
             <div className="rjsf-wrapper">
               <Form
                 schema={productsSchema}
