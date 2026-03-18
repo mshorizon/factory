@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 interface Comment {
   id: number;
@@ -51,11 +52,7 @@ export function CommentsTab({ businessId }: CommentsTabProps) {
       const response = await fetch("/api/admin/comments/moderate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          commentId,
-          action,
-          moderatedBy: "admin",
-        }),
+        body: JSON.stringify({ commentId, action, moderatedBy: "admin" }),
       });
 
       if (response.ok) {
@@ -82,145 +79,123 @@ export function CommentsTab({ businessId }: CommentsTabProps) {
   };
 
   const pendingCount = comments.filter((c) => c.status === "pending").length;
+  const filters = ["all", "pending", "approved", "rejected", "spam"];
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">
+        <h2 className="text-lg font-semibold">
           Comments {pendingCount > 0 && (
-            <span className="ml-2 px-2 py-1 text-sm bg-yellow-100 text-yellow-800 rounded-full">
+            <span className="ml-2 px-2 py-0.5 text-xs bg-amber-500/15 text-amber-600 rounded-full font-medium">
               {pendingCount} pending
             </span>
           )}
         </h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setFilter("all")}
-            className={`px-3 py-1 rounded ${
-              filter === "all" ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            All
-          </button>
-          <button
-            onClick={() => setFilter("pending")}
-            className={`px-3 py-1 rounded ${
-              filter === "pending" ? "bg-yellow-600 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            Pending
-          </button>
-          <button
-            onClick={() => setFilter("approved")}
-            className={`px-3 py-1 rounded ${
-              filter === "approved" ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            Approved
-          </button>
-          <button
-            onClick={() => setFilter("rejected")}
-            className={`px-3 py-1 rounded ${
-              filter === "rejected" ? "bg-red-600 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            Rejected
-          </button>
-          <button
-            onClick={() => setFilter("spam")}
-            className={`px-3 py-1 rounded ${
-              filter === "spam" ? "bg-orange-600 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            Spam
-          </button>
+        <div className="flex gap-1">
+          {filters.map((f) => (
+            <Button
+              key={f}
+              size="sm"
+              variant={filter === f ? "default" : "ghost"}
+              onClick={() => setFilter(f)}
+              className="capitalize"
+            >
+              {f}
+            </Button>
+          ))}
         </div>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <div className="text-gray-500">Loading comments...</div>
+          <div className="text-muted-foreground">Loading comments...</div>
         </div>
       ) : comments.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg">
-          <p className="text-gray-500">No {filter !== "all" ? filter : ""} comments found</p>
+        <div className="text-center py-12 bg-muted/30 rounded-lg">
+          <p className="text-muted-foreground">No {filter !== "all" ? filter : ""} comments found</p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {comments.map((comment) => (
             <div
               key={comment.id}
-              className="bg-white border border-gray-300 rounded-lg p-4 space-y-3"
+              className="bg-card border border-border rounded-lg p-4 space-y-3"
             >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="font-semibold text-gray-900">{comment.authorName}</span>
-                    <span className="text-sm text-gray-500">({comment.authorEmail})</span>
-                    <span
-                      className={`px-2 py-0.5 text-xs font-semibold rounded-full ${
-                        comment.status === "approved"
-                          ? "bg-green-100 text-green-800"
-                          : comment.status === "rejected"
-                          ? "bg-red-100 text-red-800"
-                          : comment.status === "spam"
-                          ? "bg-orange-100 text-orange-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {comment.status}
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-600 mb-2">
-                    On: <a href={`/blog/${comment.blogSlug}`} className="text-blue-600 hover:underline" target="_blank">{comment.blogTitle}</a>
-                  </div>
-                  <p className="text-gray-700 whitespace-pre-wrap">{comment.content}</p>
-                  <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                    <span>{formatDate(comment.createdAt)}</span>
-                    {comment.ipAddress && <span>IP: {comment.ipAddress}</span>}
-                  </div>
+              <div>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="font-semibold text-sm">{comment.authorName}</span>
+                  <span className="text-xs text-muted-foreground">({comment.authorEmail})</span>
+                  <span
+                    className={`px-2 py-0.5 text-[10px] font-semibold rounded-full uppercase tracking-wider ${
+                      comment.status === "approved"
+                        ? "bg-green-600/10 text-green-600"
+                        : comment.status === "rejected"
+                        ? "bg-destructive/10 text-destructive"
+                        : comment.status === "spam"
+                        ? "bg-amber-600/10 text-amber-600"
+                        : "bg-amber-500/10 text-amber-500"
+                    }`}
+                  >
+                    {comment.status}
+                  </span>
+                </div>
+                <div className="text-xs text-muted-foreground mb-2">
+                  On: <a href={`/blog/${comment.blogSlug}`} className="hover:underline" target="_blank">{comment.blogTitle}</a>
+                </div>
+                <p className="text-sm whitespace-pre-wrap">{comment.content}</p>
+                <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                  <span>{formatDate(comment.createdAt)}</span>
+                  {comment.ipAddress && <span>IP: {comment.ipAddress}</span>}
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 pt-2 border-t border-gray-200">
+              <div className="flex items-center gap-2 pt-2 border-t border-border">
                 {comment.status !== "approved" && (
-                  <button
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() => handleModerate(comment.id, "approved")}
                     disabled={moderating === comment.id}
-                    className="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                    className="text-green-600 border-green-600/30 hover:bg-green-600/10"
                   >
-                    {moderating === comment.id ? "..." : "✓ Approve"}
-                  </button>
+                    Approve
+                  </Button>
                 )}
                 {comment.status !== "rejected" && (
-                  <button
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() => handleModerate(comment.id, "rejected")}
                     disabled={moderating === comment.id}
-                    className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
+                    className="text-destructive border-destructive/30 hover:bg-destructive/10"
                   >
-                    {moderating === comment.id ? "..." : "✗ Reject"}
-                  </button>
+                    Reject
+                  </Button>
                 )}
                 {comment.status !== "spam" && (
-                  <button
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() => handleModerate(comment.id, "spam")}
                     disabled={moderating === comment.id}
-                    className="px-3 py-1 text-sm bg-orange-600 text-white rounded hover:bg-orange-700 disabled:opacity-50"
+                    className="text-amber-600 border-amber-600/30 hover:bg-amber-600/10"
                   >
-                    {moderating === comment.id ? "..." : "⚠ Mark as Spam"}
-                  </button>
+                    Spam
+                  </Button>
                 )}
-                <button
+                <Button
+                  size="sm"
+                  variant="ghost"
                   onClick={() => {
-                    if (confirm("Are you sure you want to permanently delete this comment?")) {
+                    if (confirm("Permanently delete this comment?")) {
                       handleModerate(comment.id, "delete");
                     }
                   }}
                   disabled={moderating === comment.id}
-                  className="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50 ml-auto"
+                  className="ml-auto text-muted-foreground"
                 >
-                  {moderating === comment.id ? "..." : "🗑 Delete"}
-                </button>
+                  Delete
+                </Button>
               </div>
             </div>
           ))}

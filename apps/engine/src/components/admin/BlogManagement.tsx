@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BlogsTab } from "./BlogsTab";
 import { CommentsTab } from "./CommentsTab";
 
@@ -7,39 +8,20 @@ interface BlogManagementProps {
 }
 
 export function BlogManagement({ businessId }: BlogManagementProps) {
-  const [activeSubTab, setActiveSubTab] = useState<"posts" | "comments">("posts");
-
   return (
-    <div className="space-y-6">
-      {/* Sub-navigation */}
-      <div className="flex gap-2 border-b pb-4" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-        <button
-          onClick={() => setActiveSubTab("posts")}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
-            activeSubTab === "posts"
-              ? "bg-blue-600 text-white"
-              : "text-gray-400 hover:text-white hover:bg-gray-800"
-          }`}
-        >
-          Blog Posts
-        </button>
-        <button
-          onClick={() => setActiveSubTab("comments")}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
-            activeSubTab === "comments"
-              ? "bg-blue-600 text-white"
-              : "text-gray-400 hover:text-white hover:bg-gray-800"
-          }`}
-        >
-          Comments
-        </button>
-      </div>
+    <Tabs defaultValue="posts">
+      <TabsList>
+        <TabsTrigger value="posts">Blog Posts</TabsTrigger>
+        <TabsTrigger value="comments">Comments</TabsTrigger>
+      </TabsList>
 
-      {/* Content */}
-      <div>
-        {activeSubTab === "posts" && <BlogsTab businessId={businessId} />}
-        {activeSubTab === "comments" && <CommentsTab businessId={businessId} />}
-      </div>
-    </div>
+      <TabsContent value="posts" className="mt-4">
+        <BlogsTab businessId={businessId} />
+      </TabsContent>
+
+      <TabsContent value="comments" className="mt-4">
+        <CommentsTab businessId={businessId} />
+      </TabsContent>
+    </Tabs>
   );
 }

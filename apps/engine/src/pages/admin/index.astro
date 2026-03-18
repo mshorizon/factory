@@ -1,5 +1,6 @@
 ---
 import AdminLayout from "../../layouts/AdminLayout.astro";
+import { AdminThemeProvider } from "../../components/admin/AdminThemeProvider";
 import AdminForm from "../../components/admin/AdminForm";
 import { businessSchema } from "@mshorizon/schema";
 import { getSiteBySubdomain } from "@mshorizon/db";
@@ -20,11 +21,13 @@ const businessName = businessData.business.name.startsWith("t:")
 ---
 
 <AdminLayout title={`Admin - ${businessName}`}>
-  <AdminForm
-    client:load
-    businessId={businessId}
-    initialData={rawBusinessData}
-    schema={businessSchema}
-    translations={{ en: enTranslations, pl: plTranslations }}
-  />
+  <AdminThemeProvider client:load>
+    <AdminForm
+      client:load
+      businessId={businessId}
+      initialData={rawBusinessData}
+      schema={businessSchema}
+      translations={{ en: enTranslations, pl: plTranslations }}
+    />
+  </AdminThemeProvider>
 </AdminLayout>

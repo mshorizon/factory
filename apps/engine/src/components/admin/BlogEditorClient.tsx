@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 interface BlogEditorClientProps {
   blog?: any;
@@ -105,25 +106,15 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
           {isEditing ? "Edit Blog Post" : "Create New Blog Post"}
         </h2>
         <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={saving}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-          >
+          <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>
+          <Button type="submit" disabled={saving}>
             {saving ? "Saving..." : isEditing ? "Update" : "Create"}
-          </button>
+          </Button>
         </div>
       </div>
 
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-md text-red-800">
+        <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-md text-destructive">
           {error}
         </div>
       )}
@@ -138,7 +129,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               required
               value={formData.title}
               onChange={(e) => handleTitleChange(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
             />
           </div>
 
@@ -149,9 +140,9 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               required
               value={formData.slug}
               onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
             />
-            <p className="text-xs text-gray-500 mt-1">URL: /blog/{formData.slug || "slug"}</p>
+            <p className="text-xs opacity-60 mt-1">URL: /blog/{formData.slug || "slug"}</p>
           </div>
 
           <div>
@@ -160,7 +151,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               rows={3}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 resize-none bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 resize-none bg-background"
             />
           </div>
 
@@ -170,7 +161,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               type="url"
               value={formData.image}
               onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
               placeholder="https://..."
             />
           </div>
@@ -184,7 +175,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               type="text"
               value={formData.author}
               onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
             />
           </div>
 
@@ -194,7 +185,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               type="text"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
             />
           </div>
 
@@ -204,7 +195,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               type="text"
               value={formData.tags}
               onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
               placeholder="tag1, tag2, tag3"
             />
           </div>
@@ -214,7 +205,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
             <select
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
             >
               <option value="draft">Draft</option>
               <option value="published">Published</option>
@@ -226,16 +217,16 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
       {/* Content editor */}
       <div>
         <label className="block text-sm font-medium mb-1">Content *</label>
-        <div className="border border-gray-300 rounded-md overflow-hidden">
+        <div className="border border-border rounded-md overflow-hidden">
           {/* Toolbar */}
-          <div className="bg-gray-50 border-b border-gray-300 p-2 flex flex-wrap gap-1">
+          <div className="bg-muted/30 border-b border-border p-2 flex flex-wrap gap-1">
             <button
               type="button"
               onMouseDown={(e) => {
                 e.preventDefault();
                 handleFormat("bold");
               }}
-              className="px-3 py-1 rounded text-sm font-medium bg-white text-gray-700 hover:bg-gray-100"
+              className="px-3 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
               title="Bold"
             >
               <strong>B</strong>
@@ -246,7 +237,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
                 e.preventDefault();
                 handleFormat("italic");
               }}
-              className="px-3 py-1 rounded text-sm font-medium bg-white text-gray-700 hover:bg-gray-100"
+              className="px-3 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
               title="Italic"
             >
               <em>I</em>
@@ -257,7 +248,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
                 e.preventDefault();
                 handleFormat("formatBlock", "h2");
               }}
-              className="px-3 py-1 rounded text-sm font-medium bg-white text-gray-700 hover:bg-gray-100"
+              className="px-3 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
               title="Heading 2"
             >
               H2
@@ -268,7 +259,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
                 e.preventDefault();
                 handleFormat("formatBlock", "h3");
               }}
-              className="px-3 py-1 rounded text-sm font-medium bg-white text-gray-700 hover:bg-gray-100"
+              className="px-3 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
               title="Heading 3"
             >
               H3
@@ -279,7 +270,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
                 e.preventDefault();
                 handleFormat("insertUnorderedList");
               }}
-              className="px-3 py-1 rounded text-sm font-medium bg-white text-gray-700 hover:bg-gray-100"
+              className="px-3 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
               title="Bullet List"
             >
               • List
@@ -290,7 +281,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
                 e.preventDefault();
                 handleFormat("insertOrderedList");
               }}
-              className="px-3 py-1 rounded text-sm font-medium bg-white text-gray-700 hover:bg-gray-100"
+              className="px-3 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
               title="Numbered List"
             >
               1. List
@@ -301,7 +292,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
                 e.preventDefault();
                 handleFormat("formatBlock", "blockquote");
               }}
-              className="px-3 py-1 rounded text-sm font-medium bg-white text-gray-700 hover:bg-gray-100"
+              className="px-3 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
               title="Quote"
             >
               " Quote
@@ -312,7 +303,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
                 e.preventDefault();
                 handleFormat("formatBlock", "p");
               }}
-              className="px-3 py-1 rounded text-sm font-medium bg-white text-gray-700 hover:bg-gray-100"
+              className="px-3 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
               title="Paragraph"
             >
               ¶
@@ -322,7 +313,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
           <div
             ref={editorRef}
             contentEditable
-            className="prose prose-sm max-w-none focus:outline-none min-h-[400px] p-4 bg-white text-gray-900"
+            className="prose prose-sm max-w-none focus:outline-none min-h-[400px] p-4 bg-background"
             onMouseDown={(e) => {
               // Prevent loss of selection when clicking toolbar buttons
               if (e.target === e.currentTarget) {
@@ -331,7 +322,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
             }}
           />
         </div>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs opacity-60 mt-1">
           Use the toolbar to format your content. Content is saved as HTML.
         </p>
       </div>
@@ -346,7 +337,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               type="text"
               value={formData.metaTitle}
               onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
               placeholder="Leave empty to use blog title"
             />
           </div>
@@ -357,7 +348,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
               rows={2}
               value={formData.metaDescription}
               onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 resize-none bg-white text-gray-900"
+              className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 resize-none bg-background"
               placeholder="Leave empty to use blog description"
             />
           </div>

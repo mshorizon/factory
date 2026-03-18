@@ -141,6 +141,45 @@ All spacing must use the following tokens from `theme.ui.spacing`:
 
 ---
 
+## 🖥 Admin Panel Architecture
+
+The admin panel (`/admin`) is built with **shadcn/ui** components and has **completely separate styles** from `packages/ui`.
+
+### Tech Stack
+* **UI Framework:** [shadcn/ui](https://ui.shadcn.com/) (base-nova style) — all components in `apps/engine/src/components/ui/`
+* **Forms:** `@rjsf/shadcn` — react-jsonschema-form with shadcn theme, custom widgets (ColorPicker, ImageUpload)
+* **Dark Mode:** `next-themes` with `AdminThemeProvider` — light default, toggle in top bar
+* **Layout:** shadcn `SidebarProvider` + `Sidebar` (collapsible icon mode) + `SidebarInset`
+* **Styling:** `apps/engine/src/styles/admin-theme.css` — HSL CSS variables (black/white neutral palette)
+
+### Layout Structure
+```
+[Header: businessId / Admin | Save | Theme Toggle]
+[Sidebar (narrow)] [Form Area (flex-1)] [resize handle] [Live Preview (iframe)]
+```
+
+### Key Files
+| File | Purpose |
+| :--- | :--- |
+| `apps/engine/src/layouts/AdminLayout.astro` | Astro layout — header, resize handle, preview iframe |
+| `apps/engine/src/components/admin/AdminForm.tsx` | Main React component — sidebar, tabs, RJSF forms |
+| `apps/engine/src/components/admin/AdminThemeProvider.tsx` | next-themes wrapper for dark mode |
+| `apps/engine/src/components/admin/SectionEditor.tsx` | Page section editor (hero, services, about, etc.) |
+| `apps/engine/src/components/admin/BlogManagement.tsx` | Blog + comments CRUD |
+| `apps/engine/src/components/admin/widgets/` | Custom RJSF widgets (ColorPicker, ImageUpload) |
+| `apps/engine/src/styles/admin-theme.css` | Admin-only CSS variables (separate from site theme) |
+| `apps/engine/components.json` | shadcn CLI config |
+
+### Design Principles
+* **Black & white only** — neutral color palette, no brand colors in admin UI
+* **Flat form structure** — nested JSON schema sections use shadcn `Tabs` at the top instead of deep nesting
+* **Preview controls** — "Preview" label and refresh button are `position: absolute` overlays on the iframe
+* **Admin styles are isolated** — `admin-theme.css` defines its own CSS variables, does not use `packages/ui` tokens
+* **All buttons use shadcn `Button`** — variants: default, outline, ghost, destructive
+* **All icons use `lucide-react`**
+
+---
+
 ## 🤖 AI Interaction Guidelines
 * **Communication Style:** Technical, "dev-to-dev", 100% honest. No fluff.
 * **Scalability Mindset:** Every piece of code must work for 100+ different businesses simultaneously.

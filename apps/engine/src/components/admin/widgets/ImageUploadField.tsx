@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Upload } from "lucide-react";
 
 type UploadStatus = "idle" | "uploading" | "error";
 
@@ -50,9 +52,7 @@ export function ImageUploadField({ value, onChange, businessId, placeholder }: I
 
   const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      handleFileUpload(file);
-    }
+    if (file) handleFileUpload(file);
     e.target.value = "";
   };
 
@@ -65,7 +65,7 @@ export function ImageUploadField({ value, onChange, businessId, placeholder }: I
           onChange={(e) => handleChange(e.target.value)}
           disabled={uploadStatus === "uploading"}
           placeholder={placeholder || "https://example.com/image.jpg"}
-          className="flex-1 px-3 py-2 border border-white/10 bg-white/[0.05] text-white/90 placeholder:text-white/25 rounded-md text-sm"
+          className="flex-1 px-3 py-2 border border-border bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring/20"
         />
         <input
           ref={fileInputRef}
@@ -74,23 +74,23 @@ export function ImageUploadField({ value, onChange, businessId, placeholder }: I
           onChange={onFileSelected}
           className="hidden"
         />
-        <button
+        <Button
           type="button"
+          size="sm"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploadStatus === "uploading"}
-          className="px-3 py-2 text-sm rounded hover:opacity-85 disabled:opacity-50 text-white"
-          style={{ background: 'var(--primary)' }}
         >
-          {uploadStatus === "uploading" ? "Uploading..." : "Upload"}
-        </button>
+          <Upload className="h-3.5 w-3.5 mr-1.5" />
+          {uploadStatus === "uploading" ? "..." : "Upload"}
+        </Button>
       </div>
 
       {uploadStatus === "error" && uploadError && (
-        <p className="text-xs text-red-400">{uploadError}</p>
+        <p className="text-xs text-destructive">{uploadError}</p>
       )}
 
       {value && !imageError && (
-        <div className="p-1 bg-white/[0.05] rounded inline-block">
+        <div className="p-1 bg-muted/30 rounded inline-block">
           <img
             src={value}
             alt="Preview"

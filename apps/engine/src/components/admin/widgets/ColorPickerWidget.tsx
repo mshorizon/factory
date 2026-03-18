@@ -9,26 +9,20 @@ export function ColorPickerWidget(props: WidgetProps) {
   const popoverRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Sync local state when prop value changes externally
   useEffect(() => {
     setLocalColor(value || "#000000");
   }, [value]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        popoverRef.current &&
-        !popoverRef.current.contains(event.target as Node)
-      ) {
+      if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Debounced propagation to RJSF onChange
   const debouncedOnChange = useCallback(
     (color: string) => {
       setLocalColor(color);
@@ -38,11 +32,8 @@ export function ColorPickerWidget(props: WidgetProps) {
     [onChange],
   );
 
-  // Cleanup debounce on unmount
   useEffect(() => {
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
   }, []);
 
   return (
@@ -51,7 +42,7 @@ export function ColorPickerWidget(props: WidgetProps) {
         <button
           type="button"
           onClick={() => !disabled && !readonly && setIsOpen(!isOpen)}
-          className="w-10 h-10 rounded border border-[var(--border)] cursor-pointer"
+          className="w-10 h-10 rounded-md border border-border cursor-pointer transition-shadow hover:ring-2 hover:ring-ring/20"
           style={{ backgroundColor: localColor }}
           disabled={disabled || readonly}
           aria-label="Pick color"
@@ -66,14 +57,13 @@ export function ColorPickerWidget(props: WidgetProps) {
           }}
           disabled={disabled}
           readOnly={readonly}
-          className="flex-1 px-3 py-2 border rounded-[var(--radius)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-          style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}
+          className="flex-1 px-3 py-2 border border-border bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring/20"
           placeholder="#000000"
         />
       </div>
 
       {isOpen && (
-        <div className="absolute z-50 mt-2 p-3 rounded-[var(--radius)] shadow-lg" style={{ background: '#2a2a2a', border: '1px solid rgba(255,255,255,0.1)' }}>
+        <div className="absolute z-50 mt-2 p-3 rounded-lg shadow-lg bg-popover border border-border">
           <HexColorPicker color={localColor} onChange={debouncedOnChange} />
         </div>
       )}

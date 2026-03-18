@@ -1,4 +1,6 @@
+import { Button } from "@/components/ui/button";
 import { ImageUploadField } from "./widgets/ImageUploadField";
+import { ChevronUp, ChevronDown, Trash2, Undo2, Plus } from "lucide-react";
 
 const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
   hero: [
@@ -26,28 +28,16 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
     { value: "centered", label: "Centered" },
     { value: "split", label: "Split" },
   ],
-  shop: [
-    { value: "grid", label: "Grid" },
-  ],
-  gallery: [
-    { value: "default", label: "Default" },
-  ],
-  testimonials: [
-    { value: "default", label: "Default" },
-  ],
-  faq: [
-    { value: "default", label: "Default" },
-  ],
-  features: [
-    { value: "default", label: "Default" },
-  ],
+  shop: [{ value: "grid", label: "Grid" }],
+  gallery: [{ value: "default", label: "Default" }],
+  testimonials: [{ value: "default", label: "Default" }],
+  faq: [{ value: "default", label: "Default" }],
+  features: [{ value: "default", label: "Default" }],
   ctaBanner: [
     { value: "default", label: "Default" },
     { value: "ticker", label: "Ticker" },
   ],
-  blog: [
-    { value: "default", label: "Default" },
-  ],
+  blog: [{ value: "default", label: "Default" }],
 };
 
 interface SectionEditorProps {
@@ -63,7 +53,6 @@ interface SectionEditorProps {
   onMoveDown: () => void;
 }
 
-// Helper to create a field updater
 function createFieldUpdater(section: any, onUpdate: (s: any) => void) {
   return {
     set: (field: string, value: any) => onUpdate({ ...section, [field]: value }),
@@ -73,8 +62,6 @@ function createFieldUpdater(section: any, onUpdate: (s: any) => void) {
       onUpdate({ ...section, [parent]: { ...section[parent], [field]: value } }),
   };
 }
-
-// --- Highlight helpers ---
 
 function postHighlight(type: 'highlight-section' | 'highlight-field' | 'clear-highlight', index?: number, field?: string) {
   const iframe = document.getElementById('preview-iframe') as HTMLIFrameElement | null;
@@ -90,24 +77,20 @@ function fieldHoverProps(sectionIndex: number, fieldPath: string) {
   };
 }
 
-// --- Revert button icon ---
 function RevertButton({ onClick }: { onClick: () => void }) {
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
+      size="icon-xs"
       onClick={onClick}
       title="Revert to saved"
-      className="p-1 text-amber-500 hover:text-red-500 transition-colors flex-shrink-0"
+      className="text-amber-600 hover:text-destructive flex-shrink-0"
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="1 4 1 10 7 10" />
-        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
-      </svg>
-    </button>
+      <Undo2 className="h-3 w-3" />
+    </Button>
   );
 }
-
-// --- Shared field components ---
 
 function TextField({ label, value, savedValue, onChange, placeholder, sectionIndex, fieldPath }: {
   label: string; value: string; savedValue?: string; onChange: (v: string) => void; placeholder?: string;
@@ -117,13 +100,13 @@ function TextField({ label, value, savedValue, onChange, placeholder, sectionInd
   const hover = sectionIndex != null && fieldPath ? fieldHoverProps(sectionIndex, fieldPath) : {};
   return (
     <div className="flex gap-4 items-center" {...hover}>
-      <label className="w-24 flex-shrink-0 text-sm text-white/50">{label}</label>
+      <label className="w-24 flex-shrink-0 text-sm text-muted-foreground">{label}</label>
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`flex-1 px-3 py-2 border rounded-md text-sm bg-white/[0.05] text-white/90 placeholder:text-white/25 ${changed ? "border-amber-400/60 bg-amber-500/10" : "border-white/10"}`}
+        className={`flex-1 px-3 py-2 border rounded-md text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring/20 ${changed ? "border-amber-600/60 bg-amber-600/5" : "border-border"}`}
       />
       {changed && <RevertButton onClick={() => onChange(savedValue)} />}
     </div>
@@ -138,14 +121,12 @@ function ImageField({ label, value, savedValue, onChange, businessId, placeholde
   const hover = sectionIndex != null && fieldPath ? fieldHoverProps(sectionIndex, fieldPath) : {};
   return (
     <div className="flex gap-4 items-start" {...hover}>
-      <label className="w-24 flex-shrink-0 text-sm text-white/50 pt-2">{label}</label>
+      <label className="w-24 flex-shrink-0 text-sm pt-2 text-muted-foreground">{label}</label>
       <ImageUploadField value={value} onChange={onChange} businessId={businessId} placeholder={placeholder} />
       {changed && <div className="pt-2"><RevertButton onClick={() => onChange(savedValue)} /></div>}
     </div>
   );
 }
-
-// --- Header fields (shared by all section types) ---
 
 function HeaderFields({ section, savedSection, updater, si }: { section: any; savedSection?: any; updater: ReturnType<typeof createFieldUpdater>; si: number }) {
   return (
@@ -157,53 +138,22 @@ function HeaderFields({ section, savedSection, updater, si }: { section: any; sa
   );
 }
 
-// --- CTA fields ---
-
 function CtaFields({ section, savedSection, onUpdate, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; si: number }) {
   return (
-    <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3">
-      <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Call to Action</span>
-      <TextField
-        label="CTA Label"
-        value={section.cta?.label || ""}
-        savedValue={savedSection?.cta?.label || ""}
-        onChange={(v) => onUpdate({ ...section, cta: { ...section.cta, label: v } })}
-        sectionIndex={si} fieldPath="cta"
-      />
-      <TextField
-        label="CTA Target"
-        value={section.cta?.target || ""}
-        savedValue={savedSection?.cta?.target || ""}
-        onChange={(v) => onUpdate({ ...section, cta: { ...section.cta, target: v } })}
-        sectionIndex={si} fieldPath="cta"
-      />
-      <TextField
-        label="CTA 2 Label"
-        value={section.secondaryCta?.label || ""}
-        savedValue={savedSection?.secondaryCta?.label || ""}
-        onChange={(v) => onUpdate({ ...section, secondaryCta: { ...section.secondaryCta, label: v } })}
-        sectionIndex={si} fieldPath="secondaryCta"
-      />
-      <TextField
-        label="CTA 2 Target"
-        value={section.secondaryCta?.target || ""}
-        savedValue={savedSection?.secondaryCta?.target || ""}
-        onChange={(v) => onUpdate({ ...section, secondaryCta: { ...section.secondaryCta, target: v } })}
-        sectionIndex={si} fieldPath="secondaryCta"
-      />
+    <div className="mt-3 pt-3 border-t border-border space-y-3">
+      <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Call to Action</span>
+      <TextField label="CTA Label" value={section.cta?.label || ""} savedValue={savedSection?.cta?.label || ""} onChange={(v) => onUpdate({ ...section, cta: { ...section.cta, label: v } })} sectionIndex={si} fieldPath="cta" />
+      <TextField label="CTA Target" value={section.cta?.target || ""} savedValue={savedSection?.cta?.target || ""} onChange={(v) => onUpdate({ ...section, cta: { ...section.cta, target: v } })} sectionIndex={si} fieldPath="cta" />
+      <TextField label="CTA 2 Label" value={section.secondaryCta?.label || ""} savedValue={savedSection?.secondaryCta?.label || ""} onChange={(v) => onUpdate({ ...section, secondaryCta: { ...section.secondaryCta, label: v } })} sectionIndex={si} fieldPath="secondaryCta" />
+      <TextField label="CTA 2 Target" value={section.secondaryCta?.target || ""} savedValue={savedSection?.secondaryCta?.target || ""} onChange={(v) => onUpdate({ ...section, secondaryCta: { ...section.secondaryCta, target: v } })} sectionIndex={si} fieldPath="secondaryCta" />
     </div>
   );
 }
 
-// --- Items editor (services, categories) ---
-
 function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = "items" }: {
-  section: any;
-  onUpdate: (s: any) => void;
-  businessId: string;
+  section: any; onUpdate: (s: any) => void; businessId: string;
   fields: { key: string; label: string; type: "text" | "image" }[];
-  si: number;
-  fieldPrefix?: string;
+  si: number; fieldPrefix?: string;
 }) {
   const items = section.items || [];
 
@@ -213,10 +163,7 @@ function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = 
     onUpdate({ ...section, items: newItems });
   };
 
-  const addItem = () => {
-    onUpdate({ ...section, items: [...items, { title: "New Item" }] });
-  };
-
+  const addItem = () => onUpdate({ ...section, items: [...items, { title: "New Item" }] });
   const removeItem = (idx: number) => {
     const newItems = [...items];
     newItems.splice(idx, 1);
@@ -232,37 +179,28 @@ function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = 
   };
 
   return (
-    <div className="mt-3 pt-3 border-t border-white/[0.06]">
+    <div className="mt-3 pt-3 border-t border-border">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Items ({items.length})</span>
-        <button onClick={addItem} className="px-2 py-1 text-xs bg-green-500/15 text-green-400 rounded hover:bg-green-500/25">+ Add Item</button>
+        <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Items ({items.length})</span>
+        <Button size="sm" variant="outline" onClick={addItem}>
+          <Plus className="h-3 w-3 mr-1" />
+          Add Item
+        </Button>
       </div>
       {items.map((item: any, idx: number) => (
-        <div
-          key={idx}
-          className="mb-3 p-3 bg-white/[0.03] border border-white/[0.08] rounded space-y-2"
-          {...fieldHoverProps(si, `${fieldPrefix}.${idx}`)}
-        >
+        <div key={idx} className="mb-3 p-3 bg-muted/30 border border-border rounded-lg space-y-2" {...fieldHoverProps(si, `${fieldPrefix}.${idx}`)}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-white/40">Item {idx + 1}</span>
-            <div className="flex items-center gap-1">
-              <button
-                disabled={idx === 0}
-                onClick={() => moveItem(idx, 'up')}
-                className="p-0.5 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
-                title="Move up"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-              </button>
-              <button
-                disabled={idx === items.length - 1}
-                onClick={() => moveItem(idx, 'down')}
-                className="p-0.5 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
-                title="Move down"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <button onClick={() => removeItem(idx)} className="text-xs text-red-400 hover:text-red-300">Remove</button>
+            <span className="text-xs font-medium text-muted-foreground">Item {idx + 1}</span>
+            <div className="flex items-center gap-0.5">
+              <Button size="icon-xs" variant="ghost" disabled={idx === 0} onClick={() => moveItem(idx, 'up')} title="Move up">
+                <ChevronUp className="h-3 w-3" />
+              </Button>
+              <Button size="icon-xs" variant="ghost" disabled={idx === items.length - 1} onClick={() => moveItem(idx, 'down')} title="Move down">
+                <ChevronDown className="h-3 w-3" />
+              </Button>
+              <Button size="icon-xs" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => removeItem(idx)}>
+                <Trash2 className="h-3 w-3" />
+              </Button>
             </div>
           </div>
           {fields.map((f) =>
@@ -274,12 +212,10 @@ function ItemsEditor({ section, onUpdate, businessId, fields, si, fieldPrefix = 
           )}
         </div>
       ))}
-      {items.length === 0 && <p className="text-xs text-white/25 italic">No items yet</p>}
+      {items.length === 0 && <p className="text-xs italic text-muted-foreground">No items yet</p>}
     </div>
   );
 }
-
-// --- Type-specific field renderers ---
 
 function HeroFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = createFieldUpdater(section, onUpdate);
@@ -334,11 +270,11 @@ function AboutFields({ section, savedSection, onUpdate, businessId, si }: { sect
       <ImageField label="Image" value={section.image || ""} savedValue={savedSection?.image || ""} onChange={(v) => updater.set("image", v)} businessId={businessId} sectionIndex={si} fieldPath="image" />
 
       {variant === "story" && (
-        <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3">
-          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Story</span>
+        <div className="mt-3 pt-3 border-t border-border space-y-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Story</span>
           <TextField label="Title" value={section.story?.title || ""} savedValue={savedSection?.story?.title || ""} onChange={(v) => updater.setNested("story", "title", v)} sectionIndex={si} fieldPath="story.title" />
           <TextField label="Content" value={section.story?.content || ""} savedValue={savedSection?.story?.content || ""} onChange={(v) => updater.setNested("story", "content", v)} sectionIndex={si} fieldPath="story.content" />
-          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide block pt-2">Commitment</span>
+          <span className="text-xs font-semibold uppercase tracking-wide block pt-2 text-muted-foreground">Commitment</span>
           <TextField label="Title" value={section.commitment?.title || ""} savedValue={savedSection?.commitment?.title || ""} onChange={(v) => updater.setNested("commitment", "title", v)} sectionIndex={si} fieldPath="commitment.title" />
           <TextField label="Content" value={section.commitment?.content || ""} savedValue={savedSection?.commitment?.content || ""} onChange={(v) => updater.setNested("commitment", "content", v)} sectionIndex={si} fieldPath="commitment.content" />
         </div>
@@ -352,7 +288,6 @@ function AboutFields({ section, savedSection, onUpdate, businessId, si }: { sect
         ]} />
       )}
 
-      {/* Stats editor */}
       <ItemsEditor section={{ ...section, items: section.stats }} onUpdate={(s) => onUpdate({ ...section, stats: s.items })} businessId={businessId} si={si} fieldPrefix="stats" fields={[
         { key: "value", label: "Value", type: "text" },
         { key: "label", label: "Label", type: "text" },
@@ -368,8 +303,8 @@ function ContactFields({ section, savedSection, onUpdate, si }: { section: any; 
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
 
-      <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3">
-        <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Form</span>
+      <div className="mt-3 pt-3 border-t border-border space-y-3">
+        <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Form</span>
         <TextField label="Name Label" value={section.form?.nameLabel || ""} savedValue={savedSection?.form?.nameLabel || ""} onChange={(v) => updater.setNested("form", "nameLabel", v)} sectionIndex={si} fieldPath="form.nameLabel" />
         <TextField label="Email Label" value={section.form?.emailLabel || ""} savedValue={savedSection?.form?.emailLabel || ""} onChange={(v) => updater.setNested("form", "emailLabel", v)} sectionIndex={si} fieldPath="form.emailLabel" />
         <TextField label="Msg Label" value={section.form?.messageLabel || ""} savedValue={savedSection?.form?.messageLabel || ""} onChange={(v) => updater.setNested("form", "messageLabel", v)} sectionIndex={si} fieldPath="form.messageLabel" />
@@ -377,8 +312,8 @@ function ContactFields({ section, savedSection, onUpdate, si }: { section: any; 
       </div>
 
       {section.variant === "split" && (
-        <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3">
-          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Contact Info</span>
+        <div className="mt-3 pt-3 border-t border-border space-y-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Contact Info</span>
           <TextField label="Address" value={section.info?.address || ""} savedValue={savedSection?.info?.address || ""} onChange={(v) => updater.setNested("info", "address", v)} sectionIndex={si} fieldPath="info.address" />
           <TextField label="Phone" value={section.info?.phone || ""} savedValue={savedSection?.info?.phone || ""} onChange={(v) => updater.setNested("info", "phone", v)} sectionIndex={si} fieldPath="info.phone" />
           <TextField label="Email" value={section.info?.email || ""} savedValue={savedSection?.info?.email || ""} onChange={(v) => updater.setNested("info", "email", v)} sectionIndex={si} fieldPath="info.email" />
@@ -399,9 +334,7 @@ function ShopFields({ section, savedSection, onUpdate, businessId, si }: { secti
     onUpdate({ ...section, products: newProducts });
   };
 
-  const addProduct = () => {
-    onUpdate({ ...section, products: [...products, { name: "New Product", price: 0, description: "" }] });
-  };
+  const addProduct = () => onUpdate({ ...section, products: [...products, { name: "New Product", price: 0, description: "" }] });
 
   const removeProduct = (idx: number) => {
     const newProducts = [...products];
@@ -421,54 +354,45 @@ function ShopFields({ section, savedSection, onUpdate, businessId, si }: { secti
     <>
       <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
 
-      <div className="mt-3 pt-3 border-t border-white/[0.06]">
+      <div className="mt-3 pt-3 border-t border-border">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Products ({products.length})</span>
-          <button onClick={addProduct} className="px-2 py-1 text-xs bg-green-500/15 text-green-400 rounded hover:bg-green-500/25">+ Add Product</button>
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Products ({products.length})</span>
+          <Button size="sm" variant="outline" onClick={addProduct}>
+            <Plus className="h-3 w-3 mr-1" />
+            Add Product
+          </Button>
         </div>
         {products.map((product: any, pIdx: number) => (
-          <div
-            key={pIdx}
-            className="mb-3 p-3 bg-white/[0.03] border border-white/[0.08] rounded space-y-2"
-            {...fieldHoverProps(si, `products.${pIdx}`)}
-          >
+          <div key={pIdx} className="mb-3 p-3 bg-muted/30 border border-border rounded-lg space-y-2" {...fieldHoverProps(si, `products.${pIdx}`)}>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-white/40">Product {pIdx + 1}</span>
-              <div className="flex items-center gap-1">
-                <button
-                  disabled={pIdx === 0}
-                  onClick={() => moveProduct(pIdx, 'up')}
-                  className="p-0.5 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
-                  title="Move up"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-                </button>
-                <button
-                  disabled={pIdx === products.length - 1}
-                  onClick={() => moveProduct(pIdx, 'down')}
-                  className="p-0.5 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
-                  title="Move down"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <button onClick={() => removeProduct(pIdx)} className="text-xs text-red-400 hover:text-red-300">Remove</button>
+              <span className="text-xs font-medium text-muted-foreground">Product {pIdx + 1}</span>
+              <div className="flex items-center gap-0.5">
+                <Button size="icon-xs" variant="ghost" disabled={pIdx === 0} onClick={() => moveProduct(pIdx, 'up')} title="Move up">
+                  <ChevronUp className="h-3 w-3" />
+                </Button>
+                <Button size="icon-xs" variant="ghost" disabled={pIdx === products.length - 1} onClick={() => moveProduct(pIdx, 'down')} title="Move down">
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+                <Button size="icon-xs" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => removeProduct(pIdx)}>
+                  <Trash2 className="h-3 w-3" />
+                </Button>
               </div>
             </div>
             <TextField label="Name" value={product.name || ""} onChange={(v) => updateProduct(pIdx, "name", v)} sectionIndex={si} fieldPath={`products.${pIdx}.name`} />
             <div className="flex gap-4 items-center" {...fieldHoverProps(si, `products.${pIdx}.price`)}>
-              <label className="w-24 flex-shrink-0 text-sm text-white/50">Price</label>
+              <label className="w-24 flex-shrink-0 text-sm text-muted-foreground">Price</label>
               <input
                 type="number"
                 value={product.price || ""}
                 onChange={(e) => updateProduct(pIdx, "price", parseFloat(e.target.value) || 0)}
-                className="flex-1 px-3 py-2 border border-white/10 bg-white/[0.05] text-white/90 rounded-md text-sm"
+                className="flex-1 px-3 py-2 border border-border bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring/20"
               />
             </div>
             <TextField label="Description" value={product.description || ""} onChange={(v) => updateProduct(pIdx, "description", v)} sectionIndex={si} fieldPath={`products.${pIdx}.description`} />
             <ImageField label="Image" value={product.image || ""} onChange={(v) => updateProduct(pIdx, "image", v)} businessId={businessId} sectionIndex={si} fieldPath={`products.${pIdx}.image`} />
           </div>
         ))}
-        {products.length === 0 && <p className="text-xs text-white/25 italic">No products yet</p>}
+        {products.length === 0 && <p className="text-xs italic text-muted-foreground">No products yet</p>}
       </div>
     </>
   );
@@ -485,8 +409,6 @@ function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { se
   );
 }
 
-// --- Main component ---
-
 export default function SectionEditor({ section, savedSection, index, sectionCount, pageName, businessId, onUpdate, onRemove, onMoveUp, onMoveDown }: SectionEditorProps) {
   const variants = VARIANT_OPTIONS[section.type] || [];
 
@@ -495,7 +417,6 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
     onUpdate({ ...section, type: newType, variant: defaultVariant });
   };
 
-  // Per-field revert for type and variant
   const typeChanged = savedSection && section.type !== savedSection.type;
   const variantChanged = savedSection && section.variant !== savedSection.variant;
 
@@ -514,40 +435,33 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
 
   return (
     <div
-      className="mb-4 p-4 border border-white/[0.08] rounded-lg bg-white/[0.03]"
+      className="mb-4 p-4 border border-border rounded-lg bg-card"
       onMouseEnter={() => postHighlight('highlight-section', index)}
       onMouseLeave={() => postHighlight('clear-highlight')}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="font-medium text-sm text-white/90">Section {index + 1}: {section.type}</span>
-        <div className="flex items-center gap-1">
-          <button
-            disabled={index === 0}
-            onClick={onMoveUp}
-            className="p-1 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
-            title="Move up"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-          </button>
-          <button
-            disabled={index === sectionCount - 1}
-            onClick={onMoveDown}
-            className="p-1 text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed"
-            title="Move down"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <button onClick={onRemove} className="px-2 py-1 text-xs bg-red-500/15 text-red-400 rounded hover:bg-red-500/25">Remove</button>
+        <span className="font-medium text-sm">Section {index + 1}: {section.type}</span>
+        <div className="flex items-center gap-0.5">
+          <Button size="icon-xs" variant="ghost" disabled={index === 0} onClick={onMoveUp} title="Move up">
+            <ChevronUp className="h-3.5 w-3.5" />
+          </Button>
+          <Button size="icon-xs" variant="ghost" disabled={index === sectionCount - 1} onClick={onMoveDown} title="Move down">
+            <ChevronDown className="h-3.5 w-3.5" />
+          </Button>
+          <Button size="sm" variant="ghost" className="text-destructive hover:text-destructive" onClick={onRemove}>
+            <Trash2 className="h-3.5 w-3.5 mr-1" />
+            Remove
+          </Button>
         </div>
       </div>
 
       <div className="space-y-3">
         <div className="flex gap-4 items-center">
-          <label className="w-24 flex-shrink-0 text-sm text-white/50">Type</label>
+          <label className="w-24 flex-shrink-0 text-sm text-muted-foreground">Type</label>
           <select
             value={section.type || "hero"}
             onChange={(e) => handleTypeChange(e.target.value)}
-            className={`flex-1 px-3 py-2 border rounded-md text-sm bg-white/[0.05] text-white/90 ${typeChanged ? "border-amber-400/60 bg-amber-500/10" : "border-white/10"}`}
+            className={`flex-1 px-3 py-2 border rounded-md text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring/20 ${typeChanged ? "border-amber-600/60 bg-amber-600/5" : "border-border"}`}
           >
             <option value="hero">Hero</option>
             <option value="services">Services</option>
@@ -562,11 +476,11 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
         </div>
 
         <div className="flex gap-4 items-center">
-          <label className="w-24 flex-shrink-0 text-sm text-white/50">Variant</label>
+          <label className="w-24 flex-shrink-0 text-sm text-muted-foreground">Variant</label>
           <select
             value={section.variant || variants[0]?.value || "default"}
             onChange={(e) => onUpdate({ ...section, variant: e.target.value })}
-            className={`flex-1 px-3 py-2 border rounded-md text-sm bg-white/[0.05] text-white/90 ${variantChanged ? "border-amber-400/60 bg-amber-500/10" : "border-white/10"}`}
+            className={`flex-1 px-3 py-2 border rounded-md text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring/20 ${variantChanged ? "border-amber-600/60 bg-amber-600/5" : "border-border"}`}
           >
             {variants.map((v) => (
               <option key={v.value} value={v.value}>{v.label}</option>

@@ -76,14 +76,14 @@ export function BlogsTab({ businessId }: BlogsTabProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="text-gray-500">Loading blogs...</div>
+        <div className="opacity-60">Loading blogs...</div>
       </div>
     );
   }
 
   if (view === "create" || view === "edit") {
     return (
-      <Suspense fallback={<div className="flex items-center justify-center py-12"><div className="text-gray-500">Loading editor...</div></div>}>
+      <Suspense fallback={<div className="flex items-center justify-center py-12"><div className="opacity-60">Loading editor...</div></div>}>
         <BlogEditor
           blog={selectedBlog}
           businessId={businessId}

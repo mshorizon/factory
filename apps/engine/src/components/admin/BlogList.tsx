@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 interface Blog {
   id: number;
@@ -20,10 +22,7 @@ export function BlogList({ blogs, onEdit, onDelete, onCreate }: BlogListProps) {
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const handleDelete = async (blogId: number, title: string) => {
-    if (!confirm(`Are you sure you want to delete "${title}"? This will also delete all comments on this blog.`)) {
-      return;
-    }
-
+    if (!confirm(`Are you sure you want to delete "${title}"? This will also delete all comments.`)) return;
     setDeletingId(blogId);
     try {
       await onDelete(blogId);
@@ -44,85 +43,62 @@ export function BlogList({ blogs, onEdit, onDelete, onCreate }: BlogListProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Blog Posts</h2>
-        <button
-          onClick={onCreate}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-          </svg>
-          Create New Post
-        </button>
+        <h2 className="text-lg font-semibold">Blog Posts</h2>
+        <Button size="sm" onClick={onCreate}>
+          <Plus className="h-4 w-4 mr-1.5" />
+          New Post
+        </Button>
       </div>
 
       {blogs.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg">
-          <p className="text-gray-500 mb-4">No blog posts yet</p>
-          <button
-            onClick={onCreate}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Create Your First Post
-          </button>
+        <div className="text-center py-12 bg-muted/30 rounded-lg border border-border">
+          <p className="text-muted-foreground mb-4">No blog posts yet</p>
+          <Button onClick={onCreate}>Create Your First Post</Button>
         </div>
       ) : (
-        <div className="bg-white border border-gray-300 rounded-lg overflow-hidden">
+        <div className="border border-border rounded-lg overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-300">
+            <thead className="bg-muted/50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                  Title
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                  Published
-                </th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">
-                  Actions
-                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Title</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Published</th>
+                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-border">
               {blogs.map((blog) => (
-                <tr key={blog.id} className="hover:bg-gray-50">
+                <tr key={blog.id} className="hover:bg-muted/30">
                   <td className="px-4 py-3">
-                    <div>
-                      <div className="font-medium text-gray-900">{blog.title}</div>
-                      <div className="text-sm text-gray-500">/blog/{blog.slug}</div>
-                    </div>
+                    <div className="font-medium text-sm">{blog.title}</div>
+                    <div className="text-xs text-muted-foreground">/blog/{blog.slug}</div>
                   </td>
                   <td className="px-4 py-3">
                     <span
-                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      className={`inline-flex px-2 py-0.5 text-[10px] font-semibold rounded-full uppercase tracking-wider ${
                         blog.status === "published"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
+                          ? "bg-green-600/10 text-green-600"
+                          : "bg-amber-600/10 text-amber-600"
                       }`}
                     >
                       {blog.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-500">
+                  <td className="px-4 py-3 text-sm text-muted-foreground">
                     {formatDate(blog.publishedAt)}
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => onEdit(blog)}
-                        className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded"
-                      >
-                        Edit
-                      </button>
-                      <button
+                    <div className="flex items-center justify-end gap-1">
+                      <Button size="sm" variant="ghost" onClick={() => onEdit(blog)}>Edit</Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-destructive hover:text-destructive"
                         onClick={() => handleDelete(blog.id, blog.title)}
                         disabled={deletingId === blog.id}
-                        className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded disabled:opacity-50"
                       >
-                        {deletingId === blog.id ? "Deleting..." : "Delete"}
-                      </button>
+                        {deletingId === blog.id ? "..." : "Delete"}
+                      </Button>
                     </div>
                   </td>
                 </tr>

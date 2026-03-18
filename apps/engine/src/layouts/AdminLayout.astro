@@ -4,11 +4,11 @@ interface Props {
 }
 
 const { title } = Astro.props;
-const { businessId, theme } = Astro.locals;
+const { businessId } = Astro.locals;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,33 +18,43 @@ const { businessId, theme } = Astro.locals;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
-  <body style={`--primary: ${theme.colors.primary}; --secondary: ${theme.colors.surface?.alt || theme.colors.primary}; --radius: ${theme.ui?.radius || "0.5rem"};`}>
+  <body>
     <style is:global>
+      @import '../styles/admin-theme.css';
+
       * { box-sizing: border-box; }
 
       body {
         font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        background-color: #1d1d1d;
-        color: rgba(255,255,255,0.9);
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
         min-height: 100vh;
         margin: 0;
         overflow: hidden;
         -webkit-font-smoothing: antialiased;
       }
 
-      .admin-layout { display: flex; height: 100vh; width: 100vw; }
+      .admin-layout {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+      }
 
       .admin-panel {
         display: flex;
         flex-direction: column;
-        background: #1d1d1d;
-        flex-shrink: 0;
+        background: hsl(var(--background));
+        border-right: 1px solid hsl(var(--border));
+        flex: 0 0 auto;
+        width: 75%;
+        min-width: 0;
+        min-height: 0;
       }
 
       .resize-handle {
-        width: 5px;
+        width: 4px;
         cursor: col-resize;
-        background: rgba(255,255,255,0.04);
+        background: transparent;
         transition: background 0.15s;
         flex-shrink: 0;
         position: relative;
@@ -53,40 +63,75 @@ const { businessId, theme } = Astro.locals;
 
       .resize-handle:hover,
       .resize-handle.active {
-        background: var(--primary);
+        background: hsl(var(--primary));
       }
 
-      .admin-content { flex: 1; overflow-y: auto; }
-
-      .admin-content::-webkit-scrollbar { width: 6px; }
-      .admin-content::-webkit-scrollbar-track { background: transparent; }
-      .admin-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-      .admin-content::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+      .admin-content {
+        display: flex;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+      }
 
       .preview-panel {
-        flex: 1;
+        flex: 1 1 0%;
         display: flex;
         flex-direction: column;
-        background: #111;
+        background: hsl(var(--muted));
+        position: relative;
+        min-width: 200px;
       }
 
-      .preview-header {
+      .preview-overlay-controls {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        z-index: 10;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 0.5rem 1rem;
-        background: #111;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
+        gap: 0.375rem;
+      }
+
+      .preview-overlay-btn {
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: hsl(var(--background) / 0.9);
+        border: 1px solid hsl(var(--border));
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+        color: hsl(var(--muted-foreground));
+        backdrop-filter: blur(4px);
+      }
+
+      .preview-overlay-btn:hover {
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+      }
+
+      .preview-overlay-label {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        color: hsl(var(--muted-foreground));
+        background: hsl(var(--background) / 0.9);
+        border: 1px solid hsl(var(--border));
+        border-radius: 6px;
+        padding: 0.375rem 0.5rem;
+        backdrop-filter: blur(4px);
       }
 
       .preview-iframe {
         flex: 1;
         width: 100%;
+        height: 100%;
         border: none;
         background: white;
       }
 
-      /* RJSF dark theme */
+      /* RJSF overrides for shadcn theme */
       .rjsf-wrapper,
       .rjsf-wrapper > div,
       .rjsf-wrapper form,
@@ -109,7 +154,7 @@ const { businessId, theme } = Astro.locals;
         gap: 1rem;
         margin-bottom: 1rem;
         padding-bottom: 1rem;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
+        border-bottom: 1px solid hsl(var(--border));
         width: 100%;
       }
 
@@ -132,7 +177,7 @@ const { businessId, theme } = Astro.locals;
         max-width: 140px !important;
         font-size: 0.8125rem;
         font-weight: 500;
-        color: rgba(255,255,255,0.5);
+        color: hsl(var(--muted-foreground));
         padding-top: 0.625rem;
         word-break: break-word;
       }
@@ -140,7 +185,7 @@ const { businessId, theme } = Astro.locals;
       .rjsf-wrapper .field-description {
         flex-basis: 100%;
         font-size: 0.75rem;
-        color: rgba(255,255,255,0.3);
+        color: hsl(var(--muted-foreground) / 0.6);
         margin-top: -0.5rem;
         margin-bottom: 0.5rem;
         padding-left: calc(140px + 1rem);
@@ -165,12 +210,12 @@ const { businessId, theme } = Astro.locals;
         width: 100% !important;
         min-width: 0 !important;
         padding: 0.5rem 0.75rem;
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 6px;
-        background: rgba(255,255,255,0.05);
-        color: rgba(255,255,255,0.9);
+        border: 1px solid hsl(var(--border));
+        border-radius: calc(var(--radius) - 2px);
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
         font-size: 0.8125rem;
-        transition: border-color 0.15s, background 0.15s;
+        transition: border-color 0.15s, box-shadow 0.15s;
         box-sizing: border-box;
       }
 
@@ -178,13 +223,13 @@ const { businessId, theme } = Astro.locals;
       .rjsf-wrapper textarea:focus,
       .rjsf-wrapper select:focus {
         outline: none;
-        border-color: var(--primary);
-        background: rgba(255,255,255,0.08);
+        border-color: hsl(var(--ring));
+        box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
       }
 
       .rjsf-wrapper input::placeholder,
       .rjsf-wrapper textarea::placeholder {
-        color: rgba(255,255,255,0.25);
+        color: hsl(var(--muted-foreground) / 0.5);
       }
 
       .rjsf-wrapper textarea {
@@ -193,17 +238,17 @@ const { businessId, theme } = Astro.locals;
       }
 
       .rjsf-wrapper .text-danger {
-        color: #ff6b6b;
+        color: hsl(var(--destructive));
         font-size: 0.75rem;
         margin-top: 0.25rem;
       }
 
       .rjsf-wrapper fieldset {
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 8px;
+        border: 1px solid hsl(var(--border));
+        border-radius: calc(var(--radius));
         padding: 1.25rem;
         margin-bottom: 1.25rem;
-        background: rgba(255,255,255,0.03);
+        background: hsl(var(--muted) / 0.3);
         width: 100% !important;
         flex-basis: 100% !important;
       }
@@ -212,10 +257,10 @@ const { businessId, theme } = Astro.locals;
         font-weight: 600;
         font-size: 0.8125rem;
         padding: 0.25rem 0.75rem;
-        color: rgba(255,255,255,0.7);
-        background: #252525;
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 6px;
+        color: hsl(var(--foreground));
+        background: hsl(var(--background));
+        border: 1px solid hsl(var(--border));
+        border-radius: calc(var(--radius) - 2px);
       }
 
       .rjsf-wrapper fieldset .field label {
@@ -230,10 +275,10 @@ const { businessId, theme } = Astro.locals;
       }
 
       .rjsf-wrapper .array-item {
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.08);
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--border));
         padding: 1rem;
-        border-radius: 8px;
+        border-radius: calc(var(--radius));
         margin-bottom: 0.75rem;
         flex-basis: 100% !important;
       }
@@ -254,10 +299,10 @@ const { businessId, theme } = Astro.locals;
         padding: 0.5rem 1rem;
         font-size: 0.8125rem;
         font-weight: 500;
-        background: var(--primary);
-        color: white;
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
         border: none;
-        border-radius: 6px;
+        border-radius: calc(var(--radius) - 2px);
         cursor: pointer;
         transition: opacity 0.15s;
       }
@@ -269,45 +314,45 @@ const { businessId, theme } = Astro.locals;
         gap: 0.5rem;
         margin-top: 0.75rem;
         padding-top: 0.75rem;
-        border-top: 1px solid rgba(255,255,255,0.06);
+        border-top: 1px solid hsl(var(--border));
       }
 
       .rjsf-wrapper .array-item-remove {
         padding: 0.375rem 0.75rem;
         font-size: 0.75rem;
         font-weight: 500;
-        background: rgba(220,38,38,0.15);
-        color: #ff6b6b;
-        border: 1px solid rgba(220,38,38,0.2);
-        border-radius: 6px;
+        background: hsl(var(--destructive) / 0.15);
+        color: hsl(var(--destructive));
+        border: 1px solid hsl(var(--destructive) / 0.3);
+        border-radius: calc(var(--radius) - 2px);
         cursor: pointer;
         transition: background 0.15s;
       }
 
-      .rjsf-wrapper .array-item-remove:hover { background: rgba(220,38,38,0.25); }
+      .rjsf-wrapper .array-item-remove:hover { background: hsl(var(--destructive) / 0.25); }
 
       .rjsf-wrapper .array-item-move-up,
       .rjsf-wrapper .array-item-move-down {
         padding: 0.375rem 0.75rem;
         font-size: 0.75rem;
         font-weight: 500;
-        background: rgba(255,255,255,0.05);
-        color: rgba(255,255,255,0.6);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 6px;
+        background: hsl(var(--muted));
+        color: hsl(var(--muted-foreground));
+        border: 1px solid hsl(var(--border));
+        border-radius: calc(var(--radius) - 2px);
         cursor: pointer;
         transition: background 0.15s;
       }
 
       .rjsf-wrapper .array-item-move-up:hover,
-      .rjsf-wrapper .array-item-move-down:hover { background: rgba(255,255,255,0.1); }
+      .rjsf-wrapper .array-item-move-down:hover { background: hsl(var(--accent)); }
 
       .rjsf-wrapper input[type="checkbox"] {
         width: 1.25rem !important;
         height: 1.25rem;
         cursor: pointer;
         flex: 0 0 auto !important;
-        accent-color: var(--primary);
+        accent-color: hsl(var(--primary));
       }
 
       .rjsf-wrapper select {
@@ -318,23 +363,20 @@ const { businessId, theme } = Astro.locals;
         background-position: right 0.75rem center;
         padding-right: 2.5rem;
       }
+
+      /* Admin form area scrollbar */
+      .admin-form-area {
+        scrollbar-width: thin;
+        scrollbar-color: hsl(var(--border)) transparent;
+      }
+      .admin-form-area::-webkit-scrollbar { width: 6px; }
+      .admin-form-area::-webkit-scrollbar-track { background: transparent; }
+      .admin-form-area::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 3px; }
+      .admin-form-area::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.3); }
     </style>
 
     <div class="admin-layout">
       <div class="admin-panel">
-        <nav style="background:#1d1d1d;border-bottom:1px solid rgba(255,255,255,0.06);padding:0.625rem 1rem;">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <a href="/admin" style="color:rgba(255,255,255,0.9);font-weight:600;font-size:0.875rem;text-decoration:none;">Admin</a>
-              <span style="color:rgba(255,255,255,0.2);">|</span>
-              <span style="color:rgba(255,255,255,0.4);font-size:0.75rem;">{businessId}</span>
-            </div>
-            <a href="/" target="_blank" style="color:rgba(255,255,255,0.4);font-size:0.75rem;text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='rgba(255,255,255,0.8)'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
-              Open site ↗
-            </a>
-          </div>
-        </nav>
-
         <main class="admin-content">
           <slot />
         </main>
@@ -343,14 +385,19 @@ const { businessId, theme } = Astro.locals;
       <div class="resize-handle" id="resize-handle"></div>
 
       <div class="preview-panel">
-        <div class="preview-header">
-          <span style="font-size:0.6875rem;font-weight:500;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;">Live Preview</span>
-          <button id="refresh-preview" style="font-size:0.6875rem;color:var(--primary);background:none;border:none;cursor:pointer;opacity:0.8;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">
-            ↻ Refresh
-          </button>
+          <div class="preview-overlay-controls">
+            <span class="preview-overlay-label">Preview</span>
+            <button id="refresh-preview" class="preview-overlay-btn" title="Refresh preview">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                <path d="M21 3v5h-5"/>
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                <path d="M3 21v-5h5"/>
+              </svg>
+            </button>
+          </div>
+          <iframe id="preview-iframe" src="/?_preview=1" class="preview-iframe"></iframe>
         </div>
-        <iframe id="preview-iframe" src="/?_preview=1" class="preview-iframe"></iframe>
-      </div>
     </div>
 
     <script is:inline>
@@ -359,7 +406,6 @@ const { businessId, theme } = Astro.locals;
         var iframe = document.getElementById('preview-iframe');
         if (iframe) {
           setTimeout(function() {
-            // Preserve the _preview=1 param on refresh
             var url = new URL(iframe.src, window.location.origin);
             url.searchParams.set('_preview', '1');
             iframe.src = url.toString();
@@ -396,7 +442,7 @@ const { businessId, theme } = Astro.locals;
           var w = Math.max(MIN_WIDTH, Math.min(parseInt(saved, 10), MAX_WIDTH));
           panel.style.width = w + 'px';
         } else {
-          panel.style.width = '50%';
+          panel.style.width = '75%';
         }
 
         var dragging = false;
@@ -405,7 +451,6 @@ const { businessId, theme } = Astro.locals;
           e.preventDefault();
           dragging = true;
           handle.classList.add('active');
-          // Prevent iframe from stealing mouse events
           iframe.style.pointerEvents = 'none';
           document.body.style.cursor = 'col-resize';
           document.body.style.userSelect = 'none';
@@ -427,7 +472,6 @@ const { businessId, theme } = Astro.locals;
           localStorage.setItem(STORAGE_KEY, parseInt(panel.style.width, 10));
         });
 
-        // Update max on window resize
         window.addEventListener('resize', function() {
           MAX_WIDTH = Math.floor(window.innerWidth * 0.75);
         });

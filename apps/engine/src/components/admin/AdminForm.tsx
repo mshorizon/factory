@@ -1,14 +1,50 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import rjsfCore from "@rjsf/core";
+import { useTheme } from "next-themes";
+import RjsfForm from "@rjsf/shadcn";
 import rjsfValidator from "@rjsf/validator-ajv8";
 import type { RJSFSchema } from "@rjsf/utils";
 import { ColorPickerWidget } from "./widgets/ColorPickerWidget";
 import { ImageUrlWidget } from "./widgets/ImageUrlWidget";
 import SectionEditor from "./SectionEditor";
 import { BlogManagement } from "./BlogManagement";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarProvider,
+  SidebarInset,
+} from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
+import {
+  Moon,
+  Sun,
+  FileText,
+  Palette,
+  Menu,
+  Footprints,
+  Database,
+  FileEdit,
+  Languages,
+  File,
+  Save,
+  Undo2,
+  Check,
+  AlertCircle,
+  Circle,
+  ExternalLink,
+  Settings,
+} from "lucide-react";
 
 // Handle CJS/ESM interop
-const Form = (rjsfCore as any).default || rjsfCore;
+const Form = (RjsfForm as any).default || RjsfForm;
 const validator = (rjsfValidator as any).default || rjsfValidator;
 
 interface AdminFormProps {
@@ -29,7 +65,6 @@ const configWidgets = {
   ImageUrlWidget,
 };
 
-// Auto-detect color fields by their hex pattern and map them to ColorPickerWidget
 function generateColorUiSchema(schema: RJSFSchema): Record<string, any> {
   const uiSchema: Record<string, any> = {};
   if (!schema.properties) return uiSchema;
@@ -45,7 +80,6 @@ function generateColorUiSchema(schema: RJSFSchema): Record<string, any> {
   return uiSchema;
 }
 
-// Extract a sub-schema for a specific path, preserving definitions
 function getSubSchema(schema: RJSFSchema, path: string[]): RJSFSchema {
   let current: any = schema;
   for (const key of path) {
@@ -57,13 +91,9 @@ function getSubSchema(schema: RJSFSchema, path: string[]): RJSFSchema {
       return { type: "object", properties: {} };
     }
   }
-  return {
-    ...current,
-    definitions: schema.definitions,
-  } as RJSFSchema;
+  return { ...current, definitions: schema.definitions } as RJSFSchema;
 }
 
-// Get nested value from object
 function getNestedValue(obj: Record<string, unknown>, path: string[]): any {
   let current: any = obj;
   for (const key of path) {
@@ -76,7 +106,6 @@ function getNestedValue(obj: Record<string, unknown>, path: string[]): any {
   return current;
 }
 
-// Set nested value in object (immutably)
 function setNestedValue(
   obj: Record<string, unknown>,
   path: string[],
@@ -92,45 +121,51 @@ function setNestedValue(
   };
 }
 
-// Deep compare two values
 function deepEqual(a: any, b: any): boolean {
   if (a === b) return true;
   if (a == null || b == null) return a === b;
   if (typeof a !== typeof b) return false;
   if (typeof a !== "object") return false;
   if (Array.isArray(a) !== Array.isArray(b)) return false;
-
   const keysA = Object.keys(a);
   const keysB = Object.keys(b);
   if (keysA.length !== keysB.length) return false;
-
   return keysA.every((key) => deepEqual(a[key], b[key]));
 }
 
-export default function AdminForm({ businessId, initialData, schema, translations }: AdminFormProps) {
+export default function AdminForm({
+  businessId,
+  initialData,
+  schema,
+  translations,
+}: AdminFormProps) {
   const [formData, setFormData] = useState<Record<string, unknown>>(initialData);
   const [translationsData, setTranslationsData] = useState({
     en: translations?.en || {},
     pl: translations?.pl || {},
   });
 
-  // Keep a snapshot of the saved state for revert
   const savedDataRef = useRef<Record<string, unknown>>(structuredClone(initialData));
   const savedTransRef = useRef({ en: translations?.en || {}, pl: translations?.pl || {} });
 
-  // Persist activeTab across HMR/reloads
-  const [activeTab, setActiveTab] = useState<TabType>(() => {
+  const [internalActiveTab, setInternalActiveTab] = useState<TabType>(() => {
     if (typeof window !== "undefined") {
       return (sessionStorage.getItem(`admin-tab-${businessId}`) as TabType) || "meta";
     }
     return "meta";
   });
 
+  const activeTab = internalActiveTab;
+  const setActiveTab = (tab: TabType) => setInternalActiveTab(tab);
+
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string>();
   const [newPageName, setNewPageName] = useState("");
 
-  // Save activeTab to sessionStorage
+  const [metaSubTab, setMetaSubTab] = useState<"business" | "assets">("business");
+  const [themeSubTab, setThemeSubTab] = useState<"colors" | "typography">("colors");
+  const [dataSubTab, setDataSubTab] = useState<"services" | "products">("services");
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem(`admin-tab-${businessId}`, activeTab);
@@ -140,15 +175,12 @@ export default function AdminForm({ businessId, initialData, schema, translation
   const pages = formData.pages as Record<string, unknown> | undefined;
   const pageNames = pages ? Object.keys(pages) : [];
 
-  // Track whether there are unsaved changes
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Debounced draft update for live preview (no disk write)
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialMount = useRef(true);
 
   useEffect(() => {
-    // Skip on initial mount
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
@@ -156,29 +188,18 @@ export default function AdminForm({ businessId, initialData, schema, translation
 
     setHasUnsavedChanges(true);
 
-    // Clear previous timer
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
+    if (debounceRef.current) clearTimeout(debounceRef.current);
 
-    // Debounce draft update and refresh preview
     debounceRef.current = setTimeout(async () => {
       setSaveStatus("saving");
       try {
         const res = await fetch("/api/admin/draft", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            businessId,
-            data: formData,
-            translations: translationsData,
-          }),
+          body: JSON.stringify({ businessId, data: formData, translations: translationsData }),
         });
         if (!res.ok) throw new Error("Draft update failed");
-
         setSaveStatus("idle");
-
-        // Refresh preview iframe
         if (typeof (window as any).refreshPreview === "function") {
           (window as any).refreshPreview();
         }
@@ -188,43 +209,15 @@ export default function AdminForm({ businessId, initialData, schema, translation
       }
     }, 800);
 
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
   }, [formData, translationsData, businessId]);
 
-  // SVG icons for sidebar (14x14, stroke-based)
-  const icons: Record<string, React.ReactNode> = {
-    meta: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
-    theme: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="13.5" r="2.5"/><circle cx="17.5" cy="13.5" r="2.5"/><path d="M13.5 9v2.5"/><path d="M6.5 11V9"/><path d="M17.5 11V9"/></svg>,
-    navbar: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>,
-    footer: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15h18"/></svg>,
-    data: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
-    page: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>,
-    translations: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>,
-    blog: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>,
-  };
-
-  const tabs: { id: TabType; label: string; icon?: React.ReactNode }[] = [
-    { id: "meta", label: "Business Info", icon: icons.meta },
-    { id: "theme", label: "Theme", icon: icons.theme },
-    { id: "navbar", label: "Navbar", icon: icons.navbar },
-    { id: "footer", label: "Footer", icon: icons.footer },
-    { id: "data", label: "Data", icon: icons.data },
-    { id: "blog", label: "Blog", icon: icons.blog },
-    ...pageNames.map((name) => ({ id: `page-${name}` as TabType, label: name, icon: icons.page })),
-    { id: "translations-en", label: "EN", icon: icons.translations },
-    { id: "translations-pl", label: "PL", icon: icons.translations },
-  ];
-
-  // --- Change detection per tab ---
-  function isTabChanged(tabId: string): boolean {
+  const isTabChanged = useCallback((tabId: string): boolean => {
+    if (!tabId || typeof tabId !== "string") return false;
     const saved = savedDataRef.current;
     const savedTrans = savedTransRef.current;
 
-    if (tabId === "meta") {
-      return !deepEqual(formData.business, saved.business);
-    }
+    if (tabId === "meta") return !deepEqual(formData.business, saved.business);
     if (tabId === "theme") return !deepEqual(formData.theme, saved.theme);
     if (tabId === "navbar") return !deepEqual(getNestedValue(formData, ["layout", "navbar"]), getNestedValue(saved, ["layout", "navbar"]));
     if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"]));
@@ -236,34 +229,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
       return !deepEqual(getNestedValue(formData, ["pages", pageName]), getNestedValue(saved, ["pages", pageName]));
     }
     return false;
-  }
-
-  function revertTab(tabId: string) {
-    const saved = savedDataRef.current;
-    const savedTrans = savedTransRef.current;
-
-    if (tabId === "meta") {
-      setFormData((prev) => ({
-        ...prev,
-        business: structuredClone(saved.business),
-      }));
-    } else if (tabId === "theme") {
-      setFormData((prev) => ({ ...prev, theme: structuredClone(saved.theme) }));
-    } else if (tabId === "navbar") {
-      setFormData((prev) => setNestedValue(prev, ["layout", "navbar"], structuredClone(getNestedValue(saved, ["layout", "navbar"]))));
-    } else if (tabId === "footer") {
-      setFormData((prev) => setNestedValue(prev, ["layout", "footer"], structuredClone(getNestedValue(saved, ["layout", "footer"]))));
-    } else if (tabId === "data") {
-      setFormData((prev) => ({ ...prev, data: structuredClone(saved.data) }));
-    } else if (tabId === "translations-en") {
-      setTranslationsData((prev) => ({ ...prev, en: structuredClone(savedTrans.en) }));
-    } else if (tabId === "translations-pl") {
-      setTranslationsData((prev) => ({ ...prev, pl: structuredClone(savedTrans.pl) }));
-    } else if (tabId.startsWith("page-")) {
-      const pageName = tabId.replace("page-", "");
-      setFormData((prev) => setNestedValue(prev, ["pages", pageName], structuredClone(getNestedValue(saved, ["pages", pageName]))));
-    }
-  }
+  }, [formData, translationsData]);
 
   function revertAll() {
     setFormData(structuredClone(savedDataRef.current));
@@ -305,15 +271,12 @@ export default function AdminForm({ businessId, initialData, schema, translation
         throw new Error(error.message || "Failed to save translations");
       }
 
-      // Update saved snapshots
       savedDataRef.current = structuredClone(formData);
       savedTransRef.current = structuredClone(translationsData);
-
       setHasUnsavedChanges(false);
       setSaveStatus("success");
       setTimeout(() => setSaveStatus("idle"), 3000);
 
-      // Refresh preview iframe
       if (typeof (window as any).refreshPreview === "function") {
         (window as any).refreshPreview();
       }
@@ -330,10 +293,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
       ...prev,
       pages: {
         ...(prev.pages as Record<string, unknown>),
-        [pageName]: {
-          title: newPageName.trim(),
-          sections: [],
-        },
+        [pageName]: { title: newPageName.trim(), sections: [] },
       },
     }));
     setNewPageName("");
@@ -363,10 +323,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
           ...pages,
           [pageName]: {
             ...page,
-            sections: [
-              ...(page.sections || []),
-              { type: "hero", variant: "default", header: { title: "New Section" } },
-            ],
+            sections: [...(page.sections || []), { type: "hero", variant: "default", header: { title: "New Section" } }],
           },
         },
       };
@@ -380,28 +337,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
       const page = pages[pageName];
       const newSections = [...page.sections];
       newSections.splice(index, 1);
-      return {
-        ...prev,
-        pages: {
-          ...pages,
-          [pageName]: { ...page, sections: newSections },
-        },
-      };
-    });
-  };
-
-  const movePage = (pageName: string, direction: 'up' | 'down') => {
-    setFormData((prev) => {
-      const currentPages = prev.pages as Record<string, unknown> | undefined;
-      if (!currentPages) return prev;
-      const entries = Object.entries(currentPages);
-      const idx = entries.findIndex(([k]) => k === pageName);
-      if (idx === -1) return prev;
-      const newIdx = direction === 'up' ? idx - 1 : idx + 1;
-      if (newIdx < 0 || newIdx >= entries.length) return prev;
-      const [moved] = entries.splice(idx, 1);
-      entries.splice(newIdx, 0, moved);
-      return { ...prev, pages: Object.fromEntries(entries) };
+      return { ...prev, pages: { ...pages, [pageName]: { ...page, sections: newSections } } };
     });
   };
 
@@ -413,14 +349,11 @@ export default function AdminForm({ businessId, initialData, schema, translation
       const newIdx = direction === 'up' ? index - 1 : index + 1;
       if (newIdx < 0 || newIdx >= sections.length) return prev;
       [sections[index], sections[newIdx]] = [sections[newIdx], sections[index]];
-      return {
-        ...prev,
-        pages: { ...pages, [pageName]: { ...page, sections } },
-      };
+      return { ...prev, pages: { ...pages, [pageName]: { ...page, sections } } };
     });
   };
 
-  // Translations editor component with grouping
+  // Translations editor
   const TranslationsEditor = ({ lang }: { lang: "en" | "pl" }) => {
     const translations = (translationsData[lang] || {}) as Record<string, string>;
     const keys = Object.keys(translations).sort();
@@ -428,9 +361,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
     const groups: Record<string, string[]> = {};
     for (const key of keys) {
       const firstPart = key.split(".")[0];
-      if (!groups[firstPart]) {
-        groups[firstPart] = [];
-      }
+      if (!groups[firstPart]) groups[firstPart] = [];
       groups[firstPart].push(key);
     }
     const groupNames = Object.keys(groups).sort();
@@ -438,10 +369,7 @@ export default function AdminForm({ businessId, initialData, schema, translation
     const handleTranslationChange = (key: string, value: string) => {
       setTranslationsData((prev) => ({
         ...prev,
-        [lang]: {
-          ...(prev[lang] as Record<string, string>),
-          [key]: value,
-        },
+        [lang]: { ...(prev[lang] as Record<string, string>), [key]: value },
       }));
       setSaveStatus("idle");
     };
@@ -449,64 +377,120 @@ export default function AdminForm({ businessId, initialData, schema, translation
     return (
       <div className="space-y-6">
         {groupNames.map((groupName) => (
-          <div key={groupName} className="border border-gray-200 rounded-lg overflow-hidden">
-            <div className="bg-gray-100 px-4 py-2 border-b border-gray-200">
-              <h4 className="font-semibold text-sm text-gray-700 uppercase tracking-wide">{groupName}</h4>
+          <div key={groupName} className="border border-border rounded-lg overflow-hidden">
+            <div className="bg-muted/30 px-4 py-2 border-b border-border">
+              <h4 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">{groupName}</h4>
             </div>
             <div className="p-4 space-y-3">
               {groups[groupName].map((key) => (
                 <div key={key} className="flex gap-4 items-start">
-                  <label className="w-48 flex-shrink-0 text-sm text-gray-600 pt-2 break-all">
+                  <label className="w-48 flex-shrink-0 text-sm pt-2 break-all text-muted-foreground">
                     {key.substring(groupName.length + 1) || key}
                   </label>
                   <input
                     type="text"
                     value={translations[key] ?? ""}
                     onChange={(e) => handleTranslationChange(key, e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                    className="flex-1 px-3 py-2 border border-border rounded-md text-sm focus:border-ring focus:ring-2 focus:ring-ring/20 outline-none bg-background"
                   />
                 </div>
               ))}
             </div>
           </div>
         ))}
-        {keys.length === 0 && (
-          <p className="text-gray-500 text-sm">No translations found.</p>
-        )}
+        {keys.length === 0 && <p className="text-sm text-muted-foreground">No translations found.</p>}
       </div>
     );
   };
 
   const getTabContent = () => {
     if (activeTab === "meta") {
-      const metaSchema: RJSFSchema = {
+      const businessSchema = schema.properties?.business as any;
+
+      const businessInfoSchema: RJSFSchema = {
         type: "object",
         properties: {
-          business: schema.properties?.business,
+          business: {
+            type: "object",
+            properties: {
+              id: businessSchema?.properties?.id,
+              name: businessSchema?.properties?.name,
+              industry: businessSchema?.properties?.industry,
+              serviceArea: businessSchema?.properties?.serviceArea,
+              contact: businessSchema?.properties?.contact,
+              socials: businessSchema?.properties?.socials,
+              trustSignals: businessSchema?.properties?.trustSignals,
+              googleRating: businessSchema?.properties?.googleRating,
+            },
+          },
         },
         definitions: schema.definitions,
       };
+
+      const assetsSchema: RJSFSchema = {
+        type: "object",
+        properties: {
+          business: {
+            type: "object",
+            properties: { assets: businessSchema?.properties?.assets },
+          },
+        },
+        definitions: schema.definitions,
+      };
+
       return (
-        <div className="rjsf-wrapper">
-          <Form
-            schema={metaSchema}
-            uiSchema={generateColorUiSchema(metaSchema)}
-            formData={{ business: formData.business }}
-            validator={validator}
-            widgets={configWidgets}
-            formContext={{ businessId }}
-            onChange={(data: any) => {
-              if (data.formData) {
-                setFormData((prev) => ({
-                  ...prev,
-                  business: data.formData.business,
-                }));
-                setSaveStatus("idle");
-              }
-            }}
-            liveValidate={false}
-          ><></></Form>
-        </div>
+        <Tabs value={metaSubTab} onValueChange={(v) => setMetaSubTab(v as "business" | "assets")}>
+          <TabsList>
+            <TabsTrigger value="business">Business Info</TabsTrigger>
+            <TabsTrigger value="assets">Assets</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="business" className="mt-4">
+            <div className="rjsf-wrapper">
+              <Form
+                schema={businessInfoSchema}
+                uiSchema={generateColorUiSchema(businessInfoSchema)}
+                formData={{ business: formData.business }}
+                validator={validator}
+                widgets={configWidgets}
+                formContext={{ businessId }}
+                onChange={(data: any) => {
+                  if (data.formData) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      business: { ...(prev.business as Record<string, unknown>), ...data.formData.business },
+                    }));
+                    setSaveStatus("idle");
+                  }
+                }}
+                liveValidate={false}
+              ><></></Form>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="assets" className="mt-4">
+            <div className="rjsf-wrapper">
+              <Form
+                schema={assetsSchema}
+                uiSchema={generateColorUiSchema(assetsSchema)}
+                formData={{ business: { assets: (formData.business as any)?.assets } }}
+                validator={validator}
+                widgets={configWidgets}
+                formContext={{ businessId }}
+                onChange={(data: any) => {
+                  if (data.formData) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      business: { ...(prev.business as Record<string, unknown>), assets: data.formData.business?.assets },
+                    }));
+                    setSaveStatus("idle");
+                  }
+                }}
+                liveValidate={false}
+              ><></></Form>
+            </div>
+          </TabsContent>
+        </Tabs>
       );
     }
 
@@ -514,14 +498,11 @@ export default function AdminForm({ businessId, initialData, schema, translation
       const themeData = (formData.theme || {}) as Record<string, any>;
       const currentMode: "light" | "dark" = themeData.mode || "light";
 
-      // When switching to dark, ensure dark colors exist (copy from light)
       const ensureDarkColors = () => {
         const colors = themeData.colors || {};
         if (!colors.dark || !colors.dark.primary) {
           const lightColors = colors.light || {};
-          handleChange(["theme", "colors", "dark"], {
-            formData: structuredClone(lightColors),
-          });
+          handleChange(["theme", "colors", "dark"], { formData: structuredClone(lightColors) });
         }
       };
 
@@ -530,7 +511,6 @@ export default function AdminForm({ businessId, initialData, schema, translation
         handleChange(["theme", "mode"], { formData: mode });
       };
 
-      // Build color schema for the active mode with consistent titles
       const colorModeSchema: RJSFSchema = {
         type: "object",
         title: "Colors",
@@ -554,13 +534,19 @@ export default function AdminForm({ businessId, initialData, schema, translation
         },
       };
 
-      // Remaining theme fields (preset, typography, ui)
-      const themeMetaSchema: RJSFSchema = {
+      const uiSchema: RJSFSchema = {
+        type: "object",
+        properties: {
+          ui: schema.properties?.theme ? (schema.properties.theme as any).properties?.ui : undefined,
+        },
+        definitions: schema.definitions,
+      };
+
+      const typographySchema: RJSFSchema = {
         type: "object",
         properties: {
           preset: schema.properties?.theme ? (schema.properties.theme as any).properties?.preset : undefined,
           typography: schema.properties?.theme ? (schema.properties.theme as any).properties?.typography : undefined,
-          ui: schema.properties?.theme ? (schema.properties.theme as any).properties?.ui : undefined,
         },
         definitions: schema.definitions,
       };
@@ -568,76 +554,88 @@ export default function AdminForm({ businessId, initialData, schema, translation
       const colorData = getNestedValue(formData, ["theme", "colors", currentMode]) || {};
 
       return (
-        <div className="space-y-6">
-          {/* Mode toggle */}
-          <div className="flex items-center justify-between px-1 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            <span className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Color Mode</span>
-            <div
-              className="relative flex items-center rounded-full cursor-pointer select-none"
-              style={{ background: 'rgba(255,255,255,0.08)', padding: '3px', width: '120px', height: '32px' }}
-              onClick={() => toggleMode(currentMode === "light" ? "dark" : "light")}
-            >
-              <div
-                className="absolute rounded-full transition-all duration-200"
-                style={{
-                  width: '56px',
-                  height: '26px',
-                  background: 'var(--primary)',
-                  left: currentMode === "light" ? '3px' : '61px',
-                }}
-              />
-              <span
-                className="relative z-10 flex-1 text-center text-[12px] font-medium transition-colors"
-                style={{ color: currentMode === "light" ? '#fff' : 'rgba(255,255,255,0.4)' }}
-              >Light</span>
-              <span
-                className="relative z-10 flex-1 text-center text-[12px] font-medium transition-colors"
-                style={{ color: currentMode === "dark" ? '#fff' : 'rgba(255,255,255,0.4)' }}
-              >Dark</span>
+        <Tabs value={themeSubTab} onValueChange={(v) => setThemeSubTab(v as "colors" | "typography")}>
+          <TabsList>
+            <TabsTrigger value="colors">Colors & UI</TabsTrigger>
+            <TabsTrigger value="typography">Typography</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="colors" className="space-y-6 mt-4">
+            <div className="flex items-center justify-between px-1 py-3 border-b border-border">
+              <span className="text-[13px] font-medium text-muted-foreground">Color Mode</span>
+              <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
+                <button
+                  onClick={() => toggleMode("light")}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${currentMode === "light" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  Light
+                </button>
+                <button
+                  onClick={() => toggleMode("dark")}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${currentMode === "dark" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  Dark
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Color fields for active mode */}
-          <div className="rjsf-wrapper">
-            <Form
-              key={currentMode}
-              schema={colorModeSchema}
-              uiSchema={generateColorUiSchema(colorModeSchema)}
-              formData={colorData}
-              validator={validator}
-              widgets={configWidgets}
-              formContext={{ businessId }}
-              onChange={(data: any) => handleChange(["theme", "colors", currentMode], data)}
-              liveValidate={false}
-            ><></></Form>
-          </div>
+            <div className="rjsf-wrapper">
+              <Form
+                key={currentMode}
+                schema={colorModeSchema}
+                uiSchema={generateColorUiSchema(colorModeSchema)}
+                formData={colorData}
+                validator={validator}
+                widgets={configWidgets}
+                formContext={{ businessId }}
+                onChange={(data: any) => handleChange(["theme", "colors", currentMode], data)}
+                liveValidate={false}
+              ><></></Form>
+            </div>
 
-          {/* Preset, Typography, UI */}
-          <div className="rjsf-wrapper">
-            <Form
-              schema={themeMetaSchema}
-              formData={{ preset: themeData.preset, typography: themeData.typography, ui: themeData.ui }}
-              validator={validator}
-              widgets={configWidgets}
-              formContext={{ businessId }}
-              onChange={(data: any) => {
-                if (data.formData) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    theme: {
-                      ...(prev.theme as Record<string, unknown>),
-                      preset: data.formData.preset,
-                      typography: data.formData.typography,
-                      ui: data.formData.ui,
-                    },
-                  }));
-                  setSaveStatus("idle");
-                }
-              }}
-              liveValidate={false}
-            ><></></Form>
-          </div>
-        </div>
+            <div className="rjsf-wrapper">
+              <Form
+                schema={uiSchema}
+                formData={{ ui: themeData.ui }}
+                validator={validator}
+                widgets={configWidgets}
+                formContext={{ businessId }}
+                onChange={(data: any) => {
+                  if (data.formData) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      theme: { ...(prev.theme as Record<string, unknown>), ui: data.formData.ui },
+                    }));
+                    setSaveStatus("idle");
+                  }
+                }}
+                liveValidate={false}
+              ><></></Form>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="typography" className="mt-4">
+            <div className="rjsf-wrapper">
+              <Form
+                schema={typographySchema}
+                formData={{ preset: themeData.preset, typography: themeData.typography }}
+                validator={validator}
+                widgets={configWidgets}
+                formContext={{ businessId }}
+                onChange={(data: any) => {
+                  if (data.formData) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      theme: { ...(prev.theme as Record<string, unknown>), preset: data.formData.preset, typography: data.formData.typography },
+                    }));
+                    setSaveStatus("idle");
+                  }
+                }}
+                liveValidate={false}
+              ><></></Form>
+            </div>
+          </TabsContent>
+        </Tabs>
       );
     }
 
@@ -676,19 +674,73 @@ export default function AdminForm({ businessId, initialData, schema, translation
     }
 
     if (activeTab === "data") {
-      const dataSchema = getSubSchema(schema, ["data"]);
+      const dataProperties = (schema.properties?.data as any)?.properties || {};
+
+      const servicesSchema: RJSFSchema = {
+        type: "object",
+        properties: { services: dataProperties.services },
+        definitions: schema.definitions,
+      };
+
+      const productsSchema: RJSFSchema = {
+        type: "object",
+        properties: { products: dataProperties.products },
+        definitions: schema.definitions,
+      };
+
+      const dataContent = getNestedValue(formData, ["data"]) || {};
+
       return (
-        <div className="rjsf-wrapper">
-          <Form
-            schema={dataSchema}
-            formData={getNestedValue(formData, ["data"]) || {}}
-            validator={validator}
-            widgets={configWidgets}
-            formContext={{ businessId }}
-            onChange={(data: any) => handleChange(["data"], data)}
-            liveValidate={false}
-          ><></></Form>
-        </div>
+        <Tabs value={dataSubTab} onValueChange={(v) => setDataSubTab(v as "services" | "products")}>
+          <TabsList>
+            <TabsTrigger value="services">Services</TabsTrigger>
+            <TabsTrigger value="products">Products</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="services" className="mt-4">
+            <div className="rjsf-wrapper">
+              <Form
+                schema={servicesSchema}
+                formData={{ services: dataContent.services }}
+                validator={validator}
+                widgets={configWidgets}
+                formContext={{ businessId }}
+                onChange={(data: any) => {
+                  if (data.formData) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      data: { ...(prev.data as Record<string, unknown>), services: data.formData.services },
+                    }));
+                    setSaveStatus("idle");
+                  }
+                }}
+                liveValidate={false}
+              ><></></Form>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="products" className="mt-4">
+            <div className="rjsf-wrapper">
+              <Form
+                schema={productsSchema}
+                formData={{ products: dataContent.products }}
+                validator={validator}
+                widgets={configWidgets}
+                formContext={{ businessId }}
+                onChange={(data: any) => {
+                  if (data.formData) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      data: { ...(prev.data as Record<string, unknown>), products: data.formData.products },
+                    }));
+                    setSaveStatus("idle");
+                  }
+                }}
+                liveValidate={false}
+              ><></></Form>
+            </div>
+          </TabsContent>
+        </Tabs>
       );
     }
 
@@ -696,13 +748,8 @@ export default function AdminForm({ businessId, initialData, schema, translation
       return <BlogManagement businessId={businessId} />;
     }
 
-    if (activeTab === "translations-en") {
-      return <TranslationsEditor lang="en" />;
-    }
-
-    if (activeTab === "translations-pl") {
-      return <TranslationsEditor lang="pl" />;
-    }
+    if (activeTab === "translations-en") return <TranslationsEditor lang="en" />;
+    if (activeTab === "translations-pl") return <TranslationsEditor lang="pl" />;
 
     if (activeTab.startsWith("page-")) {
       const pageName = activeTab.replace("page-", "");
@@ -710,38 +757,33 @@ export default function AdminForm({ businessId, initialData, schema, translation
 
       return (
         <div className="space-y-6">
-          <div className="flex items-center justify-between pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            <h3 className="text-[15px] font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>Page: {pageName}</h3>
-            <button
+          <div className="flex items-center justify-between pb-4 border-b border-border">
+            <h3 className="text-[15px] font-semibold">Page: {pageName}</h3>
+            <Button
+              variant="destructive"
+              size="sm"
               onClick={() => removePage(pageName)}
-              className="px-3 py-1 text-xs rounded transition-colors"
-              style={{ background: 'rgba(220,38,38,0.15)', color: '#ff6b6b', border: '1px solid rgba(220,38,38,0.2)' }}
             >
               Delete Page
-            </button>
+            </Button>
           </div>
 
           <div className="flex gap-4 items-start">
-            <label className="w-24 flex-shrink-0 text-[13px] pt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Title</label>
+            <label className="w-24 flex-shrink-0 text-[13px] pt-2 text-muted-foreground">Title</label>
             <input
               type="text"
               value={pageData?.title || ""}
               onChange={(e) => handleChange(["pages", pageName, "title"], { formData: e.target.value })}
-              className="flex-1 px-3 py-2 rounded-md text-[13px] transition-colors focus:outline-none"
-              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}
+              className="flex-1 px-3 py-2 rounded-md text-[13px] focus:outline-none bg-background border border-border focus:ring-2 focus:ring-ring/20"
             />
           </div>
 
-          <div className="pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="pt-4 border-t border-border">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.7)' }}>Sections ({pageData?.sections?.length || 0})</h4>
-              <button
-                onClick={() => addSection(pageName)}
-                className="px-3 py-1 text-xs rounded transition-colors"
-                style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}
-              >
+              <h4 className="text-[13px] font-medium text-muted-foreground">Sections ({pageData?.sections?.length || 0})</h4>
+              <Button size="sm" variant="outline" onClick={() => addSection(pageName)}>
                 + Add Section
-              </button>
+              </Button>
             </div>
 
             {pageData?.sections?.map((section: any, index: number) => {
@@ -775,203 +817,181 @@ export default function AdminForm({ businessId, initialData, schema, translation
     return null;
   };
 
-  // --- Sidebar nav item ---
-  const NavItem = ({ tab, onClick }: { tab: { id: TabType; label: string; icon?: React.ReactNode }; onClick: () => void }) => {
-    const isActive = activeTab === tab.id;
-    const changed = isTabChanged(tab.id);
+  const navItems = [
+    { id: "meta", label: "Meta", Icon: FileText },
+    { id: "theme", label: "Theme", Icon: Palette },
+    { id: "navbar", label: "Navbar", Icon: Menu },
+    { id: "footer", label: "Footer", Icon: Footprints },
+    { id: "data", label: "Data", Icon: Database },
+    { id: "blog", label: "Blog", Icon: FileEdit },
+  ];
 
-    return (
-      <button
-        onClick={onClick}
-        className={`w-full flex items-center justify-between px-3 py-[6px] text-[13px] rounded-md transition-all ${
-          isActive
-            ? "bg-white/[0.08] text-white font-medium"
-            : "text-white/50 hover:bg-white/[0.04] hover:text-white/80"
-        }`}
-      >
-        <span className="flex items-center gap-2 truncate">
-          {tab.icon && <span className="flex-shrink-0 opacity-60">{tab.icon}</span>}
-          <span className="truncate">{tab.label}</span>
-        </span>
-        {changed && !isActive && (
-          <span
-            onClick={(e) => { e.stopPropagation(); revertTab(tab.id); }}
-            title="Revert"
-            className="ml-1.5 w-[6px] h-[6px] rounded-full bg-amber-400 flex-shrink-0 hover:bg-red-400 cursor-pointer"
-          />
-        )}
-        {changed && isActive && (
-          <span
-            onClick={(e) => { e.stopPropagation(); revertTab(tab.id); }}
-            title="Revert"
-            className="ml-1.5 text-[10px] text-white/40 hover:text-white/80 cursor-pointer flex-shrink-0"
-          >undo</span>
-        )}
-      </button>
-    );
-  };
+  const { theme, setTheme } = useTheme();
 
   return (
-    <div className="flex h-full" style={{ gap: 0 }}>
-      {/* Left Sidebar */}
-      <div className="flex-shrink-0 flex flex-col" style={{ width: 200, background: '#1d1d1d', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
-        <nav className="flex-1 overflow-y-auto py-4 px-2.5 space-y-5">
+    <TooltipProvider>
+      <SidebarProvider defaultOpen={true}>
+        <Sidebar collapsible="icon" className="border-r">
+          <SidebarHeader className="border-b border-sidebar-border px-3 py-3">
+            <div className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
+              <Settings className="h-4 w-4 flex-shrink-0" />
+              <span className="text-sm font-semibold truncate group-data-[collapsible=icon]:hidden">{businessId}</span>
+            </div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Sections</SidebarGroupLabel>
+              <SidebarMenu>
+                {navItems.map((item) => (
+                  <SidebarMenuItem key={item.id}>
+                    <SidebarMenuButton
+                      onClick={() => setActiveTab(item.id)}
+                      isActive={activeTab === item.id}
+                      tooltip={item.label}
+                    >
+                      <item.Icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroup>
 
-          {/* Config */}
-          <div>
-            <div className="flex items-center justify-between px-3 mb-1.5">
-              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-wider">Config</span>
-            </div>
-            <div className="space-y-px">
-              {tabs.filter(t => ["meta", "theme", "navbar", "footer", "data", "blog"].includes(t.id)).map((tab) => (
-                <NavItem
-                  key={tab.id}
-                  tab={tab}
-                  onClick={() => {
-                    setActiveTab(tab.id);
-                    if (typeof (window as any).navigatePreview === "function") {
-                      (window as any).navigatePreview("home");
-                    }
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+            {pageNames.length > 0 && (
+              <SidebarGroup>
+                <SidebarGroupLabel>Pages</SidebarGroupLabel>
+                <SidebarMenu>
+                  {pageNames.map((pageName) => (
+                    <SidebarMenuItem key={`page-${pageName}`}>
+                      <SidebarMenuButton
+                        onClick={() => setActiveTab(`page-${pageName}`)}
+                        isActive={activeTab === `page-${pageName}`}
+                        tooltip={pageName}
+                      >
+                        <File className="h-4 w-4" />
+                        <span>{pageName}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroup>
+            )}
 
-          {/* Pages */}
-          <div>
-            <div className="flex items-center justify-between px-3 mb-1.5">
-              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-wider">Pages</span>
-              <span className="text-white/20 text-[11px]">+</span>
+            <SidebarGroup>
+              <SidebarGroupLabel>Translations</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    onClick={() => setActiveTab("translations-en")}
+                    isActive={activeTab === "translations-en"}
+                    tooltip="English"
+                  >
+                    <Languages className="h-4 w-4" />
+                    <span>English</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    onClick={() => setActiveTab("translations-pl")}
+                    isActive={activeTab === "translations-pl"}
+                    tooltip="Polski"
+                  >
+                    <Languages className="h-4 w-4" />
+                    <span>Polski</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroup>
+          </SidebarContent>
+        </Sidebar>
+
+        <SidebarInset>
+          {/* Top Action Bar */}
+          <header className="flex items-center justify-between h-12 px-4 border-b border-border bg-background shrink-0">
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">{businessId}</span>
+              <span className="text-muted-foreground/40">/</span>
+              <span className="text-sm font-medium">Admin</span>
+
+              <Separator orientation="vertical" className="h-5" />
+
+              <Button
+                onClick={handleSave}
+                disabled={saveStatus === "saving" || !hasUnsavedChanges}
+                size="sm"
+              >
+                <Save className="h-3.5 w-3.5 mr-1.5" />
+                {saveStatus === "saving" ? "Saving..." : "Save"}
+              </Button>
+
+              {hasUnsavedChanges && (
+                <Button onClick={revertAll} variant="ghost" size="sm">
+                  <Undo2 className="h-3.5 w-3.5 mr-1.5" />
+                  Discard
+                </Button>
+              )}
             </div>
-            <div className="space-y-px">
-              {tabs.filter(t => t.id.startsWith("page-")).map((tab, tabIdx, arr) => {
-                const pageName = tab.id.replace("page-", "");
-                return (
-                  <div key={tab.id} className="flex items-center">
-                    <div className="flex flex-col flex-shrink-0">
-                      <button
-                        disabled={tabIdx === 0}
-                        onClick={() => movePage(pageName, 'up')}
-                        className="text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed p-0 leading-none"
-                      >
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-                      </button>
-                      <button
-                        disabled={tabIdx === arr.length - 1}
-                        onClick={() => movePage(pageName, 'down')}
-                        className="text-white/30 hover:text-white/70 disabled:opacity-20 disabled:cursor-not-allowed p-0 leading-none"
-                      >
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                      </button>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <NavItem
-                        tab={tab}
-                        onClick={() => {
-                          setActiveTab(tab.id);
-                          if (typeof (window as any).navigatePreview === "function") {
-                            (window as any).navigatePreview(pageName);
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="mt-2 px-1">
-              <div className="flex gap-1">
-                <input
-                  type="text"
-                  value={newPageName}
-                  onChange={(e) => setNewPageName(e.target.value)}
-                  placeholder="New page..."
-                  className="flex-1 min-w-0 px-2 py-1 text-xs rounded transition-colors focus:outline-none"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}
-                  onKeyDown={(e) => e.key === "Enter" && addPage()}
-                />
-                <button
-                  onClick={addPage}
-                  className="px-2 py-1 text-xs rounded transition-colors"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.4)' }}
-                >+</button>
+
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5 text-sm">
+                {saveStatus === "success" && (
+                  <>
+                    <Check className="h-3.5 w-3.5 text-green-600" />
+                    <span className="text-green-600">Saved</span>
+                  </>
+                )}
+                {saveStatus === "error" && (
+                  <>
+                    <AlertCircle className="h-3.5 w-3.5 text-destructive" />
+                    <span className="text-destructive">{errorMessage}</span>
+                  </>
+                )}
+                {saveStatus === "idle" && hasUnsavedChanges && (
+                  <>
+                    <Circle className="h-2 w-2 fill-amber-500 text-amber-500" />
+                    <span className="text-muted-foreground">Unsaved</span>
+                  </>
+                )}
+                {saveStatus === "idle" && !hasUnsavedChanges && (
+                  <span className="text-muted-foreground">Up to date</span>
+                )}
               </div>
+
+              <Separator orientation="vertical" className="h-5" />
+
+              <a
+                href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ExternalLink className="h-3 w-3" />
+                Open site
+              </a>
+
+              <Separator orientation="vertical" className="h-5" />
+
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              >
+                <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </div>
+          </header>
+
+          {/* Content Area */}
+          <div className="flex-1 overflow-y-auto admin-form-area">
+            <div className="p-6">
+              {getTabContent()}
             </div>
           </div>
-
-          {/* Translations */}
-          <div>
-            <div className="flex items-center justify-between px-3 mb-1.5">
-              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-wider">Translations</span>
-            </div>
-            <div className="space-y-px">
-              {tabs.filter(t => t.id.startsWith("translations-")).map((tab) => (
-                <NavItem
-                  key={tab.id}
-                  tab={tab}
-                  onClick={() => setActiveTab(tab.id)}
-                />
-              ))}
-            </div>
-          </div>
-        </nav>
-
-        {/* Bottom actions - pinned */}
-        <div className="p-3 space-y-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <button
-            onClick={handleSave}
-            disabled={saveStatus === "saving" || !hasUnsavedChanges}
-            className="w-full py-2 text-[13px] font-medium text-white rounded-md hover:opacity-90 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
-            style={{ background: 'var(--primary)' }}
-          >
-            {saveStatus === "saving" ? "Saving..." : "Save Changes"}
-          </button>
-
-          {hasUnsavedChanges && (
-            <button
-              onClick={revertAll}
-              className="w-full py-1.5 text-[12px] transition-colors"
-              style={{ color: 'rgba(255,255,255,0.35)' }}
-              onMouseOver={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
-              onMouseOut={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}
-            >
-              Discard all changes
-            </button>
-          )}
-
-          <div className="flex items-center justify-center gap-1.5 pt-0.5">
-            {saveStatus === "success" && (
-              <>
-                <span className="w-[5px] h-[5px] rounded-full" style={{ background: '#4cd964' }} />
-                <span className="text-[11px]" style={{ color: '#4cd964' }}>Saved</span>
-              </>
-            )}
-            {saveStatus === "error" && (
-              <>
-                <span className="w-[5px] h-[5px] rounded-full" style={{ background: '#ff6b6b' }} />
-                <span className="text-[11px]" style={{ color: '#ff6b6b' }}>{errorMessage}</span>
-              </>
-            )}
-            {saveStatus === "idle" && hasUnsavedChanges && (
-              <>
-                <span className="w-[5px] h-[5px] bg-amber-400 rounded-full" />
-                <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>Unsaved changes</span>
-              </>
-            )}
-            {saveStatus === "idle" && !hasUnsavedChanges && (
-              <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.2)' }}>All changes saved</span>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Right Content */}
-      <div className="flex-1 min-w-0 overflow-y-auto" style={{ background: '#252525' }}>
-        <div className="p-5">
-          {getTabContent()}
-        </div>
-      </div>
-    </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   );
 }
