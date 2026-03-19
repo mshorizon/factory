@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { useTheme } from "next-themes";
 import RjsfForm from "@rjsf/shadcn";
 import rjsfValidator from "@rjsf/validator-ajv8";
 import type { RJSFSchema } from "@rjsf/utils";
@@ -12,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Moon,
   Sun,
@@ -40,7 +41,9 @@ import {
   AlertCircle,
   Circle,
   ExternalLink,
-  Settings,
+  Briefcase,
+  User2,
+  ChevronsUpDown,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -446,49 +449,53 @@ export default function AdminForm({
           </TabsList>
 
           <TabsContent value="business" className="mt-0">
-            <div className="rjsf-wrapper">
-              <Form
-                schema={businessInfoSchema}
-                uiSchema={generateColorUiSchema(businessInfoSchema)}
-                formData={{ business: formData.business }}
-                validator={validator}
-                widgets={configWidgets}
-                formContext={{ businessId }}
-                onChange={(data: any) => {
-                  if (data.formData) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      business: { ...(prev.business as Record<string, unknown>), ...data.formData.business },
-                    }));
-                    setSaveStatus("idle");
-                  }
-                }}
-                liveValidate={false}
-              ><></></Form>
-            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <Form
+                  schema={businessInfoSchema}
+                  uiSchema={generateColorUiSchema(businessInfoSchema)}
+                  formData={{ business: formData.business }}
+                  validator={validator}
+                  widgets={configWidgets}
+                  formContext={{ businessId }}
+                  onChange={(data: any) => {
+                    if (data.formData) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        business: { ...(prev.business as Record<string, unknown>), ...data.formData.business },
+                      }));
+                      setSaveStatus("idle");
+                    }
+                  }}
+                  liveValidate={false}
+                ><></></Form>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="assets" className="mt-0">
-            <div className="rjsf-wrapper">
-              <Form
-                schema={assetsSchema}
-                uiSchema={generateColorUiSchema(assetsSchema)}
-                formData={{ business: { assets: (formData.business as any)?.assets } }}
-                validator={validator}
-                widgets={configWidgets}
-                formContext={{ businessId }}
-                onChange={(data: any) => {
-                  if (data.formData) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      business: { ...(prev.business as Record<string, unknown>), assets: data.formData.business?.assets },
-                    }));
-                    setSaveStatus("idle");
-                  }
-                }}
-                liveValidate={false}
-              ><></></Form>
-            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <Form
+                  schema={assetsSchema}
+                  uiSchema={generateColorUiSchema(assetsSchema)}
+                  formData={{ business: { assets: (formData.business as any)?.assets } }}
+                  validator={validator}
+                  widgets={configWidgets}
+                  formContext={{ businessId }}
+                  onChange={(data: any) => {
+                    if (data.formData) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        business: { ...(prev.business as Record<string, unknown>), assets: data.formData.business?.assets },
+                      }));
+                      setSaveStatus("idle");
+                    }
+                  }}
+                  liveValidate={false}
+                ><></></Form>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       );
@@ -579,61 +586,67 @@ export default function AdminForm({
               </div>
             </div>
 
-            <div className="rjsf-wrapper">
-              <Form
-                key={currentMode}
-                schema={colorModeSchema}
-                uiSchema={generateColorUiSchema(colorModeSchema)}
-                formData={colorData}
-                validator={validator}
-                widgets={configWidgets}
-                formContext={{ businessId }}
-                onChange={(data: any) => handleChange(["theme", "colors", currentMode], data)}
-                liveValidate={false}
-              ><></></Form>
-            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <Form
+                  key={currentMode}
+                  schema={colorModeSchema}
+                  uiSchema={generateColorUiSchema(colorModeSchema)}
+                  formData={colorData}
+                  validator={validator}
+                  widgets={configWidgets}
+                  formContext={{ businessId }}
+                  onChange={(data: any) => handleChange(["theme", "colors", currentMode], data)}
+                  liveValidate={false}
+                ><></></Form>
+              </CardContent>
+            </Card>
 
-            <div className="rjsf-wrapper">
-              <Form
-                schema={uiSchema}
-                formData={{ ui: themeData.ui }}
-                validator={validator}
-                widgets={configWidgets}
-                formContext={{ businessId }}
-                onChange={(data: any) => {
-                  if (data.formData) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      theme: { ...(prev.theme as Record<string, unknown>), ui: data.formData.ui },
-                    }));
-                    setSaveStatus("idle");
-                  }
-                }}
-                liveValidate={false}
-              ><></></Form>
-            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <Form
+                  schema={uiSchema}
+                  formData={{ ui: themeData.ui }}
+                  validator={validator}
+                  widgets={configWidgets}
+                  formContext={{ businessId }}
+                  onChange={(data: any) => {
+                    if (data.formData) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        theme: { ...(prev.theme as Record<string, unknown>), ui: data.formData.ui },
+                      }));
+                      setSaveStatus("idle");
+                    }
+                  }}
+                  liveValidate={false}
+                ><></></Form>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="typography" className="mt-0">
-            <div className="rjsf-wrapper">
-              <Form
-                schema={typographySchema}
-                formData={{ preset: themeData.preset, typography: themeData.typography }}
-                validator={validator}
-                widgets={configWidgets}
-                formContext={{ businessId }}
-                onChange={(data: any) => {
-                  if (data.formData) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      theme: { ...(prev.theme as Record<string, unknown>), preset: data.formData.preset, typography: data.formData.typography },
-                    }));
-                    setSaveStatus("idle");
-                  }
-                }}
-                liveValidate={false}
-              ><></></Form>
-            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <Form
+                  schema={typographySchema}
+                  formData={{ preset: themeData.preset, typography: themeData.typography }}
+                  validator={validator}
+                  widgets={configWidgets}
+                  formContext={{ businessId }}
+                  onChange={(data: any) => {
+                    if (data.formData) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        theme: { ...(prev.theme as Record<string, unknown>), preset: data.formData.preset, typography: data.formData.typography },
+                      }));
+                      setSaveStatus("idle");
+                    }
+                  }}
+                  liveValidate={false}
+                ><></></Form>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       );
@@ -642,34 +655,38 @@ export default function AdminForm({
     if (activeTab === "navbar") {
       const navbarSchema = getSubSchema(schema, ["layout", "navbar"]);
       return (
-        <div className="rjsf-wrapper">
-          <Form
-            schema={navbarSchema}
-            formData={getNestedValue(formData, ["layout", "navbar"])}
-            validator={validator}
-            widgets={configWidgets}
-            formContext={{ businessId }}
-            onChange={(data: any) => handleChange(["layout", "navbar"], data)}
-            liveValidate={false}
-          ><></></Form>
-        </div>
+        <Card>
+          <CardContent className="pt-6">
+            <Form
+              schema={navbarSchema}
+              formData={getNestedValue(formData, ["layout", "navbar"])}
+              validator={validator}
+              widgets={configWidgets}
+              formContext={{ businessId }}
+              onChange={(data: any) => handleChange(["layout", "navbar"], data)}
+              liveValidate={false}
+            ><></></Form>
+          </CardContent>
+        </Card>
       );
     }
 
     if (activeTab === "footer") {
       const footerSchema = getSubSchema(schema, ["layout", "footer"]);
       return (
-        <div className="rjsf-wrapper">
-          <Form
-            schema={footerSchema}
-            formData={getNestedValue(formData, ["layout", "footer"])}
-            validator={validator}
-            widgets={configWidgets}
-            formContext={{ businessId }}
-            onChange={(data: any) => handleChange(["layout", "footer"], data)}
-            liveValidate={false}
-          ><></></Form>
-        </div>
+        <Card>
+          <CardContent className="pt-6">
+            <Form
+              schema={footerSchema}
+              formData={getNestedValue(formData, ["layout", "footer"])}
+              validator={validator}
+              widgets={configWidgets}
+              formContext={{ businessId }}
+              onChange={(data: any) => handleChange(["layout", "footer"], data)}
+              liveValidate={false}
+            ><></></Form>
+          </CardContent>
+        </Card>
       );
     }
 
@@ -698,47 +715,51 @@ export default function AdminForm({
           </TabsList>
 
           <TabsContent value="services" className="mt-0">
-            <div className="rjsf-wrapper">
-              <Form
-                schema={servicesSchema}
-                formData={{ services: dataContent.services }}
-                validator={validator}
-                widgets={configWidgets}
-                formContext={{ businessId }}
-                onChange={(data: any) => {
-                  if (data.formData) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      data: { ...(prev.data as Record<string, unknown>), services: data.formData.services },
-                    }));
-                    setSaveStatus("idle");
-                  }
-                }}
-                liveValidate={false}
-              ><></></Form>
-            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <Form
+                  schema={servicesSchema}
+                  formData={{ services: dataContent.services }}
+                  validator={validator}
+                  widgets={configWidgets}
+                  formContext={{ businessId }}
+                  onChange={(data: any) => {
+                    if (data.formData) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        data: { ...(prev.data as Record<string, unknown>), services: data.formData.services },
+                      }));
+                      setSaveStatus("idle");
+                    }
+                  }}
+                  liveValidate={false}
+                ><></></Form>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="products" className="mt-0">
-            <div className="rjsf-wrapper">
-              <Form
-                schema={productsSchema}
-                formData={{ products: dataContent.products }}
-                validator={validator}
-                widgets={configWidgets}
-                formContext={{ businessId }}
-                onChange={(data: any) => {
-                  if (data.formData) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      data: { ...(prev.data as Record<string, unknown>), products: data.formData.products },
-                    }));
-                    setSaveStatus("idle");
-                  }
-                }}
-                liveValidate={false}
-              ><></></Form>
-            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <Form
+                  schema={productsSchema}
+                  formData={{ products: dataContent.products }}
+                  validator={validator}
+                  widgets={configWidgets}
+                  formContext={{ businessId }}
+                  onChange={(data: any) => {
+                    if (data.formData) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        data: { ...(prev.data as Record<string, unknown>), products: data.formData.products },
+                      }));
+                      setSaveStatus("idle");
+                    }
+                  }}
+                  liveValidate={false}
+                ><></></Form>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       );
@@ -826,19 +847,48 @@ export default function AdminForm({
     { id: "blog", label: "Blog", Icon: FileEdit },
   ];
 
-  const { theme, setTheme } = useTheme();
+  const [theme, setThemeState] = useState<"light" | "dark">(() => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("admin-theme") as "light" | "dark") || "light";
+    }
+    return "light";
+  });
+
+  const setTheme = useCallback((newTheme: "light" | "dark") => {
+    setThemeState(newTheme);
+    localStorage.setItem("admin-theme", newTheme);
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(newTheme);
+  }, []);
+
+  // Apply theme on mount
+  useEffect(() => {
+    const saved = (localStorage.getItem("admin-theme") as "light" | "dark") || "light";
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(saved);
+    setThemeState(saved);
+  }, []);
+
+  // Badge helper – small muted count pill like shadcn dashboard tabs
+  const CountBadge = ({ count }: { count: number }) => (
+    <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-muted px-1.5 text-[11px] font-medium tabular-nums text-muted-foreground">
+      {count}
+    </span>
+  );
 
   return (
     <TooltipProvider>
       <SidebarProvider defaultOpen={true}>
-        <Sidebar collapsible="icon" className="border-r">
-          <SidebarHeader className="border-b border-sidebar-border px-3 py-3">
-            <div className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
-              <Settings className="h-4 w-4 flex-shrink-0" />
-              <span className="text-sm font-semibold truncate group-data-[collapsible=icon]:hidden">{businessId}</span>
+        {/* ── Sidebar ───────────────────────────────── */}
+        <Sidebar collapsible="icon" className="border-r border-sidebar-border">
+          <SidebarHeader className="h-12 flex flex-row items-center gap-2 px-4 border-b border-sidebar-border group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:justify-center">
+            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-sidebar-border">
+              <Briefcase className="h-3.5 w-3.5" />
             </div>
+            <span className="text-sm font-semibold whitespace-nowrap group-data-[collapsible=icon]:hidden">{businessId}</span>
           </SidebarHeader>
-          <SidebarContent>
+
+          <SidebarContent className="gap-0 px-2 py-2">
             <SidebarGroup>
               <SidebarGroupLabel>Sections</SidebarGroupLabel>
               <SidebarMenu>
@@ -857,24 +907,38 @@ export default function AdminForm({
               </SidebarMenu>
             </SidebarGroup>
 
+            <Separator className="my-2" />
+
             {pageNames.length > 0 && (
-              <SidebarGroup>
-                <SidebarGroupLabel>Pages</SidebarGroupLabel>
-                <SidebarMenu>
-                  {pageNames.map((pageName) => (
-                    <SidebarMenuItem key={`page-${pageName}`}>
-                      <SidebarMenuButton
-                        onClick={() => setActiveTab(`page-${pageName}`)}
-                        isActive={activeTab === `page-${pageName}`}
-                        tooltip={pageName}
-                      >
-                        <File className="h-4 w-4" />
-                        <span>{pageName}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroup>
+              <>
+                <SidebarGroup>
+                  <SidebarGroupLabel>
+                    Pages
+                    <CountBadge count={pageNames.length} />
+                  </SidebarGroupLabel>
+                  <SidebarMenu>
+                    {pageNames.map((pageName) => {
+                      const pd = getNestedValue(formData, ["pages", pageName]) as any;
+                      const sectionCount = pd?.sections?.length || 0;
+                      return (
+                        <SidebarMenuItem key={`page-${pageName}`}>
+                          <SidebarMenuButton
+                            onClick={() => setActiveTab(`page-${pageName}`)}
+                            isActive={activeTab === `page-${pageName}`}
+                            tooltip={pageName}
+                          >
+                            <File className="h-4 w-4" />
+                            <span className="flex-1">{pageName}</span>
+                            <CountBadge count={sectionCount} />
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </SidebarGroup>
+
+                <Separator className="my-2" />
+              </>
             )}
 
             <SidebarGroup>
@@ -903,88 +967,73 @@ export default function AdminForm({
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
+
+          <SidebarFooter className="border-t border-sidebar-border p-2">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton className="h-auto py-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold flex-shrink-0">
+                    AU
+                  </div>
+                  <div className="flex flex-col flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
+                    <span className="truncate text-sm font-medium">Admin User</span>
+                    <span className="truncate text-xs text-muted-foreground">admin@hazelgrouse.pl</span>
+                  </div>
+                  <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground group-data-[collapsible=icon]:hidden" />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarFooter>
         </Sidebar>
 
+        {/* ── Main content ──────────────────────────── */}
         <SidebarInset>
-          {/* Top Action Bar */}
-          <header className="flex items-center justify-between h-12 px-4 border-b border-border bg-background shrink-0">
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">{businessId}</span>
-              <span className="text-muted-foreground/40">/</span>
-              <span className="text-sm font-medium">Admin</span>
+          <header className="flex items-center h-12 px-4 border-b border-sidebar-border bg-background shrink-0">
+            {/* Left: section title */}
+            <span className="text-sm font-medium mr-auto">
+              {(() => {
+                const nav = navItems.find((n) => n.id === activeTab);
+                if (nav) return nav.label;
+                if (activeTab.startsWith("page-")) return activeTab.replace("page-", "");
+                if (activeTab === "translations-en") return "English";
+                if (activeTab === "translations-pl") return "Polski";
+                return "Admin";
+              })()}
+            </span>
 
-              <Separator orientation="vertical" className="h-5" />
-
-              <Button
-                onClick={handleSave}
-                disabled={saveStatus === "saving" || !hasUnsavedChanges}
-                size="sm"
-              >
-                <Save className="h-3.5 w-3.5 mr-1.5" />
-                {saveStatus === "saving" ? "Saving..." : "Save"}
-              </Button>
+            {/* Right: status + actions – all same text-sm style */}
+            <div className="flex items-center gap-3 text-sm">
+              <span className="text-muted-foreground text-sm flex items-center gap-1.5">
+                {saveStatus === "success" && <><Check className="h-3.5 w-3.5 text-green-600" /><span className="text-green-600">Saved</span></>}
+                {saveStatus === "error" && <><AlertCircle className="h-3.5 w-3.5 text-destructive" /><span className="text-destructive">{errorMessage}</span></>}
+                {saveStatus === "idle" && hasUnsavedChanges && <><Circle className="h-2 w-2 fill-amber-500 text-amber-500" />Unsaved</>}
+                {saveStatus === "idle" && !hasUnsavedChanges && <>Up to date</>}
+              </span>
 
               {hasUnsavedChanges && (
-                <Button onClick={revertAll} variant="ghost" size="sm">
-                  <Undo2 className="h-3.5 w-3.5 mr-1.5" />
+                <button onClick={revertAll} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Discard
-                </Button>
+                </button>
               )}
-            </div>
 
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5 text-sm">
-                {saveStatus === "success" && (
-                  <>
-                    <Check className="h-3.5 w-3.5 text-green-600" />
-                    <span className="text-green-600">Saved</span>
-                  </>
-                )}
-                {saveStatus === "error" && (
-                  <>
-                    <AlertCircle className="h-3.5 w-3.5 text-destructive" />
-                    <span className="text-destructive">{errorMessage}</span>
-                  </>
-                )}
-                {saveStatus === "idle" && hasUnsavedChanges && (
-                  <>
-                    <Circle className="h-2 w-2 fill-amber-500 text-amber-500" />
-                    <span className="text-muted-foreground">Unsaved</span>
-                  </>
-                )}
-                {saveStatus === "idle" && !hasUnsavedChanges && (
-                  <span className="text-muted-foreground">Up to date</span>
-                )}
-              </div>
-
-              <Separator orientation="vertical" className="h-5" />
-
-              <a
-                href="/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <ExternalLink className="h-3 w-3" />
+              <a href="/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Open site
               </a>
 
-              <Separator orientation="vertical" className="h-5" />
-
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
+              <button
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
               >
-                <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
+
+              <Button onClick={handleSave} disabled={saveStatus === "saving" || !hasUnsavedChanges} size="sm">
+                {saveStatus === "saving" ? "Saving..." : "Save"}
               </Button>
             </div>
           </header>
 
-          {/* Content Area */}
+          {/* Content area */}
           <div className="flex-1 overflow-y-auto admin-form-area">
             <div className="p-6">
               {getTabContent()}
