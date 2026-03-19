@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
+import { MoreHorizontal } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DataTable } from "./DataTable";
 
 interface Comment {
   id: number;
@@ -17,6 +27,35 @@ interface CommentsTabProps {
   businessId: string;
 }
 
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("pl-PL", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+const statusBadge = (status: string) => {
+  const styles =
+    status === "approved"
+      ? "bg-green-600/10 text-green-600"
+      : status === "rejected"
+        ? "bg-destructive/10 text-destructive"
+        : status === "spam"
+          ? "bg-amber-600/10 text-amber-600"
+          : "bg-amber-500/10 text-amber-500";
+
+  return (
+    <span
+      className={`inline-flex px-2 py-0.5 text-[10px] font-semibold rounded-full uppercase tracking-wider ${styles}`}
+    >
+      {status}
+    </span>
+  );
+};
+
 export function CommentsTab({ businessId }: CommentsTabProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,9 +65,10 @@ export function CommentsTab({ businessId }: CommentsTabProps) {
   const fetchComments = async () => {
     setLoading(true);
     try {
-      const url = filter === "all"
-        ? `/api/admin/comments/list?business=${businessId}`
-        : `/api/admin/comments/list?business=${businessId}&status=${filter}`;
+      const url =
+        filter === "all"
+          ? `/api/admin/comments/list?business=${businessId}`
+          : `/api/admin/comments/list?business=${businessId}&status=${filter}`;
 
       const response = await fetch(url);
       if (response.ok) {
@@ -47,6 +87,7 @@ export function CommentsTab({ businessId }: CommentsTabProps) {
   }, [businessId, filter]);
 
   const handleModerate = async (commentId: number, action: string) => {
+    if (action === "delete" && !confirm("Permanently delete this comment?")) return;
     setModerating(commentId);
     try {
       const response = await fetch("/api/admin/comments/moderate", {
@@ -68,139 +109,162 @@ export function CommentsTab({ businessId }: CommentsTabProps) {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("pl-PL", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   const pendingCount = comments.filter((c) => c.status === "pending").length;
   const filters = ["all", "pending", "approved", "rejected", "spam"];
 
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">
-          Comments {pendingCount > 0 && (
-            <span className="ml-2 px-2 py-0.5 text-xs bg-amber-500/15 text-amber-600 rounded-full font-medium">
-              {pendingCount} pending
-            </span>
-          )}
-        </h2>
-        <div className="flex gap-1">
-          {filters.map((f) => (
-            <Button
-              key={f}
-              size="sm"
-              variant={filter === f ? "default" : "ghost"}
-              onClick={() => setFilter(f)}
-              className="capitalize"
-            >
-              {f}
-            </Button>
-          ))}
+  const columns: ColumnDef<Comment, unknown>[] = [
+    {
+      accessorKey: "authorName",
+      header: "Author",
+      cell: ({ row }) => (
+        <div>
+          <div className="font-medium text-sm">{row.original.authorName}</div>
+          <div className="text-xs text-muted-foreground">{row.original.authorEmail}</div>
         </div>
-      </div>
+      ),
+    },
+    {
+      accessorKey: "blogTitle",
+      header: "Blog",
+      cell: ({ row }) => (
+        <a
+          href={`/blog/${row.original.blogSlug}`}
+          className="text-sm hover:underline"
+          target="_blank"
+        >
+          {row.original.blogTitle}
+        </a>
+      ),
+    },
+    {
+      accessorKey: "content",
+      header: "Content",
+      enableSorting: false,
+      cell: ({ row }) => (
+        <p className="text-sm text-muted-foreground truncate max-w-[250px]">
+          {row.original.content}
+        </p>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => statusBadge(row.original.status),
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Date",
+      cell: ({ row }) => (
+        <span className="text-xs text-muted-foreground whitespace-nowrap">
+          {formatDate(row.original.createdAt)}
+        </span>
+      ),
+    },
+    {
+      id: "actions",
+      header: () => <span className="sr-only">Actions</span>,
+      enableSorting: false,
+      cell: ({ row }) => {
+        const comment = row.original;
+        const isDisabled = moderating === comment.id;
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger disabled={isDisabled}>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-8 w-8 p-0"
+                disabled={isDisabled}
+              >
+                <MoreHorizontal className="h-4 w-4" />
+                <span className="sr-only">Actions</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {comment.status !== "approved" && (
+                <DropdownMenuItem
+                  onClick={() => handleModerate(comment.id, "approved")}
+                >
+                  Approve
+                </DropdownMenuItem>
+              )}
+              {comment.status !== "rejected" && (
+                <DropdownMenuItem
+                  onClick={() => handleModerate(comment.id, "rejected")}
+                >
+                  Reject
+                </DropdownMenuItem>
+              )}
+              {comment.status !== "spam" && (
+                <DropdownMenuItem
+                  onClick={() => handleModerate(comment.id, "spam")}
+                >
+                  Mark as Spam
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={() => handleModerate(comment.id, "delete")}
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
 
-      {loading ? (
+  const toolbar = (
+    <div className="flex items-center justify-between">
+      <h2 className="text-lg font-semibold">
+        Comments{" "}
+        {pendingCount > 0 && (
+          <span className="ml-2 px-2 py-0.5 text-xs bg-amber-500/15 text-amber-600 rounded-full font-medium">
+            {pendingCount} pending
+          </span>
+        )}
+      </h2>
+      <div className="flex gap-1">
+        {filters.map((f) => (
+          <Button
+            key={f}
+            size="sm"
+            variant={filter === f ? "default" : "ghost"}
+            onClick={() => setFilter(f)}
+            className="capitalize"
+          >
+            {f}
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        {toolbar}
         <div className="flex items-center justify-center py-12">
           <div className="text-muted-foreground">Loading comments...</div>
         </div>
-      ) : comments.length === 0 ? (
-        <div className="text-center py-12 bg-muted/30 rounded-lg">
-          <p className="text-muted-foreground">No {filter !== "all" ? filter : ""} comments found</p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="bg-card border border-border rounded-lg p-4 space-y-3"
-            >
-              <div>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="font-semibold text-sm">{comment.authorName}</span>
-                  <span className="text-xs text-muted-foreground">({comment.authorEmail})</span>
-                  <span
-                    className={`px-2 py-0.5 text-[10px] font-semibold rounded-full uppercase tracking-wider ${
-                      comment.status === "approved"
-                        ? "bg-green-600/10 text-green-600"
-                        : comment.status === "rejected"
-                        ? "bg-destructive/10 text-destructive"
-                        : comment.status === "spam"
-                        ? "bg-amber-600/10 text-amber-600"
-                        : "bg-amber-500/10 text-amber-500"
-                    }`}
-                  >
-                    {comment.status}
-                  </span>
-                </div>
-                <div className="text-xs text-muted-foreground mb-2">
-                  On: <a href={`/blog/${comment.blogSlug}`} className="hover:underline" target="_blank">{comment.blogTitle}</a>
-                </div>
-                <p className="text-sm whitespace-pre-wrap">{comment.content}</p>
-                <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                  <span>{formatDate(comment.createdAt)}</span>
-                  {comment.ipAddress && <span>IP: {comment.ipAddress}</span>}
-                </div>
-              </div>
+      </div>
+    );
+  }
 
-              <div className="flex items-center gap-2 pt-2 border-t border-border">
-                {comment.status !== "approved" && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleModerate(comment.id, "approved")}
-                    disabled={moderating === comment.id}
-                    className="text-green-600 border-green-600/30 hover:bg-green-600/10"
-                  >
-                    Approve
-                  </Button>
-                )}
-                {comment.status !== "rejected" && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleModerate(comment.id, "rejected")}
-                    disabled={moderating === comment.id}
-                    className="text-destructive border-destructive/30 hover:bg-destructive/10"
-                  >
-                    Reject
-                  </Button>
-                )}
-                {comment.status !== "spam" && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleModerate(comment.id, "spam")}
-                    disabled={moderating === comment.id}
-                    className="text-amber-600 border-amber-600/30 hover:bg-amber-600/10"
-                  >
-                    Spam
-                  </Button>
-                )}
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => {
-                    if (confirm("Permanently delete this comment?")) {
-                      handleModerate(comment.id, "delete");
-                    }
-                  }}
-                  disabled={moderating === comment.id}
-                  className="ml-auto text-muted-foreground"
-                >
-                  Delete
-                </Button>
-              </div>
-            </div>
-          ))}
+  if (comments.length === 0) {
+    return (
+      <div className="space-y-4">
+        {toolbar}
+        <div className="text-center py-12 bg-muted/30 rounded-lg">
+          <p className="text-muted-foreground">
+            No {filter !== "all" ? filter : ""} comments found
+          </p>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+
+  return <DataTable columns={columns} data={comments} toolbar={toolbar} />;
 }
