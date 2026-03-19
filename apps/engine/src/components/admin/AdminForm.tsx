@@ -876,16 +876,29 @@ export default function AdminForm({
     </span>
   );
 
+  const faviconUrl = (formData.business as any)?.assets?.favicon;
+
   return (
     <TooltipProvider>
       <SidebarProvider defaultOpen={true}>
         {/* ── Sidebar ───────────────────────────────── */}
         <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-          <SidebarHeader className="h-12 flex flex-row items-center gap-2 px-4 border-b border-sidebar-border group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:justify-center">
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-sidebar-border">
-              <Briefcase className="h-3.5 w-3.5" />
-            </div>
-            <span className="text-sm font-semibold whitespace-nowrap group-data-[collapsible=icon]:hidden">{businessId}</span>
+          <SidebarHeader className="h-12 flex flex-row items-center border-b border-sidebar-border">
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 flex-1 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors px-2 py-1.5 mx-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:mx-2"
+            >
+              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-sidebar-border overflow-hidden bg-background">
+                {faviconUrl ? (
+                  <img src={faviconUrl} alt="" className="h-full w-full object-contain" />
+                ) : (
+                  <Briefcase className="h-3.5 w-3.5" />
+                )}
+              </div>
+              <span className="text-base font-semibold whitespace-nowrap group-data-[collapsible=icon]:hidden">{businessId}</span>
+            </a>
           </SidebarHeader>
 
           <SidebarContent className="gap-0 px-2 py-2">
