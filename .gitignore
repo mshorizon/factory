@@ -140,3 +140,7 @@ vite.config.ts.timestamp-*
 
 # Turborepo
 .turbo/
+
+# Screenshots and debug images
+screenshots/
+.playwright-mcp/

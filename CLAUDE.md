@@ -117,7 +117,12 @@ All spacing must use the following tokens from `theme.ui.spacing`:
 * **Static by Default.** Use Astro components for content.
 * **Selective Hydration.** Use React ONLY for interactivity (forms, widgets) using `client:*` directives.
 * **Zero Hardcoded Strings.** All copy, image URLs, and prices must come from the business JSON.
-* **Root Rules.** Do not save images and secondary files in root folder. If needed create subfolders.
+
+### 📁 File Organization
+* **NEVER save images, screenshots, or secondary files in the root folder.**
+* **Screenshots & Debug Images:** Always save to `/screenshots/` folder.
+* **Keep Root Clean:** Only essential config files (package.json, tsconfig.json, etc.) belong in root.
+* **Auto-generated folders:** `.playwright-mcp/` and similar tool outputs should also go in `/screenshots/`.
 
 ### 🛠 Schema-First Development
 1. If a feature needs new data, update `packages/schema/src/business.schema.json` **first**.
