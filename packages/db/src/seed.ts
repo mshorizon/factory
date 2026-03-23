@@ -107,17 +107,22 @@ async function seed() {
             continue;
           }
 
+          // Detect language from filename: e.g. "my-post.pl.json" → "pl", "my-post.json" → "en"
+          const langMatch = blogFile.match(/\.([a-z]{2})\.json$/);
+          const lang = langMatch ? langMatch[1] : "en";
+
           // Check if blog already exists (don't overwrite admin-edited blogs)
           const [existingBlog] = await db
             .select({ id: blogs.id })
             .from(blogs)
-            .where(and(eq(blogs.siteId, site.id), eq(blogs.slug, blogData.slug)))
+            .where(and(eq(blogs.siteId, site.id), eq(blogs.slug, blogData.slug), eq(blogs.lang, lang)))
             .limit(1);
 
           if (!existingBlog) {
             await db.insert(blogs).values({
               siteId: site.id,
               slug: blogData.slug,
+              lang,
               title: blogData.title,
               description: blogData.description || null,
               content: blogData.content,
@@ -130,9 +135,9 @@ async function seed() {
               metaTitle: blogData.metaTitle || null,
               metaDescription: blogData.metaDescription || null,
             });
-            console.log(`    Seeded blog: ${blogData.slug}`);
+            console.log(`    Seeded blog [${lang}]: ${blogData.slug}`);
           } else {
-            console.log(`    Skipped existing blog: ${blogData.slug}`);
+            console.log(`    Skipped existing blog [${lang}]: ${blogData.slug}`);
           }
         }
       }
