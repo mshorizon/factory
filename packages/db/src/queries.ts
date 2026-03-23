@@ -74,41 +74,41 @@ export async function updateSiteTranslations(
 
 // ========== Blog Queries ==========
 
-export async function getBlogsBySiteId(siteId: number, publishedOnly = true) {
+export async function getBlogsBySiteId(siteId: number, publishedOnly = true, lang?: string) {
   const db = getDb();
-  let query = db
+  const conditions = [eq(blogs.siteId, siteId)];
+  if (publishedOnly) conditions.push(eq(blogs.status, "published"));
+  if (lang) conditions.push(eq(blogs.lang, lang));
+
+  return await db
     .select()
     .from(blogs)
-    .where(eq(blogs.siteId, siteId))
+    .where(and(...conditions))
     .orderBy(desc(blogs.publishedAt));
-
-  if (publishedOnly) {
-    query = db
-      .select()
-      .from(blogs)
-      .where(and(eq(blogs.siteId, siteId), eq(blogs.status, "published")))
-      .orderBy(desc(blogs.publishedAt));
-  }
-
-  return await query;
 }
 
-export async function getBlogBySlug(siteId: number, slug: string) {
+export async function getBlogBySlug(siteId: number, slug: string, lang?: string) {
   const db = getDb();
+  const conditions = [eq(blogs.siteId, siteId), eq(blogs.slug, slug)];
+  if (lang) conditions.push(eq(blogs.lang, lang));
+
   const [row] = await db
     .select()
     .from(blogs)
-    .where(and(eq(blogs.siteId, siteId), eq(blogs.slug, slug)))
+    .where(and(...conditions))
     .limit(1);
   return row ?? null;
 }
 
-export async function getLatestBlogs(siteId: number, limit = 2) {
+export async function getLatestBlogs(siteId: number, limit = 2, lang?: string) {
   const db = getDb();
+  const conditions = [eq(blogs.siteId, siteId), eq(blogs.status, "published")];
+  if (lang) conditions.push(eq(blogs.lang, lang));
+
   return await db
     .select()
     .from(blogs)
-    .where(and(eq(blogs.siteId, siteId), eq(blogs.status, "published")))
+    .where(and(...conditions))
     .orderBy(desc(blogs.publishedAt))
     .limit(limit);
 }

@@ -1,16 +1,28 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { Languages, Loader2, Star } from "lucide-react";
 
 interface BlogEditorClientProps {
   blog?: any;
   businessId: string;
+  lang: "en" | "pl";
+  primaryLanguage: "en" | "pl";
   onSave: () => void;
   onCancel: () => void;
 }
 
-export default function BlogEditorClient({ blog, businessId, onSave, onCancel }: BlogEditorClientProps) {
+export default function BlogEditorClient({
+  blog,
+  businessId,
+  lang,
+  primaryLanguage,
+  onSave,
+  onCancel,
+}: BlogEditorClientProps) {
   const isEditing = !!blog;
   const editorRef = useRef<HTMLDivElement>(null);
+  const isPrimary = lang === primaryLanguage;
 
   const [formData, setFormData] = useState({
     slug: blog?.slug || "",
@@ -27,6 +39,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
   });
 
   const [saving, setSaving] = useState(false);
+  const [translating, setTranslating] = useState(false);
   const [error, setError] = useState("");
 
   // Load content into editor
@@ -58,6 +71,127 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
     document.execCommand(command, false, value);
   };
 
+  // Translate empty fields from primary language blog
+  const handleTranslateFromPrimary = async () => {
+    setTranslating(true);
+    setError("");
+
+    try {
+      // Fetch the primary language version of this blog (by slug)
+      const slug = formData.slug || blog?.slug;
+      if (!slug) {
+        setError("Save the blog in the primary language first (slug is required).");
+        setTranslating(false);
+        return;
+      }
+
+      // Fetch primary lang blog by slug
+      const listRes = await fetch(
+        `/api/admin/blogs/list?business=${businessId}&lang=${primaryLanguage}`
+      );
+      if (!listRes.ok) throw new Error("Failed to fetch primary language blogs");
+
+      const listData = await listRes.json();
+      const primaryBlog = listData.blogs?.find((b: any) => b.slug === slug);
+
+      if (!primaryBlog) {
+        setError(
+          `No blog with slug "${slug}" found in ${primaryLanguage === "en" ? "English" : "Polski"}. Write it in the primary language first.`
+        );
+        setTranslating(false);
+        return;
+      }
+
+      // Collect empty fields that have content in primary
+      const fieldsToTranslate: { key: string; value: string; isHtml?: boolean }[] = [];
+      const textFields = ["title", "description", "metaTitle", "metaDescription", "category"] as const;
+
+      for (const field of textFields) {
+        if (!formData[field]?.trim() && primaryBlog[field]?.trim()) {
+          fieldsToTranslate.push({ key: field, value: primaryBlog[field] });
+        }
+      }
+
+      // Check content (HTML)
+      const currentContent = editorRef.current?.innerHTML || formData.content;
+      const contentEmpty = !currentContent?.trim() || currentContent === "<br>";
+      if (contentEmpty && primaryBlog.content?.trim()) {
+        fieldsToTranslate.push({ key: "content", value: primaryBlog.content, isHtml: true });
+      }
+
+      if (fieldsToTranslate.length === 0) {
+        setError("All fields are already filled. Nothing to translate.");
+        setTranslating(false);
+        return;
+      }
+
+      // Split into text and HTML batches
+      const textItems = fieldsToTranslate.filter((f) => !f.isHtml);
+      const htmlItems = fieldsToTranslate.filter((f) => f.isHtml);
+
+      const updates: Record<string, string> = {};
+
+      // Translate text fields
+      if (textItems.length > 0) {
+        const res = await fetch("/api/admin/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            texts: textItems.map((f) => f.value),
+            from: primaryLanguage,
+            to: lang,
+          }),
+        });
+        if (!res.ok) throw new Error("Translation failed");
+        const data = await res.json();
+        textItems.forEach((f, i) => {
+          updates[f.key] = data.translations[i];
+        });
+      }
+
+      // Translate HTML fields
+      if (htmlItems.length > 0) {
+        const res = await fetch("/api/admin/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            texts: htmlItems.map((f) => f.value),
+            from: primaryLanguage,
+            to: lang,
+            isHtml: true,
+          }),
+        });
+        if (!res.ok) throw new Error("HTML translation failed");
+        const data = await res.json();
+        htmlItems.forEach((f, i) => {
+          updates[f.key] = data.translations[i];
+        });
+      }
+
+      // Apply translations
+      const newFormData = { ...formData };
+      for (const [key, value] of Object.entries(updates)) {
+        if (key === "content") {
+          if (editorRef.current) editorRef.current.innerHTML = value;
+          newFormData.content = value;
+        } else {
+          (newFormData as any)[key] = value;
+        }
+      }
+
+      // Copy non-translatable fields from primary if empty
+      if (!newFormData.image && primaryBlog.image) newFormData.image = primaryBlog.image;
+      if (!newFormData.author && primaryBlog.author) newFormData.author = primaryBlog.author;
+      if (!newFormData.tags && primaryBlog.tags?.length) newFormData.tags = primaryBlog.tags.join(", ");
+
+      setFormData(newFormData);
+    } catch (err) {
+      setError("Translation error: " + (err instanceof Error ? err.message : "Unknown error"));
+    } finally {
+      setTranslating(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -75,6 +209,7 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
         ...(isEditing && { blogId: blog.id }),
         blog: {
           ...formData,
+          lang,
           content, // HTML content
           tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
         },
@@ -102,10 +237,37 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">
-          {isEditing ? "Edit Blog Post" : "Create New Blog Post"}
-        </h2>
+        <div className="flex items-center gap-3">
+          <h2 className="text-2xl font-bold">
+            {isEditing ? "Edit Blog Post" : "Create New Blog Post"}
+          </h2>
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-muted">
+            {isPrimary && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
+            {lang === "en" ? "English" : "Polski"}
+          </span>
+        </div>
         <div className="flex gap-2">
+          {!isPrimary && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleTranslateFromPrimary}
+                    disabled={translating}
+                  >
+                    {translating ? (
+                      <><Loader2 className="h-4 w-4 mr-1.5 animate-spin" />Tłumaczenie...</>
+                    ) : (
+                      <><Languages className="h-4 w-4 mr-1.5" />Przetłumacz z języka wiodącego</>
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Tłumaczone są tylko puste pola</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
           <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>
           <Button type="submit" disabled={saving}>
             {saving ? "Saving..." : isEditing ? "Update" : "Create"}
@@ -116,6 +278,17 @@ export default function BlogEditorClient({ blog, businessId, onSave, onCancel }:
       {error && (
         <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-md text-destructive">
           {error}
+        </div>
+      )}
+
+      {!isPrimary && (
+        <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/20 text-sm">
+          <span className="font-medium">
+            {lang === "pl" ? "Język dodatkowy" : "Secondary language"}
+          </span>
+          {" — "}
+          {primaryLanguage === "en" ? "English" : "Polski"}{" "}
+          {lang === "pl" ? "jest językiem wiodącym. Użyj przycisku \"Przetłumacz\" aby uzupełnić puste pola." : "is the primary language. Use the \"Translate\" button to fill empty fields."}
         </div>
       )}
 

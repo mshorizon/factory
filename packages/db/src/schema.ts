@@ -20,6 +20,7 @@ export const blogs = pgTable("blogs", {
 
   // Content
   slug: text("slug").notNull(),
+  lang: text("lang").notNull().default("en"), // "en" | "pl"
   title: text("title").notNull(),
   description: text("description"),
   content: text("content").notNull(),
@@ -42,7 +43,7 @@ export const blogs = pgTable("blogs", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 }, (table) => ({
-  uniqueSlugPerSite: unique().on(table.siteId, table.slug),
+  uniqueSlugPerSiteLang: unique().on(table.siteId, table.slug, table.lang),
 }));
 
 export type Blog = typeof blogs.$inferSelect;

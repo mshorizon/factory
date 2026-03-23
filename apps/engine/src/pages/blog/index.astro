@@ -20,8 +20,8 @@ const translatedData = deepTranslate(translations, businessData) as BusinessProf
 // Resolve image paths (relative paths become /data/{businessId}/...)
 const business = deepResolveImages(translatedData, businessId);
 
-// Fetch all published blogs from database
-const blogs = site ? await getBlogsBySiteId(site.id, true) : [];
+// Fetch all published blogs from database in current language
+const blogs = site ? await getBlogsBySiteId(site.id, true, currentLang) : [];
 
 // Transform blogs to BlogPost[] format for BlogGrid component
 const blogPosts: BlogPost[] = blogs.map((blog) => ({

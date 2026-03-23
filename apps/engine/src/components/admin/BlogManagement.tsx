@@ -5,9 +5,10 @@ import { CommentsTab } from "./CommentsTab";
 
 interface BlogManagementProps {
   businessId: string;
+  primaryLanguage?: "en" | "pl";
 }
 
-export function BlogManagement({ businessId }: BlogManagementProps) {
+export function BlogManagement({ businessId, primaryLanguage = "en" }: BlogManagementProps) {
   return (
     <Tabs defaultValue="posts">
       <TabsList>
@@ -16,7 +17,7 @@ export function BlogManagement({ businessId }: BlogManagementProps) {
       </TabsList>
 
       <TabsContent value="posts" className="mt-4">
-        <BlogsTab businessId={businessId} />
+        <BlogsTab businessId={businessId} primaryLanguage={primaryLanguage} />
       </TabsContent>
 
       <TabsContent value="comments" className="mt-4">

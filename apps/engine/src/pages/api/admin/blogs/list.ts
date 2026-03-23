@@ -4,6 +4,7 @@ import { getBlogsBySiteId, getSiteBySubdomain } from "@mshorizon/db";
 export const GET: APIRoute = async ({ url }) => {
   try {
     const businessId = url.searchParams.get("business");
+    const lang = url.searchParams.get("lang") || undefined;
 
     if (!businessId) {
       return new Response(
@@ -20,8 +21,8 @@ export const GET: APIRoute = async ({ url }) => {
       );
     }
 
-    // Get all blogs (including drafts) for admin
-    const blogs = await getBlogsBySiteId(site.id, false);
+    // Get all blogs (including drafts) for admin, optionally filtered by lang
+    const blogs = await getBlogsBySiteId(site.id, false, lang);
 
     return new Response(
       JSON.stringify({ blogs }),

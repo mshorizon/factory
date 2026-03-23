@@ -58,6 +58,9 @@ import {
   ChevronsUpDown,
   ShoppingBag,
   Wrench,
+  Star,
+  Loader2,
+  Trash2,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -205,6 +208,12 @@ export default function AdminForm({
   const [translationsData, setTranslationsData] = useState({
     en: translations?.en || {},
     pl: translations?.pl || {},
+  });
+
+  // Primary language setting (stored in translations._settings)
+  const [primaryLanguage, setPrimaryLanguage] = useState<"en" | "pl">(() => {
+    const settings = (translations as any)?._settings as Record<string, unknown> | undefined;
+    return ((settings?.primaryLanguage as string) || "en") as "en" | "pl";
   });
 
   const savedDataRef = useRef<Record<string, unknown>>(structuredClone(initialData));
@@ -382,7 +391,13 @@ export default function AdminForm({
       const transResponse = await fetch(`/api/admin/save-translations`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ businessId, translations: translationsData }),
+        body: JSON.stringify({
+          businessId,
+          translations: {
+            ...translationsData,
+            _settings: { primaryLanguage },
+          },
+        }),
       });
 
       if (!transResponse.ok) {
@@ -479,7 +494,11 @@ export default function AdminForm({
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
     const [filterInput, setFilterInput] = useState("");
     const [filterQuery, setFilterQuery] = useState("");
+    const [translating, setTranslating] = useState(false);
     const filterDebounceRef = useRef<NodeJS.Timeout | null>(null);
+
+    const isPrimary = lang === primaryLanguage;
+    const otherLang = lang === "en" ? "pl" : "en";
 
     const handleFilterInput = (value: string) => {
       setFilterInput(value);
@@ -522,8 +541,140 @@ export default function AdminForm({
       setTimeout(() => setCopiedKey(null), 1500);
     };
 
+    const handleClearAll = () => {
+      if (!confirm("Usunąć wszystkie tłumaczenia dla tego języka?")) return;
+      const cleared: Record<string, string> = {};
+      for (const key of keys) cleared[key] = "";
+      setTranslationsData((prev) => ({ ...prev, [lang]: cleared }));
+      setSaveStatus("idle");
+    };
+
+    const handleClearSection = (section: string) => {
+      const sectionKeys = Object.keys((translationsData[lang] || {}) as Record<string, string>)
+        .filter((k) => k.split(".")[0] === section);
+      if (!sectionKeys.length) return;
+      const updates: Record<string, string> = {};
+      for (const k of sectionKeys) updates[k] = "";
+      setTranslationsData((prev) => ({
+        ...prev,
+        [lang]: { ...(prev[lang] as Record<string, string>), ...updates },
+      }));
+      setSaveStatus("idle");
+    };
+
+    // Translate empty fields from primary language
+    const handleTranslateFromPrimary = async () => {
+      const primaryTranslations = (translationsData[primaryLanguage] || {}) as Record<string, string>;
+      const currentTranslations = (translationsData[lang] || {}) as Record<string, string>;
+
+      // Find all keys from primary that are empty in current lang
+      const emptyKeys = Object.keys(primaryTranslations).filter(
+        (key) => !currentTranslations[key] || !currentTranslations[key].trim()
+      );
+
+      if (emptyKeys.length === 0) {
+        alert(lang === "pl" ? "Wszystkie pola są już uzupełnione." : "All fields are already filled.");
+        return;
+      }
+
+      setTranslating(true);
+      try {
+        const textsToTranslate = emptyKeys.map((key) => String(primaryTranslations[key] || ""));
+
+        const response = await fetch("/api/admin/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            texts: textsToTranslate,
+            from: primaryLanguage,
+            to: lang,
+          }),
+        });
+
+        if (!response.ok) throw new Error("Translation failed");
+
+        const data = await response.json();
+        const updates: Record<string, string> = {};
+        emptyKeys.forEach((key, i) => {
+          updates[key] = data.translations[i];
+        });
+
+        setTranslationsData((prev) => ({
+          ...prev,
+          [lang]: { ...(prev[lang] as Record<string, string>), ...updates },
+        }));
+        setSaveStatus("idle");
+      } catch (err) {
+        alert("Translation error: " + (err instanceof Error ? err.message : "Unknown error"));
+      } finally {
+        setTranslating(false);
+      }
+    };
+
     return (
       <div className="space-y-6">
+        {/* Primary language indicator */}
+        <div className={`flex items-center justify-between p-3 rounded-lg border ${
+          isPrimary
+            ? "bg-amber-500/5 border-amber-500/20"
+            : "bg-blue-500/5 border-blue-500/20"
+        }`}>
+          <div className="flex items-center gap-2">
+            {isPrimary ? (
+              <>
+                <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                <span className="text-sm font-medium">
+                  {lang === "pl" ? "Język wiodący" : "Primary language"}
+                </span>
+              </>
+            ) : (
+              <span className="text-sm font-medium">
+                {lang === "pl" ? "Język dodatkowy" : "Secondary language"}
+                {" — "}
+                {primaryLanguage === "en" ? "English" : "Polski"}{" "}
+                {lang === "pl" ? "jest językiem wiodącym" : "is the primary language"}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            {!isPrimary && (
+              <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={handleClearAll}
+                      className="text-muted-foreground hover:text-destructive"
+                    >
+                      <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+                      Clear all
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Usuń wszystkie tłumaczenia tego języka</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={handleTranslateFromPrimary}
+                      disabled={translating}
+                    >
+                      {translating ? (
+                        <><Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />Tłumaczenie...</>
+                      ) : (
+                        <><Languages className="h-3.5 w-3.5 mr-1.5" />Przetłumacz z języka wiodącego</>
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Tłumaczone są tylko puste pola</TooltipContent>
+                </Tooltip>
+              </>
+            )}
+          </div>
+        </div>
+
         <div className="relative">
           <input
             type="text"
@@ -546,7 +697,23 @@ export default function AdminForm({
         {groupNames.map((groupName) => (
           <Card key={groupName}>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">{groupName}</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">{groupName}</CardTitle>
+                {!isPrimary && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => handleClearSection(groupName)}
+                        className="flex items-center gap-1 text-xs text-muted-foreground/50 hover:text-destructive transition-colors"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                        clear
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>Usuń tłumaczenia sekcji „{groupName}"</TooltipContent>
+                  </Tooltip>
+                )}
+              </div>
             </CardHeader>
             <CardContent className="space-y-3">
               {groups[groupName].map((key) => (
@@ -937,7 +1104,7 @@ export default function AdminForm({
     }
 
     if (activeTab === "blog") {
-      return <BlogManagement businessId={businessId} />;
+      return <BlogManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
 
     if (activeTab === "translations-en") return <TranslationsEditor lang="en" />;
@@ -1136,24 +1303,43 @@ export default function AdminForm({
             <SidebarGroup>
               <SidebarGroupLabel>Translations</SidebarGroupLabel>
               <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    onClick={() => setActiveTab("translations-en")}
-                    isActive={activeTab === "translations-en"}
-                  >
-                    <Languages />
-                    <span>English</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    onClick={() => setActiveTab("translations-pl")}
-                    isActive={activeTab === "translations-pl"}
-                  >
-                    <Languages />
-                    <span>Polski</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                {(["en", "pl"] as const).map((lang) => (
+                  <SidebarMenuItem key={`translations-${lang}`} className="group/transitem">
+                    <SidebarMenuButton
+                      onClick={() => setActiveTab(`translations-${lang}`)}
+                      isActive={activeTab === `translations-${lang}`}
+                    >
+                      <Languages />
+                      <span className="flex-1">{lang === "en" ? "English" : "Polski"}</span>
+                      <div className={`flex-shrink-0 group-data-[collapsible=icon]:hidden transition-opacity ${
+                        primaryLanguage === lang
+                          ? "opacity-100"
+                          : "opacity-0 group-hover/transitem:opacity-100"
+                      }`}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPrimaryLanguage(lang);
+                                setHasUnsavedChanges(true);
+                              }}
+                            >
+                              <Star className={`h-3.5 w-3.5 transition-colors ${
+                                primaryLanguage === lang
+                                  ? "text-amber-500 fill-amber-500"
+                                  : "text-muted-foreground/40 hover:text-amber-500/60"
+                              }`} />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            {primaryLanguage === lang ? "Język wiodący" : "Ustaw jako język wiodący"}
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>

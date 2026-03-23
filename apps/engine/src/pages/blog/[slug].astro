@@ -22,8 +22,11 @@ const translatedData = deepTranslate(translations, businessData) as BusinessProf
 // Resolve image paths (relative paths become /data/{businessId}/...)
 const business = deepResolveImages(translatedData, businessId);
 
-// Find the blog by slug
-const blog = site && slug ? await getBlogBySlug(site.id, slug) : null;
+// Find the blog by slug in current language (fallback to any language)
+let blog = site && slug ? await getBlogBySlug(site.id, slug, currentLang) : null;
+if (!blog && site && slug) {
+  blog = await getBlogBySlug(site.id, slug);
+}
 
 // 404 if blog not found or not published
 if (!blog || blog.status !== "published") {

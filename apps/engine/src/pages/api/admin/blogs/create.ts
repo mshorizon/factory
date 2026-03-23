@@ -35,6 +35,7 @@ export const POST: APIRoute = async ({ request }) => {
     const newBlog = await createBlog({
       siteId: site.id,
       slug: blog.slug,
+      lang: blog.lang || "en",
       title: blog.title,
       description: blog.description || null,
       content: blog.content,

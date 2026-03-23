@@ -32,6 +32,7 @@ export const PUT: APIRoute = async ({ request }) => {
 
     const updated = await updateBlog(blogId, {
       slug: blog.slug,
+      lang: blog.lang || "en",
       title: blog.title,
       description: blog.description || null,
       content: blog.content,
