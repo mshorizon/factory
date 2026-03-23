@@ -85,6 +85,8 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
   slugs.sort((a, b) => {
     if (a === "home") return -1;
     if (b === "home") return 1;
+    if (a === "contact") return 1;
+    if (b === "contact") return -1;
     return a.localeCompare(b);
   });
 
@@ -97,7 +99,7 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
   if (!slugs.includes("blog")) {
     links.push({
       label: "Blog",
-      href: "/blog",
+      href: "/blogs",
     });
   }
 

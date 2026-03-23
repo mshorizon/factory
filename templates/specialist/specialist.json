@@ -146,46 +146,6 @@
       ],
       "columns": [
         {
-          "title": "t:footer.columns.pages.title",
-          "links": [
-            {
-              "label": "t:footer.columns.pages.home",
-              "target": {
-                "type": "page",
-                "value": "home"
-              }
-            },
-            {
-              "label": "t:footer.columns.pages.about",
-              "target": {
-                "type": "page",
-                "value": "about"
-              }
-            },
-            {
-              "label": "t:footer.columns.pages.services",
-              "target": {
-                "type": "page",
-                "value": "services"
-              }
-            },
-            {
-              "label": "t:footer.columns.pages.testimonials",
-              "target": {
-                "type": "page",
-                "value": "testimonials"
-              }
-            },
-            {
-              "label": "t:footer.columns.pages.contact",
-              "target": {
-                "type": "page",
-                "value": "contact"
-              }
-            }
-          ]
-        },
-        {
           "title": "t:footer.columns.contact.title",
           "links": [
             {

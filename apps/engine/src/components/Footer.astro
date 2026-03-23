@@ -68,7 +68,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
 {callExtension && (
   <div class="section-bg-dark overflow-hidden shrink-0">
-    <div class="container mx-auto py-12 md:py-16 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="container mx-auto py-spacing-section-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
       <h2 class="font-bold text-3xl md:text-4xl lg:text-5xl uppercase leading-tight text-foreground max-w-xl">
         {callExtension.headline}
       </h2>
@@ -82,7 +82,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
         </span>
       </a>
     </div>
-    <div class="border-t border-border/30 mx-4 md:mx-auto md:container" />
+    <div class="container mx-auto"><div class="border-t border-border/30" /></div>
   </div>
 )}
 

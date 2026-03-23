@@ -219,12 +219,7 @@ export default function AdminForm({
   const savedDataRef = useRef<Record<string, unknown>>(structuredClone(initialData));
   const savedTransRef = useRef({ en: translations?.en || {}, pl: translations?.pl || {} });
 
-  const [internalActiveTab, setInternalActiveTab] = useState<TabType>(() => {
-    if (typeof window !== "undefined") {
-      return (sessionStorage.getItem(`admin-tab-${businessId}`) as TabType) || "meta";
-    }
-    return "meta";
-  });
+  const [internalActiveTab, setInternalActiveTab] = useState<TabType>("meta");
 
   const activeTab = internalActiveTab;
   const setActiveTab = (tab: TabType) => setInternalActiveTab(tab);
@@ -237,10 +232,14 @@ export default function AdminForm({
   const [themeSubTab, setThemeSubTab] = useState<"colors" | "typography">("colors");
   const [translationMode, setTranslationMode] = useState<"keys" | "en" | "pl">("keys");
 
+  // Restore + persist active tab via sessionStorage (client-only, after mount)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem(`admin-tab-${businessId}`, activeTab);
-    }
+    const saved = sessionStorage.getItem(`admin-tab-${businessId}`);
+    if (saved) setInternalActiveTab(saved as TabType);
+  }, [businessId]);
+
+  useEffect(() => {
+    sessionStorage.setItem(`admin-tab-${businessId}`, activeTab);
   }, [activeTab, businessId]);
 
   const pages = formData.pages as Record<string, unknown> | undefined;
@@ -1311,32 +1310,25 @@ export default function AdminForm({
                     >
                       <Languages />
                       <span className="flex-1">{lang === "en" ? "English" : "Polski"}</span>
-                      <div className={`flex-shrink-0 group-data-[collapsible=icon]:hidden transition-opacity ${
-                        primaryLanguage === lang
-                          ? "opacity-100"
-                          : "opacity-0 group-hover/transitem:opacity-100"
-                      }`}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setPrimaryLanguage(lang);
-                                setHasUnsavedChanges(true);
-                              }}
-                            >
-                              <Star className={`h-3.5 w-3.5 transition-colors ${
-                                primaryLanguage === lang
-                                  ? "text-amber-500 fill-amber-500"
-                                  : "text-muted-foreground/40 hover:text-amber-500/60"
-                              }`} />
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            {primaryLanguage === lang ? "Język wiodący" : "Ustaw jako język wiodący"}
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
+                      <span
+                        className={`flex-shrink-0 group-data-[collapsible=icon]:hidden transition-opacity cursor-pointer ${
+                          primaryLanguage === lang
+                            ? "opacity-100"
+                            : "opacity-0 group-hover/transitem:opacity-100"
+                        }`}
+                        title={primaryLanguage === lang ? "Język wiodący" : "Ustaw jako język wiodący"}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPrimaryLanguage(lang);
+                          setHasUnsavedChanges(true);
+                        }}
+                      >
+                        <Star className={`h-3.5 w-3.5 transition-colors ${
+                          primaryLanguage === lang
+                            ? "text-amber-500 fill-amber-500"
+                            : "text-muted-foreground/40 hover:text-amber-500/60"
+                        }`} />
+                      </span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

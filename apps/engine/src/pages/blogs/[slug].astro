@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import { getLayoutConfig, getNavLinks } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
-import { deepTranslate } from "../../lib/i18n";
+import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import { getBlogBySlug } from "@mshorizon/db";
 import CommentSection from "../../components/blog/CommentSection.astro";
@@ -61,14 +61,23 @@ const footerLinks = layout.footer.links?.map((link: any) => ({
   href: link.href || resolveTarget(link.target, business),
 })) || [];
 
-// Pre-resolve footer columns
-const footerColumns = layout.footer.columns?.map((col: any) => ({
-  title: col.title,
-  links: col.links?.map((link: any) => ({
-    label: link.label,
-    href: link.href || resolveTarget(link.target, business),
-  })) || [],
-})) || [];
+// Auto-build pages column from nav links
+const pagesColumn = {
+  title: t(translations, "footer.columns.pages.title", "Strony"),
+  links: navLinks,
+};
+
+// Pre-resolve footer columns (prepend auto pages column, then JSON columns)
+const footerColumns = [
+  pagesColumn,
+  ...(layout.footer.columns?.map((col: any) => ({
+    title: col.title,
+    links: col.links?.map((link: any) => ({
+      label: link.label,
+      href: link.href || resolveTarget(link.target, business),
+    })) || [],
+  })) || []),
+];
 
 // Check if business has any shop sections (to show cart button)
 const hasShopSection = Object.values(business.pages).some((p: any) =>
