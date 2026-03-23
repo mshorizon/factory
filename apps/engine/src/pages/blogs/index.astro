@@ -107,15 +107,9 @@ const socialLinks = business.business.socials
     contact={business.business.contact}
     socials={business.business.socials}
   />
-  <!-- Navbar height spacer -->
-  <div class:list={[
-    "bg-secondary",
-    "h-16 md:h-24",
-    layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') && "md:h-[136px]"
-  ]} />
   <main class="flex-1">
     <!-- Dark Hero Section -->
-    <section class="relative bg-secondary py-spacing-section-sm overflow-visible">
+    <section id="page-hero" class="relative bg-secondary py-spacing-section-sm overflow-visible">
       <!-- Decorative dot pattern -->
       <div class="absolute top-8 left-8 w-24 h-24 opacity-20">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">

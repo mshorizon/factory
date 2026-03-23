@@ -32,7 +32,7 @@ const isTransparent = variant === "transparent";
 
 {/* Upper Bar — scrolls away naturally */}
 {hasUpperBar && (
-  <div id="upper-bar" class="hidden md:block bg-secondary text-white relative z-40 mb-16 md:mb-24">
+  <div id="upper-bar" class="hidden md:block bg-secondary text-white fixed top-0 left-0 right-0 z-40 h-10">
     <div class="container mx-auto">
       <div class="relative flex items-center justify-between h-10 text-xs">
         {/* Left: Social Media Icons */}
@@ -83,9 +83,10 @@ const isTransparent = variant === "transparent";
 {/* Fixed Navbar — starts below upper bar on md+, always top:0 on mobile */}
 <nav id="main-nav" class:list={[
   "fixed left-0 right-0 z-50 top-0",
+  "navbar-animated",
   hasUpperBar && "md:top-10",
   isTransparent
-    ? "bg-transparent"
+    ? "bg-transparent navbar-transparent"
     : "bg-background shadow-sm border-b border-border"
 ]}>
   <div class="container mx-auto">
@@ -101,7 +102,7 @@ const isTransparent = variant === "transparent";
             <img src={logoIcon} alt="" class="w-7 h-7" />
           )}
           <span class:list={[
-            "text-xl lg:text-2xl font-bold tracking-tight group-hover:text-primary transition-colors",
+            "nav-logo text-xl lg:text-2xl font-bold tracking-tight group-hover:text-primary transition-colors",
             isTransparent ? "text-white" : "text-foreground"
           ]}>
             {logo}
@@ -117,7 +118,7 @@ const isTransparent = variant === "transparent";
             <a
               href={link.href}
               class:list={[
-                "relative px-3 py-2 text-[16px] font-medium transition-colors group",
+                "nav-link relative px-3 py-2 text-[16px] font-medium transition-colors group",
                 isTransparent ? "text-white/80 hover:text-white" : "text-foreground/60 hover:text-foreground"
               ]}
             >
@@ -152,7 +153,7 @@ const isTransparent = variant === "transparent";
         <button
           id="mobile-menu-btn"
           class:list={[
-            "p-2 hover:bg-primary/10 rounded-radius transition-colors",
+            "nav-mobile-btn p-2 hover:bg-primary/10 rounded-radius transition-colors",
             isTransparent ? "text-white" : "text-foreground"
           ]}
           aria-label="Toggle menu"
@@ -189,36 +190,169 @@ const isTransparent = variant === "transparent";
   </div>
 </nav>
 
-<script define:vars={{ hasUpperBar }}>
-  // Upper bar scroll-away behavior
+
+<style>
+  #main-nav,
+  #upper-bar {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.5s ease,
+                background-color 0.4s ease,
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+  }
+</style>
+
+<script define:vars={{ hasUpperBar, isTransparent }}>
+  const nav = document.getElementById('main-nav');
+  const upperBar = document.getElementById('upper-bar');
+
+  // --- Padding-top on first section instead of body (avoids macOS overscroll gap) ---
+  function updateFirstSectionPadding() {
+    const navH = nav ? nav.getBoundingClientRect().height : 0;
+    const barH = (upperBar && window.innerWidth >= 768) ? upperBar.getBoundingClientRect().height : 0;
+    const offset = navH + barH;
+    const target = document.getElementById('page-hero') || document.querySelector('[data-section-index="0"]');
+    if (target) {
+      if (target.id === 'page-hero') {
+        // Reset before measuring so resize recalculates from clean state
+        target.style.paddingTop = '0';
+        target.style.minHeight = '';
+        const originalHeight = target.getBoundingClientRect().height;
+        target.style.paddingTop = offset + 'px';
+        target.style.minHeight = (originalHeight + offset) + 'px';
+      } else {
+        target.style.paddingTop = offset + 'px';
+      }
+    }
+  }
+  requestAnimationFrame(updateFirstSectionPadding);
+  window.addEventListener('resize', updateFirstSectionPadding, { passive: true });
+
+  // --- Entrance animation (only once per session) ---
+  if (!sessionStorage.getItem('navbar-entered')) {
+    sessionStorage.setItem('navbar-entered', '1');
+
+    if (upperBar) {
+      upperBar.style.transform = 'translateY(-100%)';
+      upperBar.style.opacity = '0';
+      setTimeout(() => {
+        upperBar.style.transform = 'translateY(0)';
+        upperBar.style.opacity = '1';
+      }, 40);
+    }
+
+    if (nav) {
+      nav.style.transform = 'translateY(-100%)';
+      nav.style.opacity = '0';
+      setTimeout(() => {
+        nav.style.transform = 'translateY(0)';
+        nav.style.opacity = '1';
+      }, 60);
+    }
+  }
+
+  // --- Upper bar scroll-away behavior ---
+  const upperBarHeight = 40;
+  const scrollContainer = document.querySelector('[data-overlayscrollbars-viewport]') || document.documentElement;
+
+  function getScrollY() {
+    return scrollContainer === document.documentElement
+      ? window.scrollY
+      : scrollContainer.scrollTop;
+  }
+
   if (hasUpperBar) {
-    const nav = document.getElementById('main-nav');
-    const upperBarHeight = 40;
-
-    // Find the scroll container (OverlayScrollbars uses a viewport element)
-    const scrollContainer = document.querySelector('[data-overlayscrollbars-viewport]') || document.documentElement;
-
-    function onScroll() {
+    function updateUpperBarOffset() {
+      if (!nav) return;
       if (window.innerWidth < 768) {
-        if (nav) nav.style.top = '0px';
+        nav.style.top = '0px';
         return;
       }
-      const scrollY = scrollContainer === document.documentElement
-        ? window.scrollY
-        : scrollContainer.scrollTop;
-      const offset = Math.max(0, upperBarHeight - scrollY);
-      if (nav) nav.style.top = offset + 'px';
+      const offset = Math.max(0, upperBarHeight - getScrollY());
+      nav.style.top = offset + 'px';
     }
 
     if (scrollContainer === document.documentElement) {
-      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('scroll', updateUpperBarOffset, { passive: true });
     } else {
-      scrollContainer.addEventListener('scroll', onScroll, { passive: true });
+      scrollContainer.addEventListener('scroll', updateUpperBarOffset, { passive: true });
     }
-    onScroll();
+    updateUpperBarOffset();
   }
 
-  // Mobile menu toggle
+  // --- Smart hide on scroll down, show on scroll up ---
+  // --- Transparent → solid on scroll ---
+  let lastScrollY = 0;
+  let ticking = false;
+  let navVisible = true;
+
+  function handleScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const currentY = getScrollY();
+      const delta = currentY - lastScrollY;
+
+      // Smart hide/show
+      if (delta > 10 && currentY > 80) {
+        if (navVisible) {
+          navVisible = false;
+          if (nav) nav.style.transform = 'translateY(-100%)';
+          if (upperBar) upperBar.style.transform = 'translateY(-100%)';
+        }
+      } else if (delta < -5) {
+        if (!navVisible) {
+          navVisible = true;
+          if (nav) nav.style.transform = 'translateY(0)';
+          if (upperBar) upperBar.style.transform = 'translateY(0)';
+        }
+      }
+
+      // Transparent navbar → solid background on scroll
+      if (isTransparent && nav) {
+        if (currentY > 20) {
+          nav.classList.remove('bg-transparent');
+          nav.classList.add('bg-background', 'shadow-sm', 'border-b', 'border-border');
+          // Update link colors
+          nav.querySelectorAll('.nav-link').forEach(el => {
+            el.classList.remove('text-white/80', 'hover:text-white');
+            el.classList.add('text-foreground/60', 'hover:text-foreground');
+          });
+          nav.querySelectorAll('.nav-logo').forEach(el => {
+            el.classList.remove('text-white');
+            el.classList.add('text-foreground');
+          });
+          nav.querySelectorAll('.nav-mobile-btn').forEach(el => {
+            el.classList.remove('text-white');
+            el.classList.add('text-foreground');
+          });
+        } else {
+          nav.classList.add('bg-transparent');
+          nav.classList.remove('bg-background', 'shadow-sm', 'border-b', 'border-border');
+          nav.querySelectorAll('.nav-link').forEach(el => {
+            el.classList.add('text-white/80', 'hover:text-white');
+            el.classList.remove('text-foreground/60', 'hover:text-foreground');
+          });
+          nav.querySelectorAll('.nav-logo').forEach(el => {
+            el.classList.add('text-white');
+            el.classList.remove('text-foreground');
+          });
+          nav.querySelectorAll('.nav-mobile-btn').forEach(el => {
+            el.classList.add('text-white');
+            el.classList.remove('text-foreground');
+          });
+        }
+      }
+
+      lastScrollY = currentY;
+      ticking = false;
+    });
+  }
+
+  const scrollTarget = scrollContainer === document.documentElement ? window : scrollContainer;
+  scrollTarget.addEventListener('scroll', handleScroll, { passive: true });
+
+  // --- Mobile menu toggle ---
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
   const menuIcon = document.getElementById('menu-icon');

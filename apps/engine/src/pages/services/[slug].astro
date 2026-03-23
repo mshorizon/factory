@@ -87,15 +87,9 @@ const socialLinks = business.business.socials
     contact={business.business.contact}
     socials={business.business.socials}
   />
-  <!-- Navbar height spacer - pushes content down so it's not hidden behind fixed navbar -->
-  <div class:list={[
-    "bg-secondary",
-    "h-16 md:h-24",
-    layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') && "md:h-[136px]"
-  ]} />
   <main class="flex-1">
     <!-- Dark Hero Section -->
-    <section class="relative bg-secondary pt-16 pb-16 mb-48 md:mb-64 overflow-visible">
+    <section id="page-hero" class="relative bg-secondary pt-16 pb-16 mb-48 md:mb-64 overflow-visible">
       <!-- Decorative dot pattern -->
       <div class="absolute top-8 left-8 w-24 h-24 opacity-20">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
