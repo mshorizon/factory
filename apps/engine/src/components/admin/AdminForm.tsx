@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import RjsfForm from "@rjsf/shadcn";
 import rjsfValidator from "@rjsf/validator-ajv8";
 import type { RJSFSchema } from "@rjsf/utils";
@@ -10,7 +10,7 @@ import { BlogManagement } from "./BlogManagement";
 import { ProductsTab } from "./ProductsTab";
 import { ServicesTab } from "./ServicesTab";
 import { Button } from "@/components/ui/button";
-import { ButtonGroup, ButtonGroupText, ButtonGroupSeparator } from "@/components/ui/button-group";
+import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -33,7 +33,8 @@ import {
   SidebarInset,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import {
   Moon,
   Sun,
@@ -51,6 +52,7 @@ import {
   AlertCircle,
   Circle,
   ExternalLink,
+  Copy,
   Briefcase,
   User2,
   ChevronsUpDown,
@@ -153,6 +155,46 @@ function deepEqual(a: any, b: any): boolean {
   return keysA.every((key) => deepEqual(a[key], b[key]));
 }
 
+function resolveTranslations(obj: any, translations: Record<string, string>): any {
+  if (typeof obj === "string" && obj.startsWith("t:")) {
+    const key = obj.slice(2);
+    return translations[key] ?? obj;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map((item) => resolveTranslations(item, translations));
+  }
+  if (obj && typeof obj === "object") {
+    const result: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      result[key] = resolveTranslations(value, translations);
+    }
+    return result;
+  }
+  return obj;
+}
+
+function reconstructWithTKeys(orig: any, updated: any): any {
+  if (typeof orig === "string" && orig.startsWith("t:")) {
+    return orig; // Keep the t: key reference
+  }
+  if (Array.isArray(orig) && Array.isArray(updated)) {
+    return updated.map((item, i) => {
+      if (i < orig.length) return reconstructWithTKeys(orig[i], item);
+      return item;
+    });
+  }
+  if (orig && updated && typeof orig === "object" && typeof updated === "object") {
+    const result: any = { ...updated };
+    for (const key of Object.keys(orig)) {
+      if (key in updated) {
+        result[key] = reconstructWithTKeys(orig[key], updated[key]);
+      }
+    }
+    return result;
+  }
+  return updated;
+}
+
 export default function AdminForm({
   businessId,
   initialData,
@@ -184,6 +226,7 @@ export default function AdminForm({
 
   const [metaSubTab, setMetaSubTab] = useState<"business" | "assets">("business");
   const [themeSubTab, setThemeSubTab] = useState<"colors" | "typography">("colors");
+  const [translationMode, setTranslationMode] = useState<"keys" | "en" | "pl">("keys");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -263,6 +306,62 @@ export default function AdminForm({
       setSaveStatus("idle");
     }
   }, []);
+
+  const resolvedFormData = useMemo(() => {
+    if (translationMode === "keys") return formData;
+    const lang = translationMode as "en" | "pl";
+    return resolveTranslations(formData, (translationsData[lang] || {}) as Record<string, string>);
+  }, [formData, translationMode, translationsData]);
+
+  const handleTranslatedChange = useCallback(
+    (path: string[], data: { formData?: unknown }) => {
+      if (data.formData === undefined) return;
+      if (translationMode === "keys") {
+        handleChange(path, data);
+        return;
+      }
+
+      const lang = translationMode as "en" | "pl";
+      const originalAtPath = getNestedValue(formData, path);
+      const newData = data.formData;
+
+      // Find t: key translations to update
+      const translationUpdates: Record<string, string> = {};
+      function walk(orig: any, updated: any) {
+        if (typeof orig === "string" && orig.startsWith("t:")) {
+          if (typeof updated === "string") {
+            translationUpdates[orig.slice(2)] = updated;
+          }
+          return;
+        }
+        if (Array.isArray(orig) && Array.isArray(updated)) {
+          for (let i = 0; i < Math.min(orig.length, updated.length); i++) {
+            walk(orig[i], updated[i]);
+          }
+          return;
+        }
+        if (orig && updated && typeof orig === "object" && typeof updated === "object") {
+          for (const key of Object.keys(orig)) {
+            if (key in updated) walk(orig[key], updated[key]);
+          }
+        }
+      }
+      walk(originalAtPath, newData);
+
+      if (Object.keys(translationUpdates).length > 0) {
+        setTranslationsData((prev) => ({
+          ...prev,
+          [lang]: { ...(prev[lang] as Record<string, string>), ...translationUpdates },
+        }));
+      }
+
+      // Reconstruct formData preserving t: keys
+      const reconstructed = reconstructWithTKeys(originalAtPath, newData);
+      setFormData((prev) => setNestedValue(prev, path, reconstructed));
+      setSaveStatus("idle");
+    },
+    [translationMode, formData, handleChange]
+  );
 
   const handleSave = async () => {
     setSaveStatus("saving");
@@ -377,9 +476,32 @@ export default function AdminForm({
   const TranslationsEditor = ({ lang }: { lang: "en" | "pl" }) => {
     const translations = (translationsData[lang] || {}) as Record<string, string>;
     const keys = Object.keys(translations).sort();
+    const [copiedKey, setCopiedKey] = useState<string | null>(null);
+    const [filterInput, setFilterInput] = useState("");
+    const [filterQuery, setFilterQuery] = useState("");
+    const filterDebounceRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleFilterInput = (value: string) => {
+      setFilterInput(value);
+      if (filterDebounceRef.current) clearTimeout(filterDebounceRef.current);
+      filterDebounceRef.current = setTimeout(() => setFilterQuery(value), 250);
+    };
+
+    const clearFilter = () => {
+      setFilterInput("");
+      setFilterQuery("");
+      if (filterDebounceRef.current) clearTimeout(filterDebounceRef.current);
+    };
+
+    const filteredKeys = filterQuery.trim()
+      ? keys.filter((key) => {
+          const q = filterQuery.toLowerCase();
+          return key.toLowerCase().includes(q) || (translations[key] ?? "").toLowerCase().includes(q);
+        })
+      : keys;
 
     const groups: Record<string, string[]> = {};
-    for (const key of keys) {
+    for (const key of filteredKeys) {
       const firstPart = key.split(".")[0];
       if (!groups[firstPart]) groups[firstPart] = [];
       groups[firstPart].push(key);
@@ -394,19 +516,53 @@ export default function AdminForm({
       setSaveStatus("idle");
     };
 
+    const copyKey = (key: string) => {
+      navigator.clipboard.writeText(key);
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 1500);
+    };
+
     return (
       <div className="space-y-6">
+        <div className="relative">
+          <input
+            type="text"
+            value={filterInput}
+            onChange={(e) => handleFilterInput(e.target.value)}
+            placeholder="Filter by key or value…"
+            className="w-full px-3 py-2 pr-8 border border-border rounded-md text-sm focus:border-ring focus:ring-2 focus:ring-ring/20 outline-none bg-background"
+          />
+          {filterInput && (
+            <button
+              onClick={clearFilter}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Clear filter"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
         {groupNames.map((groupName) => (
-          <div key={groupName} className="border border-border rounded-lg overflow-hidden">
-            <div className="bg-muted/30 px-4 py-2 border-b border-border">
-              <h4 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">{groupName}</h4>
-            </div>
-            <div className="p-4 space-y-3">
+          <Card key={groupName}>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">{groupName}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
               {groups[groupName].map((key) => (
                 <div key={key} className="flex gap-4 items-start">
-                  <label className="w-48 flex-shrink-0 text-sm pt-2 break-all text-muted-foreground">
-                    {key.substring(groupName.length + 1) || key}
-                  </label>
+                  <Tooltip>
+                    <TooltipTrigger
+                      className="w-48 flex-shrink-0 text-sm pt-2 break-all text-muted-foreground text-left cursor-pointer hover:text-foreground transition-colors inline-flex items-center gap-1.5 group/key"
+                      onClick={() => copyKey(key)}
+                    >
+                      <span>{key}</span>
+                      <Copy className="h-3 w-3 opacity-0 group-hover/key:opacity-100 transition-opacity flex-shrink-0" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {copiedKey === key ? "Copied!" : "Copy key"}
+                    </TooltipContent>
+                  </Tooltip>
                   <input
                     type="text"
                     value={translations[key] ?? ""}
@@ -415,10 +571,14 @@ export default function AdminForm({
                   />
                 </div>
               ))}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         ))}
-        {keys.length === 0 && <p className="text-sm text-muted-foreground">No translations found.</p>}
+        {filteredKeys.length === 0 && (
+          <p className="text-sm text-muted-foreground">
+            {keys.length === 0 ? "No translations found." : "No matches for current filter."}
+          </p>
+        )}
       </div>
     );
   };
@@ -466,29 +626,55 @@ export default function AdminForm({
           </TabsList>
 
           <TabsContent value="business" className="mt-0">
-            <Card>
-              <CardContent className="pt-6">
-                <Form
-                  schema={businessInfoSchema}
-                  uiSchema={generateColorUiSchema(businessInfoSchema)}
-                  formData={{ business: formData.business }}
-                  validator={validator}
-                  widgets={configWidgets}
-                  templates={customTemplates}
-                  formContext={{ businessId }}
-                  onChange={(data: any) => {
-                    if (data.formData) {
-                      setFormData((prev) => ({
-                        ...prev,
-                        business: { ...(prev.business as Record<string, unknown>), ...data.formData.business },
-                      }));
-                      setSaveStatus("idle");
+            <Form
+              schema={businessInfoSchema}
+              uiSchema={generateColorUiSchema(businessInfoSchema)}
+              formData={{ business: resolvedFormData.business }}
+              validator={validator}
+              widgets={configWidgets}
+              templates={customTemplates}
+              formContext={{ businessId }}
+              onChange={(data: any) => {
+                if (data.formData) {
+                  if (translationMode !== "keys") {
+                    const origBiz = formData.business as Record<string, unknown>;
+                    const newBiz = data.formData.business;
+                    const translationUpdates: Record<string, string> = {};
+                    const lang = translationMode as "en" | "pl";
+                    function walkBiz(orig: any, updated: any) {
+                      if (typeof orig === "string" && orig.startsWith("t:")) {
+                        if (typeof updated === "string") translationUpdates[orig.slice(2)] = updated;
+                        return;
+                      }
+                      if (orig && updated && typeof orig === "object" && typeof updated === "object") {
+                        for (const k of Object.keys(orig)) {
+                          if (k in updated) walkBiz(orig[k], updated[k]);
+                        }
+                      }
                     }
-                  }}
-                  liveValidate={false}
-                ><></></Form>
-              </CardContent>
-            </Card>
+                    walkBiz(origBiz, newBiz);
+                    if (Object.keys(translationUpdates).length > 0) {
+                      setTranslationsData((prev) => ({
+                        ...prev,
+                        [lang]: { ...(prev[lang] as Record<string, string>), ...translationUpdates },
+                      }));
+                    }
+                    const reconstructedBiz = reconstructWithTKeys(origBiz, newBiz);
+                    setFormData((prev) => ({
+                      ...prev,
+                      business: { ...(prev.business as Record<string, unknown>), ...reconstructedBiz },
+                    }));
+                  } else {
+                    setFormData((prev) => ({
+                      ...prev,
+                      business: { ...(prev.business as Record<string, unknown>), ...data.formData.business },
+                    }));
+                  }
+                  setSaveStatus("idle");
+                }
+              }}
+              liveValidate={false}
+            ><></></Form>
           </TabsContent>
 
           <TabsContent value="assets" className="mt-0">
@@ -497,7 +683,7 @@ export default function AdminForm({
                 <Form
                   schema={assetsSchema}
                   uiSchema={generateColorUiSchema(assetsSchema)}
-                  formData={{ business: { assets: (formData.business as any)?.assets } }}
+                  formData={{ business: { assets: (resolvedFormData.business as any)?.assets } }}
                   validator={validator}
                   widgets={configWidgets}
                   templates={customTemplates}
@@ -606,7 +792,7 @@ export default function AdminForm({
             </div>
 
             <Card>
-              <CardContent className="pt-6">
+              <CardContent className="pt-6 rjsf-grid-2col">
                 <Form
                   key={currentMode}
                   schema={colorModeSchema}
@@ -623,7 +809,7 @@ export default function AdminForm({
             </Card>
 
             <Card>
-              <CardContent className="pt-6">
+              <CardContent className="pt-6 rjsf-grid-2col">
                 <Form
                   schema={uiSchema}
                   formData={{ ui: themeData.ui }}
@@ -678,15 +864,15 @@ export default function AdminForm({
       const navbarSchema = getSubSchema(schema, ["layout", "navbar"]);
       return (
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="pt-6 rjsf-grid-2col">
             <Form
               schema={navbarSchema}
-              formData={getNestedValue(formData, ["layout", "navbar"])}
+              formData={getNestedValue(resolvedFormData, ["layout", "navbar"])}
               validator={validator}
               widgets={configWidgets}
               templates={customTemplates}
               formContext={{ businessId }}
-              onChange={(data: any) => handleChange(["layout", "navbar"], data)}
+              onChange={(data: any) => handleTranslatedChange(["layout", "navbar"], data)}
               liveValidate={false}
             ><></></Form>
           </CardContent>
@@ -698,15 +884,15 @@ export default function AdminForm({
       const footerSchema = getSubSchema(schema, ["layout", "footer"]);
       return (
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="pt-6 rjsf-grid-2col">
             <Form
               schema={footerSchema}
-              formData={getNestedValue(formData, ["layout", "footer"])}
+              formData={getNestedValue(resolvedFormData, ["layout", "footer"])}
               validator={validator}
               widgets={configWidgets}
               templates={customTemplates}
               formContext={{ businessId }}
-              onChange={(data: any) => handleChange(["layout", "footer"], data)}
+              onChange={(data: any) => handleTranslatedChange(["layout", "footer"], data)}
               liveValidate={false}
             ><></></Form>
           </CardContent>
@@ -760,6 +946,7 @@ export default function AdminForm({
     if (activeTab.startsWith("page-")) {
       const pageName = activeTab.replace("page-", "");
       const pageData = getNestedValue(formData, ["pages", pageName]) as any;
+      const resolvedPageData = getNestedValue(resolvedFormData, ["pages", pageName]) as any;
 
       return (
         <div className="space-y-6">
@@ -778,8 +965,8 @@ export default function AdminForm({
             <label className="w-24 flex-shrink-0 text-[13px] pt-2 text-muted-foreground">Title</label>
             <input
               type="text"
-              value={pageData?.title || ""}
-              onChange={(e) => handleChange(["pages", pageName, "title"], { formData: e.target.value })}
+              value={resolvedPageData?.title || ""}
+              onChange={(e) => handleTranslatedChange(["pages", pageName, "title"], { formData: e.target.value })}
               className="flex-1 px-3 py-2 rounded-md text-[13px] focus:outline-none bg-background border border-border focus:ring-2 focus:ring-ring/20"
             />
           </div>
@@ -792,13 +979,14 @@ export default function AdminForm({
               </Button>
             </div>
 
-            {pageData?.sections?.map((section: any, index: number) => {
+            {pageData?.sections?.map((_section: any, index: number) => {
+              const resolvedSection = resolvedPageData?.sections?.[index] || _section;
               const savedPageData = getNestedValue(savedDataRef.current, ["pages", pageName]) as any;
               const savedSection = savedPageData?.sections?.[index];
               return (
                 <SectionEditor
                   key={index}
-                  section={section}
+                  section={resolvedSection}
                   savedSection={savedSection}
                   index={index}
                   sectionCount={pageData.sections.length}
@@ -807,7 +995,7 @@ export default function AdminForm({
                   onUpdate={(updatedSection) => {
                     const newSections = [...pageData.sections];
                     newSections[index] = updatedSection;
-                    handleChange(["pages", pageName, "sections"], { formData: newSections });
+                    handleTranslatedChange(["pages", pageName, "sections"], { formData: newSections });
                   }}
                   onRemove={() => removeSection(pageName, index)}
                   onMoveUp={() => moveSection(pageName, index, 'up')}
@@ -889,7 +1077,7 @@ export default function AdminForm({
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors p-2 mx-2 w-full group-data-[collapsible=icon]:justify-center"
+              className="group/link flex items-center gap-2 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors p-2 mx-2 w-full group-data-[collapsible=icon]:justify-center"
               style={{ marginLeft: 8, marginRight: 8 }}
             >
               <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-sm overflow-hidden bg-background">
@@ -900,6 +1088,7 @@ export default function AdminForm({
                 )}
               </div>
               <span className="text-base font-semibold whitespace-nowrap group-data-[collapsible=icon]:hidden">{businessId}</span>
+              <ExternalLink className="h-3.5 w-3.5 ml-auto opacity-0 group-hover/link:opacity-100 transition-opacity text-muted-foreground group-data-[collapsible=icon]:hidden" />
             </a>
           </SidebarHeader>
 
@@ -997,12 +1186,11 @@ export default function AdminForm({
 
         {/* ── Main content ──────────────────────────── */}
         <SidebarInset>
-          <header className="flex items-center h-[49px] px-4 border-b border-sidebar-border bg-background shrink-0">
+          <header className="flex items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0">
             {/* Left: breadcrumb */}
             <Breadcrumb className="mr-auto h-[49px] flex items-center">
               <BreadcrumbList>
                 {(() => {
-                  // Find which navGroup contains the active tab
                   for (const group of navGroups) {
                     const item = group.items.find((i) => i.id === activeTab);
                     if (item) {
@@ -1055,46 +1243,65 @@ export default function AdminForm({
               </BreadcrumbList>
             </Breadcrumb>
 
-            {/* Right: two button groups */}
-            <div className="flex items-center gap-2 h-[49px]">
-              {/* Group 1: Open site */}
-              <ButtonGroup className="h-8">
-                <Button variant="ghost" size="sm" asChild className="rounded-none border-0">
-                  <a href="/" target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                    Open site
-                  </a>
-                </Button>
-              </ButtonGroup>
-
-              {/* Group 2: Status + Discard + Save */}
-              <ButtonGroup className="h-8">
-                <ButtonGroupText>
-                  {saveStatus === "success" && <><Check className="h-3.5 w-3.5 text-green-600" /><span className="text-green-600">Saved</span></>}
-                  {saveStatus === "error" && <><AlertCircle className="h-3.5 w-3.5 text-destructive" /><span className="text-destructive">{errorMessage}</span></>}
-                  {saveStatus === "idle" && hasUnsavedChanges && <><Circle className="h-2 w-2 fill-amber-500 text-amber-500" />Unsaved</>}
-                  {saveStatus === "idle" && !hasUnsavedChanges && <>Up to date</>}
-                </ButtonGroupText>
-                {hasUnsavedChanges && (
-                  <>
-                    <ButtonGroupSeparator />
-                    <Button variant="ghost" size="sm" onClick={revertAll} className="rounded-none border-0">
-                      <Undo2 className="h-3.5 w-3.5 mr-1" />
-                      Discard
-                    </Button>
-                  </>
-                )}
-                <ButtonGroupSeparator />
-                <Button
-                  onClick={handleSave}
-                  disabled={saveStatus === "saving" || !hasUnsavedChanges}
-                  size="sm"
-                  className="rounded-none border-0"
+            {/* Center: translation mode switcher */}
+            <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5 mr-3">
+              {(["keys", "en", "pl"] as const).map((mode) => (
+                <button
+                  key={mode}
+                  onClick={() => setTranslationMode(mode)}
+                  className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
+                    translationMode === mode
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
-                  <Save className="h-3.5 w-3.5 mr-1" />
-                  {saveStatus === "saving" ? "Saving..." : "Save"}
-                </Button>
-              </ButtonGroup>
+                  {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
+                </button>
+              ))}
+            </div>
+
+            {/* Right: Badge + Discard + Publish */}
+            <div className="flex items-center gap-3 h-[49px]">
+              {saveStatus === "error" ? (
+                <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6">
+                  <AlertCircle className="h-3 w-3" />
+                  {errorMessage || "Error"}
+                </Badge>
+              ) : saveStatus === "success" ? (
+                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6">
+                  <Check className="h-3 w-3" />
+                  Saved
+                </Badge>
+              ) : hasUnsavedChanges ? (
+                <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/20 h-6">
+                  <Circle className="h-2 w-2 fill-amber-500" />
+                  Unsaved changes
+                </Badge>
+              ) : (
+                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6">
+                  <Check className="h-3 w-3" />
+                  All changes published
+                </Badge>
+              )}
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={revertAll}
+                disabled={!hasUnsavedChanges}
+              >
+                <Undo2 className="h-3.5 w-3.5 mr-1" />
+                Discard changes
+              </Button>
+
+              <Button
+                onClick={handleSave}
+                disabled={saveStatus === "saving" || !hasUnsavedChanges}
+                size="sm"
+              >
+                <Save className="h-3.5 w-3.5 mr-1" />
+                {saveStatus === "saving" ? "Publishing..." : "Publish changes"}
+              </Button>
             </div>
           </header>
 

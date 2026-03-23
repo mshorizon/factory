@@ -59,11 +59,35 @@ const { businessId } = Astro.locals;
         flex-shrink: 0;
         position: relative;
         z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .resize-handle::after {
+        content: '';
+        width: 4px;
+        height: 24px;
+        border-radius: 2px;
+        background: var(--border);
+        transition: background 0.15s;
+        /* Grip dots pattern */
+        background-image: radial-gradient(circle, var(--muted-foreground) 1px, transparent 1px);
+        background-size: 4px 4px;
+        background-position: center;
+      }
+
+      .resize-handle:hover::after,
+      .resize-handle.active::after {
+        background-color: var(--primary);
+        background-image: radial-gradient(circle, var(--primary-foreground) 1px, transparent 1px);
+        background-size: 4px 4px;
+        background-position: center;
       }
 
       .resize-handle:hover,
       .resize-handle.active {
-        background: var(--primary);
+        background: color-mix(in oklch, var(--primary) 10%, transparent);
       }
 
       .admin-content {
@@ -362,6 +386,26 @@ const { businessId } = Astro.locals;
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         padding-right: 2.5rem;
+      }
+
+      /* 2-column grid for compact form fields (colors, UI, layout) */
+      .rjsf-grid-2col > .rjsf-wrapper .space-y-4,
+      .rjsf-grid-2col > div > .space-y-4,
+      .rjsf-grid-2col > form > .space-y-4 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .rjsf-grid-2col > .rjsf-wrapper .space-y-4 > *,
+      .rjsf-grid-2col > div > .space-y-4 > *,
+      .rjsf-grid-2col > form > .space-y-4 > * {
+        margin: 0 !important;
+      }
+
+      /* Cards inside 2-col grid should span full width */
+      .rjsf-grid-2col .mb-4 {
+        grid-column: 1 / -1;
       }
 
       /* Admin form area scrollbar */
