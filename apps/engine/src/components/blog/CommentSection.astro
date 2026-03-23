@@ -8,6 +8,7 @@ interface Props {
 
 const { blogId } = Astro.props;
 const { currentLang } = Astro.locals;
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
 // Fetch approved comments only
 const comments = await getCommentsByBlogId(blogId, true);
@@ -69,6 +70,6 @@ const comments = await getCommentsByBlogId(blogId, true);
     <h3 class="text-xl font-bold text-foreground uppercase mb-spacing-lg">
       Dodaj komentarz
     </h3>
-    <CommentForm client:load blogId={blogId} />
+    <CommentForm client:load blogId={blogId} turnstileSiteKey={turnstileSiteKey} />
   </div>
 </div>

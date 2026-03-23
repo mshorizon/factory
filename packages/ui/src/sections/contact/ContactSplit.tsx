@@ -9,6 +9,7 @@ import { Label } from "../../atoms/Label";
 import { Textarea } from "../../atoms/Textarea";
 import { Badge } from "../../atoms/Badge";
 import { ScrollReveal } from "../../animations/ScrollReveal";
+import { Turnstile } from "../../atoms/Turnstile";
 import type { ContactSplitProps } from "./types";
 
 export function ContactSplit({
@@ -20,12 +21,19 @@ export function ContactSplit({
   labels,
   businessId,
   business,
+  turnstileSiteKey,
   className,
 }: ContactSplitProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (turnstileSiteKey && !turnstileToken) {
+      return;
+    }
+
     setStatus("loading");
 
     const data = new FormData(e.currentTarget);
@@ -38,6 +46,7 @@ export function ContactSplit({
           email: data.get("email"),
           message: data.get("message"),
           businessId,
+          turnstileToken,
         }),
       });
 
@@ -114,6 +123,13 @@ export function ContactSplit({
                 className="bg-white text-black border-none"
               />
             </div>
+            {turnstileSiteKey && (
+              <Turnstile
+                siteKey={turnstileSiteKey}
+                onSuccess={setTurnstileToken}
+                onExpire={() => setTurnstileToken(null)}
+              />
+            )}
             {status === "error" && (
               <div className="flex items-center gap-spacing-xs text-sm text-red-400">
                 <AlertCircle className="h-4 w-4 shrink-0" />
@@ -130,7 +146,7 @@ export function ContactSplit({
               type="submit"
               size="lg"
               className="w-full"
-              disabled={status === "loading"}
+              disabled={status === "loading" || (turnstileSiteKey != null && !turnstileToken)}
             >
               {status === "loading" ? "Sending..." : (form?.submitButton || "Submit")}
             </Button>

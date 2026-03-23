@@ -1,10 +1,11 @@
 import type { APIRoute } from "astro";
 import { createComment } from "@mshorizon/db";
+import { verifyTurnstile } from "../../../lib/turnstile";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { blogId, authorName, authorEmail, content } = body;
+    const { blogId, authorName, authorEmail, content, turnstileToken } = body;
 
     // Validate required fields
     if (!blogId || !authorName || !authorEmail || !content) {
@@ -36,6 +37,23 @@ export const POST: APIRoute = async ({ request }) => {
         JSON.stringify({ error: "Comment must be less than 5000 characters" }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
+    }
+
+    if (import.meta.env.TURNSTILE_SECRET_KEY) {
+      if (!turnstileToken) {
+        return new Response(
+          JSON.stringify({ error: "CAPTCHA verification required" }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
+      }
+      const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || undefined;
+      const valid = await verifyTurnstile(turnstileToken, ip);
+      if (!valid) {
+        return new Response(
+          JSON.stringify({ error: "CAPTCHA verification failed" }),
+          { status: 403, headers: { "Content-Type": "application/json" } }
+        );
+      }
     }
 
     // Get IP address and user agent for spam detection

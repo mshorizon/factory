@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 interface CommentFormProps {
   blogId: number;
+  turnstileSiteKey?: string;
 }
 
-export function CommentForm({ blogId }: CommentFormProps) {
+export function CommentForm({ blogId, turnstileSiteKey }: CommentFormProps) {
   const [formData, setFormData] = useState({
     authorName: "",
     authorEmail: "",
@@ -12,9 +14,15 @@ export function CommentForm({ blogId }: CommentFormProps) {
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (turnstileSiteKey && !turnstileToken) {
+      return;
+    }
+
     setStatus("submitting");
     setErrorMessage("");
 
@@ -27,6 +35,7 @@ export function CommentForm({ blogId }: CommentFormProps) {
         body: JSON.stringify({
           blogId,
           ...formData,
+          turnstileToken,
         }),
       });
 
@@ -37,6 +46,7 @@ export function CommentForm({ blogId }: CommentFormProps) {
 
       setStatus("success");
       setFormData({ authorName: "", authorEmail: "", content: "" });
+      setTurnstileToken(null);
 
       // Reset to idle after 5 seconds
       setTimeout(() => setStatus("idle"), 5000);
@@ -96,6 +106,14 @@ export function CommentForm({ blogId }: CommentFormProps) {
         />
       </div>
 
+      {turnstileSiteKey && (
+        <Turnstile
+          siteKey={turnstileSiteKey}
+          onSuccess={setTurnstileToken}
+          onExpire={() => setTurnstileToken(null)}
+        />
+      )}
+
       {status === "success" && (
         <div className="p-spacing-md bg-green-50 border border-green-200 rounded-radius text-green-800">
           ✓ Komentarz został wysłany i oczekuje na moderację
@@ -110,7 +128,7 @@ export function CommentForm({ blogId }: CommentFormProps) {
 
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || (turnstileSiteKey != null && !turnstileToken)}
         className="px-spacing-xl py-spacing-md bg-primary text-textOnPrimary font-semibold rounded-radius hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
       >
         {status === "submitting" ? "Wysyłanie..." : "Dodaj komentarz"}

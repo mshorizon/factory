@@ -2,17 +2,35 @@ import type { APIRoute } from "astro";
 import { Resend } from "resend";
 import { getSiteBySubdomain } from "@mshorizon/db";
 import { initDb } from "@mshorizon/db";
+import { verifyTurnstile } from "../../lib/turnstile";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { name, email, message, businessId } = body;
+    const { name, email, message, businessId, turnstileToken } = body;
 
     if (!name || !email || !message || !businessId) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
+    }
+
+    if (import.meta.env.TURNSTILE_SECRET_KEY) {
+      if (!turnstileToken) {
+        return new Response(JSON.stringify({ error: "CAPTCHA verification required" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || undefined;
+      const valid = await verifyTurnstile(turnstileToken, ip);
+      if (!valid) {
+        return new Response(JSON.stringify({ error: "CAPTCHA verification failed" }), {
+          status: 403,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
     }
 
     // Init DB and get business data to find recipient email

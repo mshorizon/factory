@@ -8,6 +8,7 @@ import { Input } from "../../atoms/Input";
 import { Label } from "../../atoms/Label";
 import { Textarea } from "../../atoms/Textarea";
 import { ScrollReveal } from "../../animations/ScrollReveal";
+import { Turnstile } from "../../atoms/Turnstile";
 import type { ContactCenteredProps } from "./types";
 
 export function ContactCentered({
@@ -15,12 +16,19 @@ export function ContactCentered({
   subtitle,
   form,
   businessId,
+  turnstileSiteKey,
   className,
 }: ContactCenteredProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (turnstileSiteKey && !turnstileToken) {
+      return;
+    }
+
     setStatus("loading");
 
     const data = new FormData(e.currentTarget);
@@ -33,6 +41,7 @@ export function ContactCentered({
           email: data.get("email"),
           message: data.get("message"),
           businessId,
+          turnstileToken,
         }),
       });
 
@@ -103,6 +112,13 @@ export function ContactCentered({
               disabled={status === "loading"}
             />
           </div>
+          {turnstileSiteKey && (
+            <Turnstile
+              siteKey={turnstileSiteKey}
+              onSuccess={setTurnstileToken}
+              onExpire={() => setTurnstileToken(null)}
+            />
+          )}
           {status === "error" && (
             <div className="flex items-center gap-spacing-xs text-sm text-red-500">
               <AlertCircle className="h-4 w-4 shrink-0" />
@@ -115,7 +131,13 @@ export function ContactCentered({
               <span>Message sent successfully!</span>
             </div>
           )}
-          <Button type="submit" size="lg" className="w-full" data-field="form.submitButton" disabled={status === "loading"}>
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full"
+            data-field="form.submitButton"
+            disabled={status === "loading" || (turnstileSiteKey != null && !turnstileToken)}
+          >
             {status === "loading" ? "Sending..." : (form?.submitButton || "Send Message")}
           </Button>
         </form>

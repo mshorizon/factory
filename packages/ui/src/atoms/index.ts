@@ -17,3 +17,4 @@ export { StickyMobileCTA } from "./StickyMobileCTA";
 export type { StickyMobileCTAProps } from "./StickyMobileCTA";
 export { DottedMap } from "./DottedMap";
 export type { DottedMapProps } from "./DottedMap";
+export { Turnstile } from "./Turnstile";

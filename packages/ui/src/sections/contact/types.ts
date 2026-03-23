@@ -29,6 +29,7 @@ export interface ContactCenteredProps {
   subtitle?: string;
   form?: ContactForm;
   businessId?: string;
+  turnstileSiteKey?: string;
   className?: string;
 }
 
@@ -41,5 +42,6 @@ export interface ContactSplitProps {
   labels?: ContactLabels;
   businessId?: string;
   business?: any;
+  turnstileSiteKey?: string;
   className?: string;
 }

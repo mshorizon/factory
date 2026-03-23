@@ -21,6 +21,7 @@
     "@lexical/react": "^0.41.0",
     "@lexical/rich-text": "^0.41.0",
     "@lexical/selection": "^0.41.0",
+    "@marsidev/react-turnstile": "^1.4.2",
     "@mshorizon/db": "workspace:*",
     "@mshorizon/schema": "workspace:*",
     "@mshorizon/ui": "workspace:*",
