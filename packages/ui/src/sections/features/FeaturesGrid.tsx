@@ -98,7 +98,7 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
               </CardHeader>
               {item.linkLabel && (
                 <div className="px-spacing-lg pb-6">
-                  <div className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+                  <div className="inline-flex items-center gap-1.5 text-base font-semibold" style={{ color: 'var(--primary-dark)' }}>
                     <span>{item.linkLabel}</span>
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </div>

@@ -78,8 +78,8 @@ export function deepResolveImages<T>(data: T, businessId: string): T {
     const imageFields = ['image', 'backgroundImage', 'logo', 'icon', 'favicon', 'src'];
 
     for (const [key, value] of Object.entries(data)) {
-      if (imageFields.includes(key) && typeof value === 'string') {
-        // This is an image field - resolve it
+      if (imageFields.includes(key) && typeof value === 'string' && (value.includes('/') || value.includes('.') || isAbsoluteUrl(value))) {
+        // This is an image field - resolve it (skip plain icon names like "timer", "badge-check")
         result[key] = resolveImagePath(value, businessId);
       } else {
         // Recursively process other fields

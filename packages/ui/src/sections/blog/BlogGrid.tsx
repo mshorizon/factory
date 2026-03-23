@@ -1,5 +1,6 @@
 "use client";
 
+import { CalendarDays, ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Card } from "../../atoms/Card";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
@@ -12,12 +13,11 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
       staggerDelay={0.12}
     >
       {posts.map((post, index) => {
-        // Alternate left/right for 2-column grid
         const direction = index % 2 === 0 ? "left" : "right";
         return (
         <StaggerItem key={index} direction={direction} distance={30}>
           <Card
-            className="overflow-hidden h-full flex flex-col"
+            className="overflow-hidden h-full flex flex-col !rounded-radius-secondary bg-background"
             data-field={`blogPosts.${index}`}
           >
             {post.image && (
@@ -25,18 +25,21 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
                 <img
                   src={post.image}
                   alt={post.title}
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 rounded-b-radius-secondary"
                 />
               </div>
             )}
             <div className="p-spacing-lg flex flex-col flex-1">
               {post.date && (
-                <span
-                  className="text-xs text-muted mb-spacing-xs"
-                  data-field={`blogPosts.${index}.date`}
-                >
-                  {post.date}
-                </span>
+                <div className="flex items-center gap-1.5 mb-spacing-xs">
+                  <CalendarDays className="h-5 w-5 shrink-0" style={{ color: 'var(--primary-dark)' }} />
+                  <span
+                    className="text-xs text-muted"
+                    data-field={`blogPosts.${index}.date`}
+                  >
+                    {post.date}
+                  </span>
+                </div>
               )}
               <h3
                 className="text-lg font-semibold text-foreground mb-spacing-xs"
@@ -53,10 +56,11 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
               {ctaLabel && (
                 <a
                   href={post.href || "#"}
-                  className="mt-spacing-md inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+                  className="mt-spacing-md inline-flex items-center gap-1.5 text-base font-semibold"
+                  style={{ color: 'var(--primary-dark)' }}
                 >
                   {ctaLabel}
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
               )}
             </div>
