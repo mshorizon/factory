@@ -1,5 +1,5 @@
-# Sesja: Factory › client #1
-Worktree: client-panel-1 / Branch: worktree-client-1
+# Sesja: Factory › main
+Worktree: main
 
 ## Zasady
 - Testy: `pnpm test:validate`
