@@ -63,14 +63,6 @@ import {
   Trash2,
   MoreHorizontal,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuLabel,
-} from "@/components/ui/dropdown-menu";
 
 // Handle CJS/ESM interop
 const Form = (RjsfForm as any).default || RjsfForm;
@@ -260,16 +252,29 @@ export default function AdminForm({
   const isInitialMount = useRef(true);
   const headerRef = useRef<HTMLElement>(null);
   const [headerCompact, setHeaderCompact] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
     const ro = new ResizeObserver(([entry]) => {
-      setHeaderCompact(entry.contentRect.width < 600);
+      setHeaderCompact(entry.contentRect.width < 720);
     });
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleMouseDown = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [menuOpen]);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -1386,9 +1391,9 @@ export default function AdminForm({
         {/* ── Main content ──────────────────────────── */}
         <SidebarInset>
           <header ref={headerRef} className="flex items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0">
-            {/* Left: breadcrumb */}
-            <Breadcrumb className="mr-auto h-[49px] flex items-center min-w-0 overflow-hidden">
-              <BreadcrumbList className="flex-nowrap">
+            {/* Left: breadcrumb — flex-1 + overflow-hidden so it yields space to buttons and clips when too narrow */}
+            <Breadcrumb className="flex-1 min-w-0 overflow-hidden h-[49px] flex items-center">
+              <BreadcrumbList className="flex-nowrap overflow-hidden">
                 {(() => {
                   for (const group of navGroups) {
                     const item = group.items.find((i) => i.id === activeTab);
@@ -1456,51 +1461,62 @@ export default function AdminForm({
             </Breadcrumb>
 
             {headerCompact ? (
-              /* Compact: single overflow menu */
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-7 w-7 p-0 shrink-0">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-52">
-                  <DropdownMenuLabel className="text-xs text-muted-foreground">Translation mode</DropdownMenuLabel>
-                  {(["keys", "en", "pl"] as const).map((mode) => (
-                    <DropdownMenuItem
-                      key={mode}
-                      onClick={() => setTranslationMode(mode)}
-                      className={translationMode === mode ? "bg-accent" : ""}
+              /* Compact: custom inline popover (no portal – avoids sidebar context conflicts) */
+              <div ref={menuRef} className="relative shrink-0">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 w-7 p-0"
+                  onClick={() => setMenuOpen((v) => !v)}
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+                {menuOpen && (
+                  <div className="absolute right-0 top-full mt-1 z-50 w-52 rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 p-1">
+                    <p className="px-1.5 py-1 text-xs font-medium text-muted-foreground">Translation mode</p>
+                    {(["keys", "en", "pl"] as const).map((mode) => (
+                      <button
+                        key={mode}
+                        type="button"
+                        onClick={() => { setTranslationMode(mode); setMenuOpen(false); }}
+                        className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground"
+                      >
+                        {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
+                        {translationMode === mode && <Check className="ml-auto h-3.5 w-3.5" />}
+                      </button>
+                    ))}
+                    <div className="my-1 h-px bg-border" />
+                    <p className="px-1.5 py-1 text-xs font-medium text-muted-foreground">
+                      {saveStatus === "error"
+                        ? errorMessage || "Error"
+                        : saveStatus === "success"
+                        ? "Saved"
+                        : hasUnsavedChanges
+                        ? "Unsaved changes"
+                        : "All changes published"}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => { revertAll(); setMenuOpen(false); }}
+                      disabled={!hasUnsavedChanges}
+                      className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
                     >
-                      {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
-                      {translationMode === mode && <Check className="ml-auto h-3.5 w-3.5" />}
-                    </DropdownMenuItem>
-                  ))}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuLabel className="text-xs text-muted-foreground">
-                    {saveStatus === "error"
-                      ? errorMessage || "Error"
-                      : saveStatus === "success"
-                      ? "Saved"
-                      : hasUnsavedChanges
-                      ? "Unsaved changes"
-                      : "All changes published"}
-                  </DropdownMenuLabel>
-                  <DropdownMenuItem
-                    onClick={revertAll}
-                    disabled={!hasUnsavedChanges}
-                  >
-                    <Undo2 className="h-3.5 w-3.5" />
-                    Discard changes
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={handleSave}
-                    disabled={saveStatus === "saving" || !hasUnsavedChanges}
-                  >
-                    <Save className="h-3.5 w-3.5" />
-                    {saveStatus === "saving" ? "Publishing..." : "Publish changes"}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                      <Undo2 className="h-3.5 w-3.5" />
+                      Discard changes
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { handleSave(); setMenuOpen(false); }}
+                      disabled={saveStatus === "saving" || !hasUnsavedChanges}
+                      className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
+                    >
+                      <Save className="h-3.5 w-3.5" />
+                      {saveStatus === "saving" ? "Publishing..." : "Publish changes"}
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <>
                 {/* Center: translation mode switcher */}
