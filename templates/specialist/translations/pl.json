@@ -145,7 +145,7 @@
   "contact.form.messagePlaceholder": "Potrzebuję pomocy z...",
   "contact.form.submitButton": "Wyślij Wiadomość",
 
-  "footer.copyright": "2024 MasterVolt. Wszelkie prawa zastrzeżone.",
+  "footer.copyright": "{year} MasterVolt. Wszelkie prawa zastrzeżone.",
   "footer.tagline": "Profesjonalne rozwiązania dla wszystkich potrzeb elektrycznych -- szybko, bezpiecznie i sprawnie.",
   "footer.privacy": "Polityka Prywatności",
   "footer.terms": "Regulamin",
