@@ -12,14 +12,12 @@
     "test:visual:update": "pnpm --filter @mshorizon/tests test:visual:update",
     "test:validate": "pnpm --filter @mshorizon/tests test:validate",
     "start": "pnpm --filter @mshorizon/engine start",
-    "tmux-new": "tmux new -s ai",
-    "tmux": "tmux attach -t ai",
-    "tmux-ls": "tmux ls",
-    "tmux-kill": "tmux kill-session -t ai",
-    "sonnet": "claude --model sonnet --dangerously-skip-permissions",
-    "opus": "claude --dangerously-skip-permissions",
-    "claude": "claude --dangerously-skip-permissions",
-    "prepare": "husky"
+    "prepare": "husky",
+
+    "admin1": "bash scripts/claude-admin-1.sh",
+    "admin2": "bash scripts/claude-admin-2.sh",
+    "client1": "bash scripts/claude-client-1.sh",
+    "client2": "bash scripts/claude-client-2.sh"
   },
   "keywords": [],
   "author": "",
