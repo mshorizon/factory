@@ -24,7 +24,7 @@ const items = rawItems.map((item: any) => ({
   <div class="container mx-auto">
     <div class="mb-spacing-3xl">
       {header.badge && (
-        <div class="flex items-center gap-spacing-sm mb-spacing-lg">
+        <div data-reveal data-reveal-delay="0" class="flex items-center gap-spacing-sm mb-spacing-lg">
           <span
             class="w-12 h-[2px]"
             style={`background-color: ${section.background === "dark" ? "var(--primary)" : "var(--primary-dark)"}`}
@@ -40,12 +40,12 @@ const items = rawItems.map((item: any) => ({
       )}
       <div class="grid md:grid-cols-2 gap-spacing-2xl items-start">
         {header.title && (
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading" data-field="header.title">
+          <h2 data-reveal data-reveal-delay={header.badge ? "100" : "0"} class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading" data-field="header.title">
             {header.title}
           </h2>
         )}
         {header.subtitle && (
-          <p class="text-muted leading-relaxed" data-field="header.subtitle">
+          <p data-reveal data-reveal-delay={header.badge ? "200" : "100"} class="text-muted leading-relaxed" data-field="header.subtitle">
             {header.subtitle}
           </p>
         )}

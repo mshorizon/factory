@@ -28,7 +28,7 @@ const { width, height, dots } = areaData;
       {/* Content side */}
       <div style="max-width: 34rem;">
         {header.badge && (
-          <div class="flex items-center gap-spacing-sm mb-spacing-lg">
+          <div data-reveal data-reveal-delay="0" class="flex items-center gap-spacing-sm mb-spacing-lg">
             <span
               class="w-12 h-[2px]"
               style={`background-color: ${section.background === "dark" ? "var(--primary)" : "var(--primary-dark)"}`}
@@ -43,19 +43,19 @@ const { width, height, dots } = areaData;
           </div>
         )}
         {header.title && (
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-spacing-md font-heading" data-field="header.title">
+          <h2 data-reveal data-reveal-delay={header.badge ? "100" : "0"} class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-spacing-md font-heading" data-field="header.title">
             {header.title}
           </h2>
         )}
         {header.subtitle && (
-          <p class="text-muted mb-spacing-2xl" data-field="header.subtitle">
+          <p data-reveal data-reveal-delay={header.badge ? "200" : "100"} class="text-muted mb-spacing-2xl" data-field="header.subtitle">
             {header.subtitle}
           </p>
         )}
         {stats.length > 0 && (
           <div class="flex gap-spacing-3xl">
             {stats.map((stat: any, index: number) => (
-              <div data-field={`stats.${index}`}>
+              <div data-reveal data-reveal-delay={String(300 + index * 100)} data-field={`stats.${index}`}>
                 <div class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-spacing-xs font-heading" data-field={`stats.${index}.value`}>
                   {stat.value}
                 </div>
@@ -69,7 +69,7 @@ const { width, height, dots } = areaData;
       </div>
 
       {/* Poland map with dots */}
-      <div class="relative flex items-center justify-center">
+      <div data-reveal data-reveal-delay="150" class="relative flex items-center justify-center">
         <svg viewBox={`0 0 ${width} ${height}`} class="poland-map w-full max-w-[350px] md:max-w-[450px] lg:max-w-[500px] h-auto">
           {/* Render all dots - grey for country, yellow for region */}
           {dots.map((dot, i) => (
