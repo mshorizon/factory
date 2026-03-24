@@ -1390,9 +1390,9 @@ export default function AdminForm({
 
         {/* ── Main content ──────────────────────────── */}
         <SidebarInset>
-          <header ref={headerRef} className="relative flex items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0">
-            {/* Left: breadcrumb — flex-1 + overflow-hidden so it yields space to buttons and clips when too narrow */}
-            <Breadcrumb className="flex-1 min-w-0 overflow-hidden h-[49px] flex items-center">
+          <header ref={headerRef} className="grid grid-cols-[1fr_auto_1fr] items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0">
+            {/* Col 1: breadcrumb — min-w-0 + overflow-hidden so it clips when too narrow */}
+            <Breadcrumb className="min-w-0 overflow-hidden h-[49px] flex items-center">
               <BreadcrumbList className="flex-nowrap overflow-hidden">
                 {(() => {
                   for (const group of navGroups) {
@@ -1460,9 +1460,9 @@ export default function AdminForm({
               </BreadcrumbList>
             </Breadcrumb>
 
-            {/* Center: translation mode switcher — absolutely centered in the full panel */}
-            {!headerCompact && (
-              <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 bg-muted rounded-lg p-0.5 pointer-events-auto z-10">
+            {/* Col 2: translation mode switcher — grid center column, empty in compact mode */}
+            {!headerCompact ? (
+              <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
                 {(["keys", "en", "pl"] as const).map((mode) => (
                   <button
                     key={mode}
@@ -1478,11 +1478,15 @@ export default function AdminForm({
                   </button>
                 ))}
               </div>
+            ) : (
+              <div />
             )}
 
+            {/* Col 3: right-aligned — badge + buttons, or compact menu */}
             {headerCompact ? (
-              /* Compact: custom inline popover (no portal – avoids sidebar context conflicts) */
-              <div ref={menuRef} className="relative shrink-0">
+              /* Compact: custom inline popover */
+              <div className="flex justify-end">
+              <div ref={menuRef} className="relative">
                 <Button
                   type="button"
                   variant="ghost"
@@ -1537,10 +1541,10 @@ export default function AdminForm({
                   </div>
                 )}
               </div>
+              </div>
             ) : (
-              <>
-                {/* Right: Badge + Discard + Publish */}
-                <div className="flex items-center gap-3 h-[49px] shrink-0">
+              /* Normal: Badge + Discard + Publish, right-aligned */
+              <div className="flex items-center justify-end gap-3 h-[49px]">
                   {saveStatus === "error" ? (
                     <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6 rounded-full">
                       <AlertCircle className="h-3 w-3" />
@@ -1582,7 +1586,6 @@ export default function AdminForm({
                     {saveStatus === "saving" ? "Publishing..." : "Publish changes"}
                   </Button>
                 </div>
-              </>
             )}
           </header>
 
