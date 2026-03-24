@@ -1390,7 +1390,7 @@ export default function AdminForm({
 
         {/* ── Main content ──────────────────────────── */}
         <SidebarInset>
-          <header ref={headerRef} className="flex items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0">
+          <header ref={headerRef} className="relative flex items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0">
             {/* Left: breadcrumb — flex-1 + overflow-hidden so it yields space to buttons and clips when too narrow */}
             <Breadcrumb className="flex-1 min-w-0 overflow-hidden h-[49px] flex items-center">
               <BreadcrumbList className="flex-nowrap overflow-hidden">
@@ -1460,6 +1460,26 @@ export default function AdminForm({
               </BreadcrumbList>
             </Breadcrumb>
 
+            {/* Center: translation mode switcher — absolutely centered in the full panel */}
+            {!headerCompact && (
+              <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 bg-muted rounded-lg p-0.5 pointer-events-auto z-10">
+                {(["keys", "en", "pl"] as const).map((mode) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    onClick={() => setTranslationMode(mode)}
+                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
+                      translationMode === mode
+                        ? "bg-background text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
+                  </button>
+                ))}
+              </div>
+            )}
+
             {headerCompact ? (
               /* Compact: custom inline popover (no portal – avoids sidebar context conflicts) */
               <div ref={menuRef} className="relative shrink-0">
@@ -1519,42 +1539,25 @@ export default function AdminForm({
               </div>
             ) : (
               <>
-                {/* Center: translation mode switcher */}
-                <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5 mr-3 shrink-0">
-                  {(["keys", "en", "pl"] as const).map((mode) => (
-                    <button
-                      key={mode}
-                      onClick={() => setTranslationMode(mode)}
-                      className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
-                        translationMode === mode
-                          ? "bg-background text-foreground shadow-sm"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
-                    </button>
-                  ))}
-                </div>
-
                 {/* Right: Badge + Discard + Publish */}
                 <div className="flex items-center gap-3 h-[49px] shrink-0">
                   {saveStatus === "error" ? (
-                    <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6">
+                    <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6 rounded-full">
                       <AlertCircle className="h-3 w-3" />
                       {errorMessage || "Error"}
                     </Badge>
                   ) : saveStatus === "success" ? (
-                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6">
+                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
                       <Check className="h-3 w-3" />
                       Saved
                     </Badge>
                   ) : hasUnsavedChanges ? (
-                    <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/20 h-6">
+                    <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/20 h-6 rounded-full">
                       <Circle className="h-2 w-2 fill-amber-500" />
                       Unsaved changes
                     </Badge>
                   ) : (
-                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6">
+                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
                       <Check className="h-3 w-3" />
                       All changes published
                     </Badge>
