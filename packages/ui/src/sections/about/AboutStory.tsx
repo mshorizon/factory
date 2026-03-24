@@ -27,22 +27,22 @@ export function AboutStory({
   return (
     <div className={cn("space-y-spacing-3xl", className)}>
       {/* Split layout: image left, text right */}
-      <div className="grid lg:grid-cols-2 gap-0 items-stretch">
+      <div className="grid lg:grid-cols-3 gap-spacing-section-sm items-stretch">
         {image && (
           <ScrollReveal delay={0} direction="left" distance={30}>
-            <div className="relative flex items-center justify-center lg:justify-start p-spacing-2xl">
+            <div className="relative flex items-center justify-center lg:justify-start py-spacing-2xl">
               <img
                 src={image}
                 alt=""
-                className="w-full max-w-[364px] h-[300px] object-cover rounded-radius-secondary shadow-lg"
+                className="w-full h-[400px] object-cover rounded-radius-secondary shadow-lg"
                 data-field="image"
               />
             </div>
           </ScrollReveal>
         )}
 
-        <ScrollReveal delay={0.1} direction="right" distance={30}>
-          <div className="space-y-spacing-lg px-spacing-2xl lg:px-spacing-3xl py-spacing-3xl flex flex-col justify-center">
+        <ScrollReveal delay={0.1} direction="right" distance={30} className="lg:col-span-2">
+          <div className="space-y-spacing-lg py-spacing-3xl flex flex-col justify-center">
             {badge && (
               <div className="flex items-center gap-spacing-sm">
                 <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />

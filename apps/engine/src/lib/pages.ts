@@ -18,6 +18,7 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
   features: "default",
   ctaBanner: "default",
   blog: "default",
+  ref: "default",
 };
 
 /**

@@ -58,13 +58,19 @@ function getBgClass(bg?: string): string {
 ---
 
 {sections.map((section, index) => {
-  const Component = sectionComponents[section.type];
+  // Resolve ref sections by looking up sharedSections
+  const resolvedSection = section.type === 'ref'
+    ? (business as any).sharedSections?.[section.sectionId as string]
+    : section;
+  if (!resolvedSection) return null;
+
+  const Component = sectionComponents[resolvedSection.type];
   if (!Component) return null;
-  const bgClass = getBgClass(section.background);
+  const bgClass = getBgClass(resolvedSection.background);
 
   // Only pass business prop to sections that need it
-  const needsBusiness = ['services', 'shop', 'map', 'testimonials'].includes(section.type);
-  const props = needsBusiness ? { section, business, isHomePage } : { section, isHomePage };
+  const needsBusiness = ['services', 'shop', 'map', 'testimonials'].includes(resolvedSection.type);
+  const props = needsBusiness ? { section: resolvedSection, business, isHomePage } : { section: resolvedSection, isHomePage };
 
   return <div data-section-index={index} class={bgClass}><Component {...props} /></div>;
 })}

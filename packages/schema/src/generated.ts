@@ -86,7 +86,9 @@ export type SectionType =
   | "features"
   | "ctaBanner"
   | "blog"
-  | "map";
+  | "map"
+  | "ref";
+export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "primary";
 export type BadgeText = string;
@@ -144,6 +146,7 @@ export interface BusinessProfile {
   layout?: Layout;
   navigation?: Navigation;
   pages?: Pages;
+  sharedSections?: SharedSections;
   data?: Data;
 }
 export interface Business {
@@ -275,6 +278,7 @@ export interface Page {
 }
 export interface Section {
   type: SectionType;
+  sectionId?: SharedSectionIDUsedWhenTypeIsRef;
   variant?: Variant;
   background?: SectionBackground;
   header?: SectionHeader;
@@ -418,6 +422,12 @@ export interface BlogPost {
 export interface ServiceAreaConfiguration {
   country?: Country;
   region?: Region;
+}
+/**
+ * Named sections that can be referenced from any page via { type: 'ref', sectionId: '<key>' }
+ */
+export interface SharedSections {
+  [k: string]: Section;
 }
 export interface Data {
   services?: Services;

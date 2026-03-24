@@ -388,122 +388,9 @@
             }
           }
         },
-        {
-          "type": "serviceArea",
-          "background": "dark",
-          "area": {
-            "country": "polska",
-            "region": "mazowsze"
-          },
-          "header": {
-            "badge": "t:serviceArea.badge",
-            "title": "t:serviceArea.title",
-            "subtitle": "t:serviceArea.subtitle"
-          },
-          "areas": [
-            "t:serviceArea.areas.0",
-            "t:serviceArea.areas.1",
-            "t:serviceArea.areas.2",
-            "t:serviceArea.areas.3",
-            "t:serviceArea.areas.4",
-            "t:serviceArea.areas.5",
-            "t:serviceArea.areas.6",
-            "t:serviceArea.areas.7"
-          ],
-          "stats": [
-            {
-              "value": "18",
-              "label": "t:serviceArea.stats.states"
-            },
-            {
-              "value": "9000+",
-              "label": "t:serviceArea.stats.cities"
-            }
-          ]
-        },
-        {
-          "type": "features",
-          "header": {
-            "badge": "t:features.badge",
-            "title": "t:features.title",
-            "subtitle": "t:features.subtitle"
-          },
-          "items": [
-            {
-              "title": "t:features.items.swift.title",
-              "description": "t:features.items.swift.description",
-              "icon": "timer",
-              "linkLabel": "t:features.learnMore",
-              "linkTarget": {
-                "type": "page",
-                "value": "contact"
-              }
-            },
-            {
-              "title": "t:features.items.trusted.title",
-              "description": "t:features.items.trusted.description",
-              "icon": "badge-check",
-              "linkLabel": "t:features.learnMore",
-              "linkTarget": {
-                "type": "page",
-                "value": "contact"
-              }
-            },
-            {
-              "title": "t:features.items.safety.title",
-              "description": "t:features.items.safety.description",
-              "icon": "shield-check",
-              "linkLabel": "t:features.learnMore",
-              "linkTarget": {
-                "type": "page",
-                "value": "contact"
-              }
-            },
-            {
-              "title": "t:features.items.affordable.title",
-              "description": "t:features.items.affordable.description",
-              "icon": "wallet",
-              "linkLabel": "t:features.learnMore",
-              "linkTarget": {
-                "type": "page",
-                "value": "contact"
-              }
-            }
-          ]
-        },
-        {
-          "type": "about-summary",
-          "background": "dark",
-          "header": {
-            "badge": "t:aboutSummary.badge",
-            "title": "t:aboutSummary.title"
-          },
-          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/about-electrician.jpg",
-          "experienceYears": "t:aboutSummary.experienceYears",
-          "experienceLabel": "t:aboutSummary.experienceLabel",
-          "description": "t:aboutSummary.description",
-          "stats": [
-            {
-              "value": "20+",
-              "label": "t:aboutSummary.stats.certifications"
-            },
-            {
-              "value": "6,000+",
-              "label": "t:aboutSummary.stats.completedJobs"
-            },
-            {
-              "value": "24/7",
-              "label": "t:aboutSummary.stats.emergency"
-            }
-          ],
-          "cta": {
-            "label": "t:aboutSummary.cta",
-            "target": {
-              "type": "page",
-              "value": "about"
-            }
-          }
-        },
+        { "type": "ref", "sectionId": "service-area-main" },
+        { "type": "ref", "sectionId": "features-main" },
+        { "type": "ref", "sectionId": "about-summary-main" },
         {
           "type": "faq",
           "header": {
@@ -626,24 +513,6 @@
             "title": "t:about.story.title",
             "content": "t:about.story.content"
           },
-          "stats": [
-            {
-              "value": "15+",
-              "label": "t:about.stats.experience"
-            },
-            {
-              "value": "10,000+",
-              "label": "t:about.stats.projects"
-            },
-            {
-              "value": "99%",
-              "label": "t:about.stats.satisfaction"
-            },
-            {
-              "value": "24/7",
-              "label": "t:about.stats.availability"
-            }
-          ],
           "cta": {
             "label": "t:about.cta",
             "target": {
@@ -651,7 +520,11 @@
               "value": "contact"
             }
           }
-        }
+        },
+        { "type": "ref", "sectionId": "about-summary-main" },
+        { "type": "ref", "sectionId": "features-main" },
+        { "type": "ref", "sectionId": "service-area-main" },
+        { "type": "ref", "sectionId": "map-google" }
       ]
     },
     "services": {
@@ -705,14 +578,7 @@
             "submitButton": "t:contact.form.submitButton"
           }
         },
-        {
-          "type": "map",
-          "header": {
-            "badge": "t:map.badge",
-            "title": "t:map.title",
-            "subtitle": "t:map.subtitle"
-          }
-        }
+        { "type": "ref", "sectionId": "map-google" }
       ]
     },
     "testimonials": {
@@ -760,6 +626,99 @@
           ]
         }
       ]
+    }
+  },
+  "sharedSections": {
+    "about-summary-main": {
+      "type": "about-summary",
+      "background": "dark",
+      "header": {
+        "badge": "t:aboutSummary.badge",
+        "title": "t:aboutSummary.title"
+      },
+      "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/about-electrician.jpg",
+      "experienceYears": "t:aboutSummary.experienceYears",
+      "experienceLabel": "t:aboutSummary.experienceLabel",
+      "description": "t:aboutSummary.description",
+      "stats": [
+        { "value": "20+", "label": "t:aboutSummary.stats.certifications" },
+        { "value": "6,000+", "label": "t:aboutSummary.stats.completedJobs" },
+        { "value": "24/7", "label": "t:aboutSummary.stats.emergency" }
+      ],
+      "cta": {
+        "label": "t:aboutSummary.cta",
+        "target": { "type": "page", "value": "about" }
+      }
+    },
+    "features-main": {
+      "type": "features",
+      "header": {
+        "badge": "t:features.badge",
+        "title": "t:features.title",
+        "subtitle": "t:features.subtitle"
+      },
+      "items": [
+        {
+          "title": "t:features.items.swift.title",
+          "description": "t:features.items.swift.description",
+          "icon": "timer",
+          "linkLabel": "t:features.learnMore",
+          "linkTarget": { "type": "page", "value": "contact" }
+        },
+        {
+          "title": "t:features.items.trusted.title",
+          "description": "t:features.items.trusted.description",
+          "icon": "badge-check",
+          "linkLabel": "t:features.learnMore",
+          "linkTarget": { "type": "page", "value": "contact" }
+        },
+        {
+          "title": "t:features.items.safety.title",
+          "description": "t:features.items.safety.description",
+          "icon": "shield-check",
+          "linkLabel": "t:features.learnMore",
+          "linkTarget": { "type": "page", "value": "contact" }
+        },
+        {
+          "title": "t:features.items.affordable.title",
+          "description": "t:features.items.affordable.description",
+          "icon": "wallet",
+          "linkLabel": "t:features.learnMore",
+          "linkTarget": { "type": "page", "value": "contact" }
+        }
+      ]
+    },
+    "service-area-main": {
+      "type": "serviceArea",
+      "background": "dark",
+      "area": { "country": "polska", "region": "mazowsze" },
+      "header": {
+        "badge": "t:serviceArea.badge",
+        "title": "t:serviceArea.title",
+        "subtitle": "t:serviceArea.subtitle"
+      },
+      "areas": [
+        "t:serviceArea.areas.0",
+        "t:serviceArea.areas.1",
+        "t:serviceArea.areas.2",
+        "t:serviceArea.areas.3",
+        "t:serviceArea.areas.4",
+        "t:serviceArea.areas.5",
+        "t:serviceArea.areas.6",
+        "t:serviceArea.areas.7"
+      ],
+      "stats": [
+        { "value": "18", "label": "t:serviceArea.stats.states" },
+        { "value": "9000+", "label": "t:serviceArea.stats.cities" }
+      ]
+    },
+    "map-google": {
+      "type": "map",
+      "header": {
+        "badge": "t:map.badge",
+        "title": "t:map.title",
+        "subtitle": "t:map.subtitle"
+      }
     }
   }
 }
