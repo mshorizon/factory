@@ -1392,7 +1392,7 @@ export default function AdminForm({
         <SidebarInset>
           <header ref={headerRef} className="grid grid-cols-[1fr_auto_1fr] items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0">
             {/* Col 1: breadcrumb — min-w-0 + overflow-hidden so it clips when too narrow */}
-            <Breadcrumb className="min-w-0 overflow-hidden h-[49px] flex items-center">
+            <Breadcrumb className="min-w-0 overflow-hidden h-[49px] flex items-center focus-within:opacity-0 focus-within:pointer-events-none transition-opacity duration-150">
               <BreadcrumbList className="flex-nowrap overflow-hidden">
                 {(() => {
                   for (const group of navGroups) {
@@ -1544,7 +1544,7 @@ export default function AdminForm({
               </div>
             ) : (
               /* Normal: Badge + Discard + Publish, right-aligned */
-              <div className="flex items-center justify-end gap-3 h-[49px]">
+              <div className="flex items-center justify-end gap-3 h-[49px] ml-[0.75rem]">
                   {saveStatus === "error" ? (
                     <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6 rounded-full">
                       <AlertCircle className="h-3 w-3" />
