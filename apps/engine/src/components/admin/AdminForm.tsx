@@ -1366,7 +1366,7 @@ export default function AdminForm({
         <SidebarInset>
           <header className="flex items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0">
             {/* Left: breadcrumb */}
-            <Breadcrumb className="mr-auto h-[49px] flex items-center">
+            <Breadcrumb className="mr-auto h-[49px] flex items-center focus-within:opacity-0 focus-within:pointer-events-none transition-opacity duration-150">
               <BreadcrumbList>
                 {(() => {
                   for (const group of navGroups) {
@@ -1439,7 +1439,7 @@ export default function AdminForm({
             </div>
 
             {/* Right: Badge + Discard + Publish */}
-            <div className="flex items-center gap-3 h-[49px]">
+            <div className="flex items-center gap-3 h-[49px] ml-[0.75rem]">
               {saveStatus === "error" ? (
                 <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6">
                   <AlertCircle className="h-3 w-3" />
