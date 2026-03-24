@@ -3,6 +3,7 @@ import "../styles/global.css";
 import type { Theme } from "@mshorizon/schema";
 import ScrollToTopButton from "../components/ScrollToTopButton.astro";
 import OverlayScrollbar from "../components/OverlayScrollbar.astro";
+import CookieConsentBanner from "../components/CookieConsentBanner.astro";
 
 interface Props {
   title: string;
@@ -195,6 +196,7 @@ const googleFontsUrl = googleFonts.length > 0
     <slot />
     <ScrollToTopButton />
     <OverlayScrollbar />
+    <CookieConsentBanner />
     <script is:inline>
       // Preview iframe enhancements - only active inside preview iframe
       if (window.parent !== window) {
