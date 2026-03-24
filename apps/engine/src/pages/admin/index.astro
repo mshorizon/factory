@@ -19,7 +19,7 @@ const businessName = businessData.business.name.startsWith("t:")
   : businessData.business.name;
 ---
 
-<AdminLayout title={`Admin - ${businessName}`}>
+<AdminLayout title={`Admin - ${businessName}`} favicon={rawBusinessData.business?.assets?.favicon}>
   <AdminForm
     client:load
     businessId={businessId}
