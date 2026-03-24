@@ -254,12 +254,24 @@ export default function AdminForm({
   const [headerCompact, setHeaderCompact] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const breadcrumbRef = useRef<HTMLElement>(null);
+  const [breadcrumbHidden, setBreadcrumbHidden] = useState(false);
 
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
     const ro = new ResizeObserver(([entry]) => {
       setHeaderCompact(entry.contentRect.width < 720);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = breadcrumbRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setBreadcrumbHidden(entry.contentRect.width < 72);
     });
     ro.observe(el);
     return () => ro.disconnect();
@@ -1391,8 +1403,8 @@ export default function AdminForm({
         {/* ── Main content ──────────────────────────── */}
         <SidebarInset>
           <header ref={headerRef} className="grid grid-cols-[1fr_auto_1fr] items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0">
-            {/* Col 1: breadcrumb — min-w-0 + overflow-hidden so it clips when too narrow */}
-            <Breadcrumb className="min-w-0 overflow-hidden h-[49px] flex items-center">
+            {/* Col 1: breadcrumb — hidden when col-2 squeezes it */}
+            <Breadcrumb ref={breadcrumbRef} className={`min-w-0 overflow-hidden h-[49px] flex items-center transition-opacity ${breadcrumbHidden ? "invisible" : ""}`}>
               <BreadcrumbList className="flex-nowrap overflow-hidden">
                 {(() => {
                   for (const group of navGroups) {
@@ -1527,7 +1539,7 @@ export default function AdminForm({
                       className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
                     >
                       <Undo2 className="h-3.5 w-3.5" />
-                      Discard changes
+                      Rollback
                     </button>
                     <button
                       type="button"
@@ -1536,7 +1548,7 @@ export default function AdminForm({
                       className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
                     >
                       <Save className="h-3.5 w-3.5" />
-                      {saveStatus === "saving" ? "Publishing..." : "Publish changes"}
+                      {saveStatus === "saving" ? "Publishing..." : "Publish"}
                     </button>
                   </div>
                 )}
@@ -1546,22 +1558,22 @@ export default function AdminForm({
               /* Normal: Badge + Discard + Publish, right-aligned */
               <div className="flex items-center justify-end gap-3 h-[49px]">
                   {saveStatus === "error" ? (
-                    <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6 rounded-full">
+                    <Badge className="ml-3 bg-destructive/10 text-destructive border-destructive/20 h-6 rounded-full">
                       <AlertCircle className="h-3 w-3" />
                       {errorMessage || "Error"}
                     </Badge>
                   ) : saveStatus === "success" ? (
-                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
+                    <Badge className="ml-3 bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
                       <Check className="h-3 w-3" />
                       Saved
                     </Badge>
                   ) : hasUnsavedChanges ? (
-                    <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/20 h-6 rounded-full">
+                    <Badge className="ml-3 bg-amber-500/10 text-amber-600 border-amber-500/20 h-6 rounded-full">
                       <Circle className="h-2 w-2 fill-amber-500" />
                       Unsaved changes
                     </Badge>
                   ) : (
-                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
+                    <Badge className="ml-3 bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
                       <Check className="h-3 w-3" />
                       All changes published
                     </Badge>
@@ -1574,7 +1586,7 @@ export default function AdminForm({
                     disabled={!hasUnsavedChanges}
                   >
                     <Undo2 className="h-3.5 w-3.5 mr-1" />
-                    Discard changes
+                    Rollback
                   </Button>
 
                   <Button
