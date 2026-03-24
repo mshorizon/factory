@@ -1389,11 +1389,7 @@ export default function AdminForm({
         <SidebarInset>
           <header
             ref={headerRef}
-            className={`grid items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0 ${
-              headerMode === 'full' ? 'grid-cols-[1fr_auto_1fr]' :
-              headerMode === 'no-breadcrumb' ? 'grid-cols-[0px_auto_1fr]' :
-              'grid-cols-[0px_0px_1fr]'
-            }`}
+            className="grid grid-cols-[1fr_auto_1fr] items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0"
           >
             {/* Col 1: breadcrumb — only in full mode */}
             {headerMode === 'full' ? (
