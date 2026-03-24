@@ -63,7 +63,7 @@
         "primary": "#FFC633",
         "primaryDark": "#CA9102",
         "surface": {
-          "base": "#FFFFFF",
+          "base": "#F4F4F6",
           "alt": "#16181D",
           "card": "#FAFAFA"
         },
