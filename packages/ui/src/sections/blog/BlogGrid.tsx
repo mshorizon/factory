@@ -17,7 +17,7 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
         return (
         <StaggerItem key={index} direction={direction} distance={30}>
           <Card
-            className="overflow-hidden h-full flex flex-col !rounded-radius-secondary bg-background"
+            className="overflow-hidden h-full flex flex-col !rounded-radius-secondary bg-card"
             data-field={`blogPosts.${index}`}
           >
             {post.image && (
