@@ -315,7 +315,7 @@ export default function BlogEditorClient({
               onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
               className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary/20 bg-background"
             />
-            <p className="text-xs opacity-60 mt-1">URL: /blogs/{formData.slug || "slug"}</p>
+            <p className="text-xs opacity-60 mt-1">URL: /blog/{formData.slug || "slug"}</p>
           </div>
 
           <div>
