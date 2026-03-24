@@ -1556,7 +1556,7 @@ export default function AdminForm({
               </div>
             ) : (
               /* Normal: Badge + Discard + Publish, right-aligned */
-              <div className="flex items-center justify-end gap-3 h-[49px] ml-[0.75rem]">
+              <div className="flex items-center justify-end gap-3 h-[49px]">
                   {saveStatus === "error" ? (
                     <Badge className="ml-3 bg-destructive/10 text-destructive border-destructive/20 h-6 rounded-full">
                       <AlertCircle className="h-3 w-3" />
