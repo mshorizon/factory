@@ -128,7 +128,7 @@ export function CommentsTab({ businessId }: CommentsTabProps) {
       header: "Blog",
       cell: ({ row }) => (
         <a
-          href={`/blogs/${row.original.blogSlug}`}
+          href={`/blog/${row.original.blogSlug}`}
           className="text-sm hover:underline"
           target="_blank"
         >

@@ -98,7 +98,7 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
   // Always add blog link if not already present (insert before contact)
   if (!slugs.includes("blog")) {
     const contactIndex = links.findIndex((l) => l.href === "/contact");
-    const blogLink = { label: "Blog", href: "/blogs" };
+    const blogLink = { label: "Blog", href: "/blog" };
     if (contactIndex !== -1) {
       links.splice(contactIndex, 0, blogLink);
     } else {

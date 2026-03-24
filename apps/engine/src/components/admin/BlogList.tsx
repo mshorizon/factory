@@ -49,7 +49,7 @@ export function BlogList({ blogs, onEdit, onDelete, onCreate }: BlogListProps) {
       cell: ({ row }) => (
         <div>
           <div className="font-medium text-sm">{row.original.title}</div>
-          <div className="text-xs text-muted-foreground">/blogs/{row.original.slug}</div>
+          <div className="text-xs text-muted-foreground">/blog/{row.original.slug}</div>
         </div>
       ),
     },
