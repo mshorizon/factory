@@ -61,7 +61,6 @@ import {
   Star,
   Loader2,
   Trash2,
-  MoreHorizontal,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -79,7 +78,7 @@ interface AdminFormProps {
 }
 
 type SaveStatus = "idle" | "saving" | "success" | "error";
-type TabType = "meta" | "theme" | "navbar" | "footer" | "translations-en" | "translations-pl" | string;
+type TabType = "meta" | "theme" | "navbar" | "footer" | "translations" | string;
 
 const configWidgets = {
   ColorPickerWidget,
@@ -231,6 +230,7 @@ export default function AdminForm({
 
   const [metaSubTab, setMetaSubTab] = useState<"business" | "assets">("business");
   const [themeSubTab, setThemeSubTab] = useState<"colors" | "typography">("colors");
+  const [translationsSubTab, setTranslationsSubTab] = useState<"en" | "pl">("en");
   const [translationMode, setTranslationMode] = useState<"keys" | "en" | "pl">("keys");
 
   // Restore + persist active tab via sessionStorage (client-only, after mount)
@@ -250,43 +250,6 @@ export default function AdminForm({
 
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialMount = useRef(true);
-  const headerRef = useRef<HTMLElement>(null);
-  const [headerCompact, setHeaderCompact] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const breadcrumbRef = useRef<HTMLElement>(null);
-  const [breadcrumbHidden, setBreadcrumbHidden] = useState(false);
-
-  useEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(([entry]) => {
-      setHeaderCompact(entry.contentRect.width < 820);
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const el = breadcrumbRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(([entry]) => {
-      setBreadcrumbHidden(entry.contentRect.width < 72);
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    const handleMouseDown = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleMouseDown);
-    return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [menuOpen]);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -331,8 +294,7 @@ export default function AdminForm({
     if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"]));
     if (tabId === "data-products") return !deepEqual(getNestedValue(formData, ["data", "products"]), getNestedValue(saved, ["data", "products"]));
     if (tabId === "data-services") return !deepEqual(getNestedValue(formData, ["data", "services"]), getNestedValue(saved, ["data", "services"]));
-    if (tabId === "translations-en") return !deepEqual(translationsData.en, savedTrans.en);
-    if (tabId === "translations-pl") return !deepEqual(translationsData.pl, savedTrans.pl);
+    if (tabId === "translations") return !deepEqual(translationsData.en, savedTrans.en) || !deepEqual(translationsData.pl, savedTrans.pl);
     if (tabId.startsWith("page-")) {
       const pageName = tabId.replace("page-", "");
       return !deepEqual(getNestedValue(formData, ["pages", pageName]), getNestedValue(saved, ["pages", pageName]));
@@ -579,7 +541,7 @@ export default function AdminForm({
     };
 
     const handleClearAll = () => {
-      if (!confirm("Usunąć wszystkie tłumaczenia dla tego języka?")) return;
+      if (!confirm("Remove all translations for this language?")) return;
       const cleared: Record<string, string> = {};
       for (const key of keys) cleared[key] = "";
       setTranslationsData((prev) => ({ ...prev, [lang]: cleared }));
@@ -610,7 +572,7 @@ export default function AdminForm({
       );
 
       if (emptyKeys.length === 0) {
-        alert(lang === "pl" ? "Wszystkie pola są już uzupełnione." : "All fields are already filled.");
+        alert("All fields are already filled.");
         return;
       }
 
@@ -660,22 +622,32 @@ export default function AdminForm({
             {isPrimary ? (
               <>
                 <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
-                <span className="text-sm font-medium">
-                  {lang === "pl" ? "Język wiodący" : "Primary language"}
-                </span>
+                <span className="text-sm font-medium">Primary language</span>
               </>
             ) : (
               <span className="text-sm font-medium">
-                {lang === "pl" ? "Język dodatkowy" : "Secondary language"}
-                {" — "}
-                {primaryLanguage === "en" ? "English" : "Polski"}{" "}
-                {lang === "pl" ? "jest językiem wiodącym" : "is the primary language"}
+                Secondary language — {primaryLanguage === "en" ? "English" : "Polski"} is the primary language
               </span>
             )}
           </div>
           <div className="flex items-center gap-2">
-            {!isPrimary && (
+            {isPrimary ? (
+              <span className="text-xs text-muted-foreground">Change in the other language tab</span>
+            ) : (
               <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => { setPrimaryLanguage(lang); setHasUnsavedChanges(true); }}
+                    >
+                      <Star className="h-3.5 w-3.5 mr-1.5 text-amber-500" />
+                      Set as primary
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Set {lang === "pl" ? "Polski" : "English"} as the primary language</TooltipContent>
+                </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -688,7 +660,7 @@ export default function AdminForm({
                       Clear all
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>Usuń wszystkie tłumaczenia tego języka</TooltipContent>
+                  <TooltipContent>Remove all translations for this language</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -699,13 +671,13 @@ export default function AdminForm({
                       disabled={translating}
                     >
                       {translating ? (
-                        <><Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />Tłumaczenie...</>
+                        <><Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />Translating...</>
                       ) : (
-                        <><Languages className="h-3.5 w-3.5 mr-1.5" />Przetłumacz z języka wiodącego</>
+                        <><Languages className="h-3.5 w-3.5 mr-1.5" />Translate from primary</>
                       )}
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>Tłumaczone są tylko puste pola</TooltipContent>
+                  <TooltipContent>Only empty fields will be translated</TooltipContent>
                 </Tooltip>
               </>
             )}
@@ -747,7 +719,7 @@ export default function AdminForm({
                         clear
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent>Usuń tłumaczenia sekcji „{groupName}"</TooltipContent>
+                    <TooltipContent>Clear translations for section "{groupName}"</TooltipContent>
                   </Tooltip>
                 )}
               </div>
@@ -1144,8 +1116,24 @@ export default function AdminForm({
       return <BlogManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
 
-    if (activeTab === "translations-en") return <TranslationsEditor lang="en" />;
-    if (activeTab === "translations-pl") return <TranslationsEditor lang="pl" />;
+    if (activeTab === "translations") {
+      return (
+        <Tabs value={translationsSubTab} onValueChange={(v) => setTranslationsSubTab(v as "en" | "pl")} orientation="horizontal">
+          <TabsList className="mb-6">
+            <TabsTrigger value="en" className="flex items-center gap-1.5">
+              English
+              {primaryLanguage === "en" && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
+            </TabsTrigger>
+            <TabsTrigger value="pl" className="flex items-center gap-1.5">
+              Polski
+              {primaryLanguage === "pl" && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="en" className="mt-0"><TranslationsEditor lang="en" /></TabsContent>
+          <TabsContent value="pl" className="mt-0"><TranslationsEditor lang="pl" /></TabsContent>
+        </Tabs>
+      );
+    }
 
     if (activeTab.startsWith("page-")) {
       const pageName = activeTab.replace("page-", "");
@@ -1220,6 +1208,7 @@ export default function AdminForm({
       label: "General",
       items: [
         { id: "meta", label: "Business", Icon: Briefcase },
+        { id: "translations", label: "Translations", Icon: Languages },
       ],
     },
     {
@@ -1337,41 +1326,6 @@ export default function AdminForm({
               </SidebarGroup>
             )}
 
-            <SidebarGroup>
-              <SidebarGroupLabel>Translations</SidebarGroupLabel>
-              <SidebarMenu>
-                {(["en", "pl"] as const).map((lang) => (
-                  <SidebarMenuItem key={`translations-${lang}`} className="group/transitem">
-                    <SidebarMenuButton
-                      onClick={() => setActiveTab(`translations-${lang}`)}
-                      isActive={activeTab === `translations-${lang}`}
-                    >
-                      <Languages />
-                      <span className="flex-1">{lang === "en" ? "English" : "Polski"}</span>
-                      <span
-                        className={`flex-shrink-0 group-data-[collapsible=icon]:hidden transition-opacity cursor-pointer ${
-                          primaryLanguage === lang
-                            ? "opacity-100"
-                            : "opacity-0 group-hover/transitem:opacity-100"
-                        }`}
-                        title={primaryLanguage === lang ? "Język wiodący" : "Ustaw jako język wiodący"}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setPrimaryLanguage(lang);
-                          setHasUnsavedChanges(true);
-                        }}
-                      >
-                        <Star className={`h-3.5 w-3.5 transition-colors ${
-                          primaryLanguage === lang
-                            ? "text-amber-500 fill-amber-500"
-                            : "text-muted-foreground/40 hover:text-amber-500/60"
-                        }`} />
-                      </span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroup>
           </SidebarContent>
 
           <SidebarFooter>
@@ -1402,19 +1356,15 @@ export default function AdminForm({
 
         {/* ── Main content ──────────────────────────── */}
         <SidebarInset>
-          <header ref={headerRef} className="grid grid-cols-[1fr_auto_1fr] items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0">
-            {/* Col 1: breadcrumb — hidden when col-2 squeezes it */}
-            <Breadcrumb ref={breadcrumbRef} className={`min-w-0 overflow-hidden h-[49px] flex items-center transition-opacity ${breadcrumbHidden ? "invisible" : ""}`}>
-              <BreadcrumbList className="flex-nowrap overflow-hidden">
+          <header className="flex items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0">
+            {/* Left: breadcrumb */}
+            <Breadcrumb className="mr-auto h-[49px] flex items-center">
+              <BreadcrumbList>
                 {(() => {
                   for (const group of navGroups) {
                     const item = group.items.find((i) => i.id === activeTab);
                     if (item) {
-                      return headerCompact ? (
-                        <BreadcrumbItem>
-                          <BreadcrumbPage>{item.label}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                      ) : (
+                      return (
                         <>
                           <BreadcrumbItem>
                             <span className="text-muted-foreground">{group.label}</span>
@@ -1429,11 +1379,7 @@ export default function AdminForm({
                   }
                   if (activeTab.startsWith("page-")) {
                     const pageName = activeTab.replace("page-", "");
-                    return headerCompact ? (
-                      <BreadcrumbItem>
-                        <BreadcrumbPage>{pageName}</BreadcrumbPage>
-                      </BreadcrumbItem>
-                    ) : (
+                    return (
                       <>
                         <BreadcrumbItem>
                           <span className="text-muted-foreground">Pages</span>
@@ -1441,24 +1387,6 @@ export default function AdminForm({
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                           <BreadcrumbPage>{pageName}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                      </>
-                    );
-                  }
-                  if (activeTab === "translations-en" || activeTab === "translations-pl") {
-                    const langLabel = activeTab === "translations-en" ? "English" : "Polski";
-                    return headerCompact ? (
-                      <BreadcrumbItem>
-                        <BreadcrumbPage>{langLabel}</BreadcrumbPage>
-                      </BreadcrumbItem>
-                    ) : (
-                      <>
-                        <BreadcrumbItem>
-                          <span className="text-muted-foreground">Translations</span>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                          <BreadcrumbPage>{langLabel}</BreadcrumbPage>
                         </BreadcrumbItem>
                       </>
                     );
@@ -1472,133 +1400,66 @@ export default function AdminForm({
               </BreadcrumbList>
             </Breadcrumb>
 
-            {/* Col 2: translation mode switcher — grid center column, empty in compact mode */}
-            {!headerCompact ? (
-              <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
-                {(["keys", "en", "pl"] as const).map((mode) => (
-                  <button
-                    key={mode}
-                    type="button"
-                    onClick={() => setTranslationMode(mode)}
-                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
-                      translationMode === mode
-                        ? "bg-background text-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div />
-            )}
-
-            {/* Col 3: right-aligned — badge + buttons, or compact menu */}
-            {headerCompact ? (
-              /* Compact: custom inline popover */
-              <div className="flex justify-end">
-              <div ref={menuRef} className="relative">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="h-7 w-7 p-0"
-                  onClick={() => setMenuOpen((v) => !v)}
+            {/* Center: translation mode switcher */}
+            <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5 mr-3">
+              {(["keys", "en", "pl"] as const).map((mode) => (
+                <button
+                  key={mode}
+                  onClick={() => setTranslationMode(mode)}
+                  className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
+                    translationMode === mode
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-                {menuOpen && (
-                  <div className="absolute right-0 top-full mt-1 z-50 w-52 rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 p-1">
-                    <p className="px-1.5 py-1 text-xs font-medium text-muted-foreground">Translation mode</p>
-                    {(["keys", "en", "pl"] as const).map((mode) => (
-                      <button
-                        key={mode}
-                        type="button"
-                        onClick={() => { setTranslationMode(mode); setMenuOpen(false); }}
-                        className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground"
-                      >
-                        {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
-                        {translationMode === mode && <Check className="ml-auto h-3.5 w-3.5" />}
-                      </button>
-                    ))}
-                    <div className="my-1 h-px bg-border" />
-                    <p className="px-1.5 py-1 text-xs font-medium text-muted-foreground">
-                      {saveStatus === "error"
-                        ? errorMessage || "Error"
-                        : saveStatus === "success"
-                        ? "Saved"
-                        : hasUnsavedChanges
-                        ? "Unsaved changes"
-                        : "All changes published"}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => { revertAll(); setMenuOpen(false); }}
-                      disabled={!hasUnsavedChanges}
-                      className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
-                    >
-                      <Undo2 className="h-3.5 w-3.5" />
-                      Rollback
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { handleSave(); setMenuOpen(false); }}
-                      disabled={saveStatus === "saving" || !hasUnsavedChanges}
-                      className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
-                    >
-                      <Save className="h-3.5 w-3.5" />
-                      {saveStatus === "saving" ? "Publishing..." : "Publish"}
-                    </button>
-                  </div>
-                )}
-              </div>
-              </div>
-            ) : (
-              /* Normal: Badge + Discard + Publish, right-aligned */
-              <div className="flex items-center justify-end gap-3 h-[49px]">
-                  {saveStatus === "error" ? (
-                    <Badge className="ml-3 bg-destructive/10 text-destructive border-destructive/20 h-6 rounded-full">
-                      <AlertCircle className="h-3 w-3" />
-                      {errorMessage || "Error"}
-                    </Badge>
-                  ) : saveStatus === "success" ? (
-                    <Badge className="ml-3 bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
-                      <Check className="h-3 w-3" />
-                      Saved
-                    </Badge>
-                  ) : hasUnsavedChanges ? (
-                    <Badge className="ml-3 bg-amber-500/10 text-amber-600 border-amber-500/20 h-6 rounded-full">
-                      <Circle className="h-2 w-2 fill-amber-500" />
-                      Unsaved changes
-                    </Badge>
-                  ) : (
-                    <Badge className="ml-3 bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
-                      <Check className="h-3 w-3" />
-                      All changes published
-                    </Badge>
-                  )}
+                  {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
+                </button>
+              ))}
+            </div>
 
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={revertAll}
-                    disabled={!hasUnsavedChanges}
-                  >
-                    <Undo2 className="h-3.5 w-3.5 mr-1" />
-                    Rollback
-                  </Button>
+            {/* Right: Badge + Discard + Publish */}
+            <div className="flex items-center gap-3 h-[49px]">
+              {saveStatus === "error" ? (
+                <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6">
+                  <AlertCircle className="h-3 w-3" />
+                  {errorMessage || "Error"}
+                </Badge>
+              ) : saveStatus === "success" ? (
+                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6">
+                  <Check className="h-3 w-3" />
+                  Saved
+                </Badge>
+              ) : hasUnsavedChanges ? (
+                <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/20 h-6">
+                  <Circle className="h-2 w-2 fill-amber-500" />
+                  Unsaved changes
+                </Badge>
+              ) : (
+                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6">
+                  <Check className="h-3 w-3" />
+                  All changes published
+                </Badge>
+              )}
 
-                  <Button
-                    onClick={handleSave}
-                    disabled={saveStatus === "saving" || !hasUnsavedChanges}
-                    size="sm"
-                  >
-                    <Save className="h-3.5 w-3.5 mr-1" />
-                    {saveStatus === "saving" ? "Publishing..." : "Publish"}
-                  </Button>
-                </div>
-            )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={revertAll}
+                disabled={!hasUnsavedChanges}
+              >
+                <Undo2 className="h-3.5 w-3.5 mr-1" />
+                Discard changes
+              </Button>
+
+              <Button
+                onClick={handleSave}
+                disabled={saveStatus === "saving" || !hasUnsavedChanges}
+                size="sm"
+              >
+                <Save className="h-3.5 w-3.5 mr-1" />
+                {saveStatus === "saving" ? "Publishing..." : "Publish changes"}
+              </Button>
+            </div>
           </header>
 
           {/* Content area */}
