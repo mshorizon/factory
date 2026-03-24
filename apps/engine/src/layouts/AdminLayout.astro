@@ -108,8 +108,8 @@ const { businessId } = Astro.locals;
 
       .preview-overlay-controls {
         position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
+        top: 0;
+        right: 0;
         z-index: 10;
         display: flex;
         align-items: center;
@@ -120,9 +120,10 @@ const { businessId } = Astro.locals;
         display: flex;
         align-items: stretch;
         backdrop-filter: blur(4px);
-        border-radius: 6px;
+        border-radius: 0 6px 0 6px;
         overflow: hidden;
         border: 1px solid #fff;
+        height: 1.75rem;
       }
 
       .dark .preview-btn-group {

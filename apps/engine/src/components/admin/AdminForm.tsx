@@ -78,7 +78,7 @@ interface AdminFormProps {
 }
 
 type SaveStatus = "idle" | "saving" | "success" | "error";
-type TabType = "meta" | "theme" | "navbar" | "footer" | "translations-en" | "translations-pl" | string;
+type TabType = "meta" | "theme" | "navbar" | "footer" | "translations" | string;
 
 const configWidgets = {
   ColorPickerWidget,
@@ -230,6 +230,7 @@ export default function AdminForm({
 
   const [metaSubTab, setMetaSubTab] = useState<"business" | "assets">("business");
   const [themeSubTab, setThemeSubTab] = useState<"colors" | "typography">("colors");
+  const [translationsSubTab, setTranslationsSubTab] = useState<"en" | "pl">("en");
   const [translationMode, setTranslationMode] = useState<"keys" | "en" | "pl">("keys");
 
   // Restore + persist active tab via sessionStorage (client-only, after mount)
@@ -293,8 +294,7 @@ export default function AdminForm({
     if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"]));
     if (tabId === "data-products") return !deepEqual(getNestedValue(formData, ["data", "products"]), getNestedValue(saved, ["data", "products"]));
     if (tabId === "data-services") return !deepEqual(getNestedValue(formData, ["data", "services"]), getNestedValue(saved, ["data", "services"]));
-    if (tabId === "translations-en") return !deepEqual(translationsData.en, savedTrans.en);
-    if (tabId === "translations-pl") return !deepEqual(translationsData.pl, savedTrans.pl);
+    if (tabId === "translations") return !deepEqual(translationsData.en, savedTrans.en) || !deepEqual(translationsData.pl, savedTrans.pl);
     if (tabId.startsWith("page-")) {
       const pageName = tabId.replace("page-", "");
       return !deepEqual(getNestedValue(formData, ["pages", pageName]), getNestedValue(saved, ["pages", pageName]));
@@ -541,7 +541,7 @@ export default function AdminForm({
     };
 
     const handleClearAll = () => {
-      if (!confirm("Usunąć wszystkie tłumaczenia dla tego języka?")) return;
+      if (!confirm("Remove all translations for this language?")) return;
       const cleared: Record<string, string> = {};
       for (const key of keys) cleared[key] = "";
       setTranslationsData((prev) => ({ ...prev, [lang]: cleared }));
@@ -572,7 +572,7 @@ export default function AdminForm({
       );
 
       if (emptyKeys.length === 0) {
-        alert(lang === "pl" ? "Wszystkie pola są już uzupełnione." : "All fields are already filled.");
+        alert("All fields are already filled.");
         return;
       }
 
@@ -622,22 +622,32 @@ export default function AdminForm({
             {isPrimary ? (
               <>
                 <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
-                <span className="text-sm font-medium">
-                  {lang === "pl" ? "Język wiodący" : "Primary language"}
-                </span>
+                <span className="text-sm font-medium">Primary language</span>
               </>
             ) : (
               <span className="text-sm font-medium">
-                {lang === "pl" ? "Język dodatkowy" : "Secondary language"}
-                {" — "}
-                {primaryLanguage === "en" ? "English" : "Polski"}{" "}
-                {lang === "pl" ? "jest językiem wiodącym" : "is the primary language"}
+                Secondary language — {primaryLanguage === "en" ? "English" : "Polski"} is the primary language
               </span>
             )}
           </div>
           <div className="flex items-center gap-2">
-            {!isPrimary && (
+            {isPrimary ? (
+              <span className="text-xs text-muted-foreground">Change in the other language tab</span>
+            ) : (
               <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => { setPrimaryLanguage(lang); setHasUnsavedChanges(true); }}
+                    >
+                      <Star className="h-3.5 w-3.5 mr-1.5 text-amber-500" />
+                      Set as primary
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Set {lang === "pl" ? "Polski" : "English"} as the primary language</TooltipContent>
+                </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -650,7 +660,7 @@ export default function AdminForm({
                       Clear all
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>Usuń wszystkie tłumaczenia tego języka</TooltipContent>
+                  <TooltipContent>Remove all translations for this language</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -661,13 +671,13 @@ export default function AdminForm({
                       disabled={translating}
                     >
                       {translating ? (
-                        <><Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />Tłumaczenie...</>
+                        <><Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />Translating...</>
                       ) : (
-                        <><Languages className="h-3.5 w-3.5 mr-1.5" />Przetłumacz z języka wiodącego</>
+                        <><Languages className="h-3.5 w-3.5 mr-1.5" />Translate from primary</>
                       )}
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>Tłumaczone są tylko puste pola</TooltipContent>
+                  <TooltipContent>Only empty fields will be translated</TooltipContent>
                 </Tooltip>
               </>
             )}
@@ -709,7 +719,7 @@ export default function AdminForm({
                         clear
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent>Usuń tłumaczenia sekcji „{groupName}"</TooltipContent>
+                    <TooltipContent>Clear translations for section "{groupName}"</TooltipContent>
                   </Tooltip>
                 )}
               </div>
@@ -1106,8 +1116,24 @@ export default function AdminForm({
       return <BlogManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
 
-    if (activeTab === "translations-en") return <TranslationsEditor lang="en" />;
-    if (activeTab === "translations-pl") return <TranslationsEditor lang="pl" />;
+    if (activeTab === "translations") {
+      return (
+        <Tabs value={translationsSubTab} onValueChange={(v) => setTranslationsSubTab(v as "en" | "pl")} orientation="horizontal">
+          <TabsList className="mb-6">
+            <TabsTrigger value="en" className="flex items-center gap-1.5">
+              English
+              {primaryLanguage === "en" && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
+            </TabsTrigger>
+            <TabsTrigger value="pl" className="flex items-center gap-1.5">
+              Polski
+              {primaryLanguage === "pl" && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="en" className="mt-0"><TranslationsEditor lang="en" /></TabsContent>
+          <TabsContent value="pl" className="mt-0"><TranslationsEditor lang="pl" /></TabsContent>
+        </Tabs>
+      );
+    }
 
     if (activeTab.startsWith("page-")) {
       const pageName = activeTab.replace("page-", "");
@@ -1182,6 +1208,7 @@ export default function AdminForm({
       label: "General",
       items: [
         { id: "meta", label: "Business", Icon: Briefcase },
+        { id: "translations", label: "Translations", Icon: Languages },
       ],
     },
     {
@@ -1299,41 +1326,6 @@ export default function AdminForm({
               </SidebarGroup>
             )}
 
-            <SidebarGroup>
-              <SidebarGroupLabel>Translations</SidebarGroupLabel>
-              <SidebarMenu>
-                {(["en", "pl"] as const).map((lang) => (
-                  <SidebarMenuItem key={`translations-${lang}`} className="group/transitem">
-                    <SidebarMenuButton
-                      onClick={() => setActiveTab(`translations-${lang}`)}
-                      isActive={activeTab === `translations-${lang}`}
-                    >
-                      <Languages />
-                      <span className="flex-1">{lang === "en" ? "English" : "Polski"}</span>
-                      <span
-                        className={`flex-shrink-0 group-data-[collapsible=icon]:hidden transition-opacity cursor-pointer ${
-                          primaryLanguage === lang
-                            ? "opacity-100"
-                            : "opacity-0 group-hover/transitem:opacity-100"
-                        }`}
-                        title={primaryLanguage === lang ? "Język wiodący" : "Ustaw jako język wiodący"}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setPrimaryLanguage(lang);
-                          setHasUnsavedChanges(true);
-                        }}
-                      >
-                        <Star className={`h-3.5 w-3.5 transition-colors ${
-                          primaryLanguage === lang
-                            ? "text-amber-500 fill-amber-500"
-                            : "text-muted-foreground/40 hover:text-amber-500/60"
-                        }`} />
-                      </span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroup>
           </SidebarContent>
 
           <SidebarFooter>
@@ -1395,19 +1387,6 @@ export default function AdminForm({
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                           <BreadcrumbPage>{pageName}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                      </>
-                    );
-                  }
-                  if (activeTab === "translations-en" || activeTab === "translations-pl") {
-                    return (
-                      <>
-                        <BreadcrumbItem>
-                          <span className="text-muted-foreground">Translations</span>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                          <BreadcrumbPage>{activeTab === "translations-en" ? "English" : "Polski"}</BreadcrumbPage>
                         </BreadcrumbItem>
                       </>
                     );
