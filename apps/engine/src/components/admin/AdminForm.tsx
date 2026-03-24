@@ -250,6 +250,37 @@ export default function AdminForm({
 
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialMount = useRef(true);
+  const headerRef = useRef<HTMLElement>(null);
+  // full(≥820): all visible | no-breadcrumb(≥640): breadcrumb hidden | center-menu(≥480): center in menu | compact(<480): all in menu
+  type HeaderMode = 'full' | 'no-breadcrumb' | 'center-menu' | 'compact';
+  const [headerMode, setHeaderMode] = useState<HeaderMode>('full');
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry.contentRect.width;
+      if (w >= 820) setHeaderMode('full');
+      else if (w >= 640) setHeaderMode('no-breadcrumb');
+      else if (w >= 480) setHeaderMode('center-menu');
+      else setHeaderMode('compact');
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleMouseDown = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [menuOpen]);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -1356,110 +1387,188 @@ export default function AdminForm({
 
         {/* ── Main content ──────────────────────────── */}
         <SidebarInset>
-          <header className="flex items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0">
-            {/* Left: breadcrumb */}
-            <Breadcrumb className="mr-auto h-[49px] flex items-center">
-              <BreadcrumbList>
-                {(() => {
-                  for (const group of navGroups) {
-                    const item = group.items.find((i) => i.id === activeTab);
-                    if (item) {
+          <header
+            ref={headerRef}
+            className={`grid items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0 ${
+              headerMode === 'full' ? 'grid-cols-[1fr_auto_1fr]' :
+              headerMode === 'no-breadcrumb' ? 'grid-cols-[0px_auto_1fr]' :
+              'grid-cols-[0px_0px_1fr]'
+            }`}
+          >
+            {/* Col 1: breadcrumb — only in full mode */}
+            {headerMode === 'full' ? (
+              <Breadcrumb className="min-w-0 overflow-hidden h-[49px] flex items-center">
+                <BreadcrumbList className="flex-nowrap overflow-hidden">
+                  {(() => {
+                    for (const group of navGroups) {
+                      const item = group.items.find((i) => i.id === activeTab);
+                      if (item) {
+                        return (
+                          <>
+                            <BreadcrumbItem>
+                              <span className="text-muted-foreground">{group.label}</span>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                              <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                            </BreadcrumbItem>
+                          </>
+                        );
+                      }
+                    }
+                    if (activeTab.startsWith("page-")) {
+                      const pageName = activeTab.replace("page-", "");
                       return (
                         <>
                           <BreadcrumbItem>
-                            <span className="text-muted-foreground">{group.label}</span>
+                            <span className="text-muted-foreground">Pages</span>
                           </BreadcrumbItem>
                           <BreadcrumbSeparator />
                           <BreadcrumbItem>
-                            <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                            <BreadcrumbPage>{pageName}</BreadcrumbPage>
                           </BreadcrumbItem>
                         </>
                       );
                     }
-                  }
-                  if (activeTab.startsWith("page-")) {
-                    const pageName = activeTab.replace("page-", "");
+                    if (activeTab === "translations-en" || activeTab === "translations-pl") {
+                      const langLabel = activeTab === "translations-en" ? "English" : "Polski";
+                      return (
+                        <>
+                          <BreadcrumbItem>
+                            <span className="text-muted-foreground">Translations</span>
+                          </BreadcrumbItem>
+                          <BreadcrumbSeparator />
+                          <BreadcrumbItem>
+                            <BreadcrumbPage>{langLabel}</BreadcrumbPage>
+                          </BreadcrumbItem>
+                        </>
+                      );
+                    }
                     return (
-                      <>
-                        <BreadcrumbItem>
-                          <span className="text-muted-foreground">Pages</span>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                          <BreadcrumbPage>{pageName}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                      </>
+                      <BreadcrumbItem>
+                        <BreadcrumbPage>Admin</BreadcrumbPage>
+                      </BreadcrumbItem>
                     );
-                  }
-                  return (
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>Admin</BreadcrumbPage>
-                    </BreadcrumbItem>
-                  );
-                })()}
-              </BreadcrumbList>
-            </Breadcrumb>
+                  })()}
+                </BreadcrumbList>
+              </Breadcrumb>
+            ) : <div />}
 
-            {/* Center: translation mode switcher */}
-            <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5 mr-3">
-              {(["keys", "en", "pl"] as const).map((mode) => (
-                <button
-                  key={mode}
-                  onClick={() => setTranslationMode(mode)}
-                  className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
-                    translationMode === mode
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
-                </button>
-              ))}
-            </div>
+            {/* Col 2: translation switcher — visible in full + no-breadcrumb, else hidden (goes to menu) */}
+            {(headerMode === 'full' || headerMode === 'no-breadcrumb') ? (
+              <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
+                {(["keys", "en", "pl"] as const).map((mode) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    onClick={() => setTranslationMode(mode)}
+                    className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
+                      translationMode === mode
+                        ? "bg-background text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
+                  </button>
+                ))}
+              </div>
+            ) : <div />}
 
-            {/* Right: Badge + Discard + Publish */}
-            <div className="flex items-center gap-3 h-[49px]">
-              {saveStatus === "error" ? (
-                <Badge className="bg-destructive/10 text-destructive border-destructive/20 h-6">
-                  <AlertCircle className="h-3 w-3" />
-                  {errorMessage || "Error"}
-                </Badge>
-              ) : saveStatus === "success" ? (
-                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6">
-                  <Check className="h-3 w-3" />
-                  Saved
-                </Badge>
-              ) : hasUnsavedChanges ? (
-                <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/20 h-6">
-                  <Circle className="h-2 w-2 fill-amber-500" />
-                  Unsaved changes
-                </Badge>
-              ) : (
-                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 h-6">
-                  <Check className="h-3 w-3" />
-                  All changes published
-                </Badge>
-              )}
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={revertAll}
-                disabled={!hasUnsavedChanges}
-              >
-                <Undo2 className="h-3.5 w-3.5 mr-1" />
-                Discard changes
-              </Button>
-
-              <Button
-                onClick={handleSave}
-                disabled={saveStatus === "saving" || !hasUnsavedChanges}
-                size="sm"
-              >
-                <Save className="h-3.5 w-3.5 mr-1" />
-                {saveStatus === "saving" ? "Publishing..." : "Publish changes"}
-              </Button>
-            </div>
+            {/* Col 3: right side — cascades from full buttons → menu icon for center → all in menu */}
+            {headerMode === 'compact' ? (
+              /* compact: everything (center + buttons) in menu */
+              <div className="flex justify-end">
+                <div ref={menuRef} className="relative">
+                  <Button type="button" variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={() => setMenuOpen((v) => !v)}>
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                  {menuOpen && (
+                    <div className="absolute right-0 top-full mt-1 z-50 w-52 rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 p-1">
+                      <p className="px-1.5 py-1 text-xs font-medium text-muted-foreground">Translation mode</p>
+                      {(["keys", "en", "pl"] as const).map((mode) => (
+                        <button key={mode} type="button" onClick={() => { setTranslationMode(mode); setMenuOpen(false); }} className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground">
+                          {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
+                          {translationMode === mode && <Check className="ml-auto h-3.5 w-3.5" />}
+                        </button>
+                      ))}
+                      <div className="my-1 h-px bg-border" />
+                      <p className="px-1.5 py-1 text-xs font-medium text-muted-foreground">
+                        {saveStatus === "error" ? errorMessage || "Error" : saveStatus === "success" ? "Saved" : hasUnsavedChanges ? "Unsaved changes" : "All changes published"}
+                      </p>
+                      <button type="button" onClick={() => { revertAll(); setMenuOpen(false); }} disabled={!hasUnsavedChanges} className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50">
+                        <Undo2 className="h-3.5 w-3.5" />
+                        Rollback
+                      </button>
+                      <button type="button" onClick={() => { handleSave(); setMenuOpen(false); }} disabled={saveStatus === "saving" || !hasUnsavedChanges} className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50">
+                        <Save className="h-3.5 w-3.5" />
+                        {saveStatus === "saving" ? "Publishing..." : "Publish"}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : headerMode === 'center-menu' ? (
+              /* center-menu: center in menu icon, buttons visible */
+              <div className="flex items-center justify-end gap-2">
+                <div ref={menuRef} className="relative">
+                  <Button type="button" variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={() => setMenuOpen((v) => !v)}>
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                  {menuOpen && (
+                    <div className="absolute right-0 top-full mt-1 z-50 w-52 rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 p-1">
+                      <p className="px-1.5 py-1 text-xs font-medium text-muted-foreground">Translation mode</p>
+                      {(["keys", "en", "pl"] as const).map((mode) => (
+                        <button key={mode} type="button" onClick={() => { setTranslationMode(mode); setMenuOpen(false); }} className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-1 text-sm hover:bg-accent hover:text-accent-foreground">
+                          {mode === "keys" ? "Keys" : mode === "en" ? "English" : "Polski"}
+                          {translationMode === mode && <Check className="ml-auto h-3.5 w-3.5" />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <Button variant="outline" size="sm" onClick={revertAll} disabled={!hasUnsavedChanges}>
+                  <Undo2 className="h-3.5 w-3.5 mr-1" />
+                  Rollback
+                </Button>
+                <Button onClick={handleSave} disabled={saveStatus === "saving" || !hasUnsavedChanges} size="sm">
+                  <Save className="h-3.5 w-3.5 mr-1" />
+                  {saveStatus === "saving" ? "Publishing..." : "Publish"}
+                </Button>
+              </div>
+            ) : (
+              /* full / no-breadcrumb: badge + rollback + publish */
+              <div className="flex items-center justify-end gap-3 h-[49px]">
+                {saveStatus === "error" ? (
+                  <Badge className="ml-3 bg-destructive/10 text-destructive border-destructive/20 h-6 rounded-full">
+                    <AlertCircle className="h-3 w-3" />
+                    {errorMessage || "Error"}
+                  </Badge>
+                ) : saveStatus === "success" ? (
+                  <Badge className="ml-3 bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
+                    <Check className="h-3 w-3" />
+                    Saved
+                  </Badge>
+                ) : hasUnsavedChanges ? (
+                  <Badge className="ml-3 bg-amber-500/10 text-amber-600 border-amber-500/20 h-6 rounded-full">
+                    <Circle className="h-2 w-2 fill-amber-500" />
+                    Unsaved changes
+                  </Badge>
+                ) : (
+                  <Badge className="ml-3 bg-green-500/10 text-green-600 border-green-500/20 h-6 rounded-full">
+                    <Check className="h-3 w-3" />
+                    All changes published
+                  </Badge>
+                )}
+                <Button variant="outline" size="sm" onClick={revertAll} disabled={!hasUnsavedChanges}>
+                  <Undo2 className="h-3.5 w-3.5 mr-1" />
+                  Rollback
+                </Button>
+                <Button onClick={handleSave} disabled={saveStatus === "saving" || !hasUnsavedChanges} size="sm">
+                  <Save className="h-3.5 w-3.5 mr-1" />
+                  {saveStatus === "saving" ? "Publishing..." : "Publish"}
+                </Button>
+              </div>
+            )}
           </header>
 
           {/* Content area */}
