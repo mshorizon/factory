@@ -32,7 +32,7 @@ const isTransparent = variant === "transparent";
 
 {/* Upper Bar — scrolls away naturally */}
 {hasUpperBar && (
-  <div id="upper-bar" class="hidden md:block bg-secondary text-white fixed top-0 left-0 right-0 z-40 h-10">
+  <div id="upper-bar" class="hidden lg:block bg-secondary text-white fixed top-0 left-0 right-0 z-40 h-10">
     <div class="container mx-auto">
       <div class="relative flex items-center justify-between h-10 text-xs">
         {/* Left: Social Media Icons */}
@@ -84,14 +84,14 @@ const isTransparent = variant === "transparent";
 <nav id="main-nav" class:list={[
   "fixed left-0 right-0 z-50 top-0",
   "navbar-animated",
-  hasUpperBar && "md:top-10",
+  hasUpperBar && "lg:top-10",
   isTransparent
     ? "bg-transparent navbar-transparent"
     : "bg-background shadow-sm border-b border-border"
 ]}>
   <div class="container mx-auto">
     <div class:list={[
-      "flex items-center h-16 md:h-24",
+      "flex items-center h-16 lg:h-24",
       variant === "centered" ? "justify-center" : "justify-between"
     ]}>
       {/* Left: Logo + Nav Links */}
@@ -111,7 +111,7 @@ const isTransparent = variant === "transparent";
 
         {/* Desktop Navigation — aligned left */}
         <div class:list={[
-          "hidden md:flex items-center gap-1 lg:gap-2",
+          "hidden lg:flex items-center gap-1 lg:gap-2",
           variant === "centered" && "mx-auto"
         ]}>
           {links.map((link) => (
@@ -131,7 +131,7 @@ const isTransparent = variant === "transparent";
 
       {/* Right: Cart & CTA */}
       <div class:list={[
-        "hidden md:flex items-center gap-4",
+        "hidden lg:flex items-center gap-4",
         variant === "centered" && "absolute right-10"
       ]}>
         {showCart && <CartButton client:load />}
@@ -139,7 +139,7 @@ const isTransparent = variant === "transparent";
         {cta && (
           <a
             href={cta.href}
-            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
+            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
           >
             {cta.label}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -148,7 +148,7 @@ const isTransparent = variant === "transparent";
       </div>
 
       {/* Mobile Cart & Menu Button */}
-      <div class="md:hidden flex items-center gap-2 ml-auto">
+      <div class="lg:hidden flex items-center gap-2 ml-auto">
         {showCart && <CartButton client:load />}
         <button
           id="mobile-menu-btn"
@@ -165,7 +165,7 @@ const isTransparent = variant === "transparent";
     </div>
 
     {/* Mobile Menu */}
-    <div id="mobile-menu" class="md:hidden hidden pb-6">
+    <div id="mobile-menu" class="lg:hidden hidden pb-6">
       <div class="flex flex-col gap-1 pt-4 border-t border-border">
         {links.map((link) => (
           <a
@@ -209,7 +209,7 @@ const isTransparent = variant === "transparent";
   // --- Padding-top on first section instead of body (avoids macOS overscroll gap) ---
   function updateFirstSectionPadding() {
     const navH = nav ? nav.getBoundingClientRect().height : 0;
-    const barH = (upperBar && window.innerWidth >= 768) ? upperBar.getBoundingClientRect().height : 0;
+    const barH = (upperBar && window.innerWidth >= 1024) ? upperBar.getBoundingClientRect().height : 0;
     const offset = navH + barH;
     const target = document.getElementById('page-hero') || document.querySelector('[data-section-index="0"]');
     if (target) {
@@ -264,7 +264,7 @@ const isTransparent = variant === "transparent";
   if (hasUpperBar) {
     function updateUpperBarOffset() {
       if (!nav) return;
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 1024) {
         nav.style.top = '0px';
         return;
       }
