@@ -261,7 +261,7 @@ export default function AdminForm({
     const el = headerRef.current;
     if (!el) return;
     const ro = new ResizeObserver(([entry]) => {
-      setHeaderCompact(entry.contentRect.width < 720);
+      setHeaderCompact(entry.contentRect.width < 820);
     });
     ro.observe(el);
     return () => ro.disconnect();
@@ -1595,7 +1595,7 @@ export default function AdminForm({
                     size="sm"
                   >
                     <Save className="h-3.5 w-3.5 mr-1" />
-                    {saveStatus === "saving" ? "Publishing..." : "Publish changes"}
+                    {saveStatus === "saving" ? "Publishing..." : "Publish"}
                   </Button>
                 </div>
             )}
