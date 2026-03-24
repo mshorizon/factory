@@ -135,7 +135,7 @@
   "contact.form.messagePlaceholder": "I need help with...",
   "contact.form.submitButton": "Send Message",
 
-  "footer.copyright": "2024 MasterVolt. All rights reserved.",
+  "footer.copyright": "{year} MasterVolt. All rights reserved.",
   "footer.tagline": "Expert solutions for all your electrical needs -- fast, safe, and efficient.",
   "footer.privacy": "Privacy Policy",
   "footer.terms": "Terms of Service",

@@ -68,7 +68,9 @@ const socialIcons: Record<string, string> = {
 };
 
 const year = new Date().getFullYear();
-const copyrightText = copyright || `© ${year} ${businessName}. All rights reserved.`;
+const copyrightText = copyright
+  ? copyright.replace('{year}', year.toString())
+  : `© ${year} ${businessName}. All rights reserved.`;
 
 const languages = [
   { code: "pl", label: "Polski" },
@@ -173,7 +175,10 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
         {/* Brand Column */}
         <div>
-          <span class="font-bold text-2xl tracking-tight block mb-spacing-md text-foreground">{businessName}</span>
+          <div class="flex items-center gap-spacing-sm mb-spacing-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-primary"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="font-bold text-2xl tracking-tight text-foreground">{businessName}</span>
+          </div>
           {tagline && <p class="text-muted text-sm leading-relaxed max-w-xs mb-spacing-xl">{tagline}</p>}
           {socialLinks.length > 0 && (
             <div class="flex items-center gap-spacing-lg">
@@ -190,7 +195,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
         {columns.map((column) => (
           <div>
             <h3 class="font-bold text-foreground mb-spacing-xl text-xs uppercase tracking-widest">{column.title}</h3>
-            <ul class="space-y-spacing-lg">
+            <ul class="space-y-5">
               {column.links.map((link) => {
                 const icon = getContactIcon(link.href || '');
                 return (
@@ -217,6 +222,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
       <div class="mt-spacing-3xl pt-spacing-lg border-t border-border/30 flex flex-col md:flex-row items-center justify-between gap-spacing-md">
         <p class="text-sm text-muted">{copyrightText}</p>
         <div class="flex flex-wrap items-center gap-x-spacing-xl gap-y-2">
+          <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-xs text-muted/60 hover:text-muted transition-colors">Made by Hazelgrouse Studio</a>
           {currentLanguage && (
             <div class="lang-switcher flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-muted"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
