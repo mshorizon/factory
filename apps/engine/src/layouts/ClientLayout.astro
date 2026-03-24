@@ -1,0 +1,386 @@
+---
+interface Props {
+  title: string;
+  activeNav?: "dashboard" | "blog" | "comments";
+}
+
+const { title, activeNav } = Astro.props;
+const { clientUser, businessData, businessId } = Astro.locals;
+
+const businessName = businessData?.business?.name?.startsWith("t:")
+  ? businessId
+  : (businessData?.business?.name ?? businessId);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <style is:global>
+      @import "../styles/admin-theme.css";
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        background: var(--background);
+        color: var(--foreground);
+        min-height: 100vh;
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .client-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ── Sidebar ───────────────────────────────────── */
+      .client-sidebar {
+        width: 220px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        background: oklch(var(--sidebar));
+        border-right: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .client-sidebar-header {
+        padding: 1.25rem 1rem 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .client-sidebar-logo {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--muted-foreground);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.25rem;
+      }
+
+      .client-sidebar-business {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: var(--foreground);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .client-sidebar-nav {
+        flex: 1;
+        padding: 0.75rem 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+        overflow-y: auto;
+      }
+
+      .client-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--muted-foreground);
+        text-decoration: none;
+        transition: background 0.12s, color 0.12s;
+        cursor: pointer;
+      }
+
+      .client-nav-item:hover {
+        background: var(--accent);
+        color: var(--foreground);
+      }
+
+      .client-nav-item.active {
+        background: var(--accent);
+        color: var(--foreground);
+      }
+
+      .client-nav-item svg {
+        flex-shrink: 0;
+        opacity: 0.7;
+      }
+
+      .client-nav-item.active svg {
+        opacity: 1;
+      }
+
+      .client-sidebar-footer {
+        padding: 0.75rem 0.5rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+      }
+
+      .client-sidebar-user {
+        padding: 0.5rem 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+      }
+
+      .client-sidebar-avatar {
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 50%;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .client-sidebar-user-info {
+        min-width: 0;
+      }
+
+      .client-sidebar-user-name {
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--foreground);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .client-sidebar-user-email {
+        font-size: 0.6875rem;
+        color: var(--muted-foreground);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* ── Main content ──────────────────────────────── */
+      .client-main {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .client-topbar {
+        height: 3.25rem;
+        display: flex;
+        align-items: center;
+        padding: 0 1.5rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--background);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .client-topbar-title {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: var(--foreground);
+      }
+
+      .client-topbar-spacer {
+        flex: 1;
+      }
+
+      .client-topbar-site-link {
+        font-size: 0.8125rem;
+        color: var(--muted-foreground);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.375rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 0.375rem;
+        transition: background 0.12s, color 0.12s;
+      }
+
+      .client-topbar-site-link:hover {
+        background: var(--accent);
+        color: var(--foreground);
+      }
+
+      .client-content {
+        flex: 1;
+        padding: 1.75rem 2rem;
+        max-width: 1100px;
+        width: 100%;
+      }
+
+      /* ── Scrollbar ─────────────────────────────────── */
+      .client-main {
+        scrollbar-width: thin;
+        scrollbar-color: var(--border) transparent;
+      }
+    </style>
+
+    <div class="client-layout">
+      <!-- Sidebar -->
+      <aside class="client-sidebar">
+        <div class="client-sidebar-header">
+          <div class="client-sidebar-logo">Panel klienta</div>
+          <div class="client-sidebar-business">{businessName}</div>
+        </div>
+
+        <nav class="client-sidebar-nav">
+          <a
+            href="/client"
+            class={`client-nav-item${activeNav === "dashboard" ? " active" : ""}`}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+              <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+              <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+              <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+            </svg>
+            Dashboard
+          </a>
+
+          <a
+            href="/client/blog"
+            class={`client-nav-item${activeNav === "blog" ? " active" : ""}`}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"
+              ></path>
+              <path d="M18 14h-8"></path>
+              <path d="M15 18h-5"></path>
+              <path d="M10 6h8v4h-8V6Z"></path>
+            </svg>
+            Blog
+          </a>
+
+          <a
+            href="/client/comments"
+            class={`client-nav-item${activeNav === "comments" ? " active" : ""}`}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+              ></path>
+            </svg>
+            Komentarze
+          </a>
+        </nav>
+
+        <div class="client-sidebar-footer">
+          {
+            clientUser && (
+              <div class="client-sidebar-user">
+                <div class="client-sidebar-avatar">
+                  {clientUser.name.charAt(0).toUpperCase()}
+                </div>
+                <div class="client-sidebar-user-info">
+                  <div class="client-sidebar-user-name">{clientUser.name}</div>
+                  <div class="client-sidebar-user-email">
+                    {clientUser.email}
+                  </div>
+                </div>
+              </div>
+            )
+          }
+          <a href="/client/logout" class="client-nav-item">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" x2="9" y1="12" y2="12"></line>
+            </svg>
+            Wyloguj
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <div class="client-main">
+        <header class="client-topbar">
+          <span class="client-topbar-title">{title}</span>
+          <span class="client-topbar-spacer"></span>
+          <a href="/" target="_blank" class="client-topbar-site-link">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+              ></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" x2="21" y1="14" y2="3"></line>
+            </svg>
+            Otwórz stronę
+          </a>
+        </header>
+
+        <main class="client-content">
+          <slot />
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+---
+import { deleteClientSession } from "@mshorizon/db";
+import { SESSION_COOKIE, clearSessionCookie } from "../../lib/client-auth";
+
+// Read session token from cookie
+const cookieHeader = Astro.request.headers.get("cookie") ?? "";
+const token = cookieHeader
+  .split(";")
+  .find((c) => c.trim().startsWith(`${SESSION_COOKIE}=`))
+  ?.split("=")[1]
+  ?.trim();
+
+if (token) {
+  await deleteClientSession(token);
+}
+
+return new Response(null, {
+  status: 302,
+  headers: {
+    Location: "/client/login",
+    "Set-Cookie": clearSessionCookie(),
+  },
+});
+---

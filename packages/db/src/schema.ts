@@ -73,3 +73,30 @@ export const comments = pgTable("comments", {
 
 export type Comment = typeof comments.$inferSelect;
 export type NewComment = typeof comments.$inferInsert;
+
+export const clientUsers = pgTable("client_users", {
+  id: serial("id").primaryKey(),
+  siteId: integer("site_id").notNull().references(() => sites.id, { onDelete: 'cascade' }),
+  email: text("email").notNull(),
+  passwordHash: text("password_hash").notNull(),
+  name: text("name").notNull(),
+  role: text("role").notNull().default("owner"), // "owner" | "manager"
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  uniqueEmailPerSite: unique().on(table.siteId, table.email),
+}));
+
+export type ClientUser = typeof clientUsers.$inferSelect;
+export type NewClientUser = typeof clientUsers.$inferInsert;
+
+export const clientSessions = pgTable("client_sessions", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => clientUsers.id, { onDelete: 'cascade' }),
+  token: text("token").notNull().unique(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ClientSession = typeof clientSessions.$inferSelect;
+export type NewClientSession = typeof clientSessions.$inferInsert;

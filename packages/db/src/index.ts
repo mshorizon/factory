@@ -2,12 +2,18 @@ export {
   sites,
   blogs,
   comments,
+  clientUsers,
+  clientSessions,
   type Site,
   type NewSite,
   type Blog,
   type NewBlog,
   type Comment,
   type NewComment,
+  type ClientUser,
+  type NewClientUser,
+  type ClientSession,
+  type NewClientSession,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -27,4 +33,12 @@ export {
   createComment,
   moderateComment,
   deleteComment,
+  getClientUserByEmail,
+  getClientUserById,
+  createClientUser,
+  countClientUsersBySiteId,
+  createClientSession,
+  getClientSessionWithUser,
+  deleteClientSession,
+  deleteExpiredClientSessions,
 } from "./queries.js";

@@ -6,8 +6,9 @@ import {
   isValidBusiness,
 } from "./lib/business";
 import { getDraft } from "./lib/draft-store";
-import { initDb, getSiteBySubdomain } from "@mshorizon/db";
+import { initDb, getSiteBySubdomain, getClientSessionWithUser } from "@mshorizon/db";
 import { initR2 } from "./lib/r2";
+import { SESSION_COOKIE } from "./lib/client-auth";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { request, locals } = context;
@@ -51,6 +52,25 @@ export const onRequest = defineMiddleware(async (context, next) => {
   locals.t = ctx.t;
   locals.availableBusinesses = await getAvailableBusinessIds();
   locals.site = site;
+
+  // Resolve client session (for /client/* routes)
+  locals.clientUser = null;
+  const sessionToken = request.headers
+    .get("cookie")
+    ?.split(";")
+    .find((c) => c.trim().startsWith(`${SESSION_COOKIE}=`))
+    ?.split("=")[1]
+    ?.trim();
+
+  if (sessionToken) {
+    const row = await getClientSessionWithUser(sessionToken);
+    if (row && row.session.expiresAt > new Date()) {
+      // Ensure the session belongs to the current site
+      if (site && row.user.siteId === site.id) {
+        locals.clientUser = row.user;
+      }
+    }
+  }
 
   return next();
 });

@@ -1,0 +1,13 @@
+---
+import ClientLayout from "../../layouts/ClientLayout.astro";
+import { CommentsTab } from "../../components/admin/CommentsTab";
+
+// Require auth
+if (!Astro.locals.clientUser) {
+  return Astro.redirect("/client/login");
+}
+---
+
+<ClientLayout title="Komentarze" activeNav="comments">
+  <CommentsTab client:load businessId={Astro.locals.businessId} />
+</ClientLayout>

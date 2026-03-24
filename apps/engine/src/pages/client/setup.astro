@@ -1,0 +1,66 @@
+---
+import { countClientUsersBySiteId } from "@mshorizon/db";
+import SetupForm from "../../components/client/SetupForm";
+
+// If already logged in, go to dashboard
+if (Astro.locals.clientUser) {
+  return Astro.redirect("/client");
+}
+
+const site = Astro.locals.site;
+
+// If no site found, show error
+if (!site) {
+  return new Response("Site not found", { status: 404 });
+}
+
+// If users already exist, redirect to login
+const userCount = await countClientUsersBySiteId(site.id);
+if (userCount > 0) {
+  return Astro.redirect("/client/login");
+}
+
+const { businessData, businessId } = Astro.locals;
+const businessName = businessData?.business?.name?.startsWith("t:")
+  ? businessId
+  : (businessData?.business?.name ?? businessId);
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Konfiguracja konta – {businessName}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <style is:global>
+      @import "../../styles/admin-theme.css";
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        background: var(--background);
+        color: var(--foreground);
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+
+    <SetupForm client:load businessName={businessName} />
+  </body>
+</html>

@@ -1,0 +1,24 @@
+---
+import ClientLayout from "../../layouts/ClientLayout.astro";
+import ClientDashboard from "../../components/client/ClientDashboard";
+import { countClientUsersBySiteId } from "@mshorizon/db";
+
+const { clientUser, site } = Astro.locals;
+
+// Check if setup is needed
+if (site) {
+  const userCount = await countClientUsersBySiteId(site.id);
+  if (userCount === 0) {
+    return Astro.redirect("/client/setup");
+  }
+}
+
+// Require auth
+if (!clientUser) {
+  return Astro.redirect("/client/login");
+}
+---
+
+<ClientLayout title="Dashboard" activeNav="dashboard">
+  <ClientDashboard client:load businessId={Astro.locals.businessId} />
+</ClientLayout>

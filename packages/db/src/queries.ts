@@ -1,8 +1,8 @@
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, lt, sql } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments } from "./schema.js";
+import { sites, blogs, comments, clientUsers, clientSessions } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment } from "./schema.js";
+import type { NewBlog, NewComment, NewClientUser, NewClientSession } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -215,4 +215,73 @@ export async function moderateComment(
 export async function deleteComment(id: number) {
   const db = getDb();
   await db.delete(comments).where(eq(comments.id, id));
+}
+
+// ========== Client User Queries ==========
+
+export async function getClientUserByEmail(siteId: number, email: string) {
+  const db = getDb();
+  const [row] = await db
+    .select()
+    .from(clientUsers)
+    .where(and(eq(clientUsers.siteId, siteId), eq(clientUsers.email, email)))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function getClientUserById(id: number) {
+  const db = getDb();
+  const [row] = await db
+    .select()
+    .from(clientUsers)
+    .where(eq(clientUsers.id, id))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function createClientUser(user: NewClientUser) {
+  const db = getDb();
+  const [newUser] = await db.insert(clientUsers).values(user).returning();
+  return newUser;
+}
+
+export async function countClientUsersBySiteId(siteId: number): Promise<number> {
+  const db = getDb();
+  const rows = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(clientUsers)
+    .where(eq(clientUsers.siteId, siteId));
+  return rows[0]?.count ?? 0;
+}
+
+// ========== Client Session Queries ==========
+
+export async function createClientSession(session: NewClientSession) {
+  const db = getDb();
+  const [newSession] = await db.insert(clientSessions).values(session).returning();
+  return newSession;
+}
+
+export async function getClientSessionWithUser(token: string) {
+  const db = getDb();
+  const [row] = await db
+    .select({
+      session: clientSessions,
+      user: clientUsers,
+    })
+    .from(clientSessions)
+    .innerJoin(clientUsers, eq(clientSessions.userId, clientUsers.id))
+    .where(eq(clientSessions.token, token))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function deleteClientSession(token: string) {
+  const db = getDb();
+  await db.delete(clientSessions).where(eq(clientSessions.token, token));
+}
+
+export async function deleteExpiredClientSessions() {
+  const db = getDb();
+  await db.delete(clientSessions).where(lt(clientSessions.expiresAt, new Date()));
 }

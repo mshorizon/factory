@@ -1,0 +1,13 @@
+---
+import ClientLayout from "../../layouts/ClientLayout.astro";
+import { BlogManagement } from "../../components/admin/BlogManagement";
+
+// Require auth
+if (!Astro.locals.clientUser) {
+  return Astro.redirect("/client/login");
+}
+---
+
+<ClientLayout title="Blog" activeNav="blog">
+  <BlogManagement client:load businessId={Astro.locals.businessId} />
+</ClientLayout>
