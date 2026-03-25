@@ -130,14 +130,14 @@
       ],
       "links": [
         {
-          "label": "t:footer.privacy",
+          "label": "Polityka prywatności",
           "target": {
             "type": "page",
             "value": "privacy"
           }
         },
         {
-          "label": "t:footer.terms",
+          "label": "Regulamin",
           "target": {
             "type": "page",
             "value": "terms"
@@ -622,6 +622,74 @@
               "title": "t:testimonials.items.5.author",
               "description": "t:testimonials.items.5.text",
               "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face"
+            }
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Polityka prywatności",
+      "sections": [
+        {
+          "type": "faq",
+          "header": {
+            "title": "Polityka prywatności",
+            "subtitle": "Informacje o przetwarzaniu danych osobowych"
+          },
+          "faqItems": [
+            {
+              "question": "Kto jest administratorem danych osobowych?",
+              "answer": "Administratorem danych osobowych jest właściciel serwisu. Dane przetwarzane są zgodnie z obowiązującymi przepisami prawa, w tym z Rozporządzeniem RODO."
+            },
+            {
+              "question": "Jakie dane zbieramy?",
+              "answer": "Zbieramy dane podane przez użytkownika w formularzach kontaktowych (imię, adres e-mail, numer telefonu) oraz dane techniczne niezbędne do prawidłowego działania serwisu (pliki cookies)."
+            },
+            {
+              "question": "W jakim celu przetwarzamy dane?",
+              "answer": "Dane przetwarzamy w celu realizacji zapytań kontaktowych, świadczenia usług, a za zgodą użytkownika — w celach analitycznych i marketingowych."
+            },
+            {
+              "question": "Jak długo przechowujemy dane?",
+              "answer": "Dane przechowujemy przez czas niezbędny do realizacji celów, dla których zostały zebrane, nie dłużej niż wymaga tego prawo."
+            },
+            {
+              "question": "Jakie prawa przysługują użytkownikowi?",
+              "answer": "Użytkownik ma prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, a także prawo do przenoszenia danych i wniesienia sprzeciwu wobec przetwarzania."
+            }
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Regulamin",
+      "sections": [
+        {
+          "type": "faq",
+          "header": {
+            "title": "Regulamin serwisu",
+            "subtitle": "Zasady korzystania z serwisu"
+          },
+          "faqItems": [
+            {
+              "question": "Postanowienia ogólne",
+              "answer": "Niniejszy regulamin określa zasady korzystania z serwisu internetowego. Korzystanie z serwisu oznacza akceptację niniejszego regulaminu."
+            },
+            {
+              "question": "Zakres usług",
+              "answer": "Serwis świadczy usługi informacyjne i kontaktowe. Szczegółowy zakres usług określony jest w ofercie dostępnej na stronie."
+            },
+            {
+              "question": "Prawa i obowiązki użytkownika",
+              "answer": "Użytkownik zobowiązany jest do korzystania z serwisu zgodnie z obowiązującym prawem i zasadami współżycia społecznego. Zabrania się przesyłania treści o charakterze bezprawnym."
+            },
+            {
+              "question": "Odpowiedzialność",
+              "answer": "Właściciel serwisu nie ponosi odpowiedzialności za przerwy w działaniu serwisu spowodowane siłą wyższą lub działaniem osób trzecich."
+            },
+            {
+              "question": "Zmiany regulaminu",
+              "answer": "Właściciel serwisu zastrzega sobie prawo do zmiany regulaminu. O zmianach użytkownicy będą informowani poprzez publikację nowej wersji na stronie."
             }
           ]
         }
