@@ -76,56 +76,89 @@ const year = new Date().getFullYear();
     <PageHero title="Polityka prywatności" hasUpperBar={layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') ?? false} />
     <div class="container mx-auto py-spacing-section-sm">
       <div class="max-w-3xl mx-auto prose prose-neutral">
-        <h2>1. Administrator danych osobowych</h2>
+
+        <h2>1. Informacje ogólne</h2>
         <p>
-          Administratorem danych osobowych jest <strong>{businessName}</strong>.
-          {email && <> W sprawach dotyczących ochrony danych osobowych można się kontaktować pod adresem e-mail: <a href={`mailto:${email}`}>{email}</a>.</>}
+          Niniejsza polityka dotyczy serwisu internetowego prowadzonego przez <strong>{businessName}</strong>.
+          {email && <> W sprawach związanych z ochroną danych osobowych można kontaktować się pod adresem e-mail: <a href={`mailto:${email}`}>{email}</a>.</>}
+        </p>
+        <p>
+          Operator serwisu jest administratorem danych osobowych w odniesieniu do danych podanych dobrowolnie w ramach serwisu oraz zbieranych automatycznie podczas korzystania ze stron.
+        </p>
+        <p>
+          Dane osobowe przetwarzane są zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO).
         </p>
 
-        <h2>2. Zakres zbieranych danych</h2>
-        <p>
-          Zbieramy dane osobowe, które podajesz dobrowolnie, w szczególności poprzez formularz kontaktowy (imię, adres e-mail, treść wiadomości). Dane te są niezbędne do udzielenia odpowiedzi na Twoje zapytanie.
-        </p>
-
-        <h2>3. Cel i podstawa prawna przetwarzania</h2>
-        <p>
-          Twoje dane osobowe przetwarzamy w celu:
-        </p>
+        <h2>2. Wybrane metody ochrony danych</h2>
+        <p>Serwis stosuje następujące środki techniczne i organizacyjne w celu ochrony danych:</p>
         <ul>
-          <li>odpowiedzi na przesłane zapytania (art. 6 ust. 1 lit. b RODO – niezbędność do wykonania umowy lub podjęcia działań przed jej zawarciem),</li>
-          <li>realizacji prawnie uzasadnionych interesów administratora, takich jak obsługa korespondencji (art. 6 ust. 1 lit. f RODO).</li>
+          <li>szyfrowanie połączenia za pomocą certyfikatu SSL,</li>
+          <li>regularne aktualizacje oprogramowania i systemów bezpieczeństwa,</li>
+          <li>ograniczony dostęp do danych wyłącznie dla upoważnionych osób,</li>
+          <li>regularne tworzenie kopii zapasowych danych.</li>
         </ul>
 
-        <h2>4. Okres przechowywania danych</h2>
+        <h2>3. Hosting</h2>
         <p>
-          Dane przechowujemy przez czas niezbędny do realizacji celu, w jakim zostały zebrane, a następnie przez okres wynikający z przepisów prawa lub do momentu wniesienia sprzeciwu wobec przetwarzania.
+          Serwis jest hostowany na serwerach zewnętrznego dostawcy usług hostingowych. Dostawca ten może przetwarzać dane zawarte w logach serwera, takie jak: adresy IP odwiedzających, czas żądań, adresy URL, kody odpowiedzi HTTP oraz informacje o przeglądarce. Dane te służą wyłącznie celom technicznym i administracyjnym.
         </p>
 
-        <h2>5. Prawa osoby, której dane dotyczą</h2>
-        <p>Przysługuje Ci prawo do:</p>
+        <h2>4. Prawa użytkownika i wykorzystanie danych</h2>
+        <p>Osobie, której dane dotyczą, przysługują następujące prawa:</p>
         <ul>
-          <li>dostępu do swoich danych oraz otrzymania ich kopii,</li>
-          <li>sprostowania (poprawiania) danych,</li>
-          <li>usunięcia danych (prawo do bycia zapomnianym),</li>
-          <li>ograniczenia przetwarzania danych,</li>
-          <li>wniesienia sprzeciwu wobec przetwarzania,</li>
-          <li>przenoszenia danych,</li>
-          <li>wniesienia skargi do organu nadzorczego (Prezes Urzędu Ochrony Danych Osobowych, ul. Stawki 2, 00-193 Warszawa).</li>
+          <li>prawo dostępu do swoich danych oraz otrzymania ich kopii,</li>
+          <li>prawo do sprostowania (poprawiania) danych,</li>
+          <li>prawo do usunięcia danych (prawo do bycia zapomnianym),</li>
+          <li>prawo do ograniczenia przetwarzania,</li>
+          <li>prawo do przenoszenia danych,</li>
+          <li>prawo do wniesienia sprzeciwu wobec przetwarzania,</li>
+          <li>prawo do wniesienia skargi do organu nadzorczego – Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa).</li>
+        </ul>
+        <p>
+          Dane przetwarzane w celach marketingowych przechowywane są przez okres nie dłuższy niż 3 lata od ostatniego kontaktu, chyba że wcześniej zostanie wniesiony skuteczny sprzeciw.
+        </p>
+
+        <h2>5. Informacje w formularzach</h2>
+        <p>
+          Serwis zbiera informacje podawane dobrowolnie przez użytkowników za pośrednictwem formularzy kontaktowych i innych formularzy dostępnych w serwisie. Podanie danych jest dobrowolne, lecz może być niezbędne do realizacji określonej usługi lub udzielenia odpowiedzi na zapytanie.
+        </p>
+        <p>
+          Dane podane w formularzach są przetwarzane w celu wynikającym z funkcji konkretnego formularza, np. udzielenia odpowiedzi na zapytanie, realizacji zamówienia lub nawiązania kontaktu handlowego.
+        </p>
+
+        <h2>6. Logi administratora</h2>
+        <p>
+          Informacje o zachowaniu użytkowników w serwisie mogą być przedmiotem logowania. Dane te są wykorzystywane wyłącznie w celu administrowania serwisem i zapewnienia jego prawidłowego działania.
+        </p>
+
+        <h2>7. Istotne techniki marketingowe</h2>
+        <p>Operator serwisu może stosować następujące techniki marketingowe:</p>
+        <ul>
+          <li><strong>Google Analytics</strong> – analiza statystyczna ruchu w serwisie w sposób zanonimizowany (dane nie pozwalają na identyfikację użytkownika),</li>
+          <li><strong>remarketing</strong> – wyświetlanie reklam użytkownikom, którzy odwiedzili serwis, za pośrednictwem sieci reklamowych,</li>
+          <li><strong>pixel Facebooka</strong> – anonimowa analiza działań użytkowników na potrzeby kampanii reklamowych w serwisie Facebook,</li>
+          <li><strong>mapy ciepła i nagrywanie sesji</strong> – zanonimizowane śledzenie zachowania użytkownika w celu optymalizacji serwisu.</li>
         </ul>
 
-        <h2>6. Pliki cookies</h2>
+        <h2>8. Informacja o plikach cookies</h2>
         <p>
-          Serwis może używać plików cookies (ciasteczek) w celu zapewnienia prawidłowego działania strony, zapisania preferencji językowych oraz analizy ruchu. Możesz zablokować zapisywanie plików cookies w ustawieniach swojej przeglądarki.
+          Serwis korzysta z plików cookies (ciasteczek). Pliki cookies to małe pliki tekstowe zapisywane na urządzeniu użytkownika przez przeglądarkę internetową.
+        </p>
+        <p>Wyróżniamy następujące rodzaje plików cookies:</p>
+        <ul>
+          <li><strong>cookies sesyjne</strong> – przechowywane przez czas trwania sesji przeglądarki i usuwane po jej zakończeniu,</li>
+          <li><strong>cookies stałe</strong> – przechowywane przez określony czas lub do momentu ręcznego usunięcia przez użytkownika.</li>
+        </ul>
+        <p>
+          Pliki cookies służą do utrzymania sesji użytkownika, personalizacji treści, realizacji celów statystycznych i marketingowych. Użytkownik może zmienić ustawienia dotyczące plików cookies w swojej przeglądarce internetowej lub je usunąć.
         </p>
 
-        <h2>7. Przekazywanie danych podmiotom trzecim</h2>
+        <h2>9. Zarządzanie plikami cookies</h2>
         <p>
-          Dane osobowe nie są sprzedawane ani udostępniane podmiotom trzecim w celach marketingowych. Mogą być przekazywane wyłącznie podmiotom świadczącym usługi na naszą rzecz (np. hostingowym, e-mailowym) na podstawie umów powierzenia przetwarzania danych.
+          Każda przeglądarka internetowa umożliwia zarządzanie plikami cookies w ustawieniach. Instrukcje dla poszczególnych przeglądarek dostępne są w dokumentacji lub pomocy danej przeglądarki (m.in. Chrome, Firefox, Safari, Edge, Opera). Wyłączenie obsługi plików cookies może ograniczyć niektóre funkcjonalności serwisu.
         </p>
-
-        <h2>8. Zmiany polityki prywatności</h2>
         <p>
-          Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej polityce prywatności. Aktualna wersja jest zawsze dostępna na tej stronie.
+          W przypadku urządzeń mobilnych zarządzanie plikami cookies odbywa się przez ustawienia systemowe lub ustawienia używanej przeglądarki mobilnej.
         </p>
 
         <p class="text-sm text-muted mt-8">Ostatnia aktualizacja: {year}</p>
