@@ -61,6 +61,7 @@ import {
   Star,
   Loader2,
   Trash2,
+  MoreHorizontal,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
