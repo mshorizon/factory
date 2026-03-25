@@ -72,6 +72,7 @@ function CookieRow({
 
 export function CookieConsent() {
   const [visible, setVisible] = React.useState(false);
+  const [hiding, setHiding] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [analytics, setAnalytics] = React.useState(false);
   const [marketing, setMarketing] = React.useState(false);
@@ -85,6 +86,7 @@ export function CookieConsent() {
         setAnalytics(saved.analytics);
         setMarketing(saved.marketing);
       }
+      setHiding(false);
       setExpanded(true);
       setVisible(true);
     }
@@ -93,30 +95,39 @@ export function CookieConsent() {
     return () => window.removeEventListener("open-cookie-consent", handleOpen);
   }, []);
 
+  function dismiss() {
+    setHiding(true);
+    setTimeout(() => {
+      setVisible(false);
+      setHiding(false);
+      setExpanded(false);
+    }, 400);
+  }
+
   function acceptNecessary() {
     saveConsent({ necessary: true, analytics: false, marketing: false });
-    setVisible(false);
-    setExpanded(false);
+    dismiss();
   }
 
   function acceptAll() {
     saveConsent({ necessary: true, analytics: true, marketing: true });
-    setVisible(false);
-    setExpanded(false);
+    dismiss();
   }
 
   function saveCustom() {
     saveConsent({ necessary: true, analytics, marketing });
-    setVisible(false);
-    setExpanded(false);
+    dismiss();
   }
 
   if (!visible) return null;
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-[9997] section-bg-dark border-t border-white/10 overflow-hidden transition-[max-height] duration-500 ease-in-out"
-      style={{ maxHeight: expanded ? "800px" : "200px" }}
+      className="fixed bottom-0 left-0 right-0 z-[9997] section-bg-dark border-t border-white/10 overflow-hidden transition-[max-height,transform] duration-500 ease-in-out"
+      style={{
+        maxHeight: expanded ? "800px" : "200px",
+        transform: hiding ? "translateY(100%)" : "translateY(0)",
+      }}
     >
       <div className="container mx-auto px-spacing-container">
         {/* Main bar */}
