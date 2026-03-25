@@ -68,7 +68,7 @@ const socialIcons: Record<string, string> = {
 };
 
 const year = new Date().getFullYear();
-const copyrightText = copyright || `© ${year} ${businessName}. All rights reserved.`;
+const copyrightText = (copyright || `© ${year} ${businessName}. All rights reserved.`).replace("{year}", String(year));
 
 const languages = [
   { code: "pl", label: "Polski" },
