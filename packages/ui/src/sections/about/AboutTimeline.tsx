@@ -89,7 +89,7 @@ export function AboutTimeline({
         <ScrollReveal delay={0.2} direction="up">
           <div className="text-center">
             <Button asChild size="lg">
-              <a href={ctaHref}>{cta}</a>
+              <a href={ctaHref} onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}>{cta}</a>
             </Button>
           </div>
         </ScrollReveal>

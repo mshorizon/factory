@@ -63,7 +63,7 @@ export function AboutStory({
             {cta && (
               <div className="pt-4">
                 <Button asChild size="lg">
-                  <a href={ctaHref}>{cta}</a>
+                  <a href={ctaHref} onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}>{cta}</a>
                 </Button>
               </div>
             )}
@@ -94,7 +94,7 @@ export function AboutStory({
             <p className="text-muted leading-relaxed mb-spacing-lg" data-field="commitment.content">{commitment.content}</p>
             {!cta && commitment && (
               <Button asChild size="lg">
-                <a href={ctaHref}>{cta}</a>
+                <a href={ctaHref} onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}>{cta}</a>
               </Button>
             )}
           </section>
