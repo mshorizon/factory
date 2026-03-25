@@ -22,7 +22,6 @@ interface FooterExtension {
 
 interface Props {
   businessName: string;
-  logoIcon?: string;
   links?: FooterLink[];
   columns?: FooterColumn[];
   copyright?: string;
@@ -35,7 +34,6 @@ interface Props {
 
 const {
   businessName,
-  logoIcon,
   links = [],
   columns = [],
   copyright,
@@ -70,17 +68,12 @@ const socialIcons: Record<string, string> = {
 };
 
 const year = new Date().getFullYear();
-const copyrightText = copyright
-  ? copyright.replace('{year}', year.toString())
-  : `© ${year} ${businessName}. All rights reserved.`;
+const copyrightText = copyright || `© ${year} ${businessName}. All rights reserved.`;
 
 const languages = [
   { code: "pl", label: "Polski" },
   { code: "en", label: "English" },
 ];
-
-// Dark-bg variants use light tone, light-bg variants use dark tone
-const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant);
 ---
 
 {callExtension && (
@@ -107,12 +100,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
   <footer class="bg-background border-t border-border shrink-0">
     <div class="container mx-auto py-6">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <p class="text-sm text-muted">{copyrightText}</p>
-          {links.map((link) => (
-            <a href={link.href} class="text-xs text-muted hover:text-foreground transition-colors">{link.label}</a>
-          ))}
-        </div>
+        <p class="text-sm text-muted">{copyrightText}</p>
         <div class="flex flex-wrap items-center gap-4">
           {currentLanguage && (
             <div class="lang-switcher flex items-center gap-1.5">
@@ -126,7 +114,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
             </div>
           )}
           <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
-          <span class="text-xs text-muted/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-muted hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
+          <span class="text-xs text-muted">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-foreground/60 hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
     </div>
@@ -153,11 +141,8 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
         )}
         <p class="text-sm text-on-primary/60">{copyrightText}</p>
         <div class="flex flex-wrap justify-center items-center gap-4 mt-3">
-          {links.map((link) => (
-            <a href={link.href} class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">{link.label}</a>
-          ))}
-          <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
-          <span class="text-xs text-on-primary/30">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/40 hover:text-on-primary/70 transition-colors">Hazelgrouse Studio</a></span>
+          <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">Ustawienia cookies</button>
+          <span class="text-xs text-on-primary/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
     </div>
@@ -173,10 +158,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
         {/* Brand Column */}
         <div>
-          <div class="flex items-center gap-spacing-sm mb-spacing-md">
-            {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7" />}
-            <span class="font-bold text-2xl tracking-tight text-foreground">{businessName}</span>
-          </div>
+          <span class="font-bold text-2xl tracking-tight block mb-spacing-md text-foreground">{businessName}</span>
           {tagline && <p class="text-muted text-sm leading-relaxed max-w-xs mb-spacing-xl">{tagline}</p>}
           {socialLinks.length > 0 && (
             <div class="flex items-center gap-spacing-lg">
@@ -193,7 +175,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
         {columns.map((column) => (
           <div>
             <h3 class="font-bold text-foreground mb-spacing-xl text-xs uppercase tracking-widest">{column.title}</h3>
-            <ul class="space-y-5">
+            <ul class="space-y-spacing-lg">
               {column.links.map((link) => {
                 const icon = getContactIcon(link.href || '');
                 return (
@@ -218,14 +200,8 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
 
       {/* Bottom Bar */}
       <div class="mt-spacing-3xl pt-spacing-lg border-t border-border/30 flex flex-col md:flex-row items-center justify-between gap-spacing-md">
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <p class="text-sm text-muted">{copyrightText}</p>
-          {links.map((link) => (
-            <a href={link.href} class="text-xs text-muted hover:text-foreground transition-colors">{link.label}</a>
-          ))}
-        </div>
-        <div class="flex flex-wrap items-center gap-x-spacing-xl gap-y-2">
-          <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-xs text-muted/60 hover:text-muted transition-colors">Made by Hazelgrouse Studio</a>
+        <p class="text-sm text-muted">{copyrightText}</p>
+        <div class="flex items-center gap-x-spacing-xl">
           {currentLanguage && (
             <div class="lang-switcher flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-muted"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
@@ -238,7 +214,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
             </div>
           )}
           <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
-          <span class="text-xs text-muted/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-muted hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
+          <span class="text-xs text-muted">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-foreground/60 hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
 
@@ -283,12 +259,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
     <div class="border-t border-border bg-primary/5">
       <div class="container mx-auto py-6">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <p class="text-sm text-muted">{copyrightText}</p>
-            {links.map((link) => (
-              <a href={link.href} class="text-xs text-muted hover:text-foreground transition-colors">{link.label}</a>
-            ))}
-          </div>
+          <p class="text-sm text-muted">{copyrightText}</p>
           <div class="flex items-center gap-6">
             {currentLanguage && (
               <div class="lang-switcher flex items-center gap-1.5">
@@ -302,7 +273,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
               </div>
             )}
             <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
-            <span class="text-xs text-muted/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-muted hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
+            <span class="text-xs text-muted">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-foreground/60 hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
           </div>
         </div>
       </div>
@@ -334,12 +305,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
         ))}
       </div>
       <div class="mt-12 pt-8 border-t border-on-primary/10 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <p class="text-sm text-on-primary/60">{copyrightText}</p>
-          {links.map((link) => (
-            <a href={link.href} class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">{link.label}</a>
-          ))}
-        </div>
+        <p class="text-sm text-on-primary/60">{copyrightText}</p>
         <div class="flex items-center gap-6">
           {currentLanguage && (
             <div class="lang-switcher flex items-center gap-1.5">
@@ -352,8 +318,8 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
               ))}
             </div>
           )}
-          <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
-          <span class="text-xs text-on-primary/30">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/40 hover:text-on-primary/70 transition-colors">Hazelgrouse Studio</a></span>
+          <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">Ustawienia cookies</button>
+          <span class="text-xs text-on-primary/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
     </div>
@@ -367,12 +333,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
         <span class="font-bold text-xl tracking-tight">{businessName}</span>
       </div>
       <div class="mt-8 pt-8 border-t border-on-primary/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <p class="text-sm text-on-primary/60">{copyrightText}</p>
-          {links.map((link) => (
-            <a href={link.href} class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">{link.label}</a>
-          ))}
-        </div>
+        <p class="text-sm text-on-primary/60">{copyrightText}</p>
         <div class="flex items-center gap-4">
           {currentLanguage && (
             <div class="lang-switcher flex items-center gap-1.5">
@@ -385,8 +346,8 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
               ))}
             </div>
           )}
-          <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
-          <span class="text-xs text-on-primary/30">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/40 hover:text-on-primary/70 transition-colors">Hazelgrouse Studio</a></span>
+          <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">Ustawienia cookies</button>
+          <span class="text-xs text-on-primary/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
     </div>

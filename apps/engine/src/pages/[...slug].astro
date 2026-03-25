@@ -58,10 +58,10 @@ const footerLinks = layout.footer.links?.map((link: any) => ({
   href: link.href || resolveTarget(link.target, business),
 })) || [];
 
-// Auto-build pages column from nav links
+// Auto-build pages column from nav links + footer legal links
 const pagesColumn = {
   title: t(translations, "footer.columns.pages.title", "Strony"),
-  links: navLinks,
+  links: [...navLinks, ...footerLinks],
 };
 
 // Pre-resolve footer columns (prepend auto pages column, then JSON columns)
