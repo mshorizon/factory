@@ -29,6 +29,8 @@ export function CategoriesFeatured({ items, exploreLabel, className }: Categorie
               src={item.image}
               alt={item.title}
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+              decoding="async"
             />
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary/40" />

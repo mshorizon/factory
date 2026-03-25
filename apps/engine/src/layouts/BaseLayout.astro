@@ -10,9 +10,10 @@ interface Props {
   theme: Theme;
   favicon?: string;
   lang?: string;
+  description?: string;
 }
 
-const { title, theme, favicon, lang = "en" } = Astro.props;
+const { title, theme, favicon, lang = "en", description } = Astro.props;
 
 // Helper function to darken a hex color
 function darkenColor(hex: string, percent: number = 35): string {
@@ -106,8 +107,10 @@ const googleFontsUrl = googleFonts.length > 0
     <meta charset="utf-8" />
     {favicon && <link rel="icon" href={favicon} />}
     {!favicon && <link rel="icon" type="image/svg+xml" href="/favicon.svg" />}
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    {description && <meta name="description" content={description} />}
+    <link rel="manifest" href="/api/manifest.webmanifest" />
     {googleFontsUrl && (
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -197,6 +200,12 @@ const googleFontsUrl = googleFonts.length > 0
     <ScrollToTopButton />
     <OverlayScrollbar />
     <CookieConsentBanner />
+    <script is:inline>
+      // Register Service Worker for PWA support
+      if ('serviceWorker' in navigator && window.parent === window) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }
+    </script>
     <script is:inline>
       // Preview iframe enhancements - only active inside preview iframe
       if (window.parent !== window) {

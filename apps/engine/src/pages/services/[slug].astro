@@ -4,8 +4,9 @@ import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import { getLayoutConfig, getNavLinks } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
-import { deepTranslate } from "../../lib/i18n";
+import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import type { BusinessProfile, Service } from "@mshorizon/schema";
 
 // Get route params
@@ -48,6 +49,13 @@ const navCta = business.navigation?.cta ? {
 
 // Build page title
 const pageTitle = `${service.title} | ${business.business.name}`;
+
+// Breadcrumbs
+const breadcrumbs = [
+  { label: t(translations, "nav.home", "Strona główna"), href: "/" },
+  { label: t(translations, "nav.services", "Usługi"), href: "/services" },
+  { label: service.title },
+];
 
 // Pre-resolve footer links
 const footerLinks = layout.footer.links?.map((link: any) => ({
@@ -134,6 +142,10 @@ const socialLinks = business.business.socials
                     src={service.image}
                     alt={service.title}
                     class="w-full h-full object-cover"
+                    loading="eager"
+                    decoding="async"
+                    width="930"
+                    height="320"
                   />
                 </div>
               </div>
@@ -145,9 +157,12 @@ const socialLinks = business.business.socials
 
     <!-- White Content Section -->
     <section class="relative bg-background pt-16 md:pt-24 pb-16 md:pb-24">
+      <!-- Breadcrumbs -->
+      <Breadcrumbs items={breadcrumbs} />
+
       <!-- Service Content -->
       {service.content && (
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 mt-spacing-lg">
           <div class="max-w-3xl mx-auto prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground">
             <Fragment set:html={service.content} />
           </div>

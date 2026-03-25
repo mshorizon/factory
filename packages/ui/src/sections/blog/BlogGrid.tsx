@@ -27,6 +27,8 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
                     src={post.image}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-b-radius-secondary"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               )}

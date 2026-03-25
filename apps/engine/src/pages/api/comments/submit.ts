@@ -1,9 +1,29 @@
 import type { APIRoute } from "astro";
 import { createComment } from "@mshorizon/db";
 import { verifyTurnstile } from "../../../lib/turnstile";
+import { rateLimit } from "../../../lib/rate-limit";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+
+    const { ok, retryAfter } = rateLimit(`comment:${ip}`, 3, 5 * 60_000);
+    if (!ok) {
+      return new Response(
+        JSON.stringify({ error: "Too many requests. Please try again later." }),
+        {
+          status: 429,
+          headers: {
+            "Content-Type": "application/json",
+            "Retry-After": String(retryAfter),
+          },
+        }
+      );
+    }
+
     const body = await request.json();
     const { blogId, authorName, authorEmail, content, turnstileToken } = body;
 

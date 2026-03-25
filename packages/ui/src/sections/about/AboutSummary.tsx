@@ -55,6 +55,8 @@ export function AboutSummary({
                 className="relative w-full h-full object-cover rounded-radius-secondary shadow-lg"
                 style={{ zIndex: 1 }}
                 data-field="image"
+                loading="lazy"
+                decoding="async"
               />
 
               {/* Yellow badge overlay - positioned to extend beyond image */}

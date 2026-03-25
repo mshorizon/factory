@@ -32,6 +32,8 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
                   src={item.image}
                   alt={item.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
               </>

@@ -26,6 +26,8 @@ export function GalleryBA({ pairs, className }: GalleryBAProps) {
                     src={pair.before}
                     alt={`${pair.title} - Before`}
                     className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <Badge className="absolute bottom-spacing-xs left-spacing-xs" variant="default">
                     Before
@@ -36,6 +38,8 @@ export function GalleryBA({ pairs, className }: GalleryBAProps) {
                     src={pair.after}
                     alt={`${pair.title} - After`}
                     className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <Badge className="absolute bottom-spacing-xs left-spacing-xs" variant="default">
                     After

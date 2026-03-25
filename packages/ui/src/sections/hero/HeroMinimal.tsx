@@ -89,6 +89,8 @@ export function HeroMinimal({
                   src={heroImage}
                   alt=""
                   className="w-full h-full object-cover"
+                  loading="eager"
+                  decoding="async"
                 />
                 {/* Decorative overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent" />
