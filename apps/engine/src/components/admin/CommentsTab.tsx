@@ -131,6 +131,7 @@ export function CommentsTab({ businessId }: CommentsTabProps) {
           href={`/blog/${row.original.blogSlug}`}
           className="text-sm hover:underline"
           target="_blank"
+          rel="noopener noreferrer"
         >
           {row.original.blogTitle}
         </a>

@@ -10,9 +10,10 @@ interface Props {
   theme: Theme;
   favicon?: string;
   lang?: string;
+  description?: string;
 }
 
-const { title, theme, favicon, lang = "en" } = Astro.props;
+const { title, theme, favicon, lang = "en", description } = Astro.props;
 
 // Umami analytics - skip in preview mode and when not configured
 const isPreview = Astro.url.searchParams.get("_preview") === "1";
@@ -111,8 +112,10 @@ const googleFontsUrl = googleFonts.length > 0
     <meta charset="utf-8" />
     {favicon && <link rel="icon" href={favicon} />}
     {!favicon && <link rel="icon" type="image/svg+xml" href="/favicon.svg" />}
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    {description && <meta name="description" content={description} />}
+    <link rel="manifest" href="/api/manifest.webmanifest" />
     {googleFontsUrl && (
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -236,6 +239,10 @@ const googleFontsUrl = googleFonts.length > 0
     <OverlayScrollbar />
     <CookieConsentBanner />
     <script is:inline>
+      // Register Service Worker for PWA support
+      if ('serviceWorker' in navigator && window.parent === window) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }
       (function() {
         var els = document.querySelectorAll('[data-reveal]');
         if (!els.length) return;

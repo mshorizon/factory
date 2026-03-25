@@ -150,6 +150,8 @@ export function HeroSplit({
                       src={heroImage}
                       alt=""
                       className="absolute inset-0 w-full h-full object-cover"
+                      loading="eager"
+                      decoding="async"
                     />
                   </div>
                 </div>

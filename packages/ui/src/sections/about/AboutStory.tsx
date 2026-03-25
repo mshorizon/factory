@@ -36,6 +36,8 @@ export function AboutStory({
                 alt=""
                 className="w-full h-[400px] object-cover rounded-radius-secondary shadow-lg"
                 data-field="image"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </ScrollReveal>

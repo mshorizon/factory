@@ -1,0 +1,60 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="container mx-auto px-spacing-container py-3">
+  <ol
+    class="flex flex-wrap items-center gap-1.5 text-sm text-muted"
+    itemscope
+    itemtype="https://schema.org/BreadcrumbList"
+  >
+    {items.map((item, index) => (
+      <li
+        class="flex items-center gap-1.5"
+        itemprop="itemListElement"
+        itemscope
+        itemtype="https://schema.org/ListItem"
+      >
+        {item.href && index < items.length - 1 ? (
+          <a
+            href={item.href}
+            class="hover:text-primary transition-colors"
+            itemprop="item"
+          >
+            <span itemprop="name">{item.label}</span>
+          </a>
+        ) : (
+          <span class="text-foreground font-medium" itemprop="name">
+            {item.label}
+          </span>
+        )}
+        {index < items.length - 1 && (
+          <svg
+            class="w-3.5 h-3.5 text-muted/60 flex-shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        )}
+        <meta itemprop="position" content={String(index + 1)} />
+      </li>
+    ))}
+  </ol>
+</nav>
