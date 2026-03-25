@@ -116,22 +116,15 @@ export function CookieConsent() {
   return (
     <div
       className="fixed bottom-0 left-0 right-0 z-[9997] section-bg-dark border-t border-white/10 overflow-hidden transition-[max-height] duration-500 ease-in-out"
-      style={{ maxHeight: expanded ? "600px" : "var(--spacing-section-sm)" }}
+      style={{ maxHeight: expanded ? "800px" : "200px" }}
     >
       <div className="container mx-auto px-spacing-container">
         {/* Main bar */}
-        <div
-          className="flex items-center gap-spacing-md"
-          style={{ height: "var(--spacing-section-sm)" }}
-        >
-          <p className="text-sm text-foreground flex-1 leading-relaxed hidden md:block">
-            Używamy plików cookies, aby zapewnić prawidłowe działanie strony oraz — za Twoją zgodą —
-            do celów analitycznych i marketingowych.
+        <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-spacing-md py-4 md:py-0" style={{ minHeight: "var(--spacing-section-sm)" }}>
+          <p className="text-sm text-foreground flex-1 leading-relaxed">
+            Używamy plików cookies, aby zapewnić prawidłowe działanie strony oraz — za Twoją zgodą — do celów analitycznych i marketingowych.
           </p>
-          <p className="text-sm text-foreground flex-1 leading-relaxed md:hidden">
-            Używamy plików cookies.
-          </p>
-          <div className="flex flex-wrap gap-spacing-sm shrink-0">
+          <div className="flex flex-wrap gap-2 shrink-0">
             <Button variant="outline" size="sm" onClick={acceptNecessary}>
               Tylko niezbędne
             </Button>
@@ -145,8 +138,8 @@ export function CookieConsent() {
         </div>
 
         {/* Expandable preferences */}
-        <div className="border-t border-white/10 pb-spacing-xl pt-spacing-lg flex flex-col gap-spacing-md">
-          <div className="flex flex-wrap gap-x-spacing-3xl gap-y-spacing-md">
+        <div className="border-t border-white/10 pb-6 pt-4 flex flex-col gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <CookieRow
               label="Niezbędne"
               description="Wymagane do prawidłowego działania strony."
@@ -166,7 +159,7 @@ export function CookieConsent() {
               onChange={() => setMarketing((v) => !v)}
             />
           </div>
-          <div className="flex gap-spacing-sm">
+          <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={saveCustom}>
               Zapisz wybór
             </Button>
