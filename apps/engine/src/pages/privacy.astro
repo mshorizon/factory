@@ -1,0 +1,175 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import PageHero from "../components/PageHero.astro";
+import { getLayoutConfig, getNavLinks } from "../lib/pages";
+import { resolveTarget } from "../lib/target";
+import { deepTranslate } from "../lib/i18n";
+import { deepResolveImages } from "../lib/images";
+import type { BusinessProfile } from "@mshorizon/schema";
+
+const { businessId, businessData, theme, currentLang, t: translations } = Astro.locals;
+
+const translatedData = deepTranslate(translations, businessData) as BusinessProfile;
+const business = deepResolveImages(translatedData, businessId);
+const layout = getLayoutConfig(business);
+
+const navLinksRaw = getNavLinks(business);
+const navLinks = navLinksRaw.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+}));
+
+const navCta = business.navigation?.cta ? {
+  label: business.navigation.cta.label,
+  href: resolveTarget(business.navigation.cta.target, business),
+} : undefined;
+
+const footerLinks = layout.footer.links?.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+})) || [];
+
+const pagesColumn = {
+  title: "Strony",
+  links: navLinks,
+};
+
+const footerColumns = [
+  pagesColumn,
+  ...(layout.footer.columns?.map((col: any) => ({
+    title: col.title,
+    links: col.links?.map((link: any) => ({
+      label: link.label,
+      href: link.href || resolveTarget(link.target, business),
+    })) || [],
+  })) || []),
+];
+
+const hasShopSection = Object.values(business.pages).some((p: any) =>
+  p.sections?.some((s: any) => s.type === "shop")
+);
+
+const socialLinks = business.business.socials
+  ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
+  : [];
+
+const businessName = business.business.name;
+const email = business.business.contact?.email;
+const year = new Date().getFullYear();
+---
+
+<BaseLayout title={`Polityka prywatności | ${businessName}`} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
+  <Navbar
+    logo={businessName}
+    logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    links={navLinks}
+    cta={navCta}
+    variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
+    showCart={hasShopSection}
+    extensions={layout.navbar.extensions}
+    contact={business.business.contact}
+    socials={business.business.socials}
+  />
+  <main class="flex-1">
+    <PageHero title="Polityka prywatności" hasUpperBar={layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') ?? false} />
+    <div class="container mx-auto py-spacing-section-sm">
+      <div class="max-w-3xl mx-auto prose prose-neutral">
+        <h2>1. Administrator danych osobowych</h2>
+        <p>
+          Administratorem danych osobowych jest <strong>{businessName}</strong>.
+          {email && <> W sprawach dotyczących ochrony danych osobowych można się kontaktować pod adresem e-mail: <a href={`mailto:${email}`}>{email}</a>.</>}
+        </p>
+
+        <h2>2. Zakres zbieranych danych</h2>
+        <p>
+          Zbieramy dane osobowe, które podajesz dobrowolnie, w szczególności poprzez formularz kontaktowy (imię, adres e-mail, treść wiadomości). Dane te są niezbędne do udzielenia odpowiedzi na Twoje zapytanie.
+        </p>
+
+        <h2>3. Cel i podstawa prawna przetwarzania</h2>
+        <p>
+          Twoje dane osobowe przetwarzamy w celu:
+        </p>
+        <ul>
+          <li>odpowiedzi na przesłane zapytania (art. 6 ust. 1 lit. b RODO – niezbędność do wykonania umowy lub podjęcia działań przed jej zawarciem),</li>
+          <li>realizacji prawnie uzasadnionych interesów administratora, takich jak obsługa korespondencji (art. 6 ust. 1 lit. f RODO).</li>
+        </ul>
+
+        <h2>4. Okres przechowywania danych</h2>
+        <p>
+          Dane przechowujemy przez czas niezbędny do realizacji celu, w jakim zostały zebrane, a następnie przez okres wynikający z przepisów prawa lub do momentu wniesienia sprzeciwu wobec przetwarzania.
+        </p>
+
+        <h2>5. Prawa osoby, której dane dotyczą</h2>
+        <p>Przysługuje Ci prawo do:</p>
+        <ul>
+          <li>dostępu do swoich danych oraz otrzymania ich kopii,</li>
+          <li>sprostowania (poprawiania) danych,</li>
+          <li>usunięcia danych (prawo do bycia zapomnianym),</li>
+          <li>ograniczenia przetwarzania danych,</li>
+          <li>wniesienia sprzeciwu wobec przetwarzania,</li>
+          <li>przenoszenia danych,</li>
+          <li>wniesienia skargi do organu nadzorczego (Prezes Urzędu Ochrony Danych Osobowych, ul. Stawki 2, 00-193 Warszawa).</li>
+        </ul>
+
+        <h2>6. Pliki cookies</h2>
+        <p>
+          Serwis może używać plików cookies (ciasteczek) w celu zapewnienia prawidłowego działania strony, zapisania preferencji językowych oraz analizy ruchu. Możesz zablokować zapisywanie plików cookies w ustawieniach swojej przeglądarki.
+        </p>
+
+        <h2>7. Przekazywanie danych podmiotom trzecim</h2>
+        <p>
+          Dane osobowe nie są sprzedawane ani udostępniane podmiotom trzecim w celach marketingowych. Mogą być przekazywane wyłącznie podmiotom świadczącym usługi na naszą rzecz (np. hostingowym, e-mailowym) na podstawie umów powierzenia przetwarzania danych.
+        </p>
+
+        <h2>8. Zmiany polityki prywatności</h2>
+        <p>
+          Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej polityce prywatności. Aktualna wersja jest zawsze dostępna na tej stronie.
+        </p>
+
+        <p class="text-sm text-muted mt-8">Ostatnia aktualizacja: {year}</p>
+      </div>
+    </div>
+  </main>
+  <Footer
+    businessName={businessName}
+    logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    links={footerLinks}
+    columns={footerColumns}
+    copyright={layout.footer.copyright}
+    tagline={layout.footer.tagline}
+    currentLanguage={currentLang}
+    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
+    socialLinks={socialLinks}
+    extensions={layout.footer.extensions}
+  />
+</BaseLayout>
+
+<style>
+  .prose h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--foreground);
+  }
+  .prose p, .prose li {
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+  }
+  .prose ul {
+    padding-left: 1.5rem;
+    list-style-type: disc;
+    margin-bottom: 1rem;
+  }
+  .prose a {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+  .prose strong {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+</style>
