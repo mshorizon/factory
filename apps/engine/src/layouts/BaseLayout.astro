@@ -197,12 +197,37 @@ const googleFontsUrl = googleFonts.length > 0
       }
     </style>
     {!isPreview && umamiWebsiteId && umamiUrl && (
-      <script
-        defer
-        src={`${umamiUrl}/script.js`}
-        data-website-id={umamiWebsiteId}
-        is:inline
-      />
+      <script define:vars={{ umamiUrl, umamiWebsiteId }} is:inline>
+        (function () {
+          function loadUmami() {
+            if (document.querySelector('script[data-website-id]')) return;
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = umamiUrl + '/script.js';
+            s.setAttribute('data-website-id', umamiWebsiteId);
+            document.head.appendChild(s);
+          }
+
+          function checkConsent() {
+            try {
+              var consent = JSON.parse(localStorage.getItem('cookie-consent') || 'null');
+              if (consent && consent.analytics) loadUmami();
+            } catch (e) {}
+          }
+
+          // Check on load
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkConsent);
+          } else {
+            checkConsent();
+          }
+
+          // Re-check when consent is saved (CookieConsent dispatches storage event)
+          window.addEventListener('storage', function (e) {
+            if (e.key === 'cookie-consent') checkConsent();
+          });
+        })();
+      </script>
     )}
   </head>
   <body class="flex flex-col min-h-screen" data-overlayscrollbars-initialize>

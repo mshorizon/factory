@@ -59,7 +59,7 @@ export function HeroMinimal({
                       className="shadow-lg shadow-primary/25"
                       data-field="cta"
                     >
-                      <a href={cta.href}>
+                      <a href={cta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
                         {cta.label}
                         <ArrowRight className="ml-1 h-5 w-5" />
                       </a>
@@ -72,7 +72,7 @@ export function HeroMinimal({
                       variant={secondaryCta.variant || "outline"}
                       data-field="secondaryCta"
                     >
-                      <a href={secondaryCta.href}>{secondaryCta.label}</a>
+                      <a href={secondaryCta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero-secondary', label: secondaryCta.label })}>{secondaryCta.label}</a>
                     </Button>
                   )}
                 </div>

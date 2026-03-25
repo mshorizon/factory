@@ -88,7 +88,7 @@ export function HeroSplit({
                       className="shadow-lg shadow-primary/25 h-16 pl-8 pr-3 text-base font-semibold hover:brightness-90 transition-all group"
                       data-field="cta"
                     >
-                      <a href={cta.href} className="flex items-center gap-spacing-md">
+                      <a href={cta.href} className="flex items-center gap-spacing-md" onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
                         {/* Phone number on the left */}
                         <span className="text-lg font-bold tracking-wide">
                           {phone || cta.label}
@@ -108,7 +108,7 @@ export function HeroSplit({
                       className="h-16 px-spacing-2xl text-base font-semibold border-2 border-border text-muted hover:bg-white hover:border-white hover:text-[#16181D] transition-all"
                       data-field="secondaryCta"
                     >
-                      <a href={secondaryCta.href} className="hover:!text-[#16181D]">{secondaryCta.label}</a>
+                      <a href={secondaryCta.href} className="hover:!text-[#16181D]" onClick={() => (window as any).umami?.track('cta-click', { section: 'hero-secondary', label: secondaryCta.label })}>{secondaryCta.label}</a>
                     </Button>
                   )}
                 </div>

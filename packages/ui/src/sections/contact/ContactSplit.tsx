@@ -53,6 +53,7 @@ export function ContactSplit({
       if (res.ok) {
         setStatus("success");
         (e.target as HTMLFormElement).reset();
+        (window as any).umami?.track('contact-form-submit');
       } else {
         setStatus("error");
       }

@@ -99,16 +99,18 @@ export const GET: APIRoute = async ({ locals, url }) => {
       unit: "day",
     });
 
-    const [stats, pageviews, pages, referrers, devices] = await Promise.all([
+    const [stats, pageviews, pages, referrers, devices, utmSources, utmCampaigns] = await Promise.all([
       umamiRequest(`/websites/${websiteId}/stats?${baseParams}`),
       umamiRequest(`/websites/${websiteId}/pageviews?${pageviewParams}`),
       umamiRequest(`/websites/${websiteId}/metrics?${baseParams}&type=path`),
       umamiRequest(`/websites/${websiteId}/metrics?${baseParams}&type=referrer`),
       umamiRequest(`/websites/${websiteId}/metrics?${baseParams}&type=device`),
+      umamiRequest(`/websites/${websiteId}/metrics?${baseParams}&type=utm_source`).catch(() => []),
+      umamiRequest(`/websites/${websiteId}/metrics?${baseParams}&type=utm_campaign`).catch(() => []),
     ]);
 
     return new Response(
-      JSON.stringify({ websiteId, stats, pageviews, pages, referrers, devices }),
+      JSON.stringify({ websiteId, stats, pageviews, pages, referrers, devices, utmSources, utmCampaigns }),
       { headers: { "Content-Type": "application/json" } }
     );
   } catch (err) {

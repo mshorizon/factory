@@ -27,7 +27,7 @@ export function CtaBannerDefault({
         )}
         {ctaLabel && (
           <Button asChild size="xl" className="shadow-lg shadow-primary/25">
-            <a href={ctaHref}>
+            <a href={ctaHref} onClick={() => (window as any).umami?.track('cta-click', { section: 'cta-banner', label: ctaLabel })}>
               {ctaLabel}
               {isPhone ? <Phone className="ml-2 h-5 w-5" /> : <ArrowRight className="ml-2 h-5 w-5" />}
             </a>
