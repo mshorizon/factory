@@ -14,6 +14,7 @@ export {
   getAllSubdomains,
   getSiteBySubdomain,
   upsertSiteConfig,
+  updateSiteUmamiId,
   updateSiteTranslations,
   getBlogsBySiteId,
   getBlogBySlug,

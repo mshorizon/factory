@@ -7,6 +7,7 @@ export const sites = pgTable("sites", {
   industry: text("industry"),
   config: jsonb("config").notNull(),
   translations: jsonb("translations").$type<Record<string, Record<string, unknown>>>().default({}),
+  umamiWebsiteId: text("umami_website_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

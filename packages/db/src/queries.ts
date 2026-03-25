@@ -50,6 +50,14 @@ export async function upsertSiteConfig(
   }
 }
 
+export async function updateSiteUmamiId(subdomain: string, umamiWebsiteId: string) {
+  const db = getDb();
+  await db
+    .update(sites)
+    .set({ umamiWebsiteId, updatedAt: new Date() })
+    .where(eq(sites.subdomain, subdomain));
+}
+
 export async function updateSiteTranslations(
   subdomain: string,
   translations: Record<string, Record<string, unknown>>

@@ -9,6 +9,7 @@ import SectionEditor from "./SectionEditor";
 import { BlogManagement } from "./BlogManagement";
 import { ProductsTab } from "./ProductsTab";
 import { ServicesTab } from "./ServicesTab";
+import { AnalyticsTab } from "./AnalyticsTab";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -62,6 +63,7 @@ import {
   Loader2,
   Trash2,
   MoreHorizontal,
+  BarChart2,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1148,6 +1150,10 @@ export default function AdminForm({
       return <BlogManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
 
+    if (activeTab === "analytics") {
+      return <AnalyticsTab businessId={businessId} />;
+    }
+
     if (activeTab === "translations") {
       return (
         <Tabs value={translationsSubTab} onValueChange={(v) => setTranslationsSubTab(v as "en" | "pl")} orientation="horizontal">
@@ -1257,6 +1263,12 @@ export default function AdminForm({
         { id: "theme", label: "Theme", Icon: Palette },
         { id: "navbar", label: "Navbar", Icon: Menu },
         { id: "footer", label: "Footer", Icon: Footprints },
+      ],
+    },
+    {
+      label: "Insights",
+      items: [
+        { id: "analytics", label: "Analytics", Icon: BarChart2 },
       ],
     },
   ];

@@ -14,6 +14,11 @@ interface Props {
 
 const { title, theme, favicon, lang = "en" } = Astro.props;
 
+// Umami analytics - skip in preview mode and when not configured
+const isPreview = Astro.url.searchParams.get("_preview") === "1";
+const umamiWebsiteId = Astro.locals.site?.umamiWebsiteId;
+const umamiUrl = import.meta.env.PUBLIC_UMAMI_URL;
+
 // Helper function to darken a hex color
 function darkenColor(hex: string, percent: number = 35): string {
   const num = parseInt(hex.replace("#", ""), 16);
@@ -191,6 +196,14 @@ const googleFontsUrl = googleFonts.length > 0
         color: var(--foreground);
       }
     </style>
+    {!isPreview && umamiWebsiteId && umamiUrl && (
+      <script
+        defer
+        src={`${umamiUrl}/script.js`}
+        data-website-id={umamiWebsiteId}
+        is:inline
+      />
+    )}
   </head>
   <body class="flex flex-col min-h-screen" data-overlayscrollbars-initialize>
     <slot />
