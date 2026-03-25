@@ -129,6 +129,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
               ))}
             </nav>
           )}
+          <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
         </div>
       </div>
     </div>
@@ -163,6 +164,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
           </div>
         )}
         <p class="text-sm text-on-primary/60">{copyrightText}</p>
+        <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
       </div>
     </div>
   </footer>
@@ -245,6 +247,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
               ))}
             </nav>
           )}
+          <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
         </div>
       </div>
 
@@ -311,6 +314,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
                 ))}
               </nav>
             )}
+            <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
           </div>
         </div>
       </div>
@@ -364,6 +368,7 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
               ))}
             </nav>
           )}
+          <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
         </div>
       </div>
     </div>
@@ -389,17 +394,20 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
       </div>
       <div class="mt-8 pt-8 border-t border-on-primary/10 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-sm text-on-primary/60">{copyrightText}</p>
-        {currentLanguage && (
-          <div class="lang-switcher flex items-center gap-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-            {languages.map((lang, i) => (
-              <>
-                {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
-                <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
-              </>
-            ))}
-          </div>
-        )}
+        <div class="flex items-center gap-4">
+          {currentLanguage && (
+            <div class="lang-switcher flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              {languages.map((lang, i) => (
+                <>
+                  {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
+                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
+                </>
+              ))}
+            </div>
+          )}
+          <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
+        </div>
       </div>
     </div>
   </footer>
@@ -413,6 +421,12 @@ const isDark = ["simple", "multiColumn", "centered", "branded"].includes(variant
         document.cookie = `lang=${lang};path=/;max-age=31536000;SameSite=Lax`;
         window.location.href = window.location.pathname;
       }
+    });
+  });
+
+  document.querySelectorAll('[data-cookie-settings]').forEach((button) => {
+    button.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('open-cookie-consent'));
     });
   });
 </script>

@@ -78,6 +78,19 @@ export function CookieConsent() {
 
   React.useEffect(() => {
     if (!loadConsent()) setVisible(true);
+
+    function handleOpen() {
+      const saved = loadConsent();
+      if (saved) {
+        setAnalytics(saved.analytics);
+        setMarketing(saved.marketing);
+      }
+      setExpanded(true);
+      setVisible(true);
+    }
+
+    window.addEventListener("open-cookie-consent", handleOpen);
+    return () => window.removeEventListener("open-cookie-consent", handleOpen);
   }, []);
 
   function acceptNecessary() {
