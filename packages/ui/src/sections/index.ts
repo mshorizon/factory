@@ -70,6 +70,10 @@ export type { CtaBannerProps } from "./ctaBanner";
 export { BlogGrid } from "./blog";
 export type { BlogGridProps, BlogPost } from "./blog";
 
+// Project variants
+export { ProjectGrid } from "./project";
+export type { ProjectGridProps, ProjectCard } from "./project";
+
 // Map variants
 export { GoogleMap } from "./map";
 export type { GoogleMapProps } from "./map";

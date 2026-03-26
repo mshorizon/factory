@@ -1,8 +1,8 @@
 import { eq, and, desc } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, pushSubscriptions } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment, NewPushSubscription } from "./schema.js";
+import type { NewBlog, NewComment, NewProject, NewPushSubscription } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -140,6 +140,55 @@ export async function updateBlog(id: number, blog: Partial<NewBlog>) {
 export async function deleteBlog(id: number) {
   const db = getDb();
   await db.delete(blogs).where(eq(blogs.id, id));
+}
+
+// ========== Project Queries ==========
+
+export async function getProjectsBySiteId(siteId: number, publishedOnly = true, lang?: string) {
+  const db = getDb();
+  const conditions = [eq(projects.siteId, siteId)];
+  if (publishedOnly) conditions.push(eq(projects.status, "published"));
+  if (lang) conditions.push(eq(projects.lang, lang));
+
+  return await db
+    .select()
+    .from(projects)
+    .where(and(...conditions))
+    .orderBy(desc(projects.publishedAt));
+}
+
+export async function getProjectBySlug(siteId: number, slug: string, lang?: string) {
+  const db = getDb();
+  const conditions = [eq(projects.siteId, siteId), eq(projects.slug, slug)];
+  if (lang) conditions.push(eq(projects.lang, lang));
+
+  const [row] = await db
+    .select()
+    .from(projects)
+    .where(and(...conditions))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function createProject(project: NewProject) {
+  const db = getDb();
+  const [newProject] = await db.insert(projects).values(project).returning();
+  return newProject;
+}
+
+export async function updateProject(id: number, project: Partial<NewProject>) {
+  const db = getDb();
+  const [updated] = await db
+    .update(projects)
+    .set({ ...project, updatedAt: new Date() })
+    .where(eq(projects.id, id))
+    .returning();
+  return updated;
+}
+
+export async function deleteProject(id: number) {
+  const db = getDb();
+  await db.delete(projects).where(eq(projects.id, id));
 }
 
 // ========== Comment Queries ==========

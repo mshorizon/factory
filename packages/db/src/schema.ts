@@ -50,6 +50,35 @@ export const blogs = pgTable("blogs", {
 export type Blog = typeof blogs.$inferSelect;
 export type NewBlog = typeof blogs.$inferInsert;
 
+export const projects = pgTable("projects", {
+  id: serial("id").primaryKey(),
+  siteId: integer("site_id").notNull().references(() => sites.id, { onDelete: 'cascade' }),
+
+  // Content
+  slug: text("slug").notNull(),
+  lang: text("lang").notNull().default("en"), // "en" | "pl"
+  title: text("title").notNull(),
+  description: text("description"),
+  image: text("image"),
+
+  // Metadata
+  category: text("category"),
+  tags: jsonb("tags").$type<string[]>().default([]),
+
+  // Publishing
+  status: text("status").notNull().default("draft"), // "draft" | "published"
+  publishedAt: timestamp("published_at"),
+
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  uniqueSlugPerSiteLang: unique().on(table.siteId, table.slug, table.lang),
+}));
+
+export type Project = typeof projects.$inferSelect;
+export type NewProject = typeof projects.$inferInsert;
+
 export const comments = pgTable("comments", {
   id: serial("id").primaryKey(),
   blogId: integer("blog_id").notNull().references(() => blogs.id, { onDelete: 'cascade' }),

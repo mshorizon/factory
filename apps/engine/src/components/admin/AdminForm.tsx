@@ -7,6 +7,7 @@ import { ImageUrlWidget } from "./widgets/ImageUrlWidget";
 import { ObjectFieldTemplate, FieldTemplate } from "./RjsfTemplates";
 import SectionEditor from "./SectionEditor";
 import { BlogManagement } from "./BlogManagement";
+import { ProjectManagement } from "./ProjectManagement";
 import { ProductsTab } from "./ProductsTab";
 import { ServicesTab } from "./ServicesTab";
 import { NotificationsTab } from "./NotificationsTab";
@@ -73,6 +74,7 @@ import {
   Bell,
   MoreHorizontal,
   BarChart2,
+  FolderKanban,
   LogOut,
   Users,
   Shield,
@@ -1276,6 +1278,11 @@ export default function AdminForm({
     if (activeTab === "blog") {
       return <BlogManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
+    
+    if (activeTab === "projects") {
+      return <ProjectManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
+    }
+    
     if (activeTab === "notifications") {
       return (
         <NotificationsTab
@@ -1398,6 +1405,7 @@ export default function AdminForm({
         { id: "data-products", label: "Products", Icon: ShoppingBag },
         { id: "data-services", label: "Services", Icon: Wrench },
         { id: "blog", label: "Blog", Icon: FileEdit },
+        { id: "projects", label: "Projects", Icon: FolderKanban },
       ],
     },
     {
