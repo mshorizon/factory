@@ -576,7 +576,8 @@
       ]
     },
     "projects": {
-      "title": "t:pages.projects.title"
+      "title": "t:pages.projects.title",
+      "sections": []
     },
     "contact": {
       "title": "t:pages.contact.title",
