@@ -34,7 +34,7 @@ export function AboutStory({
               <img
                 src={image}
                 alt=""
-                className="w-full max-w-[364px] h-[300px] object-cover rounded-radius-secondary shadow-lg"
+                className="w-[364px] max-w-full h-[300px] object-cover rounded-radius-secondary shadow-lg"
                 data-field="image"
                 loading="lazy"
                 decoding="async"

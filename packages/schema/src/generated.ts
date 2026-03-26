@@ -74,6 +74,7 @@ export type SectionType =
   | "categories"
   | "about"
   | "about-summary"
+  | "mission"
   | "contact"
   | "shop"
   | "gallery"

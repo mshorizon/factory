@@ -139,7 +139,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map"]
         },
         "variant": { "type": "string", "title": "Variant" },
         "background": {
