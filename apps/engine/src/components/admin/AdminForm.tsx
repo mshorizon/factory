@@ -9,6 +9,7 @@ import SectionEditor from "./SectionEditor";
 import { BlogManagement } from "./BlogManagement";
 import { ProductsTab } from "./ProductsTab";
 import { ServicesTab } from "./ServicesTab";
+import { NotificationsTab } from "./NotificationsTab";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -61,6 +62,7 @@ import {
   Star,
   Loader2,
   Trash2,
+  Bell,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1106,6 +1108,19 @@ export default function AdminForm({
       return <BlogManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
 
+    if (activeTab === "notifications") {
+      return (
+        <NotificationsTab
+          businessId={businessId}
+          notifications={(formData.notifications || {}) as any}
+          onChange={(notifications) => {
+            setFormData((prev) => ({ ...prev, notifications }));
+            setSaveStatus("idle");
+          }}
+        />
+      );
+    }
+
     if (activeTab === "translations-en") return <TranslationsEditor lang="en" />;
     if (activeTab === "translations-pl") return <TranslationsEditor lang="pl" />;
 
@@ -1182,6 +1197,7 @@ export default function AdminForm({
       label: "General",
       items: [
         { id: "meta", label: "Business", Icon: Briefcase },
+        { id: "notifications", label: "Notifications", Icon: Bell },
       ],
     },
     {

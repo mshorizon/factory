@@ -138,6 +138,13 @@ export type Region =
 export type Sections = Section[];
 export type Services = Service[];
 export type Products1 = Product[];
+export type EnableSMSNotifications = boolean;
+export type SMSProvider = "smsapi" | "twilio";
+export type RecipientPhoneNumberWithCountryCodeEG48500600700 = string;
+export type ProviderAPITokenAuthKey = string;
+export type SenderNameOptionalMax11Chars = string;
+export type MessageTemplate = string;
+export type EnableWebPushNotifications = boolean;
 
 export interface BusinessProfile {
   business: Business;
@@ -146,6 +153,7 @@ export interface BusinessProfile {
   navigation?: Navigation;
   pages?: Pages;
   data?: Data;
+  notifications?: Notifications;
 }
 export interface Business {
   id: BusinessID;
@@ -438,4 +446,19 @@ export interface Service {
   duration?: string;
   features?: string[];
   available?: boolean;
+}
+export interface Notifications {
+  sms?: SMSNotifications;
+  push?: WebPushNotifications;
+}
+export interface SMSNotifications {
+  enabled?: EnableSMSNotifications;
+  provider?: SMSProvider;
+  phoneNumber?: RecipientPhoneNumberWithCountryCodeEG48500600700;
+  apiToken?: ProviderAPITokenAuthKey;
+  senderName?: SenderNameOptionalMax11Chars;
+  template?: MessageTemplate;
+}
+export interface WebPushNotifications {
+  enabled?: EnableWebPushNotifications;
 }

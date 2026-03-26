@@ -704,6 +704,40 @@
           "items": { "$ref": "#/definitions/product" }
         }
       }
+    },
+    "notifications": {
+      "type": "object",
+      "title": "Notifications",
+      "properties": {
+        "sms": {
+          "type": "object",
+          "title": "SMS Notifications",
+          "properties": {
+            "enabled": { "type": "boolean", "title": "Enable SMS Notifications", "default": false },
+            "provider": {
+              "type": "string",
+              "title": "SMS Provider",
+              "enum": ["smsapi", "twilio"],
+              "default": "smsapi"
+            },
+            "phoneNumber": { "type": "string", "title": "Recipient Phone Number (with country code, e.g. +48500600700)" },
+            "apiToken": { "type": "string", "title": "Provider API Token / Auth Key" },
+            "senderName": { "type": "string", "title": "Sender Name (optional, max 11 chars)" },
+            "template": {
+              "type": "string",
+              "title": "Message Template",
+              "default": "New message from {{name}} ({{email}}): {{message}}"
+            }
+          }
+        },
+        "push": {
+          "type": "object",
+          "title": "Web Push Notifications",
+          "properties": {
+            "enabled": { "type": "boolean", "title": "Enable Web Push Notifications", "default": false }
+          }
+        }
+      }
     }
   },
   "required": ["business", "theme"]
