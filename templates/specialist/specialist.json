@@ -521,6 +521,24 @@
             }
           }
         },
+        {
+          "type": "mission",
+          "background": "dark",
+          "header": {
+            "badge": "t:mission.badge",
+            "title": "t:mission.title",
+            "subtitle": "t:mission.subtitle"
+          },
+          "items": [
+            {
+              "title": "t:mission.checkpoints.0"
+            },
+            {
+              "title": "t:mission.checkpoints.1"
+            }
+          ],
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/mission-electrician.jpg"
+        },
         { "type": "ref", "sectionId": "about-summary-main" },
         { "type": "ref", "sectionId": "features-main" },
         { "type": "ref", "sectionId": "service-area-main" },

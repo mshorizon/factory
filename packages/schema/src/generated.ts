@@ -68,12 +68,14 @@ export type FooterExtensions = {
 export type NavigationLinks = Link[];
 export type Label1 = string;
 export type PageTitle = string;
+export type HideFromNav = boolean;
 export type SectionType =
   | "hero"
   | "services"
   | "categories"
   | "about"
   | "about-summary"
+  | "mission"
   | "contact"
   | "shop"
   | "gallery"
@@ -274,7 +276,7 @@ export interface Pages {
 }
 export interface Page {
   title: PageTitle;
-  hideFromNav?: boolean;
+  hideFromNav?: HideFromNav;
   sections: Sections;
 }
 export interface Section {
