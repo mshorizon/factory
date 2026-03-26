@@ -629,6 +629,7 @@
     },
     "privacy": {
       "title": "Polityka prywatności",
+      "hideFromNav": true,
       "sections": [
         {
           "type": "faq",
@@ -663,6 +664,7 @@
     },
     "terms": {
       "title": "Regulamin",
+      "hideFromNav": true,
       "sections": [
         {
           "type": "faq",

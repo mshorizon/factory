@@ -365,6 +365,7 @@
       "title": "Page",
       "properties": {
         "title": { "type": "string", "title": "Page Title" },
+        "hideFromNav": { "type": "boolean", "title": "Hide From Nav" },
         "sections": {
           "type": "array",
           "title": "Sections",
