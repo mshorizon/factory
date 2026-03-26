@@ -8,6 +8,7 @@ import {
 import { getDraft } from "./lib/draft-store";
 import { initDb, getSiteBySubdomain } from "@mshorizon/db";
 import { initR2 } from "./lib/r2";
+import { getAuthFromCookies } from "./lib/auth";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { request, locals } = context;
@@ -51,6 +52,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
   locals.t = ctx.t;
   locals.availableBusinesses = await getAvailableBusinessIds();
   locals.site = site;
+
+  // Set auth from cookie for admin pages
+  const auth = await getAuthFromCookies(context.cookies);
+  locals.auth = auth;
+
+  // Protect /admin routes
+  const isAdminPage = url.pathname.startsWith('/admin') && !url.pathname.startsWith('/admin/login');
+  const isAdminApi = url.pathname.startsWith('/api/admin');
+  if ((isAdminPage || isAdminApi) && !auth) {
+    if (isAdminApi) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+    }
+    return Response.redirect(new URL('/admin/login', request.url));
+  }
 
   return next();
 });

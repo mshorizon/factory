@@ -1,0 +1,333 @@
+---
+import {
+  getAuthFromCookies,
+  verifyPassword,
+  signAccessToken,
+  signRefreshToken,
+  setAuthCookies,
+} from '../../lib/auth';
+import {
+  getUserByEmail,
+  logLoginAttempt,
+  updateUserLastLogin,
+  getRecentFailedAttempts,
+} from '@mshorizon/db';
+
+// Redirect if already logged in
+const existingAuth = await getAuthFromCookies(Astro.cookies);
+if (existingAuth) return Astro.redirect('/admin');
+
+let error = '';
+const MAX_FAILED_ATTEMPTS = 10;
+const LOCKOUT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const email = String(formData.get('email') || '').trim().toLowerCase();
+  const password = String(formData.get('password') || '');
+  const ip = Astro.request.headers.get('x-forwarded-for') || null;
+
+  // Rate limit check
+  const failedAttempts = await getRecentFailedAttempts(email, LOCKOUT_WINDOW_MS);
+  if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
+    error = 'Zbyt wiele nieudanych prób logowania. Spróbuj ponownie za 15 minut.';
+  } else {
+    const user = await getUserByEmail(email);
+    const success = user ? await verifyPassword(password, user.passwordHash) : false;
+
+    await logLoginAttempt(email, ip, success);
+
+    if (success && user) {
+      await updateUserLastLogin(user.id);
+      const accessToken = await signAccessToken({
+        userId: user.id,
+        email: user.email,
+        role: user.role as 'super-admin' | 'admin' | 'editor',
+        businessId: user.businessId ?? null,
+      });
+      const refreshToken = await signRefreshToken({ userId: user.id });
+      setAuthCookies(Astro.cookies, accessToken, refreshToken);
+      return Astro.redirect('/admin');
+    } else {
+      error = 'Nieprawidłowy email lub hasło.';
+    }
+  }
+}
+---
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Logowanie — Admin Panel</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0f172a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 1.5rem;
+    }
+
+    .login-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05);
+    }
+
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      margin-bottom: 2rem;
+    }
+
+    .login-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: #0f172a;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .login-logo-text {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .login-logo-sub {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 400;
+      display: block;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.375rem;
+    }
+
+    .login-subtitle {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.9375rem;
+      color: #0f172a;
+      background: #ffffff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    }
+
+    input[type="email"]::placeholder,
+    input[type="password"]::placeholder {
+      color: #9ca3af;
+    }
+
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.8125rem;
+      color: #dc2626;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .error-icon {
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover {
+      background: #1e293b;
+    }
+
+    .btn-submit:active {
+      transform: scale(0.99);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-submit .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      flex-shrink: 0;
+    }
+
+    .btn-submit.loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-submit.loading .spinner {
+      display: block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .login-footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #f1f5f9;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="login-logo-text">MS Horizon</span>
+          <span class="login-logo-sub">Admin Panel</span>
+        </div>
+      </div>
+
+      <h1>Zaloguj się</h1>
+      <p class="login-subtitle">Podaj swoje dane dostępu do panelu administracyjnego.</p>
+
+      {error && (
+        <div class="error-box">
+          <svg class="error-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          {error}
+        </div>
+      )}
+
+      <form method="POST">
+        <div class="form-group">
+          <label for="email">Adres email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="admin@example.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Hasło</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span class="spinner"></span>
+          <span class="btn-label">Zaloguj się</span>
+        </button>
+      </form>
+
+      <script>
+        document.querySelector('form')?.addEventListener('submit', () => {
+          const btn = document.getElementById('submit-btn') as HTMLButtonElement;
+          btn.disabled = true;
+          btn.classList.add('loading');
+        });
+      </script>
+
+      <div class="login-footer">
+        Panel administracyjny — dostęp tylko dla autoryzowanych użytkowników
+      </div>
+    </div>
+  </div>
+</body>
+</html>
