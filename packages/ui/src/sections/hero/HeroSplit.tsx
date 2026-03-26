@@ -182,7 +182,7 @@ export function HeroSplit({
                       ))}
                     </div>
                     {/* Title - larger and bold */}
-                    <h3 className="text-xl font-bold text-foreground leading-tight">{testimonialItem.title}</h3>
+                    <p className="text-xl font-bold text-foreground leading-tight">{testimonialItem.title}</p>
                     {/* Quote - muted */}
                     {testimonialItem.quote && (
                       <p className="text-sm text-muted leading-relaxed">&ldquo;{testimonialItem.quote}&rdquo;</p>

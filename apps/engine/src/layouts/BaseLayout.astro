@@ -100,6 +100,10 @@ const googleFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
 const googleFontsUrl = googleFonts.length > 0
   ? `https://fonts.googleapis.com/css2?${googleFonts.map(f => `family=${f.replace(/ /g, '+')}:wght@400;500;600;700;800`).join('&')}&display=swap`
   : null;
+
+// Build CSS string directly to avoid define:vars putting all vars as inline style on <html>
+// (which would push <meta charset> past 1024-byte limit)
+const cssContent = `:root{--primary:${cssVars.primary};--primary-dark:${cssVars.primaryDark};--secondary:${cssVars.secondary};--accent:${cssVars.accent};--background:${cssVars.background};--card:${cssVars.card};--foreground:${cssVars.foreground};--muted:${cssVars.muted};--border:${cssVars.border};--text-on-primary:${cssVars.textOnPrimary};--dark-background:${cssVars.darkBackground};--dark-card:${cssVars.darkCard};--dark-foreground:${cssVars.darkForeground};--dark-muted:${cssVars.darkMuted};--dark-border:${cssVars.darkBorder};--radius-sm:${cssVars.radiusSm};--radius:${cssVars.radius};--radius-secondary:${cssVars.radiusSecondary};--radius-lg:${cssVars.radiusLg};--radius-full:${cssVars.radiusFull};--shadow-sm:${cssVars.shadowSm};--shadow:${cssVars.shadow};--shadow-lg:${cssVars.shadowLg};--font-sans:${cssVars.fontSans};--font-heading:${cssVars.fontHeading};--heading-transform:${cssVars.headingTransform};--heading-letter-spacing:${cssVars.headingLetterSpacing};--spacing-xs:${cssVars.spacingXs};--spacing-sm:${cssVars.spacingSm};--spacing-md:${cssVars.spacingMd};--spacing-lg:${cssVars.spacingLg};--spacing-xl:${cssVars.spacingXl};--spacing-2xl:${cssVars.spacing2xl};--spacing-3xl:${cssVars.spacing3xl};--spacing-section-sm:${cssVars.spacingSectionSm};--spacing-section:${cssVars.spacingSection};--spacing-container:${cssVars.spacingContainer}}html,body{height:100%}body{font-family:var(--font-sans);background-color:var(--background);color:var(--foreground);display:flex;flex-direction:column;min-height:100vh}main{flex:1}`;
 ---
 
 <html lang={lang}>
@@ -119,61 +123,7 @@ const googleFontsUrl = googleFonts.length > 0
       <noscript><link rel="stylesheet" href={googleFontsUrl} /></noscript>
     )}
     <title>{title}</title>
-    <style define:vars={cssVars}>
-      :root {
-        --primary: var(--primary);
-        --primary-dark: var(--primaryDark);
-        --secondary: var(--secondary);
-        --accent: var(--accent);
-        --background: var(--background);
-        --card: var(--card);
-        --foreground: var(--foreground);
-        --muted: var(--muted);
-        --border: var(--border);
-        --text-on-primary: var(--textOnPrimary);
-        --dark-background: var(--darkBackground);
-        --dark-card: var(--darkCard);
-        --dark-foreground: var(--darkForeground);
-        --dark-muted: var(--darkMuted);
-        --dark-border: var(--darkBorder);
-        --radius-sm: var(--radiusSm);
-        --radius: var(--radius);
-        --radius-secondary: var(--radiusSecondary);
-        --radius-lg: var(--radiusLg);
-        --radius-full: var(--radiusFull);
-        --shadow-sm: var(--shadowSm);
-        --shadow: var(--shadow);
-        --shadow-lg: var(--shadowLg);
-        --font-sans: var(--fontSans);
-        --font-heading: var(--fontHeading);
-        --heading-transform: var(--headingTransform);
-        --heading-letter-spacing: var(--headingLetterSpacing);
-        --spacing-xs: var(--spacingXs);
-        --spacing-sm: var(--spacingSm);
-        --spacing-md: var(--spacingMd);
-        --spacing-lg: var(--spacingLg);
-        --spacing-xl: var(--spacingXl);
-        --spacing-2xl: var(--spacing2xl);
-        --spacing-3xl: var(--spacing3xl);
-        --spacing-section-sm: var(--spacingSectionSm);
-        --spacing-section: var(--spacingSection);
-        --spacing-container: var(--spacingContainer);
-      }
-      html, body {
-        height: 100%;
-      }
-      body {
-        font-family: var(--font-sans);
-        background-color: var(--background);
-        color: var(--foreground);
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-      main {
-        flex: 1;
-      }
-    </style>
+    <style set:html={cssContent}></style>
     <style is:global>
       h1, h2 {
         text-transform: var(--heading-transform);
