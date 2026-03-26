@@ -3,10 +3,7 @@
 
 export interface DraftData {
   businessData: Record<string, unknown>;
-  translations: {
-    en: Record<string, unknown>;
-    pl: Record<string, unknown>;
-  };
+  translations: Record<string, Record<string, unknown>>;
 }
 
 interface DraftEntry {

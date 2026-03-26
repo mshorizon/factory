@@ -4,13 +4,13 @@ import type { APIRoute } from "astro";
  * Translation API endpoint using MyMemory free translation service.
  * MyMemory has a 500 character limit per query, so we chunk long texts.
  *
- * POST { texts: string[], from: "en"|"pl", to: "en"|"pl", isHtml?: boolean }
+ * POST { texts: string[], from: "en"|"pl"|"de"|"uk", to: "en"|"pl"|"de"|"uk", isHtml?: boolean }
  * Returns { translations: string[] }
  */
 
 const MAX_CHARS = 480; // Stay safely under MyMemory's 500 char limit
 
-const langMap: Record<string, string> = { en: "en-GB", pl: "pl-PL" };
+const langMap: Record<string, string> = { en: "en-GB", pl: "pl-PL", de: "de-DE", uk: "uk-UA" };
 
 async function translateChunk(text: string, from: string, to: string): Promise<string> {
   if (!text.trim()) return text;

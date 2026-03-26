@@ -7,7 +7,7 @@ const BlogEditor = lazy(() => import("./BlogEditorClient"));
 
 interface BlogsTabProps {
   businessId: string;
-  primaryLanguage?: "en" | "pl";
+  primaryLanguage?: string;
 }
 
 export function BlogsTab({ businessId, primaryLanguage = "en" }: BlogsTabProps) {
@@ -15,7 +15,7 @@ export function BlogsTab({ businessId, primaryLanguage = "en" }: BlogsTabProps) 
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<"list" | "edit" | "create">("list");
   const [selectedBlog, setSelectedBlog] = useState<any>(null);
-  const [activeLang, setActiveLang] = useState<"en" | "pl">(primaryLanguage);
+  const [activeLang, setActiveLang] = useState<"en" | "pl">(primaryLanguage === "pl" ? "pl" : "en");
 
   const fetchBlogs = async () => {
     setLoading(true);

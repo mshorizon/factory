@@ -37,6 +37,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Moon,
   Sun,
   FileText,
@@ -64,20 +71,27 @@ import {
   Trash2,
   MoreHorizontal,
   BarChart2,
+  LogOut,
+  Users,
+  Shield,
+  Plus,
+  KeyRound,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
 const Form = (RjsfForm as any).default || RjsfForm;
 const validator = (rjsfValidator as any).default || rjsfValidator;
 
+const SUPPORTED_LANGS = ["en", "pl", "de", "uk"] as const;
+const LANG_LABELS: Record<string, string> = { en: "English", pl: "Polski", de: "Deutsch", uk: "Українська" };
+const langLabel = (lang: string) => LANG_LABELS[lang] || lang.toUpperCase();
+
 interface AdminFormProps {
   businessId: string;
   initialData: Record<string, unknown>;
   schema: RJSFSchema;
-  translations?: {
-    en: Record<string, unknown>;
-    pl: Record<string, unknown>;
-  };
+  translations?: Record<string, Record<string, unknown>>;
+  auth?: { email: string; role: string; userId: number } | null;
 }
 
 type SaveStatus = "idle" | "saving" | "success" | "error";
@@ -201,26 +215,138 @@ function reconstructWithTKeys(orig: any, updated: any): any {
   return updated;
 }
 
+function UsersPanel({ currentUserId }: { currentUserId?: number }) {
+  const [users, setUsers] = useState<any[]>([]);
+  const [businesses, setBusinesses] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showAdd, setShowAdd] = useState(false);
+  const [addForm, setAddForm] = useState({ email: '', password: '', role: 'admin', businessId: '' });
+  const [adding, setAdding] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/admin/users')
+      .then((r) => r.json())
+      .then((d) => { setUsers(d.users || []); setBusinesses(d.businesses || []); })
+      .catch(() => setError('Failed to load users'))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleDelete = async (userId: number) => {
+    if (!confirm('Delete this user?')) return;
+    await fetch('/api/admin/users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'delete', userId }) });
+    setUsers((u) => u.filter((x) => x.id !== userId));
+  };
+
+  const handleAdd = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAdding(true);
+    const res = await fetch('/api/admin/users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'create', ...addForm }) });
+    const data = await res.json();
+    if (data.user) { setUsers((u) => [...u, data.user]); setShowAdd(false); setAddForm({ email: '', password: '', role: 'admin', businessId: '' }); }
+    setAdding(false);
+  };
+
+  if (loading) return <div className="p-8 text-muted-foreground">Loading users…</div>;
+  if (error) return <div className="p-8 text-destructive">{error}</div>;
+
+  return (
+    <div className="p-6 space-y-6 max-w-3xl">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold">Users</h2>
+          <p className="text-sm text-muted-foreground">{users.length} account{users.length !== 1 ? 's' : ''}</p>
+        </div>
+        <Button size="sm" onClick={() => setShowAdd((v) => !v)}>
+          <Plus className="h-4 w-4 mr-1" /> Add user
+        </Button>
+      </div>
+
+      {showAdd && (
+        <Card>
+          <CardHeader><CardTitle className="text-base">New user</CardTitle></CardHeader>
+          <CardContent>
+            <form onSubmit={handleAdd} className="space-y-3">
+              <input className="w-full border rounded px-3 py-1.5 text-sm" placeholder="Email" type="email" value={addForm.email} onChange={(e) => setAddForm((f) => ({ ...f, email: e.target.value }))} required />
+              <input className="w-full border rounded px-3 py-1.5 text-sm" placeholder="Password" type="password" value={addForm.password} onChange={(e) => setAddForm((f) => ({ ...f, password: e.target.value }))} required />
+              <select className="w-full border rounded px-3 py-1.5 text-sm" value={addForm.role} onChange={(e) => setAddForm((f) => ({ ...f, role: e.target.value }))}>
+                <option value="super-admin">super-admin</option>
+                <option value="admin">admin</option>
+                <option value="editor">editor</option>
+              </select>
+              <select className="w-full border rounded px-3 py-1.5 text-sm" value={addForm.businessId} onChange={(e) => setAddForm((f) => ({ ...f, businessId: e.target.value }))}>
+                <option value="">No business (super-admin)</option>
+                {businesses.map((b) => <option key={b} value={b}>{b}</option>)}
+              </select>
+              <div className="flex gap-2">
+                <Button type="submit" size="sm" disabled={adding}>{adding ? 'Adding…' : 'Create'}</Button>
+                <Button type="button" size="sm" variant="outline" onClick={() => setShowAdd(false)}>Cancel</Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="space-y-2">
+        {users.map((user) => (
+          <Card key={user.id}>
+            <CardContent className="flex items-center gap-4 py-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold flex-shrink-0">
+                {user.email.slice(0, 2).toUpperCase()}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium truncate">{user.email}</span>
+                  {user.id === currentUserId && <Badge variant="secondary" className="text-[10px]">you</Badge>}
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="uppercase font-medium">{user.role}</span>
+                  {user.businessId && <span>· {user.businessId}</span>}
+                  {user.lastLoginAt && <span>· Last login {new Date(user.lastLoginAt).toLocaleDateString()}</span>}
+                </div>
+              </div>
+              {user.id !== currentUserId && (
+                <Button size="sm" variant="ghost" onClick={() => handleDelete(user.id)}>
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function AdminForm({
   businessId,
   initialData,
   schema,
   translations,
+  auth,
 }: AdminFormProps) {
   const [formData, setFormData] = useState<Record<string, unknown>>(initialData);
-  const [translationsData, setTranslationsData] = useState({
-    en: translations?.en || {},
-    pl: translations?.pl || {},
+  const [translationsData, setTranslationsData] = useState<Record<string, Record<string, unknown>>>(() => {
+    const result: Record<string, Record<string, unknown>> = {};
+    for (const lang of SUPPORTED_LANGS) {
+      result[lang] = (translations?.[lang] as Record<string, unknown>) || {};
+    }
+    return result;
   });
 
   // Primary language setting (stored in translations._settings)
-  const [primaryLanguage, setPrimaryLanguage] = useState<"en" | "pl">(() => {
+  const [primaryLanguage, setPrimaryLanguage] = useState<string>(() => {
     const settings = (translations as any)?._settings as Record<string, unknown> | undefined;
-    return ((settings?.primaryLanguage as string) || "en") as "en" | "pl";
+    return (settings?.primaryLanguage as string) || "en";
   });
 
   const savedDataRef = useRef<Record<string, unknown>>(structuredClone(initialData));
-  const savedTransRef = useRef({ en: translations?.en || {}, pl: translations?.pl || {} });
+  const savedTransRef = useRef<Record<string, Record<string, unknown>>>({
+    en: (translations?.en as Record<string, unknown>) || {},
+    pl: (translations?.pl as Record<string, unknown>) || {},
+    de: (translations?.de as Record<string, unknown>) || {},
+    uk: (translations?.uk as Record<string, unknown>) || {},
+  });
 
   const [internalActiveTab, setInternalActiveTab] = useState<TabType>("meta");
 
@@ -233,7 +359,7 @@ export default function AdminForm({
 
   const [metaSubTab, setMetaSubTab] = useState<"business" | "assets">("business");
   const [themeSubTab, setThemeSubTab] = useState<"colors" | "typography">("colors");
-  const [translationsSubTab, setTranslationsSubTab] = useState<"en" | "pl">("en");
+  const [translationsSubTab, setTranslationsSubTab] = useState("en");
   const [translationMode, setTranslationMode] = useState<"keys" | "en" | "pl">("keys");
 
   // Restore + persist active tab via sessionStorage (client-only, after mount)
@@ -328,7 +454,7 @@ export default function AdminForm({
     if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"]));
     if (tabId === "data-products") return !deepEqual(getNestedValue(formData, ["data", "products"]), getNestedValue(saved, ["data", "products"]));
     if (tabId === "data-services") return !deepEqual(getNestedValue(formData, ["data", "services"]), getNestedValue(saved, ["data", "services"]));
-    if (tabId === "translations") return !deepEqual(translationsData.en, savedTrans.en) || !deepEqual(translationsData.pl, savedTrans.pl);
+    if (tabId === "translations") return SUPPORTED_LANGS.some((lang) => !deepEqual(translationsData[lang], savedTrans[lang]));
     if (tabId.startsWith("page-")) {
       const pageName = tabId.replace("page-", "");
       return !deepEqual(getNestedValue(formData, ["pages", pageName]), getNestedValue(saved, ["pages", pageName]));
@@ -521,7 +647,7 @@ export default function AdminForm({
   };
 
   // Translations editor
-  const TranslationsEditor = ({ lang }: { lang: "en" | "pl" }) => {
+  const TranslationsEditor = ({ lang }: { lang: string }) => {
     const translations = (translationsData[lang] || {}) as Record<string, string>;
     const keys = Object.keys(translations).sort();
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -531,7 +657,6 @@ export default function AdminForm({
     const filterDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
     const isPrimary = lang === primaryLanguage;
-    const otherLang = lang === "en" ? "pl" : "en";
 
     const handleFilterInput = (value: string) => {
       setFilterInput(value);
@@ -660,7 +785,7 @@ export default function AdminForm({
               </>
             ) : (
               <span className="text-sm font-medium">
-                Secondary language — {primaryLanguage === "en" ? "English" : "Polski"} is the primary language
+                Secondary language — {langLabel(primaryLanguage)} is the primary language
               </span>
             )}
           </div>
@@ -680,7 +805,7 @@ export default function AdminForm({
                       Set as primary
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>Set {lang === "pl" ? "Polski" : "English"} as the primary language</TooltipContent>
+                  <TooltipContent>Set {langLabel(lang)} as the primary language</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -1156,19 +1281,20 @@ export default function AdminForm({
 
     if (activeTab === "translations") {
       return (
-        <Tabs value={translationsSubTab} onValueChange={(v) => setTranslationsSubTab(v as "en" | "pl")} orientation="horizontal">
+        <Tabs value={translationsSubTab} onValueChange={setTranslationsSubTab} orientation="horizontal">
           <TabsList className="mb-6">
-            <TabsTrigger value="en" className="flex items-center gap-1.5">
-              English
-              {primaryLanguage === "en" && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
-            </TabsTrigger>
-            <TabsTrigger value="pl" className="flex items-center gap-1.5">
-              Polski
-              {primaryLanguage === "pl" && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
-            </TabsTrigger>
+            {SUPPORTED_LANGS.map((l) => (
+              <TabsTrigger key={l} value={l} className="flex items-center gap-1.5">
+                {langLabel(l)}
+                {primaryLanguage === l && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
+              </TabsTrigger>
+            ))}
           </TabsList>
-          <TabsContent value="en" className="mt-0"><TranslationsEditor lang="en" /></TabsContent>
-          <TabsContent value="pl" className="mt-0"><TranslationsEditor lang="pl" /></TabsContent>
+          {SUPPORTED_LANGS.map((l) => (
+            <TabsContent key={l} value={l} className="mt-0">
+              <TranslationsEditor lang={l} />
+            </TabsContent>
+          ))}
         </Tabs>
       );
     }
@@ -1238,6 +1364,8 @@ export default function AdminForm({
       );
     }
 
+    if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
+
     return null;
   };
 
@@ -1271,6 +1399,12 @@ export default function AdminForm({
         { id: "analytics", label: "Analytics", Icon: BarChart2 },
       ],
     },
+    ...(auth?.role === "super-admin" ? [{
+      label: "Administration",
+      items: [
+        { id: "users", label: "Users", Icon: Users },
+      ],
+    }] : []),
   ];
 
   const [theme, setThemeState] = useState<"light" | "dark">(() => {
@@ -1382,18 +1516,41 @@ export default function AdminForm({
                   <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton size="lg">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold flex-shrink-0">
-                    AU
-                  </div>
-                  <div className="flex flex-col flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate text-xs font-medium">Admin User</span>
-                    <span className="truncate text-[11px] text-muted-foreground">admin@hazelgrouse.pl</span>
-                  </div>
-                  <ChevronsUpDown className="ml-auto text-muted-foreground group-data-[collapsible=icon]:hidden" />
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {auth && (
+                <SidebarMenuItem>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger
+                      render={<SidebarMenuButton size="lg" className="group/user" />}
+                    >
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold flex-shrink-0">
+                        {auth.email.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="flex flex-col flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden min-w-0">
+                        <span className="truncate text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{auth.role}</span>
+                        <span className="truncate text-[11px] text-muted-foreground">{auth.email}</span>
+                      </div>
+                      <MoreHorizontal className="ml-auto h-4 w-4 text-muted-foreground group-data-[collapsible=icon]:hidden" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side="top" align="start" className="w-56 mb-1">
+                      <div className="px-2 py-1.5 flex flex-col gap-0.5">
+                        <span className="text-xs font-semibold text-foreground">{auth.email}</span>
+                        <span className="text-[11px] uppercase tracking-wide text-muted-foreground">{auth.role}</span>
+                      </div>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        variant="destructive"
+                        onClick={async () => {
+                          await fetch('/api/auth/logout', { method: 'POST' });
+                          window.location.href = '/admin/login';
+                        }}
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Log out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>

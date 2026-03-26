@@ -14,7 +14,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     setDraft(businessId, {
       businessData: data,
-      translations: translations || { en: {}, pl: {} },
+      translations: translations || {},
     });
 
     return new Response(

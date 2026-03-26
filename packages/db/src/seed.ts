@@ -46,7 +46,7 @@ async function seed() {
     const translations: Record<string, Record<string, unknown>> = {};
     const transDir = join(dataDir, subdomain, "translations");
     if (existsSync(transDir)) {
-      for (const lang of ["en", "pl"]) {
+      for (const lang of ["en", "pl", "de", "uk"]) {
         const langData = readJson(join(transDir, `${lang}.json`));
         if (langData) {
           translations[lang] = langData;

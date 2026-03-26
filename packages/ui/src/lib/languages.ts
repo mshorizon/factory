@@ -6,4 +6,6 @@ export interface LanguageOption {
 export const DEFAULT_LANGUAGES: LanguageOption[] = [
   { code: "pl", label: "Polski" },
   { code: "en", label: "English" },
+  { code: "de", label: "Deutsch" },
+  { code: "uk", label: "Українська" },
 ];

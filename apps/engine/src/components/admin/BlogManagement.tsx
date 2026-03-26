@@ -5,7 +5,7 @@ import { CommentsTab } from "./CommentsTab";
 
 interface BlogManagementProps {
   businessId: string;
-  primaryLanguage?: "en" | "pl";
+  primaryLanguage?: string;
 }
 
 export function BlogManagement({ businessId, primaryLanguage = "en" }: BlogManagementProps) {

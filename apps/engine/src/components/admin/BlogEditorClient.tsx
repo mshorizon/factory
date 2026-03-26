@@ -7,7 +7,7 @@ interface BlogEditorClientProps {
   blog?: any;
   businessId: string;
   lang: "en" | "pl";
-  primaryLanguage: "en" | "pl";
+  primaryLanguage: string;
   onSave: () => void;
   onCancel: () => void;
 }
@@ -96,7 +96,7 @@ export default function BlogEditorClient({
 
       if (!primaryBlog) {
         setError(
-          `No blog with slug "${slug}" found in ${primaryLanguage === "en" ? "English" : "Polski"}. Write it in the primary language first.`
+          `No blog with slug "${slug}" found in the primary language (${primaryLanguage.toUpperCase()}). Write it in the primary language first.`
         );
         setTranslating(false);
         return;

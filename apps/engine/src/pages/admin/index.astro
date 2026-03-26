@@ -4,14 +4,12 @@ import AdminForm from "../../components/admin/AdminForm";
 import { businessSchema } from "@mshorizon/schema";
 import { getSiteBySubdomain } from "@mshorizon/db";
 
-const { businessId, businessData, t: translations } = Astro.locals;
+const { businessId, businessData, t: translations, auth } = Astro.locals;
 
 // Get fresh data from database for admin editing
 const site = await getSiteBySubdomain(businessId);
 const rawBusinessData = site ? site.config : businessData;
 const allTranslations = (site?.translations || {}) as Record<string, Record<string, unknown>>;
-const enTranslations = allTranslations.en || {};
-const plTranslations = allTranslations.pl || {};
 
 // Get translated business name for display
 const businessName = businessData.business.name.startsWith("t:")
@@ -25,6 +23,7 @@ const businessName = businessData.business.name.startsWith("t:")
     businessId={businessId}
     initialData={rawBusinessData}
     schema={businessSchema}
-    translations={{ en: enTranslations, pl: plTranslations }}
+    translations={allTranslations}
+    auth={auth ? { email: auth.email as string, role: auth.role as string, userId: auth.userId as number } : undefined}
   />
 </AdminLayout>

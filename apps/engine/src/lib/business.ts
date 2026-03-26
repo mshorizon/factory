@@ -10,7 +10,7 @@ import {
 import type { DraftData } from "./draft-store";
 
 // Supported languages
-export const supportedLanguages = ["en", "pl"] as const;
+export const supportedLanguages = ["en", "pl", "de", "uk"] as const;
 export type Language = (typeof supportedLanguages)[number];
 export const defaultLanguage: Language = "pl";
 
@@ -111,7 +111,11 @@ export async function getBusinessContext(request: Request, draftOverride?: Draft
 
   if (draftOverride) {
     normalizedData = draftOverride.businessData as BusinessProfile;
-    translations = draftOverride.translations[currentLang] || {};
+    const draftSettings = (draftOverride.translations._settings || {}) as Record<string, any>;
+    const draftPrimaryLang = (draftSettings.primaryLanguage as string) || defaultLanguage;
+    const draftPrimary = draftOverride.translations[draftPrimaryLang] || {};
+    const draftLang = draftOverride.translations[currentLang] || {};
+    translations = { ...draftPrimary, ...draftLang };
   } else {
     const site = await getSiteBySubdomain(businessId);
     if (!site) {
@@ -119,7 +123,12 @@ export async function getBusinessContext(request: Request, draftOverride?: Draft
     }
     normalizedData = site.config as BusinessProfile;
     const allTranslations = (site.translations || {}) as Record<string, Record<string, any>>;
-    translations = allTranslations[currentLang] || {};
+    const settings = (allTranslations._settings || {}) as Record<string, any>;
+    const primaryLang = (settings.primaryLanguage as string) || defaultLanguage;
+    const primaryTranslations = allTranslations[primaryLang] || {};
+    const langTranslations = allTranslations[currentLang] || {};
+    // Fallback: if a key is missing in the current language, use the primary language value
+    translations = { ...primaryTranslations, ...langTranslations };
   }
 
   // Resolve theme by merging preset with JSON overrides
