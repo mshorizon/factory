@@ -26,7 +26,7 @@ function saveConsent(consent: ConsentState) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
 }
 
-function Toggle({ checked, onChange, disabled }: { checked: boolean; onChange?: () => void; disabled?: boolean }) {
+function Toggle({ checked, onChange, disabled, label }: { checked: boolean; onChange?: () => void; disabled?: boolean; label: string }) {
   return (
     <button
       onClick={onChange}
@@ -39,6 +39,7 @@ function Toggle({ checked, onChange, disabled }: { checked: boolean; onChange?: 
         disabled && "cursor-not-allowed opacity-50"
       )}
       aria-checked={checked}
+      aria-label={label}
       role="switch"
     >
       <div className="w-4 h-4 rounded-full bg-white shadow" />
@@ -61,7 +62,7 @@ function CookieRow({
 }) {
   return (
     <div className="flex items-start gap-spacing-sm">
-      <Toggle checked={checked} onChange={onChange} disabled={disabled} />
+      <Toggle checked={checked} onChange={onChange} disabled={disabled} label={label} />
       <div>
         <p className="font-semibold text-sm text-foreground leading-tight">{label}</p>
         <p className="text-xs text-muted mt-0.5">{description}</p>
@@ -136,10 +137,10 @@ export function CookieConsent() {
             Używamy plików cookies, aby zapewnić prawidłowe działanie strony oraz — za Twoją zgodą — do celów analitycznych i marketingowych.
           </p>
           <div className="flex flex-wrap gap-2 shrink-0">
-            <Button variant="outline" size="sm" onClick={acceptNecessary}>
+            <Button variant="outline" size="sm" onClick={acceptNecessary} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
               Tylko niezbędne
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => setExpanded((v) => !v)}>
+            <Button variant="ghost" size="sm" onClick={() => setExpanded((v) => !v)} className="text-foreground hover:bg-foreground/10">
               Dostosuj
             </Button>
             <Button size="sm" onClick={acceptAll}>
@@ -171,7 +172,7 @@ export function CookieConsent() {
             />
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={saveCustom}>
+            <Button variant="outline" size="sm" onClick={saveCustom} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
               Zapisz wybór
             </Button>
             <Button size="sm" onClick={acceptAll}>
