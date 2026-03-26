@@ -2,12 +2,15 @@ export {
   sites,
   blogs,
   comments,
+  projects,
   type Site,
   type NewSite,
   type Blog,
   type NewBlog,
   type Comment,
   type NewComment,
+  type Project,
+  type NewProject,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -22,6 +25,11 @@ export {
   createBlog,
   updateBlog,
   deleteBlog,
+  getProjectsBySiteId,
+  getProjectBySlug,
+  createProject,
+  updateProject,
+  deleteProject,
   getCommentsByBlogId,
   getPendingCommentsBySiteId,
   getCommentsBySiteId,

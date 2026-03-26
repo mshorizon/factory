@@ -7,6 +7,7 @@ import { ImageUrlWidget } from "./widgets/ImageUrlWidget";
 import { ObjectFieldTemplate, FieldTemplate } from "./RjsfTemplates";
 import SectionEditor from "./SectionEditor";
 import { BlogManagement } from "./BlogManagement";
+import { ProjectManagement } from "./ProjectManagement";
 import { ProductsTab } from "./ProductsTab";
 import { ServicesTab } from "./ServicesTab";
 import { AnalyticsTab } from "./AnalyticsTab";
@@ -64,6 +65,7 @@ import {
   Trash2,
   MoreHorizontal,
   BarChart2,
+  FolderKanban,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1150,6 +1152,10 @@ export default function AdminForm({
       return <BlogManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
 
+    if (activeTab === "projects") {
+      return <ProjectManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
+    }
+
     if (activeTab === "analytics") {
       return <AnalyticsTab businessId={businessId} />;
     }
@@ -1255,6 +1261,7 @@ export default function AdminForm({
         { id: "data-products", label: "Products", Icon: ShoppingBag },
         { id: "data-services", label: "Services", Icon: Wrench },
         { id: "blog", label: "Blog", Icon: FileEdit },
+        { id: "projects", label: "Projects", Icon: FolderKanban },
       ],
     },
     {

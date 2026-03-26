@@ -557,6 +557,9 @@
         }
       ]
     },
+    "projects": {
+      "title": "t:pages.projects.title"
+    },
     "contact": {
       "title": "t:pages.contact.title",
       "sections": [
