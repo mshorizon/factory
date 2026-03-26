@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { moderateComment, deleteComment } from "@mshorizon/db";
+import logger from "../../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { commentId, action, moderatedBy } = body;
@@ -41,7 +42,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error moderating comment:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/comments/moderate" }, "Error moderating comment");
     return new Response(
       JSON.stringify({ error: "Failed to moderate comment" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

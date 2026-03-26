@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { updateSiteTranslations } from "@mshorizon/db";
+import logger from "../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const { businessId, translations } = await request.json();
 
@@ -20,7 +21,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error saving translations:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/save-translations" }, "Error saving translations");
     return new Response(
       JSON.stringify({
         message: error instanceof Error ? error.message : "Failed to save translations"

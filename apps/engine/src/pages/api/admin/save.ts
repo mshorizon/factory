@@ -2,8 +2,9 @@ import type { APIRoute } from "astro";
 import { upsertSiteConfig } from "@mshorizon/db";
 import { validate } from "@mshorizon/schema";
 import { clearDraft } from "../../../lib/draft-store";
+import logger from "../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const { businessId, data } = await request.json();
 
@@ -17,7 +18,7 @@ export const POST: APIRoute = async ({ request }) => {
     // Validate against JSON schema
     const { valid, errors } = validate(data);
     if (!valid) {
-      console.error("Schema validation errors:", JSON.stringify(errors, null, 2));
+      (locals.logger ?? logger).warn({ errors, endpoint: "/api/admin/save" }, "Schema validation failed");
       const errorDetail = errors?.map((e: any) => `${e.instancePath}: ${e.message}`).join("; ") || "Unknown";
       return new Response(
         JSON.stringify({ message: `Validation: ${errorDetail}`, errors }),
@@ -36,7 +37,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error saving business data:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/save" }, "Error saving business data");
     return new Response(
       JSON.stringify({
         message: error instanceof Error ? error.message : "Failed to save"

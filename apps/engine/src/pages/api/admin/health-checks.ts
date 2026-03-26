@@ -1,11 +1,11 @@
 import type { APIRoute } from "astro";
-import { getCommentsBySiteId, getSiteBySubdomain } from "@mshorizon/db";
-import logger from "../../../../lib/logger";
+import { getSiteBySubdomain, getHealthChecksBySiteId, getHealthCheckStats, getLatestHealthCheck } from "@mshorizon/db";
+import logger from "../../../lib/logger";
 
 export const GET: APIRoute = async ({ url, locals }) => {
   try {
     const businessId = url.searchParams.get("business");
-    const status = url.searchParams.get("status") || undefined;
+    const hours = parseInt(url.searchParams.get("hours") || "24", 10);
 
     if (!businessId) {
       return new Response(
@@ -22,24 +22,20 @@ export const GET: APIRoute = async ({ url, locals }) => {
       );
     }
 
-    // Get comments with blog info
-    const commentsWithBlog = await getCommentsBySiteId(site.id, status);
-
-    // Transform to include blog title
-    const comments = commentsWithBlog.map(({ comment, blog }) => ({
-      ...comment,
-      blogTitle: blog.title,
-      blogSlug: blog.slug,
-    }));
+    const [stats, latest, history] = await Promise.all([
+      getHealthCheckStats(site.id, hours),
+      getLatestHealthCheck(site.id),
+      getHealthChecksBySiteId(site.id, 200),
+    ]);
 
     return new Response(
-      JSON.stringify({ comments }),
+      JSON.stringify({ stats, latest, history }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/comments/list" }, "Error listing comments");
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/health-checks" }, "Error fetching health checks");
     return new Response(
-      JSON.stringify({ error: "Failed to list comments" }),
+      JSON.stringify({ error: "Failed to fetch health checks" }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }

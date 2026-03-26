@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { createBlog, getSiteBySubdomain } from "@mshorizon/db";
+import logger from "../../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { businessId, blog } = body;
@@ -54,7 +55,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 201, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error creating blog:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/blogs/create" }, "Error creating blog");
     return new Response(
       JSON.stringify({ error: "Failed to create blog" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

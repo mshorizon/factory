@@ -79,12 +79,12 @@
 
 ## 7. Monitoring i error tracking
 
-- [ ] Integracja Sentry (frontend + backend)
-- [ ] Alerty przy błędach 5xx na stronach klientów
-- [ ] Health check endpoint (`/api/health`) dla każdego biznesu
-- [ ] Logowanie strukturalne (pino lub winston) po stronie serwera
-- [ ] Dashboard statusu serwisów (uptime per biznes)
-- [ ] Alerty email/Slack przy niedostępności
+- [x] Integracja Sentry (frontend + backend)
+- [x] Alerty przy błędach 5xx na stronach klientów
+- [x] Health check endpoint (`/api/health`) dla każdego biznesu
+- [x] Logowanie strukturalne (pino lub winston) po stronie serwera
+- [x] Dashboard statusu serwisów (uptime per biznes)
+- [x] Alerty email/Slack przy niedostępności
 
 ---
 

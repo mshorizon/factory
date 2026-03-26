@@ -117,3 +117,30 @@ export const pushSubscriptions = pgTable("push_subscriptions", {
 
 export type PushSubscription = typeof pushSubscriptions.$inferSelect;
 export type NewPushSubscription = typeof pushSubscriptions.$inferInsert;
+
+// --- Monitoring ---
+
+export const healthChecks = pgTable("health_checks", {
+  id: serial("id").primaryKey(),
+  siteId: integer("site_id").references(() => sites.id, { onDelete: 'cascade' }),
+  status: text("status").notNull(), // "healthy" | "degraded" | "unhealthy"
+  checks: jsonb("checks").notNull(), // { database: { status, latencyMs }, r2: { status, latencyMs } }
+  latencyMs: integer("latency_ms"),
+  checkedAt: timestamp("checked_at").defaultNow().notNull(),
+});
+
+export type HealthCheck = typeof healthChecks.$inferSelect;
+export type NewHealthCheck = typeof healthChecks.$inferInsert;
+
+export const alerts = pgTable("alerts", {
+  id: serial("id").primaryKey(),
+  siteId: integer("site_id").references(() => sites.id, { onDelete: 'cascade' }),
+  type: text("type").notNull(), // "health_check_failure" | "5xx_threshold"
+  channel: text("channel").notNull(), // "email" | "slack"
+  message: text("message").notNull(),
+  metadata: jsonb("metadata"),
+  sentAt: timestamp("sent_at").defaultNow().notNull(),
+});
+
+export type Alert = typeof alerts.$inferSelect;
+export type NewAlert = typeof alerts.$inferInsert;

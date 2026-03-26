@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { deleteProject } from "@mshorizon/db";
+import logger from "../../../../lib/logger";
 
-export const DELETE: APIRoute = async ({ request }) => {
+export const DELETE: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { projectId } = body;
@@ -20,7 +21,7 @@ export const DELETE: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error deleting project:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/projects/delete" }, "Error deleting project");
     return new Response(
       JSON.stringify({ error: "Failed to delete project" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

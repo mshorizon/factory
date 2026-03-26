@@ -6,8 +6,9 @@ import { verifyTurnstile } from "../../lib/turnstile";
 import { rateLimit } from "../../lib/rate-limit";
 import { sendSms, renderSmsTemplate } from "../../lib/sms";
 import { sendPushToSiteSubscribers } from "../../lib/push";
+import logger from "../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
@@ -92,7 +93,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     if (error) {
-      console.error("Resend error:", error);
+      (locals.logger ?? logger).error({ err: error, endpoint: "/api/contact" }, "Resend error");
       return new Response(JSON.stringify({ error: error.message }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
@@ -115,7 +116,7 @@ export const POST: APIRoute = async ({ request }) => {
         phoneNumber: smsConfig.phoneNumber,
         message: smsMessage,
         senderName: smsConfig.senderName,
-      }).catch((err) => console.error("SMS notification error:", err));
+      }).catch((err) => (locals.logger ?? logger).error({ err, endpoint: "/api/contact" }, "SMS notification error"));
     }
 
     // Web Push notification (fire-and-forget)
@@ -125,7 +126,7 @@ export const POST: APIRoute = async ({ request }) => {
         title: "Nowa wiadomość",
         body: `${name}: ${message.substring(0, 80)}`,
         url: `/admin`,
-      }).catch((err) => console.error("Push notification error:", err));
+      }).catch((err) => (locals.logger ?? logger).error({ err, endpoint: "/api/contact" }, "Push notification error"));
     }
 
     return new Response(JSON.stringify({ success: true, id: data?.id }), {
@@ -133,7 +134,7 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    console.error("Contact form error:", err);
+    (locals.logger ?? logger).error({ err, endpoint: "/api/contact" }, "Contact form error");
     return new Response(JSON.stringify({ error: "Failed to send message" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

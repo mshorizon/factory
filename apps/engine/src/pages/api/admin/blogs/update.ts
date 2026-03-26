@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { updateBlog, getBlogBySlug, getSiteBySubdomain } from "@mshorizon/db";
+import logger from "../../../../lib/logger";
 
-export const PUT: APIRoute = async ({ request }) => {
+export const PUT: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { businessId, blogId, blog } = body;
@@ -51,7 +52,7 @@ export const PUT: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error updating blog:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/blogs/update" }, "Error updating blog");
     return new Response(
       JSON.stringify({ error: "Failed to update blog" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

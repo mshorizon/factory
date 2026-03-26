@@ -12,6 +12,7 @@ import { ProductsTab } from "./ProductsTab";
 import { ServicesTab } from "./ServicesTab";
 import { NotificationsTab } from "./NotificationsTab";
 import { AnalyticsTab } from "./AnalyticsTab";
+import { StatusTab } from "./StatusTab";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -80,6 +81,7 @@ import {
   Shield,
   Plus,
   KeyRound,
+  Activity,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1300,6 +1302,10 @@ export default function AdminForm({
       return <AnalyticsTab businessId={businessId} />;
     }
 
+    if (activeTab === "status") {
+      return <StatusTab businessId={businessId} />;
+    }
+
     if (activeTab === "translations") {
       return (
         <Tabs value={translationsSubTab} onValueChange={setTranslationsSubTab} orientation="horizontal">
@@ -1420,6 +1426,7 @@ export default function AdminForm({
       label: "Insights",
       items: [
         { id: "analytics", label: "Analytics", Icon: BarChart2 },
+        { id: "status", label: "Status", Icon: Activity },
       ],
     },
     ...(auth?.role === "super-admin" ? [{

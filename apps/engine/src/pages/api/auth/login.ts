@@ -5,6 +5,7 @@ import {
   signRefreshToken,
   setAuthCookies,
 } from '../../../lib/auth';
+import logger from '../../../lib/logger';
 import {
   getUserByEmail,
   logLoginAttempt,
@@ -12,7 +13,7 @@ import {
   getRecentFailedAttempts,
 } from '@mshorizon/db';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
   try {
     const body = await request.json();
     const email = String(body.email || '').trim().toLowerCase();
@@ -71,7 +72,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (err) {
-    console.error('[auth/login]', err);
+    (locals.logger ?? logger).error({ err, endpoint: "/api/auth/login" }, "Login error");
     return new Response(JSON.stringify({ error: 'Wewnętrzny błąd serwera' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

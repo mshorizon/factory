@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { initDb, getSiteBySubdomain, upsertPushSubscription } from "@mshorizon/db";
+import logger from "../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { businessId, subscription } = body;
@@ -34,7 +35,7 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    console.error("Push subscribe error:", err);
+    (locals.logger ?? logger).error({ err, endpoint: "/api/notifications/subscribe" }, "Push subscribe error");
     return new Response(JSON.stringify({ error: "Failed to save subscription" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

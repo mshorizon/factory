@@ -2,8 +2,9 @@ import type { APIRoute } from "astro";
 import { createComment } from "@mshorizon/db";
 import { verifyTurnstile } from "../../../lib/turnstile";
 import { rateLimit } from "../../../lib/rate-limit";
+import logger from "../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
@@ -102,7 +103,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 201, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error submitting comment:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/comments/submit" }, "Error submitting comment");
     return new Response(
       JSON.stringify({ error: "Failed to submit comment" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

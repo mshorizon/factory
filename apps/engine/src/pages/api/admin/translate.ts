@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import logger from "../../../lib/logger";
 
 /**
  * Translation API endpoint using MyMemory free translation service.
@@ -102,7 +103,7 @@ async function translateHtml(html: string, from: string, to: string): Promise<st
   return translated.join("");
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { texts, from, to, isHtml } = body;
@@ -138,7 +139,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Translation error:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/translate" }, "Translation error");
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : "Translation failed" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

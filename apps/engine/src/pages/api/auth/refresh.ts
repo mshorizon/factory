@@ -1,8 +1,9 @@
 import type { APIRoute } from 'astro';
 import { verifyToken, signAccessToken, setAuthCookies, signRefreshToken } from '../../../lib/auth';
+import logger from '../../../lib/logger';
 import { getUserById } from '@mshorizon/db';
 
-export const POST: APIRoute = async ({ cookies }) => {
+export const POST: APIRoute = async ({ cookies, locals }) => {
   try {
     const refreshToken = cookies.get('admin_refresh')?.value;
     if (!refreshToken) {
@@ -42,7 +43,7 @@ export const POST: APIRoute = async ({ cookies }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err) {
-    console.error('[auth/refresh]', err);
+    (locals.logger ?? logger).error({ err, endpoint: "/api/auth/refresh" }, "Token refresh error");
     return new Response(JSON.stringify({ error: 'Wewnętrzny błąd serwera' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { uploadToR2 } from "../../../lib/r2";
+import logger from "../../../lib/logger";
 
 const ALLOWED_TYPES = new Set([
   "image/jpeg",
@@ -20,7 +21,7 @@ function sanitizeFilename(name: string): string {
     .replace(/-+/g, "-");
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
@@ -59,7 +60,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error uploading image:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/upload-image" }, "Error uploading image");
     return new Response(
       JSON.stringify({
         message: error instanceof Error ? error.message : "Upload failed",

@@ -1,8 +1,8 @@
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, gte, sql, count } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment, NewProject, NewPushSubscription } from "./schema.js";
+import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -313,4 +313,77 @@ export async function deactivatePushSubscription(endpoint: string) {
 export async function deletePushSubscription(endpoint: string) {
   const db = getDb();
   await db.delete(pushSubscriptions).where(eq(pushSubscriptions.endpoint, endpoint));
+}
+
+// ========== Health Check Queries ==========
+
+export async function insertHealthCheck(check: NewHealthCheck) {
+  const db = getDb();
+  const [row] = await db.insert(healthChecks).values(check).returning();
+  return row;
+}
+
+export async function getHealthChecksBySiteId(siteId: number, limit = 100) {
+  const db = getDb();
+  return await db
+    .select()
+    .from(healthChecks)
+    .where(eq(healthChecks.siteId, siteId))
+    .orderBy(desc(healthChecks.checkedAt))
+    .limit(limit);
+}
+
+export async function getLatestHealthCheck(siteId: number) {
+  const db = getDb();
+  const [row] = await db
+    .select()
+    .from(healthChecks)
+    .where(eq(healthChecks.siteId, siteId))
+    .orderBy(desc(healthChecks.checkedAt))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function getHealthCheckStats(siteId: number, hoursBack = 24) {
+  const db = getDb();
+  const since = new Date(Date.now() - hoursBack * 60 * 60 * 1000);
+
+  const rows = await db
+    .select()
+    .from(healthChecks)
+    .where(and(eq(healthChecks.siteId, siteId), gte(healthChecks.checkedAt, since)))
+    .orderBy(desc(healthChecks.checkedAt));
+
+  const total = rows.length;
+  if (total === 0) {
+    return { total: 0, healthy: 0, degraded: 0, unhealthy: 0, uptimePercent: 100, avgLatencyMs: 0 };
+  }
+
+  const healthy = rows.filter((r) => r.status === "healthy").length;
+  const degraded = rows.filter((r) => r.status === "degraded").length;
+  const unhealthy = rows.filter((r) => r.status === "unhealthy").length;
+  const uptimePercent = Math.round(((healthy + degraded) / total) * 10000) / 100;
+  const avgLatencyMs = Math.round(
+    rows.reduce((sum, r) => sum + (r.latencyMs ?? 0), 0) / total
+  );
+
+  return { total, healthy, degraded, unhealthy, uptimePercent, avgLatencyMs };
+}
+
+// ========== Alert Queries ==========
+
+export async function insertAlert(alert: NewAlert) {
+  const db = getDb();
+  const [row] = await db.insert(alerts).values(alert).returning();
+  return row;
+}
+
+export async function getRecentAlerts(siteId: number, hoursBack = 1) {
+  const db = getDb();
+  const since = new Date(Date.now() - hoursBack * 60 * 60 * 1000);
+  return await db
+    .select()
+    .from(alerts)
+    .where(and(eq(alerts.siteId, siteId), gte(alerts.sentAt, since)))
+    .orderBy(desc(alerts.sentAt));
 }

@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { initDb, deletePushSubscription } from "@mshorizon/db";
+import logger from "../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { endpoint } = body;
@@ -21,7 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    console.error("Push unsubscribe error:", err);
+    (locals.logger ?? logger).error({ err, endpoint: "/api/notifications/unsubscribe" }, "Push unsubscribe error");
     return new Response(JSON.stringify({ error: "Failed to remove subscription" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

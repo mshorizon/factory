@@ -1,5 +1,6 @@
 /// <reference path="../.astro/types.d.ts" />
 
+import type { Logger } from "pino";
 import type { Language } from "./lib/business";
 import type { BusinessProfile, Theme } from "@mshorizon/schema";
 import type { Site } from "@mshorizon/db";
@@ -15,5 +16,6 @@ declare namespace App {
     availableBusinesses: string[];
     site: Site | null;
     auth: JWTPayload | null;
+    logger: Logger;
   }
 }

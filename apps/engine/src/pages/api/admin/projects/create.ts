@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { createProject, getSiteBySubdomain } from "@mshorizon/db";
+import logger from "../../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { businessId, project } = body;
@@ -48,7 +49,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 201, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error creating project:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/projects/create" }, "Error creating project");
     return new Response(
       JSON.stringify({ error: "Failed to create project" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

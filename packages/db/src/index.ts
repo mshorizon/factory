@@ -4,6 +4,8 @@ export {
   comments,
   projects,
   pushSubscriptions,
+  healthChecks,
+  alerts,
   type Site,
   type NewSite,
   type Blog,
@@ -14,6 +16,10 @@ export {
   type NewProject,
   type PushSubscription,
   type NewPushSubscription,
+  type HealthCheck,
+  type NewHealthCheck,
+  type Alert,
+  type NewAlert,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -43,4 +49,10 @@ export {
   upsertPushSubscription,
   deactivatePushSubscription,
   deletePushSubscription,
+  insertHealthCheck,
+  getHealthChecksBySiteId,
+  getLatestHealthCheck,
+  getHealthCheckStats,
+  insertAlert,
+  getRecentAlerts,
 } from "./queries.js";

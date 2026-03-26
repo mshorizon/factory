@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { setDraft } from "../../../lib/draft-store";
+import logger from "../../../lib/logger";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const { businessId, data, translations } = await request.json();
 
@@ -22,7 +23,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error storing draft:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/draft" }, "Error storing draft");
     return new Response(
       JSON.stringify({
         message: error instanceof Error ? error.message : "Failed to store draft",

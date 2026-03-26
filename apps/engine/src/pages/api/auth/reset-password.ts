@@ -1,8 +1,9 @@
 import type { APIRoute } from 'astro';
 import { getPasswordResetToken, markPasswordResetTokenUsed, updateUserPassword } from '@mshorizon/db';
 import { hashPassword } from '../../../lib/auth';
+import logger from '../../../lib/logger';
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const token = String(body.token || '').trim();
@@ -54,7 +55,7 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err) {
-    console.error('[auth/reset-password]', err);
+    (locals.logger ?? logger).error({ err, endpoint: "/api/auth/reset-password" }, "Reset password error");
     return new Response(JSON.stringify({ error: 'Wewnętrzny błąd serwera' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

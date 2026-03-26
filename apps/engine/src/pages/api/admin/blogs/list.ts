@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { getBlogsBySiteId, getSiteBySubdomain } from "@mshorizon/db";
+import logger from "../../../../lib/logger";
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, locals }) => {
   try {
     const businessId = url.searchParams.get("business");
     const lang = url.searchParams.get("lang") || undefined;
@@ -29,7 +30,7 @@ export const GET: APIRoute = async ({ url }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error listing blogs:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/blogs/list" }, "Error listing blogs");
     return new Response(
       JSON.stringify({ error: "Failed to list blogs" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

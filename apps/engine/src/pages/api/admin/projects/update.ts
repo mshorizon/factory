@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { updateProject, getProjectBySlug, getSiteBySubdomain } from "@mshorizon/db";
+import logger from "../../../../lib/logger";
 
-export const PUT: APIRoute = async ({ request }) => {
+export const PUT: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { businessId, projectId, project } = body;
@@ -45,7 +46,7 @@ export const PUT: APIRoute = async ({ request }) => {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error updating project:", error);
+    (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/projects/update" }, "Error updating project");
     return new Response(
       JSON.stringify({ error: "Failed to update project" }),
       { status: 500, headers: { "Content-Type": "application/json" } }

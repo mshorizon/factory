@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import node from '@astrojs/node';
+import sentry from '@sentry/astro';
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,7 +11,17 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
-  integrations: [react(), tailwind()],
+  integrations: [
+    react(),
+    tailwind(),
+    ...(process.env.SENTRY_DSN ? [sentry({
+      dsn: process.env.SENTRY_DSN,
+      sourceMapsUploadOptions: {
+        project: process.env.SENTRY_PROJECT || "factory-engine",
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      },
+    })] : []),
+  ],
   
   // Konfiguracja serwera deweloperskiego
   server: {
@@ -32,7 +43,9 @@ export default defineConfig({
         '@lexical/rich-text',
         '@lexical/list',
         '@lexical/link',
-        '@lexical/selection'
+        '@lexical/selection',
+        'pino',
+        'pino-pretty'
       ]
     }
   }
