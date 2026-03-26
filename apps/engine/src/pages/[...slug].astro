@@ -58,6 +58,64 @@ const metaDescription = (firstSection as any)?.header?.subtitle
   || (firstSection as any)?.subtitle
   || (normalizedSlug !== "home" ? `${page.title} - ${business.business.name}` : undefined);
 
+// Canonical URL (strip internal query params)
+const canonicalUrl = (() => {
+  const u = new URL(Astro.url.href);
+  u.searchParams.delete('_preview');
+  u.searchParams.delete('business');
+  return u.toString();
+})();
+
+// OG Image from first section
+const ogImage = (() => {
+  const s = page.sections?.[0] as any;
+  return s?.image || s?.backgroundImage || undefined;
+})();
+
+// JSON-LD Structured Data
+const jsonLd = normalizedSlug === 'home' ? {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": business.business.name,
+  "url": new URL(canonicalUrl).origin + '/',
+  ...(business.business.contact?.phone && { "telephone": business.business.contact.phone }),
+  ...(business.business.contact?.email && { "email": business.business.contact.email }),
+  ...(business.business.contact?.address && {
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": business.business.contact.address
+    }
+  }),
+  ...(business.business.contact?.location && {
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": (business.business.contact.location as any).latitude,
+      "longitude": (business.business.contact.location as any).longitude
+    }
+  }),
+  ...((business.business as any).googleRating && {
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": (business.business as any).googleRating.score,
+      "reviewCount": (business.business as any).googleRating.count
+    }
+  }),
+  ...(business.business.socials && {
+    "sameAs": Object.values(business.business.socials as Record<string, string>).filter(Boolean)
+  })
+} : {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": pageTitle,
+  ...(metaDescription && { "description": metaDescription }),
+  "url": canonicalUrl,
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": business.business.name,
+    "url": new URL(canonicalUrl).origin + '/'
+  }
+};
+
 // Pre-resolve footer links
 const footerLinks = layout.footer.links?.map((link: any) => ({
   label: link.label,
@@ -93,7 +151,7 @@ const socialLinks = business.business.socials
   : [];
 ---
 
-<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription}>
+<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={ogImage} siteName={business.business.name} jsonLd={jsonLd}>
   <Navbar
     logo={business.business.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}

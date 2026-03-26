@@ -56,6 +56,31 @@ const navCta = business.navigation?.cta ? {
 const pageTitle = blog.metaTitle || `${blog.title} | ${business.business.name}`;
 const metaDescription = blog.metaDescription || blog.description;
 
+// Canonical URL
+const canonicalUrl = (() => {
+  const u = new URL(Astro.url.href);
+  u.searchParams.delete('_preview');
+  u.searchParams.delete('business');
+  return u.toString();
+})();
+
+// Article JSON-LD
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": blog.title,
+  ...(blog.description && { "description": blog.description }),
+  ...(blog.image && { "image": blog.image }),
+  ...(blog.publishedAt && { "datePublished": new Date(blog.publishedAt).toISOString() }),
+  ...(blog.author && { "author": { "@type": "Person", "name": blog.author } }),
+  "publisher": {
+    "@type": "Organization",
+    "name": business.business.name,
+    "url": new URL(canonicalUrl).origin + '/'
+  },
+  "url": canonicalUrl
+};
+
 // Breadcrumbs
 const breadcrumbs = [
   { label: t(translations, "nav.home", "Strona główna"), href: "/" },
@@ -108,7 +133,7 @@ const formattedDate = blog.publishedAt ? new Date(blog.publishedAt).toLocaleDate
 }) : null;
 ---
 
-<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription || undefined}>
+<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription || undefined} canonical={canonicalUrl} ogImage={blog.image || undefined} ogType="article" siteName={business.business.name} jsonLd={jsonLd}>
   <Navbar
     logo={business.business.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}

@@ -11,9 +11,14 @@ interface Props {
   favicon?: string;
   lang?: string;
   description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  siteName?: string;
+  jsonLd?: object | object[];
 }
 
-const { title, theme, favicon, lang = "en", description } = Astro.props;
+const { title, theme, favicon, lang = "en", description, canonical, ogImage, ogType = 'website', siteName, jsonLd } = Astro.props;
 
 // Helper function to darken a hex color
 function darkenColor(hex: string, percent: number = 35): string {
@@ -114,6 +119,22 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     {description && <meta name="description" content={description} />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    {siteName && <meta property="og:site_name" content={siteName} />}
+    <meta property="og:locale" content={lang === 'pl' ? 'pl_PL' : 'en_US'} />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    <!-- JSON-LD Structured Data -->
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <link rel="manifest" href="/api/manifest.webmanifest" />
     {googleFontsUrl && (
       <link rel="preconnect" href="https://fonts.googleapis.com" />
