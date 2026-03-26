@@ -27,7 +27,7 @@ export function AboutStory({
   return (
     <div className={cn("space-y-spacing-3xl", className)}>
       {/* Split layout: image left, text right */}
-      <div className="grid lg:grid-cols-2 gap-0 items-stretch">
+      <div className="grid lg:grid-cols-[auto_1fr] gap-spacing-section-sm items-stretch">
         {image && (
           <ScrollReveal delay={0} direction="left" distance={30}>
             <div className="relative flex items-center justify-center lg:justify-start p-spacing-2xl">
