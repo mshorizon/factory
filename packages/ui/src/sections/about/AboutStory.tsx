@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "../../lib/utils";
-import { Button } from "../../atoms/Button";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "../../atoms/Badge";
 import { Card, CardContent } from "../../atoms/Card";
 import { ScrollReveal } from "../../animations/ScrollReveal";
@@ -30,11 +30,11 @@ export function AboutStory({
       <div className="grid lg:grid-cols-[auto_1fr] gap-spacing-section-sm items-stretch">
         {image && (
           <ScrollReveal delay={0} direction="left" distance={30}>
-            <div className="relative flex items-center justify-center lg:justify-start p-spacing-2xl">
+            <div className="relative flex items-center justify-center lg:justify-start py-spacing-2xl">
               <img
                 src={image}
                 alt=""
-                className="w-[364px] max-w-full h-[300px] object-cover rounded-radius-secondary shadow-lg"
+                className="w-[364px] max-w-full h-[400px] object-cover rounded-radius-secondary shadow-lg"
                 data-field="image"
                 loading="lazy"
                 decoding="async"
@@ -44,7 +44,7 @@ export function AboutStory({
         )}
 
         <ScrollReveal delay={0.1} direction="right" distance={30}>
-          <div className="space-y-spacing-lg px-spacing-2xl lg:px-spacing-3xl py-spacing-3xl flex flex-col justify-center">
+          <div className="space-y-spacing-lg py-spacing-3xl flex flex-col justify-center">
             {badge && (
               <div className="flex items-center gap-spacing-sm">
                 <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
@@ -64,9 +64,14 @@ export function AboutStory({
 
             {cta && (
               <div className="pt-4">
-                <Button asChild size="lg">
-                  <a href={ctaHref}>{cta}</a>
-                </Button>
+                <a
+                  href={ctaHref}
+                  onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-accent font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
+                >
+                  {cta}
+                  <ArrowRight className="h-5 w-5" />
+                </a>
               </div>
             )}
           </div>
@@ -95,9 +100,14 @@ export function AboutStory({
             <h2 className="text-2xl font-bold text-foreground mb-spacing-md" data-field="commitment.title">{commitment.title}</h2>
             <p className="text-muted leading-relaxed mb-spacing-lg" data-field="commitment.content">{commitment.content}</p>
             {!cta && commitment && (
-              <Button asChild size="lg">
-                <a href={ctaHref}>{cta}</a>
-              </Button>
+              <a
+                href={ctaHref}
+                onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-accent font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
+              >
+                {cta}
+                <ArrowRight className="h-5 w-5" />
+              </a>
             )}
           </section>
         </ScrollReveal>
