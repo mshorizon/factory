@@ -91,10 +91,12 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
     return a.localeCompare(b);
   });
 
-  const links = slugs.map((slug) => ({
-    label: pages[slug].title,
-    href: slug === "home" ? "/" : `/${slug}`,
-  }));
+  const links = slugs
+    .filter((slug) => !pages[slug].hideFromNav)
+    .map((slug) => ({
+      label: pages[slug].title,
+      href: slug === "home" ? "/" : `/${slug}`,
+    }));
 
   // Always add blog link if not already present (insert before contact)
   if (!slugs.includes("blog")) {

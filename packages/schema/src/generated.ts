@@ -274,6 +274,7 @@ export interface Pages {
 }
 export interface Page {
   title: PageTitle;
+  hideFromNav?: boolean;
   sections: Sections;
 }
 export interface Section {
