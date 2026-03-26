@@ -64,22 +64,28 @@ const items = (section.items || []) as Array<{ title?: string; label?: string }>
         )}
       </div>
 
-      <!-- Right: image -->
+      <!-- Right: image with hero-style dots -->
       {section.image && (
-        <div class="relative">
+        <div class="relative w-[448px] max-w-full h-[448px] flex-shrink-0">
+          <!-- Dot top-left (behind image) -->
+          <div
+            class="absolute top-[26px] -left-[46px] w-[36px] h-[216px] opacity-15 pointer-events-none text-foreground"
+            aria-hidden="true"
+            style="background-image: radial-gradient(circle, currentColor 4px, transparent 4px); background-size: 18px 18px;"
+          ></div>
+          <!-- Dot bottom-right (behind image) -->
+          <div
+            class="absolute bottom-[26px] -right-[46px] w-[36px] h-[144px] opacity-15 pointer-events-none text-foreground"
+            aria-hidden="true"
+            style="background-image: radial-gradient(circle, currentColor 4px, transparent 4px); background-size: 18px 18px;"
+          ></div>
           <img
             src={section.image}
             alt={header.title || ""}
-            class="w-full h-auto rounded-2xl object-cover shadow-xl"
+            class="w-full h-full rounded-2xl object-cover shadow-xl relative z-10"
             loading="lazy"
             decoding="async"
           />
-          <!-- Decorative dot grid -->
-          <div
-            class="absolute -bottom-4 -right-4 w-24 h-24 opacity-30 pointer-events-none"
-            aria-hidden="true"
-            style="background-image: radial-gradient(var(--primary) 1.5px, transparent 1.5px); background-size: 10px 10px;"
-          ></div>
         </div>
       )}
     </div>
