@@ -1,4 +1,4 @@
-import { pgTable, serial, text, jsonb, timestamp, integer, unique } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, jsonb, timestamp, integer, unique, boolean } from "drizzle-orm/pg-core";
 
 export const sites = pgTable("sites", {
   id: serial("id").primaryKey(),
@@ -75,3 +75,16 @@ export const comments = pgTable("comments", {
 
 export type Comment = typeof comments.$inferSelect;
 export type NewComment = typeof comments.$inferInsert;
+
+export const pushSubscriptions = pgTable("push_subscriptions", {
+  id: serial("id").primaryKey(),
+  siteId: integer("site_id").notNull().references(() => sites.id, { onDelete: 'cascade' }),
+  endpoint: text("endpoint").notNull().unique(),
+  p256dh: text("p256dh").notNull(),
+  auth: text("auth").notNull(),
+  active: boolean("active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type PushSubscription = typeof pushSubscriptions.$inferSelect;
+export type NewPushSubscription = typeof pushSubscriptions.$inferInsert;

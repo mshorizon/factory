@@ -4,6 +4,8 @@ import { getSiteBySubdomain } from "@mshorizon/db";
 import { initDb } from "@mshorizon/db";
 import { verifyTurnstile } from "../../lib/turnstile";
 import { rateLimit } from "../../lib/rate-limit";
+import { sendSms, renderSmsTemplate } from "../../lib/sms";
+import { sendPushToSiteSubscribers } from "../../lib/push";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -95,6 +97,35 @@ export const POST: APIRoute = async ({ request }) => {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
+    }
+
+    // SMS notification (fire-and-forget, don't block the response)
+    const smsConfig = (config as any)?.notifications?.sms;
+    if (smsConfig?.enabled && smsConfig?.apiToken && smsConfig?.phoneNumber) {
+      const template = smsConfig.template || "New message from {{name}} ({{email}}): {{message}}";
+      const smsMessage = renderSmsTemplate(template, {
+        name,
+        email,
+        message: message.substring(0, 100),
+        businessId,
+      });
+      sendSms({
+        provider: smsConfig.provider || "smsapi",
+        apiToken: smsConfig.apiToken,
+        phoneNumber: smsConfig.phoneNumber,
+        message: smsMessage,
+        senderName: smsConfig.senderName,
+      }).catch((err) => console.error("SMS notification error:", err));
+    }
+
+    // Web Push notification (fire-and-forget)
+    const pushConfig = (config as any)?.notifications?.push;
+    if (pushConfig?.enabled) {
+      sendPushToSiteSubscribers(site.id, {
+        title: "Nowa wiadomość",
+        body: `${name}: ${message.substring(0, 80)}`,
+        url: `/admin`,
+      }).catch((err) => console.error("Push notification error:", err));
     }
 
     return new Response(JSON.stringify({ success: true, id: data?.id }), {

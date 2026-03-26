@@ -1,8 +1,8 @@
 import { eq, and, desc } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments } from "./schema.js";
+import { sites, blogs, comments, pushSubscriptions } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment } from "./schema.js";
+import type { NewBlog, NewComment, NewPushSubscription } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -223,4 +223,45 @@ export async function moderateComment(
 export async function deleteComment(id: number) {
   const db = getDb();
   await db.delete(comments).where(eq(comments.id, id));
+}
+
+// ========== Push Subscription Queries ==========
+
+export async function getPushSubscriptionsBySiteId(siteId: number) {
+  const db = getDb();
+  return await db
+    .select()
+    .from(pushSubscriptions)
+    .where(and(eq(pushSubscriptions.siteId, siteId), eq(pushSubscriptions.active, true)));
+}
+
+export async function upsertPushSubscription(sub: NewPushSubscription) {
+  const db = getDb();
+  const existing = await db
+    .select()
+    .from(pushSubscriptions)
+    .where(eq(pushSubscriptions.endpoint, sub.endpoint))
+    .limit(1);
+
+  if (existing.length > 0) {
+    await db
+      .update(pushSubscriptions)
+      .set({ p256dh: sub.p256dh, auth: sub.auth, active: true })
+      .where(eq(pushSubscriptions.endpoint, sub.endpoint));
+  } else {
+    await db.insert(pushSubscriptions).values(sub);
+  }
+}
+
+export async function deactivatePushSubscription(endpoint: string) {
+  const db = getDb();
+  await db
+    .update(pushSubscriptions)
+    .set({ active: false })
+    .where(eq(pushSubscriptions.endpoint, endpoint));
+}
+
+export async function deletePushSubscription(endpoint: string) {
+  const db = getDb();
+  await db.delete(pushSubscriptions).where(eq(pushSubscriptions.endpoint, endpoint));
 }

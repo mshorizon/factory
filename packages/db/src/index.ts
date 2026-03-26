@@ -2,12 +2,15 @@ export {
   sites,
   blogs,
   comments,
+  pushSubscriptions,
   type Site,
   type NewSite,
   type Blog,
   type NewBlog,
   type Comment,
   type NewComment,
+  type PushSubscription,
+  type NewPushSubscription,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -28,4 +31,8 @@ export {
   createComment,
   moderateComment,
   deleteComment,
+  getPushSubscriptionsBySiteId,
+  upsertPushSubscription,
+  deactivatePushSubscription,
+  deletePushSubscription,
 } from "./queries.js";

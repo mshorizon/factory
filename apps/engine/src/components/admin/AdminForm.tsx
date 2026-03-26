@@ -9,6 +9,7 @@ import SectionEditor from "./SectionEditor";
 import { BlogManagement } from "./BlogManagement";
 import { ProductsTab } from "./ProductsTab";
 import { ServicesTab } from "./ServicesTab";
+import { NotificationsTab } from "./NotificationsTab";
 import { AnalyticsTab } from "./AnalyticsTab";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -69,6 +70,7 @@ import {
   Star,
   Loader2,
   Trash2,
+  Bell,
   MoreHorizontal,
   BarChart2,
   LogOut,
@@ -1274,6 +1276,18 @@ export default function AdminForm({
     if (activeTab === "blog") {
       return <BlogManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
+    if (activeTab === "notifications") {
+      return (
+        <NotificationsTab
+          businessId={businessId}
+          notifications={(formData.notifications || {}) as any}
+          onChange={(notifications) => {
+            setFormData((prev) => ({ ...prev, notifications }));
+            setSaveStatus("idle");
+          }}
+        />
+      );
+    }
 
     if (activeTab === "analytics") {
       return <AnalyticsTab businessId={businessId} />;
@@ -1374,6 +1388,7 @@ export default function AdminForm({
       label: "General",
       items: [
         { id: "meta", label: "Business", Icon: Briefcase },
+        { id: "notifications", label: "Notifications", Icon: Bell },
         { id: "translations", label: "Translations", Icon: Languages },
       ],
     },
