@@ -1,6 +1,6 @@
 ---
 import { ShopGrid } from "@mshorizon/ui";
-import type { Section } from "@mshorizon/schema";
+import type { Section, BusinessProfile } from "@mshorizon/schema";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -10,9 +10,13 @@ interface Props {
     outOfStockCtaLabel?: string;
     outOfStockCtaHref?: string;
   };
+  business?: BusinessProfile;
 }
 
-const { section } = Astro.props;
+const { section, business } = Astro.props;
+
+// Products come from section override or fall back to business data.products
+const products = (section as any).products ?? business?.data?.products ?? [];
 
 // Extract section header
 const header = getSectionHeader(section);
@@ -21,7 +25,7 @@ const header = getSectionHeader(section);
 <ShopGrid
   client:load
   header={header}
-  products={section.products || []}
+  products={products}
   ctaLabel={section.ctaLabel}
   currency={section.currency || "zł"}
   outOfStockLabel={section.outOfStockLabel || "Out of Stock"}
