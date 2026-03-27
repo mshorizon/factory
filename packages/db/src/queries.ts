@@ -1,6 +1,6 @@
 import { eq, and, desc, gte, sql, count } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
 import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert } from "./schema.js";
 
@@ -386,4 +386,45 @@ export async function getRecentAlerts(siteId: number, hoursBack = 1) {
     .from(alerts)
     .where(and(eq(alerts.siteId, siteId), gte(alerts.sentAt, since)))
     .orderBy(desc(alerts.sentAt));
+}
+
+// --- Auth ---
+
+export async function getUserByEmail(email: string) {
+  const db = getDb();
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email.toLowerCase()))
+    .limit(1);
+  return user ?? null;
+}
+
+export async function updateUserLastLogin(userId: number) {
+  const db = getDb();
+  await db
+    .update(users)
+    .set({ lastLoginAt: new Date(), updatedAt: new Date() })
+    .where(eq(users.id, userId));
+}
+
+export async function logLoginAttempt(email: string, ipAddress: string | null, success: boolean) {
+  const db = getDb();
+  await db.insert(loginAttempts).values({ email: email.toLowerCase(), ipAddress, success });
+}
+
+export async function getRecentFailedAttempts(email: string, windowMs: number): Promise<number> {
+  const db = getDb();
+  const since = new Date(Date.now() - windowMs);
+  const [row] = await db
+    .select({ count: count() })
+    .from(loginAttempts)
+    .where(
+      and(
+        eq(loginAttempts.email, email.toLowerCase()),
+        eq(loginAttempts.success, false),
+        gte(loginAttempts.attemptedAt, since)
+      )
+    );
+  return row?.count ?? 0;
 }

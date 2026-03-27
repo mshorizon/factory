@@ -1,4 +1,4 @@
-import { pgTable, serial, text, jsonb, timestamp, integer, unique, boolean } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, jsonb, timestamp, integer, unique, boolean, bigint } from "drizzle-orm/pg-core";
 
 export const sites = pgTable("sites", {
   id: serial("id").primaryKey(),
@@ -144,3 +144,30 @@ export const alerts = pgTable("alerts", {
 
 export type Alert = typeof alerts.$inferSelect;
 export type NewAlert = typeof alerts.$inferInsert;
+
+// --- Auth ---
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  role: text("role").notNull().default("admin"), // "admin" | "super-admin"
+  businessId: text("business_id"),
+  lastLoginAt: timestamp("last_login_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+
+export const loginAttempts = pgTable("login_attempts", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull(),
+  ipAddress: text("ip_address"),
+  success: boolean("success").notNull().default(false),
+  attemptedAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type LoginAttempt = typeof loginAttempts.$inferSelect;
+export type NewLoginAttempt = typeof loginAttempts.$inferInsert;

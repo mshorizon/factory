@@ -20,6 +20,12 @@ export {
   type NewHealthCheck,
   type Alert,
   type NewAlert,
+  users,
+  loginAttempts,
+  type User,
+  type NewUser,
+  type LoginAttempt,
+  type NewLoginAttempt,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -55,4 +61,8 @@ export {
   getHealthCheckStats,
   insertAlert,
   getRecentAlerts,
+  getUserByEmail,
+  updateUserLastLogin,
+  logLoginAttempt,
+  getRecentFailedAttempts,
 } from "./queries.js";
