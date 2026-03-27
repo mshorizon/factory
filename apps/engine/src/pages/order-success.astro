@@ -29,10 +29,17 @@ const navCta = business.navigation?.cta
 const footerLinks = layout.footer.links?.map((link: any) => ({
   label: link.label, href: link.href || resolveTarget(link.target, business),
 })) || [];
-const footerColumns = layout.footer.columns?.map((col: any) => ({
-  title: col.title,
-  links: col.links?.map((link: any) => ({ label: link.label, href: link.href || resolveTarget(link.target, business) })) || [],
-})) || [];
+const pagesColumn = {
+  title: translate(translations, "footer.columns.pages.title", "Strony"),
+  links: [...navLinks, ...footerLinks],
+};
+const footerColumns = [
+  pagesColumn,
+  ...(layout.footer.columns?.map((col: any) => ({
+    title: col.title,
+    links: col.links?.map((link: any) => ({ label: link.label, href: link.href || resolveTarget(link.target, business) })) || [],
+  })) || []),
+];
 
 // Fetch order from Stripe session
 const sessionId = Astro.url.searchParams.get("session_id");
