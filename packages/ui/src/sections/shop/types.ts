@@ -67,8 +67,12 @@ export interface CheckoutPageContentProps {
   totalLabel?: string;
   // Submit
   placeOrderLabel?: string;
+  processingLabel?: string;
+  errorLabel?: string;
   currency?: string;
   className?: string;
+  // Business context
+  businessId?: string;
 }
 
 export interface ShopGridProps {

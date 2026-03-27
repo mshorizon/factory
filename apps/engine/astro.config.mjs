@@ -45,7 +45,8 @@ export default defineConfig({
         '@lexical/link',
         '@lexical/selection',
         'pino',
-        'pino-pretty'
+        'pino-pretty',
+        'stripe'
       ]
     }
   }

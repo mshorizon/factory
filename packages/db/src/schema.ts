@@ -171,3 +171,68 @@ export const loginAttempts = pgTable("login_attempts", {
 
 export type LoginAttempt = typeof loginAttempts.$inferSelect;
 export type NewLoginAttempt = typeof loginAttempts.$inferInsert;
+
+// --- Orders ---
+
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  siteId: integer("site_id").notNull().references(() => sites.id, { onDelete: 'cascade' }),
+
+  orderNumber: text("order_number").notNull(),
+  status: text("status").notNull().default("pending"), // "pending" | "paid" | "shipped" | "cancelled"
+
+  // Customer
+  customerEmail: text("customer_email").notNull(),
+  customerPhone: text("customer_phone"),
+  customerFirstName: text("customer_first_name").notNull(),
+  customerLastName: text("customer_last_name").notNull(),
+  shippingAddress: text("shipping_address").notNull(),
+  shippingCity: text("shipping_city").notNull(),
+  shippingPostalCode: text("shipping_postal_code").notNull(),
+
+  // Money (integers — grosze/cents)
+  subtotal: integer("subtotal").notNull(),
+  shippingCost: integer("shipping_cost").notNull().default(0),
+  total: integer("total").notNull(),
+  currency: text("currency").notNull().default("PLN"),
+
+  // Stripe
+  stripeSessionId: text("stripe_session_id"),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+
+  // Invoice
+  invoiceUrl: text("invoice_url"),
+
+  // Admin notes
+  notes: text("notes"),
+
+  // Timestamps
+  paidAt: timestamp("paid_at"),
+  shippedAt: timestamp("shipped_at"),
+  cancelledAt: timestamp("cancelled_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  uniqueOrderPerSite: unique().on(table.siteId, table.orderNumber),
+}));
+
+export type Order = typeof orders.$inferSelect;
+export type NewOrder = typeof orders.$inferInsert;
+
+export const orderItems = pgTable("order_items", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").notNull().references(() => orders.id, { onDelete: 'cascade' }),
+
+  productId: text("product_id").notNull(),
+  title: text("title").notNull(),
+  unitPrice: integer("unit_price").notNull(), // grosze/cents
+  quantity: integer("quantity").notNull(),
+  total: integer("total").notNull(), // unitPrice * quantity
+
+  image: text("image"),
+  customizations: jsonb("customizations").$type<Record<string, string>>(),
+  customizationLabels: jsonb("customization_labels").$type<Record<string, string>>(),
+});
+
+export type OrderItem = typeof orderItems.$inferSelect;
+export type NewOrderItem = typeof orderItems.$inferInsert;

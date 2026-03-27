@@ -1,8 +1,8 @@
 import { eq, and, desc, gte, sql, count } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert } from "./schema.js";
+import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -427,4 +427,80 @@ export async function getRecentFailedAttempts(email: string, windowMs: number): 
       )
     );
   return row?.count ?? 0;
+}
+
+// ========== Order Queries ==========
+
+export async function createOrder(order: NewOrder) {
+  const db = getDb();
+  const [row] = await db.insert(orders).values(order).returning();
+  return row;
+}
+
+export async function createOrderItems(items: NewOrderItem[]) {
+  const db = getDb();
+  return await db.insert(orderItems).values(items).returning();
+}
+
+export async function getOrderById(id: number) {
+  const db = getDb();
+  const [row] = await db.select().from(orders).where(eq(orders.id, id)).limit(1);
+  return row ?? null;
+}
+
+export async function getOrderByStripeSessionId(sessionId: string) {
+  const db = getDb();
+  const [row] = await db.select().from(orders).where(eq(orders.stripeSessionId, sessionId)).limit(1);
+  return row ?? null;
+}
+
+export async function getOrdersBySiteId(siteId: number, status?: string) {
+  const db = getDb();
+  const conditions = [eq(orders.siteId, siteId)];
+  if (status) conditions.push(eq(orders.status, status));
+  return await db.select().from(orders).where(and(...conditions)).orderBy(desc(orders.createdAt));
+}
+
+export async function getOrderItemsByOrderId(orderId: number) {
+  const db = getDb();
+  return await db.select().from(orderItems).where(eq(orderItems.orderId, orderId));
+}
+
+export async function updateOrderStatus(
+  id: number,
+  status: string,
+  extraFields?: Partial<NewOrder>,
+) {
+  const db = getDb();
+  const [updated] = await db
+    .update(orders)
+    .set({ status, updatedAt: new Date(), ...extraFields })
+    .where(eq(orders.id, id))
+    .returning();
+  return updated;
+}
+
+export async function updateOrderStripeFields(id: number, fields: Partial<NewOrder>) {
+  const db = getDb();
+  await db.update(orders).set({ ...fields, updatedAt: new Date() }).where(eq(orders.id, id));
+}
+
+export async function generateOrderNumber(siteId: number): Promise<string> {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let suffix = "";
+  for (let i = 0; i < 4; i++) suffix += chars[Math.floor(Math.random() * chars.length)];
+
+  const orderNumber = `ORD-${date}-${suffix}`;
+
+  // Check uniqueness (extremely unlikely collision but safe)
+  const db = getDb();
+  const [existing] = await db
+    .select()
+    .from(orders)
+    .where(and(eq(orders.siteId, siteId), eq(orders.orderNumber, orderNumber)))
+    .limit(1);
+
+  if (existing) return generateOrderNumber(siteId); // retry on collision
+  return orderNumber;
 }

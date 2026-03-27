@@ -14,6 +14,7 @@ import { NotificationsTab } from "./NotificationsTab";
 import { AnalyticsTab } from "./AnalyticsTab";
 import { StatusTab } from "./StatusTab";
 import { OverviewTab } from "./OverviewTab";
+import { OrdersTab } from "./OrdersTab";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -84,6 +85,7 @@ import {
   KeyRound,
   Activity,
   LayoutDashboard,
+  Receipt,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1286,7 +1288,11 @@ export default function AdminForm({
     if (activeTab === "projects") {
       return <ProjectManagement businessId={businessId} primaryLanguage={primaryLanguage} />;
     }
-    
+
+    if (activeTab === "orders") {
+      return <OrdersTab businessId={businessId} />;
+    }
+
     if (activeTab === "notifications") {
       return (
         <NotificationsTab
@@ -1418,6 +1424,7 @@ export default function AdminForm({
         { id: "data-services", label: "Services", Icon: Wrench },
         { id: "blog", label: "Blog", Icon: FileEdit },
         { id: "projects", label: "Projects", Icon: FolderKanban },
+        { id: "orders", label: "Orders", Icon: Receipt },
       ],
     },
     {

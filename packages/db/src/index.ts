@@ -26,6 +26,12 @@ export {
   type NewUser,
   type LoginAttempt,
   type NewLoginAttempt,
+  orders,
+  orderItems,
+  type Order,
+  type NewOrder,
+  type OrderItem,
+  type NewOrderItem,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -65,4 +71,13 @@ export {
   updateUserLastLogin,
   logLoginAttempt,
   getRecentFailedAttempts,
+  createOrder,
+  createOrderItems,
+  getOrderById,
+  getOrderByStripeSessionId,
+  getOrdersBySiteId,
+  getOrderItemsByOrderId,
+  updateOrderStatus,
+  updateOrderStripeFields,
+  generateOrderNumber,
 } from "./queries.js";
