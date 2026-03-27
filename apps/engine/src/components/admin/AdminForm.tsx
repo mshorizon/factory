@@ -13,6 +13,7 @@ import { ServicesTab } from "./ServicesTab";
 import { NotificationsTab } from "./NotificationsTab";
 import { AnalyticsTab } from "./AnalyticsTab";
 import { StatusTab } from "./StatusTab";
+import { OverviewTab } from "./OverviewTab";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -82,6 +83,7 @@ import {
   Plus,
   KeyRound,
   Activity,
+  LayoutDashboard,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1391,6 +1393,10 @@ export default function AdminForm({
       );
     }
 
+    if (activeTab === "overview") {
+      return <OverviewTab />;
+    }
+
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
     return null;
@@ -1429,12 +1435,20 @@ export default function AdminForm({
         { id: "status", label: "Status", Icon: Activity },
       ],
     },
-    ...(auth?.role === "super-admin" ? [{
-      label: "Administration",
-      items: [
-        { id: "users", label: "Users", Icon: Users },
-      ],
-    }] : []),
+    ...(auth?.role === "super-admin" ? [
+      {
+        label: "Overview",
+        items: [
+          { id: "overview", label: "All Businesses", Icon: LayoutDashboard },
+        ],
+      },
+      {
+        label: "Administration",
+        items: [
+          { id: "users", label: "Users", Icon: Users },
+        ],
+      },
+    ] : []),
   ];
 
   const [theme, setThemeState] = useState<"light" | "dark">(() => {
