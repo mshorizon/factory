@@ -22,11 +22,23 @@ export const GET: APIRoute = async ({ url, locals }) => {
       );
     }
 
-    const [stats, latest, history] = await Promise.all([
-      getHealthCheckStats(site.id, hours),
-      getLatestHealthCheck(site.id),
-      getHealthChecksBySiteId(site.id, 200),
-    ]);
+    let stats, latest, history;
+    try {
+      [stats, latest, history] = await Promise.all([
+        getHealthCheckStats(site.id, hours),
+        getLatestHealthCheck(site.id),
+        getHealthChecksBySiteId(site.id, 200),
+      ]);
+    } catch (dbError: any) {
+      // Table might not exist yet — return empty data
+      if (dbError?.message?.includes("does not exist") || dbError?.code === "42P01") {
+        stats = { total: 0, healthy: 0, degraded: 0, unhealthy: 0, uptimePercent: 100, avgLatencyMs: 0 };
+        latest = null;
+        history = [];
+      } else {
+        throw dbError;
+      }
+    }
 
     return new Response(
       JSON.stringify({ stats, latest, history }),

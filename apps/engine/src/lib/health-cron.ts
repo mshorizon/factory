@@ -42,8 +42,11 @@ async function runHealthCheck(subdomain: string) {
         );
       }
     }
-  } catch (error) {
-    logger.error({ err: error, subdomain }, "Failed to store health check result");
+  } catch (error: any) {
+    // Silently skip if table doesn't exist yet (needs db:push)
+    if (!error?.message?.includes("does not exist") && error?.code !== "42P01") {
+      logger.error({ err: error, subdomain }, "Failed to store health check result");
+    }
   }
 
   return status;
