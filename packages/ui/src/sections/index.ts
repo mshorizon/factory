@@ -27,7 +27,7 @@ export { ContactCentered, ContactSplit } from "./contact";
 export type { ContactCenteredProps, ContactSplitProps, ContactForm, ContactInfo, ContactLabels } from "./contact";
 
 // Shop variants
-export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid } from "./shop";
+export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid, OrderSuccessContent } from "./shop";
 export type { ProductCardProps, CartButtonProps, CartPageContentProps, CheckoutPageContentProps, ShopGridProps } from "./shop";
 
 // Process variants

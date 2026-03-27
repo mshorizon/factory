@@ -5,9 +5,9 @@ import Footer from "../components/Footer.astro";
 import { OrderSuccessContent } from "@mshorizon/ui";
 import { getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
-import { deepTranslate } from "../lib/i18n";
+import { deepTranslate, t as translate } from "../lib/i18n";
 import { deepResolveImages } from "../lib/images";
-import { getOrderByStripeSessionId, getOrderItemsByOrderId } from "@mshorizon/db";
+import { getOrderByStripeSessionId, getOrderItemsByOrderId, initDb } from "@mshorizon/db";
 import type { BusinessProfile } from "@mshorizon/schema";
 
 const { businessId, businessData, theme, currentLang, t: translations, site } = Astro.locals;
@@ -38,15 +38,27 @@ const footerColumns = layout.footer.columns?.map((col: any) => ({
 const sessionId = Astro.url.searchParams.get("session_id");
 let orderNumber = "";
 let customerEmail = "";
+let customerName = "";
 let total = "";
+let orderItems: { title: string; quantity: number; unitPrice: string; image?: string }[] = [];
 
-if (sessionId && site) {
+if (sessionId) {
   try {
+    initDb(import.meta.env.DATABASE_URL);
     const order = await getOrderByStripeSessionId(sessionId);
-    if (order && order.siteId === site.id) {
+    if (order) {
       orderNumber = order.orderNumber;
       customerEmail = order.customerEmail;
-      total = `${(order.total / 100).toFixed(2)} ${order.currency === "PLN" ? "zł" : order.currency}`;
+      customerName = `${order.customerFirstName} ${order.customerLastName}`.trim();
+      const currencyLabel = order.currency?.toUpperCase() === "PLN" ? "zł" : (order.currency || "");
+      total = `${(order.total / 100).toFixed(2)} ${currencyLabel}`;
+      const items = await getOrderItemsByOrderId(order.id);
+      orderItems = items.map((item) => ({
+        title: item.title?.startsWith("t:") ? translate(translations, item.title.slice(2), item.title) : item.title,
+        quantity: item.quantity,
+        unitPrice: `${(item.unitPrice / 100).toFixed(2)} ${currencyLabel}`,
+        image: item.image ?? undefined,
+      }));
     }
   } catch {}
 }
@@ -67,7 +79,10 @@ const pageTitle = `Zamówienie potwierdzone | ${business.business.name}`;
       client:load
       orderNumber={orderNumber}
       customerEmail={customerEmail}
+      customerName={customerName}
       total={total}
+      items={orderItems}
+      continueShoppingHref="/shop"
     />
   </main>
   <Footer
