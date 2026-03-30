@@ -1,0 +1,443 @@
+{
+  "business": {
+    "id": "portfolio-tech-001",
+    "name": "Hazelgrouse Studio",
+    "industry": "software",
+    "assets": {
+      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230A0A0A'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>",
+      "icon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230A0A0A'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>"
+    },
+    "contact": {
+      "address": "Warszawa, Polska",
+      "phone": "+48 500 000 000",
+      "email": "hello@hazelgrouse.pl",
+      "hours": "Pon-Pt: 9:00-18:00"
+    },
+    "socials": {
+      "github": "https://github.com/hazelgrouse",
+      "linkedin": "https://linkedin.com/company/hazelgrouse",
+      "twitter": "https://twitter.com/hazelgrouse"
+    }
+  },
+  "theme": {
+    "preset": "minimal",
+    "mode": "dark",
+    "colors": {
+      "light": {
+        "primary": "#FFFFFF",
+        "surface": {
+          "base": "#FAFAFA",
+          "alt": "#0A0A0A",
+          "card": "#FFFFFF"
+        },
+        "text": {
+          "main": "#0A0A0A",
+          "muted": "#6B7280",
+          "onPrimary": "#0A0A0A"
+        }
+      },
+      "dark": {
+        "primary": "#FFFFFF",
+        "surface": {
+          "base": "#000000",
+          "alt": "#111111",
+          "card": "#161616"
+        },
+        "text": {
+          "main": "#FFFFFF",
+          "muted": "#999999",
+          "onPrimary": "#000000"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'Space Grotesk', system-ui, -apple-system, sans-serif",
+      "secondary": "'Open Sans', system-ui, -apple-system, sans-serif"
+    },
+    "ui": {
+      "radius": "16px",
+      "spacing": {
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "5rem",
+        "section": "7.5rem",
+        "container": "2.5rem"
+      }
+    }
+  },
+  "layout": {
+    "navbar": {
+      "variant": "standard"
+    },
+    "footer": {
+      "variant": "minimal",
+      "copyright": "\u00a9 2026 Hazelgrouse Studio. All rights reserved.",
+      "tagline": "Software that works. Websites that convert.",
+      "links": [
+        {
+          "label": "GitHub",
+          "target": {
+            "type": "external",
+            "value": "https://github.com/hazelgrouse"
+          }
+        },
+        {
+          "label": "LinkedIn",
+          "target": {
+            "type": "external",
+            "value": "https://linkedin.com/company/hazelgrouse"
+          }
+        },
+        {
+          "label": "Polityka prywatno\u015bci",
+          "target": {
+            "type": "page",
+            "value": "privacy"
+          }
+        }
+      ]
+    }
+  },
+  "navigation": {
+    "cta": {
+      "label": "Porozmawiajmy",
+      "target": {
+        "type": "section",
+        "value": "contact"
+      }
+    }
+  },
+  "data": {
+    "services": [
+      {
+        "id": "web-apps",
+        "slug": "web-apps",
+        "title": "Aplikacje webowe",
+        "description": "Projektujemy i budujemy nowoczesne aplikacje internetowe \u2014 od MVP po z\u0142o\u017cone systemy SaaS. TypeScript, React, Node.js, PostgreSQL.",
+        "icon": "code",
+        "category": "development",
+        "available": true
+      },
+      {
+        "id": "websites",
+        "slug": "websites",
+        "title": "Strony internetowe",
+        "description": "Szybkie, responsywne strony firmowe i landing page\u2019e zoptymalizowane pod SEO i konwersj\u0119. Astro, Next.js.",
+        "icon": "globe",
+        "category": "development",
+        "available": true
+      },
+      {
+        "id": "automation",
+        "slug": "automation",
+        "title": "Automatyzacja i AI",
+        "description": "Automatyzacja proces\u00f3w biznesowych, integracje API, chatboty i rozwi\u0105zania oparte o sztuczn\u0105 inteligencj\u0119.",
+        "icon": "zap",
+        "category": "automation",
+        "available": true
+      },
+      {
+        "id": "consulting",
+        "slug": "consulting",
+        "title": "Konsulting techniczny",
+        "description": "Audyty kodu, architektura system\u00f3w, wyb\u00f3r technologii i doradztwo przy skalowaniu produkt\u00f3w cyfrowych.",
+        "icon": "lightbulb",
+        "category": "consulting",
+        "available": true
+      }
+    ]
+  },
+  "pages": {
+    "home": {
+      "title": "Hazelgrouse Studio \u2014 Software & Web Development",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "minimal",
+          "background": "dark",
+          "header": {
+            "badge": "Hazelgrouse Studio",
+            "title": "Budujemy oprogramowanie,\nkt\u00f3re dzia\u0142a.",
+            "subtitle": "Jeste\u015bmy studiem software\u2019owym z Warszawy. Tworzymy aplikacje webowe, strony internetowe i systemy automatyzacji dla firm, kt\u00f3re chc\u0105 rosn\u0105\u0107 szybciej."
+          },
+          "cta": {
+            "label": "Porozmawiajmy",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          },
+          "secondaryCta": {
+            "label": "Zobacz realizacje",
+            "target": {
+              "type": "page",
+              "value": "projects"
+            }
+          }
+        },
+        {
+          "type": "services",
+          "variant": "grid",
+          "header": {
+            "badge": "Us\u0142ugi",
+            "title": "Czym si\u0119 zajmujemy",
+            "subtitle": "Dostarczamy rozwi\u0105zania technologiczne dopasowane do Twoich cel\u00f3w biznesowych."
+          },
+          "cta": {
+            "label": "Wszystkie us\u0142ugi",
+            "target": {
+              "type": "page",
+              "value": "services"
+            }
+          }
+        },
+        {
+          "type": "features",
+          "background": "dark",
+          "header": {
+            "badge": "Dlaczego my",
+            "title": "Technologia z g\u0142ow\u0105",
+            "subtitle": "Nie robimy rzeczy na odczepnego. Ka\u017cdy projekt traktujemy jak sw\u00f3j."
+          },
+          "items": [
+            {
+              "title": "Full-stack z do\u015bwiadczeniem",
+              "description": "TypeScript, React, Node.js, PostgreSQL, Astro, Next.js \u2014 budujemy na sprawdzonym stacku, kt\u00f3ry skaluje si\u0119 razem z Twoim biznesem.",
+              "icon": "code"
+            },
+            {
+              "title": "Szybka iteracja",
+              "description": "Dzia\u0142aj\u0105cy MVP w tygodnie, nie miesi\u0105ce. Pracujemy w kr\u00f3tkich sprintach z ci\u0105g\u0142ym feedbackiem.",
+              "icon": "timer"
+            },
+            {
+              "title": "Jako\u015b\u0107 produkcyjna",
+              "description": "Testy, CI/CD, monitoring, dokumentacja. Dostarczamy kod, kt\u00f3ry mo\u017cna utrzyma\u0107 i rozwija\u0107.",
+              "icon": "shield-check"
+            },
+            {
+              "title": "Transparentna wsp\u00f3\u0142praca",
+              "description": "Sta\u0142y kontakt, jasne estymaty, brak ukrytych koszt\u00f3w. Wiesz na czym stoisz na ka\u017cdym etapie.",
+              "icon": "badge-check"
+            }
+          ]
+        },
+        {
+          "type": "process",
+          "header": {
+            "badge": "Proces",
+            "title": "Jak dzia\u0142amy",
+            "subtitle": "Przejrzysty proces od pierwszej rozmowy do wdro\u017cenia."
+          },
+          "steps": [
+            {
+              "number": 1,
+              "title": "Discovery",
+              "description": "Poznajemy Tw\u00f3j biznes, cele i ograniczenia. Definiujemy zakres i priorytety.",
+              "icon": "search"
+            },
+            {
+              "number": 2,
+              "title": "Projekt & Prototyp",
+              "description": "Tworzymy wireframe\u2019y i prototyp interaktywny. Iterujemy dop\u00f3ki nie b\u0119dzie idealnie.",
+              "icon": "pen-tool"
+            },
+            {
+              "number": 3,
+              "title": "Developement",
+              "description": "Budujemy rozwi\u0105zanie sprint po sprincie. Regularny demo i feedback.",
+              "icon": "code"
+            },
+            {
+              "number": 4,
+              "title": "Wdro\u017cenie & Wsparcie",
+              "description": "Deploy na produkcj\u0119, monitoring, szkolenie zespo\u0142u. Zostajemy na wsparciu.",
+              "icon": "rocket"
+            }
+          ]
+        },
+        {
+          "type": "testimonials",
+          "variant": "summary",
+          "background": "dark",
+          "header": {
+            "badge": "Opinie",
+            "title": "Co m\u00f3wi\u0105 nasi klienci"
+          },
+          "items": [
+            {
+              "title": "Marek W., CEO SaaSup",
+              "description": "Hazelgrouse dostarczy\u0142o nam MVP w 6 tygodni. Kod jest czysty, wydajny i \u0142atwy do rozwijania. Polecam ka\u017cdemu startupowi.",
+              "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "Anna K., Marketing Director",
+              "description": "Nowa strona przynios\u0142a nam 3x wi\u0119cej lead\u00f3w w pierwszym miesi\u0105cu. Profesjonalne podej\u015bcie od A do Z.",
+              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "Tomasz R., CTO FinBridge",
+              "description": "Doskona\u0142e zrozumienie wymaga\u0144 technicznych. Automatyzacja, kt\u00f3r\u0105 wdro\u017cyli, oszcz\u0119dza nam 20h tygodniowo.",
+              "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
+            }
+          ]
+        },
+        {
+          "type": "ctaBanner",
+          "variant": "default",
+          "background": "dark",
+          "header": {
+            "title": "Masz pomys\u0142 na projekt?",
+            "subtitle": "Porozmawiajmy o tym, jak mo\u017cemy pom\u00f3c Ci go zrealizowa\u0107."
+          },
+          "cta": {
+            "label": "Napisz do nas",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        }
+      ]
+    },
+    "about": {
+      "title": "O nas",
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "badge": "O nas",
+            "title": "Kim jeste\u015bmy"
+          },
+          "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
+          "story": {
+            "title": "Studio z pasj\u0105 do technologii",
+            "content": "Hazelgrouse Studio to zesp\u00f3\u0142 developer\u00f3w i designer\u00f3w z Warszawy. Specjalizujemy si\u0119 w tworzeniu aplikacji webowych, stron internetowych i system\u00f3w automatyzacji. Wierzymy, \u017ce dobra technologia powinna by\u0107 prosta, szybka i niezawodna. Pracujemy z firmami ka\u017cdej wielko\u015bci \u2014 od startup\u00f3w po korporacje."
+          },
+          "cta": {
+            "label": "Skontaktuj si\u0119",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        },
+        {
+          "type": "about-summary",
+          "background": "dark",
+          "header": {
+            "badge": "Do\u015bwiadczenie",
+            "title": "Liczby, kt\u00f3re m\u00f3wi\u0105 same za siebie"
+          },
+          "stats": [
+            { "value": "50+", "label": "Zrealizowanych projekt\u00f3w" },
+            { "value": "30+", "label": "Zadowolonych klient\u00f3w" },
+            { "value": "5+", "label": "Lat do\u015bwiadczenia" }
+          ],
+          "cta": {
+            "label": "Zobacz projekty",
+            "target": { "type": "page", "value": "projects" }
+          }
+        }
+      ]
+    },
+    "services": {
+      "title": "Us\u0142ugi",
+      "sections": [
+        {
+          "type": "services",
+          "variant": "grid",
+          "header": {
+            "badge": "Us\u0142ugi",
+            "title": "Co oferujemy",
+            "subtitle": "Kompleksowe us\u0142ugi deweloperskie \u2014 od koncepcji po wdro\u017cenie i utrzymanie."
+          }
+        },
+        {
+          "type": "ctaBanner",
+          "variant": "default",
+          "background": "dark",
+          "header": {
+            "title": "Potrzebujesz wyceny?",
+            "subtitle": "Opisz sw\u00f3j projekt, a my wracamy z propozycj\u0105 w 24h."
+          },
+          "cta": {
+            "label": "Wy\u015blij zapytanie",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        }
+      ]
+    },
+    "projects": {
+      "title": "Realizacje",
+      "sections": []
+    },
+    "contact": {
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "badge": "Kontakt",
+            "title": "Porozmawiajmy o Twoim projekcie",
+            "subtitle": "Wype\u0142nij formularz lub napisz bezpo\u015brednio na hello@hazelgrouse.pl. Odpowiadamy w ci\u0105gu 24 godzin."
+          },
+          "form": {
+            "namePlaceholder": "Twoje imi\u0119",
+            "emailPlaceholder": "Tw\u00f3j email",
+            "messagePlaceholder": "Opisz sw\u00f3j projekt lub zapytanie...",
+            "submitButton": "Wy\u015blij wiadomo\u015b\u0107"
+          },
+          "info": {
+            "email": "hello@hazelgrouse.pl",
+            "phone": "+48 500 000 000",
+            "address": "Warszawa, Polska",
+            "hours": "Pon-Pt: 9:00-18:00"
+          }
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Polityka prywatno\u015bci",
+      "hideFromNav": true,
+      "sections": [
+        {
+          "type": "faq",
+          "header": {
+            "title": "Polityka prywatno\u015bci",
+            "subtitle": "Informacje o przetwarzaniu danych osobowych"
+          },
+          "faqItems": [
+            {
+              "question": "Kto jest administratorem danych osobowych?",
+              "answer": "Administratorem danych osobowych jest Hazelgrouse Studio. Dane przetwarzane s\u0105 zgodnie z obowi\u0105zuj\u0105cymi przepisami prawa, w tym z Rozporz\u0105dzeniem RODO."
+            },
+            {
+              "question": "Jakie dane zbieramy?",
+              "answer": "Zbieramy dane podane przez u\u017cytkownika w formularzach kontaktowych (imi\u0119, adres e-mail) oraz dane techniczne niezb\u0119dne do prawid\u0142owego dzia\u0142ania serwisu."
+            },
+            {
+              "question": "W jakim celu przetwarzamy dane?",
+              "answer": "Dane przetwarzamy w celu realizacji zapyta\u0144 kontaktowych i \u015bwiadczenia us\u0142ug."
+            },
+            {
+              "question": "Jakie prawa przys\u0142uguj\u0105 u\u017cytkownikowi?",
+              "answer": "U\u017cytkownik ma prawo dost\u0119pu do swoich danych, ich sprostowania, usuni\u0119cia, ograniczenia przetwarzania, a tak\u017ce prawo do przenoszenia danych i wniesienia sprzeciwu wobec przetwarzania."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "sharedSections": {}
+}
