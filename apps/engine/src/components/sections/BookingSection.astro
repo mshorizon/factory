@@ -1,0 +1,29 @@
+---
+import type { Section, BusinessProfile } from "@mshorizon/schema";
+import { BookingWidget } from "@mshorizon/ui";
+import { getSectionHeader } from "../../lib/pages";
+
+interface Props {
+  section: Section;
+  business: BusinessProfile;
+  isHomePage?: boolean;
+}
+
+const { section, business, isHomePage = false } = Astro.props;
+const header = getSectionHeader(section);
+const businessId = Astro.locals.businessId;
+
+// Get booking config from business data
+const bookingConfig = (business as any).booking ?? {};
+---
+
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <div class="container mx-auto px-4">
+    <BookingWidget
+      client:visible
+      businessId={businessId}
+      config={bookingConfig}
+      header={header}
+    />
+  </div>
+</section>

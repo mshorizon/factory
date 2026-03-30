@@ -12,6 +12,12 @@
     "test:visual:update": "pnpm --filter @mshorizon/tests test:visual:update",
     "test:validate": "pnpm --filter @mshorizon/tests test:validate",
     "start": "pnpm --filter @mshorizon/engine start",
+    "tmux-new": "tmux new -s ai",
+    "tmux": "tmux attach -t ai",
+    "tmux-ls": "tmux ls",
+    "tmux-kill": "tmux kill-session -t ai",
+    "sonnet": "claude --model sonnet --dangerously-skip-permissions --remote-control",
+    "opus": "claude --dangerously-skip-permissions --remote-control",
     "prepare": "husky",
 
     "admin1": "bash scripts/claude-admin-1.sh",

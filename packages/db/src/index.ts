@@ -32,6 +32,9 @@ export {
   type NewOrder,
   type OrderItem,
   type NewOrderItem,
+  bookings,
+  type Booking,
+  type NewBooking,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -80,4 +83,9 @@ export {
   updateOrderStatus,
   updateOrderStripeFields,
   generateOrderNumber,
+  createBooking,
+  getBookingById,
+  getBookingsBySiteId,
+  getBookingsByDateAndSiteId,
+  updateBookingStatus,
 } from "./queries.js";

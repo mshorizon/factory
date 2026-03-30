@@ -236,3 +236,42 @@ export const orderItems = pgTable("order_items", {
 
 export type OrderItem = typeof orderItems.$inferSelect;
 export type NewOrderItem = typeof orderItems.$inferInsert;
+
+// --- Bookings ---
+
+export const bookings = pgTable("bookings", {
+  id: serial("id").primaryKey(),
+  siteId: integer("site_id").notNull().references(() => sites.id, { onDelete: 'cascade' }),
+
+  // Service & staff
+  serviceId: text("service_id").notNull(),
+  serviceName: text("service_name").notNull(),
+  serviceDuration: integer("service_duration").notNull().default(60), // minutes
+  staffId: text("staff_id"),
+  staffName: text("staff_name"),
+
+  // Customer
+  customerName: text("customer_name").notNull(),
+  customerPhone: text("customer_phone").notNull(),
+  customerEmail: text("customer_email").notNull(),
+
+  // Appointment
+  date: text("date").notNull(),       // "2024-03-15"
+  startTime: text("start_time").notNull(), // "10:00"
+  endTime: text("end_time").notNull(),     // "11:00"
+
+  // Status
+  status: text("status").notNull().default("pending"), // "pending" | "confirmed" | "cancelled" | "completed"
+  notes: text("notes"),
+
+  // Tokens for confirm/cancel links
+  confirmToken: text("confirm_token"),
+  cancelToken: text("cancel_token"),
+
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type Booking = typeof bookings.$inferSelect;
+export type NewBooking = typeof bookings.$inferInsert;

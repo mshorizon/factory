@@ -77,3 +77,7 @@ export type { ProjectGridProps, ProjectCard } from "./project";
 // Map variants
 export { GoogleMap } from "./map";
 export type { GoogleMapProps } from "./map";
+
+// Booking variants
+export { BookingWidget } from "./booking/BookingWidget";
+export type { BookingWidgetProps, BookingConfig, BookingService, BookingDayHours } from "./booking/BookingWidget";

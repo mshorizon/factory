@@ -19,6 +19,7 @@ import FeaturesSection from "./sections/FeaturesSection.astro";
 import CTABannerSection from "./sections/CTABannerSection.astro";
 import BlogSection from "./sections/BlogSection.astro";
 import MapSection from "./sections/MapSection.astro";
+import BookingSection from "./sections/BookingSection.astro";
 
 interface Props {
   sections: Section[];
@@ -49,6 +50,7 @@ const sectionComponents: Record<string, any> = {
   ctaBanner: CTABannerSection,
   blog: BlogSection,
   map: MapSection,
+  booking: BookingSection,
 };
 
 // Map background prop to CSS class
@@ -71,7 +73,7 @@ function getBgClass(bg?: string): string {
   const bgClass = getBgClass(resolvedSection.background);
 
   // Only pass business prop to sections that need it
-  const needsBusiness = ['services', 'shop', 'map', 'testimonials'].includes(resolvedSection.type);
+  const needsBusiness = ['services', 'shop', 'map', 'testimonials', 'booking'].includes(resolvedSection.type);
   const props = needsBusiness ? { section: resolvedSection, business, isHomePage } : { section: resolvedSection, isHomePage };
 
   return <div data-section-index={index} class={bgClass}><Component {...props} /></div>;

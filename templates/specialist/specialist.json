@@ -183,6 +183,51 @@
       }
     }
   },
+  "booking": {
+    "enabled": true,
+    "services": [
+      {
+        "id": "inspection-residential",
+        "name": "t:booking.services.inspection.name",
+        "duration": 60,
+        "price": 150,
+        "description": "t:booking.services.inspection.description"
+      },
+      {
+        "id": "lighting-installation",
+        "name": "t:booking.services.lighting.name",
+        "duration": 120,
+        "price": 250,
+        "description": "t:booking.services.lighting.description"
+      },
+      {
+        "id": "panel-upgrade",
+        "name": "t:booking.services.panel.name",
+        "duration": 180,
+        "price": 500,
+        "description": "t:booking.services.panel.description"
+      },
+      {
+        "id": "ev-charger",
+        "name": "t:booking.services.ev.name",
+        "duration": 120,
+        "price": 350,
+        "description": "t:booking.services.ev.description"
+      }
+    ],
+    "hours": {
+      "mon": { "enabled": true, "open": "07:00", "close": "18:00" },
+      "tue": { "enabled": true, "open": "07:00", "close": "18:00" },
+      "wed": { "enabled": true, "open": "07:00", "close": "18:00" },
+      "thu": { "enabled": true, "open": "07:00", "close": "18:00" },
+      "fri": { "enabled": true, "open": "07:00", "close": "18:00" },
+      "sat": { "enabled": true, "open": "08:00", "close": "14:00" },
+      "sun": { "enabled": false, "open": "09:00", "close": "13:00" }
+    },
+    "slotInterval": 60,
+    "leadTime": 60,
+    "maxAdvance": 30
+  },
   "data": {
     "services": [
       {
@@ -646,6 +691,19 @@
               "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face"
             }
           ]
+        }
+      ]
+    },
+    "booking": {
+      "title": "t:pages.booking.title",
+      "sections": [
+        {
+          "type": "booking",
+          "header": {
+            "badge": "t:booking.badge",
+            "title": "t:booking.title",
+            "subtitle": "t:booking.subtitle"
+          }
         }
       ]
     },

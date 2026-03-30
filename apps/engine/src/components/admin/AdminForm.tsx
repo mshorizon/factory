@@ -15,6 +15,7 @@ import { AnalyticsTab } from "./AnalyticsTab";
 import { StatusTab } from "./StatusTab";
 import { OverviewTab } from "./OverviewTab";
 import { OrdersTab } from "./OrdersTab";
+import { BookingsTab } from "./BookingsTab";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -86,6 +87,7 @@ import {
   Activity,
   LayoutDashboard,
   Receipt,
+  CalendarDays,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1293,6 +1295,10 @@ export default function AdminForm({
       return <OrdersTab businessId={businessId} />;
     }
 
+    if (activeTab === "bookings") {
+      return <BookingsTab businessId={businessId} />;
+    }
+
     if (activeTab === "notifications") {
       return (
         <NotificationsTab
@@ -1425,6 +1431,7 @@ export default function AdminForm({
         { id: "blog", label: "Blog", Icon: FileEdit },
         { id: "projects", label: "Projects", Icon: FolderKanban },
         { id: "orders", label: "Orders", Icon: Receipt },
+        { id: "bookings", label: "Bookings", Icon: CalendarDays },
       ],
     },
     {

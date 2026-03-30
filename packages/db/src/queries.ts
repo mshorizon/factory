@@ -1,8 +1,8 @@
 import { eq, and, desc, gte, sql, count } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem } from "./schema.js";
+import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -503,4 +503,44 @@ export async function generateOrderNumber(siteId: number): Promise<string> {
 
   if (existing) return generateOrderNumber(siteId); // retry on collision
   return orderNumber;
+}
+
+// ========== Booking Queries ==========
+
+export async function createBooking(booking: NewBooking) {
+  const db = getDb();
+  const [row] = await db.insert(bookings).values(booking).returning();
+  return row;
+}
+
+export async function getBookingById(id: number) {
+  const db = getDb();
+  const [row] = await db.select().from(bookings).where(eq(bookings.id, id)).limit(1);
+  return row ?? null;
+}
+
+export async function getBookingsBySiteId(siteId: number, status?: string) {
+  const db = getDb();
+  const conditions = [eq(bookings.siteId, siteId)];
+  if (status) conditions.push(eq(bookings.status, status));
+  return await db.select().from(bookings).where(and(...conditions)).orderBy(desc(bookings.createdAt));
+}
+
+export async function getBookingsByDateAndSiteId(siteId: number, date: string) {
+  const db = getDb();
+  return await db
+    .select()
+    .from(bookings)
+    .where(and(eq(bookings.siteId, siteId), eq(bookings.date, date)))
+    .orderBy(bookings.startTime);
+}
+
+export async function updateBookingStatus(id: number, status: string) {
+  const db = getDb();
+  const [updated] = await db
+    .update(bookings)
+    .set({ status, updatedAt: new Date() })
+    .where(eq(bookings.id, id))
+    .returning();
+  return updated;
 }

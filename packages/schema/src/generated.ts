@@ -89,7 +89,8 @@ export type SectionType =
   | "ctaBanner"
   | "blog"
   | "map"
-  | "ref";
+  | "ref"
+  | "booking";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "primary";
@@ -141,6 +142,19 @@ export type Region =
 export type Sections = Section[];
 export type Services = Service[];
 export type Products1 = Product[];
+export type EnableBooking = boolean;
+export type ServiceID = string;
+export type ServiceName = string;
+export type DurationMinutes = number;
+export type Price = number;
+export type Description = string;
+export type BookingServices = BookingService[];
+export type Open = boolean;
+export type OpeningTime = string;
+export type ClosingTime = string;
+export type SlotIntervalMinutes = number;
+export type LeadTimeMinutes = number;
+export type MaxAdvanceBookingDays = number;
 export type EnableSMSNotifications = boolean;
 export type SMSProvider = "smsapi" | "twilio";
 export type RecipientPhoneNumberWithCountryCodeEG48500600700 = string;
@@ -157,6 +171,7 @@ export interface BusinessProfile {
   pages?: Pages;
   sharedSections?: SharedSections;
   data?: Data;
+  booking?: Booking;
   notifications?: Notifications;
 }
 export interface Business {
@@ -458,6 +473,35 @@ export interface Service {
   duration?: string;
   features?: string[];
   available?: boolean;
+}
+export interface Booking {
+  enabled?: EnableBooking;
+  services?: BookingServices;
+  hours?: BusinessHours1;
+  slotInterval?: SlotIntervalMinutes;
+  leadTime?: LeadTimeMinutes;
+  maxAdvance?: MaxAdvanceBookingDays;
+}
+export interface BookingService {
+  id: ServiceID;
+  name: ServiceName;
+  duration: DurationMinutes;
+  price?: Price;
+  description?: Description;
+}
+export interface BusinessHours1 {
+  mon?: BookingDayHours;
+  tue?: BookingDayHours;
+  wed?: BookingDayHours;
+  thu?: BookingDayHours;
+  fri?: BookingDayHours;
+  sat?: BookingDayHours;
+  sun?: BookingDayHours;
+}
+export interface BookingDayHours {
+  enabled?: Open;
+  open?: OpeningTime;
+  close?: ClosingTime;
 }
 export interface Notifications {
   sms?: SMSNotifications;

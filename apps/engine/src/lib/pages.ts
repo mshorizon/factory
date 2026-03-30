@@ -19,6 +19,7 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
   ctaBanner: "default",
   blog: "default",
   ref: "default",
+  booking: "default",
 };
 
 /**

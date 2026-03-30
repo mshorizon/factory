@@ -139,7 +139,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking"]
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
         "variant": { "type": "string", "title": "Variant" },
@@ -436,6 +436,15 @@
         }
       }
     },
+    "bookingDayHours": {
+      "type": "object",
+      "title": "BookingDayHours",
+      "properties": {
+        "enabled": { "type": "boolean", "title": "Open", "default": true },
+        "open": { "type": "string", "title": "Opening Time", "default": "09:00" },
+        "close": { "type": "string", "title": "Closing Time", "default": "17:00" }
+      }
+    },
     "themeSpacing": {
       "type": "object",
       "title": "ThemeSpacing",
@@ -711,6 +720,45 @@
           "title": "Products",
           "items": { "$ref": "#/definitions/product" }
         }
+      }
+    },
+    "booking": {
+      "type": "object",
+      "title": "Booking",
+      "properties": {
+        "enabled": { "type": "boolean", "title": "Enable Booking", "default": false },
+        "services": {
+          "type": "array",
+          "title": "Booking Services",
+          "items": {
+            "type": "object",
+            "title": "BookingService",
+            "properties": {
+              "id": { "type": "string", "title": "Service ID" },
+              "name": { "type": "string", "title": "Service Name" },
+              "duration": { "type": "integer", "title": "Duration (minutes)", "default": 60 },
+              "price": { "type": "number", "title": "Price" },
+              "description": { "type": "string", "title": "Description" }
+            },
+            "required": ["id", "name", "duration"]
+          }
+        },
+        "hours": {
+          "type": "object",
+          "title": "Business Hours",
+          "properties": {
+            "mon": { "$ref": "#/definitions/bookingDayHours" },
+            "tue": { "$ref": "#/definitions/bookingDayHours" },
+            "wed": { "$ref": "#/definitions/bookingDayHours" },
+            "thu": { "$ref": "#/definitions/bookingDayHours" },
+            "fri": { "$ref": "#/definitions/bookingDayHours" },
+            "sat": { "$ref": "#/definitions/bookingDayHours" },
+            "sun": { "$ref": "#/definitions/bookingDayHours" }
+          }
+        },
+        "slotInterval": { "type": "integer", "title": "Slot Interval (minutes)", "default": 60 },
+        "leadTime": { "type": "integer", "title": "Lead Time (minutes)", "default": 60 },
+        "maxAdvance": { "type": "integer", "title": "Max Advance Booking (days)", "default": 30 }
       }
     },
     "notifications": {

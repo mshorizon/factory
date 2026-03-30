@@ -52,6 +52,11 @@ async function seed() {
           translations[lang] = langData;
         }
       }
+      // Read _settings (primary language etc.)
+      const settings = readJson(join(transDir, "_settings.json"));
+      if (settings) {
+        translations["_settings"] = settings;
+      }
     }
 
     const businessName = config.business?.name || config.name || subdomain;
