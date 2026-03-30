@@ -8,6 +8,16 @@
             "command": "bash $CLAUDE_PROJECT_DIR/scripts/worktree-sync.sh"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "agent",
+            "prompt": "Review the recent git commits in this session by running: git -C /home/dev/factory log --oneline -10\n\nThen check git diff of the latest commit: git -C /home/dev/factory show --stat HEAD\n\nDecide: was significant NEW user-facing functionality added (new feature, new API endpoint, new UI capability)? Bug fixes, refactors, config changes, and test changes do NOT count.\n\nIf YES: read /home/dev/factory/PLATFORMA.md and add a concise bullet point or short paragraph describing the new functionality in the appropriate section (or create a new section if needed). Write in Polish. Keep it consistent with the existing style.\n\nIf NO: do nothing.",
+            "timeout": 60,
+            "statusMessage": "Aktualizuję PLATFORMA.md..."
+          }
+        ]
       }
     ]
   }

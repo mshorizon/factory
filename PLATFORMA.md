@@ -41,6 +41,12 @@ Klienci umawiają wizyty sami, 24/7, bez dzwonienia. Właściciel zarządza kale
 - Zarządzanie rezerwacjami w panelu admina: **potwierdź / anuluj / zakończ**
 - Filtrowanie po statusie i dacie
 - Pełne dane klienta (imię, telefon, e-mail, notatki)
+- **E-mail potwierdzenia** wysyłany automatycznie do klienta po złożeniu rezerwacji (z linkiem do anulowania)
+- **Powiadomienie dla właściciela** — e-mail z danymi klienta przy każdej nowej rezerwacji
+- **Automatyczne przypomnienia** — e-mail 24h przed wizytą, SMS 1h przed wizytą (konfigurowalny cron)
+- **Link do anulowania** — klient może odwołać wizytę jednym kliknięciem bez logowania
+- **Czas buforowy** między rezerwacjami (`bufferMinutes`) — blokuje sloty przed/po wizycie
+- **Daty blokady** (`blackoutDates`) — właściciel może zablokować wybrane dni (urlop, święta)
 - Gotowe do działania od razu po konfiguracji usług i godzin
 
 ---
