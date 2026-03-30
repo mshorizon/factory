@@ -1,0 +1,177 @@
+# Session: tasks3.md — automation pipeline + booking system
+Date: 2026-03-30
+
+---
+
+## 1. Automation Pipeline — Plan & Costs Analysis
+
+User asked about costs in `docs/automation-outreach-plan.md`.
+- Only paid cost: Google Places API ~$17/1000 firms
+- Everything else: free tiers
+
+User asked for free alternatives → decided to use:
+- **OpenStreetMap Overpass API** (free, unlimited) as primary
+- **Yelp Fusion API** (free 5000 calls/day) for ratings
+- **Panorama Firm scraping** for Polish directory
+- Google Places API deferred until business validates
+
+Plan updated in `docs/automation-outreach-plan.md`.
+
+---
+
+## 2. Automation Pipeline — Implementation
+
+User revealed existing **Factory rendering engine** (Astro SSR, multi-tenant, PostgreSQL, business JSON schema). Pipeline should NOT generate static HTML — instead:
+1. Scrape businesses → 2. Generate BusinessProfile JSON → 3. Validate against `business.schema.json` → 4. Save to `templates/<subdomain>/` → 5. `db:seed` to PostgreSQL → 6. Add subdomain in Coolify
+
+### Codebase explored:
+- Schema: `packages/schema/src/business.schema.json` (AJV validator in `validator.ts`)
+- DB: PostgreSQL + Drizzle (`packages/db/`), `upsertSiteConfig()` for business CRUD
+- Engine: Astro SSR (`apps/engine/`), resolves business from subdomain
+- Templates: `templates/specialist/specialist.json` (electrician, 873 lines), `templates/dieta/`
+- Seed: `packages/db/src/seed.ts` reads from `templates/` directories
+- Routing: `<subdomain>.dev.hazelgrouse.pl` via `BASE_DOMAIN` env
+
+### Files created:
+```
+automation/
+├── pipeline.py              # CLI orchestrator (scrape/enrich/generate/validate/seed/send/status)
+├── config.py                # Settings, paths, API keys from .env
+├── requirements.txt         # overpy, requests, bs4, lxml, jinja2, python-dotenv, colorgram.py
+├── .env.example             # Template for API keys + SMTP
+├── .gitignore               # venv, __pycache__, .env, output/pages
+├── README.md                # Full usage instructions
+├── __init__.py, __main__.py
+├── data/leads.csv           # 865 scraped leads (restaurants) + 2 electricians
+├── scrapers/
+│   ├── osm_scraper.py       # Overpass API, 26 categories, 10 Polish cities
+│   ├── panorama_scraper.py  # panoramafirm.pl web scraper (selectors need tuning)
+│   └── lead_manager.py      # CSV tracker, dedup by name+city/phone/email, status management
+├── enrichment/
+│   └── web_enricher.py      # Email extraction, social media, website quality assessment
+├── generator/
+│   ├── business_generator.py  # Generates BusinessProfile JSON + pl.json from specialist template
+│   ├── schema_validator.py    # Python wrapper calling Node.js validator
+│   └── validate_schema.mjs   # Node.js AJV validator using packages/schema
+├── sender/
+│   └── email_sender.py      # SMTP outreach with rate limiting (50/day), personalized templates
+├── templates/
+│   └── universal.html        # Legacy Jinja2 template (replaced by business JSON approach)
+└── output/pages/             # Legacy static HTML output
+```
+
+### Key decisions:
+- OSM scraper added `elektryk`, `hydraulik`, `stolarz`, `malarz`, `dekarz`, `ślusarz` categories
+- Business JSON generator uses `specialist.json` as base template, overrides contact/hours/rating/service areas
+- Empty email field causes schema validation failure → fixed: omit email if empty
+- Subdomain avoids duplicating city name if already in business name
+- Pipeline has `--branza` and `--limit` flags for filtering
+
+### Test results:
+- `scrape restauracja Kraków` → 920 from OSM, 865 unique after dedup
+- `scrape elektryk Kraków` → 3 from OSM, 2 unique
+- Generated 2 electrician templates, both pass AJV validation
+- Enrichment successfully extracts emails (e.g. restauracjacechowa@gmail.com)
+- `db:seed` requires DATABASE_URL (not set locally)
+
+### Generated templates:
+- `templates/elektro-partner-krakow/` — Elektro-Partner Kraków (+48 663 876 444, kontakt@instalacjeelektrycznekrakow.pl)
+- `templates/elektryk-krakow/` — Elektryk Kraków (+48 662 192 344, no email)
+
+### Commits:
+1. `187d1c6` — feat: automation pipeline for client outreach
+2. `bfb4b8b` — docs: add automation README + mark tasks2.md as completed
+
+---
+
+## 3. Tasks Audit
+
+### tasks1.md status:
+- Auth: 9/9 done
+- Monitoring: 6/6 done
+- Powiadomienia: 5/5 done
+- i18n: 5/7 done
+- Analytics: 4/7
+- SEO: 3/7
+- Nowe sekcje: 2/9
+- Szybkie wygrane: 4/8
+
+### tasks2.md:
+- All tasks were actually done (booking + payments implemented in prior commits)
+- User marked all as [x] and committed
+
+### tasks3.md created:
+12 groups, ~90 tasks sorted by priority (groups, not individual items):
+1. Booking (dokończenie) 🔴
+2. Konwersja/Leady 🔴
+3. SEO 🟠
+4. Automation pipeline 🟠
+5. Sekcje zaufania 🟠
+6. E-commerce 🟡
+7. Performance 🟡
+8. Blog 🟡
+9. Analytics 🟡
+10. Email marketing 🟢
+11. Panel admina 🟢
+12. Bezpieczeństwo 🟢
+
+---
+
+## 4. Booking System — tasks3.md Group 1 Implementation
+
+### Existing booking system (before changes):
+- DB: `bookings` table with confirmToken/cancelToken fields (unused)
+- API: `/api/booking/[businessId]/availability` (GET) + `/api/booking/[businessId]/reserve` (POST)
+- Admin: `/api/admin/bookings/list` + `/api/admin/bookings/update-status`
+- UI: BookingWidget.tsx (4-step: service → datetime → customer → success)
+- No emails, no SMS, no reminders, no cancellation UI
+
+### Files created:
+- `apps/engine/src/lib/booking-emails.ts` — 3 email functions:
+  - `sendBookingConfirmationEmail()` — to customer with details + cancel link
+  - `sendBookingNotificationToOwner()` — to business owner with customer info
+  - `sendBookingReminderEmail()` — reminder with configurable label ("jutro"/"za godzinę")
+
+- `apps/engine/src/pages/api/booking/cancel.ts` — GET endpoint
+  - Validates cancel token, updates status to "cancelled"
+  - Returns styled HTML confirmation page
+  - Handles edge cases (already cancelled, completed)
+
+- `apps/engine/src/pages/api/booking/reminders.ts` — GET cron endpoint
+  - Auth via `?secret=CRON_SECRET`
+  - 24h reminders: queries confirmed bookings for tomorrow → sends email
+  - 1h reminders: queries confirmed bookings in next hour → sends SMS
+  - Returns count of sent emails/SMS
+
+### Files modified:
+- `apps/engine/src/pages/api/booking/[businessId]/reserve.ts`:
+  - Generates confirmToken + cancelToken (crypto.randomBytes)
+  - Sends confirmation email to customer + notification to owner (non-blocking)
+  - Sends SMS confirmation if sms notifications enabled
+
+- `apps/engine/src/pages/api/booking/[businessId]/availability.ts`:
+  - Added blackout dates check (`blackoutDates` array in config)
+  - Replaced simple `bookedTimes` Set with overlap-based range checking including buffer
+  - `bufferMinutes` creates blocked ranges around existing bookings
+
+- `packages/schema/src/business.schema.json`:
+  - Added `bufferMinutes` (integer, default 0) to booking config
+  - Added `blackoutDates` (string array) to booking config
+
+- `packages/db/src/queries.ts` — 3 new functions:
+  - `getBookingByCancelToken(token)` → Booking | null
+  - `getBookingByConfirmToken(token)` → Booking | null
+  - `getUpcomingBookings(date, startTime, endTime)` → Booking[]
+
+- `packages/db/src/index.ts` — exported new query functions
+
+### Commit:
+`598978a` — feat: booking confirmations, reminders, cancellation, buffer time, blackout dates
+
+### tasks3.md group 1 status: 7/9 done
+Remaining: Przedpłata (Stripe deposit), Widok kalendarza w adminie
+
+### Cron setup needed:
+```
+*/15 * * * * curl https://domain/api/booking/reminders?secret=CRON_SECRET
+```
