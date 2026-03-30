@@ -4,6 +4,7 @@ import { getSiteBySubdomain, createBooking, getBookingsByDateAndSiteId } from "@
 import logger from "../../../../lib/logger";
 import { sendBookingConfirmationEmail, sendBookingNotificationToOwner } from "../../../../lib/booking-emails";
 import { sendSms } from "../../../../lib/sms";
+import { deepTranslate, translateValue, type Translations } from "../../../../lib/i18n";
 
 function timeToMinutes(time: string): number {
   const [h, m] = time.split(":").map(Number);
@@ -102,11 +103,16 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
     const confirmToken = randomBytes(24).toString("hex");
     const cancelToken = randomBytes(24).toString("hex");
 
+    // Resolve translations (default to 'pl')
+    const siteTranslations = (site.translations as any) ?? {};
+    const lang = "pl";
+    const translations: Translations = (siteTranslations[lang] ?? {}) as Translations;
+
     // Create booking
     const booking = await createBooking({
       siteId: site.id,
       serviceId,
-      serviceName: service.name,
+      serviceName: translateValue(translations, service.name) ?? service.name,
       serviceDuration,
       date,
       startTime,
@@ -121,7 +127,7 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
     });
 
     // Send confirmation email + notification to owner (non-blocking)
-    const businessConfig = site.config as any;
+    const businessConfig = deepTranslate(translations, site.config as any);
     const resendApiKey = import.meta.env.RESEND_API_KEY;
     const baseUrl = `${new URL(request.url).protocol}//${request.headers.get("host")}`;
 
@@ -131,7 +137,8 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
     // Send SMS confirmation to customer (non-blocking)
     const smsConfig = businessConfig?.notifications?.sms;
     if (smsConfig?.enabled && smsConfig?.apiToken) {
-      const smsMessage = `Potwierdzenie rezerwacji: ${service.name}, ${date} godz. ${startTime}. Aby odwołać, kliknij: ${baseUrl}/booking/cancel?token=${cancelToken}`;
+      const resolvedServiceName = translateValue(translations, service.name) ?? service.name;
+      const smsMessage = `Potwierdzenie rezerwacji: ${resolvedServiceName}, ${date} godz. ${startTime}. Aby odwołać, kliknij: ${baseUrl}/booking/cancel?token=${cancelToken}`;
       sendSms({
         provider: smsConfig.provider || "smsapi",
         apiToken: smsConfig.apiToken,

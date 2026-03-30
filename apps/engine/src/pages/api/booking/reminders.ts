@@ -6,6 +6,7 @@ import { eq, and, sql } from "drizzle-orm";
 import logger from "../../../lib/logger";
 import { sendBookingReminderEmail } from "../../../lib/booking-emails";
 import { sendSms } from "../../../lib/sms";
+import { deepTranslate, type Translations } from "../../../lib/i18n";
 
 /**
  * Booking reminders endpoint.
@@ -60,7 +61,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         .limit(1);
 
       if (!site) continue;
-      const config = site.config as any;
+      const translations: Translations = ((site.translations as any)?.pl ?? {}) as Translations;
+      const config = deepTranslate(translations, site.config as any);
       const baseUrl = `https://${site.subdomain}.dev.hazelgrouse.pl`;
       const cancelUrl = booking.cancelToken
         ? `${baseUrl}/api/booking/cancel?token=${booking.cancelToken}`
@@ -103,7 +105,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         .limit(1);
 
       if (!site) continue;
-      const config = site.config as any;
+      const translations: Translations = ((site.translations as any)?.pl ?? {}) as Translations;
+      const config = deepTranslate(translations, site.config as any);
       const smsConfig = config?.notifications?.sms;
 
       if (smsConfig?.enabled && smsConfig?.apiToken) {
