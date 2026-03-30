@@ -155,6 +155,8 @@ export type ClosingTime = string;
 export type SlotIntervalMinutes = number;
 export type LeadTimeMinutes = number;
 export type MaxAdvanceBookingDays = number;
+export type BufferBetweenAppointmentsMinutes = number;
+export type BlackoutDatesYYYYMMDD = string[];
 export type EnableSMSNotifications = boolean;
 export type SMSProvider = "smsapi" | "twilio";
 export type RecipientPhoneNumberWithCountryCodeEG48500600700 = string;
@@ -481,6 +483,8 @@ export interface Booking {
   slotInterval?: SlotIntervalMinutes;
   leadTime?: LeadTimeMinutes;
   maxAdvance?: MaxAdvanceBookingDays;
+  bufferMinutes?: BufferBetweenAppointmentsMinutes;
+  blackoutDates?: BlackoutDatesYYYYMMDD;
 }
 export interface BookingService {
   id: ServiceID;

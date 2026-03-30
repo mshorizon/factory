@@ -52,6 +52,15 @@ export const GET: APIRoute = async ({ params, url, locals }) => {
       );
     }
 
+    // Check blackout dates
+    const blackoutDates: string[] = config.blackoutDates ?? [];
+    if (blackoutDates.includes(date)) {
+      return new Response(
+        JSON.stringify({ slots: [] }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     // Get day of week from date
     const dateObj = new Date(date + "T12:00:00");
     const dayKey = DAY_KEYS[dateObj.getDay()];
@@ -81,11 +90,15 @@ export const GET: APIRoute = async ({ params, url, locals }) => {
 
     // Get existing bookings for this date
     const existingBookings = await getBookingsByDateAndSiteId(site.id, date);
-    const bookedTimes = new Set(
-      existingBookings
-        .filter((b) => b.status !== "cancelled")
-        .map((b) => b.startTime)
-    );
+    const bufferMinutes = config.bufferMinutes ?? 0;
+
+    // Build blocked time ranges (start - buffer, end + buffer)
+    const blockedRanges = existingBookings
+      .filter((b) => b.status !== "cancelled")
+      .map((b) => ({
+        start: timeToMinutes(b.startTime) - bufferMinutes,
+        end: timeToMinutes(b.endTime) + bufferMinutes,
+      }));
 
     // Filter out booked slots and past slots
     const now = new Date();
@@ -93,13 +106,18 @@ export const GET: APIRoute = async ({ params, url, locals }) => {
     const nowMinutes = now.getHours() * 60 + now.getMinutes() + leadTime;
 
     const availableSlots = allSlots.filter((slot) => {
-      // Skip if already booked
-      if (bookedTimes.has(slot)) return false;
+      const slotStart = timeToMinutes(slot);
+      const slotEnd = slotStart + serviceDuration;
+
+      // Skip if overlaps with any existing booking (including buffer)
+      const overlaps = blockedRanges.some(
+        (range) => slotStart < range.end && slotEnd > range.start
+      );
+      if (overlaps) return false;
+
       // Skip if too soon (only for today)
-      if (date === nowDateStr) {
-        const slotMinutes = timeToMinutes(slot);
-        if (slotMinutes < nowMinutes) return false;
-      }
+      if (date === nowDateStr && slotStart < nowMinutes) return false;
+
       return true;
     });
 

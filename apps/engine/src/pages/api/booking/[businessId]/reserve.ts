@@ -1,6 +1,9 @@
 import type { APIRoute } from "astro";
+import { randomBytes } from "node:crypto";
 import { getSiteBySubdomain, createBooking, getBookingsByDateAndSiteId } from "@mshorizon/db";
 import logger from "../../../../lib/logger";
+import { sendBookingConfirmationEmail, sendBookingNotificationToOwner } from "../../../../lib/booking-emails";
+import { sendSms } from "../../../../lib/sms";
 
 function timeToMinutes(time: string): number {
   const [h, m] = time.split(":").map(Number);
@@ -95,6 +98,10 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
       );
     }
 
+    // Generate tokens for confirm/cancel links
+    const confirmToken = randomBytes(24).toString("hex");
+    const cancelToken = randomBytes(24).toString("hex");
+
     // Create booking
     const booking = await createBooking({
       siteId: site.id,
@@ -109,7 +116,30 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
       customerEmail: customerEmail.trim().toLowerCase(),
       notes: notes?.trim() || null,
       status: "pending",
+      confirmToken,
+      cancelToken,
     });
+
+    // Send confirmation email + notification to owner (non-blocking)
+    const businessConfig = site.config as any;
+    const resendApiKey = import.meta.env.RESEND_API_KEY;
+    const baseUrl = `${new URL(request.url).protocol}//${request.headers.get("host")}`;
+
+    sendBookingConfirmationEmail(booking, businessConfig, resendApiKey, baseUrl).catch(() => {});
+    sendBookingNotificationToOwner(booking, businessConfig, resendApiKey).catch(() => {});
+
+    // Send SMS confirmation to customer (non-blocking)
+    const smsConfig = businessConfig?.notifications?.sms;
+    if (smsConfig?.enabled && smsConfig?.apiToken) {
+      const smsMessage = `Potwierdzenie rezerwacji: ${service.name}, ${date} godz. ${startTime}. Aby odwołać, kliknij: ${baseUrl}/booking/cancel?token=${cancelToken}`;
+      sendSms({
+        provider: smsConfig.provider || "smsapi",
+        apiToken: smsConfig.apiToken,
+        phoneNumber: customerPhone.trim(),
+        message: smsMessage,
+        senderName: smsConfig.senderName,
+      }).catch(() => {});
+    }
 
     return new Response(
       JSON.stringify({ success: true, bookingId: booking.id }),

@@ -758,7 +758,13 @@
         },
         "slotInterval": { "type": "integer", "title": "Slot Interval (minutes)", "default": 60 },
         "leadTime": { "type": "integer", "title": "Lead Time (minutes)", "default": 60 },
-        "maxAdvance": { "type": "integer", "title": "Max Advance Booking (days)", "default": 30 }
+        "maxAdvance": { "type": "integer", "title": "Max Advance Booking (days)", "default": 30 },
+        "bufferMinutes": { "type": "integer", "title": "Buffer between appointments (minutes)", "default": 0 },
+        "blackoutDates": {
+          "type": "array",
+          "title": "Blackout Dates (YYYY-MM-DD)",
+          "items": { "type": "string" }
+        }
       }
     },
     "notifications": {

@@ -544,3 +544,38 @@ export async function updateBookingStatus(id: number, status: string) {
     .returning();
   return updated;
 }
+
+export async function getBookingByCancelToken(token: string) {
+  const db = getDb();
+  const [row] = await db
+    .select()
+    .from(bookings)
+    .where(eq(bookings.cancelToken, token))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function getBookingByConfirmToken(token: string) {
+  const db = getDb();
+  const [row] = await db
+    .select()
+    .from(bookings)
+    .where(eq(bookings.confirmToken, token))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function getUpcomingBookings(date: string, startTime: string, endTime: string) {
+  const db = getDb();
+  return await db
+    .select()
+    .from(bookings)
+    .where(
+      and(
+        eq(bookings.date, date),
+        gte(bookings.startTime, startTime),
+        sql`${bookings.startTime} < ${endTime}`,
+        eq(bookings.status, "confirmed"),
+      )
+    );
+}
