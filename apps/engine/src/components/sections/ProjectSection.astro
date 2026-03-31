@@ -1,7 +1,7 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ProjectGrid, SectionHeader } from "@mshorizon/ui";
-import { getSectionHeader } from "../../lib/pages";
+import { ProjectGrid, ProjectCarousel, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
   isHomePage?: boolean;
@@ -9,18 +9,26 @@ interface Props {
 }
 
 const { section, isHomePage = false } = Astro.props;
+const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
-const projects = section.projects || [];
+const projects = (section.projects || []).map((p: any) => ({
+  ...p,
+  metrics: p.metrics || (p.metric ? [p.metric + (p.metricLabel ? ' ' + p.metricLabel : '')] : undefined),
+}));
 ---
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
-  <div class="container mx-auto">
+  <div class={variant === "carousel" ? "container mx-auto" : "container mx-auto"}>
     <SectionHeader
       badge={header.badge}
       title={header.title}
       subtitle={header.subtitle}
       background={section.background}
     />
-    <ProjectGrid client:visible projects={projects} />
+    {variant === "carousel" ? (
+      <ProjectCarousel client:load projects={projects} />
+    ) : (
+      <ProjectGrid client:visible projects={projects} />
+    )}
   </div>
 </section>

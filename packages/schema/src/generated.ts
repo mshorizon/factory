@@ -109,6 +109,9 @@ export type Testimonials = {
   quote?: string;
   image?: AvatarImageURL1;
 }[];
+export type FeatureTags = string[];
+export type Metric = string;
+export type MetricLabel = string;
 export type Items = ServiceItem[];
 export type Timeline = TimelineItem[];
 export type ExploreLabel = string;
@@ -117,6 +120,7 @@ export type Currency = string;
 export type CTALabel = string;
 export type OutOfStockCTALabel = string;
 export type OutOfStockCTAHref = string;
+export type VisualBadges = string[];
 export type ProcessSteps = ProcessStep[];
 export type ServiceAreas = string[];
 export type BeforeAfterPairs = BeforeAfterPair[];
@@ -137,7 +141,8 @@ export type Description1 = string;
 export type ImageURL1 = string;
 export type Date = string;
 export type KeyMetric = string;
-export type MetricLabel = string;
+export type MetricLabel1 = string;
+export type MetricBadges = string[];
 export type Projects = ProjectItem[];
 export type Country = "polska";
 export type Region =
@@ -389,6 +394,9 @@ export interface ServiceItem {
   price?: string;
   icon?: string;
   image?: string;
+  tags?: FeatureTags;
+  metric?: Metric;
+  metricLabel?: MetricLabel;
 }
 export interface StatItem {
   value?: string;
@@ -446,6 +454,7 @@ export interface ProcessStep {
   title?: string;
   description?: string;
   icon?: string;
+  badges?: VisualBadges;
 }
 export interface BeforeAfterPair {
   title?: string;
@@ -484,7 +493,8 @@ export interface ProjectItem {
   image?: ImageURL1;
   date?: Date;
   metric?: KeyMetric;
-  metricLabel?: MetricLabel;
+  metricLabel?: MetricLabel1;
+  metrics?: MetricBadges;
 }
 export interface ServiceAreaConfiguration {
   country?: Country;

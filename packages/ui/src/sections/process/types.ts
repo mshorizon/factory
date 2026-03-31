@@ -3,6 +3,7 @@ export interface ProcessStep {
   title: string;
   description: string;
   icon?: string;
+  badges?: string[];
 }
 
 export interface ProcessStepsProps {

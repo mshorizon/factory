@@ -187,7 +187,14 @@
               "description": { "type": "string" },
               "price": { "type": "string" },
               "icon": { "type": "string" },
-              "image": { "type": "string" }
+              "image": { "type": "string" },
+              "tags": {
+                "type": "array",
+                "title": "Feature Tags",
+                "items": { "type": "string" }
+              },
+              "metric": { "type": "string", "title": "Metric" },
+              "metricLabel": { "type": "string", "title": "Metric Label" }
             }
           }
         },
@@ -274,7 +281,12 @@
               "number": { "type": "integer" },
               "title": { "type": "string" },
               "description": { "type": "string" },
-              "icon": { "type": "string" }
+              "icon": { "type": "string" },
+              "badges": {
+                "type": "array",
+                "title": "Visual Badges",
+                "items": { "type": "string" }
+              }
             }
           }
         },
@@ -376,7 +388,12 @@
               "image": { "type": "string", "title": "Image URL" },
               "date": { "type": "string", "title": "Date" },
               "metric": { "type": "string", "title": "Key Metric" },
-              "metricLabel": { "type": "string", "title": "Metric Label" }
+              "metricLabel": { "type": "string", "title": "Metric Label" },
+              "metrics": {
+                "type": "array",
+                "title": "Metric Badges",
+                "items": { "type": "string" }
+              }
             }
           }
         },

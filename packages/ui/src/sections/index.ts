@@ -11,7 +11,7 @@ export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroM
 export type { HeroProps, CTAButton } from "./hero";
 
 // Services variants
-export { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards } from "./services";
+export { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured } from "./services";
 export type { ServicesProps, ServiceItem } from "./services";
 
 // Categories variants
@@ -31,7 +31,7 @@ export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid
 export type { ProductCardProps, CartButtonProps, CartPageContentProps, CheckoutPageContentProps, ShopGridProps } from "./shop";
 
 // Process variants
-export { ProcessSteps } from "./process";
+export { ProcessSteps, ProcessVisual } from "./process";
 export type { ProcessStepsProps, ProcessStep } from "./process";
 
 // ServiceArea variants
@@ -59,7 +59,7 @@ export { FAQAccordion } from "./faq";
 export type { FAQAccordionProps, FAQItem } from "./faq";
 
 // Features variants
-export { FeaturesGrid } from "./features";
+export { FeaturesGrid, FeaturesCompact } from "./features";
 export type { FeaturesGridProps, FeatureItem } from "./features";
 
 // CTA Banner variants
@@ -71,8 +71,8 @@ export { BlogGrid } from "./blog";
 export type { BlogGridProps, BlogPost } from "./blog";
 
 // Project variants
-export { ProjectGrid } from "./project";
-export type { ProjectGridProps, ProjectCard } from "./project";
+export { ProjectGrid, ProjectCarousel } from "./project";
+export type { ProjectGridProps, ProjectCarouselProps, ProjectCard } from "./project";
 
 // Map variants
 export { GoogleMap } from "./map";

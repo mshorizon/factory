@@ -6,6 +6,9 @@ export interface ServiceItem {
   price?: string;
   icon?: string;
   image?: string;
+  tags?: string[];
+  metric?: string;
+  metricLabel?: string;
 }
 
 export interface ServicesProps {

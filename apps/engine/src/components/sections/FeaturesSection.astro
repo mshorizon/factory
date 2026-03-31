@@ -1,7 +1,7 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { FeaturesGrid, Badge } from "@mshorizon/ui";
-import { getSectionHeader } from "../../lib/pages";
+import { FeaturesGrid, FeaturesCompact, Badge } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
   isHomePage?: boolean;
@@ -9,6 +9,7 @@ interface Props {
 }
 
 const { section, isHomePage = false } = Astro.props;
+const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 import { resolveTarget } from "../../lib/target";
 
@@ -51,6 +52,10 @@ const items = rawItems.map((item: any) => ({
         )}
       </div>
     </div>
-    <FeaturesGrid client:visible items={items} />
+    {variant === "compact" ? (
+      <FeaturesCompact client:visible items={items} />
+    ) : (
+      <FeaturesGrid client:visible items={items} />
+    )}
   </div>
 </section>

@@ -1,7 +1,7 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ProcessSteps, SectionHeader } from "@mshorizon/ui";
-import { getSectionHeader } from "../../lib/pages";
+import { ProcessSteps, ProcessVisual, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
   isHomePage?: boolean;
@@ -9,6 +9,7 @@ interface Props {
 }
 
 const { section, isHomePage = false } = Astro.props;
+const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const steps = section.steps || [];
 ---
@@ -20,7 +21,12 @@ const steps = section.steps || [];
       title={header.title}
       subtitle={header.subtitle}
       align="center"
+      background={section.background}
     />
-    <ProcessSteps client:visible steps={steps} />
+    {variant === "visual" ? (
+      <ProcessVisual client:visible steps={steps} />
+    ) : (
+      <ProcessSteps client:visible steps={steps} />
+    )}
   </div>
 </section>

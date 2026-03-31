@@ -4,14 +4,14 @@
     "name": "Hazelgrouse Studio",
     "industry": "software",
     "assets": {
-      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237C3AED'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>",
-      "icon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237C3AED'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>"
+      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f44f5d'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>",
+      "icon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f44f5d'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>"
     },
     "contact": {
-      "address": "Warszawa, Polska",
+      "address": "Warsaw, Poland",
       "phone": "+48 500 000 000",
       "email": "hello@hazelgrouse.pl",
-      "hours": "Pon-Pt: 9:00-18:00"
+      "hours": "Mon-Fri: 9:00-18:00"
     },
     "socials": {
       "github": "https://github.com/hazelgrouse",
@@ -26,28 +26,28 @@
     "mode": "dark",
     "colors": {
       "light": {
-        "primary": "#7C3AED",
+        "primary": "#f44f5d",
         "surface": {
-          "base": "#FAFAFA",
-          "alt": "#0F0F14",
+          "base": "#fcfbf9",
+          "alt": "#1d1c1c",
           "card": "#FFFFFF"
         },
         "text": {
-          "main": "#0F0F14",
-          "muted": "#6B7280",
+          "main": "#1d1c1c",
+          "muted": "#595651",
           "onPrimary": "#FFFFFF"
         }
       },
       "dark": {
-        "primary": "#7C3AED",
+        "primary": "#f44f5d",
         "surface": {
-          "base": "#09090B",
-          "alt": "#131318",
-          "card": "#16161D"
+          "base": "#1d1c1c",
+          "alt": "#252423",
+          "card": "#2a2928"
         },
         "text": {
-          "main": "#F8F8FF",
-          "muted": "#9CA3AF",
+          "main": "#fcfbf9",
+          "muted": "#8c8c8c",
           "onPrimary": "#FFFFFF"
         }
       }
@@ -57,7 +57,7 @@
       "secondary": "'Inter', system-ui, -apple-system, sans-serif"
     },
     "ui": {
-      "radius": "12px",
+      "radius": "16px",
       "spacing": {
         "xs": "0.5rem",
         "sm": "0.75rem",
@@ -81,32 +81,17 @@
       "copyright": "\u00a9 2026 Hazelgrouse Studio. All rights reserved.",
       "tagline": "Intelligent Automation for Modern Businesses.",
       "links": [
-        {
-          "label": "GitHub",
-          "target": { "type": "external", "value": "https://github.com/hazelgrouse" }
-        },
-        {
-          "label": "LinkedIn",
-          "target": { "type": "external", "value": "https://linkedin.com/company/hazelgrouse" }
-        },
-        {
-          "label": "Instagram",
-          "target": { "type": "external", "value": "https://instagram.com/hazelgrouse" }
-        },
-        {
-          "label": "Polityka prywatno\u015bci",
-          "target": { "type": "page", "value": "privacy" }
-        }
+        { "label": "GitHub", "target": { "type": "external", "value": "https://github.com/hazelgrouse" } },
+        { "label": "LinkedIn", "target": { "type": "external", "value": "https://linkedin.com/company/hazelgrouse" } },
+        { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com/hazelgrouse" } },
+        { "label": "Privacy Policy", "target": { "type": "page", "value": "privacy" } }
       ]
     }
   },
   "navigation": {
     "cta": {
       "label": "Book a call",
-      "target": {
-        "type": "page",
-        "value": "contact"
-      }
+      "target": { "type": "page", "value": "contact" }
     }
   },
   "data": {
@@ -115,37 +100,45 @@
         "id": "workflow-automation",
         "slug": "workflow-automation",
         "title": "Workflow Automation",
-        "description": "Automate repetitive tasks, build bot systems, and create intelligent business processes that save time and reduce errors.",
+        "description": "Automate repetitive tasks, streamline data entry, reporting, and approval chains. Build intelligent bot systems that work while you sleep.",
         "icon": "zap",
         "category": "automation",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+        "features": ["Task automation", "Bot systems", "Data pipelines"]
       },
       {
         "id": "ai-assistant",
         "slug": "ai-assistant",
         "title": "AI Assistant",
-        "description": "Smart scheduling, email management, and automated meeting summaries. An AI that works for you 24/7.",
+        "description": "Delegate daily tasks to AI \u2014 smart scheduling, email management, meeting summaries, and document analysis powered by advanced language models.",
         "icon": "lightbulb",
         "category": "ai",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
+        "features": ["Summaries", "Scheduling", "Email management"]
       },
       {
         "id": "sales-marketing",
         "slug": "sales-marketing",
         "title": "Sales & Marketing",
-        "description": "AI-powered lead generation, content creation, and marketing campaign automation that drives real results.",
+        "description": "Accelerate sales growth with AI-powered lead generation, content creation, and social media automation that drives real conversions.",
         "icon": "rocket",
         "category": "marketing",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+        "features": ["Leads", "Content", "Social posts"]
       },
       {
         "id": "custom-projects",
         "slug": "custom-projects",
         "title": "Custom Projects",
-        "description": "Strategic consulting and bespoke solutions. From architecture to deployment \u2014 we build exactly what you need.",
+        "description": "Build smarter systems with strategic consulting, custom AI models, and bespoke automation solutions designed for your unique challenges.",
         "icon": "code",
         "category": "consulting",
-        "available": true
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop",
+        "features": ["Strategy", "Custom AI", "Consulting"]
       }
     ]
   },
@@ -160,28 +153,22 @@
           "header": {
             "badge": "AI Automation Agency",
             "title": "Intelligent Automation\nfor Modern Businesses",
-            "subtitle": "We design and deploy AI-powered automation solutions that save time, cut costs, and scale your business. Over 50+ businesses trust us."
+            "subtitle": "We bring AI automation to your fingertips & streamline tasks so you can focus on growing your business."
           },
           "cta": {
             "label": "Get in touch",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
+            "target": { "type": "page", "value": "contact" }
           },
           "secondaryCta": {
             "label": "View services",
-            "target": {
-              "type": "page",
-              "value": "services"
-            }
+            "target": { "type": "page", "value": "services" }
           }
         },
         {
           "type": "about-summary",
           "background": "dark",
           "header": {
-            "title": "Trusted by businesses worldwide"
+            "title": "Over 50+ businesses trust us"
           },
           "stats": [
             { "value": "150+", "label": "Businesses" },
@@ -191,131 +178,154 @@
         },
         {
           "type": "services",
-          "variant": "grid",
+          "variant": "featured",
           "header": {
             "badge": "Our Services",
-            "title": "What we do",
-            "subtitle": "Comprehensive AI and automation solutions tailored to your business goals."
+            "title": "AI Solutions That Take Your Business to the Next Level",
+            "subtitle": "We design, develop, and implement automation tools that help you work smarter, not harder."
           },
-          "cta": {
-            "label": "All services",
-            "target": {
-              "type": "page",
-              "value": "services"
+          "items": [
+            {
+              "title": "Workflow Automation",
+              "description": "Automate repetitive tasks \u2014 streamline data entry, reporting, and approval chains with intelligent bot systems.",
+              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+              "tags": ["Task automation", "Bot systems", "Data pipelines"],
+              "metric": "100+",
+              "metricLabel": "Automations"
+            },
+            {
+              "title": "AI Assistant",
+              "description": "Delegate daily tasks to AI \u2014 smart scheduling, email management, meeting summaries, and document analysis.",
+              "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
+              "tags": ["Summaries", "Scheduling", "Many more"]
+            },
+            {
+              "title": "Sales & Marketing",
+              "description": "Accelerate sales growth with AI-powered lead generation, content creation, and social media automation.",
+              "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+              "tags": ["Leads", "Content", "Social posts"]
+            },
+            {
+              "title": "Custom Projects",
+              "description": "Build smarter systems with strategic consulting, custom AI models, and bespoke automation solutions.",
+              "image": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop",
+              "tags": ["Strategy", "Custom AI", "Consulting"]
             }
-          }
+          ]
         },
         {
           "type": "process",
+          "variant": "visual",
           "background": "dark",
           "header": {
             "badge": "Our Process",
-            "title": "How we work",
-            "subtitle": "A clear, proven process from analysis to continuous optimization."
+            "title": "Our Simple, Smart, and Scalable Process",
+            "subtitle": "We design, develop, and implement automation tools that help you work smarter, not harder."
           },
           "steps": [
             {
               "number": 1,
               "title": "Smart Analyzing",
-              "description": "We study your business processes, identify bottlenecks, and map out automation opportunities.",
-              "icon": "search"
+              "description": "We assess your needs, analyze current processes, and identify the best AI solutions for your business.",
+              "icon": "search",
+              "badges": ["System check", "Process check", "Speed check", "Manual work", "Repetitive tasks"]
             },
             {
               "number": 2,
               "title": "AI Development",
-              "description": "We build custom AI and automation solutions designed specifically for your needs.",
-              "icon": "lightbulb"
+              "description": "We build intelligent automation systems tailored to your specific workflows and business requirements.",
+              "icon": "code",
+              "badges": ["Custom models", "API integrations", "Testing"]
             },
             {
               "number": 3,
               "title": "Seamless Integration",
-              "description": "We deploy solutions that integrate seamlessly with your existing systems and tools.",
-              "icon": "plug"
+              "description": "We integrate our solutions into your existing infrastructure with zero disruption to your operations.",
+              "icon": "plug",
+              "badges": ["Your stack", "Our solution", "Sync"]
             },
             {
               "number": 4,
               "title": "Continuous Optimization",
-              "description": "We monitor, measure, and continuously improve the performance of deployed solutions.",
-              "icon": "gauge"
+              "description": "We refine performance, analyze insights, and continuously improve your automation systems.",
+              "icon": "gauge",
+              "badges": ["Monitoring", "Analytics", "Updates"]
             }
           ]
         },
         {
           "type": "project",
-          "variant": "grid",
+          "variant": "carousel",
           "header": {
             "badge": "Case Studies",
-            "title": "Results that speak for themselves",
-            "subtitle": "See how our solutions delivered measurable business impact."
+            "title": "See How Smart AI Automation Transforms Businesses",
+            "subtitle": "Real results from real businesses using our AI automation solutions."
           },
           "projects": [
             {
-              "title": "Inventory Optimization \u2014 LogiTech",
-              "description": "AI-powered stock prediction system that reduced inventory waste by 40% and optimized supply chain operations.",
-              "metric": "40%",
-              "metricLabel": "waste reduction",
-              "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop"
+              "title": "TrailForge \u2014 Inventory Optimization",
+              "description": "AI-powered stock prediction system that transformed supply chain operations and eliminated waste across all warehouses.",
+              "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop",
+              "metrics": ["40% Less Inventory Waste", "35% Faster Production", "20% More Accurate Forecasting", "25% Faster Fulfillment"]
             },
             {
-              "title": "QA Automation \u2014 FinBridge",
-              "description": "Automated testing and data validation system that cut error rates by 80% across all departments.",
-              "metric": "80%",
-              "metricLabel": "error reduction",
-              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop"
+              "title": "MedixChain \u2014 QA Automation",
+              "description": "Automated testing and data validation system that dramatically reduced errors and improved accuracy across all departments.",
+              "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop",
+              "metrics": ["80% Error Reduction", "90% Data Accuracy", "30% Faster Delivery", "60+ Hours Saved"]
             },
             {
-              "title": "Cost Reduction \u2014 MediCare",
-              "description": "Administrative process automation that delivered 20% operational cost savings within the first quarter.",
-              "metric": "20%",
-              "metricLabel": "cost savings",
-              "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop"
+              "title": "FinSolve \u2014 Operations Automation",
+              "description": "End-to-end process automation that cut operational costs and accelerated client onboarding across the organization.",
+              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
+              "metrics": ["50% Operations Automated", "20% Cost Reduction", "70+ Hours Saved/Month", "2x Faster Onboarding"]
             },
             {
-              "title": "Sales Engine \u2014 RetailPro",
-              "description": "AI-driven recommendation and personalization system that tripled the e-commerce conversion rate.",
-              "metric": "3x",
-              "metricLabel": "deal increase",
-              "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop"
+              "title": "ScaleByte \u2014 AI Sales Engine",
+              "description": "AI-driven CRM integration and lead scoring system that tripled deal flow and dramatically improved response times.",
+              "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
+              "metrics": ["3x More Deals", "40% Faster Responses", "95% Lead Accuracy", "CRM Fully Synced"]
             }
           ]
         },
         {
           "type": "features",
+          "variant": "compact",
           "background": "dark",
           "header": {
             "badge": "Benefits",
-            "title": "Why AI automation",
-            "subtitle": "Concrete business benefits we deliver to our clients."
+            "title": "The Key Benefits of AI for Your Business Growth",
+            "subtitle": "Concrete advantages that AI automation delivers to businesses of every size."
           },
           "items": [
             {
               "title": "Increased Productivity",
-              "description": "Automate routine tasks so your team can focus on what truly matters \u2014 strategy, creativity, and growth.",
+              "description": "AI-driven analytics and task automation free your team to focus on strategy, creativity, and high-value work.",
               "icon": "rocket"
             },
             {
               "title": "Better Customer Experience",
-              "description": "Faster responses, personalization, and consistent service quality at every touchpoint.",
+              "description": "Personalized AI interactions, faster response times, and consistent service quality at every touchpoint.",
               "icon": "heart"
             },
             {
               "title": "24/7 Availability",
-              "description": "Your systems run non-stop, serving customers and processing workflows around the clock.",
+              "description": "Around-the-clock automated systems that serve customers and process workflows while you sleep.",
               "icon": "clock"
             },
             {
               "title": "Cost Reduction",
-              "description": "Fewer errors, less manual work, and lower operational costs through intelligent automation.",
+              "description": "Minimize manual work, eliminate errors, and cut operational costs through intelligent process automation.",
               "icon": "wallet"
             },
             {
               "title": "Data-Driven Insights",
-              "description": "Real-time analytics and AI reports that help you make better, faster business decisions.",
+              "description": "Analyze vast data sets, identify trends, and make better business decisions with real-time AI analytics.",
               "icon": "gauge"
             },
             {
-              "title": "Scalability",
-              "description": "Solutions that grow with your business \u2014 without proportional cost increases.",
+              "title": "Scalability & Growth",
+              "description": "Scale your operations efficiently without proportionally increasing headcount or operational costs.",
               "icon": "zap"
             }
           ]
@@ -325,64 +335,52 @@
           "variant": "default",
           "header": {
             "badge": "Pricing",
-            "title": "Transparent pricing plans",
-            "subtitle": "Choose the plan that fits your business scale. No hidden fees."
+            "title": "The Best AI Automation, at the Right Price",
+            "subtitle": "Choose the plan that fits your business. No hidden fees, cancel anytime."
           },
           "pricingTiers": [
             {
               "name": "Starter",
               "price": "$37",
               "period": "month",
-              "description": "Perfect to get started with basic automation and AI support.",
+              "description": "Perfect for small teams getting started with automation.",
               "features": [
-                "Up to 5 automated workflows",
-                "AI Assistant (basic)",
-                "3 tool integrations",
-                "Email support",
-                "Monthly reporting"
+                "Basic workflow automation",
+                "AI Assistant (standard)",
+                "Standard analytics",
+                "Email & chat support",
+                "Up to 3 integrations"
               ],
-              "cta": {
-                "label": "Get started",
-                "target": { "type": "page", "value": "contact" }
-              }
+              "cta": { "label": "Choose this plan", "target": { "type": "page", "value": "contact" } }
             },
             {
               "name": "Professional",
               "price": "$75",
               "period": "month",
-              "description": "For growing businesses \u2014 advanced automation and analytics.",
+              "description": "For growing businesses that need advanced AI capabilities.",
               "highlighted": true,
-              "badge": "Most Popular",
+              "badge": "Popular",
               "features": [
-                "Unlimited workflows",
-                "Advanced AI Assistant",
-                "10+ tool integrations",
+                "Advanced workflow automation",
+                "AI sales & marketing tools",
+                "Enhanced analytics dashboard",
                 "Priority support",
-                "Real-time analytics",
-                "Dedicated onboarding"
+                "Up to 10 integrations"
               ],
-              "cta": {
-                "label": "Choose Professional",
-                "target": { "type": "page", "value": "contact" }
-              }
+              "cta": { "label": "Choose this plan", "target": { "type": "page", "value": "contact" } }
             },
             {
               "name": "Enterprise",
               "price": "Custom",
-              "description": "Enterprise solutions \u2014 full customization and dedicated support.",
+              "description": "Fully customizable solutions for large organizations.",
               "features": [
-                "Everything in Professional",
-                "Custom AI models",
-                "Dedicated Account Manager",
-                "99.9% SLA guarantee",
-                "On-premise deployment",
-                "Team training",
-                "Security audit"
+                "Fully customizable AI solutions",
+                "Dedicated automation consultant",
+                "Enterprise-grade compliance",
+                "24/7 VIP support",
+                "Unlimited integrations"
               ],
-              "cta": {
-                "label": "Contact us",
-                "target": { "type": "page", "value": "contact" }
-              }
+              "cta": { "label": "Schedule a call", "target": { "type": "page", "value": "contact" } }
             }
           ]
         },
@@ -392,27 +390,28 @@
           "background": "dark",
           "header": {
             "badge": "Testimonials",
-            "title": "What our clients say"
+            "title": "Why Businesses Love Our AI Solutions",
+            "subtitle": "Real businesses, real results with AI automation."
           },
           "items": [
             {
-              "title": "Marek W., CEO at SaaSup",
-              "description": "Hazelgrouse's automation saves us 20 hours per week. The ROI in the first month was incredible.",
+              "title": "James Carter, CEO at TechFlow Solutions",
+              "description": "Hazelgrouse transformed our operations. The AI automation cut our processing time by 60% and the team couldn't be more helpful.",
               "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
             },
             {
-              "title": "Anna K., Marketing Director",
-              "description": "AI-driven campaigns tripled our lead generation in the first quarter of collaboration.",
+              "title": "Sophia Martinez, Operations Manager at NexaCorp",
+              "description": "The workflow automation saved us 70+ hours per month. It's like having an extra team member who never sleeps.",
               "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
             },
             {
-              "title": "Tomasz R., CTO at FinBridge",
-              "description": "The automated testing system reduced our production errors by 80%. Outstanding technical understanding.",
+              "title": "David Reynolds, Head of Sales at GrowthPeak",
+              "description": "Our lead conversion tripled after implementing their AI sales engine. The ROI was visible within the first month.",
               "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
             },
             {
-              "title": "Katarzyna M., COO at MediCare",
-              "description": "Automating medical documentation freed our team to spend more time with patients.",
+              "title": "Emily Wong, Customer Success Lead at SupportHive",
+              "description": "AI-powered customer support reduced our response time by 80%. Our customers notice the difference every day.",
               "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face"
             }
           ]
@@ -421,29 +420,29 @@
           "type": "faq",
           "header": {
             "badge": "FAQs",
-            "title": "Frequently asked questions",
-            "subtitle": "Answers to common questions about our services and process."
+            "title": "We've Got the Answers You're Looking For",
+            "subtitle": "Quick answers to your AI automation questions."
           },
           "faqItems": [
             {
-              "question": "How long does an automation implementation take?",
-              "answer": "Typical implementations take 2\u20138 weeks depending on complexity. Simple workflow automations can be live in just a few days."
+              "question": "How can AI automation help my business?",
+              "answer": "AI automation streamlines repetitive tasks, reduces errors, and frees your team to focus on high-value work. Most businesses see 20-40% cost savings in automated areas within the first quarter."
             },
             {
-              "question": "Will automation integrate with our existing systems?",
-              "answer": "Yes. We design solutions that seamlessly integrate with popular tools like Slack, Salesforce, HubSpot, Google Workspace, Zapier, and many more."
+              "question": "Is AI automation difficult to integrate?",
+              "answer": "Not at all. We handle the entire integration process and ensure our solutions work seamlessly with your existing tools \u2014 Slack, Salesforce, HubSpot, Google Workspace, and many more."
             },
             {
-              "question": "What's the typical ROI of an AI implementation?",
-              "answer": "Our clients typically see ROI within 1\u20133 months. Average savings are 20\u201340% of operational costs in automated areas."
+              "question": "What industries can benefit from AI automation?",
+              "answer": "Virtually any industry can benefit \u2014 from healthcare and finance to retail, logistics, and technology. If your business has repetitive processes, we can automate them."
             },
             {
-              "question": "Do we need technical expertise to use your solutions?",
-              "answer": "No. We design our solutions to be intuitive and easy to use. We provide full team training and documentation."
+              "question": "Do I need technical knowledge to use AI automation?",
+              "answer": "No. Our solutions are designed to be intuitive and easy to use. We provide full onboarding, team training, and ongoing documentation."
             },
             {
-              "question": "What does post-implementation support look like?",
-              "answer": "We provide ongoing technical support, system monitoring, and regular updates. Professional and Enterprise plans include priority support."
+              "question": "What kind of support do you offer?",
+              "answer": "All plans include email support. Professional plans add priority support, and Enterprise clients get 24/7 VIP support with a dedicated account manager."
             }
           ]
         },
@@ -452,15 +451,12 @@
           "variant": "default",
           "background": "dark",
           "header": {
-            "title": "Ready to automate?",
-            "subtitle": "Let's talk about how AI and automation can transform your business."
+            "title": "Let AI do the Work so you can Scale Faster",
+            "subtitle": "Book a Call Today and Start Automating."
           },
           "cta": {
-            "label": "Book a consultation",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
+            "label": "Book a free call",
+            "target": { "type": "page", "value": "contact" }
           }
         }
       ]
@@ -475,15 +471,13 @@
           "header": {
             "badge": "About Us",
             "title": "Helping Businesses\nGrow with AI",
-            "subtitle": "We streamline operations through intelligent automation \u2014 so you can focus on what matters most."
+            "subtitle": "We streamline operations through intelligent automation so you can focus on what matters most."
           }
         },
         {
           "type": "about-summary",
           "background": "dark",
-          "header": {
-            "title": "Our track record"
-          },
+          "header": { "title": "Our track record" },
           "stats": [
             { "value": "150+", "label": "Businesses Served" },
             { "value": "1M+", "label": "Hours Saved" },
@@ -493,69 +487,33 @@
         {
           "type": "about",
           "variant": "story",
-          "header": {
-            "badge": "Our Story",
-            "title": "Who we are"
-          },
+          "header": { "badge": "Our Story", "title": "Who we are" },
           "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
           "story": {
             "title": "A team of AI & automation experts",
-            "content": "Hazelgrouse Studio is a team of engineers and consultants specializing in intelligent automation. We combine deep technical expertise with business understanding to deliver solutions that truly transform our clients' operations. We believe AI should be accessible to every business \u2014 not just enterprises."
+            "content": "Hazelgrouse Studio is a team of engineers and consultants specializing in intelligent automation. We combine deep technical expertise with business understanding to deliver solutions that truly transform operations. We believe AI should be accessible to every business \u2014 not just enterprises."
           },
-          "cta": {
-            "label": "Get in touch",
-            "target": { "type": "page", "value": "contact" }
-          }
+          "cta": { "label": "Get in touch", "target": { "type": "page", "value": "contact" } }
         },
         {
           "type": "features",
+          "variant": "compact",
           "background": "dark",
-          "header": {
-            "badge": "Our Values",
-            "title": "What drives us"
-          },
+          "header": { "badge": "Our Values", "title": "What drives us" },
           "items": [
-            {
-              "title": "Innovation",
-              "description": "We stay at the cutting edge of AI and automation technology to deliver the best solutions.",
-              "icon": "lightbulb"
-            },
-            {
-              "title": "Integrity",
-              "description": "Transparent pricing, honest communication, and no hidden costs. You always know where you stand.",
-              "icon": "shield"
-            },
-            {
-              "title": "Customer Empowerment",
-              "description": "We build solutions that make your team more capable, not dependent on us.",
-              "icon": "users"
-            },
-            {
-              "title": "Growth First",
-              "description": "Every decision we make is focused on driving measurable growth for your business.",
-              "icon": "rocket"
-            }
+            { "title": "Innovation", "description": "We stay at the cutting edge of AI technology to deliver the best solutions possible.", "icon": "lightbulb" },
+            { "title": "Integrity", "description": "Transparent pricing, honest communication, and no hidden costs. Ever.", "icon": "shield" },
+            { "title": "Customer Empowerment", "description": "We build solutions that make your team more capable, not dependent on us.", "icon": "users" },
+            { "title": "Growth First", "description": "Every decision we make is focused on driving measurable growth for your business.", "icon": "rocket" }
           ]
         },
         {
           "type": "faq",
-          "header": {
-            "badge": "FAQs",
-            "title": "Common questions"
-          },
+          "header": { "badge": "FAQs", "title": "Common questions" },
           "faqItems": [
-            {
-              "question": "What industries do you work with?",
-              "answer": "We work across healthcare, finance, retail, logistics, and technology. Our solutions adapt to any industry."
-            },
-            {
-              "question": "How do we get started?",
-              "answer": "Book a free consultation. We'll analyze your processes and provide a tailored automation roadmap."
-            },
-            {
-              "question": "Do I need technical knowledge?",
-              "answer": "Not at all. We handle all the technical complexity. You focus on your business."
-            }
+            { "question": "What industries do you work with?", "answer": "We work across healthcare, finance, retail, logistics, and technology. Our solutions adapt to any industry." },
+            { "question": "How do we get started?", "answer": "Book a free consultation. We'll analyze your processes and provide a tailored automation roadmap." },
+            { "question": "Do I need technical knowledge?", "answer": "Not at all. We handle all the technical complexity. You focus on your business." }
           ]
         }
       ]
@@ -565,61 +523,29 @@
       "sections": [
         {
           "type": "services",
-          "variant": "grid",
+          "variant": "featured",
           "header": {
             "badge": "Services",
             "title": "What we offer",
-            "subtitle": "End-to-end AI and automation services \u2014 from analysis to deployment and continuous optimization."
+            "subtitle": "End-to-end AI and automation services from analysis to deployment and continuous optimization."
           }
         },
         {
           "type": "pricing",
           "variant": "default",
           "background": "dark",
-          "header": {
-            "badge": "Pricing",
-            "title": "Find the right plan",
-            "subtitle": "Flexible pricing plans for every stage of your business growth."
-          },
+          "header": { "badge": "Pricing", "title": "Find the right plan", "subtitle": "Flexible pricing plans for every stage of your business growth." },
           "pricingTiers": [
-            {
-              "name": "Starter",
-              "price": "$37",
-              "period": "month",
-              "description": "Basic automation.",
-              "features": ["Up to 5 workflows", "Basic AI Assistant", "3 integrations", "Email support"],
-              "cta": { "label": "Get started", "target": { "type": "page", "value": "contact" } }
-            },
-            {
-              "name": "Professional",
-              "price": "$75",
-              "period": "month",
-              "description": "Advanced automation.",
-              "highlighted": true,
-              "badge": "Most Popular",
-              "features": ["Unlimited workflows", "Advanced AI", "10+ integrations", "Priority support", "Real-time analytics"],
-              "cta": { "label": "Choose Professional", "target": { "type": "page", "value": "contact" } }
-            },
-            {
-              "name": "Enterprise",
-              "price": "Custom",
-              "description": "Full customization.",
-              "features": ["Everything in Professional", "Custom AI models", "Dedicated manager", "99.9% SLA", "On-premise"],
-              "cta": { "label": "Contact us", "target": { "type": "page", "value": "contact" } }
-            }
+            { "name": "Starter", "price": "$37", "period": "month", "description": "Basic automation.", "features": ["Up to 5 workflows", "Basic AI Assistant", "3 integrations", "Email support"], "cta": { "label": "Get started", "target": { "type": "page", "value": "contact" } } },
+            { "name": "Professional", "price": "$75", "period": "month", "description": "Advanced automation.", "highlighted": true, "badge": "Popular", "features": ["Unlimited workflows", "Advanced AI", "10+ integrations", "Priority support", "Real-time analytics"], "cta": { "label": "Choose Professional", "target": { "type": "page", "value": "contact" } } },
+            { "name": "Enterprise", "price": "Custom", "description": "Full customization.", "features": ["Everything in Professional", "Custom AI models", "Dedicated manager", "99.9% SLA", "On-premise"], "cta": { "label": "Schedule a call", "target": { "type": "page", "value": "contact" } } }
           ]
         },
         {
           "type": "ctaBanner",
           "variant": "default",
-          "header": {
-            "title": "Need a custom quote?",
-            "subtitle": "Describe your project and we'll get back to you within 24 hours."
-          },
-          "cta": {
-            "label": "Send inquiry",
-            "target": { "type": "page", "value": "contact" }
-          }
+          "header": { "title": "Need a custom quote?", "subtitle": "Describe your project and we'll get back to you within 24 hours." },
+          "cta": { "label": "Send inquiry", "target": { "type": "page", "value": "contact" } }
         }
       ]
     },
@@ -628,37 +554,17 @@
       "sections": [
         {
           "type": "project",
-          "variant": "grid",
+          "variant": "carousel",
           "header": {
             "badge": "Case Studies",
             "title": "Our work",
             "subtitle": "Real-world automation and AI implementations that delivered measurable results."
           },
           "projects": [
-            {
-              "title": "Inventory Optimization \u2014 LogiTech",
-              "description": "AI stock prediction reduced inventory waste by 40% and optimized the supply chain.",
-              "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop",
-              "date": "2025"
-            },
-            {
-              "title": "QA Automation \u2014 FinBridge",
-              "description": "Automated testing and validation cut financial data errors by 80%.",
-              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
-              "date": "2025"
-            },
-            {
-              "title": "Cost Optimization \u2014 MediCare",
-              "description": "Administrative automation delivered 20% operational cost savings.",
-              "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop",
-              "date": "2024"
-            },
-            {
-              "title": "AI Sales Engine \u2014 RetailPro",
-              "description": "Recommendation and personalization system that tripled e-commerce conversions.",
-              "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
-              "date": "2024"
-            }
+            { "title": "TrailForge \u2014 Inventory Optimization", "description": "AI stock prediction reduced inventory waste by 40% and optimized the supply chain.", "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop", "metrics": ["40% Less Waste", "35% Faster Production", "20% Better Forecasting"] },
+            { "title": "MedixChain \u2014 QA Automation", "description": "Automated testing and validation cut errors by 80% across all departments.", "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop", "metrics": ["80% Error Reduction", "90% Data Accuracy", "60+ Hours Saved"] },
+            { "title": "FinSolve \u2014 Operations Automation", "description": "End-to-end process automation delivering 20% operational cost savings.", "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop", "metrics": ["50% Automated", "20% Cost Reduction", "2x Faster Onboarding"] },
+            { "title": "ScaleByte \u2014 AI Sales Engine", "description": "AI-driven CRM integration that tripled deal flow.", "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop", "metrics": ["3x More Deals", "40% Faster Responses", "95% Lead Accuracy"] }
           ]
         }
       ]
@@ -670,18 +576,12 @@
           "type": "hero",
           "variant": "gradient",
           "background": "dark",
-          "header": {
-            "badge": "Blog",
-            "title": "Unlock AI Insights\nwith Us",
-            "subtitle": "Articles, resources, and insights about AI automation and digital transformation."
-          }
+          "header": { "badge": "Blog", "title": "Unlock AI Insights\nwith Us", "subtitle": "Articles, resources, and insights about AI automation and digital transformation." }
         },
         {
           "type": "blog",
           "variant": "default",
-          "header": {
-            "title": "Latest articles"
-          }
+          "header": { "title": "Latest articles" }
         }
       ]
     },
@@ -692,18 +592,12 @@
           "type": "hero",
           "variant": "gradient",
           "background": "dark",
-          "header": {
-            "badge": "Contact",
-            "title": "Get in Touch\nwith Us",
-            "subtitle": "Ready to automate? Fill out the form or reach out directly. We respond within 24 hours."
-          }
+          "header": { "badge": "Contact", "title": "Get in Touch\nwith Us", "subtitle": "Ready to automate? Fill out the form or reach out directly. We respond within 24 hours." }
         },
         {
           "type": "contact",
           "variant": "split",
-          "header": {
-            "title": "Send us a message"
-          },
+          "header": { "title": "Send us a message" },
           "form": {
             "namePlaceholder": "Your name",
             "emailPlaceholder": "Your email",
@@ -725,27 +619,12 @@
       "sections": [
         {
           "type": "faq",
-          "header": {
-            "title": "Privacy Policy",
-            "subtitle": "Information about personal data processing"
-          },
+          "header": { "title": "Privacy Policy", "subtitle": "Information about personal data processing" },
           "faqItems": [
-            {
-              "question": "Who is the data controller?",
-              "answer": "The data controller is Hazelgrouse Studio. Data is processed in accordance with applicable laws, including GDPR."
-            },
-            {
-              "question": "What data do we collect?",
-              "answer": "We collect data provided by users in contact forms (name, email address) and technical data necessary for the proper functioning of the website."
-            },
-            {
-              "question": "For what purposes do we process data?",
-              "answer": "Data is processed for the purpose of handling contact inquiries and providing services."
-            },
-            {
-              "question": "What rights does the user have?",
-              "answer": "Users have the right to access, rectify, delete, restrict processing, data portability, and the right to object to processing."
-            }
+            { "question": "Who is the data controller?", "answer": "The data controller is Hazelgrouse Studio. Data is processed in accordance with applicable laws, including GDPR." },
+            { "question": "What data do we collect?", "answer": "We collect data provided by users in contact forms (name, email address) and technical data necessary for the proper functioning of the website." },
+            { "question": "For what purposes do we process data?", "answer": "Data is processed for the purpose of handling contact inquiries and providing services." },
+            { "question": "What rights does the user have?", "answer": "Users have the right to access, rectify, delete, restrict processing, data portability, and the right to object to processing." }
           ]
         }
       ]

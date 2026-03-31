@@ -1,2 +1,3 @@
 export { ProjectGrid } from "./ProjectGrid";
-export type { ProjectGridProps, ProjectCard } from "./types";
+export { ProjectCarousel } from "./ProjectCarousel";
+export type { ProjectGridProps, ProjectCarouselProps, ProjectCard } from "./types";
