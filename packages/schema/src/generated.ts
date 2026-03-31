@@ -19,6 +19,7 @@ export type TrustSignals = {
 }[];
 export type ThemePreset = "industrial" | "wellness" | "minimal" | "elegant" | "modern" | "classic" | "bold";
 export type GlobalVariant = string;
+export type MajorTheme = "specialist" | "portfolio-tech";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
 export type BaseSurface = string;
@@ -90,7 +91,9 @@ export type SectionType =
   | "blog"
   | "map"
   | "ref"
-  | "booking";
+  | "booking"
+  | "pricing"
+  | "project";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "primary";
@@ -121,6 +124,21 @@ export type TrustSignals1 = TrustSignal[];
 export type FAQItems = FAQItem[];
 export type BlogPosts = BlogPost[];
 export type MarqueeText = string;
+export type TierName = string;
+export type Price = string;
+export type BillingPeriod = string;
+export type Description = string;
+export type Features = string[];
+export type Highlighted = boolean;
+export type BadgeText1 = string;
+export type PricingTiers = PricingTier[];
+export type Title1 = string;
+export type Description1 = string;
+export type ImageURL1 = string;
+export type Date = string;
+export type KeyMetric = string;
+export type MetricLabel = string;
+export type Projects = ProjectItem[];
 export type Country = "polska";
 export type Region =
   | "mazowsze"
@@ -146,8 +164,8 @@ export type EnableBooking = boolean;
 export type ServiceID = string;
 export type ServiceName = string;
 export type DurationMinutes = number;
-export type Price = number;
-export type Description = string;
+export type Price1 = number;
+export type Description2 = string;
 export type BookingServices = BookingService[];
 export type Open = boolean;
 export type OpeningTime = string;
@@ -213,6 +231,7 @@ export interface GoogleRating {
 export interface Theme {
   preset?: ThemePreset;
   globalVariant?: GlobalVariant;
+  majorTheme?: MajorTheme;
   mode?: ColorMode;
   colors?: ColorSchemes;
   typography?: Typography;
@@ -344,6 +363,8 @@ export interface Section {
   faqItems?: FAQItems;
   blogPosts?: BlogPosts;
   marqueeText?: MarqueeText;
+  pricingTiers?: PricingTiers;
+  projects?: Projects;
   area?: ServiceAreaConfiguration;
 }
 export interface SectionHeader {
@@ -447,6 +468,24 @@ export interface BlogPost {
   date?: string;
   href?: string;
 }
+export interface PricingTier {
+  name: TierName;
+  price: Price;
+  period?: BillingPeriod;
+  description?: Description;
+  features?: Features;
+  cta?: Cta1;
+  highlighted?: Highlighted;
+  badge?: BadgeText1;
+}
+export interface ProjectItem {
+  title?: Title1;
+  description?: Description1;
+  image?: ImageURL1;
+  date?: Date;
+  metric?: KeyMetric;
+  metricLabel?: MetricLabel;
+}
 export interface ServiceAreaConfiguration {
   country?: Country;
   region?: Region;
@@ -490,8 +529,8 @@ export interface BookingService {
   id: ServiceID;
   name: ServiceName;
   duration: DurationMinutes;
-  price?: Price;
-  description?: Description;
+  price?: Price1;
+  description?: Description2;
 }
 export interface BusinessHours1 {
   mon?: BookingDayHours;

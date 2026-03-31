@@ -21,6 +21,7 @@
   },
   "theme": {
     "preset": "minimal",
+    "majorTheme": "portfolio-tech",
     "mode": "dark",
     "colors": {
       "light": {
@@ -77,7 +78,7 @@
     "footer": {
       "variant": "minimal",
       "copyright": "\u00a9 2026 Hazelgrouse Studio. All rights reserved.",
-      "tagline": "Software that works. Websites that convert.",
+      "tagline": "Intelligent Automation for Modern Businesses.",
       "links": [
         {
           "label": "GitHub",
@@ -105,7 +106,7 @@
   },
   "navigation": {
     "cta": {
-      "label": "Porozmawiajmy",
+      "label": "Kontakt",
       "target": {
         "type": "section",
         "value": "contact"
@@ -115,38 +116,38 @@
   "data": {
     "services": [
       {
-        "id": "web-apps",
-        "slug": "web-apps",
-        "title": "Aplikacje webowe",
-        "description": "Projektujemy i budujemy nowoczesne aplikacje internetowe \u2014 od MVP po z\u0142o\u017cone systemy SaaS. TypeScript, React, Node.js, PostgreSQL.",
-        "icon": "code",
-        "category": "development",
-        "available": true
-      },
-      {
-        "id": "websites",
-        "slug": "websites",
-        "title": "Strony internetowe",
-        "description": "Szybkie, responsywne strony firmowe i landing page\u2019e zoptymalizowane pod SEO i konwersj\u0119. Astro, Next.js.",
-        "icon": "globe",
-        "category": "development",
-        "available": true
-      },
-      {
-        "id": "automation",
-        "slug": "automation",
-        "title": "Automatyzacja i AI",
-        "description": "Automatyzacja proces\u00f3w biznesowych, integracje API, chatboty i rozwi\u0105zania oparte o sztuczn\u0105 inteligencj\u0119.",
+        "id": "workflow-automation",
+        "slug": "workflow-automation",
+        "title": "Automatyzacja workflow",
+        "description": "Automatyzacja zada\u0144, system\u00f3w bot\u00f3w i inteligentnych proces\u00f3w biznesowych. Eliminujemy powtarzalne czynno\u015bci i optymalizujemy operacje.",
         "icon": "zap",
         "category": "automation",
         "available": true
       },
       {
-        "id": "consulting",
-        "slug": "consulting",
-        "title": "Konsulting techniczny",
-        "description": "Audyty kodu, architektura system\u00f3w, wyb\u00f3r technologii i doradztwo przy skalowaniu produkt\u00f3w cyfrowych.",
+        "id": "ai-assistant",
+        "slug": "ai-assistant",
+        "title": "Asystent AI",
+        "description": "Inteligentne planowanie, zarz\u0105dzanie emailami i automatyczne podsumowania spotka\u0144. AI, kt\u00f3re pracuje za Ciebie.",
         "icon": "lightbulb",
+        "category": "ai",
+        "available": true
+      },
+      {
+        "id": "sales-marketing",
+        "slug": "sales-marketing",
+        "title": "Sprzeda\u017c & Marketing",
+        "description": "Generowanie lead\u00f3w, automatyzacja tre\u015bci i kampanii marketingowych opartych o dane i sztuczn\u0105 inteligencj\u0119.",
+        "icon": "rocket",
+        "category": "marketing",
+        "available": true
+      },
+      {
+        "id": "custom-projects",
+        "slug": "custom-projects",
+        "title": "Projekty dedykowane",
+        "description": "Konsulting strategiczny i rozwi\u0105zania szyte na miar\u0119. Od architektury po wdro\u017cenie \u2014 budujemy to, czego potrzebujesz.",
+        "icon": "code",
         "category": "consulting",
         "available": true
       }
@@ -154,7 +155,7 @@
   },
   "pages": {
     "home": {
-      "title": "Hazelgrouse Studio \u2014 Software & Web Development",
+      "title": "Hazelgrouse Studio \u2014 Intelligent Automation",
       "sections": [
         {
           "type": "hero",
@@ -162,21 +163,21 @@
           "background": "dark",
           "header": {
             "badge": "Hazelgrouse Studio",
-            "title": "Budujemy oprogramowanie,\nkt\u00f3re dzia\u0142a.",
-            "subtitle": "Jeste\u015bmy studiem software\u2019owym z Warszawy. Tworzymy aplikacje webowe, strony internetowe i systemy automatyzacji dla firm, kt\u00f3re chc\u0105 rosn\u0105\u0107 szybciej."
+            "title": "Inteligentna automatyzacja\ndla nowoczesnego biznesu",
+            "subtitle": "Projektujemy i wdra\u017camy rozwi\u0105zania oparte o AI i automatyzacj\u0119, kt\u00f3re oszcz\u0119dzaj\u0105 czas, redukuj\u0105 koszty i skaluj\u0105 Twoj\u0105 firm\u0119."
           },
           "cta": {
-            "label": "Porozmawiajmy",
+            "label": "Skontaktuj si\u0119",
             "target": {
               "type": "page",
               "value": "contact"
             }
           },
           "secondaryCta": {
-            "label": "Zobacz realizacje",
+            "label": "Zobacz us\u0142ugi",
             "target": {
               "type": "page",
-              "value": "projects"
+              "value": "services"
             }
           }
         },
@@ -186,7 +187,7 @@
           "header": {
             "badge": "Us\u0142ugi",
             "title": "Czym si\u0119 zajmujemy",
-            "subtitle": "Dostarczamy rozwi\u0105zania technologiczne dopasowane do Twoich cel\u00f3w biznesowych."
+            "subtitle": "Kompleksowe rozwi\u0105zania automatyzacji i AI dopasowane do Twoich cel\u00f3w biznesowych."
           },
           "cta": {
             "label": "Wszystkie us\u0142ugi",
@@ -197,73 +198,198 @@
           }
         },
         {
-          "type": "features",
-          "background": "dark",
-          "header": {
-            "badge": "Dlaczego my",
-            "title": "Technologia z g\u0142ow\u0105",
-            "subtitle": "Nie robimy rzeczy na odczepnego. Ka\u017cdy projekt traktujemy jak sw\u00f3j."
-          },
-          "items": [
-            {
-              "title": "Full-stack z do\u015bwiadczeniem",
-              "description": "TypeScript, React, Node.js, PostgreSQL, Astro, Next.js \u2014 budujemy na sprawdzonym stacku, kt\u00f3ry skaluje si\u0119 razem z Twoim biznesem.",
-              "icon": "code"
-            },
-            {
-              "title": "Szybka iteracja",
-              "description": "Dzia\u0142aj\u0105cy MVP w tygodnie, nie miesi\u0105ce. Pracujemy w kr\u00f3tkich sprintach z ci\u0105g\u0142ym feedbackiem.",
-              "icon": "timer"
-            },
-            {
-              "title": "Jako\u015b\u0107 produkcyjna",
-              "description": "Testy, CI/CD, monitoring, dokumentacja. Dostarczamy kod, kt\u00f3ry mo\u017cna utrzyma\u0107 i rozwija\u0107.",
-              "icon": "shield-check"
-            },
-            {
-              "title": "Transparentna wsp\u00f3\u0142praca",
-              "description": "Sta\u0142y kontakt, jasne estymaty, brak ukrytych koszt\u00f3w. Wiesz na czym stoisz na ka\u017cdym etapie.",
-              "icon": "badge-check"
-            }
-          ]
-        },
-        {
           "type": "process",
+          "background": "dark",
           "header": {
             "badge": "Proces",
             "title": "Jak dzia\u0142amy",
-            "subtitle": "Przejrzysty proces od pierwszej rozmowy do wdro\u017cenia."
+            "subtitle": "Przejrzysty proces od analizy po ci\u0105g\u0142\u0105 optymalizacj\u0119."
           },
           "steps": [
             {
               "number": 1,
-              "title": "Discovery",
-              "description": "Poznajemy Tw\u00f3j biznes, cele i ograniczenia. Definiujemy zakres i priorytety.",
+              "title": "Analiza",
+              "description": "Badamy Twoje procesy biznesowe, identyfikujemy w\u0105skie gard\u0142a i mo\u017cliwo\u015bci automatyzacji.",
               "icon": "search"
             },
             {
               "number": 2,
-              "title": "Projekt & Prototyp",
-              "description": "Tworzymy wireframe\u2019y i prototyp interaktywny. Iterujemy dop\u00f3ki nie b\u0119dzie idealnie.",
-              "icon": "pen-tool"
+              "title": "Projektowanie AI",
+              "description": "Tworzymy dedykowane rozwi\u0105zania AI i automatyzacji dopasowane do Twoich potrzeb.",
+              "icon": "lightbulb"
             },
             {
               "number": 3,
-              "title": "Developement",
-              "description": "Budujemy rozwi\u0105zanie sprint po sprincie. Regularny demo i feedback.",
-              "icon": "code"
+              "title": "Integracja",
+              "description": "Wdra\u017camy rozwi\u0105zania bezszwowo z Twoimi istniej\u0105cymi systemami i narz\u0119dziami.",
+              "icon": "plug"
             },
             {
               "number": 4,
-              "title": "Wdro\u017cenie & Wsparcie",
-              "description": "Deploy na produkcj\u0119, monitoring, szkolenie zespo\u0142u. Zostajemy na wsparciu.",
+              "title": "Optymalizacja",
+              "description": "Monitorujemy, mierzymy i ci\u0105gle ulepszamy dzia\u0142anie wdro\u017conych rozwi\u0105za\u0144.",
+              "icon": "gauge"
+            }
+          ]
+        },
+        {
+          "type": "project",
+          "variant": "grid",
+          "header": {
+            "badge": "Case Studies",
+            "title": "Rezultaty, kt\u00f3re m\u00f3wi\u0105 same za siebie",
+            "subtitle": "Zobacz, jak nasze rozwi\u0105zania prze\u0142o\u017cy\u0142y si\u0119 na wymierne korzy\u015bci biznesowe."
+          },
+          "projects": [
+            {
+              "title": "Optymalizacja magazynu dla LogiTech",
+              "description": "Wdro\u017cenie systemu predykcji zapas\u00f3w opartego o AI, kt\u00f3ry zredukowa\u0142 marnotrawstwo magazynowe o 40%.",
+              "metric": "40%",
+              "metricLabel": "redukcja marnotrawstwa",
+              "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop"
+            },
+            {
+              "title": "Automatyzacja QA dla FinBridge",
+              "description": "System automatycznego testowania i walidacji danych, kt\u00f3ry zmniejszy\u0142 ilo\u015b\u0107 b\u0142\u0119d\u00f3w o 80%.",
+              "metric": "80%",
+              "metricLabel": "redukcja b\u0142\u0119d\u00f3w",
+              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop"
+            },
+            {
+              "title": "Redukcja koszt\u00f3w dla MediCare",
+              "description": "Automatyzacja proces\u00f3w administracyjnych i dokumentacji medycznej z oszcz\u0119dno\u015bci\u0105 20% koszt\u00f3w operacyjnych.",
+              "metric": "20%",
+              "metricLabel": "oszcz\u0119dno\u015b\u0107 koszt\u00f3w",
+              "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop"
+            },
+            {
+              "title": "Wzrost sprzeda\u017cy dla RetailPro",
+              "description": "AI-driven system rekomendacji i personalizacji, kt\u00f3ry potr\u00f3i\u0142 wska\u017anik konwersji.",
+              "metric": "3x",
+              "metricLabel": "wi\u0119cej konwersji",
+              "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop"
+            }
+          ]
+        },
+        {
+          "type": "features",
+          "background": "dark",
+          "header": {
+            "badge": "Korzy\u015bci",
+            "title": "Dlaczego automatyzacja z AI",
+            "subtitle": "Konkretne korzy\u015bci biznesowe, kt\u00f3re dostarczamy naszym klientom."
+          },
+          "items": [
+            {
+              "title": "Wy\u017csza produktywno\u015b\u0107",
+              "description": "Automatyzacja rutynowych zada\u0144 pozwala Twojemu zespo\u0142owi skupi\u0107 si\u0119 na tym, co naprawd\u0119 wa\u017cne.",
               "icon": "rocket"
+            },
+            {
+              "title": "Lepsze do\u015bwiadczenie klienta",
+              "description": "Szybsze odpowiedzi, personalizacja i sp\u00f3jno\u015b\u0107 obs\u0142ugi na ka\u017cdym etapie.",
+              "icon": "heart"
+            },
+            {
+              "title": "Dost\u0119pno\u015b\u0107 24/7",
+              "description": "Twoje systemy dzia\u0142aj\u0105 nieprzerwanie, obs\u0142uguj\u0105c klient\u00f3w i procesy o ka\u017cdej porze.",
+              "icon": "clock"
+            },
+            {
+              "title": "Redukcja koszt\u00f3w",
+              "description": "Mniej b\u0142\u0119d\u00f3w, mniej pracy r\u0119cznej, ni\u017csze koszty operacyjne dzi\u0119ki inteligentnej automatyzacji.",
+              "icon": "wallet"
+            },
+            {
+              "title": "Decyzje oparte na danych",
+              "description": "Real-time analytics i raporty AI, kt\u00f3re pomagaj\u0105 podejmowa\u0107 lepsze decyzje biznesowe.",
+              "icon": "gauge"
+            },
+            {
+              "title": "Skalowalno\u015b\u0107",
+              "description": "Rozwi\u0105zania rosn\u0105 razem z Twoim biznesem \u2014 bez proporcjonalnego wzrostu koszt\u00f3w.",
+              "icon": "zap"
+            }
+          ]
+        },
+        {
+          "type": "pricing",
+          "variant": "default",
+          "header": {
+            "badge": "Cennik",
+            "title": "Przejrzyste plany cenowe",
+            "subtitle": "Wybierz plan dopasowany do skali Twojego biznesu. Bez ukrytych koszt\u00f3w."
+          },
+          "pricingTiers": [
+            {
+              "name": "Starter",
+              "price": "$37",
+              "period": "mies.",
+              "description": "Idealny na start \u2014 podstawowa automatyzacja i wsparcie AI.",
+              "features": [
+                "Do 5 zautomatyzowanych workflow",
+                "Asystent AI (podstawowy)",
+                "Integracja z 3 narz\u0119dziami",
+                "Wsparcie email",
+                "Raportowanie miesi\u0119czne"
+              ],
+              "cta": {
+                "label": "Zacznij teraz",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
+            },
+            {
+              "name": "Professional",
+              "price": "$75",
+              "period": "mies.",
+              "description": "Dla rosn\u0105cych firm \u2014 zaawansowana automatyzacja i analityka.",
+              "highlighted": true,
+              "badge": "Najpopularniejszy",
+              "features": [
+                "Nielimitowane workflow",
+                "Asystent AI (zaawansowany)",
+                "Integracja z 10+ narz\u0119dziami",
+                "Priorytetowe wsparcie",
+                "Real-time analytics",
+                "Dedykowany onboarding"
+              ],
+              "cta": {
+                "label": "Wybi\u00f3rz Professional",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
+            },
+            {
+              "name": "Enterprise",
+              "price": "Custom",
+              "description": "Rozwi\u0105zania enterprise \u2014 pe\u0142na customizacja i wsparcie dedykowane.",
+              "features": [
+                "Wszystko z Professional",
+                "Custom AI models",
+                "Dedykowany Account Manager",
+                "SLA z gwarancj\u0105 99.9%",
+                "On-premise deployment",
+                "Szkolenia zespo\u0142u",
+                "Audyt bezpiecze\u0144stwa"
+              ],
+              "cta": {
+                "label": "Skontaktuj si\u0119",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
             }
           ]
         },
         {
           "type": "testimonials",
-          "variant": "summary",
+          "variant": "default",
           "background": "dark",
           "header": {
             "badge": "Opinie",
@@ -272,18 +398,53 @@
           "items": [
             {
               "title": "Marek W., CEO SaaSup",
-              "description": "Hazelgrouse dostarczy\u0142o nam MVP w 6 tygodni. Kod jest czysty, wydajny i \u0142atwy do rozwijania. Polecam ka\u017cdemu startupowi.",
+              "description": "Automatyzacja od Hazelgrouse oszcz\u0119dza nam 20 godzin tygodniowo. ROI w pierwszym miesi\u0105cu by\u0142 niesamowity.",
               "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
             },
             {
               "title": "Anna K., Marketing Director",
-              "description": "Nowa strona przynios\u0142a nam 3x wi\u0119cej lead\u00f3w w pierwszym miesi\u0105cu. Profesjonalne podej\u015bcie od A do Z.",
+              "description": "Dzi\u0119ki AI-driven kampaniom potr\u00f3ili\u015bmy generowanie lead\u00f3w w pierwszym kwartale wsp\u00f3\u0142pracy.",
               "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
             },
             {
               "title": "Tomasz R., CTO FinBridge",
-              "description": "Doskona\u0142e zrozumienie wymaga\u0144 technicznych. Automatyzacja, kt\u00f3r\u0105 wdro\u017cyli, oszcz\u0119dza nam 20h tygodniowo.",
+              "description": "System automatycznego testowania zredukowa\u0142 nasze b\u0142\u0119dy produkcyjne o 80%. Doskona\u0142e zrozumienie wymaga\u0144.",
               "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
+            },
+            {
+              "title": "Katarzyna M., COO MediCare",
+              "description": "Automatyzacja dokumentacji medycznej pozwoli\u0142a naszemu zespo\u0142owi wi\u0119cej czasu po\u015bwi\u0119ci\u0107 pacjentom.",
+              "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face"
+            }
+          ]
+        },
+        {
+          "type": "faq",
+          "header": {
+            "badge": "FAQ",
+            "title": "Najcz\u0119\u015bciej zadawane pytania",
+            "subtitle": "Odpowiedzi na pytania o naszych us\u0142ugach i procesie wsp\u00f3\u0142pracy."
+          },
+          "faqItems": [
+            {
+              "question": "Jak d\u0142ugo trwa wdro\u017cenie automatyzacji?",
+              "answer": "Typowe wdro\u017cenie trwa od 2 do 8 tygodni, w zale\u017cno\u015bci od z\u0142o\u017cono\u015bci projektu. Proste automatyzacje workflow mo\u017cemy uruchomi\u0107 nawet w kilka dni."
+            },
+            {
+              "question": "Czy automatyzacja zintegruje si\u0119 z naszymi obecnymi systemami?",
+              "answer": "Tak, projektujemy rozwi\u0105zania kt\u00f3re bezszwowo integruj\u0105 si\u0119 z popularnymi narz\u0119dziami jak Slack, Salesforce, HubSpot, Google Workspace, Zapier i wieloma innymi."
+            },
+            {
+              "question": "Jaki jest typowy ROI wdro\u017cenia AI?",
+              "answer": "Nasi klienci zazwyczaj widz\u0105 ROI w ci\u0105gu 1-3 miesi\u0119cy. \u015arednia oszcz\u0119dno\u015b\u0107 to 20-40% koszt\u00f3w operacyjnych w zautomatyzowanych obszarach."
+            },
+            {
+              "question": "Czy potrzebujemy wiedzy technicznej do korzystania z waszych rozwi\u0105za\u0144?",
+              "answer": "Nie. Nasze rozwi\u0105zania projektujemy tak, by by\u0142y intuicyjne i \u0142atwe w obs\u0142udze. Zapewniamy pe\u0142ne szkolenie zespo\u0142u i dokumentacj\u0119."
+            },
+            {
+              "question": "Jak wygl\u0105da wsparcie po wdro\u017ceniu?",
+              "answer": "Zapewniamy ci\u0105g\u0142e wsparcie techniczne, monitoring dzia\u0142ania system\u00f3w i regularne aktualizacje. Plany Professional i Enterprise obejmuj\u0105 priorytetowe wsparcie."
             }
           ]
         },
@@ -292,11 +453,11 @@
           "variant": "default",
           "background": "dark",
           "header": {
-            "title": "Masz pomys\u0142 na projekt?",
-            "subtitle": "Porozmawiajmy o tym, jak mo\u017cemy pom\u00f3c Ci go zrealizowa\u0107."
+            "title": "Gotowy na automatyzacj\u0119?",
+            "subtitle": "Porozmawiajmy o tym, jak AI i automatyzacja mog\u0105 transformowa\u0107 Tw\u00f3j biznes."
           },
           "cta": {
-            "label": "Napisz do nas",
+            "label": "Um\u00f3w konsultacj\u0119",
             "target": {
               "type": "page",
               "value": "contact"
@@ -317,8 +478,8 @@
           },
           "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
           "story": {
-            "title": "Studio z pasj\u0105 do technologii",
-            "content": "Hazelgrouse Studio to zesp\u00f3\u0142 developer\u00f3w i designer\u00f3w z Warszawy. Specjalizujemy si\u0119 w tworzeniu aplikacji webowych, stron internetowych i system\u00f3w automatyzacji. Wierzymy, \u017ce dobra technologia powinna by\u0107 prosta, szybka i niezawodna. Pracujemy z firmami ka\u017cdej wielko\u015bci \u2014 od startup\u00f3w po korporacje."
+            "title": "Zesp\u00f3\u0142 ekspert\u00f3w AI i automatyzacji",
+            "content": "Hazelgrouse Studio to zesp\u00f3\u0142 in\u017cynier\u00f3w i konsultant\u00f3w z Warszawy specjalizuj\u0105cy si\u0119 w inteligentnej automatyzacji. \u0141\u0105czymy g\u0142\u0119bok\u0105 wiedz\u0119 techniczn\u0105 z rozumieniem biznesu, by dostarczy\u0107 rozwi\u0105zania kt\u00f3re realnie transformuj\u0105 procesy naszych klient\u00f3w. Wierzymy, \u017ce AI powinno by\u0107 dost\u0119pne dla ka\u017cdej firmy \u2014 nie tylko korporacji."
           },
           "cta": {
             "label": "Skontaktuj si\u0119",
@@ -336,12 +497,12 @@
             "title": "Liczby, kt\u00f3re m\u00f3wi\u0105 same za siebie"
           },
           "stats": [
-            { "value": "50+", "label": "Zrealizowanych projekt\u00f3w" },
+            { "value": "50+", "label": "Wdro\u017cone automatyzacje" },
             { "value": "30+", "label": "Zadowolonych klient\u00f3w" },
-            { "value": "5+", "label": "Lat do\u015bwiadczenia" }
+            { "value": "40%", "label": "\u015arednia redukcja koszt\u00f3w" }
           ],
           "cta": {
-            "label": "Zobacz projekty",
+            "label": "Zobacz case studies",
             "target": { "type": "page", "value": "projects" }
           }
         }
@@ -356,13 +517,75 @@
           "header": {
             "badge": "Us\u0142ugi",
             "title": "Co oferujemy",
-            "subtitle": "Kompleksowe us\u0142ugi deweloperskie \u2014 od koncepcji po wdro\u017cenie i utrzymanie."
+            "subtitle": "Kompleksowe us\u0142ugi automatyzacji i AI \u2014 od analizy po wdro\u017cenie i ci\u0105g\u0142\u0105 optymalizacj\u0119."
           }
+        },
+        {
+          "type": "pricing",
+          "variant": "default",
+          "background": "dark",
+          "header": {
+            "badge": "Cennik",
+            "title": "Znajd\u017a idealny plan",
+            "subtitle": "Elastyczne plany cenowe dopasowane do ka\u017cdego etapu rozwoju Twojej firmy."
+          },
+          "pricingTiers": [
+            {
+              "name": "Starter",
+              "price": "$37",
+              "period": "mies.",
+              "description": "Podstawowa automatyzacja.",
+              "features": [
+                "Do 5 workflow",
+                "Asystent AI (podstawowy)",
+                "3 integracje",
+                "Wsparcie email"
+              ],
+              "cta": {
+                "label": "Zacznij teraz",
+                "target": { "type": "page", "value": "contact" }
+              }
+            },
+            {
+              "name": "Professional",
+              "price": "$75",
+              "period": "mies.",
+              "description": "Zaawansowana automatyzacja.",
+              "highlighted": true,
+              "badge": "Najpopularniejszy",
+              "features": [
+                "Nielimitowane workflow",
+                "Zaawansowany AI",
+                "10+ integracji",
+                "Priorytetowe wsparcie",
+                "Real-time analytics"
+              ],
+              "cta": {
+                "label": "Wybi\u00f3rz Professional",
+                "target": { "type": "page", "value": "contact" }
+              }
+            },
+            {
+              "name": "Enterprise",
+              "price": "Custom",
+              "description": "Pe\u0142na customizacja.",
+              "features": [
+                "Wszystko z Professional",
+                "Custom AI models",
+                "Dedykowany manager",
+                "SLA 99.9%",
+                "On-premise"
+              ],
+              "cta": {
+                "label": "Skontaktuj si\u0119",
+                "target": { "type": "page", "value": "contact" }
+              }
+            }
+          ]
         },
         {
           "type": "ctaBanner",
           "variant": "default",
-          "background": "dark",
           "header": {
             "title": "Potrzebujesz wyceny?",
             "subtitle": "Opisz sw\u00f3j projekt, a my wracamy z propozycj\u0105 w 24h."
@@ -378,8 +601,58 @@
       ]
     },
     "projects": {
-      "title": "Realizacje",
-      "sections": []
+      "title": "Case Studies",
+      "sections": [
+        {
+          "type": "project",
+          "variant": "grid",
+          "header": {
+            "badge": "Case Studies",
+            "title": "Nasze realizacje",
+            "subtitle": "Przyk\u0142ady wdro\u017ce\u0144 automatyzacji i AI, kt\u00f3re przynios\u0142y wymierne rezultaty."
+          },
+          "projects": [
+            {
+              "title": "Optymalizacja magazynu \u2014 LogiTech",
+              "description": "System predykcji zapas\u00f3w AI zredukowa\u0142 marnotrawstwo o 40% i zoptymalizowa\u0142 \u0142a\u0144cuch dostaw.",
+              "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop",
+              "date": "2025"
+            },
+            {
+              "title": "Automatyzacja QA \u2014 FinBridge",
+              "description": "Automatyczne testowanie i walidacja danych finansowych z 80% redukcj\u0105 b\u0142\u0119d\u00f3w.",
+              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
+              "date": "2025"
+            },
+            {
+              "title": "Optymalizacja koszt\u00f3w \u2014 MediCare",
+              "description": "Automatyzacja proces\u00f3w administracyjnych z oszcz\u0119dno\u015bci\u0105 20% koszt\u00f3w operacyjnych.",
+              "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop",
+              "date": "2024"
+            },
+            {
+              "title": "AI Sales Engine \u2014 RetailPro",
+              "description": "System rekomendacji i personalizacji, kt\u00f3ry potr\u00f3i\u0142 wska\u017anik konwersji w e-commerce.",
+              "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
+              "date": "2024"
+            }
+          ]
+        }
+      ]
+    },
+    "blog": {
+      "title": "Blog",
+      "sections": [
+        {
+          "type": "blog",
+          "variant": "default",
+          "header": {
+            "badge": "Blog",
+            "title": "Wiedza i inspiracje",
+            "subtitle": "Artyku\u0142y o automatyzacji, AI i transformacji cyfrowej."
+          }
+        }
+      ]
     },
     "contact": {
       "title": "Kontakt",

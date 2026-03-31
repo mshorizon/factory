@@ -1,0 +1,36 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { PricingDefault, SectionHeader } from "@mshorizon/ui";
+import { getSectionHeader } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
+
+interface Props {
+  isHomePage?: boolean;
+  section: Section;
+}
+
+const { section, isHomePage = false } = Astro.props;
+const header = getSectionHeader(section);
+
+const tiers = (section.pricingTiers || []).map((tier: any) => ({
+  ...tier,
+  cta: tier.cta
+    ? {
+        label: tier.cta.label,
+        href: tier.cta.href || resolveTarget(tier.cta.target),
+      }
+    : undefined,
+}));
+---
+
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <div class="container mx-auto">
+    <SectionHeader
+      badge={header.badge}
+      title={header.title}
+      subtitle={header.subtitle}
+      background={section.background}
+    />
+    <PricingDefault client:visible tiers={tiers} />
+  </div>
+</section>

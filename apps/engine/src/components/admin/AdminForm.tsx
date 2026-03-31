@@ -1113,6 +1113,30 @@ export default function AdminForm({
       const colorData = getNestedValue(formData, ["theme", "colors", currentMode]) || {};
 
       return (
+        <div className="space-y-6">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-sm font-medium">Major Theme</span>
+                  <p className="text-xs text-muted-foreground mt-0.5">Controls default section variants for visual consistency</p>
+                </div>
+                <select
+                  value={themeData.majorTheme || ""}
+                  onChange={(e) => {
+                    const value = e.target.value || undefined;
+                    handleChange(["theme", "majorTheme"], { formData: value });
+                  }}
+                  className="px-3 py-2 border border-border bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring/20"
+                >
+                  <option value="">None</option>
+                  <option value="specialist">Specialist</option>
+                  <option value="portfolio-tech">Portfolio Tech</option>
+                </select>
+              </div>
+            </CardContent>
+          </Card>
+
         <Tabs value={themeSubTab} onValueChange={(v) => setThemeSubTab(v as "colors" | "typography")} orientation="horizontal">
           <TabsList className="mb-6">
             <TabsTrigger value="colors">Colors & UI</TabsTrigger>
@@ -1204,6 +1228,7 @@ export default function AdminForm({
             </Card>
           </TabsContent>
         </Tabs>
+        </div>
       );
     }
 
@@ -1389,6 +1414,7 @@ export default function AdminForm({
                   sectionCount={pageData.sections.length}
                   pageName={pageName}
                   businessId={businessId}
+                  majorTheme={(formData.theme as any)?.majorTheme}
                   onUpdate={(updatedSection) => {
                     const newSections = [...pageData.sections];
                     newSections[index] = updatedSection;

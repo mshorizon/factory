@@ -1,5 +1,6 @@
 ---
 import type { Section, BusinessProfile } from "@mshorizon/schema";
+import { getSectionVariant } from "../lib/pages";
 import HeroSection from "./sections/HeroSection.astro";
 import ServicesSection from "./sections/ServicesSection.astro";
 import CategoriesSection from "./sections/CategoriesSection.astro";
@@ -20,6 +21,8 @@ import CTABannerSection from "./sections/CTABannerSection.astro";
 import BlogSection from "./sections/BlogSection.astro";
 import MapSection from "./sections/MapSection.astro";
 import BookingSection from "./sections/BookingSection.astro";
+import PricingSection from "./sections/PricingSection.astro";
+import ProjectSection from "./sections/ProjectSection.astro";
 
 interface Props {
   sections: Section[];
@@ -28,6 +31,7 @@ interface Props {
 }
 
 const { sections, business, isHomePage = false } = Astro.props;
+const majorTheme = (business as any).theme?.majorTheme;
 
 // Map section types to components
 const sectionComponents: Record<string, any> = {
@@ -51,6 +55,8 @@ const sectionComponents: Record<string, any> = {
   blog: BlogSection,
   map: MapSection,
   booking: BookingSection,
+  pricing: PricingSection,
+  project: ProjectSection,
 };
 
 // Map background prop to CSS class
@@ -72,9 +78,15 @@ function getBgClass(bg?: string): string {
   if (!Component) return null;
   const bgClass = getBgClass(resolvedSection.background);
 
+  // Inject majorTheme-resolved variant so section components get the right variant
+  const sectionWithVariant = {
+    ...resolvedSection,
+    variant: getSectionVariant(resolvedSection, majorTheme),
+  };
+
   // Only pass business prop to sections that need it
   const needsBusiness = ['services', 'shop', 'map', 'testimonials', 'booking'].includes(resolvedSection.type);
-  const props = needsBusiness ? { section: resolvedSection, business, isHomePage } : { section: resolvedSection, isHomePage };
+  const props = needsBusiness ? { section: sectionWithVariant, business, isHomePage } : { section: sectionWithVariant, isHomePage };
 
   return <div data-section-index={index} class={bgClass}><Component {...props} /></div>;
 })}

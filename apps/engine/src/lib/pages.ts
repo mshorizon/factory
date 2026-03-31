@@ -1,4 +1,5 @@
 import type { BusinessProfile, Page, Section, SectionType, SectionHeader } from "@mshorizon/schema";
+import { getMajorThemeVariant } from "@mshorizon/ui";
 
 // Default variant for each section type
 const DEFAULT_VARIANTS: Record<SectionType, string> = {
@@ -20,6 +21,8 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
   blog: "default",
   ref: "default",
   booking: "default",
+  pricing: "default",
+  project: "grid",
 };
 
 /**
@@ -50,10 +53,14 @@ export function getAllSlugs(businessData: BusinessProfile): string[] {
 }
 
 /**
- * Get variant for a section with default fallback
+ * Get variant for a section with default fallback.
+ * Priority: section.variant > majorTheme default > DEFAULT_VARIANTS > "default"
  */
-export function getSectionVariant(section: Section): string {
-  return section.variant || DEFAULT_VARIANTS[section.type] || "default";
+export function getSectionVariant(section: Section, majorTheme?: string): string {
+  if (section.variant) return section.variant;
+  const themeVariant = getMajorThemeVariant(majorTheme, section.type);
+  if (themeVariant) return themeVariant;
+  return DEFAULT_VARIANTS[section.type] || "default";
 }
 
 /**

@@ -139,7 +139,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking", "pricing", "project"]
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
         "variant": { "type": "string", "title": "Variant" },
@@ -340,6 +340,45 @@
         "marqueeText": {
           "type": "string",
           "title": "Marquee Text"
+        },
+        "pricingTiers": {
+          "type": "array",
+          "title": "Pricing Tiers",
+          "items": {
+            "type": "object",
+            "title": "PricingTier",
+            "properties": {
+              "name": { "type": "string", "title": "Tier Name" },
+              "price": { "type": "string", "title": "Price" },
+              "period": { "type": "string", "title": "Billing Period" },
+              "description": { "type": "string", "title": "Description" },
+              "features": {
+                "type": "array",
+                "title": "Features",
+                "items": { "type": "string" }
+              },
+              "cta": { "$ref": "#/definitions/cta" },
+              "highlighted": { "type": "boolean", "title": "Highlighted" },
+              "badge": { "type": "string", "title": "Badge Text" }
+            },
+            "required": ["name", "price"]
+          }
+        },
+        "projects": {
+          "type": "array",
+          "title": "Projects",
+          "items": {
+            "type": "object",
+            "title": "ProjectItem",
+            "properties": {
+              "title": { "type": "string", "title": "Title" },
+              "description": { "type": "string", "title": "Description" },
+              "image": { "type": "string", "title": "Image URL" },
+              "date": { "type": "string", "title": "Date" },
+              "metric": { "type": "string", "title": "Key Metric" },
+              "metricLabel": { "type": "string", "title": "Metric Label" }
+            }
+          }
         },
         "area": {
           "type": "object",
@@ -578,6 +617,11 @@
         "globalVariant": {
           "type": "string",
           "title": "Global Variant"
+        },
+        "majorTheme": {
+          "type": "string",
+          "title": "Major Theme",
+          "enum": ["specialist", "portfolio-tech"]
         },
         "mode": {
           "type": "string",
