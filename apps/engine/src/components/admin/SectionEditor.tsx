@@ -529,7 +529,7 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
   // Major theme override detection
   const majorThemeDefaults: Record<string, Record<string, string>> = {
     specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid" },
-    "portfolio-tech": { hero: "minimal", services: "grid", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid" },
+    "portfolio-tech": { hero: "gradient", services: "grid", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid" },
   };
   const themeDefaultVariant = majorTheme ? majorThemeDefaults[majorTheme]?.[section.type] : undefined;
   const isOverridden = majorTheme && section.variant && themeDefaultVariant && section.variant !== themeDefaultVariant;

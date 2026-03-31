@@ -4,8 +4,8 @@
     "name": "Hazelgrouse Studio",
     "industry": "software",
     "assets": {
-      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230A0A0A'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>",
-      "icon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230A0A0A'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>"
+      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237C3AED'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>",
+      "icon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237C3AED'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>"
     },
     "contact": {
       "address": "Warszawa, Polska",
@@ -16,7 +16,8 @@
     "socials": {
       "github": "https://github.com/hazelgrouse",
       "linkedin": "https://linkedin.com/company/hazelgrouse",
-      "twitter": "https://twitter.com/hazelgrouse"
+      "twitter": "https://twitter.com/hazelgrouse",
+      "instagram": "https://instagram.com/hazelgrouse"
     }
   },
   "theme": {
@@ -25,38 +26,38 @@
     "mode": "dark",
     "colors": {
       "light": {
-        "primary": "#FFFFFF",
+        "primary": "#7C3AED",
         "surface": {
           "base": "#FAFAFA",
-          "alt": "#0A0A0A",
+          "alt": "#0F0F14",
           "card": "#FFFFFF"
         },
         "text": {
-          "main": "#0A0A0A",
+          "main": "#0F0F14",
           "muted": "#6B7280",
-          "onPrimary": "#0A0A0A"
+          "onPrimary": "#FFFFFF"
         }
       },
       "dark": {
-        "primary": "#FFFFFF",
+        "primary": "#7C3AED",
         "surface": {
-          "base": "#000000",
-          "alt": "#111111",
-          "card": "#161616"
+          "base": "#09090B",
+          "alt": "#131318",
+          "card": "#16161D"
         },
         "text": {
-          "main": "#FFFFFF",
-          "muted": "#999999",
-          "onPrimary": "#000000"
+          "main": "#F8F8FF",
+          "muted": "#9CA3AF",
+          "onPrimary": "#FFFFFF"
         }
       }
     },
     "typography": {
-      "primary": "'Space Grotesk', system-ui, -apple-system, sans-serif",
-      "secondary": "'Open Sans', system-ui, -apple-system, sans-serif"
+      "primary": "'Inter', system-ui, -apple-system, sans-serif",
+      "secondary": "'Inter', system-ui, -apple-system, sans-serif"
     },
     "ui": {
-      "radius": "16px",
+      "radius": "12px",
       "spacing": {
         "xs": "0.5rem",
         "sm": "0.75rem",
@@ -82,33 +83,28 @@
       "links": [
         {
           "label": "GitHub",
-          "target": {
-            "type": "external",
-            "value": "https://github.com/hazelgrouse"
-          }
+          "target": { "type": "external", "value": "https://github.com/hazelgrouse" }
         },
         {
           "label": "LinkedIn",
-          "target": {
-            "type": "external",
-            "value": "https://linkedin.com/company/hazelgrouse"
-          }
+          "target": { "type": "external", "value": "https://linkedin.com/company/hazelgrouse" }
+        },
+        {
+          "label": "Instagram",
+          "target": { "type": "external", "value": "https://instagram.com/hazelgrouse" }
         },
         {
           "label": "Polityka prywatno\u015bci",
-          "target": {
-            "type": "page",
-            "value": "privacy"
-          }
+          "target": { "type": "page", "value": "privacy" }
         }
       ]
     }
   },
   "navigation": {
     "cta": {
-      "label": "Kontakt",
+      "label": "Book a call",
       "target": {
-        "type": "section",
+        "type": "page",
         "value": "contact"
       }
     }
@@ -118,8 +114,8 @@
       {
         "id": "workflow-automation",
         "slug": "workflow-automation",
-        "title": "Automatyzacja workflow",
-        "description": "Automatyzacja zada\u0144, system\u00f3w bot\u00f3w i inteligentnych proces\u00f3w biznesowych. Eliminujemy powtarzalne czynno\u015bci i optymalizujemy operacje.",
+        "title": "Workflow Automation",
+        "description": "Automate repetitive tasks, build bot systems, and create intelligent business processes that save time and reduce errors.",
         "icon": "zap",
         "category": "automation",
         "available": true
@@ -127,8 +123,8 @@
       {
         "id": "ai-assistant",
         "slug": "ai-assistant",
-        "title": "Asystent AI",
-        "description": "Inteligentne planowanie, zarz\u0105dzanie emailami i automatyczne podsumowania spotka\u0144. AI, kt\u00f3re pracuje za Ciebie.",
+        "title": "AI Assistant",
+        "description": "Smart scheduling, email management, and automated meeting summaries. An AI that works for you 24/7.",
         "icon": "lightbulb",
         "category": "ai",
         "available": true
@@ -136,8 +132,8 @@
       {
         "id": "sales-marketing",
         "slug": "sales-marketing",
-        "title": "Sprzeda\u017c & Marketing",
-        "description": "Generowanie lead\u00f3w, automatyzacja tre\u015bci i kampanii marketingowych opartych o dane i sztuczn\u0105 inteligencj\u0119.",
+        "title": "Sales & Marketing",
+        "description": "AI-powered lead generation, content creation, and marketing campaign automation that drives real results.",
         "icon": "rocket",
         "category": "marketing",
         "available": true
@@ -145,8 +141,8 @@
       {
         "id": "custom-projects",
         "slug": "custom-projects",
-        "title": "Projekty dedykowane",
-        "description": "Konsulting strategiczny i rozwi\u0105zania szyte na miar\u0119. Od architektury po wdro\u017cenie \u2014 budujemy to, czego potrzebujesz.",
+        "title": "Custom Projects",
+        "description": "Strategic consulting and bespoke solutions. From architecture to deployment \u2014 we build exactly what you need.",
         "icon": "code",
         "category": "consulting",
         "available": true
@@ -159,22 +155,22 @@
       "sections": [
         {
           "type": "hero",
-          "variant": "minimal",
+          "variant": "gradient",
           "background": "dark",
           "header": {
-            "badge": "Hazelgrouse Studio",
-            "title": "Inteligentna automatyzacja\ndla nowoczesnego biznesu",
-            "subtitle": "Projektujemy i wdra\u017camy rozwi\u0105zania oparte o AI i automatyzacj\u0119, kt\u00f3re oszcz\u0119dzaj\u0105 czas, redukuj\u0105 koszty i skaluj\u0105 Twoj\u0105 firm\u0119."
+            "badge": "AI Automation Agency",
+            "title": "Intelligent Automation\nfor Modern Businesses",
+            "subtitle": "We design and deploy AI-powered automation solutions that save time, cut costs, and scale your business. Over 50+ businesses trust us."
           },
           "cta": {
-            "label": "Skontaktuj si\u0119",
+            "label": "Get in touch",
             "target": {
               "type": "page",
               "value": "contact"
             }
           },
           "secondaryCta": {
-            "label": "Zobacz us\u0142ugi",
+            "label": "View services",
             "target": {
               "type": "page",
               "value": "services"
@@ -182,15 +178,27 @@
           }
         },
         {
+          "type": "about-summary",
+          "background": "dark",
+          "header": {
+            "title": "Trusted by businesses worldwide"
+          },
+          "stats": [
+            { "value": "150+", "label": "Businesses" },
+            { "value": "1M+", "label": "Hours Saved" },
+            { "value": "95%", "label": "Faster" }
+          ]
+        },
+        {
           "type": "services",
           "variant": "grid",
           "header": {
-            "badge": "Us\u0142ugi",
-            "title": "Czym si\u0119 zajmujemy",
-            "subtitle": "Kompleksowe rozwi\u0105zania automatyzacji i AI dopasowane do Twoich cel\u00f3w biznesowych."
+            "badge": "Our Services",
+            "title": "What we do",
+            "subtitle": "Comprehensive AI and automation solutions tailored to your business goals."
           },
           "cta": {
-            "label": "Wszystkie us\u0142ugi",
+            "label": "All services",
             "target": {
               "type": "page",
               "value": "services"
@@ -201,33 +209,33 @@
           "type": "process",
           "background": "dark",
           "header": {
-            "badge": "Proces",
-            "title": "Jak dzia\u0142amy",
-            "subtitle": "Przejrzysty proces od analizy po ci\u0105g\u0142\u0105 optymalizacj\u0119."
+            "badge": "Our Process",
+            "title": "How we work",
+            "subtitle": "A clear, proven process from analysis to continuous optimization."
           },
           "steps": [
             {
               "number": 1,
-              "title": "Analiza",
-              "description": "Badamy Twoje procesy biznesowe, identyfikujemy w\u0105skie gard\u0142a i mo\u017cliwo\u015bci automatyzacji.",
+              "title": "Smart Analyzing",
+              "description": "We study your business processes, identify bottlenecks, and map out automation opportunities.",
               "icon": "search"
             },
             {
               "number": 2,
-              "title": "Projektowanie AI",
-              "description": "Tworzymy dedykowane rozwi\u0105zania AI i automatyzacji dopasowane do Twoich potrzeb.",
+              "title": "AI Development",
+              "description": "We build custom AI and automation solutions designed specifically for your needs.",
               "icon": "lightbulb"
             },
             {
               "number": 3,
-              "title": "Integracja",
-              "description": "Wdra\u017camy rozwi\u0105zania bezszwowo z Twoimi istniej\u0105cymi systemami i narz\u0119dziami.",
+              "title": "Seamless Integration",
+              "description": "We deploy solutions that integrate seamlessly with your existing systems and tools.",
               "icon": "plug"
             },
             {
               "number": 4,
-              "title": "Optymalizacja",
-              "description": "Monitorujemy, mierzymy i ci\u0105gle ulepszamy dzia\u0142anie wdro\u017conych rozwi\u0105za\u0144.",
+              "title": "Continuous Optimization",
+              "description": "We monitor, measure, and continuously improve the performance of deployed solutions.",
               "icon": "gauge"
             }
           ]
@@ -237,36 +245,36 @@
           "variant": "grid",
           "header": {
             "badge": "Case Studies",
-            "title": "Rezultaty, kt\u00f3re m\u00f3wi\u0105 same za siebie",
-            "subtitle": "Zobacz, jak nasze rozwi\u0105zania prze\u0142o\u017cy\u0142y si\u0119 na wymierne korzy\u015bci biznesowe."
+            "title": "Results that speak for themselves",
+            "subtitle": "See how our solutions delivered measurable business impact."
           },
           "projects": [
             {
-              "title": "Optymalizacja magazynu dla LogiTech",
-              "description": "Wdro\u017cenie systemu predykcji zapas\u00f3w opartego o AI, kt\u00f3ry zredukowa\u0142 marnotrawstwo magazynowe o 40%.",
+              "title": "Inventory Optimization \u2014 LogiTech",
+              "description": "AI-powered stock prediction system that reduced inventory waste by 40% and optimized supply chain operations.",
               "metric": "40%",
-              "metricLabel": "redukcja marnotrawstwa",
+              "metricLabel": "waste reduction",
               "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop"
             },
             {
-              "title": "Automatyzacja QA dla FinBridge",
-              "description": "System automatycznego testowania i walidacji danych, kt\u00f3ry zmniejszy\u0142 ilo\u015b\u0107 b\u0142\u0119d\u00f3w o 80%.",
+              "title": "QA Automation \u2014 FinBridge",
+              "description": "Automated testing and data validation system that cut error rates by 80% across all departments.",
               "metric": "80%",
-              "metricLabel": "redukcja b\u0142\u0119d\u00f3w",
+              "metricLabel": "error reduction",
               "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop"
             },
             {
-              "title": "Redukcja koszt\u00f3w dla MediCare",
-              "description": "Automatyzacja proces\u00f3w administracyjnych i dokumentacji medycznej z oszcz\u0119dno\u015bci\u0105 20% koszt\u00f3w operacyjnych.",
+              "title": "Cost Reduction \u2014 MediCare",
+              "description": "Administrative process automation that delivered 20% operational cost savings within the first quarter.",
               "metric": "20%",
-              "metricLabel": "oszcz\u0119dno\u015b\u0107 koszt\u00f3w",
+              "metricLabel": "cost savings",
               "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop"
             },
             {
-              "title": "Wzrost sprzeda\u017cy dla RetailPro",
-              "description": "AI-driven system rekomendacji i personalizacji, kt\u00f3ry potr\u00f3i\u0142 wska\u017anik konwersji.",
+              "title": "Sales Engine \u2014 RetailPro",
+              "description": "AI-driven recommendation and personalization system that tripled the e-commerce conversion rate.",
               "metric": "3x",
-              "metricLabel": "wi\u0119cej konwersji",
+              "metricLabel": "deal increase",
               "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop"
             }
           ]
@@ -275,39 +283,39 @@
           "type": "features",
           "background": "dark",
           "header": {
-            "badge": "Korzy\u015bci",
-            "title": "Dlaczego automatyzacja z AI",
-            "subtitle": "Konkretne korzy\u015bci biznesowe, kt\u00f3re dostarczamy naszym klientom."
+            "badge": "Benefits",
+            "title": "Why AI automation",
+            "subtitle": "Concrete business benefits we deliver to our clients."
           },
           "items": [
             {
-              "title": "Wy\u017csza produktywno\u015b\u0107",
-              "description": "Automatyzacja rutynowych zada\u0144 pozwala Twojemu zespo\u0142owi skupi\u0107 si\u0119 na tym, co naprawd\u0119 wa\u017cne.",
+              "title": "Increased Productivity",
+              "description": "Automate routine tasks so your team can focus on what truly matters \u2014 strategy, creativity, and growth.",
               "icon": "rocket"
             },
             {
-              "title": "Lepsze do\u015bwiadczenie klienta",
-              "description": "Szybsze odpowiedzi, personalizacja i sp\u00f3jno\u015b\u0107 obs\u0142ugi na ka\u017cdym etapie.",
+              "title": "Better Customer Experience",
+              "description": "Faster responses, personalization, and consistent service quality at every touchpoint.",
               "icon": "heart"
             },
             {
-              "title": "Dost\u0119pno\u015b\u0107 24/7",
-              "description": "Twoje systemy dzia\u0142aj\u0105 nieprzerwanie, obs\u0142uguj\u0105c klient\u00f3w i procesy o ka\u017cdej porze.",
+              "title": "24/7 Availability",
+              "description": "Your systems run non-stop, serving customers and processing workflows around the clock.",
               "icon": "clock"
             },
             {
-              "title": "Redukcja koszt\u00f3w",
-              "description": "Mniej b\u0142\u0119d\u00f3w, mniej pracy r\u0119cznej, ni\u017csze koszty operacyjne dzi\u0119ki inteligentnej automatyzacji.",
+              "title": "Cost Reduction",
+              "description": "Fewer errors, less manual work, and lower operational costs through intelligent automation.",
               "icon": "wallet"
             },
             {
-              "title": "Decyzje oparte na danych",
-              "description": "Real-time analytics i raporty AI, kt\u00f3re pomagaj\u0105 podejmowa\u0107 lepsze decyzje biznesowe.",
+              "title": "Data-Driven Insights",
+              "description": "Real-time analytics and AI reports that help you make better, faster business decisions.",
               "icon": "gauge"
             },
             {
-              "title": "Skalowalno\u015b\u0107",
-              "description": "Rozwi\u0105zania rosn\u0105 razem z Twoim biznesem \u2014 bez proporcjonalnego wzrostu koszt\u00f3w.",
+              "title": "Scalability",
+              "description": "Solutions that grow with your business \u2014 without proportional cost increases.",
               "icon": "zap"
             }
           ]
@@ -316,73 +324,64 @@
           "type": "pricing",
           "variant": "default",
           "header": {
-            "badge": "Cennik",
-            "title": "Przejrzyste plany cenowe",
-            "subtitle": "Wybierz plan dopasowany do skali Twojego biznesu. Bez ukrytych koszt\u00f3w."
+            "badge": "Pricing",
+            "title": "Transparent pricing plans",
+            "subtitle": "Choose the plan that fits your business scale. No hidden fees."
           },
           "pricingTiers": [
             {
               "name": "Starter",
               "price": "$37",
-              "period": "mies.",
-              "description": "Idealny na start \u2014 podstawowa automatyzacja i wsparcie AI.",
+              "period": "month",
+              "description": "Perfect to get started with basic automation and AI support.",
               "features": [
-                "Do 5 zautomatyzowanych workflow",
-                "Asystent AI (podstawowy)",
-                "Integracja z 3 narz\u0119dziami",
-                "Wsparcie email",
-                "Raportowanie miesi\u0119czne"
+                "Up to 5 automated workflows",
+                "AI Assistant (basic)",
+                "3 tool integrations",
+                "Email support",
+                "Monthly reporting"
               ],
               "cta": {
-                "label": "Zacznij teraz",
-                "target": {
-                  "type": "page",
-                  "value": "contact"
-                }
+                "label": "Get started",
+                "target": { "type": "page", "value": "contact" }
               }
             },
             {
               "name": "Professional",
               "price": "$75",
-              "period": "mies.",
-              "description": "Dla rosn\u0105cych firm \u2014 zaawansowana automatyzacja i analityka.",
+              "period": "month",
+              "description": "For growing businesses \u2014 advanced automation and analytics.",
               "highlighted": true,
-              "badge": "Najpopularniejszy",
+              "badge": "Most Popular",
               "features": [
-                "Nielimitowane workflow",
-                "Asystent AI (zaawansowany)",
-                "Integracja z 10+ narz\u0119dziami",
-                "Priorytetowe wsparcie",
+                "Unlimited workflows",
+                "Advanced AI Assistant",
+                "10+ tool integrations",
+                "Priority support",
                 "Real-time analytics",
-                "Dedykowany onboarding"
+                "Dedicated onboarding"
               ],
               "cta": {
-                "label": "Wybi\u00f3rz Professional",
-                "target": {
-                  "type": "page",
-                  "value": "contact"
-                }
+                "label": "Choose Professional",
+                "target": { "type": "page", "value": "contact" }
               }
             },
             {
               "name": "Enterprise",
               "price": "Custom",
-              "description": "Rozwi\u0105zania enterprise \u2014 pe\u0142na customizacja i wsparcie dedykowane.",
+              "description": "Enterprise solutions \u2014 full customization and dedicated support.",
               "features": [
-                "Wszystko z Professional",
+                "Everything in Professional",
                 "Custom AI models",
-                "Dedykowany Account Manager",
-                "SLA z gwarancj\u0105 99.9%",
+                "Dedicated Account Manager",
+                "99.9% SLA guarantee",
                 "On-premise deployment",
-                "Szkolenia zespo\u0142u",
-                "Audyt bezpiecze\u0144stwa"
+                "Team training",
+                "Security audit"
               ],
               "cta": {
-                "label": "Skontaktuj si\u0119",
-                "target": {
-                  "type": "page",
-                  "value": "contact"
-                }
+                "label": "Contact us",
+                "target": { "type": "page", "value": "contact" }
               }
             }
           ]
@@ -392,28 +391,28 @@
           "variant": "default",
           "background": "dark",
           "header": {
-            "badge": "Opinie",
-            "title": "Co m\u00f3wi\u0105 nasi klienci"
+            "badge": "Testimonials",
+            "title": "What our clients say"
           },
           "items": [
             {
-              "title": "Marek W., CEO SaaSup",
-              "description": "Automatyzacja od Hazelgrouse oszcz\u0119dza nam 20 godzin tygodniowo. ROI w pierwszym miesi\u0105cu by\u0142 niesamowity.",
+              "title": "Marek W., CEO at SaaSup",
+              "description": "Hazelgrouse's automation saves us 20 hours per week. The ROI in the first month was incredible.",
               "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
             },
             {
               "title": "Anna K., Marketing Director",
-              "description": "Dzi\u0119ki AI-driven kampaniom potr\u00f3ili\u015bmy generowanie lead\u00f3w w pierwszym kwartale wsp\u00f3\u0142pracy.",
+              "description": "AI-driven campaigns tripled our lead generation in the first quarter of collaboration.",
               "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
             },
             {
-              "title": "Tomasz R., CTO FinBridge",
-              "description": "System automatycznego testowania zredukowa\u0142 nasze b\u0142\u0119dy produkcyjne o 80%. Doskona\u0142e zrozumienie wymaga\u0144.",
+              "title": "Tomasz R., CTO at FinBridge",
+              "description": "The automated testing system reduced our production errors by 80%. Outstanding technical understanding.",
               "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
             },
             {
-              "title": "Katarzyna M., COO MediCare",
-              "description": "Automatyzacja dokumentacji medycznej pozwoli\u0142a naszemu zespo\u0142owi wi\u0119cej czasu po\u015bwi\u0119ci\u0107 pacjentom.",
+              "title": "Katarzyna M., COO at MediCare",
+              "description": "Automating medical documentation freed our team to spend more time with patients.",
               "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face"
             }
           ]
@@ -421,30 +420,30 @@
         {
           "type": "faq",
           "header": {
-            "badge": "FAQ",
-            "title": "Najcz\u0119\u015bciej zadawane pytania",
-            "subtitle": "Odpowiedzi na pytania o naszych us\u0142ugach i procesie wsp\u00f3\u0142pracy."
+            "badge": "FAQs",
+            "title": "Frequently asked questions",
+            "subtitle": "Answers to common questions about our services and process."
           },
           "faqItems": [
             {
-              "question": "Jak d\u0142ugo trwa wdro\u017cenie automatyzacji?",
-              "answer": "Typowe wdro\u017cenie trwa od 2 do 8 tygodni, w zale\u017cno\u015bci od z\u0142o\u017cono\u015bci projektu. Proste automatyzacje workflow mo\u017cemy uruchomi\u0107 nawet w kilka dni."
+              "question": "How long does an automation implementation take?",
+              "answer": "Typical implementations take 2\u20138 weeks depending on complexity. Simple workflow automations can be live in just a few days."
             },
             {
-              "question": "Czy automatyzacja zintegruje si\u0119 z naszymi obecnymi systemami?",
-              "answer": "Tak, projektujemy rozwi\u0105zania kt\u00f3re bezszwowo integruj\u0105 si\u0119 z popularnymi narz\u0119dziami jak Slack, Salesforce, HubSpot, Google Workspace, Zapier i wieloma innymi."
+              "question": "Will automation integrate with our existing systems?",
+              "answer": "Yes. We design solutions that seamlessly integrate with popular tools like Slack, Salesforce, HubSpot, Google Workspace, Zapier, and many more."
             },
             {
-              "question": "Jaki jest typowy ROI wdro\u017cenia AI?",
-              "answer": "Nasi klienci zazwyczaj widz\u0105 ROI w ci\u0105gu 1-3 miesi\u0119cy. \u015arednia oszcz\u0119dno\u015b\u0107 to 20-40% koszt\u00f3w operacyjnych w zautomatyzowanych obszarach."
+              "question": "What's the typical ROI of an AI implementation?",
+              "answer": "Our clients typically see ROI within 1\u20133 months. Average savings are 20\u201340% of operational costs in automated areas."
             },
             {
-              "question": "Czy potrzebujemy wiedzy technicznej do korzystania z waszych rozwi\u0105za\u0144?",
-              "answer": "Nie. Nasze rozwi\u0105zania projektujemy tak, by by\u0142y intuicyjne i \u0142atwe w obs\u0142udze. Zapewniamy pe\u0142ne szkolenie zespo\u0142u i dokumentacj\u0119."
+              "question": "Do we need technical expertise to use your solutions?",
+              "answer": "No. We design our solutions to be intuitive and easy to use. We provide full team training and documentation."
             },
             {
-              "question": "Jak wygl\u0105da wsparcie po wdro\u017ceniu?",
-              "answer": "Zapewniamy ci\u0105g\u0142e wsparcie techniczne, monitoring dzia\u0142ania system\u00f3w i regularne aktualizacje. Plany Professional i Enterprise obejmuj\u0105 priorytetowe wsparcie."
+              "question": "What does post-implementation support look like?",
+              "answer": "We provide ongoing technical support, system monitoring, and regular updates. Professional and Enterprise plans include priority support."
             }
           ]
         },
@@ -453,11 +452,11 @@
           "variant": "default",
           "background": "dark",
           "header": {
-            "title": "Gotowy na automatyzacj\u0119?",
-            "subtitle": "Porozmawiajmy o tym, jak AI i automatyzacja mog\u0105 transformowa\u0107 Tw\u00f3j biznes."
+            "title": "Ready to automate?",
+            "subtitle": "Let's talk about how AI and automation can transform your business."
           },
           "cta": {
-            "label": "Um\u00f3w konsultacj\u0119",
+            "label": "Book a consultation",
             "target": {
               "type": "page",
               "value": "contact"
@@ -467,57 +466,110 @@
       ]
     },
     "about": {
-      "title": "O nas",
+      "title": "About",
       "sections": [
         {
-          "type": "about",
-          "variant": "story",
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
           "header": {
-            "badge": "O nas",
-            "title": "Kim jeste\u015bmy"
-          },
-          "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
-          "story": {
-            "title": "Zesp\u00f3\u0142 ekspert\u00f3w AI i automatyzacji",
-            "content": "Hazelgrouse Studio to zesp\u00f3\u0142 in\u017cynier\u00f3w i konsultant\u00f3w z Warszawy specjalizuj\u0105cy si\u0119 w inteligentnej automatyzacji. \u0141\u0105czymy g\u0142\u0119bok\u0105 wiedz\u0119 techniczn\u0105 z rozumieniem biznesu, by dostarczy\u0107 rozwi\u0105zania kt\u00f3re realnie transformuj\u0105 procesy naszych klient\u00f3w. Wierzymy, \u017ce AI powinno by\u0107 dost\u0119pne dla ka\u017cdej firmy \u2014 nie tylko korporacji."
-          },
-          "cta": {
-            "label": "Skontaktuj si\u0119",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
+            "badge": "About Us",
+            "title": "Helping Businesses\nGrow with AI",
+            "subtitle": "We streamline operations through intelligent automation \u2014 so you can focus on what matters most."
           }
         },
         {
           "type": "about-summary",
           "background": "dark",
           "header": {
-            "badge": "Do\u015bwiadczenie",
-            "title": "Liczby, kt\u00f3re m\u00f3wi\u0105 same za siebie"
+            "title": "Our track record"
           },
           "stats": [
-            { "value": "50+", "label": "Wdro\u017cone automatyzacje" },
-            { "value": "30+", "label": "Zadowolonych klient\u00f3w" },
-            { "value": "40%", "label": "\u015arednia redukcja koszt\u00f3w" }
-          ],
+            { "value": "150+", "label": "Businesses Served" },
+            { "value": "1M+", "label": "Hours Saved" },
+            { "value": "95%", "label": "Faster Operations" }
+          ]
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "badge": "Our Story",
+            "title": "Who we are"
+          },
+          "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
+          "story": {
+            "title": "A team of AI & automation experts",
+            "content": "Hazelgrouse Studio is a team of engineers and consultants specializing in intelligent automation. We combine deep technical expertise with business understanding to deliver solutions that truly transform our clients' operations. We believe AI should be accessible to every business \u2014 not just enterprises."
+          },
           "cta": {
-            "label": "Zobacz case studies",
-            "target": { "type": "page", "value": "projects" }
+            "label": "Get in touch",
+            "target": { "type": "page", "value": "contact" }
           }
+        },
+        {
+          "type": "features",
+          "background": "dark",
+          "header": {
+            "badge": "Our Values",
+            "title": "What drives us"
+          },
+          "items": [
+            {
+              "title": "Innovation",
+              "description": "We stay at the cutting edge of AI and automation technology to deliver the best solutions.",
+              "icon": "lightbulb"
+            },
+            {
+              "title": "Integrity",
+              "description": "Transparent pricing, honest communication, and no hidden costs. You always know where you stand.",
+              "icon": "shield"
+            },
+            {
+              "title": "Customer Empowerment",
+              "description": "We build solutions that make your team more capable, not dependent on us.",
+              "icon": "users"
+            },
+            {
+              "title": "Growth First",
+              "description": "Every decision we make is focused on driving measurable growth for your business.",
+              "icon": "rocket"
+            }
+          ]
+        },
+        {
+          "type": "faq",
+          "header": {
+            "badge": "FAQs",
+            "title": "Common questions"
+          },
+          "faqItems": [
+            {
+              "question": "What industries do you work with?",
+              "answer": "We work across healthcare, finance, retail, logistics, and technology. Our solutions adapt to any industry."
+            },
+            {
+              "question": "How do we get started?",
+              "answer": "Book a free consultation. We'll analyze your processes and provide a tailored automation roadmap."
+            },
+            {
+              "question": "Do I need technical knowledge?",
+              "answer": "Not at all. We handle all the technical complexity. You focus on your business."
+            }
+          ]
         }
       ]
     },
     "services": {
-      "title": "Us\u0142ugi",
+      "title": "Services",
       "sections": [
         {
           "type": "services",
           "variant": "grid",
           "header": {
-            "badge": "Us\u0142ugi",
-            "title": "Co oferujemy",
-            "subtitle": "Kompleksowe us\u0142ugi automatyzacji i AI \u2014 od analizy po wdro\u017cenie i ci\u0105g\u0142\u0105 optymalizacj\u0119."
+            "badge": "Services",
+            "title": "What we offer",
+            "subtitle": "End-to-end AI and automation services \u2014 from analysis to deployment and continuous optimization."
           }
         },
         {
@@ -525,61 +577,35 @@
           "variant": "default",
           "background": "dark",
           "header": {
-            "badge": "Cennik",
-            "title": "Znajd\u017a idealny plan",
-            "subtitle": "Elastyczne plany cenowe dopasowane do ka\u017cdego etapu rozwoju Twojej firmy."
+            "badge": "Pricing",
+            "title": "Find the right plan",
+            "subtitle": "Flexible pricing plans for every stage of your business growth."
           },
           "pricingTiers": [
             {
               "name": "Starter",
               "price": "$37",
-              "period": "mies.",
-              "description": "Podstawowa automatyzacja.",
-              "features": [
-                "Do 5 workflow",
-                "Asystent AI (podstawowy)",
-                "3 integracje",
-                "Wsparcie email"
-              ],
-              "cta": {
-                "label": "Zacznij teraz",
-                "target": { "type": "page", "value": "contact" }
-              }
+              "period": "month",
+              "description": "Basic automation.",
+              "features": ["Up to 5 workflows", "Basic AI Assistant", "3 integrations", "Email support"],
+              "cta": { "label": "Get started", "target": { "type": "page", "value": "contact" } }
             },
             {
               "name": "Professional",
               "price": "$75",
-              "period": "mies.",
-              "description": "Zaawansowana automatyzacja.",
+              "period": "month",
+              "description": "Advanced automation.",
               "highlighted": true,
-              "badge": "Najpopularniejszy",
-              "features": [
-                "Nielimitowane workflow",
-                "Zaawansowany AI",
-                "10+ integracji",
-                "Priorytetowe wsparcie",
-                "Real-time analytics"
-              ],
-              "cta": {
-                "label": "Wybi\u00f3rz Professional",
-                "target": { "type": "page", "value": "contact" }
-              }
+              "badge": "Most Popular",
+              "features": ["Unlimited workflows", "Advanced AI", "10+ integrations", "Priority support", "Real-time analytics"],
+              "cta": { "label": "Choose Professional", "target": { "type": "page", "value": "contact" } }
             },
             {
               "name": "Enterprise",
               "price": "Custom",
-              "description": "Pe\u0142na customizacja.",
-              "features": [
-                "Wszystko z Professional",
-                "Custom AI models",
-                "Dedykowany manager",
-                "SLA 99.9%",
-                "On-premise"
-              ],
-              "cta": {
-                "label": "Skontaktuj si\u0119",
-                "target": { "type": "page", "value": "contact" }
-              }
+              "description": "Full customization.",
+              "features": ["Everything in Professional", "Custom AI models", "Dedicated manager", "99.9% SLA", "On-premise"],
+              "cta": { "label": "Contact us", "target": { "type": "page", "value": "contact" } }
             }
           ]
         },
@@ -587,15 +613,12 @@
           "type": "ctaBanner",
           "variant": "default",
           "header": {
-            "title": "Potrzebujesz wyceny?",
-            "subtitle": "Opisz sw\u00f3j projekt, a my wracamy z propozycj\u0105 w 24h."
+            "title": "Need a custom quote?",
+            "subtitle": "Describe your project and we'll get back to you within 24 hours."
           },
           "cta": {
-            "label": "Wy\u015blij zapytanie",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
+            "label": "Send inquiry",
+            "target": { "type": "page", "value": "contact" }
           }
         }
       ]
@@ -608,31 +631,31 @@
           "variant": "grid",
           "header": {
             "badge": "Case Studies",
-            "title": "Nasze realizacje",
-            "subtitle": "Przyk\u0142ady wdro\u017ce\u0144 automatyzacji i AI, kt\u00f3re przynios\u0142y wymierne rezultaty."
+            "title": "Our work",
+            "subtitle": "Real-world automation and AI implementations that delivered measurable results."
           },
           "projects": [
             {
-              "title": "Optymalizacja magazynu \u2014 LogiTech",
-              "description": "System predykcji zapas\u00f3w AI zredukowa\u0142 marnotrawstwo o 40% i zoptymalizowa\u0142 \u0142a\u0144cuch dostaw.",
+              "title": "Inventory Optimization \u2014 LogiTech",
+              "description": "AI stock prediction reduced inventory waste by 40% and optimized the supply chain.",
               "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop",
               "date": "2025"
             },
             {
-              "title": "Automatyzacja QA \u2014 FinBridge",
-              "description": "Automatyczne testowanie i walidacja danych finansowych z 80% redukcj\u0105 b\u0142\u0119d\u00f3w.",
+              "title": "QA Automation \u2014 FinBridge",
+              "description": "Automated testing and validation cut financial data errors by 80%.",
               "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
               "date": "2025"
             },
             {
-              "title": "Optymalizacja koszt\u00f3w \u2014 MediCare",
-              "description": "Automatyzacja proces\u00f3w administracyjnych z oszcz\u0119dno\u015bci\u0105 20% koszt\u00f3w operacyjnych.",
+              "title": "Cost Optimization \u2014 MediCare",
+              "description": "Administrative automation delivered 20% operational cost savings.",
               "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop",
               "date": "2024"
             },
             {
               "title": "AI Sales Engine \u2014 RetailPro",
-              "description": "System rekomendacji i personalizacji, kt\u00f3ry potr\u00f3i\u0142 wska\u017anik konwersji w e-commerce.",
+              "description": "Recommendation and personalization system that tripled e-commerce conversions.",
               "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
               "date": "2024"
             }
@@ -644,68 +667,84 @@
       "title": "Blog",
       "sections": [
         {
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
+          "header": {
+            "badge": "Blog",
+            "title": "Unlock AI Insights\nwith Us",
+            "subtitle": "Articles, resources, and insights about AI automation and digital transformation."
+          }
+        },
+        {
           "type": "blog",
           "variant": "default",
           "header": {
-            "badge": "Blog",
-            "title": "Wiedza i inspiracje",
-            "subtitle": "Artyku\u0142y o automatyzacji, AI i transformacji cyfrowej."
+            "title": "Latest articles"
           }
         }
       ]
     },
     "contact": {
-      "title": "Kontakt",
+      "title": "Contact",
       "sections": [
+        {
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
+          "header": {
+            "badge": "Contact",
+            "title": "Get in Touch\nwith Us",
+            "subtitle": "Ready to automate? Fill out the form or reach out directly. We respond within 24 hours."
+          }
+        },
         {
           "type": "contact",
           "variant": "split",
           "header": {
-            "badge": "Kontakt",
-            "title": "Porozmawiajmy o Twoim projekcie",
-            "subtitle": "Wype\u0142nij formularz lub napisz bezpo\u015brednio na hello@hazelgrouse.pl. Odpowiadamy w ci\u0105gu 24 godzin."
+            "title": "Send us a message"
           },
           "form": {
-            "namePlaceholder": "Twoje imi\u0119",
-            "emailPlaceholder": "Tw\u00f3j email",
-            "messagePlaceholder": "Opisz sw\u00f3j projekt lub zapytanie...",
-            "submitButton": "Wy\u015blij wiadomo\u015b\u0107"
+            "namePlaceholder": "Your name",
+            "emailPlaceholder": "Your email",
+            "messagePlaceholder": "Describe your project or inquiry...",
+            "submitButton": "Send message"
           },
           "info": {
             "email": "hello@hazelgrouse.pl",
             "phone": "+48 500 000 000",
-            "address": "Warszawa, Polska",
-            "hours": "Pon-Pt: 9:00-18:00"
+            "address": "Warsaw, Poland",
+            "hours": "Mon-Fri: 9:00-18:00"
           }
         }
       ]
     },
     "privacy": {
-      "title": "Polityka prywatno\u015bci",
+      "title": "Privacy Policy",
       "hideFromNav": true,
       "sections": [
         {
           "type": "faq",
           "header": {
-            "title": "Polityka prywatno\u015bci",
-            "subtitle": "Informacje o przetwarzaniu danych osobowych"
+            "title": "Privacy Policy",
+            "subtitle": "Information about personal data processing"
           },
           "faqItems": [
             {
-              "question": "Kto jest administratorem danych osobowych?",
-              "answer": "Administratorem danych osobowych jest Hazelgrouse Studio. Dane przetwarzane s\u0105 zgodnie z obowi\u0105zuj\u0105cymi przepisami prawa, w tym z Rozporz\u0105dzeniem RODO."
+              "question": "Who is the data controller?",
+              "answer": "The data controller is Hazelgrouse Studio. Data is processed in accordance with applicable laws, including GDPR."
             },
             {
-              "question": "Jakie dane zbieramy?",
-              "answer": "Zbieramy dane podane przez u\u017cytkownika w formularzach kontaktowych (imi\u0119, adres e-mail) oraz dane techniczne niezb\u0119dne do prawid\u0142owego dzia\u0142ania serwisu."
+              "question": "What data do we collect?",
+              "answer": "We collect data provided by users in contact forms (name, email address) and technical data necessary for the proper functioning of the website."
             },
             {
-              "question": "W jakim celu przetwarzamy dane?",
-              "answer": "Dane przetwarzamy w celu realizacji zapyta\u0144 kontaktowych i \u015bwiadczenia us\u0142ug."
+              "question": "For what purposes do we process data?",
+              "answer": "Data is processed for the purpose of handling contact inquiries and providing services."
             },
             {
-              "question": "Jakie prawa przys\u0142uguj\u0105 u\u017cytkownikowi?",
-              "answer": "U\u017cytkownik ma prawo dost\u0119pu do swoich danych, ich sprostowania, usuni\u0119cia, ograniczenia przetwarzania, a tak\u017ce prawo do przenoszenia danych i wniesienia sprzeciwu wobec przetwarzania."
+              "question": "What rights does the user have?",
+              "answer": "Users have the right to access, rectify, delete, restrict processing, data portability, and the right to object to processing."
             }
           ]
         }

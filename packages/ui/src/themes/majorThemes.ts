@@ -24,7 +24,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     booking: "default",
   },
   "portfolio-tech": {
-    hero: "minimal",
+    hero: "gradient",
     services: "grid",
     categories: "featured",
     about: "story",
