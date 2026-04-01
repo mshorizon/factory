@@ -1,2 +1,3 @@
 export { TrustBar } from "./TrustBar";
-export type { TrustBarProps, TrustSignal, GoogleRating } from "./types";
+export { TrustBarLogos } from "./TrustBarLogos";
+export type { TrustBarProps, TrustBarLogosProps, TrustSignal, GoogleRating, ClientLogo } from "./types";

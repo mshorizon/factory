@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { TrustBar, SectionHeader } from "@mshorizon/ui";
+import { TrustBar, TrustBarLogos, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 
 const { section, isHomePage = false } = Astro.props;
 const header = getSectionHeader(section);
+const variant = section.variant;
 ---
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
@@ -20,10 +21,17 @@ const header = getSectionHeader(section);
       subtitle={header.subtitle}
       align="center"
     />
-    <TrustBar
-      client:visible
-      trustSignals={section.trustSignals}
-      googleRating={section.googleRating}
-    />
+    {variant === "logos" ? (
+      <TrustBarLogos
+        client:visible
+        clientLogos={section.clientLogos || []}
+      />
+    ) : (
+      <TrustBar
+        client:visible
+        trustSignals={section.trustSignals}
+        googleRating={section.googleRating}
+      />
+    )}
   </div>
 </section>

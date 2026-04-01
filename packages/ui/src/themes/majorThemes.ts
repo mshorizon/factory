@@ -24,6 +24,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     booking: "default",
     comparison: "default",
     team: "default",
+    trustBar: "default",
   },
   "portfolio-tech": {
     hero: "gradient",
@@ -45,6 +46,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     booking: "default",
     comparison: "default",
     team: "default",
+    trustBar: "logos",
   },
 };
 

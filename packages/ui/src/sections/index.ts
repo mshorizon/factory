@@ -39,8 +39,8 @@ export { ServiceArea } from "./serviceArea";
 export type { ServiceAreaProps } from "./serviceArea";
 
 // TrustBar variants
-export { TrustBar } from "./trustBar";
-export type { TrustBarProps, TrustSignal, GoogleRating } from "./trustBar";
+export { TrustBar, TrustBarLogos } from "./trustBar";
+export type { TrustBarProps, TrustBarLogosProps, TrustSignal, GoogleRating, ClientLogo } from "./trustBar";
 
 // GalleryBA variants
 export { GalleryBA } from "./galleryBA";

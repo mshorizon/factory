@@ -53,6 +53,10 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
   ],
   comparison: [{ value: "default", label: "Default" }],
   team: [{ value: "default", label: "Default" }],
+  trustBar: [
+    { value: "default", label: "Default (Signals)" },
+    { value: "logos", label: "Logos (Scrolling Carousel)" },
+  ],
 };
 
 interface SectionEditorProps {
@@ -609,6 +613,50 @@ function TeamFields({ section, savedSection, onUpdate, businessId, si }: { secti
   );
 }
 
+function TrustBarFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
+  const updater = createFieldUpdater(section, onUpdate);
+  const logos = section.clientLogos || [];
+
+  const updateLogo = (idx: number, field: string, value: any) => {
+    const newLogos = [...logos];
+    newLogos[idx] = { ...newLogos[idx], [field]: value };
+    onUpdate({ ...section, clientLogos: newLogos });
+  };
+  const addLogo = () => onUpdate({ ...section, clientLogos: [...logos, { name: "", image: "" }] });
+  const removeLogo = (idx: number) => {
+    const newLogos = [...logos];
+    newLogos.splice(idx, 1);
+    onUpdate({ ...section, clientLogos: newLogos });
+  };
+
+  return (
+    <>
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <div className="mt-3 pt-3 border-t border-border">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Client Logos ({logos.length})</span>
+          <Button size="sm" variant="outline" onClick={addLogo}>
+            <Plus className="h-3 w-3 mr-1" /> Add Logo
+          </Button>
+        </div>
+        {logos.map((logo: any, idx: number) => (
+          <div key={idx} className="mb-3 p-3 bg-muted/30 border border-border rounded-lg space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Logo {idx + 1}</span>
+              <Button size="icon-xs" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => removeLogo(idx)}>
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
+            <TextField label="Name" value={logo.name || ""} onChange={(v) => updateLogo(idx, "name", v)} sectionIndex={si} fieldPath={`clientLogos.${idx}.name`} />
+            <ImageField label="Logo Image" value={logo.image || ""} onChange={(v) => updateLogo(idx, "image", v)} businessId={businessId} sectionIndex={si} fieldPath={`clientLogos.${idx}.image`} />
+          </div>
+        ))}
+        {logos.length === 0 && <p className="text-xs italic text-muted-foreground">No logos yet</p>}
+      </div>
+    </>
+  );
+}
+
 function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = createFieldUpdater(section, onUpdate);
   return (
@@ -633,8 +681,8 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
 
   // Major theme override detection
   const majorThemeDefaults: Record<string, Record<string, string>> = {
-    specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
-    "portfolio-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid", comparison: "default", team: "default" },
+    specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default", trustBar: "default" },
+    "portfolio-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid", comparison: "default", team: "default", trustBar: "logos" },
   };
   const themeDefaultVariant = majorTheme ? majorThemeDefaults[majorTheme]?.[section.type] : undefined;
   const isOverridden = majorTheme && section.variant && themeDefaultVariant && section.variant !== themeDefaultVariant;
@@ -652,6 +700,7 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
       case "project": return <ProjectFields {...props} />;
       case "comparison": return <ComparisonFields {...props} />;
       case "team": return <TeamFields {...props} />;
+      case "trustBar": return <TrustBarFields {...props} />;
       default: return <DefaultFields {...props} />;
     }
   };

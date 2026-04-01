@@ -13,3 +13,13 @@ export interface TrustBarProps {
   googleRating?: GoogleRating;
   className?: string;
 }
+
+export interface ClientLogo {
+  name: string;
+  image: string;
+}
+
+export interface TrustBarLogosProps {
+  clientLogos: ClientLogo[];
+  className?: string;
+}

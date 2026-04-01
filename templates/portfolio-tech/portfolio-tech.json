@@ -4,8 +4,8 @@
     "name": "Hazelgrouse Studio",
     "industry": "software",
     "assets": {
-      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f44f5d'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>",
-      "icon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f44f5d'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>"
+      "favicon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23814AC8'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>",
+      "icon": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23814AC8'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='18' fill='%23FFFFFF'>H</text></svg>"
     },
     "contact": {
       "address": "Warsaw, Poland",
@@ -26,35 +26,35 @@
     "mode": "dark",
     "colors": {
       "light": {
-        "primary": "#f44f5d",
+        "primary": "#814AC8",
         "surface": {
-          "base": "#fcfbf9",
-          "alt": "#1d1c1c",
-          "card": "#FFFFFF"
+          "base": "#FFFFFF",
+          "alt": "#000000",
+          "card": "#F5F5F5"
         },
         "text": {
-          "main": "#1d1c1c",
-          "muted": "#595651",
+          "main": "#000000",
+          "muted": "#666666",
           "onPrimary": "#FFFFFF"
         }
       },
       "dark": {
-        "primary": "#f44f5d",
+        "primary": "#814AC8",
         "surface": {
-          "base": "#1d1c1c",
-          "alt": "#252423",
-          "card": "#2a2928"
+          "base": "#000000",
+          "alt": "#0D0D0D",
+          "card": "#0D0D0D"
         },
         "text": {
-          "main": "#fcfbf9",
-          "muted": "#8c8c8c",
+          "main": "#FFFFFF",
+          "muted": "#999999",
           "onPrimary": "#FFFFFF"
         }
       }
     },
     "typography": {
-      "primary": "'Inter', system-ui, -apple-system, sans-serif",
-      "secondary": "'Inter', system-ui, -apple-system, sans-serif"
+      "primary": "'DM Sans', system-ui, -apple-system, sans-serif",
+      "secondary": "'Figtree', system-ui, -apple-system, sans-serif"
     },
     "ui": {
       "radius": "16px",
@@ -165,15 +165,21 @@
           }
         },
         {
-          "type": "about-summary",
+          "type": "trustBar",
+          "variant": "logos",
           "background": "dark",
           "header": {
             "title": "Over 50+ businesses trust us"
           },
-          "stats": [
-            { "value": "150+", "label": "Businesses" },
-            { "value": "1M+", "label": "Hours Saved" },
-            { "value": "95%", "label": "Faster" }
+          "clientLogos": [
+            { "name": "TechFlow", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 32'%3E%3Ctext x='0' y='24' font-family='system-ui' font-weight='700' font-size='22' fill='%23FFFFFF'%3ETechFlow%3C/text%3E%3C/svg%3E" },
+            { "name": "NexaCorp", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 32'%3E%3Ctext x='0' y='24' font-family='system-ui' font-weight='700' font-size='22' fill='%23FFFFFF'%3ENexaCorp%3C/text%3E%3C/svg%3E" },
+            { "name": "GrowthPeak", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Ctext x='0' y='24' font-family='system-ui' font-weight='700' font-size='22' fill='%23FFFFFF'%3EGrowthPeak%3C/text%3E%3C/svg%3E" },
+            { "name": "SupportHive", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 32'%3E%3Ctext x='0' y='24' font-family='system-ui' font-weight='700' font-size='22' fill='%23FFFFFF'%3ESupportHive%3C/text%3E%3C/svg%3E" },
+            { "name": "DataSync", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 32'%3E%3Ctext x='0' y='24' font-family='system-ui' font-weight='700' font-size='22' fill='%23FFFFFF'%3EDataSync%3C/text%3E%3C/svg%3E" },
+            { "name": "CloudBase", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 32'%3E%3Ctext x='0' y='24' font-family='system-ui' font-weight='700' font-size='22' fill='%23FFFFFF'%3ECloudBase%3C/text%3E%3C/svg%3E" },
+            { "name": "ScaleUp", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 130 32'%3E%3Ctext x='0' y='24' font-family='system-ui' font-weight='700' font-size='22' fill='%23FFFFFF'%3EScaleUp%3C/text%3E%3C/svg%3E" },
+            { "name": "AutoPilot", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 32'%3E%3Ctext x='0' y='24' font-family='system-ui' font-weight='700' font-size='22' fill='%23FFFFFF'%3EAutoPilot%3C/text%3E%3C/svg%3E" }
           ]
         },
         {

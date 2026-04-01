@@ -127,6 +127,10 @@ export type ProcessSteps = ProcessStep[];
 export type ServiceAreas = string[];
 export type BeforeAfterPairs = BeforeAfterPair[];
 export type TrustSignals1 = TrustSignal[];
+/**
+ * Logo images for scrolling trust bar
+ */
+export type ClientLogos = ClientLogo[];
 export type FAQItems = FAQItem[];
 export type BlogPosts = BlogPost[];
 export type MarqueeText = string;
@@ -376,6 +380,7 @@ export interface Section {
   areas?: ServiceAreas;
   pairs?: BeforeAfterPairs;
   trustSignals?: TrustSignals1;
+  clientLogos?: ClientLogos;
   googleRating?: GoogleRating;
   faqItems?: FAQItems;
   blogPosts?: BlogPosts;
@@ -481,6 +486,10 @@ export interface BeforeAfterPair {
 export interface TrustSignal {
   icon?: string;
   text?: string;
+}
+export interface ClientLogo {
+  name: string;
+  image: string;
 }
 export interface FAQItem {
   question?: string;

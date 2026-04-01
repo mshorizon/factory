@@ -321,6 +321,20 @@
             }
           }
         },
+        "clientLogos": {
+          "type": "array",
+          "title": "Client Logos",
+          "description": "Logo images for scrolling trust bar",
+          "items": {
+            "type": "object",
+            "title": "ClientLogo",
+            "properties": {
+              "name": { "type": "string" },
+              "image": { "type": "string" }
+            },
+            "required": ["name", "image"]
+          }
+        },
         "googleRating": { "$ref": "#/definitions/googleRating" },
         "faqItems": {
           "type": "array",
