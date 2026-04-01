@@ -18,6 +18,15 @@
             "statusMessage": "Aktualizuję PLATFORMA.md..."
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /home/dev/factory && git status --porcelain | grep -q . && git add -A && git commit -m \"chore: auto-commit changes from Claude session\" 2>/dev/null || true",
+            "statusMessage": "Commitowanie zmian..."
+          }
+        ]
       }
     ]
   }
