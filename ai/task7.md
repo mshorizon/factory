@@ -19,7 +19,10 @@ every change is from https://xtract.framer.ai/ so firstly use playwright mcp to 
 * badge like "Our Services" with line - should have varinat - secondary outlined and be styles like on reference website (not uppercase too)
 
 # Our Services section
-* feaching and rendering services is good but i want variant of this section - wtih changed layput - layout should be taken from "Our Services" of reference website. in first row - image on left side texts and badges on right side, second row: image on right side, texts adn badges on left side and so on - animations apearing from bottom - images go fast and larger distance, texts slower and from lower disnacen 
+* all badges like "100+ Automations" or "Task automation" should have smaller rounding (from theme)
+  * texts inside those badges should have side 14px not 12px
+* titles like "Workflow Automation" in whole section should not be colored on hover
+* All services should have upper badge like first service
 
 # Our Process section
 * layouyt like on referenced website - 2 columns or grid

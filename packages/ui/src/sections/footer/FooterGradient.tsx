@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "../../lib/utils";
-import { Button } from "../../atoms/Button";
 
 interface FooterGradientProps {
   businessName: string;
@@ -12,15 +11,6 @@ interface FooterGradientProps {
   copyright?: string;
   className?: string;
 }
-
-const socialIconMap: Record<string, string> = {
-  instagram: "IG",
-  facebook: "FB",
-  linkedin: "IN",
-  twitter: "X",
-  youtube: "YT",
-  tiktok: "TK",
-};
 
 export function FooterGradient({
   businessName,
@@ -34,7 +24,7 @@ export function FooterGradient({
   const year = new Date().getFullYear();
 
   return (
-    <footer className={cn("relative bg-secondary text-white", className)}>
+    <footer className={cn("relative bg-secondary text-white border-t border-border/20", className)}>
       {/* Purple gradient overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -46,61 +36,79 @@ export function FooterGradient({
 
       {/* Content */}
       <div className="relative z-10 py-16 px-spacing-container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-spacing-2xl">
+        <div className="flex flex-col md:flex-row justify-between gap-spacing-2xl">
           {/* Brand Column */}
-          <div>
-            <span className="text-2xl font-bold mb-spacing-md block">
+          <div className="max-w-md">
+            <span className="text-2xl font-bold mb-spacing-md flex items-center gap-2">
+              <span aria-hidden="true">&#x1F426;</span>
               {businessName}
             </span>
             {tagline && (
               <p className="text-sm text-white/60 mb-spacing-lg">{tagline}</p>
             )}
-            {socialLinks && socialLinks.length > 0 && (
-              <div className="flex gap-spacing-xs">
-                {socialLinks.map((social) => (
-                  <Button
-                    key={social.url}
-                    asChild
-                    variant="ghost"
-                    size="icon"
-                    className="text-white/80 hover:text-white hover:bg-white/10"
-                  >
-                    <a href={social.url} aria-label={social.platform}>
-                      <span className="text-xs font-bold">
-                        {socialIconMap[social.platform.toLowerCase()] || social.platform.slice(0, 2).toUpperCase()}
-                      </span>
-                    </a>
-                  </Button>
-                ))}
+
+            {/* Newsletter */}
+            <div className="mt-spacing-lg">
+              <p className="text-sm font-medium text-white mb-2">Join our newsletter</p>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 bg-white/5 border border-border/30 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/40"
+                />
+                <button className="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium">
+                  Subscribe
+                </button>
               </div>
-            )}
+            </div>
           </div>
 
-          {/* Link Columns */}
-          {columns &&
-            columns.map((column, colIndex) => (
-              <div key={colIndex}>
+          {/* Link Columns + Socials */}
+          <div className="flex flex-wrap gap-spacing-2xl">
+            {columns &&
+              columns.map((column, colIndex) => (
+                <div key={colIndex}>
+                  <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-spacing-md">
+                    {column.title}
+                  </h3>
+                  <ul className="space-y-spacing-xs">
+                    {column.links.map((link, linkIndex) => (
+                      <li key={linkIndex}>
+                        <a
+                          href={link.href}
+                          className="text-white/60 hover:text-white text-sm transition-colors"
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+
+            {/* Social Links as text column */}
+            {socialLinks && socialLinks.length > 0 && (
+              <div>
                 <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-spacing-md">
-                  {column.title}
+                  Socials
                 </h3>
                 <ul className="space-y-spacing-xs">
-                  {column.links.map((link, linkIndex) => (
-                    <li key={linkIndex}>
+                  {socialLinks.map((social) => (
+                    <li key={social.url}>
                       <a
-                        href={link.href}
+                        href={social.url}
                         className="text-white/60 hover:text-white text-sm transition-colors"
                       >
-                        {link.label}
+                        {social.platform}
                       </a>
                     </li>
                   ))}
                 </ul>
               </div>
-            ))}
+            )}
 
-          {/* Fallback: Simple links if no columns */}
-          {(!columns || columns.length === 0) && links && links.length > 0 && (
-            <div className="lg:col-span-3">
+            {/* Fallback: Simple links if no columns */}
+            {(!columns || columns.length === 0) && links && links.length > 0 && (
               <nav className="flex flex-wrap gap-spacing-md">
                 {links.map((link, index) => (
                   <a
@@ -112,13 +120,13 @@ export function FooterGradient({
                   </a>
                 ))}
               </nav>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="mt-spacing-3xl pt-8 border-t border-white/10">
-          <p className="text-sm text-white/40">
+          <p className="text-sm text-white/60">
             {copyright || `\u00A9 ${year} ${businessName}. All rights reserved.`}
           </p>
         </div>

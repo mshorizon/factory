@@ -41,7 +41,7 @@ export function FAQBordered({ items, className, ctaText, ctaHref }: FAQAccordion
             return (
               <StaggerItem key={index} direction={direction} distance={20}>
                 <div
-                  className="rounded-md bg-[rgba(255,255,255,0.05)] px-5 py-[1.125rem]"
+                  className="rounded-md border border-border/30 bg-[rgba(255,255,255,0.05)] px-5 py-[1.125rem]"
                   data-field={`faqItems.${index}`}
                 >
                   <button

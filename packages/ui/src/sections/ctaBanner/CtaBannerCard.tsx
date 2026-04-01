@@ -32,7 +32,7 @@ export function CtaBannerCard({
         <div className="py-20 px-8">
           {title && (
             <h2
-              className="text-4xl md:text-5xl lg:text-6xl font-heading text-foreground max-w-2xl mx-auto"
+              className="text-4xl md:text-5xl lg:text-6xl font-heading font-normal text-foreground max-w-2xl mx-auto"
               data-field="header.title"
             >
               {title}
@@ -45,7 +45,7 @@ export function CtaBannerCard({
           )}
           {ctaLabel && (
             <div className="mt-spacing-xl">
-              <Button asChild size="default">
+              <Button asChild size="default" className="!rounded-lg">
                 <a href={ctaHref}>
                   {ctaLabel}
                   <ArrowRight className="ml-2 h-4 w-4" />

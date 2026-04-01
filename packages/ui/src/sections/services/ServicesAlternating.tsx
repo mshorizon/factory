@@ -49,9 +49,16 @@ export function ServicesAlternating({
               className={cn(isEven && "md:order-1")}
             >
               <div className="flex flex-col gap-spacing-md">
+                <span
+                  className="inline-flex items-center self-start border border-border/30 rounded-md px-3 py-1.5 text-sm font-medium text-muted"
+                  data-field={`items.${index}.badge`}
+                >
+                  {item.title}
+                </span>
+
                 {item.metric && (
                   <span
-                    className="inline-flex items-center self-start border border-border/50 rounded-full px-3 py-1 text-xs text-muted"
+                    className="inline-flex items-center self-start border border-border/30 rounded-md px-3 py-1.5 text-sm text-muted"
                     data-field={`items.${index}.metric`}
                   >
                     {item.metric}
@@ -59,9 +66,9 @@ export function ServicesAlternating({
                   </span>
                 )}
 
-                <a href={`/services/${item.slug || item.id}`} className="group">
+                <a href={`/services/${item.slug || item.id}`}>
                   <h3
-                    className="text-2xl font-semibold text-foreground group-hover:text-primary transition-colors"
+                    className="text-2xl font-semibold text-foreground"
                     data-field={`items.${index}.title`}
                   >
                     {item.title}
@@ -80,7 +87,7 @@ export function ServicesAlternating({
                     {item.tags.map((tag, tIdx) => (
                       <span
                         key={tIdx}
-                        className="inline-flex px-3 py-1 text-xs border border-border/50 rounded-full text-muted"
+                        className="inline-flex px-3 py-1.5 text-sm border border-border/30 rounded-md text-muted"
                       >
                         {tag}
                       </span>

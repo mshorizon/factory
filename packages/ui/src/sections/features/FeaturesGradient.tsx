@@ -53,14 +53,14 @@ export function FeaturesGradient({ items, className }: FeaturesGridProps) {
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <div
-              className="rounded-lg border border-border/30 p-spacing-xl h-full flex flex-col"
+              className="rounded-lg border border-border/30 p-5 md:px-8 md:py-5 h-full flex flex-col text-center"
               style={{
                 background:
-                  "radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--primary) 15%, transparent) 0%, transparent 70%)",
+                  "radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--primary) 25%, transparent) 0%, transparent 70%)",
               }}
               data-field={`items.${index}`}
             >
-              <div className="mb-spacing-md">
+              <div className="mb-spacing-md flex justify-center">
                 <IconComponent className="h-8 w-8 text-foreground" />
               </div>
 

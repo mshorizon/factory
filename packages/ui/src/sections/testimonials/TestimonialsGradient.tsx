@@ -25,7 +25,7 @@ export function TestimonialsGradient({ items, className }: TestimonialsGridProps
   return (
     <StaggerContainer
       className={cn(
-        "grid md:grid-cols-2 lg:grid-cols-3 gap-spacing-lg",
+        "grid md:grid-cols-2 lg:grid-cols-2 gap-spacing-lg",
         className
       )}
       staggerDelay={0.1}

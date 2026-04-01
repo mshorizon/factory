@@ -43,7 +43,10 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
           role="switch"
           aria-checked={isAnnual}
           onClick={() => setIsAnnual(!isAnnual)}
-          className="relative w-12 h-6 bg-primary/30 rounded-full transition-colors"
+          className={cn(
+            "relative w-12 h-6 rounded-full transition-colors",
+            isAnnual ? "bg-primary" : "bg-white/20"
+          )}
         >
           <span
             className={cn(
@@ -77,8 +80,8 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                 )}
                 style={{
                   background: tier.highlighted
-                    ? "radial-gradient(50% 50% at 52% 0%, color-mix(in srgb, var(--primary) 30%, transparent) 0%, transparent 100%)"
-                    : "radial-gradient(50% 50% at 50% 100%, color-mix(in srgb, var(--primary) 20%, transparent) 0%, transparent 100%)",
+                    ? "radial-gradient(50% 50% at 52% 0%, color-mix(in srgb, var(--primary) 45%, transparent) 0%, transparent 100%)"
+                    : "radial-gradient(50% 50% at 50% 100%, color-mix(in srgb, var(--primary) 30%, transparent) 0%, transparent 100%)",
                 }}
                 data-field={`pricingTiers.${index}`}
               >
@@ -86,13 +89,13 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                 <div className="flex items-center gap-3">
                   <IconComponent className="h-5 w-5 text-foreground" />
                   <span
-                    className="text-lg font-semibold text-foreground"
+                    className="text-lg font-semibold text-muted"
                     data-field={`pricingTiers.${index}.name`}
                   >
                     {tier.name}
                   </span>
                   {tier.highlighted && tier.badge && (
-                    <span className="ml-auto text-xs px-2.5 py-0.5 rounded-md bg-white/10 border border-border/30">
+                    <span className="ml-auto text-xs px-3 py-2 rounded-md bg-black/60 border border-border/30">
                       {tier.badge}
                     </span>
                   )}
@@ -100,7 +103,7 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
 
                 {/* Price */}
                 <div className="mt-4" data-field={`pricingTiers.${index}.price`}>
-                  <span className="text-4xl font-bold text-foreground">
+                  <span className="text-4xl font-normal text-foreground">
                     {displayPrice}
                   </span>
                   {tier.period && (
@@ -125,7 +128,10 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                   <div className="mt-6">
                     <Button
                       variant={tier.highlighted ? "default" : "outline"}
-                      className="w-full"
+                      className={cn(
+                        "w-full !rounded-lg",
+                        !tier.highlighted && "text-foreground border-border/50 hover:bg-white/5"
+                      )}
                       asChild
                     >
                       <a href={tier.cta.href || "/contact"}>{tier.cta.label}</a>

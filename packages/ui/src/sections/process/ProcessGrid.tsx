@@ -21,7 +21,7 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
               data-field={`steps.${index}`}
             >
               <span
-                className="text-xs font-medium text-muted uppercase tracking-wide"
+                className="inline-flex items-center border border-border/30 rounded-md px-3 py-1.5 text-sm font-medium text-muted"
                 data-field={`steps.${index}.number`}
               >
                 Step {step.number}
@@ -43,16 +43,9 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
                 {step.description}
               </p>
 
-              {step.badges && step.badges.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-spacing-lg">
-                  {step.badges.map((badge, bIdx) => (
-                    <span
-                      key={bIdx}
-                      className="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full bg-card/80 backdrop-blur-sm border border-border/50 text-muted"
-                    >
-                      {badge}
-                    </span>
-                  ))}
+              {step.image && (
+                <div className="mt-auto pt-spacing-lg">
+                  <img src={step.image} alt={step.title} className="w-full rounded-lg" loading="lazy" />
                 </div>
               )}
             </div>
