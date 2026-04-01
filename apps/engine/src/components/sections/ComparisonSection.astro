@@ -1,0 +1,34 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { ComparisonTable, SectionHeader } from "@mshorizon/ui";
+import { getSectionHeader } from "../../lib/pages";
+
+interface Props {
+  isHomePage?: boolean;
+  section: Section;
+}
+
+const { section, isHomePage = false } = Astro.props;
+const header = getSectionHeader(section);
+const rows = (section as any).rows || [];
+const leftTitle = (section as any).leftTitle || "Manual Work";
+const rightTitle = (section as any).rightTitle || "AI Automation";
+---
+
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <div class="container mx-auto">
+    <SectionHeader
+      badge={header.badge}
+      title={header.title}
+      subtitle={header.subtitle}
+      align="center"
+      background={section.background}
+    />
+    <ComparisonTable
+      client:visible
+      leftTitle={leftTitle}
+      rightTitle={rightTitle}
+      rows={rows}
+    />
+  </div>
+</section>

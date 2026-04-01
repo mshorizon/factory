@@ -85,3 +85,11 @@ export type { PricingDefaultProps, PricingTier } from "./pricing";
 // Booking variants
 export { BookingWidget } from "./booking/BookingWidget";
 export type { BookingWidgetProps, BookingConfig, BookingService, BookingDayHours } from "./booking/BookingWidget";
+
+// Comparison variants
+export { ComparisonTable } from "./comparison";
+export type { ComparisonTableProps, ComparisonRow } from "./comparison";
+
+// Team variants
+export { TeamGrid } from "./team";
+export type { TeamGridProps, TeamMember } from "./team";

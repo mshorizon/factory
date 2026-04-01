@@ -139,7 +139,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking", "pricing", "project"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking", "pricing", "project", "comparison", "team"]
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
         "variant": { "type": "string", "title": "Variant" },
@@ -394,6 +394,34 @@
                 "title": "Metric Badges",
                 "items": { "type": "string" }
               }
+            }
+          }
+        },
+        "leftTitle": { "type": "string", "title": "Left Column Title (e.g. Manual Work)" },
+        "rightTitle": { "type": "string", "title": "Right Column Title (e.g. AI Automation)" },
+        "rows": {
+          "type": "array",
+          "title": "Comparison Rows",
+          "items": {
+            "type": "object",
+            "title": "ComparisonRow",
+            "properties": {
+              "left": { "type": "string", "title": "Left (Problem)" },
+              "right": { "type": "string", "title": "Right (Solution)" }
+            }
+          }
+        },
+        "members": {
+          "type": "array",
+          "title": "Team Members",
+          "items": {
+            "type": "object",
+            "title": "TeamMember",
+            "properties": {
+              "name": { "type": "string", "title": "Name" },
+              "role": { "type": "string", "title": "Role" },
+              "image": { "type": "string", "title": "Photo URL" },
+              "linkedin": { "type": "string", "title": "LinkedIn URL" }
             }
           }
         },

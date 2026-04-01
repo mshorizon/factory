@@ -23,6 +23,8 @@ import MapSection from "./sections/MapSection.astro";
 import BookingSection from "./sections/BookingSection.astro";
 import PricingSection from "./sections/PricingSection.astro";
 import ProjectSection from "./sections/ProjectSection.astro";
+import ComparisonSection from "./sections/ComparisonSection.astro";
+import TeamSection from "./sections/TeamSection.astro";
 
 interface Props {
   sections: Section[];
@@ -57,6 +59,8 @@ const sectionComponents: Record<string, any> = {
   booking: BookingSection,
   pricing: PricingSection,
   project: ProjectSection,
+  comparison: ComparisonSection,
+  team: TeamSection,
 };
 
 // Map background prop to CSS class

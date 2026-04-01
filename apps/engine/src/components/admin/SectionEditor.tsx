@@ -51,6 +51,8 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
     { value: "grid", label: "Grid" },
     { value: "carousel", label: "Carousel" },
   ],
+  comparison: [{ value: "default", label: "Default" }],
+  team: [{ value: "default", label: "Default" }],
 };
 
 interface SectionEditorProps {
@@ -515,6 +517,98 @@ function ProjectFields({ section, savedSection, onUpdate, businessId, si }: { se
   );
 }
 
+function ComparisonFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
+  const updater = createFieldUpdater(section, onUpdate);
+  const rows = section.rows || [];
+
+  const updateRow = (idx: number, field: string, value: any) => {
+    const newRows = [...rows];
+    newRows[idx] = { ...newRows[idx], [field]: value };
+    onUpdate({ ...section, rows: newRows });
+  };
+  const addRow = () => onUpdate({ ...section, rows: [...rows, { left: "", right: "" }] });
+  const removeRow = (idx: number) => {
+    const newRows = [...rows];
+    newRows.splice(idx, 1);
+    onUpdate({ ...section, rows: newRows });
+  };
+
+  return (
+    <>
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <TextField label="Left Title" value={section.leftTitle || ""} savedValue={savedSection?.leftTitle || ""} onChange={(v) => updater.set("leftTitle", v)} sectionIndex={si} fieldPath="leftTitle" />
+      <TextField label="Right Title" value={section.rightTitle || ""} savedValue={savedSection?.rightTitle || ""} onChange={(v) => updater.set("rightTitle", v)} sectionIndex={si} fieldPath="rightTitle" />
+      <div className="mt-3 pt-3 border-t border-border">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Rows ({rows.length})</span>
+          <Button size="sm" variant="outline" onClick={addRow}>
+            <Plus className="h-3 w-3 mr-1" /> Add Row
+          </Button>
+        </div>
+        {rows.map((row: any, idx: number) => (
+          <div key={idx} className="mb-3 p-3 bg-muted/30 border border-border rounded-lg space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Row {idx + 1}</span>
+              <Button size="icon-xs" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => removeRow(idx)}>
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
+            <TextField label="Left" value={row.left || ""} onChange={(v) => updateRow(idx, "left", v)} sectionIndex={si} fieldPath={`rows.${idx}.left`} />
+            <TextField label="Right" value={row.right || ""} onChange={(v) => updateRow(idx, "right", v)} sectionIndex={si} fieldPath={`rows.${idx}.right`} />
+          </div>
+        ))}
+        {rows.length === 0 && <p className="text-xs italic text-muted-foreground">No rows yet</p>}
+      </div>
+    </>
+  );
+}
+
+function TeamFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
+  const updater = createFieldUpdater(section, onUpdate);
+  const members = section.members || [];
+
+  const updateMember = (idx: number, field: string, value: any) => {
+    const newMembers = [...members];
+    newMembers[idx] = { ...newMembers[idx], [field]: value };
+    onUpdate({ ...section, members: newMembers });
+  };
+  const addMember = () => onUpdate({ ...section, members: [...members, { name: "", role: "" }] });
+  const removeMember = (idx: number) => {
+    const newMembers = [...members];
+    newMembers.splice(idx, 1);
+    onUpdate({ ...section, members: newMembers });
+  };
+
+  return (
+    <>
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <div className="mt-3 pt-3 border-t border-border">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Members ({members.length})</span>
+          <Button size="sm" variant="outline" onClick={addMember}>
+            <Plus className="h-3 w-3 mr-1" /> Add Member
+          </Button>
+        </div>
+        {members.map((member: any, idx: number) => (
+          <div key={idx} className="mb-3 p-3 bg-muted/30 border border-border rounded-lg space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Member {idx + 1}</span>
+              <Button size="icon-xs" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => removeMember(idx)}>
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
+            <TextField label="Name" value={member.name || ""} onChange={(v) => updateMember(idx, "name", v)} sectionIndex={si} fieldPath={`members.${idx}.name`} />
+            <TextField label="Role" value={member.role || ""} onChange={(v) => updateMember(idx, "role", v)} sectionIndex={si} fieldPath={`members.${idx}.role`} />
+            <ImageField label="Photo" value={member.image || ""} onChange={(v) => updateMember(idx, "image", v)} businessId={businessId} sectionIndex={si} fieldPath={`members.${idx}.image`} />
+            <TextField label="LinkedIn" value={member.linkedin || ""} onChange={(v) => updateMember(idx, "linkedin", v)} sectionIndex={si} fieldPath={`members.${idx}.linkedin`} />
+          </div>
+        ))}
+        {members.length === 0 && <p className="text-xs italic text-muted-foreground">No members yet</p>}
+      </div>
+    </>
+  );
+}
+
 function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = createFieldUpdater(section, onUpdate);
   return (
@@ -539,8 +633,8 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
 
   // Major theme override detection
   const majorThemeDefaults: Record<string, Record<string, string>> = {
-    specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid" },
-    "portfolio-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid" },
+    specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
+    "portfolio-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid", comparison: "default", team: "default" },
   };
   const themeDefaultVariant = majorTheme ? majorThemeDefaults[majorTheme]?.[section.type] : undefined;
   const isOverridden = majorTheme && section.variant && themeDefaultVariant && section.variant !== themeDefaultVariant;
@@ -556,6 +650,8 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
       case "shop": return <ShopFields {...props} />;
       case "pricing": return <PricingFields {...props} />;
       case "project": return <ProjectFields {...props} />;
+      case "comparison": return <ComparisonFields {...props} />;
+      case "team": return <TeamFields {...props} />;
       default: return <DefaultFields {...props} />;
     }
   };
@@ -605,6 +701,8 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
             <option value="process">Process</option>
             <option value="ctaBanner">CTA Banner</option>
             <option value="blog">Blog</option>
+            <option value="comparison">Comparison</option>
+            <option value="team">Team</option>
           </select>
           {typeChanged && <RevertButton onClick={() => onUpdate({ ...section, type: savedSection.type, variant: savedSection.variant })} />}
         </div>
@@ -622,13 +720,19 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
           </select>
           {variantChanged && <RevertButton onClick={() => onUpdate({ ...section, variant: savedSection.variant })} />}
           {isOverridden && (
-            <button
-              onClick={() => onUpdate({ ...section, variant: themeDefaultVariant })}
-              className="ml-1 px-2 py-1 text-xs bg-amber-600/10 text-amber-600 border border-amber-600/30 rounded hover:bg-amber-600/20 transition-colors whitespace-nowrap"
-              title={`Reset to ${majorTheme} theme default (${themeDefaultVariant})`}
-            >
-              Reset to theme
-            </button>
+            <div className="flex items-center gap-1.5">
+              <span className="px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-amber-600/10 text-amber-600 border border-amber-600/20 rounded">
+                Override
+              </span>
+              <button
+                onClick={() => onUpdate({ ...section, variant: themeDefaultVariant })}
+                className="px-2 py-1 text-xs bg-amber-600/10 text-amber-600 border border-amber-600/30 rounded hover:bg-amber-600/20 transition-colors whitespace-nowrap flex items-center gap-1"
+                title={`Reset to ${majorTheme} theme default (${themeDefaultVariant})`}
+              >
+                <Undo2 className="h-3 w-3" />
+                Revert to theme
+              </button>
+            </div>
           )}
         </div>
 

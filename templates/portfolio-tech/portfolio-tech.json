@@ -508,6 +508,53 @@
           ]
         },
         {
+          "type": "comparison",
+          "background": "dark",
+          "header": {
+            "badge": "Why AI?",
+            "title": "Manual Work vs AI Automation",
+            "subtitle": "See the difference intelligent automation makes for your business."
+          },
+          "leftTitle": "Manual Work",
+          "rightTitle": "Xtract AI Automation",
+          "rows": [
+            { "left": "Time-consuming repetitive tasks drain your team's energy", "right": "AI handles repetitive work instantly, 24/7" },
+            { "left": "Human errors in data entry and processing", "right": "99.9% accuracy with automated validation" },
+            { "left": "Slow response times frustrate customers", "right": "Instant responses and real-time processing" },
+            { "left": "Scaling requires hiring more staff", "right": "Scale operations without increasing headcount" },
+            { "left": "Inconsistent quality across team members", "right": "Consistent, reliable output every time" },
+            { "left": "Limited to business hours availability", "right": "Around-the-clock automated operations" }
+          ]
+        },
+        {
+          "type": "team",
+          "header": {
+            "badge": "Our Team",
+            "title": "Meet the Minds Behind Hazelgrouse",
+            "subtitle": "A team of engineers and consultants passionate about intelligent automation."
+          },
+          "members": [
+            {
+              "name": "Alex Carter",
+              "role": "Co-Founder & AI Strategist",
+              "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+              "linkedin": "https://linkedin.com/in/"
+            },
+            {
+              "name": "Sophia Nguyen",
+              "role": "Head of Automation Engineering",
+              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face",
+              "linkedin": "https://linkedin.com/in/"
+            },
+            {
+              "name": "Ryan Mitchell",
+              "role": "Lead Data Scientist",
+              "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+              "linkedin": "https://linkedin.com/in/"
+            }
+          ]
+        },
+        {
           "type": "faq",
           "header": { "badge": "FAQs", "title": "Common questions" },
           "faqItems": [

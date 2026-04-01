@@ -22,6 +22,8 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     shop: "grid",
     gallery: "default",
     booking: "default",
+    comparison: "default",
+    team: "default",
   },
   "portfolio-tech": {
     hero: "gradient",
@@ -41,6 +43,8 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     shop: "grid",
     gallery: "default",
     booking: "default",
+    comparison: "default",
+    team: "default",
   },
 };
 

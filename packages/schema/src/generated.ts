@@ -93,7 +93,9 @@ export type SectionType =
   | "ref"
   | "booking"
   | "pricing"
-  | "project";
+  | "project"
+  | "comparison"
+  | "team";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "primary";
@@ -144,6 +146,16 @@ export type KeyMetric = string;
 export type MetricLabel1 = string;
 export type MetricBadges = string[];
 export type Projects = ProjectItem[];
+export type LeftColumnTitleEGManualWork = string;
+export type RightColumnTitleEGAIAutomation = string;
+export type LeftProblem = string;
+export type RightSolution = string;
+export type ComparisonRows = ComparisonRow[];
+export type Name = string;
+export type Role = string;
+export type PhotoURL = string;
+export type LinkedInURL = string;
+export type TeamMembers = TeamMember[];
 export type Country = "polska";
 export type Region =
   | "mazowsze"
@@ -370,6 +382,10 @@ export interface Section {
   marqueeText?: MarqueeText;
   pricingTiers?: PricingTiers;
   projects?: Projects;
+  leftTitle?: LeftColumnTitleEGManualWork;
+  rightTitle?: RightColumnTitleEGAIAutomation;
+  rows?: ComparisonRows;
+  members?: TeamMembers;
   area?: ServiceAreaConfiguration;
 }
 export interface SectionHeader {
@@ -495,6 +511,16 @@ export interface ProjectItem {
   metric?: KeyMetric;
   metricLabel?: MetricLabel1;
   metrics?: MetricBadges;
+}
+export interface ComparisonRow {
+  left?: LeftProblem;
+  right?: RightSolution;
+}
+export interface TeamMember {
+  name?: Name;
+  role?: Role;
+  image?: PhotoURL;
+  linkedin?: LinkedInURL;
 }
 export interface ServiceAreaConfiguration {
   country?: Country;

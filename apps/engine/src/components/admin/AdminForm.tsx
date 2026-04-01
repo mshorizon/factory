@@ -1124,8 +1124,40 @@ export default function AdminForm({
                 <select
                   value={themeData.majorTheme || ""}
                   onChange={(e) => {
-                    const value = e.target.value || undefined;
-                    handleChange(["theme", "majorTheme"], { formData: value });
+                    const newTheme = e.target.value || undefined;
+                    const oldTheme = themeData.majorTheme;
+                    handleChange(["theme", "majorTheme"], { formData: newTheme });
+
+                    // Apply new majorTheme variants to all non-overridden sections
+                    if (newTheme) {
+                      const themeDefaults: Record<string, Record<string, string>> = {
+                        specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
+                        "portfolio-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid", comparison: "default", team: "default" },
+                      };
+                      const oldDefaults = oldTheme ? themeDefaults[oldTheme] || {} : {};
+                      const newDefaults = themeDefaults[newTheme] || {};
+                      const currentPages = formData.pages as Record<string, any> | undefined;
+                      if (currentPages) {
+                        const updatedPages = { ...currentPages };
+                        for (const [pageName, page] of Object.entries(updatedPages)) {
+                          if (page?.sections) {
+                            updatedPages[pageName] = {
+                              ...page,
+                              sections: page.sections.map((sec: any) => {
+                                const oldDefault = oldDefaults[sec.type];
+                                const newDefault = newDefaults[sec.type];
+                                // Only update if section uses old theme default (not manually overridden)
+                                if (newDefault && (!sec.variant || sec.variant === oldDefault)) {
+                                  return { ...sec, variant: newDefault };
+                                }
+                                return sec;
+                              }),
+                            };
+                          }
+                        }
+                        handleChange(["pages"], { formData: updatedPages });
+                      }
+                    }
                   }}
                   className="px-3 py-2 border border-border bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring/20"
                 >
