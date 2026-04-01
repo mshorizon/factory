@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ProjectGrid, ProjectCarousel, SectionHeader } from "@mshorizon/ui";
+import { ProjectGrid, ProjectCarousel, ProjectHorizontal, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -27,6 +27,8 @@ const projects = (section.projects || []).map((p: any) => ({
     />
     {variant === "carousel" ? (
       <ProjectCarousel client:load projects={projects} />
+    ) : variant === "horizontal" ? (
+      <ProjectHorizontal client:visible projects={projects} />
     ) : (
       <ProjectGrid client:visible projects={projects} />
     )}

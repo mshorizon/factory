@@ -2,11 +2,19 @@
 
 import * as React from "react";
 import { cn } from "../../lib/utils";
-import { Card } from "../../atoms/Card";
 import { ScrollReveal } from "../../animations/ScrollReveal";
-import type { ProjectCarouselProps } from "./types";
 
-export function ProjectCarousel({ projects, className }: ProjectCarouselProps) {
+interface ProjectHorizontalProps {
+  projects: Array<{
+    title: string;
+    description: string;
+    image?: string;
+    metrics?: string[];
+  }>;
+  className?: string;
+}
+
+export function ProjectHorizontal({ projects, className }: ProjectHorizontalProps) {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
   const [startX, setStartX] = React.useState(0);
@@ -52,14 +60,15 @@ export function ProjectCarousel({ projects, className }: ProjectCarouselProps) {
         {projects.map((project, index) => (
           <div
             key={index}
-            className="flex-shrink-0 w-[85vw] md:w-[440px] lg:w-[480px] snap-center"
+            className="flex-shrink-0 w-[85vw] md:w-[700px] lg:w-[800px] snap-center"
           >
-            <Card
-              className="h-full overflow-hidden !rounded-[1.25rem] border-border/50"
+            <div
+              className="flex flex-row rounded-[1.25rem] border border-border/50 overflow-hidden h-full"
               data-field={`projects.${index}`}
             >
+              {/* Image Left */}
               {project.image && (
-                <div className="aspect-[16/10] overflow-hidden">
+                <div className="w-2/5">
                   <img
                     src={project.image}
                     alt={project.title}
@@ -69,15 +78,22 @@ export function ProjectCarousel({ projects, className }: ProjectCarouselProps) {
                   />
                 </div>
               )}
-              <div className="p-spacing-xl space-y-4">
+
+              {/* Content Right */}
+              <div
+                className={cn(
+                  "p-spacing-xl flex flex-col justify-center",
+                  project.image ? "w-3/5" : "w-full"
+                )}
+              >
                 <h3
-                  className="text-lg font-semibold text-foreground"
+                  className="text-xl font-semibold text-foreground"
                   data-field={`projects.${index}.title`}
                 >
                   {project.title}
                 </h3>
                 <p
-                  className="text-sm text-muted leading-relaxed"
+                  className="text-sm text-muted mt-spacing-sm leading-relaxed"
                   data-field={`projects.${index}.description`}
                 >
                   {project.description}
@@ -85,11 +101,11 @@ export function ProjectCarousel({ projects, className }: ProjectCarouselProps) {
 
                 {/* Metric badges */}
                 {project.metrics && project.metrics.length > 0 && (
-                  <div className="flex flex-wrap gap-2 pt-2">
+                  <div className="flex flex-wrap gap-2 mt-spacing-md">
                     {project.metrics.map((metric, mIdx) => (
                       <span
                         key={mIdx}
-                        className="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-full bg-primary/10 text-primary border border-primary/20"
+                        className="inline-flex items-center border border-border/50 rounded-full px-3 py-1 text-xs text-foreground"
                       >
                         {metric}
                       </span>
@@ -97,7 +113,7 @@ export function ProjectCarousel({ projects, className }: ProjectCarouselProps) {
                   </div>
                 )}
               </div>
-            </Card>
+            </div>
           </div>
         ))}
       </div>
@@ -105,13 +121,25 @@ export function ProjectCarousel({ projects, className }: ProjectCarouselProps) {
       {/* Drag hint */}
       <ScrollReveal delay={0.3} direction="up">
         <div className="flex items-center justify-center gap-2 mt-spacing-lg">
-          <svg className="w-4 h-4 text-muted animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            className="w-4 h-4 text-muted animate-pulse"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
           <span className="text-xs font-medium uppercase tracking-widest text-muted">
             Drag to explore
           </span>
-          <svg className="w-4 h-4 text-muted animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            className="w-4 h-4 text-muted animate-pulse"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </div>

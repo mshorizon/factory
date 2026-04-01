@@ -92,5 +92,5 @@ function getBgClass(bg?: string): string {
   const needsBusiness = ['services', 'shop', 'map', 'testimonials', 'booking'].includes(resolvedSection.type);
   const props = needsBusiness ? { section: sectionWithVariant, business, isHomePage } : { section: sectionWithVariant, isHomePage };
 
-  return <div data-section-index={index} class={bgClass}><Component {...props} /></div>;
+  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class={bgClass}><Component {...props} /></div>;
 })}

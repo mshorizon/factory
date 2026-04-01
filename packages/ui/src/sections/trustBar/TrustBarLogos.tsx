@@ -17,7 +17,7 @@ export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
         { transform: "translateX(-50%)" },
       ],
       {
-        duration: 25000,
+        duration: 50000,
         iterations: Infinity,
         easing: "linear",
       }
@@ -61,7 +61,7 @@ export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
             <img
               src={logo.image}
               alt={logo.name}
-              className="h-8 w-auto opacity-40 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+              className="h-8 w-auto opacity-80 transition-all duration-300 hover:opacity-100"
               loading="lazy"
             />
           </div>

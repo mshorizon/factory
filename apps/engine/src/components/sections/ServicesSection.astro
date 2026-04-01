@@ -1,6 +1,6 @@
 ---
 import type { Section, BusinessProfile } from "@mshorizon/schema";
-import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, SectionHeader, Button } from "@mshorizon/ui";
+import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating, SectionHeader, Button } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -41,6 +41,8 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
       <ServicesDarkCards client:visible items={items} />
     ) : variant === "featured" ? (
       <ServicesFeatured client:visible items={items} />
+    ) : variant === "alternating" ? (
+      <ServicesAlternating client:visible items={items} />
     ) : (
       <ServicesGrid client:visible items={items} />
     )}

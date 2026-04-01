@@ -1,4 +1,6 @@
 ---
+import { FooterGradient } from "@mshorizon/ui";
+
 interface FooterLink {
   label: string;
   href: string;
@@ -27,7 +29,7 @@ interface Props {
   copyright?: string;
   tagline?: string;
   currentLanguage?: string;
-  variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked";
+  variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient";
   socialLinks?: SocialLink[];
   extensions?: FooterExtension[];
 }
@@ -326,6 +328,18 @@ const languages = [
       </div>
     </div>
   </footer>
+)}
+
+{variant === "gradient" && (
+  <FooterGradient
+    client:visible
+    businessName={businessName}
+    links={links}
+    columns={columns}
+    socialLinks={socialLinks}
+    tagline={tagline}
+    copyright={copyrightText}
+  />
 )}
 
 {variant === "simple" && (

@@ -4,6 +4,7 @@ import { FooterMinimal } from "./FooterMinimal";
 import { FooterCentered } from "./FooterCentered";
 import { FooterBranded } from "./FooterBranded";
 import { FooterStacked } from "./FooterStacked";
+import { FooterGradient } from "./FooterGradient";
 
 export { FooterSimple } from "./FooterSimple";
 export { FooterMultiColumn } from "./FooterMultiColumn";
@@ -11,6 +12,7 @@ export { FooterMinimal } from "./FooterMinimal";
 export { FooterCentered } from "./FooterCentered";
 export { FooterBranded } from "./FooterBranded";
 export { FooterStacked } from "./FooterStacked";
+export { FooterGradient } from "./FooterGradient";
 export type { FooterProps, SocialLink, Link, FooterColumn } from "./types";
 
 // Re-export simple as default Footer for backwards compatibility
@@ -29,6 +31,8 @@ export function getFooterVariant(variant?: string) {
       return FooterBranded;
     case "stacked":
       return FooterStacked;
+    case "gradient":
+      return FooterGradient;
     case "simple":
     default:
       return FooterSimple;

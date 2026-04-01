@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ProcessSteps, ProcessVisual, SectionHeader } from "@mshorizon/ui";
+import { ProcessSteps, ProcessVisual, ProcessGrid, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -25,6 +25,8 @@ const steps = section.steps || [];
     />
     {variant === "visual" ? (
       <ProcessVisual client:visible steps={steps} />
+    ) : variant === "grid" ? (
+      <ProcessGrid client:visible steps={steps} />
     ) : (
       <ProcessSteps client:visible steps={steps} />
     )}

@@ -1,7 +1,7 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { FAQAccordion, SectionHeader } from "@mshorizon/ui";
-import { getSectionHeader } from "../../lib/pages";
+import { FAQAccordion, FAQBordered, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { section, isHomePage = false } = Astro.props;
+const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const faqItems = section.faqItems || [];
 const ctaLabel = section.cta?.label;
@@ -29,12 +30,21 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
           background={section.background}
           className="!mb-spacing-xl"
         />
-        <FAQAccordion
-          client:visible
-          items={faqItems}
-          ctaText={ctaLabel}
-          ctaHref={ctaHref}
-        />
+        {variant === "bordered" ? (
+          <FAQBordered
+            client:visible
+            items={faqItems}
+            ctaText={ctaLabel}
+            ctaHref={ctaHref}
+          />
+        ) : (
+          <FAQAccordion
+            client:visible
+            items={faqItems}
+            ctaText={ctaLabel}
+            ctaHref={ctaHref}
+          />
+        )}
       </div>
       {section.image && (
         <div class="hidden lg:block sticky top-32">

@@ -49,13 +49,22 @@ export function HeroGradient({
       <div className="relative container mx-auto text-center">
         {badge && (
           <ScrollReveal delay={0} direction="up">
-            <Badge
-              variant="accent"
-              className="mb-spacing-lg text-sm px-spacing-md py-spacing-sm backdrop-blur-sm bg-primary/10 border border-primary/20"
-              data-field="header.badge"
-            >
-              {badge}
-            </Badge>
+            {badge.includes("|") ? (
+              <div className="mb-spacing-lg inline-flex items-center gap-2 px-spacing-md py-spacing-sm backdrop-blur-sm bg-primary/10 border border-primary/20 rounded-full" data-field="header.badge">
+                <span className="bg-primary text-on-primary px-2.5 py-0.5 rounded-lg text-xs font-medium">
+                  {badge.split("|")[0]}
+                </span>
+                <span className="text-sm text-foreground/90">{badge.split("|")[1]}</span>
+              </div>
+            ) : (
+              <Badge
+                variant="accent"
+                className="mb-spacing-lg text-sm px-spacing-md py-spacing-sm backdrop-blur-sm bg-primary/10 border border-primary/20"
+                data-field="header.badge"
+              >
+                {badge}
+              </Badge>
+            )}
           </ScrollReveal>
         )}
         <ScrollReveal delay={0.1} direction="up">
@@ -76,21 +85,21 @@ export function HeroGradient({
               {cta && (
                 <Button
                   asChild
-                  size="xl"
+                  size="lg"
                   variant={cta.variant || "default"}
                   className="shadow-lg shadow-primary/25"
                   data-field="cta"
                 >
                   <a href={cta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
                     {cta.label}
-                    <ArrowRight className="ml-1 h-5 w-5" />
+                    <ArrowRight className="ml-1 h-4 w-4" />
                   </a>
                 </Button>
               )}
               {secondaryCta && (
                 <Button
                   asChild
-                  size="xl"
+                  size="lg"
                   variant={secondaryCta.variant || "outline"}
                   data-field="secondaryCta"
                 >

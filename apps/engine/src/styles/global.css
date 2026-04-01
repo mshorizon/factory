@@ -13,6 +13,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Heading weight from theme */
+h1, h2 {
+  font-weight: var(--heading-weight, 700);
+}
+
+/* Smooth scroll with inertia effect */
+html.smooth-scroll {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+}
+
 /* Scroll reveal animations */
 [data-reveal] {
   opacity: 0;

@@ -3,7 +3,7 @@ export { Navbar, NavbarStandard, NavbarCentered, getNavbarVariant } from "./navb
 export type { NavbarProps, NavbarLayoutVariant, NavbarStyleVariant } from "./navbar";
 
 // Footer variants
-export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered, FooterBranded, FooterStacked, getFooterVariant } from "./footer";
+export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered, FooterBranded, FooterStacked, FooterGradient, getFooterVariant } from "./footer";
 export type { FooterProps, SocialLink, Link, FooterColumn } from "./footer";
 
 // Hero variants
@@ -11,7 +11,7 @@ export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroM
 export type { HeroProps, CTAButton } from "./hero";
 
 // Services variants
-export { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured } from "./services";
+export { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating } from "./services";
 export type { ServicesProps, ServiceItem } from "./services";
 
 // Categories variants
@@ -31,7 +31,7 @@ export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid
 export type { ProductCardProps, CartButtonProps, CartPageContentProps, CheckoutPageContentProps, ShopGridProps } from "./shop";
 
 // Process variants
-export { ProcessSteps, ProcessVisual } from "./process";
+export { ProcessSteps, ProcessVisual, ProcessGrid } from "./process";
 export type { ProcessStepsProps, ProcessStep } from "./process";
 
 // ServiceArea variants
@@ -51,19 +51,19 @@ export { GalleryGrid } from "./gallery";
 export type { GalleryGridProps, GalleryItem } from "./gallery";
 
 // Testimonials variants
-export { TestimonialsGrid } from "./testimonials";
+export { TestimonialsGrid, TestimonialsGradient } from "./testimonials";
 export type { TestimonialsGridProps, TestimonialItem } from "./testimonials";
 
 // FAQ variants
-export { FAQAccordion } from "./faq";
+export { FAQAccordion, FAQBordered } from "./faq";
 export type { FAQAccordionProps, FAQItem } from "./faq";
 
 // Features variants
-export { FeaturesGrid, FeaturesCompact } from "./features";
+export { FeaturesGrid, FeaturesCompact, FeaturesGradient } from "./features";
 export type { FeaturesGridProps, FeatureItem } from "./features";
 
 // CTA Banner variants
-export { CtaBannerDefault, CtaBannerTicker } from "./ctaBanner";
+export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard } from "./ctaBanner";
 export type { CtaBannerProps } from "./ctaBanner";
 
 // Blog variants
@@ -71,7 +71,7 @@ export { BlogGrid } from "./blog";
 export type { BlogGridProps, BlogPost } from "./blog";
 
 // Project variants
-export { ProjectGrid, ProjectCarousel } from "./project";
+export { ProjectGrid, ProjectCarousel, ProjectHorizontal } from "./project";
 export type { ProjectGridProps, ProjectCarouselProps, ProjectCard } from "./project";
 
 // Map variants
@@ -79,7 +79,7 @@ export { GoogleMap } from "./map";
 export type { GoogleMapProps } from "./map";
 
 // Pricing variants
-export { PricingDefault } from "./pricing";
+export { PricingDefault, PricingXtract } from "./pricing";
 export type { PricingDefaultProps, PricingTier } from "./pricing";
 
 // Booking variants

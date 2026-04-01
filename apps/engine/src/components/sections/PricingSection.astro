@@ -1,7 +1,7 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { PricingDefault, SectionHeader } from "@mshorizon/ui";
-import { getSectionHeader } from "../../lib/pages";
+import { PricingDefault, PricingXtract, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { section, isHomePage = false } = Astro.props;
+const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 
 const tiers = (section.pricingTiers || []).map((tier: any) => ({
@@ -31,6 +32,10 @@ const tiers = (section.pricingTiers || []).map((tier: any) => ({
       subtitle={header.subtitle}
       background={section.background}
     />
-    <PricingDefault client:visible tiers={tiers} />
+    {variant === "xtract" ? (
+      <PricingXtract client:visible tiers={tiers} />
+    ) : (
+      <PricingDefault client:visible tiers={tiers} />
+    )}
   </div>
 </section>

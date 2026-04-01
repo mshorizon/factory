@@ -1,7 +1,7 @@
 ---
 import type { Section, BusinessProfile } from "@mshorizon/schema";
-import { TestimonialsGrid, SectionHeader } from "@mshorizon/ui";
-import { getSectionHeader } from "../../lib/pages";
+import { TestimonialsGrid, TestimonialsGradient, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { section, isHomePage = false, business } = Astro.props;
+const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const items = section.items || [];
 const cta = section.cta;
@@ -31,7 +32,11 @@ const showHeader = section.variant !== 'full';
       />
     )}
     <div class="mb-12">
-      <TestimonialsGrid client:visible items={items} />
+      {variant === "gradient" ? (
+        <TestimonialsGradient client:visible items={items} />
+      ) : (
+        <TestimonialsGrid client:visible items={items} />
+      )}
     </div>
     {cta && ctaHref && (
       <div class="mt-[8rem]">

@@ -45,7 +45,7 @@ export function NavbarStandard({
                 <a
                   key={`${link.label}-${index}`}
                   href={href}
-                  className="relative px-spacing-md py-spacing-sm text-[16px] font-medium text-foreground/80 hover:text-foreground transition-colors group"
+                  className="relative px-spacing-md py-spacing-sm text-[length:var(--nav-font-size,16px)] font-medium text-foreground/80 hover:text-foreground transition-colors group"
                 >
                   {link.label}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 rounded-full" />
@@ -92,7 +92,7 @@ export function NavbarStandard({
                 <a
                   key={`mobile-${link.label}-${index}`}
                   href={href}
-                  className="px-spacing-md py-3 text-[16px] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
+                  className="px-spacing-md py-3 text-[length:var(--nav-font-size,16px)] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
                 >
                   {link.label}
                 </a>

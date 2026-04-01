@@ -47,7 +47,7 @@
         },
         "text": {
           "main": "#FFFFFF",
-          "muted": "#999999",
+          "muted": "#CCCCCC",
           "onPrimary": "#FFFFFF"
         }
       }
@@ -70,21 +70,46 @@
         "section": "7.5rem",
         "container": "2.5rem"
       }
-    }
+    },
+    "headingWeight": "400",
+    "navFontSize": "14px",
+    "navLinksPosition": "right",
+    "smoothScroll": true,
+    "badgeVariant": "outlined"
   },
   "layout": {
     "navbar": {
       "variant": "standard"
     },
     "footer": {
-      "variant": "minimal",
+      "variant": "gradient",
       "copyright": "\u00a9 2026 Hazelgrouse Studio. All rights reserved.",
-      "tagline": "Intelligent Automation for Modern Businesses.",
+      "tagline": "Automate Smarter, Optimize Faster, and Grow Stronger.",
       "links": [
         { "label": "GitHub", "target": { "type": "external", "value": "https://github.com/hazelgrouse" } },
         { "label": "LinkedIn", "target": { "type": "external", "value": "https://linkedin.com/company/hazelgrouse" } },
         { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com/hazelgrouse" } },
         { "label": "Privacy Policy", "target": { "type": "page", "value": "privacy" } }
+      ],
+      "columns": [
+        {
+          "title": "Links",
+          "links": [
+            { "label": "Services", "target": { "type": "page", "value": "services" } },
+            { "label": "Process", "target": { "type": "page", "value": "about" } },
+            { "label": "Case Studies", "target": { "type": "page", "value": "projects" } },
+            { "label": "Benefits", "target": { "type": "page", "value": "services" } }
+          ]
+        },
+        {
+          "title": "Pages",
+          "links": [
+            { "label": "Home", "target": { "type": "page", "value": "home" } },
+            { "label": "About", "target": { "type": "page", "value": "about" } },
+            { "label": "Blog", "target": { "type": "page", "value": "blog" } },
+            { "label": "Contact", "target": { "type": "page", "value": "contact" } }
+          ]
+        }
       ]
     }
   },
@@ -151,7 +176,7 @@
           "variant": "gradient",
           "background": "dark",
           "header": {
-            "badge": "AI Automation Agency",
+            "badge": "New|AI Automation Agency",
             "title": "Intelligent Automation\nfor Modern Businesses",
             "subtitle": "We bring AI automation to your fingertips & streamline tasks so you can focus on growing your business."
           },
@@ -184,7 +209,7 @@
         },
         {
           "type": "services",
-          "variant": "featured",
+          "variant": "alternating",
           "header": {
             "badge": "Our Services",
             "title": "AI Solutions That Take Your Business to the Next Level",
@@ -221,7 +246,7 @@
         },
         {
           "type": "process",
-          "variant": "visual",
+          "variant": "grid",
           "background": "dark",
           "header": {
             "badge": "Our Process",
@@ -261,7 +286,7 @@
         },
         {
           "type": "project",
-          "variant": "carousel",
+          "variant": "horizontal",
           "header": {
             "badge": "Case Studies",
             "title": "See How Smart AI Automation Transforms Businesses",
@@ -296,7 +321,7 @@
         },
         {
           "type": "features",
-          "variant": "compact",
+          "variant": "gradient",
           "background": "dark",
           "header": {
             "badge": "Benefits",
@@ -338,7 +363,7 @@
         },
         {
           "type": "pricing",
-          "variant": "default",
+          "variant": "xtract",
           "header": {
             "badge": "Pricing",
             "title": "The Best AI Automation, at the Right Price",
@@ -348,7 +373,9 @@
             {
               "name": "Starter",
               "price": "$37",
+              "annualPrice": "$29",
               "period": "month",
+              "icon": "zap",
               "description": "Perfect for small teams getting started with automation.",
               "features": [
                 "Basic workflow automation",
@@ -362,7 +389,9 @@
             {
               "name": "Professional",
               "price": "$75",
+              "annualPrice": "$59",
               "period": "month",
+              "icon": "bolt",
               "description": "For growing businesses that need advanced AI capabilities.",
               "highlighted": true,
               "badge": "Popular",
@@ -378,6 +407,7 @@
             {
               "name": "Enterprise",
               "price": "Custom",
+              "icon": "crown",
               "description": "Fully customizable solutions for large organizations.",
               "features": [
                 "Fully customizable AI solutions",
@@ -454,7 +484,7 @@
         },
         {
           "type": "ctaBanner",
-          "variant": "default",
+          "variant": "card",
           "background": "dark",
           "header": {
             "title": "Let AI do the Work so you can Scale Faster",

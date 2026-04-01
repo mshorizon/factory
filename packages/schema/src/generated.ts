@@ -44,12 +44,17 @@ export type SectionSpacing = string;
 export type ContainerSpacing = string;
 export type SpacingScale = number;
 export type ButtonStyle = string;
+export type HeadingFontWeight = string;
+export type NavbarFontSize = string;
+export type NavbarLinksPosition = "center" | "right";
+export type SmoothScroll = boolean;
+export type SectionBadgeVariant = "accent" | "outlined";
 export type NavbarVariant = "standard" | "centered";
 export type ExtensionType = "upper-bar";
 export type NavbarExtensions = {
   type: ExtensionType;
 }[];
-export type FooterVariant = "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked";
+export type FooterVariant = "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient";
 export type CopyrightText = string;
 export type Tagline = string;
 export type Label = string;
@@ -141,6 +146,8 @@ export type Description = string;
 export type Features = string[];
 export type Highlighted = boolean;
 export type BadgeText1 = string;
+export type AnnualPrice = string;
+export type TierIcon = string;
 export type PricingTiers = PricingTier[];
 export type Title1 = string;
 export type Description1 = string;
@@ -257,6 +264,11 @@ export interface Theme {
   colors?: ColorSchemes;
   typography?: Typography;
   ui?: UISettings;
+  headingWeight?: HeadingFontWeight;
+  navFontSize?: NavbarFontSize;
+  navLinksPosition?: NavbarLinksPosition;
+  smoothScroll?: SmoothScroll;
+  badgeVariant?: SectionBadgeVariant;
 }
 export interface ColorSchemes {
   light?: ThemeColorMode;
@@ -511,6 +523,8 @@ export interface PricingTier {
   cta?: Cta1;
   highlighted?: Highlighted;
   badge?: BadgeText1;
+  annualPrice?: AnnualPrice;
+  icon?: TierIcon;
 }
 export interface ProjectItem {
   title?: Title1;

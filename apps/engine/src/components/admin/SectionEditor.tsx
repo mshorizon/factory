@@ -16,6 +16,7 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
     { value: "list", label: "List" },
     { value: "imageGrid", label: "Image Grid" },
     { value: "featured", label: "Featured" },
+    { value: "alternating", label: "Alternating" },
   ],
   categories: [
     { value: "carousel", label: "Carousel" },
@@ -31,25 +32,38 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
   ],
   shop: [{ value: "grid", label: "Grid" }],
   gallery: [{ value: "default", label: "Default" }],
-  testimonials: [{ value: "default", label: "Default" }],
-  faq: [{ value: "default", label: "Default" }],
+  testimonials: [
+    { value: "default", label: "Default" },
+    { value: "gradient", label: "Gradient" },
+  ],
+  faq: [
+    { value: "default", label: "Default" },
+    { value: "bordered", label: "Bordered" },
+  ],
   features: [
     { value: "default", label: "Default" },
     { value: "compact", label: "Compact (3-col)" },
+    { value: "gradient", label: "Gradient" },
   ],
   ctaBanner: [
     { value: "default", label: "Default" },
     { value: "ticker", label: "Ticker" },
+    { value: "card", label: "Card" },
   ],
   blog: [{ value: "default", label: "Default" }],
   process: [
     { value: "default", label: "Default" },
     { value: "visual", label: "Visual" },
+    { value: "grid", label: "Grid" },
   ],
-  pricing: [{ value: "default", label: "Default" }],
+  pricing: [
+    { value: "default", label: "Default" },
+    { value: "xtract", label: "Xtract" },
+  ],
   project: [
     { value: "grid", label: "Grid" },
     { value: "carousel", label: "Carousel" },
+    { value: "horizontal", label: "Horizontal Cards" },
   ],
   comparison: [{ value: "default", label: "Default" }],
   team: [{ value: "default", label: "Default" }],
@@ -682,7 +696,7 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
   // Major theme override detection
   const majorThemeDefaults: Record<string, Record<string, string>> = {
     specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default", trustBar: "default" },
-    "portfolio-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid", comparison: "default", team: "default", trustBar: "logos" },
+    "portfolio-tech": { hero: "gradient", services: "alternating", categories: "featured", about: "story", contact: "split", testimonials: "gradient", faq: "bordered", features: "gradient", ctaBanner: "card", process: "grid", pricing: "xtract", project: "horizontal", blog: "default", shop: "grid", comparison: "default", team: "default", trustBar: "logos" },
   };
   const themeDefaultVariant = majorTheme ? majorThemeDefaults[majorTheme]?.[section.type] : undefined;
   const isOverridden = majorTheme && section.variant && themeDefaultVariant && section.variant !== themeDefaultVariant;

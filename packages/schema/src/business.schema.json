@@ -385,7 +385,9 @@
               },
               "cta": { "$ref": "#/definitions/cta" },
               "highlighted": { "type": "boolean", "title": "Highlighted" },
-              "badge": { "type": "string", "title": "Badge Text" }
+              "badge": { "type": "string", "title": "Badge Text" },
+              "annualPrice": { "type": "string", "title": "Annual Price" },
+              "icon": { "type": "string", "title": "Tier Icon" }
             },
             "required": ["name", "price"]
           }
@@ -714,7 +716,12 @@
             "spacingScale": { "type": "number", "title": "Spacing Scale" },
             "buttonStyle": { "type": "string", "title": "Button Style" }
           }
-        }
+        },
+        "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
+        "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
+        "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
+        "smoothScroll": { "type": "boolean", "title": "Smooth Scroll", "default": false },
+        "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "outlined"], "default": "accent" }
       }
     },
     "layout": {
@@ -751,7 +758,7 @@
             "variant": {
               "type": "string",
               "title": "Footer Variant",
-              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked"],
+              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient"],
               "default": "simple"
             },
             "copyright": { "type": "string", "title": "Copyright Text" },
