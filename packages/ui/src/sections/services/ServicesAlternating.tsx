@@ -11,92 +11,66 @@ export function ServicesAlternating({
   className,
 }: ServicesProps) {
   return (
-    <div className={cn("flex flex-col gap-spacing-3xl", className)}>
+    <div className={cn("flex flex-col gap-y-[100px]", className)}>
       {items.map((item, index) => {
         const isEven = index % 2 === 1;
 
         return (
-          <div
+          <ScrollReveal
             key={index}
-            className="grid md:grid-cols-2 gap-spacing-xl items-center"
-            data-field={`items.${index}`}
+            delay={0}
+            direction="up"
           >
-            {/* Image side */}
-            <ScrollReveal
-              delay={0}
-              direction="up"
-              className={cn(isEven && "md:order-2")}
+            <div
+              className="grid md:grid-cols-2 gap-20 items-center"
+              data-field={`items.${index}`}
             >
-              <div className="overflow-hidden rounded-[1.25rem] border border-border/50">
-                {item.image ? (
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-auto object-cover aspect-[4/3]"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ) : (
-                  <div className="w-full aspect-[4/3] bg-muted/20" />
-                )}
+              {/* Image side */}
+              <div className={cn(isEven && "md:order-2")}>
+                <div className="overflow-hidden rounded-[1.25rem] border border-border/50 max-w-[350px] max-h-[300px]">
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-auto object-cover aspect-[4/3]"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <div className="w-full aspect-[4/3] bg-muted/20" />
+                  )}
+                </div>
               </div>
-            </ScrollReveal>
 
-            {/* Text side */}
-            <ScrollReveal
-              delay={0.15}
-              direction="up"
-              className={cn(isEven && "md:order-1")}
-            >
-              <div className="flex flex-col gap-spacing-md">
-                <span
-                  className="inline-flex items-center self-start border border-border/30 rounded-md px-3 py-1.5 text-sm font-medium text-muted"
-                  data-field={`items.${index}.badge`}
-                >
-                  {item.title}
-                </span>
-
-                {item.metric && (
+              {/* Text side */}
+              <div className={cn(isEven && "md:order-1")}>
+                <div className="flex flex-col gap-spacing-md">
                   <span
-                    className="inline-flex items-center self-start border border-border/30 rounded-md px-3 py-1.5 text-sm text-muted"
-                    data-field={`items.${index}.metric`}
-                  >
-                    {item.metric}
-                    {item.metricLabel && ` ${item.metricLabel}`}
-                  </span>
-                )}
-
-                <a href={`/services/${item.slug || item.id}`}>
-                  <h3
-                    className="text-2xl font-semibold text-foreground"
-                    data-field={`items.${index}.title`}
+                    className="inline-flex items-center self-start border border-border/30 rounded-md px-3 py-1.5 text-sm font-medium text-muted"
+                    data-field={`items.${index}.badge`}
                   >
                     {item.title}
-                  </h3>
-                </a>
+                  </span>
 
-                <p
-                  className="text-base text-muted leading-relaxed"
-                  data-field={`items.${index}.description`}
-                >
-                  {item.description}
-                </p>
+                  <a href={`/services/${item.slug || item.id}`}>
+                    <h3
+                      className="text-2xl font-semibold text-foreground"
+                      data-field={`items.${index}.title`}
+                    >
+                      {item.title}
+                    </h3>
+                  </a>
 
-                {item.tags && item.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-spacing-sm">
-                    {item.tags.map((tag, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="inline-flex px-3 py-1.5 text-sm border border-border/30 rounded-md text-muted"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                  <p
+                    className="text-base text-muted leading-relaxed"
+                    data-field={`items.${index}.description`}
+                  >
+                    {item.description}
+                  </p>
+                </div>
               </div>
-            </ScrollReveal>
-          </div>
+            </div>
+          </ScrollReveal>
         );
       })}
     </div>

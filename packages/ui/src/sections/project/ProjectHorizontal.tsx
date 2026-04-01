@@ -64,7 +64,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
             style={{ scrollSnapAlign: "start" }}
           >
             <div
-              className="flex flex-row border-0 rounded-none overflow-hidden h-full"
+              className="flex flex-row border-0 rounded-none overflow-hidden h-full gap-[60px]"
               data-field={`projects.${index}`}
             >
               {/* Image Left */}
@@ -73,7 +73,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-[450px] h-[450px] object-cover flex-shrink-0"
+                    className="w-[450px] h-[450px] object-cover flex-shrink-0 rounded-lg"
                     loading="lazy"
                     decoding="async"
                     draggable="false"
@@ -89,7 +89,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
                 )}
               >
                 <h3
-                  className="text-xl font-semibold text-foreground"
+                  className="text-2xl font-bold text-foreground"
                   data-field={`projects.${index}.title`}
                 >
                   {project.title}
@@ -106,7 +106,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
                   <ul className="space-y-1.5 mt-spacing-md">
                     {project.metrics.map((metric, mIdx) => (
                       <li key={mIdx} className="flex items-center gap-2 text-sm text-muted">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
                         {metric}
                       </li>
                     ))}
@@ -120,7 +120,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
 
       {/* Drag hint with arrow navigation */}
       <ScrollReveal delay={0.3} direction="up">
-        <div className="flex items-center justify-center gap-2 mt-spacing-lg">
+        <div className="flex items-center justify-center gap-2 mt-spacing-2xl">
           <button
             type="button"
             aria-label="Previous project"

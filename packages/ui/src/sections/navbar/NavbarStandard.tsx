@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import type { NavbarProps } from "./types";
@@ -28,7 +28,7 @@ export function NavbarStandard({
       )}
     >
       <div className="container mx-auto">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-12 lg:h-14">
           {/* Logo */}
           <a href="/" className="flex items-center gap-spacing-xs group">
             {logoIcon && <span className="text-2xl">{logoIcon}</span>}
@@ -53,10 +53,9 @@ export function NavbarStandard({
               );
             })}
             {cta && (
-              <Button asChild size="lg" className="ml-4 shadow-lg shadow-primary/25">
+              <Button asChild size="default" className="ml-4 !rounded-lg shadow-lg shadow-primary/25">
                 <a href={getCTAHref(cta, resolveTarget)}>
                   {cta.label}
-                  <ArrowRight className="ml-1 h-4 w-4" />
                 </a>
               </Button>
             )}
@@ -99,10 +98,9 @@ export function NavbarStandard({
               );
             })}
             {cta && (
-              <Button asChild size="lg" className="mt-spacing-md w-full shadow-lg shadow-primary/25">
+              <Button asChild size="default" className="mt-spacing-md w-full !rounded-lg shadow-lg shadow-primary/25">
                 <a href={getCTAHref(cta, resolveTarget)}>
                   {cta.label}
-                  <ArrowRight className="ml-1 h-4 w-4" />
                 </a>
               </Button>
             )}

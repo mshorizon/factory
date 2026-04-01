@@ -17,11 +17,11 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <div
-              className="rounded-[1.25rem] border border-border/50 p-spacing-2xl bg-card/50 h-full flex flex-col"
+              className="rounded-lg border border-border/50 p-spacing-2xl bg-card/50 h-full flex flex-col"
               data-field={`steps.${index}`}
             >
               <span
-                className="inline-flex items-center border border-border/30 rounded-md px-3 py-1.5 text-sm font-medium text-muted"
+                className="inline-flex items-center w-fit border border-border/30 rounded-md px-3 py-1.5 text-sm font-medium text-muted"
                 data-field={`steps.${index}.number`}
               >
                 Step {step.number}
@@ -44,8 +44,8 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
               </p>
 
               {step.image && (
-                <div className="mt-auto pt-spacing-lg">
-                  <img src={step.image} alt={step.title} className="w-full rounded-lg" loading="lazy" />
+                <div className="mt-spacing-lg">
+                  <img src={step.image} alt={step.title} className="w-full max-w-[360px] h-[160px] object-cover rounded-lg" loading="lazy" />
                 </div>
               )}
             </div>

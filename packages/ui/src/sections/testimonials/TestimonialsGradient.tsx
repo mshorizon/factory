@@ -38,10 +38,10 @@ export function TestimonialsGradient({ items, className }: TestimonialsGridProps
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <div
-              className="relative rounded-[1.25rem] border border-border/30 p-spacing-xl overflow-hidden h-full flex flex-col"
+              className="relative rounded-xl border border-border/20 p-spacing-xl overflow-hidden h-full flex flex-col"
               style={{
                 background:
-                  "radial-gradient(ellipse at 0% 100%, color-mix(in srgb, var(--primary) 20%, transparent) 0%, transparent 60%)",
+                  "radial-gradient(ellipse at 0% 100%, color-mix(in srgb, var(--primary) 25%, transparent) 0%, transparent 60%)",
               }}
               data-field={`items.${index}`}
             >

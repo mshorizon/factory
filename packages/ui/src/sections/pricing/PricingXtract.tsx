@@ -29,7 +29,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export function PricingXtract({ tiers, className }: PricingXtractProps) {
-  const [isAnnual, setIsAnnual] = React.useState(false);
+  const [isAnnual, setIsAnnual] = React.useState(true);
 
   return (
     <div className={cn("space-y-spacing-xl", className)}>
@@ -89,7 +89,7 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                 <div className="flex items-center gap-3">
                   <IconComponent className="h-5 w-5 text-foreground" />
                   <span
-                    className="text-lg font-semibold text-muted"
+                    className="text-xl font-bold text-muted"
                     data-field={`pricingTiers.${index}.name`}
                   >
                     {tier.name}
@@ -123,22 +123,6 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                   </p>
                 )}
 
-                {/* CTA */}
-                {tier.cta && (
-                  <div className="mt-6">
-                    <Button
-                      variant={tier.highlighted ? "default" : "outline"}
-                      className={cn(
-                        "w-full !rounded-lg",
-                        !tier.highlighted && "text-foreground border-border/50 hover:bg-white/5"
-                      )}
-                      asChild
-                    >
-                      <a href={tier.cta.href || "/contact"}>{tier.cta.label}</a>
-                    </Button>
-                  </div>
-                )}
-
                 {/* Features */}
                 {tier.features && tier.features.length > 0 && (
                   <div className="mt-6 flex-1">
@@ -153,6 +137,22 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                )}
+
+                {/* CTA */}
+                {tier.cta && (
+                  <div className="mt-auto pt-6">
+                    <Button
+                      variant={tier.highlighted ? "default" : "outline"}
+                      className={cn(
+                        "w-full !rounded-lg",
+                        !tier.highlighted && "text-foreground border-border/50 hover:bg-white/5"
+                      )}
+                      asChild
+                    >
+                      <a href={tier.cta.href || "/contact"}>{tier.cta.label}</a>
+                    </Button>
                   </div>
                 )}
               </div>

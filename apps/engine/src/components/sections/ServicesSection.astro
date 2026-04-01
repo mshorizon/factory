@@ -32,6 +32,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
       layout={variant === "darkCards" || variant === "imageGrid" ? "split" : "center"}
       align={variant === "darkCards" || variant === "imageGrid" ? "left" : "center"}
       background={section.background}
+      className={variant === "alternating" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
     />
     {variant === "list" ? (
       <ServicesList client:visible items={items} />

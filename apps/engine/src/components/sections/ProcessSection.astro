@@ -22,6 +22,7 @@ const steps = section.steps || [];
       subtitle={header.subtitle}
       align="center"
       background={section.background}
+      className={variant === "grid" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
     />
     {variant === "visual" ? (
       <ProcessVisual client:visible steps={steps} />

@@ -35,7 +35,7 @@ export function FooterGradient({
       />
 
       {/* Content */}
-      <div className="relative z-10 py-16 px-spacing-container">
+      <div className="relative z-10 pt-16 pb-8 px-spacing-container container mx-auto">
         <div className="flex flex-col md:flex-row justify-between gap-spacing-2xl">
           {/* Brand Column */}
           <div className="max-w-md">
