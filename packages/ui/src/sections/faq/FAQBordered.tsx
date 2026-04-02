@@ -32,7 +32,7 @@ export function FAQBordered({ items, className, ctaText, ctaHref }: FAQAccordion
         }}
       />
 
-      <div className={cn("relative space-y-3", className)}>
+      <div className={cn("relative space-y-3 max-w-[780px] mx-auto", className)}>
         <StaggerContainer className="space-y-3" staggerDelay={0.08}>
           {items.map((item, index) => {
             const direction = index % 2 === 0 ? "left" : "right";

@@ -46,30 +46,32 @@ export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
   const logos = [...clientLogos, ...clientLogos];
 
   return (
-    <div className={cn("overflow-hidden relative", className)}>
-      {/* Left fade */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-      {/* Right fade */}
-      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-      <div
-        ref={scrollRef}
-        className="flex w-max items-center gap-spacing-xl"
-        style={{ willChange: "transform" }}
-      >
-        {logos.map((logo, i) => (
-          <div
-            key={`${logo.name}-${i}`}
-            className="flex-shrink-0 transition-all duration-300"
-            data-field={`clientLogos.${i % clientLogos.length}`}
-          >
-            <img
-              src={logo.image}
-              alt={logo.name}
-              className="h-8 w-auto opacity-80 transition-all duration-300 hover:opacity-100"
-              loading="lazy"
-            />
-          </div>
-        ))}
+    <div className={cn("", className)}>
+      <div className="max-w-[600px] mx-auto overflow-hidden relative">
+        {/* Left fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        {/* Right fade */}
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div
+          ref={scrollRef}
+          className="flex w-max items-center gap-spacing-xl"
+          style={{ willChange: "transform" }}
+        >
+          {logos.map((logo, i) => (
+            <div
+              key={`${logo.name}-${i}`}
+              className="flex-shrink-0 transition-all duration-300"
+              data-field={`clientLogos.${i % clientLogos.length}`}
+            >
+              <img
+                src={logo.image}
+                alt={logo.name}
+                className="h-8 w-auto opacity-80 transition-all duration-300 hover:opacity-100"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

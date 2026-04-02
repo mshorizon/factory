@@ -4,6 +4,7 @@ import type { Theme } from "@mshorizon/schema";
 import ScrollToTopButton from "../components/ScrollToTopButton.astro";
 import OverlayScrollbar from "../components/OverlayScrollbar.astro";
 import CookieConsentBanner from "../components/CookieConsentBanner.astro";
+import SmoothScroll from "../components/SmoothScroll.astro";
 
 interface Props {
   title: string;
@@ -213,6 +214,7 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
     <ScrollToTopButton />
     <OverlayScrollbar />
     <CookieConsentBanner />
+    <SmoothScroll />
     <script is:inline>
       // Register Service Worker for PWA support
       if ('serviceWorker' in navigator && window.parent === window) {

@@ -17,20 +17,20 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <div
-              className="rounded-lg border border-border/50 p-spacing-2xl bg-card/50 h-full flex flex-col"
+              className="rounded-lg border border-border/50 p-5 md:p-[20px_30px] bg-card/50 h-full flex flex-col max-w-[440px]"
               data-field={`steps.${index}`}
             >
               <span
-                className="inline-flex items-center w-fit border border-border/30 rounded-md px-3 py-1.5 text-sm font-medium text-muted"
+                className="inline-flex items-center w-fit border border-border/30 rounded-md px-[9px] py-[6px] text-xs font-medium text-muted"
                 data-field={`steps.${index}.number`}
               >
                 Step {step.number}
               </span>
 
-              <div className="h-px bg-border/50 my-spacing-md" />
+              <div className="h-px bg-border/50 my-spacing-sm" />
 
               <h3
-                className="text-xl font-semibold text-foreground mb-spacing-sm"
+                className="text-xl text-foreground mb-spacing-sm"
                 data-field={`steps.${index}.title`}
               >
                 {step.title}

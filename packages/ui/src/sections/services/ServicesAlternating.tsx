@@ -1,8 +1,47 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { cn } from "../../lib/utils";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { ServicesProps } from "./types";
+
+function ImageReveal({ src, alt }: { src: string; alt: string }) {
+  const imgRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = imgRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.remove("translate-y-8", "opacity-0");
+          el.classList.add("translate-y-0", "opacity-100");
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={imgRef}
+      className="translate-y-8 opacity-0 transition-all duration-700 ease-out relative"
+    >
+      <img
+        src={src}
+        alt={alt}
+        className="w-full h-auto object-cover aspect-[4/3] rounded-md"
+        loading="lazy"
+        decoding="async"
+      />
+      <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
+    </div>
+  );
+}
 
 export function ServicesAlternating({
   items,
@@ -27,17 +66,11 @@ export function ServicesAlternating({
             >
               {/* Image side */}
               <div className={cn(isEven && "md:order-2")}>
-                <div className="overflow-hidden rounded-[1.25rem] border border-border/50 max-w-[350px] max-h-[300px]">
+                <div className="bg-[#0A0A0A] p-[50px_50px_0px] rounded-lg max-w-[350px] max-h-[300px] overflow-hidden">
                   {item.image ? (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-auto object-cover aspect-[4/3]"
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <ImageReveal src={item.image} alt={item.title} />
                   ) : (
-                    <div className="w-full aspect-[4/3] bg-muted/20" />
+                    <div className="w-full aspect-[4/3] bg-muted/20 rounded-md" />
                   )}
                 </div>
               </div>
@@ -67,6 +100,19 @@ export function ServicesAlternating({
                   >
                     {item.description}
                   </p>
+
+                  {item.tags && item.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-spacing-sm">
+                      {item.tags.map((tag, tIdx) => (
+                        <span
+                          key={tIdx}
+                          className="inline-flex px-3 py-1.5 text-sm border border-border/30 rounded-md text-muted"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

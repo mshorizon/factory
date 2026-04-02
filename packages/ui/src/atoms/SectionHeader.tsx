@@ -73,7 +73,7 @@ export function SectionHeader({
         {renderBadge()}
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-spacing-md lg:gap-16">
           {title && (
-            <h2 data-reveal data-reveal-delay={badge ? "100" : "0"} className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading flex-shrink-0" data-field="header.title">{title}</h2>
+            <h2 data-reveal data-reveal-delay={badge ? "100" : "0"} className="text-3xl md:text-4xl lg:text-5xl text-foreground font-heading flex-shrink-0 max-w-[700px]" data-field="header.title">{title}</h2>
           )}
           {subtitle && (
             <p data-reveal data-reveal-delay={badge ? "200" : "100"} className="text-muted max-w-lg lg:text-right" data-field="header.subtitle">
@@ -89,7 +89,7 @@ export function SectionHeader({
     <div className={cn("mb-spacing-3xl", alignClass, className)}>
       {renderBadge()}
       {title && (
-        <h2 data-reveal data-reveal-delay={badge ? "100" : "0"} className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-spacing-md font-heading" data-field="header.title">{title}</h2>
+        <h2 data-reveal data-reveal-delay={badge ? "100" : "0"} className={cn("text-3xl md:text-4xl lg:text-5xl text-foreground mb-spacing-md font-heading max-w-[700px]", align === "center" && "mx-auto")} data-field="header.title">{title}</h2>
       )}
       {subtitle && (
         <p

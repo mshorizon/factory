@@ -23,12 +23,24 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
     setIsDragging(true);
+    scrollRef.current.style.scrollBehavior = "auto";
     setStartX(e.pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
   };
 
-  const handleMouseUp = () => setIsDragging(false);
-  const handleMouseLeave = () => setIsDragging(false);
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    if (scrollRef.current) {
+      scrollRef.current.style.scrollBehavior = "smooth";
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    if (scrollRef.current) {
+      scrollRef.current.style.scrollBehavior = "smooth";
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !scrollRef.current) return;
@@ -38,11 +50,34 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
+  // Touch handlers for smooth mobile dragging
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollRef.current) return;
+    scrollRef.current.style.scrollBehavior = "auto";
+    setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    if (scrollRef.current) {
+      scrollRef.current.style.scrollBehavior = "smooth";
+    }
+  };
+
   return (
     <div className={cn("relative", className)}>
       {/* Gradient edges */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
       {/* Scrollable container */}
       <div
@@ -55,16 +90,18 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
-        style={{ scrollBehavior: isDragging ? "auto" : "smooth", scrollSnapType: "x mandatory" }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{ scrollBehavior: "smooth", scrollSnapType: "x mandatory" }}
       >
         {projects.map((project, index) => (
           <div
             key={index}
-            className="w-full flex-shrink-0 select-none"
-            style={{ scrollSnapAlign: "start" }}
+            className="w-[85vw] md:w-[700px] lg:w-[800px] flex-shrink-0 select-none snap-start"
           >
             <div
-              className="flex flex-row border-0 rounded-none overflow-hidden h-full gap-[60px]"
+              className="flex flex-col md:flex-row border-0 rounded-none overflow-hidden h-full gap-[30px]"
               data-field={`projects.${index}`}
             >
               {/* Image Left */}
@@ -73,7 +110,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-[450px] h-[450px] object-cover flex-shrink-0 rounded-lg"
+                    className="w-full h-[200px] md:w-[450px] md:h-[450px] object-cover flex-shrink-0 rounded-lg"
                     loading="lazy"
                     decoding="async"
                     draggable="false"
@@ -88,6 +125,13 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
                   project.image ? "flex-1" : "w-full"
                 )}
               >
+                {/* Logo placeholder */}
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-foreground">
+                    {project.title.charAt(0)}
+                  </div>
+                </div>
+
                 <h3
                   className="text-2xl font-bold text-foreground"
                   data-field={`projects.${index}.title`}
@@ -120,13 +164,13 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
 
       {/* Drag hint with arrow navigation */}
       <ScrollReveal delay={0.3} direction="up">
-        <div className="flex items-center justify-center gap-2 mt-spacing-2xl">
+        <div className="flex items-center justify-center gap-2 mt-spacing-3xl">
           <button
             type="button"
             aria-label="Previous project"
             onClick={() => {
               if (!scrollRef.current) return;
-              const cardWidth = scrollRef.current.offsetWidth;
+              const cardWidth = scrollRef.current.querySelector<HTMLElement>(':scope > div')?.offsetWidth || scrollRef.current.offsetWidth;
               scrollRef.current.scrollBy({ left: -cardWidth, behavior: "smooth" });
             }}
             className="p-1 hover:opacity-70 transition-opacity"
@@ -149,7 +193,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
             aria-label="Next project"
             onClick={() => {
               if (!scrollRef.current) return;
-              const cardWidth = scrollRef.current.offsetWidth;
+              const cardWidth = scrollRef.current.querySelector<HTMLElement>(':scope > div')?.offsetWidth || scrollRef.current.offsetWidth;
               scrollRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
             }}
             className="p-1 hover:opacity-70 transition-opacity"

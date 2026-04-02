@@ -44,7 +44,7 @@ export function FooterGradient({
               {businessName}
             </span>
             {tagline && (
-              <p className="text-sm text-white/60 mb-spacing-lg">{tagline}</p>
+              <p className="text-sm text-white/40 mb-spacing-lg">{tagline}</p>
             )}
 
             {/* Newsletter */}
@@ -66,7 +66,7 @@ export function FooterGradient({
           {/* Link Columns + Socials */}
           <div className="flex flex-wrap gap-spacing-2xl">
             {columns &&
-              columns.map((column, colIndex) => (
+              columns.filter((col) => !["Pages", "Strony"].includes(col.title)).map((column, colIndex) => (
                 <div key={colIndex}>
                   <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-spacing-md">
                     {column.title}

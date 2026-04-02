@@ -1,0 +1,42 @@
+---
+// Lightweight smooth scroll with momentum
+---
+<script>
+  // Only activate if html has smooth-scroll class
+  if (document.documentElement.classList.contains('smooth-scroll')) {
+    let targetY = window.scrollY;
+    let currentY = window.scrollY;
+    let animating = false;
+    const ease = 0.08; // Lower = smoother/slower
+
+    window.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      targetY = Math.max(0, Math.min(
+        targetY + e.deltaY,
+        document.documentElement.scrollHeight - window.innerHeight
+      ));
+      if (!animating) {
+        animating = true;
+        requestAnimationFrame(animate);
+      }
+    }, { passive: false });
+
+    function animate() {
+      currentY += (targetY - currentY) * ease;
+      if (Math.abs(targetY - currentY) < 0.5) {
+        currentY = targetY;
+        animating = false;
+      }
+      window.scrollTo(0, currentY);
+      if (animating) requestAnimationFrame(animate);
+    }
+
+    // Sync on manual scroll (touch, keyboard)
+    window.addEventListener('scroll', () => {
+      if (!animating) {
+        targetY = window.scrollY;
+        currentY = window.scrollY;
+      }
+    });
+  }
+</script>

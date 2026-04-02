@@ -45,7 +45,7 @@ export function TestimonialsGradient({ items, className }: TestimonialsGridProps
               }}
               data-field={`items.${index}`}
             >
-              <div className="flex gap-0.5 mb-spacing-md">
+              <div className="flex gap-1 mb-spacing-md">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
@@ -55,13 +55,13 @@ export function TestimonialsGradient({ items, className }: TestimonialsGridProps
               </div>
 
               <p
-                className="text-base text-foreground/90 leading-relaxed mt-spacing-md flex-1"
+                className="text-base text-foreground/90 leading-relaxed mb-spacing-lg flex-1"
                 data-field={`items.${index}.description`}
               >
                 {item.description}
               </p>
 
-              <div className="flex items-center gap-3 mt-spacing-lg">
+              <div className="flex items-center gap-3">
                 <img
                   src={item.image || getAvatarUrl(author.name)}
                   alt={author.name}
