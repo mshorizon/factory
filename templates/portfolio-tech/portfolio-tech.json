@@ -414,7 +414,7 @@
         },
         {
           "type": "testimonials",
-          "variant": "default",
+          "variant": "gradient",
           "background": "dark",
           "header": {
             "badge": "Testimonials",

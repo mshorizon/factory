@@ -47,7 +47,7 @@ export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
 
   return (
     <div className={cn("", className)}>
-      <div className="max-w-[600px] mx-auto overflow-hidden relative">
+      <div className="max-w-[750px] mx-auto overflow-hidden relative">
         {/* Left fade */}
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
         {/* Right fade */}

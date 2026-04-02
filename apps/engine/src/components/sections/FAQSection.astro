@@ -7,9 +7,10 @@ import { resolveTarget } from "../../lib/target";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const faqItems = section.faqItems || [];
@@ -28,6 +29,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
           layout="stacked"
           align="left"
           background={section.background}
+          badgeVariant={badgeVariant as any}
           className="!mb-spacing-xl"
         />
         {variant === "bordered" ? (

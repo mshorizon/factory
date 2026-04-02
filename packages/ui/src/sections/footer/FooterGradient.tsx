@@ -44,7 +44,7 @@ export function FooterGradient({
               {businessName}
             </span>
             {tagline && (
-              <p className="text-sm text-white/40 mb-spacing-lg">{tagline}</p>
+              <p className="text-sm text-white/30 mb-spacing-lg">{tagline}</p>
             )}
 
             {/* Newsletter */}

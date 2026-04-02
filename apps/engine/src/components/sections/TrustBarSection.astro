@@ -6,9 +6,10 @@ import { getSectionHeader } from "../../lib/pages";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const header = getSectionHeader(section);
 const variant = section.variant;
 ---
@@ -20,6 +21,7 @@ const variant = section.variant;
       title={header.title}
       subtitle={header.subtitle}
       align="center"
+      badgeVariant={badgeVariant as any}
       className="[&_h2]:text-sm [&_h2]:font-medium [&_h2]:text-muted mb-spacing-xl"
     />
     {variant === "logos" ? (

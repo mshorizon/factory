@@ -6,9 +6,10 @@ import { getSectionHeader } from "../../lib/pages";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const header = getSectionHeader(section);
 const members = (section as any).members || [];
 ---
@@ -21,6 +22,7 @@ const members = (section as any).members || [];
       subtitle={header.subtitle}
       align="center"
       background={section.background}
+      badgeVariant={badgeVariant as any}
     />
     <TeamGrid client:visible members={members} />
   </div>

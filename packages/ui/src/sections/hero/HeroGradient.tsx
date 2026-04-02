@@ -30,12 +30,12 @@ export function HeroGradient({
   const [heroVisible, setHeroVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowText(true), 3000);
+    const timer = setTimeout(() => setShowText(true), 1500);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setHeroVisible(true), 2000);
+    const timer = setTimeout(() => setHeroVisible(true), 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -46,7 +46,7 @@ export function HeroGradient({
     <section
       className={cn(
         "relative z-0 bg-background overflow-hidden flex items-center justify-center",
-        isHomePage ? "min-h-screen py-spacing-section" : "py-spacing-section-sm",
+        isHomePage ? "min-h-[calc(100vh-100px)] py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >
@@ -92,7 +92,7 @@ export function HeroGradient({
         <div className="relative w-[406px] h-[406px]" style={{ opacity: 0.6 }}>
           {/* Big circle */}
           <div
-            className="absolute inset-0 overflow-hidden blur-[80px]"
+            className="absolute inset-0 overflow-hidden blur-[8px]"
             style={{
               borderRadius: "363px",
               background: "linear-gradient(229deg, #DF7AFE 13%, rgba(201,110,240,0) 35%, rgba(164,92,219,0) 64%, #814AC8 88%)",
@@ -101,7 +101,7 @@ export function HeroGradient({
           />
           {/* Small circle */}
           <div
-            className="absolute w-[300px] h-[300px] top-1/2 left-1/2 overflow-hidden blur-[60px]"
+            className="absolute w-[300px] h-[300px] top-1/2 left-1/2 overflow-hidden blur-[6px]"
             style={{
               borderRadius: "363px",
               background: "linear-gradient(141deg, #DF7AFE 13%, rgba(201,110,240,0) 35%, rgba(164,92,219,0) 64%, #814AC8 88%)",
@@ -129,7 +129,7 @@ export function HeroGradient({
               top: p.top, left: p.left,
               width: p.size, height: p.size,
               ...calcParticleVars(p.top, p.left),
-              animation: `particle-to-center 8s ease-in-out ${p.delay} infinite`,
+              animation: `particle-to-center 3s ease-in-out ${p.delay} infinite`,
             }}
           />
         ))}
@@ -147,7 +147,7 @@ export function HeroGradient({
                   {badge.split("|")[0]}
                 </span>
                 <span className={cn(
-                  "text-sm text-foreground/90 overflow-hidden transition-all duration-700 whitespace-nowrap",
+                  "text-sm text-foreground/90 overflow-hidden transition-all duration-500 whitespace-nowrap",
                   showText ? "max-w-[300px] opacity-100" : "max-w-0 opacity-0"
                 )}>{badge.split("|")[1]}</span>
               </div>
@@ -162,7 +162,7 @@ export function HeroGradient({
             )}
           </div>
         )}
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-spacing-lg tracking-tight text-foreground max-w-4xl mx-auto" data-field="header.title">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-[var(--heading-weight,700)] mb-spacing-lg tracking-tight text-foreground max-w-4xl mx-auto" data-field="header.title">
           {titleWords ? (
             titleWords.map((word, idx) => (
               <span
@@ -171,8 +171,8 @@ export function HeroGradient({
                   opacity: 0,
                   filter: "blur(10px)",
                   display: "inline-block",
-                  animation: "hero-word-reveal 0.6s ease forwards",
-                  animationDelay: `${2000 + idx * 100}ms`,
+                  animation: "hero-word-reveal 0.5s ease forwards",
+                  animationDelay: `${1500 + idx * 100}ms`,
                   marginRight: "0.3em",
                 }}
               >

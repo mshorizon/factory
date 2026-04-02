@@ -18,9 +18,16 @@ h1, h2 {
   font-weight: var(--heading-weight, 700);
 }
 
+/* Override font weights for templates with light heading weight */
+html[style*="--heading-weight:400"] .font-bold {
+  font-weight: 400 !important;
+}
+html[style*="--heading-weight:400"] .font-semibold {
+  font-weight: 500 !important;
+}
+
 /* Smooth scroll with inertia effect */
 html.smooth-scroll {
-  scroll-behavior: smooth;
   overscroll-behavior-y: none;
 }
 

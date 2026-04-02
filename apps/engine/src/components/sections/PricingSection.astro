@@ -7,9 +7,10 @@ import { resolveTarget } from "../../lib/target";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 
@@ -31,6 +32,7 @@ const tiers = (section.pricingTiers || []).map((tier: any) => ({
       title={header.title}
       subtitle={header.subtitle}
       background={section.background}
+      badgeVariant={badgeVariant as any}
     />
     {variant === "xtract" ? (
       <PricingXtract client:visible tiers={tiers} />

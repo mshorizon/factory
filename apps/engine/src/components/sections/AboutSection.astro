@@ -7,9 +7,10 @@ import { resolveTarget } from "../../lib/target";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 
@@ -25,6 +26,7 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
           title={header.title}
           align="center"
           background={section.background}
+          badgeVariant={badgeVariant as any}
         />
         <AboutTimeline
           client:visible

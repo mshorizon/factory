@@ -23,8 +23,7 @@ export function SectionHeader({
   background,
   badgeVariant,
 }: SectionHeaderProps) {
-  // Read badge variant from HTML data attribute if not passed as prop
-  const resolvedBadgeVariant = badgeVariant || (typeof document !== "undefined" ? document.documentElement.dataset.badgeVariant as "accent" | "outlined" : "accent") || "accent";
+  const resolvedBadgeVariant = badgeVariant || "accent";
   const alignClass = {
     left: "text-left",
     center: "text-center",

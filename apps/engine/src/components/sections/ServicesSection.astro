@@ -8,9 +8,10 @@ interface Props {
   isHomePage?: boolean;
   section: Section;
   business: BusinessProfile;
+  badgeVariant?: string;
 }
 
-const { section, business, isHomePage = false } = Astro.props;
+const { section, business, isHomePage = false, badgeVariant } = Astro.props;
 const variant = getSectionVariant(section);
 
 // Use section.items if provided, otherwise fallback to business.data.services
@@ -32,6 +33,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
       layout={variant === "darkCards" || variant === "imageGrid" ? "split" : "center"}
       align={variant === "darkCards" || variant === "imageGrid" ? "left" : "center"}
       background={section.background}
+      badgeVariant={badgeVariant as any}
       className={variant === "alternating" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
     />
     {variant === "list" ? (

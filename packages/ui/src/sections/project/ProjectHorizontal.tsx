@@ -17,27 +17,29 @@ interface ProjectHorizontalProps {
 export function ProjectHorizontal({ projects, className }: ProjectHorizontalProps) {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
-  const [startX, setStartX] = React.useState(0);
-  const [scrollLeft, setScrollLeft] = React.useState(0);
+  const lastXRef = React.useRef(0);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
     setIsDragging(true);
+    scrollRef.current.style.scrollSnapType = "none";
     scrollRef.current.style.scrollBehavior = "auto";
-    setStartX(e.pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
+    lastXRef.current = e.pageX;
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
     if (scrollRef.current) {
+      scrollRef.current.style.scrollSnapType = "x mandatory";
       scrollRef.current.style.scrollBehavior = "smooth";
     }
   };
 
   const handleMouseLeave = () => {
+    if (!isDragging) return;
     setIsDragging(false);
     if (scrollRef.current) {
+      scrollRef.current.style.scrollSnapType = "x mandatory";
       scrollRef.current.style.scrollBehavior = "smooth";
     }
   };
@@ -45,30 +47,31 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    scrollRef.current.scrollLeft = scrollLeft - walk;
+    const delta = e.pageX - lastXRef.current;
+    lastXRef.current = e.pageX;
+    scrollRef.current.scrollLeft -= delta;
   };
 
   // Touch handlers for smooth mobile dragging
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return;
+    scrollRef.current.style.scrollSnapType = "none";
     scrollRef.current.style.scrollBehavior = "auto";
-    setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
+    lastXRef.current = e.touches[0].pageX;
     setIsDragging(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging || !scrollRef.current) return;
-    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    scrollRef.current.scrollLeft = scrollLeft - walk;
+    const delta = e.touches[0].pageX - lastXRef.current;
+    lastXRef.current = e.touches[0].pageX;
+    scrollRef.current.scrollLeft -= delta;
   };
 
   const handleTouchEnd = () => {
     setIsDragging(false);
     if (scrollRef.current) {
+      scrollRef.current.style.scrollSnapType = "x mandatory";
       scrollRef.current.style.scrollBehavior = "smooth";
     }
   };

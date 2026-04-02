@@ -6,9 +6,10 @@ import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const variant = getSectionVariant(section);
 const items = section.items || [];
 const header = getSectionHeader(section);
@@ -21,6 +22,7 @@ const header = getSectionHeader(section);
       title={header.title}
       subtitle={header.subtitle}
       align="center"
+      badgeVariant={badgeVariant as any}
     />
     {variant === "featured" ? (
       <CategoriesFeatured items={items} exploreLabel={section.exploreLabel} />

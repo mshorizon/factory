@@ -34,6 +34,7 @@ interface Props {
 
 const { sections, business, isHomePage = false } = Astro.props;
 const majorTheme = (business as any).theme?.majorTheme;
+const badgeVariant = (business as any).theme?.badgeVariant || "accent";
 
 // Map section types to components
 const sectionComponents: Record<string, any> = {
@@ -90,7 +91,7 @@ function getBgClass(bg?: string): string {
 
   // Only pass business prop to sections that need it
   const needsBusiness = ['services', 'shop', 'map', 'testimonials', 'booking'].includes(resolvedSection.type);
-  const props = needsBusiness ? { section: sectionWithVariant, business, isHomePage } : { section: sectionWithVariant, isHomePage };
+  const props = needsBusiness ? { section: sectionWithVariant, business, isHomePage, badgeVariant } : { section: sectionWithVariant, isHomePage, badgeVariant };
 
   return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class={bgClass}><Component {...props} /></div>;
 })}

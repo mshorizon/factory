@@ -8,9 +8,10 @@ import type { BlogPost } from "@mshorizon/ui/sections/blog/types";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const { site, currentLang } = Astro.locals;
 
 const header = getSectionHeader(section);
@@ -43,6 +44,7 @@ const posts: BlogPost[] = blogs.map((blog) => ({
         layout="split"
         align="left"
         background={section.background}
+        badgeVariant={badgeVariant as any}
       />
       <BlogGrid client:visible posts={posts} ctaLabel={ctaLabel} />
     </div>

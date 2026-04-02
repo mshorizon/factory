@@ -28,7 +28,7 @@ export function NavbarStandard({
       )}
     >
       <div className="container mx-auto">
-        <div className="flex items-center justify-between h-12 lg:h-14">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <a href="/" className="flex items-center gap-spacing-xs group">
             {logoIcon && <span className="text-2xl">{logoIcon}</span>}

@@ -7,7 +7,7 @@ import type { ProcessStepsProps } from "./types";
 export function ProcessGrid({ steps, className }: ProcessStepsProps) {
   return (
     <StaggerContainer
-      className={cn("grid grid-cols-1 md:grid-cols-2 gap-spacing-lg", className)}
+      className={cn("flex flex-wrap gap-5", className)}
       staggerDelay={0.1}
     >
       {steps.map((step, index) => {
@@ -17,7 +17,7 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <div
-              className="rounded-lg border border-border/50 p-5 md:p-[20px_30px] bg-card/50 h-full flex flex-col max-w-[440px]"
+              className="rounded-lg border border-border/50 p-5 md:p-[20px_30px] bg-card/50 flex flex-col max-w-[440px]"
               data-field={`steps.${index}`}
             >
               <span

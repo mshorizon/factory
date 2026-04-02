@@ -28,7 +28,7 @@ export function FAQBordered({ items, className, ctaText, ctaHref }: FAQAccordion
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--primary) 10%, transparent) 0%, transparent 50%)",
+            "radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--primary) 25%, transparent) 0%, transparent 50%)",
         }}
       />
 

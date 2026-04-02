@@ -6,9 +6,10 @@ import { getSectionHeader } from "../../lib/pages";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const header = getSectionHeader(section);
 const pairs = section.pairs || [];
 ---
@@ -20,6 +21,7 @@ const pairs = section.pairs || [];
       title={header.title}
       subtitle={header.subtitle}
       align="center"
+      badgeVariant={badgeVariant as any}
     />
     <GalleryBA client:visible pairs={pairs} />
   </div>
