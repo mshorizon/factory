@@ -1,7 +1,7 @@
 {
   "business": {
     "id": "portfolio-tech-001",
-    "name": "Hazelgrouse Studio",
+    "name": "t:business.name",
     "industry": "software",
     "assets": {
       "favicon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23814AC8'/%3E%3Cpath d='M8 22c1-3 3-6 6-7.5C15 12 17 11 19 11c1.8 0 3.2.8 4 2 1.5.8 2.5 2.2 2.5 4 0 2.5-1.8 4.2-4.2 4.2h-2.5c-.8 1.5-2.2 2.3-4 2.3C12 23.5 9.5 23 8 22z' fill='white'/%3E%3Ccircle cx='21.5' cy='14.5' r='1.2' fill='%23814AC8'/%3E%3Cpath d='M24 13.5c.8-.8 2.2-.6 3 .1' stroke='white' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E",
@@ -9,10 +9,10 @@
     },
     "logoIcon": "🐦",
     "contact": {
-      "address": "Warsaw, Poland",
-      "phone": "+48 500 000 000",
-      "email": "hello@hazelgrouse.pl",
-      "hours": "Mon-Fri: 9:00-18:00"
+      "address": "t:contact.info.address",
+      "phone": "t:contact.info.phone",
+      "email": "t:contact.info.email",
+      "hours": "t:contact.info.hours"
     },
     "socials": {
       "github": "https://github.com/hazelgrouse",
@@ -28,29 +28,13 @@
     "colors": {
       "light": {
         "primary": "#814AC8",
-        "surface": {
-          "base": "#FFFFFF",
-          "alt": "#000000",
-          "card": "#F5F5F5"
-        },
-        "text": {
-          "main": "#000000",
-          "muted": "#666666",
-          "onPrimary": "#FFFFFF"
-        }
+        "surface": { "base": "#FFFFFF", "alt": "#000000", "card": "#F5F5F5" },
+        "text": { "main": "#000000", "muted": "#666666", "onPrimary": "#FFFFFF" }
       },
       "dark": {
         "primary": "#814AC8",
-        "surface": {
-          "base": "#000000",
-          "alt": "#0D0D0D",
-          "card": "#0D0D0D"
-        },
-        "text": {
-          "main": "#FFFFFF",
-          "muted": "#CCCCCC",
-          "onPrimary": "#FFFFFF"
-        }
+        "surface": { "base": "#000000", "alt": "#0D0D0D", "card": "#0D0D0D" },
+        "text": { "main": "#FFFFFF", "muted": "#CCCCCC", "onPrimary": "#FFFFFF" }
       }
     },
     "typography": {
@@ -60,16 +44,9 @@
     "ui": {
       "radius": "16px",
       "spacing": {
-        "xs": "0.5rem",
-        "sm": "0.75rem",
-        "md": "1rem",
-        "lg": "1.5rem",
-        "xl": "2rem",
-        "2xl": "3rem",
-        "3xl": "4rem",
-        "section-sm": "5rem",
-        "section": "7.5rem",
-        "container": "2.5rem"
+        "xs": "0.5rem", "sm": "0.75rem", "md": "1rem", "lg": "1.5rem",
+        "xl": "2rem", "2xl": "3rem", "3xl": "4rem",
+        "section-sm": "5rem", "section": "7.5rem", "container": "2.5rem"
       }
     },
     "headingWeight": "400",
@@ -79,627 +56,462 @@
     "badgeVariant": "outlined"
   },
   "layout": {
-    "navbar": {
-      "variant": "standard"
-    },
+    "navbar": { "variant": "standard" },
     "footer": {
       "variant": "gradient",
-      "copyright": "\u00a9 2026 Hazelgrouse Studio. All rights reserved.",
-      "tagline": "Automate Smarter, Optimize Faster, and Grow Stronger.",
+      "copyright": "t:footer.copyright",
+      "tagline": "t:footer.tagline",
       "links": [
         { "label": "GitHub", "target": { "type": "external", "value": "https://github.com/hazelgrouse" } },
         { "label": "LinkedIn", "target": { "type": "external", "value": "https://linkedin.com/company/hazelgrouse" } },
         { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com/hazelgrouse" } },
-        { "label": "Privacy Policy", "target": { "type": "page", "value": "privacy" } }
+        { "label": "t:footer.privacyLabel", "target": { "type": "page", "value": "privacy" } }
       ],
       "columns": [
         {
-          "title": "Links",
+          "title": "t:footer.col.title",
           "links": [
-            { "label": "Services", "target": { "type": "page", "value": "services" } },
-            { "label": "Process", "target": { "type": "page", "value": "about" } },
-            { "label": "Case Studies", "target": { "type": "page", "value": "projects" } },
-            { "label": "Benefits", "target": { "type": "page", "value": "services" } }
+            { "label": "t:footer.link.services", "target": { "type": "page", "value": "services" } },
+            { "label": "t:footer.link.process", "target": { "type": "page", "value": "about" } },
+            { "label": "t:footer.link.projects", "target": { "type": "page", "value": "projects" } },
+            { "label": "t:footer.link.contact", "target": { "type": "page", "value": "contact" } }
           ]
         }
       ]
     }
   },
   "navigation": {
-    "cta": {
-      "label": "Book a call",
-      "target": { "type": "page", "value": "contact" }
-    }
+    "cta": { "label": "t:nav.cta", "target": { "type": "page", "value": "contact" } }
   },
   "data": {
     "services": [
       {
-        "id": "workflow-automation",
-        "slug": "workflow-automation",
-        "title": "Workflow Automation",
-        "description": "Automate repetitive tasks, streamline data entry, reporting, and approval chains. Build intelligent bot systems that work while you sleep.",
-        "icon": "zap",
-        "category": "automation",
-        "available": true,
-        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-        "features": ["Task automation", "Bot systems", "Data pipelines"]
+        "id": "website-design", "slug": "website-design",
+        "title": "t:svc.0.title", "description": "t:svc.0.description",
+        "icon": "layout", "category": "design", "available": true,
+        "image": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=400&fit=crop",
+        "features": ["t:svc.0.f0", "t:svc.0.f1", "t:svc.0.f2"]
       },
       {
-        "id": "ai-assistant",
-        "slug": "ai-assistant",
-        "title": "AI Assistant",
-        "description": "Delegate daily tasks to AI \u2014 smart scheduling, email management, meeting summaries, and document analysis powered by advanced language models.",
-        "icon": "lightbulb",
-        "category": "ai",
-        "available": true,
-        "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
-        "features": ["Summaries", "Scheduling", "Email management"]
+        "id": "mobile-first-development", "slug": "mobile-first-development",
+        "title": "t:svc.1.title", "description": "t:svc.1.description",
+        "icon": "smartphone", "category": "development", "available": true,
+        "image": "https://images.unsplash.com/photo-1512941937938-a3d8e14c90c7?w=600&h=400&fit=crop",
+        "features": ["t:svc.1.f0", "t:svc.1.f1", "t:svc.1.f2"]
       },
       {
-        "id": "sales-marketing",
-        "slug": "sales-marketing",
-        "title": "Sales & Marketing",
-        "description": "Accelerate sales growth with AI-powered lead generation, content creation, and social media automation that drives real conversions.",
-        "icon": "rocket",
-        "category": "marketing",
-        "available": true,
-        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-        "features": ["Leads", "Content", "Social posts"]
+        "id": "local-seo", "slug": "local-seo",
+        "title": "t:svc.2.title", "description": "t:svc.2.description",
+        "icon": "map-pin", "category": "marketing", "available": true,
+        "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop",
+        "features": ["t:svc.2.f0", "t:svc.2.f1", "t:svc.2.f2"]
       },
       {
-        "id": "custom-projects",
-        "slug": "custom-projects",
-        "title": "Custom Projects",
-        "description": "Build smarter systems with strategic consulting, custom AI models, and bespoke automation solutions designed for your unique challenges.",
-        "icon": "code",
-        "category": "consulting",
-        "available": true,
-        "image": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop",
-        "features": ["Strategy", "Custom AI", "Consulting"]
+        "id": "care-maintenance", "slug": "care-maintenance",
+        "title": "t:svc.3.title", "description": "t:svc.3.description",
+        "icon": "shield-check", "category": "support", "available": true,
+        "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop",
+        "features": ["t:svc.3.f0", "t:svc.3.f1", "t:svc.3.f2"]
       }
     ]
   },
   "pages": {
     "home": {
-      "title": "Hazelgrouse Studio \u2014 Intelligent Automation",
+      "title": "t:pages.home",
       "sections": [
         {
-          "type": "hero",
-          "variant": "gradient",
-          "background": "dark",
+          "type": "hero", "variant": "gradient", "background": "dark",
           "header": {
-            "badge": "New|AI Automation Agency",
-            "title": "Intelligent Automation\nfor Modern Businesses",
-            "subtitle": "We bring AI automation to your fingertips & streamline tasks so you can focus on growing your business."
+            "badge": "t:home.hero.badge",
+            "title": "t:home.hero.title",
+            "subtitle": "t:home.hero.subtitle"
           },
-          "cta": {
-            "label": "Get in touch",
-            "target": { "type": "page", "value": "contact" }
-          },
-          "secondaryCta": {
-            "label": "View services",
-            "target": { "type": "page", "value": "services" }
-          }
+          "cta": { "label": "t:home.hero.cta", "target": { "type": "page", "value": "contact" } },
+          "secondaryCta": { "label": "t:home.hero.secondaryCta", "target": { "type": "page", "value": "projects" } }
         },
         {
-          "type": "trustBar",
-          "variant": "logos",
-          "background": "dark",
-          "header": {
-            "title": "Over 50+ businesses trust us"
-          },
+          "type": "trustBar", "variant": "logos", "background": "dark",
+          "header": { "title": "t:home.trust.title" },
           "clientLogos": [
-            { "name": "TechFlow", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Ccircle cx='12' cy='16' r='6' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='18' fill='%23FFFFFF'%3ETechFlow%3C/text%3E%3C/svg%3E" },
-            { "name": "NexaCorp", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Crect x='6' y='10' width='12' height='12' rx='2' fill='%23FFFFFF' opacity='0.6' transform='rotate(45 12 16)'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='18' fill='%23FFFFFF'%3ENexaCorp%3C/text%3E%3C/svg%3E" },
-            { "name": "GrowthPeak", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 32'%3E%3Cpolygon points='12,4 20,28 4,28' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='18' fill='%23FFFFFF'%3EGrowthPeak%3C/text%3E%3C/svg%3E" },
-            { "name": "SupportHive", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 190 32'%3E%3Ccircle cx='12' cy='16' r='6' fill='none' stroke='%23FFFFFF' stroke-width='2' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='18' fill='%23FFFFFF'%3ESupportHive%3C/text%3E%3C/svg%3E" },
-            { "name": "DataSync", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Crect x='6' y='10' width='12' height='12' rx='2' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='18' fill='%23FFFFFF'%3EDataSync%3C/text%3E%3C/svg%3E" },
-            { "name": "CloudBase", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 32'%3E%3Ccircle cx='8' cy='16' r='4' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='16' cy='12' r='5' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='18' fill='%23FFFFFF'%3ECloudBase%3C/text%3E%3C/svg%3E" },
-            { "name": "ScaleUp", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 32'%3E%3Cpolygon points='12,6 18,16 12,26 6,16' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='18' fill='%23FFFFFF'%3EScaleUp%3C/text%3E%3C/svg%3E" },
-            { "name": "AutoPilot", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 32'%3E%3Ccircle cx='12' cy='16' r='7' fill='%23FFFFFF' opacity='0.4'/%3E%3Ccircle cx='12' cy='16' r='3' fill='%23FFFFFF' opacity='0.8'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='18' fill='%23FFFFFF'%3EAutoPilot%3C/text%3E%3C/svg%3E" }
+            { "name": "Elektryk Kowalski", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 32'%3E%3Ccircle cx='12' cy='16' r='6' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='15' fill='%23FFFFFF'%3EElektryk Kowalski%3C/text%3E%3C/svg%3E" },
+            { "name": "Złoty Kłos", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Crect x='6' y='10' width='12' height='12' rx='2' fill='%23FFFFFF' opacity='0.6' transform='rotate(45 12 16)'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='15' fill='%23FFFFFF'%3EZ%C5%82oty%20K%C5%82os%3C/text%3E%3C/svg%3E" },
+            { "name": "FitCity", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 32'%3E%3Cpolygon points='12,4 20,28 4,28' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='15' fill='%23FFFFFF'%3EFitCity%3C/text%3E%3C/svg%3E" },
+            { "name": "MedPlus", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 32'%3E%3Ccircle cx='12' cy='16' r='6' fill='none' stroke='%23FFFFFF' stroke-width='2' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='15' fill='%23FFFFFF'%3EMedPlus%3C/text%3E%3C/svg%3E" },
+            { "name": "Auto Serwis Nowak", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 210 32'%3E%3Crect x='6' y='10' width='12' height='12' rx='2' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='15' fill='%23FFFFFF'%3EAuto%20Serwis%20Nowak%3C/text%3E%3C/svg%3E" },
+            { "name": "Kwiaciarnia Róża", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 32'%3E%3Ccircle cx='8' cy='16' r='4' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='16' cy='12' r='5' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='15' fill='%23FFFFFF'%3EKwiaciarnia%20R%C3%B3%C5%BCa%3C/text%3E%3C/svg%3E" },
+            { "name": "Restauracja Smak", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 32'%3E%3Cpolygon points='12,6 18,16 12,26 6,16' fill='%23FFFFFF' opacity='0.6'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='15' fill='%23FFFFFF'%3ERestauracja%20Smak%3C/text%3E%3C/svg%3E" },
+            { "name": "Salon Piękności Luna", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Ccircle cx='12' cy='16' r='7' fill='%23FFFFFF' opacity='0.4'/%3E%3Ccircle cx='12' cy='16' r='3' fill='%23FFFFFF' opacity='0.8'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='15' fill='%23FFFFFF'%3ESalon%20Pi%C4%99kno%C5%9Bci%20Luna%3C/text%3E%3C/svg%3E" }
           ]
         },
         {
-          "type": "services",
-          "variant": "alternating",
+          "type": "services", "variant": "alternating",
           "header": {
-            "badge": "Our Services",
-            "title": "AI Solutions That Take Your Business to the Next Level",
-            "subtitle": "We design, develop, and implement automation tools that help you work smarter, not harder."
+            "badge": "t:home.services.badge",
+            "title": "t:home.services.title",
+            "subtitle": "t:home.services.subtitle"
           },
           "items": [
             {
-              "title": "Workflow Automation",
-              "description": "Automate repetitive tasks \u2014 streamline data entry, reporting, and approval chains with intelligent bot systems.",
-              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-              "tags": ["Task automation", "Bot systems", "Data pipelines"],
-              "metric": "100+",
-              "metricLabel": "Automations"
+              "title": "t:svc.0.title", "description": "t:home.svc.0.description",
+              "image": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=400&fit=crop",
+              "tags": ["t:svc.0.f0", "t:svc.0.f1", "t:svc.0.f2"],
+              "metric": "50+", "metricLabel": "t:home.svc.0.metricLabel"
             },
             {
-              "title": "AI Assistant",
-              "description": "Delegate daily tasks to AI \u2014 smart scheduling, email management, meeting summaries, and document analysis.",
-              "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
-              "tags": ["Summaries", "Scheduling", "Many more"]
+              "title": "t:svc.1.title", "description": "t:home.svc.1.description",
+              "image": "https://images.unsplash.com/photo-1512941937938-a3d8e14c90c7?w=600&h=400&fit=crop",
+              "tags": ["t:svc.1.f0", "t:svc.1.f1", "t:svc.1.f2"]
             },
             {
-              "title": "Sales & Marketing",
-              "description": "Accelerate sales growth with AI-powered lead generation, content creation, and social media automation.",
-              "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-              "tags": ["Leads", "Content", "Social posts"]
+              "title": "t:svc.2.title", "description": "t:home.svc.2.description",
+              "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop",
+              "tags": ["t:svc.2.f0", "t:svc.2.f1", "t:svc.2.f2"]
             },
             {
-              "title": "Custom Projects",
-              "description": "Build smarter systems with strategic consulting, custom AI models, and bespoke automation solutions.",
-              "image": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop",
-              "tags": ["Strategy", "Custom AI", "Consulting"]
+              "title": "t:svc.3.title", "description": "t:home.svc.3.description",
+              "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop",
+              "tags": ["t:svc.3.f0", "t:svc.3.f1", "t:svc.3.f2"]
             }
           ]
         },
         {
-          "type": "process",
-          "variant": "grid",
-          "background": "dark",
+          "type": "process", "variant": "grid", "background": "dark",
           "header": {
-            "badge": "Our Process",
-            "title": "Our Simple, Smart, and Scalable Process",
-            "subtitle": "We design, develop, and implement automation tools that help you work smarter, not harder."
+            "badge": "t:home.process.badge",
+            "title": "t:home.process.title",
+            "subtitle": "t:home.process.subtitle"
           },
           "steps": [
             {
-              "number": 1,
-              "title": "Smart Analyzing",
-              "description": "We assess your needs, analyze current processes, and identify the best AI solutions for your business.",
-              "icon": "search",
-              "badges": ["System check", "Process check", "Speed check", "Manual work", "Repetitive tasks"]
+              "number": 1, "icon": "eye",
+              "title": "t:home.step.0.title",
+              "description": "t:home.step.0.description",
+              "image": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=400&fit=crop",
+              "badges": ["t:home.step.0.b0", "t:home.step.0.b1", "t:home.step.0.b2"]
             },
             {
-              "number": 2,
-              "title": "AI Development",
-              "description": "We build intelligent automation systems tailored to your specific workflows and business requirements.",
-              "icon": "code",
-              "badges": ["Custom models", "API integrations", "Testing"]
+              "number": 2, "icon": "pen-tool",
+              "title": "t:home.step.1.title",
+              "description": "t:home.step.1.description",
+              "image": "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=800&h=400&fit=crop",
+              "badges": ["t:home.step.1.b0", "t:home.step.1.b1", "t:home.step.1.b2"]
             },
             {
-              "number": 3,
-              "title": "Seamless Integration",
-              "description": "We integrate our solutions into your existing infrastructure with zero disruption to your operations.",
-              "icon": "plug",
-              "badges": ["Your stack", "Our solution", "Sync"]
+              "number": 3, "icon": "code",
+              "title": "t:home.step.2.title",
+              "description": "t:home.step.2.description",
+              "image": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&h=400&fit=crop",
+              "badges": ["t:home.step.2.b0", "t:home.step.2.b1", "t:home.step.2.b2"]
             },
             {
-              "number": 4,
-              "title": "Continuous Optimization",
-              "description": "We refine performance, analyze insights, and continuously improve your automation systems.",
-              "icon": "gauge",
-              "badges": ["Monitoring", "Analytics", "Updates"]
+              "number": 4, "icon": "rocket",
+              "title": "t:home.step.3.title",
+              "description": "t:home.step.3.description",
+              "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop",
+              "badges": ["t:home.step.3.b0", "t:home.step.3.b1", "t:home.step.3.b2"]
             }
           ]
         },
         {
-          "type": "project",
-          "variant": "horizontal",
+          "type": "project", "variant": "horizontal",
           "header": {
-            "badge": "Case Studies",
-            "title": "See How Smart AI Automation Transforms Businesses",
-            "subtitle": "Real results from real businesses using our AI automation solutions."
+            "badge": "t:home.projects.badge",
+            "title": "t:home.projects.title",
+            "subtitle": "t:home.projects.subtitle"
           },
           "projects": [
             {
-              "title": "TrailForge \u2014 Inventory Optimization",
-              "description": "AI-powered stock prediction system that transformed supply chain operations and eliminated waste across all warehouses.",
-              "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop",
-              "metrics": ["40% Less Inventory Waste", "35% Faster Production", "20% More Accurate Forecasting", "25% Faster Fulfillment"]
+              "title": "t:proj.0.title", "description": "t:proj.0.description",
+              "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=500&fit=crop",
+              "metrics": ["t:proj.0.m0", "t:proj.0.m1", "t:proj.0.m2", "t:proj.0.m3"]
             },
             {
-              "title": "MedixChain \u2014 QA Automation",
-              "description": "Automated testing and data validation system that dramatically reduced errors and improved accuracy across all departments.",
-              "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop",
-              "metrics": ["80% Error Reduction", "90% Data Accuracy", "30% Faster Delivery", "60+ Hours Saved"]
+              "title": "t:proj.1.title", "description": "t:proj.1.description",
+              "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=500&fit=crop",
+              "metrics": ["t:proj.1.m0", "t:proj.1.m1", "t:proj.1.m2", "t:proj.1.m3"]
             },
             {
-              "title": "FinSolve \u2014 Operations Automation",
-              "description": "End-to-end process automation that cut operational costs and accelerated client onboarding across the organization.",
-              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
-              "metrics": ["50% Operations Automated", "20% Cost Reduction", "70+ Hours Saved/Month", "2x Faster Onboarding"]
+              "title": "t:proj.2.title", "description": "t:proj.2.description",
+              "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=500&fit=crop",
+              "metrics": ["t:proj.2.m0", "t:proj.2.m1", "t:proj.2.m2", "t:proj.2.m3"]
             },
             {
-              "title": "ScaleByte \u2014 AI Sales Engine",
-              "description": "AI-driven CRM integration and lead scoring system that tripled deal flow and dramatically improved response times.",
-              "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
-              "metrics": ["3x More Deals", "40% Faster Responses", "95% Lead Accuracy", "CRM Fully Synced"]
+              "title": "t:proj.3.title", "description": "t:proj.3.description",
+              "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=500&fit=crop",
+              "metrics": ["t:proj.3.m0", "t:proj.3.m1", "t:proj.3.m2", "t:proj.3.m3"]
             }
           ]
         },
         {
-          "type": "features",
-          "variant": "gradient",
-          "background": "dark",
+          "type": "features", "variant": "gradient", "background": "dark",
           "header": {
-            "badge": "Benefits",
-            "title": "The Key Benefits of AI for Your Business Growth",
-            "subtitle": "Concrete advantages that AI automation delivers to businesses of every size."
+            "badge": "t:home.features.badge",
+            "title": "t:home.features.title",
+            "subtitle": "t:home.features.subtitle"
           },
           "items": [
-            {
-              "title": "Increased Productivity",
-              "description": "AI-driven analytics and task automation free your team to focus on strategy, creativity, and high-value work.",
-              "icon": "rocket"
-            },
-            {
-              "title": "Better Customer Experience",
-              "description": "Personalized AI interactions, faster response times, and consistent service quality at every touchpoint.",
-              "icon": "heart"
-            },
-            {
-              "title": "24/7 Availability",
-              "description": "Around-the-clock automated systems that serve customers and process workflows while you sleep.",
-              "icon": "clock"
-            },
-            {
-              "title": "Cost Reduction",
-              "description": "Minimize manual work, eliminate errors, and cut operational costs through intelligent process automation.",
-              "icon": "wallet"
-            },
-            {
-              "title": "Data-Driven Insights",
-              "description": "Analyze vast data sets, identify trends, and make better business decisions with real-time AI analytics.",
-              "icon": "gauge"
-            },
-            {
-              "title": "Scalability & Growth",
-              "description": "Scale your operations efficiently without proportionally increasing headcount or operational costs.",
-              "icon": "zap"
-            }
+            { "title": "t:feat.0.title", "description": "t:feat.0.description", "icon": "search" },
+            { "title": "t:feat.1.title", "description": "t:feat.1.description", "icon": "star" },
+            { "title": "t:feat.2.title", "description": "t:feat.2.description", "icon": "smartphone" },
+            { "title": "t:feat.3.title", "description": "t:feat.3.description", "icon": "zap" },
+            { "title": "t:feat.4.title", "description": "t:feat.4.description", "icon": "heart" },
+            { "title": "t:feat.5.title", "description": "t:feat.5.description", "icon": "eye" }
           ]
         },
         {
-          "type": "pricing",
-          "variant": "xtract",
+          "type": "pricing", "variant": "xtract",
           "header": {
-            "badge": "Pricing",
-            "title": "The Best AI Automation, at the Right Price",
-            "subtitle": "Choose the plan that fits your business. No hidden fees, cancel anytime."
+            "badge": "t:pricing.badge",
+            "title": "t:pricing.title",
+            "subtitle": "t:pricing.subtitle"
           },
           "pricingTiers": [
             {
-              "name": "Starter",
-              "price": "$37",
-              "annualPrice": "$29",
-              "period": "month",
-              "icon": "zap",
-              "description": "Perfect for small teams getting started with automation.",
-              "features": [
-                "Basic workflow automation",
-                "AI Assistant (standard)",
-                "Standard analytics",
-                "Email & chat support",
-                "Up to 3 integrations"
-              ],
-              "cta": { "label": "Choose this plan", "target": { "type": "page", "value": "contact" } }
+              "name": "t:tier.0.name", "price": "t:tier.0.price", "period": "t:tier.0.period",
+              "icon": "zap", "description": "t:tier.0.description",
+              "features": ["t:tier.0.f0", "t:tier.0.f1", "t:tier.0.f2", "t:tier.0.f3", "t:tier.0.f4"],
+              "cta": { "label": "t:tier.cta.preview", "target": { "type": "page", "value": "contact" } }
             },
             {
-              "name": "Professional",
-              "price": "$75",
-              "annualPrice": "$59",
-              "period": "month",
-              "icon": "bolt",
-              "description": "For growing businesses that need advanced AI capabilities.",
-              "highlighted": true,
-              "badge": "Popular",
-              "features": [
-                "Advanced workflow automation",
-                "AI sales & marketing tools",
-                "Enhanced analytics dashboard",
-                "Priority support",
-                "Up to 10 integrations"
-              ],
-              "cta": { "label": "Choose this plan", "target": { "type": "page", "value": "contact" } }
+              "name": "t:tier.1.name", "price": "t:tier.1.price", "period": "t:tier.1.period",
+              "icon": "bolt", "description": "t:tier.1.description",
+              "highlighted": true, "badge": "t:tier.1.badge",
+              "features": ["t:tier.1.f0", "t:tier.1.f1", "t:tier.1.f2", "t:tier.1.f3", "t:tier.1.f4", "t:tier.1.f5"],
+              "cta": { "label": "t:tier.cta.preview", "target": { "type": "page", "value": "contact" } }
             },
             {
-              "name": "Enterprise",
-              "price": "Custom",
-              "icon": "crown",
-              "description": "Fully customizable solutions for large organizations.",
-              "features": [
-                "Fully customizable AI solutions",
-                "Dedicated automation consultant",
-                "Enterprise-grade compliance",
-                "24/7 VIP support",
-                "Unlimited integrations"
-              ],
-              "cta": { "label": "Schedule a call", "target": { "type": "page", "value": "contact" } }
+              "name": "t:tier.2.name", "price": "t:tier.2.price",
+              "icon": "crown", "description": "t:tier.2.description",
+              "features": ["t:tier.2.f0", "t:tier.2.f1", "t:tier.2.f2", "t:tier.2.f3", "t:tier.2.f4"],
+              "cta": { "label": "t:tier.cta.custom", "target": { "type": "page", "value": "contact" } }
             }
           ]
         },
         {
-          "type": "testimonials",
-          "variant": "gradient",
-          "background": "dark",
+          "type": "testimonials", "variant": "gradient", "background": "dark",
           "header": {
-            "badge": "Testimonials",
-            "title": "Why Businesses Love Our AI Solutions",
-            "subtitle": "Real businesses, real results with AI automation."
+            "badge": "t:home.testimonials.badge",
+            "title": "t:home.testimonials.title",
+            "subtitle": "t:home.testimonials.subtitle"
           },
           "items": [
-            {
-              "title": "James Carter, CEO at TechFlow Solutions",
-              "description": "Hazelgrouse transformed our operations. The AI automation cut our processing time by 60% and the team couldn't be more helpful.",
-              "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
-            },
-            {
-              "title": "Sophia Martinez, Operations Manager at NexaCorp",
-              "description": "The workflow automation saved us 70+ hours per month. It's like having an extra team member who never sleeps.",
-              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
-            },
-            {
-              "title": "David Reynolds, Head of Sales at GrowthPeak",
-              "description": "Our lead conversion tripled after implementing their AI sales engine. The ROI was visible within the first month.",
-              "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
-            },
-            {
-              "title": "Emily Wong, Customer Success Lead at SupportHive",
-              "description": "AI-powered customer support reduced our response time by 80%. Our customers notice the difference every day.",
-              "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face"
-            }
+            { "title": "t:testi.0.title", "description": "t:testi.0.description", "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" },
+            { "title": "t:testi.1.title", "description": "t:testi.1.description", "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face" },
+            { "title": "t:testi.2.title", "description": "t:testi.2.description", "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face" },
+            { "title": "t:testi.3.title", "description": "t:testi.3.description", "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face" }
           ]
         },
         {
           "type": "faq",
           "header": {
-            "badge": "FAQs",
-            "title": "We've Got the Answers You're Looking For",
-            "subtitle": "Quick answers to your AI automation questions."
+            "badge": "t:home.faq.badge",
+            "title": "t:home.faq.title",
+            "subtitle": "t:home.faq.subtitle"
           },
           "faqItems": [
-            {
-              "question": "How can AI automation help my business?",
-              "answer": "AI automation streamlines repetitive tasks, reduces errors, and frees your team to focus on high-value work. Most businesses see 20-40% cost savings in automated areas within the first quarter."
-            },
-            {
-              "question": "Is AI automation difficult to integrate?",
-              "answer": "Not at all. We handle the entire integration process and ensure our solutions work seamlessly with your existing tools \u2014 Slack, Salesforce, HubSpot, Google Workspace, and many more."
-            },
-            {
-              "question": "What industries can benefit from AI automation?",
-              "answer": "Virtually any industry can benefit \u2014 from healthcare and finance to retail, logistics, and technology. If your business has repetitive processes, we can automate them."
-            },
-            {
-              "question": "Do I need technical knowledge to use AI automation?",
-              "answer": "No. Our solutions are designed to be intuitive and easy to use. We provide full onboarding, team training, and ongoing documentation."
-            },
-            {
-              "question": "What kind of support do you offer?",
-              "answer": "All plans include email support. Professional plans add priority support, and Enterprise clients get 24/7 VIP support with a dedicated account manager."
-            }
+            { "question": "t:home.faq.q0", "answer": "t:home.faq.a0" },
+            { "question": "t:home.faq.q1", "answer": "t:home.faq.a1" },
+            { "question": "t:home.faq.q2", "answer": "t:home.faq.a2" },
+            { "question": "t:home.faq.q3", "answer": "t:home.faq.a3" },
+            { "question": "t:home.faq.q4", "answer": "t:home.faq.a4" }
           ]
         },
         {
-          "type": "ctaBanner",
-          "variant": "card",
-          "background": "dark",
-          "header": {
-            "title": "Let AI do the Work so you can Scale Faster",
-            "subtitle": "Book a Call Today and Start Automating."
-          },
-          "cta": {
-            "label": "Book a free call",
-            "target": { "type": "page", "value": "contact" }
-          }
+          "type": "ctaBanner", "variant": "card", "background": "dark",
+          "header": { "title": "t:home.cta.title", "subtitle": "t:home.cta.subtitle" },
+          "cta": { "label": "t:home.cta.button", "target": { "type": "page", "value": "contact" } }
         }
       ]
     },
     "about": {
-      "title": "About",
+      "title": "t:pages.about",
       "sections": [
         {
-          "type": "hero",
-          "variant": "gradient",
-          "background": "dark",
+          "type": "hero", "variant": "gradient", "background": "dark",
           "header": {
-            "badge": "About Us",
-            "title": "Helping Businesses\nGrow with AI",
-            "subtitle": "We streamline operations through intelligent automation so you can focus on what matters most."
+            "badge": "t:about.hero.badge",
+            "title": "t:about.hero.title",
+            "subtitle": "t:about.hero.subtitle"
           }
         },
         {
-          "type": "about-summary",
-          "background": "dark",
-          "header": { "title": "Our track record" },
+          "type": "about-summary", "background": "dark",
+          "header": { "title": "t:about.summary.title" },
           "stats": [
-            { "value": "150+", "label": "Businesses Served" },
-            { "value": "1M+", "label": "Hours Saved" },
-            { "value": "95%", "label": "Faster Operations" }
+            { "value": "t:about.stat.0.value", "label": "t:about.stat.0.label" },
+            { "value": "t:about.stat.1.value", "label": "t:about.stat.1.label" },
+            { "value": "t:about.stat.2.value", "label": "t:about.stat.2.label" }
           ]
         },
         {
-          "type": "about",
-          "variant": "story",
-          "header": { "badge": "Our Story", "title": "Who we are" },
+          "type": "about", "variant": "story",
+          "header": { "badge": "t:about.story.badge", "title": "t:about.story.header" },
           "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
-          "story": {
-            "title": "A team of AI & automation experts",
-            "content": "Hazelgrouse Studio is a team of engineers and consultants specializing in intelligent automation. We combine deep technical expertise with business understanding to deliver solutions that truly transform operations. We believe AI should be accessible to every business \u2014 not just enterprises."
-          },
-          "cta": { "label": "Get in touch", "target": { "type": "page", "value": "contact" } }
+          "story": { "title": "t:about.story.title", "content": "t:about.story.content" },
+          "cta": { "label": "t:about.story.cta", "target": { "type": "page", "value": "contact" } }
         },
         {
-          "type": "features",
-          "variant": "compact",
-          "background": "dark",
-          "header": { "badge": "Our Values", "title": "What drives us" },
+          "type": "features", "variant": "compact", "background": "dark",
+          "header": { "badge": "t:about.values.badge", "title": "t:about.values.title" },
           "items": [
-            { "title": "Innovation", "description": "We stay at the cutting edge of AI technology to deliver the best solutions possible.", "icon": "lightbulb" },
-            { "title": "Integrity", "description": "Transparent pricing, honest communication, and no hidden costs. Ever.", "icon": "shield" },
-            { "title": "Customer Empowerment", "description": "We build solutions that make your team more capable, not dependent on us.", "icon": "users" },
-            { "title": "Growth First", "description": "Every decision we make is focused on driving measurable growth for your business.", "icon": "rocket" }
+            { "title": "t:about.val.0.title", "description": "t:about.val.0.description", "icon": "eye" },
+            { "title": "t:about.val.1.title", "description": "t:about.val.1.description", "icon": "zap" },
+            { "title": "t:about.val.2.title", "description": "t:about.val.2.description", "icon": "heart" },
+            { "title": "t:about.val.3.title", "description": "t:about.val.3.description", "icon": "map-pin" }
           ]
         },
         {
-          "type": "comparison",
-          "background": "dark",
+          "type": "comparison", "background": "dark",
           "header": {
-            "badge": "Why AI?",
-            "title": "Manual Work vs AI Automation",
-            "subtitle": "See the difference intelligent automation makes for your business."
+            "badge": "t:about.comp.badge",
+            "title": "t:about.comp.title",
+            "subtitle": "t:about.comp.subtitle"
           },
-          "leftTitle": "Manual Work",
-          "rightTitle": "Xtract AI Automation",
+          "leftTitle": "t:about.comp.left",
+          "rightTitle": "t:about.comp.right",
           "rows": [
-            { "left": "Time-consuming repetitive tasks drain your team's energy", "right": "AI handles repetitive work instantly, 24/7" },
-            { "left": "Human errors in data entry and processing", "right": "99.9% accuracy with automated validation" },
-            { "left": "Slow response times frustrate customers", "right": "Instant responses and real-time processing" },
-            { "left": "Scaling requires hiring more staff", "right": "Scale operations without increasing headcount" },
-            { "left": "Inconsistent quality across team members", "right": "Consistent, reliable output every time" },
-            { "left": "Limited to business hours availability", "right": "Around-the-clock automated operations" }
+            { "left": "t:about.comp.r0.left", "right": "t:about.comp.r0.right" },
+            { "left": "t:about.comp.r1.left", "right": "t:about.comp.r1.right" },
+            { "left": "t:about.comp.r2.left", "right": "t:about.comp.r2.right" },
+            { "left": "t:about.comp.r3.left", "right": "t:about.comp.r3.right" },
+            { "left": "t:about.comp.r4.left", "right": "t:about.comp.r4.right" },
+            { "left": "t:about.comp.r5.left", "right": "t:about.comp.r5.right" }
           ]
         },
         {
           "type": "team",
           "header": {
-            "badge": "Our Team",
-            "title": "Meet the Minds Behind Hazelgrouse",
-            "subtitle": "A team of engineers and consultants passionate about intelligent automation."
+            "badge": "t:about.team.badge",
+            "title": "t:about.team.title",
+            "subtitle": "t:about.team.subtitle"
           },
           "members": [
-            {
-              "name": "Alex Carter",
-              "role": "Co-Founder & AI Strategist",
-              "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-              "linkedin": "https://linkedin.com/in/"
-            },
-            {
-              "name": "Sophia Nguyen",
-              "role": "Head of Automation Engineering",
-              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face",
-              "linkedin": "https://linkedin.com/in/"
-            },
-            {
-              "name": "Ryan Mitchell",
-              "role": "Lead Data Scientist",
-              "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
-              "linkedin": "https://linkedin.com/in/"
-            }
+            { "name": "Mateusz", "role": "t:about.team.m0.role", "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face", "linkedin": "https://linkedin.com/in/" },
+            { "name": "t:about.team.m1.name", "role": "t:about.team.m1.role", "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face", "linkedin": "https://linkedin.com/in/" },
+            { "name": "t:about.team.m2.name", "role": "t:about.team.m2.role", "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face", "linkedin": "https://linkedin.com/in/" }
           ]
         },
         {
           "type": "faq",
-          "header": { "badge": "FAQs", "title": "Common questions" },
+          "header": { "badge": "t:about.faq.badge", "title": "t:about.faq.title" },
           "faqItems": [
-            { "question": "What industries do you work with?", "answer": "We work across healthcare, finance, retail, logistics, and technology. Our solutions adapt to any industry." },
-            { "question": "How do we get started?", "answer": "Book a free consultation. We'll analyze your processes and provide a tailored automation roadmap." },
-            { "question": "Do I need technical knowledge?", "answer": "Not at all. We handle all the technical complexity. You focus on your business." }
+            { "question": "t:about.faq.q0", "answer": "t:about.faq.a0" },
+            { "question": "t:about.faq.q1", "answer": "t:about.faq.a1" },
+            { "question": "t:about.faq.q2", "answer": "t:about.faq.a2" }
           ]
         }
       ]
     },
     "services": {
-      "title": "Services",
+      "title": "t:pages.services",
       "sections": [
         {
-          "type": "services",
-          "variant": "featured",
+          "type": "services", "variant": "featured",
           "header": {
-            "badge": "Services",
-            "title": "What we offer",
-            "subtitle": "End-to-end AI and automation services from analysis to deployment and continuous optimization."
+            "badge": "t:svcpage.badge",
+            "title": "t:svcpage.title",
+            "subtitle": "t:svcpage.subtitle"
           }
         },
         {
-          "type": "pricing",
-          "variant": "default",
-          "background": "dark",
-          "header": { "badge": "Pricing", "title": "Find the right plan", "subtitle": "Flexible pricing plans for every stage of your business growth." },
+          "type": "pricing", "variant": "default", "background": "dark",
+          "header": { "badge": "t:pricing.badge", "title": "t:svcpage.pricing.title", "subtitle": "t:svcpage.pricing.subtitle" },
           "pricingTiers": [
-            { "name": "Starter", "price": "$37", "period": "month", "description": "Basic automation.", "features": ["Up to 5 workflows", "Basic AI Assistant", "3 integrations", "Email support"], "cta": { "label": "Get started", "target": { "type": "page", "value": "contact" } } },
-            { "name": "Professional", "price": "$75", "period": "month", "description": "Advanced automation.", "highlighted": true, "badge": "Popular", "features": ["Unlimited workflows", "Advanced AI", "10+ integrations", "Priority support", "Real-time analytics"], "cta": { "label": "Choose Professional", "target": { "type": "page", "value": "contact" } } },
-            { "name": "Enterprise", "price": "Custom", "description": "Full customization.", "features": ["Everything in Professional", "Custom AI models", "Dedicated manager", "99.9% SLA", "On-premise"], "cta": { "label": "Schedule a call", "target": { "type": "page", "value": "contact" } } }
+            { "name": "t:tier.0.name", "price": "t:tier.0.price", "period": "t:tier.0.period", "description": "t:tier.0.short", "features": ["t:tier.0.sf0", "t:tier.0.sf1", "t:tier.0.sf2", "t:tier.0.sf3", "t:tier.0.sf4"], "cta": { "label": "t:tier.cta.preview", "target": { "type": "page", "value": "contact" } } },
+            { "name": "t:tier.1.name", "price": "t:tier.1.price", "period": "t:tier.1.period", "description": "t:tier.1.short", "highlighted": true, "badge": "t:tier.1.badge", "features": ["t:tier.1.sf0", "t:tier.1.sf1", "t:tier.1.sf2", "t:tier.1.sf3", "t:tier.1.sf4"], "cta": { "label": "t:tier.cta.preview", "target": { "type": "page", "value": "contact" } } },
+            { "name": "t:tier.2.name", "price": "t:tier.2.price", "description": "t:tier.2.short", "features": ["t:tier.2.sf0", "t:tier.2.sf1", "t:tier.2.sf2", "t:tier.2.sf3", "t:tier.2.sf4"], "cta": { "label": "t:tier.cta.custom", "target": { "type": "page", "value": "contact" } } }
           ]
         },
         {
-          "type": "ctaBanner",
-          "variant": "default",
-          "header": { "title": "Need a custom quote?", "subtitle": "Describe your project and we'll get back to you within 24 hours." },
-          "cta": { "label": "Send inquiry", "target": { "type": "page", "value": "contact" } }
+          "type": "ctaBanner", "variant": "default",
+          "header": { "title": "t:svcpage.cta.title", "subtitle": "t:svcpage.cta.subtitle" },
+          "cta": { "label": "t:svcpage.cta.button", "target": { "type": "page", "value": "contact" } }
         }
       ]
     },
     "projects": {
-      "title": "Case Studies",
+      "title": "t:pages.projects",
       "sections": [
         {
-          "type": "project",
-          "variant": "carousel",
+          "type": "project", "variant": "carousel",
           "header": {
-            "badge": "Case Studies",
-            "title": "Our work",
-            "subtitle": "Real-world automation and AI implementations that delivered measurable results."
+            "badge": "t:projpage.badge",
+            "title": "t:projpage.title",
+            "subtitle": "t:projpage.subtitle"
           },
           "projects": [
-            { "title": "TrailForge \u2014 Inventory Optimization", "description": "AI stock prediction reduced inventory waste by 40% and optimized the supply chain.", "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop", "metrics": ["40% Less Waste", "35% Faster Production", "20% Better Forecasting"] },
-            { "title": "MedixChain \u2014 QA Automation", "description": "Automated testing and validation cut errors by 80% across all departments.", "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop", "metrics": ["80% Error Reduction", "90% Data Accuracy", "60+ Hours Saved"] },
-            { "title": "FinSolve \u2014 Operations Automation", "description": "End-to-end process automation delivering 20% operational cost savings.", "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop", "metrics": ["50% Automated", "20% Cost Reduction", "2x Faster Onboarding"] },
-            { "title": "ScaleByte \u2014 AI Sales Engine", "description": "AI-driven CRM integration that tripled deal flow.", "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop", "metrics": ["3x More Deals", "40% Faster Responses", "95% Lead Accuracy"] }
+            { "title": "t:proj.0.title", "description": "t:proj.0.short", "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=500&fit=crop", "metrics": ["t:proj.0.sm0", "t:proj.0.sm1", "t:proj.0.sm2"] },
+            { "title": "t:proj.1.title", "description": "t:proj.1.short", "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=500&fit=crop", "metrics": ["t:proj.1.sm0", "t:proj.1.sm1", "t:proj.1.sm2"] },
+            { "title": "t:proj.2.title", "description": "t:proj.2.short", "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=500&fit=crop", "metrics": ["t:proj.2.sm0", "t:proj.2.sm1", "t:proj.2.sm2"] },
+            { "title": "t:proj.3.title", "description": "t:proj.3.short", "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=500&fit=crop", "metrics": ["t:proj.3.sm0", "t:proj.3.sm1", "t:proj.3.sm2"] }
           ]
         }
       ]
     },
     "blog": {
-      "title": "Blog",
+      "title": "t:pages.blog",
       "sections": [
         {
-          "type": "hero",
-          "variant": "gradient",
-          "background": "dark",
-          "header": { "badge": "Blog", "title": "Unlock AI Insights\nwith Us", "subtitle": "Articles, resources, and insights about AI automation and digital transformation." }
+          "type": "hero", "variant": "gradient", "background": "dark",
+          "header": { "badge": "t:blog.badge", "title": "t:blog.title", "subtitle": "t:blog.subtitle" }
         },
-        {
-          "type": "blog",
-          "variant": "default",
-          "header": { "title": "Latest articles" }
-        }
+        { "type": "blog", "variant": "default", "header": { "title": "t:blog.latest" } }
       ]
     },
     "contact": {
-      "title": "Contact",
+      "title": "t:pages.contact",
       "sections": [
         {
-          "type": "hero",
-          "variant": "gradient",
-          "background": "dark",
-          "header": { "badge": "Contact", "title": "Get in Touch\nwith Us", "subtitle": "Ready to automate? Fill out the form or reach out directly. We respond within 24 hours." }
+          "type": "hero", "variant": "gradient", "background": "dark",
+          "header": { "badge": "t:contact.hero.badge", "title": "t:contact.hero.title", "subtitle": "t:contact.hero.subtitle" }
         },
         {
-          "type": "contact",
-          "variant": "split",
-          "header": { "title": "Send us a message" },
+          "type": "contact", "variant": "split",
+          "header": { "title": "t:contact.form.header" },
           "form": {
-            "namePlaceholder": "Your name",
-            "emailPlaceholder": "Your email",
-            "messagePlaceholder": "Describe your project or inquiry...",
-            "submitButton": "Send message"
+            "nameLabel": "t:contact.form.nameLabel",
+            "namePlaceholder": "t:contact.form.name",
+            "emailLabel": "t:contact.form.emailLabel",
+            "emailPlaceholder": "t:contact.form.email",
+            "selectFields": [
+              {
+                "name": "industry",
+                "label": "t:contact.form.industryLabel",
+                "placeholder": "t:contact.form.industryPlaceholder",
+                "options": ["t:contact.form.ind.0", "t:contact.form.ind.1", "t:contact.form.ind.2", "t:contact.form.ind.3", "t:contact.form.ind.4", "t:contact.form.ind.5", "t:contact.form.ind.6", "t:contact.form.ind.7", "t:contact.form.ind.8"]
+              },
+              {
+                "name": "hasWebsite",
+                "label": "t:contact.form.hasWebsiteLabel",
+                "placeholder": "t:contact.form.hasWebsitePlaceholder",
+                "options": ["t:contact.form.hw.0", "t:contact.form.hw.1", "t:contact.form.hw.2"]
+              }
+            ],
+            "messageLabel": "t:contact.form.messageLabel",
+            "messagePlaceholder": "t:contact.form.message",
+            "submitButton": "t:contact.form.submit"
           },
           "info": {
-            "email": "hello@hazelgrouse.pl",
-            "phone": "+48 500 000 000",
-            "address": "Warsaw, Poland",
-            "hours": "Mon-Fri: 9:00-18:00"
+            "email": "t:contact.info.email",
+            "phone": "t:contact.info.phone",
+            "address": "t:contact.info.address",
+            "hours": "t:contact.info.hours"
           }
         }
       ]
     },
     "privacy": {
-      "title": "Privacy Policy",
+      "title": "t:pages.privacy",
       "hideFromNav": true,
       "sections": [
         {
           "type": "faq",
-          "header": { "title": "Privacy Policy", "subtitle": "Information about personal data processing" },
+          "header": { "title": "t:privacy.title", "subtitle": "t:privacy.subtitle" },
           "faqItems": [
-            { "question": "Who is the data controller?", "answer": "The data controller is Hazelgrouse Studio. Data is processed in accordance with applicable laws, including GDPR." },
-            { "question": "What data do we collect?", "answer": "We collect data provided by users in contact forms (name, email address) and technical data necessary for the proper functioning of the website." },
-            { "question": "For what purposes do we process data?", "answer": "Data is processed for the purpose of handling contact inquiries and providing services." },
-            { "question": "What rights does the user have?", "answer": "Users have the right to access, rectify, delete, restrict processing, data portability, and the right to object to processing." }
+            { "question": "t:privacy.q0", "answer": "t:privacy.a0" },
+            { "question": "t:privacy.q1", "answer": "t:privacy.a1" },
+            { "question": "t:privacy.q2", "answer": "t:privacy.a2" },
+            { "question": "t:privacy.q3", "answer": "t:privacy.a3" }
           ]
         }
       ]

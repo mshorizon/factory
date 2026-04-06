@@ -1,3 +1,10 @@
+export interface SelectField {
+  name: string;
+  label?: string;
+  placeholder?: string;
+  options: string[];
+}
+
 export interface ContactForm {
   namePlaceholder?: string;
   emailPlaceholder?: string;
@@ -6,6 +13,7 @@ export interface ContactForm {
   nameLabel?: string;
   emailLabel?: string;
   messageLabel?: string;
+  selectFields?: SelectField[];
 }
 
 export interface ContactInfo {

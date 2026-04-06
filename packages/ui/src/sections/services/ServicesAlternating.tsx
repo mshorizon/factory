@@ -34,7 +34,7 @@ function ImageReveal({ src, alt }: { src: string; alt: string }) {
       <img
         src={src}
         alt={alt}
-        className="w-[350px] h-[300px] object-cover rounded-md"
+        className="w-full max-w-[350px] h-[300px] object-cover rounded-md"
         loading="lazy"
         decoding="async"
       />
@@ -66,7 +66,7 @@ export function ServicesAlternating({
             >
               {/* Image side */}
               <div className={cn(isEven && "md:order-2")}>
-                <div className="bg-[#0A0A0A] p-[50px_50px_0] rounded-lg overflow-hidden">
+                <div className="bg-[#0A0A0A] p-[30px_30px_0] sm:p-[50px_50px_0] rounded-lg overflow-hidden">
                   {item.image ? (
                     <ImageReveal src={item.image} alt={item.title} />
                   ) : (

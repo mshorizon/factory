@@ -6,13 +6,14 @@ import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  business?: any;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, business: businessProp } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const businessId = Astro.locals.businessId;
-const business = Astro.locals.businessData;
+const business = businessProp ?? Astro.locals.businessData;
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 

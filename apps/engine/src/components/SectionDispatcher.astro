@@ -90,7 +90,7 @@ function getBgClass(bg?: string): string {
   };
 
   // Only pass business prop to sections that need it
-  const needsBusiness = ['services', 'shop', 'map', 'testimonials', 'booking'].includes(resolvedSection.type);
+  const needsBusiness = ['services', 'shop', 'map', 'testimonials', 'booking', 'contact'].includes(resolvedSection.type);
   const props = needsBusiness ? { section: sectionWithVariant, business, isHomePage, badgeVariant } : { section: sectionWithVariant, isHomePage, badgeVariant };
 
   return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class={bgClass}><Component {...props} /></div>;

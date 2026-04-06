@@ -10,7 +10,7 @@ import { Textarea } from "../../atoms/Textarea";
 import { Badge } from "../../atoms/Badge";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import { Turnstile } from "../../atoms/Turnstile";
-import type { ContactSplitProps } from "./types";
+import type { ContactSplitProps, SelectField } from "./types";
 
 export function ContactSplit({
   title,
@@ -37,6 +37,20 @@ export function ContactSplit({
     setStatus("loading");
 
     const data = new FormData(e.currentTarget);
+
+    // Compose qualifying fields into the message
+    let message = (data.get("message") as string) || "";
+    const qualifiers: string[] = [];
+    for (const field of form?.selectFields ?? []) {
+      const val = data.get(field.name) as string;
+      if (val && val !== "__placeholder__") {
+        qualifiers.push(`${field.label || field.name}: ${val}`);
+      }
+    }
+    if (qualifiers.length > 0) {
+      message = qualifiers.join("\n") + "\n\n" + message;
+    }
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -44,7 +58,7 @@ export function ContactSplit({
         body: JSON.stringify({
           name: data.get("name"),
           email: data.get("email"),
-          message: data.get("message"),
+          message,
           businessId,
           turnstileToken,
         }),
@@ -80,8 +94,8 @@ export function ContactSplit({
     <div className={cn("max-w-6xl mx-auto", className)}>
       <div className="grid lg:grid-cols-2 gap-0">
         {/* Contact Form - Left side with dark background */}
-        <ScrollReveal delay={0.1} direction="left" distance={30}>
-          <form onSubmit={handleSubmit} className="space-y-spacing-lg bg-[#16181D] p-spacing-3xl rounded-radius-secondary text-white min-h-[600px]">
+        <ScrollReveal delay={0.1} direction="left" distance={30} className="min-w-0">
+          <form onSubmit={handleSubmit} className="space-y-spacing-lg bg-[#16181D] p-6 sm:p-spacing-3xl rounded-radius-secondary text-white overflow-hidden">
             <div className="space-y-spacing-xs">
               <Label htmlFor="name" className="text-white">
                 {form?.nameLabel || "Name"}
@@ -110,6 +124,33 @@ export function ContactSplit({
                 className="bg-white text-black border-none"
               />
             </div>
+            {(form?.selectFields ?? []).map((field: SelectField) => (
+              <div key={field.name} className="space-y-spacing-xs">
+                {field.label && (
+                  <Label htmlFor={field.name} className="text-white">
+                    {field.label}
+                  </Label>
+                )}
+                <select
+                  id={field.name}
+                  name={field.name}
+                  disabled={status === "loading"}
+                  className="w-full min-w-0 rounded-md border-none bg-white text-black px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  defaultValue="__placeholder__"
+                >
+                  {field.placeholder && (
+                    <option value="__placeholder__" disabled>
+                      {field.placeholder}
+                    </option>
+                  )}
+                  {field.options.map((opt: string) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
             <div className="space-y-spacing-xs">
               <Label htmlFor="message" className="text-white">
                 {form?.messageLabel || "Message"}
@@ -155,7 +196,7 @@ export function ContactSplit({
         </ScrollReveal>
 
         {/* Contact Info - Right side */}
-        <ScrollReveal delay={0.1} direction="right" distance={30}>
+        <ScrollReveal delay={0.1} direction="right" distance={30} className="min-w-0">
           <div className="space-y-spacing-2xl px-spacing-3xl pt-8 pb-12 bg-background flex flex-col justify-center rounded-radius-secondary">
             {badge && (
               <div className="flex items-center gap-spacing-sm">

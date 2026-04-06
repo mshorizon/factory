@@ -451,6 +451,15 @@ export interface ContactForm {
   emailPlaceholder?: string;
   messagePlaceholder?: string;
   submitButton?: string;
+  nameLabel?: string;
+  emailLabel?: string;
+  messageLabel?: string;
+  selectFields?: {
+    name?: string;
+    label?: string;
+    placeholder?: string;
+    options?: string[];
+  }[];
 }
 export interface Labels {
   [k: string]: string;
@@ -487,6 +496,7 @@ export interface ProcessStep {
   title?: string;
   description?: string;
   icon?: string;
+  image?: string;
   badges?: VisualBadges;
 }
 export interface BeforeAfterPair {

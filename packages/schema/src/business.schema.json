@@ -253,7 +253,22 @@
             "namePlaceholder": { "type": "string" },
             "emailPlaceholder": { "type": "string" },
             "messagePlaceholder": { "type": "string" },
-            "submitButton": { "type": "string" }
+            "submitButton": { "type": "string" },
+            "nameLabel": { "type": "string" },
+            "emailLabel": { "type": "string" },
+            "messageLabel": { "type": "string" },
+            "selectFields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "label": { "type": "string" },
+                  "placeholder": { "type": "string" },
+                  "options": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
           }
         },
         "labels": {
@@ -282,6 +297,7 @@
               "title": { "type": "string" },
               "description": { "type": "string" },
               "icon": { "type": "string" },
+              "image": { "type": "string" },
               "badges": {
                 "type": "array",
                 "title": "Visual Badges",
