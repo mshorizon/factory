@@ -24,7 +24,7 @@ function getSchema(): string {
   if (schemaCache) return schemaCache;
   const schemaPath = resolve(
     process.cwd(),
-    "../packages/schema/src/business.schema.json"
+    "../../packages/schema/src/business.schema.json"
   );
   schemaCache = readFileSync(schemaPath, "utf-8");
   return schemaCache;
@@ -93,8 +93,14 @@ Here is the JSON Schema that your output MUST conform to:
 ${getSchema()}
 </schema>`;
 
+let _apiKey: string | null = null;
+
+export function setGeminiApiKey(key: string) {
+  _apiKey = key;
+}
+
 function getClient(): GoogleGenerativeAI {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = _apiKey || process.env.GEMINI_API_KEY;
   if (!apiKey) {
     throw new Error("GEMINI_API_KEY is not configured");
   }

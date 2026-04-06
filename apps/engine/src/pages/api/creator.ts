@@ -4,7 +4,7 @@ import { validate } from "@mshorizon/schema";
 import { verifyTurnstile } from "../../lib/turnstile.js";
 import { rateLimit } from "../../lib/rate-limit.js";
 import { hashPassword, signAccessToken, signRefreshToken, setAuthCookies } from "../../lib/auth.js";
-import { generateBusinessProfile, retryGenerateWithErrors } from "../../lib/claude.js";
+import { generateBusinessProfile, retryGenerateWithErrors, setGeminiApiKey } from "../../lib/claude.js";
 import { generateUniqueSubdomain } from "../../lib/slugify.js";
 import logger from "../../lib/logger.js";
 import type { CreatorInput } from "../../lib/claude.js";
@@ -82,7 +82,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       }
     }
 
-    // --- Init DB & check email uniqueness ---
+    // --- Init Gemini API key & DB ---
+    if (import.meta.env.GEMINI_API_KEY) {
+      setGeminiApiKey(import.meta.env.GEMINI_API_KEY);
+    }
     initDb(import.meta.env.DATABASE_URL);
 
     const existingUser = await getUserByEmail(email);
