@@ -11,7 +11,7 @@
     "contact": {
       "address": "t:contact.info.address",
       "phone": "t:contact.info.phone",
-      "email": "t:contact.info.email",
+      "email": "hello@hazelgrouse.pl",
       "hours": "t:contact.info.hours"
     },
     "socials": {
@@ -58,7 +58,7 @@
   "layout": {
     "navbar": { "variant": "standard" },
     "footer": {
-      "variant": "gradient",
+      "variant": "multiColumn",
       "copyright": "t:footer.copyright",
       "tagline": "t:footer.tagline",
       "links": [
@@ -492,7 +492,7 @@
             "submitButton": "t:contact.form.submit"
           },
           "info": {
-            "email": "t:contact.info.email",
+            "email": "hello@hazelgrouse.pl",
             "phone": "t:contact.info.phone",
             "address": "t:contact.info.address",
             "hours": "t:contact.info.hours"
