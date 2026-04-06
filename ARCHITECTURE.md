@@ -263,6 +263,7 @@ erDiagram
 | POST | `/api/notifications/subscribe` | Web push subscribe |
 | POST | `/api/notifications/unsubscribe` | Web push unsubscribe |
 | GET | `/api/notifications/vapid-public-key` | VAPID public key |
+| POST | `/api/creator` | AI website creator (rate limited, CAPTCHA) |
 
 ---
 
@@ -650,9 +651,95 @@ PUBLIC_SENTRY_DSN=https://...  # client-side
 SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
 ALERT_EMAIL_FROM=noreply@contact.hazelgrouse.pl
 
+# === AI Website Creator (Gemini) ===
+GEMINI_API_KEY=AIza...
+
 # === Server ===
 PORT=4321
 NODE_ENV=production
+```
+
+---
+
+## Self-Service Website Creator
+
+The creator allows potential clients to generate a complete business website through a multi-step wizard on the portfolio-tech site.
+
+### Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant CreatorWizard
+    participant CreatorAPI
+    participant GeminiAI
+    participant DB
+
+    Client->>CreatorWizard: Opens /creator
+    CreatorWizard->>CreatorWizard: 5-step form (basics, details, online, style, review)
+    Client->>CreatorWizard: Fills form + CAPTCHA
+    CreatorWizard->>CreatorAPI: POST /api/creator
+
+    CreatorAPI->>CreatorAPI: Validate fields + rate limit (3/h/IP)
+    CreatorAPI->>CreatorAPI: Verify Turnstile CAPTCHA
+    CreatorAPI->>DB: Check email uniqueness
+    CreatorAPI->>CreatorAPI: Generate subdomain (slugify + collision check)
+
+    CreatorAPI->>GeminiAI: Generate BusinessProfile JSON
+    Note over GeminiAI: System prompt includes full JSON Schema,<br/>available section types/variants,<br/>theme presets, and guidelines
+    GeminiAI-->>CreatorAPI: Raw JSON
+
+    CreatorAPI->>CreatorAPI: Validate vs business.schema.json (AJV)
+    alt Validation fails
+        CreatorAPI->>GeminiAI: Retry with error feedback
+        GeminiAI-->>CreatorAPI: Corrected JSON
+    end
+
+    CreatorAPI->>DB: upsertSiteConfig(subdomain, config)
+    CreatorAPI->>DB: createUser(email, hash, role=admin, businessId)
+    CreatorAPI->>CreatorAPI: Sign JWT + set auth cookies
+    CreatorAPI-->>CreatorWizard: { success, subdomain, redirectUrl }
+    CreatorWizard-->>Client: Redirect to admin panel
+```
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `apps/engine/src/pages/creator.astro` | Astro page (portfolio-tech only guard) |
+| `apps/engine/src/components/creator/CreatorWizard.tsx` | React wizard (5 steps + progress + success screens) |
+| `apps/engine/src/pages/api/creator.ts` | POST endpoint — orchestrates generation, validation, DB insert, user creation, auth |
+| `apps/engine/src/lib/claude.ts` | Gemini API integration — prompt engineering, JSON parsing, retry logic |
+| `apps/engine/src/lib/slugify.ts` | Subdomain generation — Polish char handling, collision check, reserved words |
+
+### Wizard Steps
+
+1. **Podstawy** — business name, industry (select), email, password, phone
+2. **Szczegóły** — description, services/prices, hours, address
+3. **Online** — website URL, Google Maps, Facebook, Instagram, LinkedIn, TikTok
+4. **Styl** — theme preset selection (modern, bold, elegant, industrial, wellness, classic)
+5. **Podsumowanie** — review all data + Turnstile CAPTCHA + submit
+
+### AI Generation
+
+- **Model:** Gemini 2.5 Flash (free tier: 15 RPM, 1M tokens/month)
+- **System prompt** contains: full `business.schema.json`, available section types with variants, theme presets, content guidelines
+- **Output:** Complete BusinessProfile JSON with pages (home + 4-6 subpages), services, theme, navigation, footer
+- **Validation:** AJV against schema, retry once with error feedback if validation fails
+- **Post-processing:** Overrides `business.id`, `contact.email`, `contact.phone`, `contact.address` with user-provided values
+
+### Security
+
+- Rate limit: 3 creations per IP per hour
+- Cloudflare Turnstile CAPTCHA on submit
+- Email uniqueness check
+- Password: min 8 characters, bcrypt hashed
+- Subdomain: sanitized (Polish chars, non-alphanum stripped), reserved words blacklist
+
+### Environment
+
+```env
+GEMINI_API_KEY=AIza...    # Google AI Studio API key (free tier)
 ```
 
 ---
