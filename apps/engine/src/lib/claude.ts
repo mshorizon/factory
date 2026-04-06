@@ -113,7 +113,7 @@ export async function generateBusinessProfile(
 ): Promise<Record<string, unknown>> {
   const client = getClient();
   const model = client.getGenerativeModel({
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-flash",
     systemInstruction: SYSTEM_PROMPT,
   });
 
@@ -135,7 +135,7 @@ export async function retryGenerateWithErrors(
 ): Promise<Record<string, unknown>> {
   const client = getClient();
   const model = client.getGenerativeModel({
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-flash",
     systemInstruction: SYSTEM_PROMPT,
   });
 
