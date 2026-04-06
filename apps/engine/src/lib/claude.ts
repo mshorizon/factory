@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import logger from "./logger.js";
@@ -93,47 +93,32 @@ Here is the JSON Schema that your output MUST conform to:
 ${getSchema()}
 </schema>`;
 
+function getClient(): GoogleGenerativeAI {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not configured");
+  }
+  return new GoogleGenerativeAI(apiKey);
+}
+
 export async function generateBusinessProfile(
   input: CreatorInput,
   subdomain: string
 ): Promise<Record<string, unknown>> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    throw new Error("ANTHROPIC_API_KEY is not configured");
-  }
-
-  const client = new Anthropic({ apiKey });
+  const client = getClient();
+  const model = client.getGenerativeModel({
+    model: "gemini-2.0-flash",
+    systemInstruction: SYSTEM_PROMPT,
+  });
 
   const userMessage = buildUserMessage(input, subdomain);
 
-  logger.info({ subdomain, industry: input.industry }, "Generating business profile via Claude API");
+  logger.info({ subdomain, industry: input.industry }, "Generating business profile via Gemini API");
 
-  const response = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 8192,
-    messages: [{ role: "user", content: userMessage }],
-    system: SYSTEM_PROMPT,
-  });
+  const result = await model.generateContent(userMessage);
+  const text = result.response.text().trim();
 
-  const textBlock = response.content.find((b) => b.type === "text");
-  if (!textBlock || textBlock.type !== "text") {
-    throw new Error("No text response from Claude API");
-  }
-
-  let jsonText = textBlock.text.trim();
-
-  // Strip markdown fences if present
-  if (jsonText.startsWith("```")) {
-    jsonText = jsonText.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
-  }
-
-  try {
-    const config = JSON.parse(jsonText);
-    return config;
-  } catch (err) {
-    logger.error({ err, responseLength: jsonText.length }, "Failed to parse Claude response as JSON");
-    throw new Error("Generated configuration is not valid JSON");
-  }
+  return parseJsonResponse(text);
 }
 
 export async function retryGenerateWithErrors(
@@ -142,12 +127,11 @@ export async function retryGenerateWithErrors(
   previousOutput: string,
   validationErrors: string[]
 ): Promise<Record<string, unknown>> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    throw new Error("ANTHROPIC_API_KEY is not configured");
-  }
-
-  const client = new Anthropic({ apiKey });
+  const client = getClient();
+  const model = client.getGenerativeModel({
+    model: "gemini-2.0-flash",
+    systemInstruction: SYSTEM_PROMPT,
+  });
 
   const retryMessage = `The previously generated JSON had validation errors. Please fix them and return the corrected JSON.
 
@@ -161,27 +145,25 @@ Return ONLY the corrected raw JSON, no markdown fences or explanation.`;
 
   logger.info({ subdomain, errorCount: validationErrors.length }, "Retrying generation with validation errors");
 
-  const response = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 8192,
-    messages: [{ role: "user", content: retryMessage }],
-    system: SYSTEM_PROMPT,
-  });
+  const result = await model.generateContent(retryMessage);
+  const text = result.response.text().trim();
 
-  const textBlock = response.content.find((b) => b.type === "text");
-  if (!textBlock || textBlock.type !== "text") {
-    throw new Error("No text response from Claude API on retry");
-  }
+  return parseJsonResponse(text);
+}
 
-  let jsonText = textBlock.text.trim();
+function parseJsonResponse(text: string): Record<string, unknown> {
+  let jsonText = text;
+
+  // Strip markdown fences if present
   if (jsonText.startsWith("```")) {
     jsonText = jsonText.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
   }
 
   try {
     return JSON.parse(jsonText);
-  } catch {
-    throw new Error("Retry also produced invalid JSON");
+  } catch (err) {
+    logger.error({ err, responseLength: jsonText.length, first200: jsonText.slice(0, 200) }, "Failed to parse Gemini response as JSON");
+    throw new Error("Generated configuration is not valid JSON");
   }
 }
 
