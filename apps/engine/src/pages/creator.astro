@@ -1,0 +1,97 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { getLayoutConfig, getNavLinks } from "../lib/pages";
+import { resolveTarget } from "../lib/target";
+import { deepTranslate, t } from "../lib/i18n";
+import { deepResolveImages } from "../lib/images";
+import type { BusinessProfile } from "@mshorizon/schema";
+import CreatorWizard from "../components/creator/CreatorWizard";
+
+// Get business context from middleware
+const { businessId, businessData, theme, currentLang, t: translations } = Astro.locals;
+
+// Only allow on portfolio-tech site
+if (businessId !== "portfolio-tech") {
+  return Astro.redirect("/");
+}
+
+const translatedData = deepTranslate(translations, businessData) as BusinessProfile;
+const business = deepResolveImages(translatedData, businessId);
+const layout = getLayoutConfig(business);
+
+const navLinksRaw = getNavLinks(business);
+const navLinks = navLinksRaw.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+}));
+const navCta = business.navigation?.cta ? {
+  label: business.navigation.cta.label,
+  href: resolveTarget(business.navigation.cta.target, business),
+} : undefined;
+
+const footerLinks = layout.footer.links?.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+})) || [];
+
+const pagesColumn = {
+  title: t(translations, "footer.columns.pages.title", "Strony"),
+  links: [...navLinks, ...footerLinks],
+};
+const footerColumns = [
+  pagesColumn,
+  ...(layout.footer.columns?.map((col: any) => ({
+    title: col.title,
+    links: col.links?.map((link: any) => ({
+      label: link.label,
+      href: link.href || resolveTarget(link.target, business),
+    })) || [],
+  })) || []),
+];
+
+const socialLinks = business.business.socials
+  ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
+  : [];
+
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
+---
+
+<BaseLayout
+  title={`Kreator strony | ${business.business.name}`}
+  theme={theme}
+  favicon={business.business.assets?.favicon}
+  lang={currentLang}
+  description="Stwórz profesjonalną stronę internetową dla swojego biznesu w kilka minut"
+  siteName={business.business.name}
+>
+  <Navbar
+    logo={business.business.name}
+    logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    links={navLinks}
+    cta={navCta}
+    variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
+    showCart={false}
+    extensions={layout.navbar.extensions}
+    contact={business.business.contact}
+    socials={business.business.socials}
+  />
+  <main class="flex-1 py-20 md:py-28">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      <CreatorWizard client:load turnstileSiteKey={turnstileSiteKey} />
+    </div>
+  </main>
+  <Footer
+    businessName={business.business.name}
+    logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    links={footerLinks}
+    columns={footerColumns}
+    copyright={layout.footer.copyright}
+    tagline={layout.footer.tagline}
+    currentLanguage={currentLang}
+    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
+    socialLinks={socialLinks}
+    extensions={layout.footer.extensions}
+  />
+</BaseLayout>

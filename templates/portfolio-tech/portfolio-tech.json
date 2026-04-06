@@ -127,7 +127,7 @@
             "subtitle": "t:home.hero.subtitle"
           },
           "cta": { "label": "t:home.hero.cta", "target": { "type": "page", "value": "contact" } },
-          "secondaryCta": { "label": "t:home.hero.secondaryCta", "target": { "type": "page", "value": "projects" } }
+          "secondaryCta": { "label": "t:home.hero.secondaryCta", "target": { "type": "page", "value": "creator" } }
         },
         {
           "type": "trustBar", "variant": "logos", "background": "dark",

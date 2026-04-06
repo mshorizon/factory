@@ -388,6 +388,44 @@ export async function getRecentAlerts(siteId: number, hoursBack = 1) {
     .orderBy(desc(alerts.sentAt));
 }
 
+// ========== User Queries ==========
+
+export async function getAllUsers() {
+  const db = getDb();
+  return await db.select().from(users).orderBy(desc(users.createdAt));
+}
+
+export async function createUser(data: { email: string; passwordHash: string; role?: string; businessId?: string }) {
+  const db = getDb();
+  const [user] = await db.insert(users).values({
+    email: data.email.toLowerCase(),
+    passwordHash: data.passwordHash,
+    role: data.role ?? "admin",
+    businessId: data.businessId ?? null,
+  }).returning();
+  return user;
+}
+
+export async function deleteUser(id: number) {
+  const db = getDb();
+  await db.delete(users).where(eq(users.id, id));
+}
+
+export async function updateUserPassword(id: number, passwordHash: string) {
+  const db = getDb();
+  await db.update(users).set({ passwordHash, updatedAt: new Date() }).where(eq(users.id, id));
+}
+
+export async function updateUserRole(id: number, role: string) {
+  const db = getDb();
+  await db.update(users).set({ role, updatedAt: new Date() }).where(eq(users.id, id));
+}
+
+export async function updateUserBusinessId(id: number, businessId: string | null) {
+  const db = getDb();
+  await db.update(users).set({ businessId, updatedAt: new Date() }).where(eq(users.id, id));
+}
+
 // --- Auth ---
 
 export async function getUserByEmail(email: string) {
