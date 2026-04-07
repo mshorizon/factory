@@ -156,8 +156,12 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const refreshToken = await signRefreshToken({ userId: user.id });
     setAuthCookies(cookies, accessToken, refreshToken);
 
-    // --- Build redirect URL ---
-    const baseUrl = import.meta.env.BASE_DOMAIN || "hazelgrouse.pl";
+    // --- Build redirect URL (preserve dev/prod environment) ---
+    const host = request.headers.get("host") || "";
+    const isDev = host.includes(".dev.");
+    const baseUrl = isDev
+      ? `dev.${import.meta.env.BASE_DOMAIN || "hazelgrouse.pl"}`
+      : (import.meta.env.BASE_DOMAIN || "hazelgrouse.pl");
     const redirectUrl = `https://${subdomain}.${baseUrl}/admin`;
 
     return json({
