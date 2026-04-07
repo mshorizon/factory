@@ -228,6 +228,8 @@ function SuccessScreen({
       </p>
       <a
         href={redirectUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         className="inline-flex items-center gap-2 px-8 py-3 rounded-lg font-semibold bg-[var(--color-primary)] text-[var(--color-text-on-primary)] hover:opacity-90 transition-opacity"
       >
         Przejdź do panelu admina
