@@ -40,26 +40,15 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     // --- Parse body ---
     const body = await request.json();
-    const {
-      businessName,
-      industry,
-      description,
-      email,
-      password,
-      phone,
-      address,
-      hours,
-      services,
-      websiteUrl,
-      googleMapsUrl,
-      socialLinks,
-      stylePreference,
-      turnstileToken,
-    } = body;
+    const { description, email, password, stylePreference, turnstileToken } = body;
 
     // --- Validate required fields ---
-    if (!businessName || !industry || !email || !password) {
-      return json("Brakujące wymagane pola: nazwa firmy, branża, email, hasło", 400);
+    if (!description || typeof description !== "string" || description.trim().length < 10) {
+      return json("Opis biznesu jest wymagany (minimum 10 znaków)", 400);
+    }
+
+    if (!email || !password) {
+      return json("Email i hasło są wymagane", 400);
     }
 
     if (typeof password !== "string" || password.length < 8) {
@@ -93,32 +82,21 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       return json("Konto z tym adresem email już istnieje", 409);
     }
 
-    // --- Generate unique subdomain ---
-    const subdomain = await generateUniqueSubdomain(businessName);
-
-    // --- Generate business profile via Claude ---
+    // --- Generate business profile first (AI extracts business name from description) ---
     const creatorInput: CreatorInput = {
-      businessName,
-      industry,
-      description: description || "",
+      description: description.trim(),
       email,
-      phone,
-      address,
-      hours,
-      services,
-      websiteUrl,
-      googleMapsUrl,
-      socialLinks,
       stylePreference,
     };
 
-    let config = await generateBusinessProfile(creatorInput, subdomain);
+    // Use placeholder — real subdomain will be derived from AI-extracted business name
+    let config = await generateBusinessProfile(creatorInput, "placeholder");
 
     // --- Validate against schema ---
     let { valid, errors } = validate(config as BusinessProfile);
 
     if (!valid && errors) {
-      logger.warn({ errorCount: errors.length, subdomain }, "First generation failed validation, retrying");
+      logger.warn({ errorCount: errors.length }, "First generation failed validation, retrying");
       const errorMessages = errors.map(
         (e: { instancePath?: string; message?: string }) => `${e.instancePath || "/"}: ${e.message || "unknown"}`
       );
@@ -126,7 +104,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       try {
         config = await retryGenerateWithErrors(
           creatorInput,
-          subdomain,
+          "placeholder",
           JSON.stringify(config),
           errorMessages
         );
@@ -134,23 +112,25 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         valid = retryResult.valid;
         errors = retryResult.errors;
       } catch (retryErr) {
-        logger.error({ err: retryErr, subdomain }, "Retry generation failed");
+        logger.error({ err: retryErr }, "Retry generation failed");
       }
     }
 
     if (!valid) {
-      logger.error({ errors, subdomain }, "Generated config failed schema validation after retry");
+      logger.error({ errors }, "Generated config failed schema validation after retry");
       return json("Nie udało się wygenerować poprawnej konfiguracji strony. Spróbuj ponownie.", 500);
     }
 
-    // --- Ensure business.id and contact.email are correct ---
+    // --- Derive subdomain from AI-extracted business name ---
     const configObj = config as Record<string, unknown>;
     const business = configObj.business as Record<string, unknown>;
+    const extractedName = (business.name as string) || "moja-firma";
+    const subdomain = await generateUniqueSubdomain(extractedName);
+
+    // --- Ensure business.id and contact.email are correct ---
     business.id = subdomain;
     const contact = (business.contact || {}) as Record<string, unknown>;
     contact.email = email;
-    if (phone) contact.phone = phone;
-    if (address) contact.address = address;
     business.contact = contact;
 
     // --- Save to database ---

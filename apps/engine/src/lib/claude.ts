@@ -4,17 +4,10 @@ import { resolve } from "node:path";
 import logger from "./logger.js";
 
 export interface CreatorInput {
-  businessName: string;
-  industry: string;
+  /** Free-text description provided by the business owner */
   description: string;
+  /** Account email — will be used as the contact email on the site */
   email: string;
-  phone?: string;
-  address?: string;
-  hours?: string;
-  services?: string;
-  websiteUrl?: string;
-  googleMapsUrl?: string;
-  socialLinks?: Record<string, string>;
   stylePreference?: string;
 }
 
@@ -59,7 +52,7 @@ const SECTION_VARIANTS = `Available section types and their variants:
 const THEME_PRESETS = `Available theme presets: industrial, wellness, minimal, elegant, modern, classic, bold`;
 
 const SYSTEM_PROMPT = `You are a website configuration generator for a multi-tenant website builder platform.
-Your task is to generate a complete, valid JSON configuration (BusinessProfile) for a new business website.
+Your task is to generate a complete, valid JSON configuration (BusinessProfile) for a new business website based on a free-text description provided by the business owner.
 
 ${THEME_PRESETS}
 
@@ -74,18 +67,19 @@ For section backgrounds, use: "light", "dark", or "primary" to create visual var
 
 Guidelines:
 1. Output ONLY raw valid JSON — no markdown fences, no comments, no explanation
-2. Generate a homepage with 5-8 sections, plus at minimum: services, about, and contact pages
-3. Use Unsplash image URLs relevant to the industry (format: https://images.unsplash.com/photo-XXXX?w=800&h=600&fit=crop)
-4. Use real Unsplash photo IDs that match the business industry
-5. Choose a theme preset and colors that match the business mood/industry
-6. For text content, use the language matching the business location (Polish for Polish businesses)
-7. Include realistic, compelling copy — headlines, descriptions, FAQ items, testimonials
-8. Generate 3-5 services with descriptions, icons (use emoji), and prices
-9. Alternate section backgrounds (light/dark/primary) for visual rhythm
-10. Include a privacy page with FAQ-type content
-11. Do NOT use "t:" translation keys — use actual text content directly
-12. The business.id should be a URL-safe slug derived from the business name
-13. Use Google Fonts names for typography (e.g., "Inter", "Poppins", "Montserrat")
+2. Extract business name, industry, phone, address, services, and hours from the description. If any detail is missing, invent a realistic Polish placeholder (e.g. placeholder phone: "+48 500 000 000", placeholder address: "ul. Przykładowa 1, 00-001 Warszawa") — the owner will update these in the admin panel
+3. Generate a homepage with 5-8 sections, plus at minimum: services, about, and contact pages
+4. Use Unsplash image URLs relevant to the industry (format: https://images.unsplash.com/photo-XXXX?w=800&h=600&fit=crop)
+5. Use real Unsplash photo IDs that match the business industry
+6. Choose a theme preset and colors that match the business mood/industry
+7. For text content, use the language matching the business location (Polish for Polish businesses)
+8. Include realistic, compelling copy — headlines, descriptions, FAQ items, testimonials
+9. Generate 3-5 services with descriptions, icons (use emoji), and prices
+10. Alternate section backgrounds (light/dark/primary) for visual rhythm
+11. Include a privacy page with FAQ-type content
+12. Do NOT use "t:" translation keys — use actual text content directly
+13. The business.id will be set externally — use "placeholder" as the value
+14. Use Google Fonts names for typography (e.g., "Inter", "Poppins", "Montserrat")
 
 Here is the JSON Schema that your output MUST conform to:
 
@@ -175,46 +169,21 @@ function parseJsonResponse(text: string): Record<string, unknown> {
 
 function buildUserMessage(input: CreatorInput, subdomain: string): string {
   const parts: string[] = [
-    `Generate a complete BusinessProfile JSON for the following business:`,
+    `Generate a complete BusinessProfile JSON based on the following description provided by the business owner.`,
+    `Extract the business name, industry, phone, address, services, and hours from the text.`,
+    `For any details not mentioned, use realistic Polish placeholder values.`,
     ``,
-    `Business Name: ${input.businessName}`,
-    `Industry: ${input.industry}`,
-    `Business ID (subdomain): ${subdomain}`,
+    `Business ID (subdomain — use this as business.id): ${subdomain}`,
+    `Contact Email: ${input.email}`,
   ];
 
-  if (input.description) {
-    parts.push(``, `Business Description:`, input.description);
-  }
-  if (input.email) {
-    parts.push(`Contact Email: ${input.email}`);
-  }
-  if (input.phone) {
-    parts.push(`Phone: ${input.phone}`);
-  }
-  if (input.address) {
-    parts.push(`Address: ${input.address}`);
-  }
-  if (input.hours) {
-    parts.push(`Business Hours: ${input.hours}`);
-  }
-  if (input.services) {
-    parts.push(``, `Services offered:`, input.services);
-  }
-  if (input.websiteUrl) {
-    parts.push(`Current website: ${input.websiteUrl}`);
-  }
-  if (input.googleMapsUrl) {
-    parts.push(`Google Maps: ${input.googleMapsUrl}`);
-  }
-  if (input.socialLinks && Object.keys(input.socialLinks).length > 0) {
-    parts.push(``, `Social media:`);
-    for (const [platform, url] of Object.entries(input.socialLinks)) {
-      parts.push(`  ${platform}: ${url}`);
-    }
-  }
   if (input.stylePreference) {
-    parts.push(``, `Style preference: ${input.stylePreference}`);
+    parts.push(`Style preference: ${input.stylePreference}`);
   }
+
+  parts.push(``, `--- Business description (free text from owner) ---`);
+  parts.push(input.description);
+  parts.push(`--- End of description ---`);
 
   return parts.join("\n");
 }
