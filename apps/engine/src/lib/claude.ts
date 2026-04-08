@@ -114,13 +114,10 @@ export async function generateBusinessProfile(
     model: "claude-sonnet-4-6",
     max_tokens: 16000,
     system: SYSTEM_PROMPT,
-    messages: [
-      { role: "user", content: userMessage },
-      { role: "assistant", content: "{" },
-    ],
+    messages: [{ role: "user", content: userMessage }],
   });
 
-  const text = "{" + (response.content[0].type === "text" ? response.content[0].text.trim() : "");
+  const text = response.content[0].type === "text" ? response.content[0].text.trim() : "";
   return parseJsonResponse(text);
 }
 
@@ -152,19 +149,22 @@ Return ONLY the corrected raw JSON, no markdown fences or explanation.`;
       { role: "user", content: buildUserMessage(input, subdomain) },
       { role: "assistant", content: previousOutput },
       { role: "user", content: retryMessage },
-      { role: "assistant", content: "{" },
     ],
   });
 
-  const text = "{" + (response.content[0].type === "text" ? response.content[0].text.trim() : "");
+  const text = response.content[0].type === "text" ? response.content[0].text.trim() : "";
   return parseJsonResponse(text);
 }
 
 function parseJsonResponse(text: string): Record<string, unknown> {
-  let jsonText = text;
+  // Strip markdown fences
+  let jsonText = text.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim();
 
-  if (jsonText.startsWith("```")) {
-    jsonText = jsonText.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
+  // Extract JSON object — find first { and last }
+  const start = jsonText.indexOf("{");
+  const end = jsonText.lastIndexOf("}");
+  if (start !== -1 && end !== -1 && end > start) {
+    jsonText = jsonText.slice(start, end + 1);
   }
 
   try {
