@@ -1,7 +1,8 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { GalleryGrid, SectionHeader } from "@mshorizon/ui";
-import { getSectionHeader } from "../../lib/pages";
+import { GalleryGrid, GalleryShowcase, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
 
 interface Props {
   isHomePage?: boolean;
@@ -10,8 +11,11 @@ interface Props {
 }
 
 const { section, isHomePage = false, badgeVariant } = Astro.props;
+const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const items = section.items || [];
+const exploreHref = section.cta?.target ? resolveTarget(section.cta.target) : undefined;
+const exploreLabel = section.cta?.label || section.exploreLabel;
 ---
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
@@ -23,6 +27,15 @@ const items = section.items || [];
       align="center"
       badgeVariant={badgeVariant as any}
     />
-    <GalleryGrid client:visible items={items} />
+    {variant === "showcase" ? (
+      <GalleryShowcase
+        client:visible
+        items={items}
+        exploreLabel={exploreLabel}
+        exploreHref={exploreHref}
+      />
+    ) : (
+      <GalleryGrid client:visible items={items} />
+    )}
   </div>
 </section>

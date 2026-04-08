@@ -19,7 +19,7 @@ export type TrustSignals = {
 }[];
 export type ThemePreset = "industrial" | "wellness" | "minimal" | "elegant" | "modern" | "classic" | "bold";
 export type GlobalVariant = string;
-export type MajorTheme = "specialist" | "portfolio-tech";
+export type MajorTheme = "specialist" | "portfolio-tech" | "portfolio-art";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
 export type BaseSurface = string;
@@ -100,7 +100,8 @@ export type SectionType =
   | "pricing"
   | "project"
   | "comparison"
-  | "team";
+  | "team"
+  | "events";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "primary";
@@ -119,6 +120,9 @@ export type Testimonials = {
 export type FeatureTags = string[];
 export type Metric = string;
 export type MetricLabel = string;
+export type StartDate = string;
+export type EndDate = string;
+export type LinkURL = string;
 export type Items = ServiceItem[];
 export type Timeline = TimelineItem[];
 export type ExploreLabel = string;
@@ -430,6 +434,9 @@ export interface ServiceItem {
   tags?: FeatureTags;
   metric?: Metric;
   metricLabel?: MetricLabel;
+  dateStart?: StartDate;
+  dateEnd?: EndDate;
+  href?: LinkURL;
 }
 export interface StatItem {
   value?: string;

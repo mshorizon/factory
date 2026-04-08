@@ -1,0 +1,324 @@
+{
+  "business": {
+    "id": "portfolio-art-001",
+    "name": "Christina Vale",
+    "industry": "art",
+    "assets": {
+      "favicon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233D3D3D'/%3E%3Cpath d='M8 24c2-4 5-8 8-10 2-1.5 4-2 6-1s3 3.5 2 6c-1.5 3-5 4-8 3s-5-2-8 2z' fill='%23F5F0EB'/%3E%3C/svg%3E",
+      "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M8 24c2-4 5-8 8-10 2-1.5 4-2 6-1s3 3.5 2 6c-1.5 3-5 4-8 3s-5-2-8 2z' fill='%233D3D3D'/%3E%3C/svg%3E"
+    },
+    "contact": {
+      "address": "ul. Artystyczna 12, Kraków, Poland",
+      "phone": "+48 500 600 700",
+      "email": "hello@example.com",
+      "hours": "Tue-Sat: 10:00 - 18:00"
+    },
+    "socials": {
+      "instagram": "https://instagram.com",
+      "twitter": "https://x.com",
+      "tiktok": "https://tiktok.com"
+    }
+  },
+  "theme": {
+    "preset": "elegant",
+    "majorTheme": "portfolio-art",
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#3D3D3D",
+        "surface": { "base": "#F5F0EB", "alt": "#EDE8E2", "card": "#FFFFFF" },
+        "text": { "main": "#2D2D2D", "muted": "#888888", "onPrimary": "#FFFFFF" }
+      },
+      "dark": {
+        "primary": "#C4A882",
+        "surface": { "base": "#1A1816", "alt": "#23201D", "card": "#2A2724" },
+        "text": { "main": "#F5F0EB", "muted": "#A09890", "onPrimary": "#1A1816" }
+      }
+    },
+    "typography": {
+      "primary": "'DM Serif Display', 'Georgia', serif",
+      "secondary": "'DM Sans', system-ui, sans-serif"
+    },
+    "ui": {
+      "radius": "12px",
+      "spacing": {
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "5rem",
+        "section": "7.5rem",
+        "container": "2.5rem"
+      }
+    },
+    "headingWeight": "400",
+    "navFontSize": "15px",
+    "navLinksPosition": "right",
+    "smoothScroll": true,
+    "badgeVariant": "outlined"
+  },
+  "layout": {
+    "navbar": { "variant": "standard" },
+    "footer": {
+      "variant": "multiColumn",
+      "copyright": "2025 ShowArt Portfolio",
+      "tagline": "Calm, thoughtful art made to settle a room.",
+      "links": [
+        { "label": "TikTok", "target": { "type": "external", "value": "https://tiktok.com" } },
+        { "label": "Twitter", "target": { "type": "external", "value": "https://x.com" } },
+        { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com" } }
+      ],
+      "columns": [
+        {
+          "title": "Pages",
+          "links": [
+            { "label": "Homepage", "target": { "type": "page", "value": "home" } },
+            { "label": "Paintings", "target": { "type": "page", "value": "gallery" } },
+            { "label": "About", "target": { "type": "page", "value": "about" } },
+            { "label": "Contact", "target": { "type": "page", "value": "contact" } }
+          ]
+        }
+      ]
+    }
+  },
+  "navigation": {
+    "cta": { "label": "Contact", "target": { "type": "page", "value": "contact" } }
+  },
+  "data": {
+    "services": []
+  },
+  "pages": {
+    "home": {
+      "title": "Home",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "artist",
+          "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face",
+          "header": {
+            "title": "Christina Vale",
+            "subtitle": "Calm, thoughtful art made to settle a room and leave a lasting presence in every space."
+          }
+        },
+        {
+          "type": "gallery",
+          "variant": "showcase",
+          "cta": { "label": "View All Paintings", "target": { "type": "page", "value": "gallery" } },
+          "items": [
+            {
+              "title": "Obsidian Tide",
+              "description": "Abstract Expressions",
+              "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=1000&fit=crop"
+            },
+            {
+              "title": "Crimson Horizon",
+              "description": "Abstract Expressions",
+              "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=1000&h=500&fit=crop"
+            },
+            {
+              "title": "Golden Veins",
+              "description": "Abstract Minimalism",
+              "image": "https://images.unsplash.com/photo-1578926288207-a90a5366759d?w=800&h=1000&fit=crop"
+            },
+            {
+              "title": "Azure Fragments",
+              "description": "Contemporary Abstract",
+              "image": "https://images.unsplash.com/photo-1549887534-1541e9326642?w=800&h=1000&fit=crop"
+            }
+          ]
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "title": "About"
+          },
+          "story": {
+            "title": "About the Artist",
+            "content": "I am a visual artist with over ten years of experience in painting and visual communication. In my work, I combine delicate brushstrokes with minimalist compositions to create emotional visual stories.\n\nI collaborate with galleries and private collectors and participate in exhibitions both at home and abroad. My approach combines traditional techniques with modern methods, giving each work a unique depth and precision."
+          },
+          "image": "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&h=400&fit=crop",
+          "stats": [
+            { "value": "10+", "label": "Years of experience" },
+            { "value": "200+", "label": "Artworks created" },
+            { "value": "50+", "label": "Exhibitions" }
+          ]
+        },
+        {
+          "type": "events",
+          "variant": "default",
+          "header": {
+            "title": "Upcoming Events"
+          },
+          "items": [
+            {
+              "title": "Shadows of Light",
+              "description": "Opening of a new series of minimalist square paintings exploring the interplay of light and shadow. The artist will host the evening, with light refreshments and live piano music.",
+              "image": "https://images.unsplash.com/photo-1594784674071-ac1c5100e3ea?w=900&h=400&fit=crop",
+              "dateStart": "10/23/25",
+              "dateEnd": "11/13/25",
+              "href": "https://www.eventbrite.com/"
+            },
+            {
+              "title": "Urban Curves",
+              "description": "An urban-inspired pop-up exhibition featuring large-format paintings and 3D installations that evoke city lines and architecture. Includes a DJ set and live street art performance.",
+              "image": "https://images.unsplash.com/photo-1531058020387-3be344556be6?w=900&h=400&fit=crop",
+              "dateStart": "1/29/26",
+              "dateEnd": "3/10/26",
+              "href": "https://www.eventbrite.com/"
+            },
+            {
+              "title": "Silent Horizons",
+              "description": "A summer showcase of tranquil landscapes and soft color fields focusing on horizon lines and light. Includes Saturday artist talks and a small plein-air demo; limited-edition prints available.",
+              "image": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=900&h=400&fit=crop",
+              "dateStart": "3/19/26",
+              "dateEnd": "5/21/26",
+              "href": "https://www.eventbrite.com/"
+            }
+          ]
+        },
+        {
+          "type": "testimonials",
+          "variant": "featured",
+          "items": [
+            {
+              "title": "Emily Carter",
+              "description": "Christina Vale's painting brings an elegant, calming focal point to our living room and inspires me every day.",
+              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face"
+            }
+          ]
+        },
+        {
+          "type": "faq",
+          "variant": "default",
+          "header": {
+            "title": "Not sure about something?"
+          },
+          "faqItems": [
+            {
+              "question": "Do you accept commissions or custom sizes?",
+              "answer": "Yes. Share your space, preferred colors, and size and I'll propose a sketch and quote. A small deposit starts the project; most commissions take 3-6 weeks, with progress updates and a final approval before varnish and shipping."
+            },
+            {
+              "question": "How are artworks shipped and how long does delivery take?",
+              "answer": "All paintings are carefully packaged in protective wrapping and shipped via insured courier. Domestic delivery typically takes 3-5 business days, while international shipping takes 7-14 business days."
+            },
+            {
+              "question": "Do the paintings come framed?",
+              "answer": "Most paintings are shipped unframed on stretched canvas, ready to hang. Framing options are available upon request for an additional fee. I can recommend framers in your area as well."
+            },
+            {
+              "question": "What is your return policy?",
+              "answer": "I want you to be completely happy with your purchase. If for any reason you're not satisfied, you can return the artwork within 14 days of delivery in its original condition for a full refund, minus shipping costs."
+            },
+            {
+              "question": "What materials do you use and how should I care for the artwork?",
+              "answer": "I primarily use professional-grade oil and acrylic paints on linen or cotton canvas. To maintain the vibrancy, keep the artwork away from direct sunlight, avoid high humidity, and dust gently with a soft, dry cloth."
+            }
+          ]
+        },
+        {
+          "type": "ctaBanner",
+          "variant": "default",
+          "header": {
+            "badge": "100+ Custom paintings made",
+            "title": "Only your imagination limits you"
+          },
+          "cta": { "label": "Contact me", "target": { "type": "page", "value": "contact" } }
+        }
+      ]
+    },
+    "gallery": {
+      "title": "Paintings",
+      "sections": [
+        {
+          "type": "gallery",
+          "variant": "default",
+          "header": {
+            "title": "Browse All Paintings"
+          },
+          "items": [
+            {
+              "title": "Obsidian Tide",
+              "description": "Abstract Expressions",
+              "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&h=400&fit=crop"
+            },
+            {
+              "title": "Crimson Horizon",
+              "description": "Abstract Expressions",
+              "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&h=400&fit=crop"
+            },
+            {
+              "title": "Golden Veins",
+              "description": "Abstract Minimalism",
+              "image": "https://images.unsplash.com/photo-1578926288207-a90a5366759d?w=600&h=400&fit=crop"
+            },
+            {
+              "title": "Azure Fragments",
+              "description": "Contemporary Abstract",
+              "image": "https://images.unsplash.com/photo-1549887534-1541e9326642?w=600&h=400&fit=crop"
+            },
+            {
+              "title": "Whispered Light",
+              "description": "Abstract Minimalism",
+              "image": "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?w=600&h=400&fit=crop"
+            },
+            {
+              "title": "Earthen Drift",
+              "description": "Mixed Media",
+              "image": "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=600&h=400&fit=crop"
+            }
+          ]
+        }
+      ]
+    },
+    "about": {
+      "title": "About",
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "title": "About"
+          },
+          "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop&crop=face",
+          "story": {
+            "title": "Art is my passion",
+            "content": "I channel over a decade of artistic exploration into each composition, blending expressive brushwork with harmonious palettes. My work invites viewers to pause and engage with subtle nuances of light and form.\n\nI've exhibited across Europe — in both intimate galleries and large-scale art fairs — aiming to connect spaces with meaningful visual narratives. Whether through bold abstracts or delicate studies, every painting reflects my commitment to craftsmanship and storytelling.\n\nJoin me in discovering how art can transform a room and uplift the spirit."
+          },
+          "stats": [
+            { "value": "10+", "label": "Years of experience" },
+            { "value": "200+", "label": "Artworks created" },
+            { "value": "50+", "label": "Exhibitions" }
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contact",
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "centered",
+          "header": {
+            "title": "Start the Conversation",
+            "subtitle": "Interested in a painting? Have a question? Just fill out the form or contact me via email."
+          },
+          "form": {
+            "namePlaceholder": "Jane Smith",
+            "emailPlaceholder": "example@example.com",
+            "messagePlaceholder": "I would like to purchase a painting...",
+            "submitButton": "Send message",
+            "nameLabel": "Name",
+            "emailLabel": "Email",
+            "messageLabel": "Message"
+          }
+        }
+      ]
+    }
+  },
+  "sharedSections": {}
+}

@@ -7,7 +7,7 @@ export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered,
 export type { FooterProps, SocialLink, Link, FooterColumn } from "./footer";
 
 // Hero variants
-export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal } from "./hero";
+export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist } from "./hero";
 export type { HeroProps, CTAButton } from "./hero";
 
 // Services variants
@@ -47,11 +47,11 @@ export { GalleryBA } from "./galleryBA";
 export type { GalleryBAProps, BeforeAfterPair } from "./galleryBA";
 
 // Gallery variants
-export { GalleryGrid } from "./gallery";
-export type { GalleryGridProps, GalleryItem } from "./gallery";
+export { GalleryGrid, GalleryShowcase } from "./gallery";
+export type { GalleryGridProps, GalleryShowcaseProps, GalleryItem } from "./gallery";
 
 // Testimonials variants
-export { TestimonialsGrid, TestimonialsGradient } from "./testimonials";
+export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured } from "./testimonials";
 export type { TestimonialsGridProps, TestimonialItem } from "./testimonials";
 
 // FAQ variants
@@ -93,3 +93,7 @@ export type { ComparisonTableProps, ComparisonRow } from "./comparison";
 // Team variants
 export { TeamGrid } from "./team";
 export type { TeamGridProps, TeamMember } from "./team";
+
+// Events variants
+export { EventsDefault } from "./events";
+export type { EventsDefaultProps, EventItem } from "./events";

@@ -23,6 +23,7 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
   booking: "default",
   pricing: "default",
   project: "grid",
+  events: "default",
 };
 
 /**

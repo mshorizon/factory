@@ -139,7 +139,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking", "pricing", "project", "comparison", "team"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking", "pricing", "project", "comparison", "team", "events"]
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
         "variant": { "type": "string", "title": "Variant" },
@@ -194,7 +194,10 @@
                 "items": { "type": "string" }
               },
               "metric": { "type": "string", "title": "Metric" },
-              "metricLabel": { "type": "string", "title": "Metric Label" }
+              "metricLabel": { "type": "string", "title": "Metric Label" },
+              "dateStart": { "type": "string", "title": "Start Date" },
+              "dateEnd": { "type": "string", "title": "End Date" },
+              "href": { "type": "string", "title": "Link URL" }
             }
           }
         },
@@ -698,7 +701,7 @@
         "majorTheme": {
           "type": "string",
           "title": "Major Theme",
-          "enum": ["specialist", "portfolio-tech"]
+          "enum": ["specialist", "portfolio-tech", "portfolio-art"]
         },
         "mode": {
           "type": "string",
