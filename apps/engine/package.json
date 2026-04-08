@@ -10,6 +10,7 @@
     "start": "node dist/server/entry.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.85.0",
     "@astrojs/node": "^9.5.2",
     "@astrojs/react": "^4.4.2",
     "@astrojs/tailwind": "^6.0.2",

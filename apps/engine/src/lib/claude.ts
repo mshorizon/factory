@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Anthropic from "@anthropic-ai/sdk";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import logger from "./logger.js";
@@ -93,12 +93,12 @@ export function setGeminiApiKey(key: string) {
   _apiKey = key;
 }
 
-function getClient(): GoogleGenerativeAI {
-  const apiKey = _apiKey || process.env.GEMINI_API_KEY;
+function getClient(): Anthropic {
+  const apiKey = _apiKey || process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    throw new Error("GEMINI_API_KEY is not configured");
+    throw new Error("ANTHROPIC_API_KEY is not configured");
   }
-  return new GoogleGenerativeAI(apiKey);
+  return new Anthropic({ apiKey });
 }
 
 export async function generateBusinessProfile(
@@ -106,18 +106,18 @@ export async function generateBusinessProfile(
   subdomain: string
 ): Promise<Record<string, unknown>> {
   const client = getClient();
-  const model = client.getGenerativeModel({
-    model: "gemini-2.5-flash",
-    systemInstruction: SYSTEM_PROMPT,
-  });
-
   const userMessage = buildUserMessage(input, subdomain);
 
-  logger.info({ subdomain, industry: input.industry }, "Generating business profile via Gemini API");
+  logger.info({ subdomain }, "Generating business profile via Claude API");
 
-  const result = await model.generateContent(userMessage);
-  const text = result.response.text().trim();
+  const response = await client.messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 8192,
+    system: SYSTEM_PROMPT,
+    messages: [{ role: "user", content: userMessage }],
+  });
 
+  const text = response.content[0].type === "text" ? response.content[0].text.trim() : "";
   return parseJsonResponse(text);
 }
 
@@ -128,10 +128,6 @@ export async function retryGenerateWithErrors(
   validationErrors: string[]
 ): Promise<Record<string, unknown>> {
   const client = getClient();
-  const model = client.getGenerativeModel({
-    model: "gemini-2.5-flash",
-    systemInstruction: SYSTEM_PROMPT,
-  });
 
   const retryMessage = `The previously generated JSON had validation errors. Please fix them and return the corrected JSON.
 
@@ -145,16 +141,24 @@ Return ONLY the corrected raw JSON, no markdown fences or explanation.`;
 
   logger.info({ subdomain, errorCount: validationErrors.length }, "Retrying generation with validation errors");
 
-  const result = await model.generateContent(retryMessage);
-  const text = result.response.text().trim();
+  const response = await client.messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 8192,
+    system: SYSTEM_PROMPT,
+    messages: [
+      { role: "user", content: buildUserMessage(input, subdomain) },
+      { role: "assistant", content: previousOutput },
+      { role: "user", content: retryMessage },
+    ],
+  });
 
+  const text = response.content[0].type === "text" ? response.content[0].text.trim() : "";
   return parseJsonResponse(text);
 }
 
 function parseJsonResponse(text: string): Record<string, unknown> {
   let jsonText = text;
 
-  // Strip markdown fences if present
   if (jsonText.startsWith("```")) {
     jsonText = jsonText.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
   }
@@ -162,7 +166,7 @@ function parseJsonResponse(text: string): Record<string, unknown> {
   try {
     return JSON.parse(jsonText);
   } catch (err) {
-    logger.error({ err, responseLength: jsonText.length, first200: jsonText.slice(0, 200) }, "Failed to parse Gemini response as JSON");
+    logger.error({ err, responseLength: jsonText.length, first200: jsonText.slice(0, 200) }, "Failed to parse Claude response as JSON");
     throw new Error("Generated configuration is not valid JSON");
   }
 }

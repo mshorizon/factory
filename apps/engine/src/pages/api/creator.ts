@@ -71,9 +71,9 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       }
     }
 
-    // --- Init Gemini API key & DB ---
-    if (import.meta.env.GEMINI_API_KEY) {
-      setGeminiApiKey(import.meta.env.GEMINI_API_KEY);
+    // --- Init Claude API key & DB ---
+    if (import.meta.env.ANTHROPIC_API_KEY) {
+      setGeminiApiKey(import.meta.env.ANTHROPIC_API_KEY);
     }
     initDb(import.meta.env.DATABASE_URL);
 
