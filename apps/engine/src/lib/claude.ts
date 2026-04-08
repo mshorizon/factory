@@ -67,6 +67,7 @@ For section backgrounds, use: "light", "dark", or "primary" to create visual var
 
 Guidelines:
 1. Output ONLY raw valid JSON — no markdown fences, no comments, no explanation
+2. CRITICAL — WCAG AA contrast: text.main on surface.base MUST have ratio ≥ 4.5:1, text.onPrimary on primary MUST have ratio ≥ 4.5:1, text.muted on surface.base MUST have ratio ≥ 3:1. NEVER use light text on light background or dark text on dark background. When in doubt, use white (#FFFFFF) on dark backgrounds and near-black (#1A1A1A) on light backgrounds.
 2. Extract business name, industry, phone, address, services, and hours from the description. If any detail is missing, invent a realistic Polish placeholder (e.g. placeholder phone: "+48 500 000 000", placeholder address: "ul. Przykładowa 1, 00-001 Warszawa") — the owner will update these in the admin panel
 3. Generate a homepage with 5-8 sections, plus at minimum: services, about, and contact pages
 4. Use Unsplash image URLs relevant to the industry (format: https://images.unsplash.com/photo-XXXX?w=800&h=600&fit=crop)
@@ -80,6 +81,7 @@ Guidelines:
 12. Do NOT use "t:" translation keys — use actual text content directly
 13. The business.id will be set externally — use "placeholder" as the value
 14. Use Google Fonts names for typography (e.g., "Inter", "Poppins", "Montserrat")
+15. After choosing all colors, mentally verify each contrast pair passes WCAG AA before finalizing
 
 Here is the JSON Schema that your output MUST conform to:
 

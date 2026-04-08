@@ -3,6 +3,7 @@ import RjsfForm from "@rjsf/shadcn";
 import rjsfValidator from "@rjsf/validator-ajv8";
 import type { RJSFSchema } from "@rjsf/utils";
 import { ColorPickerWidget } from "./widgets/ColorPickerWidget";
+import { ContrastChecker } from "./ContrastChecker";
 import { ImageUrlWidget } from "./widgets/ImageUrlWidget";
 import { ObjectFieldTemplate, FieldTemplate } from "./RjsfTemplates";
 import SectionEditor from "./SectionEditor";
@@ -1208,6 +1209,12 @@ export default function AdminForm({
                   onChange={(data: any) => handleChange(["theme", "colors", currentMode], data)}
                   liveValidate={false}
                 ><></></Form>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <ContrastChecker colors={colorData} />
               </CardContent>
             </Card>
 
