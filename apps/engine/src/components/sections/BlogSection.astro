@@ -17,8 +17,11 @@ const { site, currentLang } = Astro.locals;
 const header = getSectionHeader(section);
 const ctaLabel = section.ctaLabel || "Czytaj więcej";
 
-// Fetch latest 2 blogs from database in current language
-const blogs = site ? await getLatestBlogs(site.id, 2, currentLang) : [];
+// Fetch latest 2 blogs in current language, fallback to all languages
+let blogs = site ? await getLatestBlogs(site.id, 2, currentLang) : [];
+if (blogs.length === 0 && site) {
+  blogs = await getLatestBlogs(site.id, 2);
+}
 
 // Transform blogs to BlogPost[] format
 const posts: BlogPost[] = blogs.map((blog) => ({

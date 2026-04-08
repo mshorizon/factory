@@ -33,10 +33,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Set publishedAt if status is published
     const publishedAt = blog.status === "published" ? new Date() : null;
 
+    // Determine default language from site's primary language setting
+    const siteTranslations = (site.translations || {}) as Record<string, any>;
+    const sitePrimaryLang = siteTranslations._settings?.primaryLanguage || "pl";
+
     const newBlog = await createBlog({
       siteId: site.id,
       slug: blog.slug,
-      lang: blog.lang || "en",
+      lang: blog.lang || sitePrimaryLang,
       title: blog.title,
       description: blog.description || null,
       content: blog.content,
