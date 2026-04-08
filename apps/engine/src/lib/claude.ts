@@ -111,13 +111,16 @@ export async function generateBusinessProfile(
   logger.info({ subdomain }, "Generating business profile via Claude API");
 
   const response = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
-    max_tokens: 8192,
+    model: "claude-sonnet-4-6",
+    max_tokens: 16000,
     system: SYSTEM_PROMPT,
-    messages: [{ role: "user", content: userMessage }],
+    messages: [
+      { role: "user", content: userMessage },
+      { role: "assistant", content: "{" },
+    ],
   });
 
-  const text = response.content[0].type === "text" ? response.content[0].text.trim() : "";
+  const text = "{" + (response.content[0].type === "text" ? response.content[0].text.trim() : "");
   return parseJsonResponse(text);
 }
 
@@ -142,17 +145,18 @@ Return ONLY the corrected raw JSON, no markdown fences or explanation.`;
   logger.info({ subdomain, errorCount: validationErrors.length }, "Retrying generation with validation errors");
 
   const response = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
-    max_tokens: 8192,
+    model: "claude-sonnet-4-6",
+    max_tokens: 16000,
     system: SYSTEM_PROMPT,
     messages: [
       { role: "user", content: buildUserMessage(input, subdomain) },
       { role: "assistant", content: previousOutput },
       { role: "user", content: retryMessage },
+      { role: "assistant", content: "{" },
     ],
   });
 
-  const text = response.content[0].type === "text" ? response.content[0].text.trim() : "";
+  const text = "{" + (response.content[0].type === "text" ? response.content[0].text.trim() : "");
   return parseJsonResponse(text);
 }
 
