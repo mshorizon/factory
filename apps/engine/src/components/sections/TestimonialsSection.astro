@@ -37,7 +37,7 @@ const showHeader = section.variant !== 'full';
       {variant === "gradient" ? (
         <TestimonialsGradient client:visible items={items} />
       ) : variant === "featured" ? (
-        <TestimonialsFeatured client:visible items={items} />
+        <TestimonialsFeatured client:visible items={items} sectionImage={section.image} />
       ) : (
         <TestimonialsGrid client:visible items={items} />
       )}

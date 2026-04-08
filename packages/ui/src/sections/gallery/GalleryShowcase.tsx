@@ -23,9 +23,8 @@ export function GalleryShowcase({
     <div className={cn("space-y-spacing-lg", className)}>
       {items.map((item, index) => (
         <ScrollReveal key={index} delay={index * 0.1} direction="up" distance={30}>
-          <a
-            href={item.description || "#"}
-            className="group block relative bg-surface-alt rounded-radius overflow-hidden transition-shadow hover:shadow-lg"
+          <div
+            className="group block relative bg-surface-alt rounded-radius overflow-hidden transition-shadow hover:shadow-lg cursor-pointer"
             data-field={`items.${index}`}
           >
             {/* Badge */}
@@ -65,7 +64,7 @@ export function GalleryShowcase({
                 <ArrowUpRight className="w-4 h-4 text-foreground" />
               </div>
             </div>
-          </a>
+          </div>
         </ScrollReveal>
       ))}
 

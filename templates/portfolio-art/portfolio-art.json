@@ -126,7 +126,7 @@
             {
               "title": "Azure Fragments",
               "description": "Contemporary Abstract",
-              "image": "https://images.unsplash.com/photo-1549887534-1541e9326642?w=800&h=1000&fit=crop"
+              "image": "https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=800&h=1000&fit=crop"
             }
           ]
         },
@@ -157,7 +157,7 @@
             {
               "title": "Shadows of Light",
               "description": "Opening of a new series of minimalist square paintings exploring the interplay of light and shadow. The artist will host the evening, with light refreshments and live piano music.",
-              "image": "https://images.unsplash.com/photo-1594784674071-ac1c5100e3ea?w=900&h=400&fit=crop",
+              "image": "https://images.unsplash.com/photo-1577083288073-40892c0860a4?w=900&h=400&fit=crop",
               "dateStart": "10/23/25",
               "dateEnd": "11/13/25",
               "href": "https://www.eventbrite.com/"
@@ -183,6 +183,7 @@
         {
           "type": "testimonials",
           "variant": "featured",
+          "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&h=600&fit=crop",
           "items": [
             {
               "title": "Emily Carter",
@@ -259,7 +260,7 @@
             {
               "title": "Azure Fragments",
               "description": "Contemporary Abstract",
-              "image": "https://images.unsplash.com/photo-1549887534-1541e9326642?w=600&h=400&fit=crop"
+              "image": "https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=600&h=400&fit=crop"
             },
             {
               "title": "Whispered Light",

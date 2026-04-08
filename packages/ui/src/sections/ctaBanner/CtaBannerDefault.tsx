@@ -8,6 +8,7 @@ import type { CtaBannerProps } from "./types";
 
 export function CtaBannerDefault({
   title,
+  badge,
   ctaLabel,
   ctaHref = "/contact",
   className,
@@ -17,6 +18,11 @@ export function CtaBannerDefault({
   return (
     <ScrollReveal className={cn("py-spacing-3xl md:py-spacing-section", className)}>
       <div className="space-y-spacing-2xl">
+        {badge && (
+          <span className="inline-block text-sm text-muted border border-border rounded-full px-4 py-1.5" data-field="header.badge">
+            {badge}
+          </span>
+        )}
         {title && (
           <h2
             className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-foreground leading-tight max-w-3xl"

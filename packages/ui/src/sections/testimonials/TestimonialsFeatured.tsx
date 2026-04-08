@@ -4,7 +4,11 @@ import { cn } from "../../lib/utils";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { TestimonialsGridProps } from "./types";
 
-export function TestimonialsFeatured({ items, className }: TestimonialsGridProps) {
+export interface TestimonialsFeaturedProps extends TestimonialsGridProps {
+  sectionImage?: string;
+}
+
+export function TestimonialsFeatured({ items, sectionImage, className }: TestimonialsFeaturedProps) {
   const item = items[0];
   if (!item) return null;
 
@@ -55,15 +59,16 @@ export function TestimonialsFeatured({ items, className }: TestimonialsGridProps
       </ScrollReveal>
 
       {/* Image side */}
-      {items[0] && (items as any)[0]?.backgroundImage && (
+      {sectionImage && (
         <ScrollReveal delay={0.15} direction="right" distance={30}>
-          <div className="relative rounded-radius overflow-hidden aspect-[4/3] lg:aspect-auto lg:h-full">
+          <div className="relative rounded-radius overflow-hidden aspect-[4/3] lg:aspect-auto lg:h-full min-h-[300px]">
             <img
-              src={(items as any)[0].backgroundImage}
+              src={sectionImage}
               alt=""
               className="w-full h-full object-cover"
               loading="lazy"
               decoding="async"
+              data-field="image"
             />
           </div>
         </ScrollReveal>
