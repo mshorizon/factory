@@ -3,6 +3,7 @@
 import { cn } from "../../lib/utils";
 import { Card } from "../../atoms/Card";
 import { Badge } from "../../atoms/Badge";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { ServicesProps } from "./types";
 
@@ -26,7 +27,7 @@ export function ServicesFeatured({
               {/* Image/mockup area */}
               {item.image && (
                 <div className="relative aspect-[16/10] overflow-hidden bg-surface-alt">
-                  <img
+                  <SafeImage
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-500"

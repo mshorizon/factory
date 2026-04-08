@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 
 interface ProjectHorizontalProps {
@@ -110,7 +111,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
               {/* Image Left */}
               {project.image && (
                 <div className="flex-shrink-0">
-                  <img
+                  <SafeImage
                     src={project.image}
                     alt={project.title}
                     className="w-full h-[200px] md:w-[450px] md:h-[450px] object-cover flex-shrink-0 rounded-lg"

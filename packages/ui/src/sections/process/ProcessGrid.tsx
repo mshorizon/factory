@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { ProcessStepsProps } from "./types";
 
@@ -45,7 +46,7 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
 
               {step.image && (
                 <div className="mt-spacing-lg">
-                  <img src={step.image} alt={step.title} className="w-full max-w-[360px] h-[160px] object-cover rounded-lg" loading="lazy" />
+                  <SafeImage src={step.image} alt={step.title} className="w-full max-w-[360px] h-[160px] object-cover rounded-lg" loading="lazy" />
                 </div>
               )}
             </div>

@@ -1,4 +1,5 @@
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import type { CategoriesProps } from "./types";
 
 export function CategoriesCarousel({ items, className }: CategoriesProps) {
@@ -16,7 +17,7 @@ export function CategoriesCarousel({ items, className }: CategoriesProps) {
               {/* Image or Icon */}
               {item.image ? (
                 <div className="h-40 overflow-hidden" data-field={`items.${index}.image`}>
-                  <img
+                  <SafeImage
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

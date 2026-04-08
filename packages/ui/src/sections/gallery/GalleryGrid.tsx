@@ -2,6 +2,7 @@
 
 import { cn } from "../../lib/utils";
 import { Card, CardContent } from "../../atoms/Card";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { GalleryGridProps } from "./types";
 
@@ -23,7 +24,7 @@ export function GalleryGrid({ items, className }: GalleryGridProps) {
           >
             <CardContent className="p-0">
               <div className="aspect-[3/2] overflow-hidden">
-                <img
+                <SafeImage
                   src={item.image}
                   alt={item.title}
                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"

@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import type { CategoriesProps } from "./types";
 
 export function CategoriesFeatured({ items, exploreLabel, className }: CategoriesProps) {
@@ -25,7 +26,7 @@ export function CategoriesFeatured({ items, exploreLabel, className }: Categorie
         >
           {/* Background image or gradient */}
           {item.image ? (
-            <img
+            <SafeImage
               src={item.image}
               alt={item.title}
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

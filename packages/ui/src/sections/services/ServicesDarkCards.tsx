@@ -2,6 +2,7 @@
 
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { ServicesProps } from "./types";
 
@@ -28,7 +29,7 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
           >
             {item.image && (
               <>
-                <img
+                <SafeImage
                   src={item.image}
                   alt={item.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

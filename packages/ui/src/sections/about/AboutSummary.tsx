@@ -2,6 +2,7 @@
 
 import { cn } from "../../lib/utils";
 import { Badge } from "../../atoms/Badge";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { ArrowRight, GraduationCap } from "lucide-react";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
@@ -49,7 +50,7 @@ export function AboutSummary({
               />
 
               {/* Image */}
-              <img
+              <SafeImage
                 src={image}
                 alt=""
                 className="relative w-full h-full object-cover rounded-radius-secondary shadow-lg"

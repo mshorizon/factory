@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { ServicesProps } from "./types";
 
@@ -22,7 +23,7 @@ export function ServicesImageGrid({ items, className }: ServicesProps) {
             data-field={`items.${index}`}
           >
             {item.image && (
-              <img
+              <SafeImage
                 src={item.image}
                 alt={item.title}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

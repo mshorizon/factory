@@ -3,6 +3,7 @@
 import { CalendarDays } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Card } from "../../atoms/Card";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { ProjectGridProps } from "./types";
 
@@ -22,7 +23,7 @@ export function ProjectGrid({ projects, className }: ProjectGridProps) {
           >
             {project.image && (
               <div className="aspect-[16/10] overflow-hidden">
-                <img
+                <SafeImage
                   src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover rounded-b-radius-secondary"

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { cn } from "../../lib/utils";
 import { Card } from "../../atoms/Card";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { ProjectCarouselProps } from "./types";
 
@@ -60,7 +61,7 @@ export function ProjectCarousel({ projects, className }: ProjectCarouselProps) {
             >
               {project.image && (
                 <div className="aspect-[16/10] overflow-hidden">
-                  <img
+                  <SafeImage
                     src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover"

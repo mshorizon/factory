@@ -3,6 +3,7 @@
 import { ArrowRight, Star, Phone } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { Badge } from "../../atoms/Badge";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { HeroProps } from "./types";
@@ -146,7 +147,7 @@ export function HeroSplit({
                       borderRadius: "var(--radius-secondary) 100px var(--radius-secondary) 100px"
                     }}
                   >
-                    <img
+                    <SafeImage
                       src={heroImage}
                       alt=""
                       className="absolute inset-0 w-full h-full object-cover"
@@ -168,7 +169,7 @@ export function HeroSplit({
                 <div className="flex items-start gap-5" data-field="testimonial">
                   {/* Avatar image - larger */}
                   <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                    <img
+                    <SafeImage
                       src={testimonialItem.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${idx === 0 ? 'John' : 'Emily'}`}
                       alt=""
                       className="w-full h-full object-cover"

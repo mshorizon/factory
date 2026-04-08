@@ -3,6 +3,7 @@
 import { CalendarDays, ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Card } from "../../atoms/Card";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { BlogGridProps } from "./types";
 
@@ -23,7 +24,7 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
             >
               {post.image && (
                 <div className="aspect-[16/10] overflow-hidden">
-                  <img
+                  <SafeImage
                     src={post.image}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-b-radius-secondary"

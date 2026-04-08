@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { ServicesProps } from "./types";
 
@@ -31,7 +32,7 @@ function ImageReveal({ src, alt }: { src: string; alt: string }) {
       ref={imgRef}
       className="translate-y-8 opacity-0 transition-all duration-700 ease-out relative"
     >
-      <img
+      <SafeImage
         src={src}
         alt={alt}
         className="w-full max-w-[350px] h-[300px] object-cover rounded-md"

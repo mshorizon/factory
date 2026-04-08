@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import type { TrustBarLogosProps } from "./types";
 
 export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
@@ -63,7 +64,7 @@ export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
               className="flex-shrink-0 transition-all duration-300"
               data-field={`clientLogos.${i % clientLogos.length}`}
             >
-              <img
+              <SafeImage
                 src={logo.image}
                 alt={logo.name}
                 className="h-8 w-auto opacity-80 transition-all duration-300 hover:opacity-100"

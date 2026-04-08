@@ -4,6 +4,7 @@ import * as React from "react";
 import { Linkedin } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Card, CardHeader, CardTitle, CardDescription } from "../../atoms/Card";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { TeamGridProps } from "./types";
 
@@ -25,7 +26,7 @@ export function TeamGrid({ members, className }: TeamGridProps) {
             >
               <CardHeader className="flex flex-col items-center text-center space-y-4">
                 {member.image ? (
-                  <img
+                  <SafeImage
                     src={member.image}
                     alt={member.name}
                     className="w-24 h-24 rounded-full object-cover ring-2 ring-border group-hover:ring-primary/30 transition-all"

@@ -19,3 +19,4 @@ export { DottedMap } from "./DottedMap";
 export type { DottedMapProps } from "./DottedMap";
 export { Turnstile } from "./Turnstile";
 export { CookieConsent } from "./CookieConsent";
+export { SafeImage } from "./SafeImage";

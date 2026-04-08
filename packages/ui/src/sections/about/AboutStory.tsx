@@ -3,6 +3,7 @@
 import { cn } from "../../lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "../../atoms/Badge";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { Card, CardContent } from "../../atoms/Card";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
@@ -31,7 +32,7 @@ export function AboutStory({
         {image && (
           <ScrollReveal delay={0} direction="left" distance={30}>
             <div className="relative flex items-center justify-center lg:justify-start py-spacing-2xl">
-              <img
+              <SafeImage
                 src={image}
                 alt=""
                 className="w-[364px] max-w-full h-[400px] object-cover rounded-radius-secondary shadow-lg"
