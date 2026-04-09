@@ -14,13 +14,9 @@ Strategia bazuje na metodzie "ręczna sprzedaż najpierw" — zanim zainwestujem
 
 ### Minimum, bez którego nie ruszasz
 
-- [x] **Demo strona działająca pod własną domeną** — najlepiej `specialist.hazelgrouse.pl` lub podobna, z prawdziwą treścią, działającym formularzem i systemem rezerwacji. To Twoja wizytówka sprzedażowa.
-- [ ] **Cennik** — jasny, bez "wycena indywidualna". Klienci muszą wiedzieć co kupują. Propozycja:
-  - Starter: 299–499 zł/mies. (strona, CMS, formularz)
-  - Pro: 699–999 zł/mies. (+ rezerwacje lub sklep)
-  - Business: 1499+ zł/mies. (+ wszystko, wielojęzyczność, priorytet)
-  - Opcjonalnie: jednorazowy setup fee 500–1500 zł
-- [ ] **Krótki pitch (3 zdania)** — co to jest, dla kogo, ile kosztuje. Przykład: *"Buduję strony internetowe dla specjalistów usługowych — elektrycy, fryzjerzy, kosmetyczki. Mają wbudowany system rezerwacji, sklep i panel do zarządzania treścią. Koszt to 699 zł miesięcznie, bez dodatkowych narzędzi."*
+- [x] **Demo strona działająca pod własną domeną** — `specialist.hazelgrouse.pl` i `elektryk-krakow.hazelgrouse.pl` działają z prawdziwą treścią, formularzem i systemem rezerwacji.
+- [x] **Cennik** — dostępny na `hazelgrouse.pl` (sekcja "Cennik"): Starter 1 990 zł jed. + 99 zł/mies., Professional 3 990 zł jed. + 149 zł/mies., Na Zamówienie (wycena).
+- [ ] **Krótki pitch (3 zdania)** — co to jest, dla kogo, ile kosztuje. Przykład: *"Buduję strony internetowe dla specjalistów usługowych — elektrycy, fryzjerzy, kosmetyczki. Mają wbudowany system rezerwacji, sklep i panel do zarządzania treścią. Koszt to 3 990 zł jednorazowo + 149 zł miesięcznie, bez dodatkowych narzędzi."*
 - [ ] **Konto firmowe / forma rozliczeń** — faktura lub rachunek gotowy do wystawienia.
 
 ### Warto mieć, ale nie blokuj się na tym
@@ -165,12 +161,10 @@ To jest szczera lista rzeczy, bez których sprzedaż będzie trudna.
 
 ### Krytyczne (zablokuje sprzedaż)
 
-- [ ] **1. Strona sprzedażowa / landing page dla platformy**
-Teraz jedyne co masz to demo klienta i plik markdown. Potrzebujesz strony `mshorizon.pl` (lub podobnej) która:
-  - Wyjaśnia co sprzedajesz
-  - Pokazuje screenshots / video demo
-  - Ma cennik
-  - Ma formularz kontaktowy lub "zarezerwuj demo"
+- [x] **1. Strona sprzedażowa / landing page dla platformy**
+`hazelgrouse.pl` działa na templacie `portfolio-tech` — pełna strona sprzedażowa w języku polskim z sekcjami: usługi, jak działamy, realizacje, cennik, FAQ, formularz kontaktowy. CTA "Stwórz swoją stronę" kieruje do `CreatorWizard` (`/creator`), który auto-generuje demo dla potencjalnego klienta.
+  > ⚠️ **Uwaga:** Testimoniale i case studies ("Piotr Kowalski elektryk", "Anna Nowak — Złoty Kłos") są **fikcyjne** — placeholder data. Klient może to sprawdzić. Usuń lub zastąp prawdziwymi zaraz po zdobyciu pierwszego klienta.
+  > ⚠️ **Uwaga:** "Ponad 50 lokalnych firm już jest w internecie" — fałszywa social proof. Zmień na neutralne sformułowanie zanim zaczniesz outreach.
 
 - [ ] **2. Onboarding pipeline**
 Jak przebiega setup nowego klienta? Ile to zajmuje? Ile kosztuje? Musi być to powtarzalne i dokumentowane. Bez tego będziesz robił każdy projekt od zera i się wypalisz przy 3. kliencie.
@@ -186,7 +180,7 @@ Kto kupuje domenę dla klienta? Kto płaci za hosting? Jak rozliczasz? To trzeba
 Polskie demo elektryka (`elektryk-krakow`) gotowe z pełnymi tłumaczeniami PL. Jeden dobry demo = wart więcej niż godzina rozmowy.
 
 - [ ] **5. Case study / testimonial po pierwszym kliencie**
-Nawet jedno zdanie od klienta ("odkąd uruchomiłem system rezerwacji, mam 3x więcej umówionych wizyt") warte więcej niż cały cennik.
+Nawet jedno zdanie od klienta ("odkąd uruchomiłem system rezerwacji, mam 3x więcej umówionych wizyt") warte więcej niż cały cennik. **Priorytet:** zastąpienie fikcyjnych testimoniali i case studies na `hazelgrouse.pl` prawdziwymi danymi — to jest warunek wiarygodności.
 
 - [ ] **6. Wideo demo (2–3 minuty)**
 Nagranie ekranu pokazujące: klient rezerwuje wizytę → właściciel dostaje SMS → zatwierdza w panelu. Wrzuć na YouTube. Wyślij zamiast tłumaczenia przez telefon.
@@ -213,6 +207,15 @@ Klient chce sam sprawdzić fakturę, zmienić plan, zaktualizować dane. Bez teg
 - [ ] **12. Program partnerski / reseller**
 Gdy masz 5+ klientów, zacznij szukać agencji reklamowych, grafików, freelancerów którzy mogliby sprzedawać Factory swoim klientom za prowizję (10–20% MRR).
 
+- [ ] **13. Billing / system opłat dla klientów platformy**
+Stripe jest zintegrowany dla sklepów klientów końcowych — ale jak klienci Hazelgrouse płacą za subskrypcję miesięczną? Brak systemu. Tymczasowo: przelew + faktura ręczna. Docelowo: Stripe Subscriptions lub Paddle dla SaaS.
+
+- [ ] **14. Google Business Profile dla hazelgrouse.pl**
+Hazelgrouse Studio samo musi być widoczne w Google — szczególnie jeśli targetujesz lokalny rynek. Zarejestruj i zweryfikuj GBP zanim zaczniesz outreach (klienci będą googlować Cię przed rozmową).
+
+- [ ] **15. Aktywne social media (LinkedIn, Instagram)**
+`hazelgrouse.pl` linkuje do profili GitHub, LinkedIn, Instagram, Twitter — czy te profile istnieją i są aktywne? Klient który trafia na stronę i klika LinkedIn powinien zobaczyć żywy profil, nie pustą stronę.
+
 ---
 
 ## Harmonogram — 90 dni
@@ -238,8 +241,8 @@ Gdy masz 5+ klientów, zacznij szukać agencji reklamowych, grafików, freelance
 
 | Tydzień | Cel | Działanie |
 |---------|-----|-----------|
-| 9–10 | Demo PL gotowe | Uruchom polskie demo dla nowej niszy |
-| 11 | Strona sprzedażowa | Landing page platformy gotowy |
+| 9–10 | Demo PL gotowe | Uruchom polskie demo dla nowej niszy (np. kosmetyczka) |
+| 11 | Billing + dokumentacja | System opłat dla klientów + helpcenter |
 | 12 | 5 klientów | Zamknij łącznie 5 płacących klientów |
 
 ---
@@ -273,7 +276,9 @@ Gdy masz 5+ klientów, zacznij szukać agencji reklamowych, grafików, freelance
 ## Quick wins — co zrobić w ten weekend
 
 - [x] Uruchom polskie demo dla elektryka lub kosmetyczki (2–4h) — `elektryk-krakow` gotowy
-- [ ] Napisz cennik (30 min)
+- [x] Napisz cennik (30 min) — `hazelgrouse.pl` ma sekcję cennik z planami
+- [ ] **Usuń fikcyjne testimoniale i "50 firm" z `hazelgrouse.pl` zanim zaczniesz outreach** (30 min)
+- [ ] **Zweryfikuj i aktywuj Google Business Profile dla Hazelgrouse Studio** (1h)
 - [ ] Przygotuj arkusz z 20 firmami do kontaktu (2h)
 - [ ] Nagraj 2-minutowe wideo z demo systemu rezerwacji (1h)
 - [ ] Zadzwoń do 3 pierwszych firm (1h)
