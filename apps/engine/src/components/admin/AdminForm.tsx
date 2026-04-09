@@ -1113,8 +1113,37 @@ export default function AdminForm({
 
       const colorData = getNestedValue(formData, ["theme", "colors", currentMode]) || {};
 
+      const scrollTypeOptions: { value: string; label: string; description: string }[] = [
+        { value: "native", label: "Native", description: "Standard browser scroll" },
+        { value: "smooth", label: "Smooth", description: "CSS smooth scroll (anchor links)" },
+        { value: "momentum", label: "Momentum", description: "Physics-based inertia scroll" },
+      ];
+
       return (
         <div className="space-y-6">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-sm font-medium">Scroll Type</span>
+                  <p className="text-xs text-muted-foreground mt-0.5">Controls scroll behavior across the site</p>
+                </div>
+                <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
+                  {scrollTypeOptions.map((opt) => (
+                    <button
+                      key={opt.value}
+                      title={opt.description}
+                      onClick={() => handleChange(["theme", "scrollType"], { formData: opt.value })}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${(themeData.scrollType || "smooth") === opt.value ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">

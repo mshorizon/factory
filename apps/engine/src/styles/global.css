@@ -8,10 +8,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Smooth scrolling */
+/* Base */
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
+}
+
+/* Scroll type classes */
+html.scroll-smooth {
+  scroll-behavior: smooth;
 }
 
 /* Heading weight from theme */
@@ -27,8 +31,8 @@ html[style*="--heading-weight:400"] .font-semibold {
   font-weight: 500 !important;
 }
 
-/* Smooth scroll with inertia effect */
-html.smooth-scroll {
+/* Momentum scroll - disable native overscroll so JS handles it */
+html.scroll-momentum {
   overscroll-behavior-y: none;
 }
 

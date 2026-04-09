@@ -739,7 +739,7 @@
         "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
         "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
         "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
-        "smoothScroll": { "type": "boolean", "title": "Smooth Scroll", "default": false },
+        "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
         "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "outlined"], "default": "accent" }
       }
     },

@@ -47,7 +47,7 @@ export type ButtonStyle = string;
 export type HeadingFontWeight = string;
 export type NavbarFontSize = string;
 export type NavbarLinksPosition = "center" | "right";
-export type SmoothScroll = boolean;
+export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "outlined";
 export type NavbarVariant = "standard" | "centered";
 export type ExtensionType = "upper-bar";
@@ -271,7 +271,7 @@ export interface Theme {
   headingWeight?: HeadingFontWeight;
   navFontSize?: NavbarFontSize;
   navLinksPosition?: NavbarLinksPosition;
-  smoothScroll?: SmoothScroll;
+  scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;
 }
 export interface ColorSchemes {

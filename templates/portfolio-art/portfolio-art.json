@@ -57,7 +57,7 @@
     "headingWeight": "400",
     "navFontSize": "15px",
     "navLinksPosition": "right",
-    "smoothScroll": true,
+    "scrollType": "momentum",
     "badgeVariant": "outlined"
   },
   "layout": {
