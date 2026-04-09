@@ -17,7 +17,7 @@ Strategia bazuje na metodzie "ręczna sprzedaż najpierw" — zanim zainwestujem
 - [x] **Demo strona działająca pod własną domeną** — `specialist.hazelgrouse.pl` i `elektryk-krakow.hazelgrouse.pl` działają z prawdziwą treścią, formularzem i systemem rezerwacji.
 - [x] **Cennik** — dostępny na `hazelgrouse.pl` (sekcja "Cennik"): Starter 1 990 zł jed. + 99 zł/mies., Professional 3 990 zł jed. + 149 zł/mies., Na Zamówienie (wycena).
 - [ ] **Krótki pitch (3 zdania)** — co to jest, dla kogo, ile kosztuje. Przykład: *"Buduję strony internetowe dla specjalistów usługowych — elektrycy, fryzjerzy, kosmetyczki. Mają wbudowany system rezerwacji, sklep i panel do zarządzania treścią. Koszt to 3 990 zł jednorazowo + 149 zł miesięcznie, bez dodatkowych narzędzi."*
-- [ ] **Konto firmowe / forma rozliczeń** — faktura lub rachunek gotowy do wystawienia.
+- [x] **Konto firmowe / forma rozliczeń** — faktura lub rachunek gotowy do wystawienia.
 
 ### Warto mieć, ale nie blokuj się na tym
 
