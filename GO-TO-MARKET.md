@@ -14,7 +14,7 @@ Strategia bazuje na metodzie "ręczna sprzedaż najpierw" — zanim zainwestujem
 
 ### Minimum, bez którego nie ruszasz
 
-- [ ] **Demo strona działająca pod własną domeną** — najlepiej `specialist.hazelgrouse.pl` lub podobna, z prawdziwą treścią, działającym formularzem i systemem rezerwacji. To Twoja wizytówka sprzedażowa.
+- [x] **Demo strona działająca pod własną domeną** — najlepiej `specialist.hazelgrouse.pl` lub podobna, z prawdziwą treścią, działającym formularzem i systemem rezerwacji. To Twoja wizytówka sprzedażowa.
 - [ ] **Cennik** — jasny, bez "wycena indywidualna". Klienci muszą wiedzieć co kupują. Propozycja:
   - Starter: 299–499 zł/mies. (strona, CMS, formularz)
   - Pro: 699–999 zł/mies. (+ rezerwacje lub sklep)
@@ -25,9 +25,9 @@ Strategia bazuje na metodzie "ręczna sprzedaż najpierw" — zanim zainwestujem
 
 ### Warto mieć, ale nie blokuj się na tym
 
-- Portfolio z 1–2 przykładowymi stronami (możesz pokazać demo jako przykład)
-- Umowa o świadczenie usług (1 strona, może być prosta)
-- Sposób na onboarding — jak zbierzesz dane od klienta żeby uruchomić jego stronę
+- [x] Portfolio z 1–2 przykładowymi stronami (możesz pokazać demo jako przykład)
+- [ ] Umowa o świadczenie usług (1 strona, może być prosta)
+- [ ] Sposób na onboarding — jak zbierzesz dane od klienta żeby uruchomić jego stronę
 
 ---
 
@@ -165,52 +165,52 @@ To jest szczera lista rzeczy, bez których sprzedaż będzie trudna.
 
 ### Krytyczne (zablokuje sprzedaż)
 
-**1. Strona sprzedażowa / landing page dla platformy**
+- [ ] **1. Strona sprzedażowa / landing page dla platformy**
 Teraz jedyne co masz to demo klienta i plik markdown. Potrzebujesz strony `mshorizon.pl` (lub podobnej) która:
-- Wyjaśnia co sprzedajesz
-- Pokazuje screenshots / video demo
-- Ma cennik
-- Ma formularz kontaktowy lub "zarezerwuj demo"
+  - Wyjaśnia co sprzedajesz
+  - Pokazuje screenshots / video demo
+  - Ma cennik
+  - Ma formularz kontaktowy lub "zarezerwuj demo"
 
-**2. Onboarding pipeline**
+- [ ] **2. Onboarding pipeline**
 Jak przebiega setup nowego klienta? Ile to zajmuje? Ile kosztuje? Musi być to powtarzalne i dokumentowane. Bez tego będziesz robił każdy projekt od zera i się wypalisz przy 3. kliencie.
 
-**3. Domeny i hosting — model operacyjny**
+- [ ] **3. Domeny i hosting — model operacyjny**
 Kto kupuje domenę dla klienta? Kto płaci za hosting? Jak rozliczasz? To trzeba mieć ustalone zanim pojawi się pierwszy klient który pyta.
 
 ---
 
 ### Ważne (utrudni sprzedaż bez tego)
 
-**4. Strona demo z prawdziwą polską treścią**
-Obecne demo (`specialist`) jest po angielsku. Potrzebujesz polskiego demo (elektryk, kosmetyczka, fizjoterapeuta) żeby klient powiedział "o, dokładnie to potrzebuję". Jeden dobry demo = wart więcej niż godzina rozmowy.
+- [x] **4. Strona demo z prawdziwą polską treścią**
+Polskie demo elektryka (`elektryk-krakow`) gotowe z pełnymi tłumaczeniami PL. Jeden dobry demo = wart więcej niż godzina rozmowy.
 
-**5. Case study / testimonial po pierwszym kliencie**
+- [ ] **5. Case study / testimonial po pierwszym kliencie**
 Nawet jedno zdanie od klienta ("odkąd uruchomiłem system rezerwacji, mam 3x więcej umówionych wizyt") warte więcej niż cały cennik.
 
-**6. Wideo demo (2–3 minuty)**
+- [ ] **6. Wideo demo (2–3 minuty)**
 Nagranie ekranu pokazujące: klient rezerwuje wizytę → właściciel dostaje SMS → zatwierdza w panelu. Wrzuć na YouTube. Wyślij zamiast tłumaczenia przez telefon.
 
-**7. Polityka prywatności / RODO dla klientów końcowych**
-Każda strona zbiera dane (formularz, rezerwacje). Klient pyta "czy to jest zgodne z RODO?". Musisz mieć gotową odpowiedź i wzór dokumentu.
+- [x] **7. Polityka prywatności / RODO dla klientów końcowych**
+Strona `/privacy` istnieje i jest dynamicznie generowana per biznes. Klient pyta "czy to jest zgodne z RODO?" — masz gotową odpowiedź.
 
 ---
 
 ### Długoterminowe (potrzebujesz to przy 5.+ kliencie)
 
-**8. Automatyczne emaile po rezerwacji i zamówieniu**
-Klient rezerwuje wizytę → dostaje e-mail z potwierdzeniem. To standard którego brak jest "deal breaker" dla profesjonalnych klientów. Funkcja zaplanowana w roadmapie, ale jest krytyczna.
+- [x] **8. Automatyczne emaile po rezerwacji i zamówieniu**
+Zaimplementowane — `sendBookingConfirmationEmail` wysyła e-mail do klienta po rezerwacji wizyty.
 
-**9. Powiadomienie email do właściciela o nowej rezerwacji**
-Analogicznie — SMS już działa dla formularzy kontaktowych, ale rezerwacje powinny również generować powiadomienie.
+- [x] **9. Powiadomienie email do właściciela o nowej rezerwacji**
+Zaimplementowane — `sendBookingNotificationToOwner` wysyła powiadomienie do właściciela po każdej nowej rezerwacji.
 
-**10. Strona zarządzania kontem / fakturowania dla klientów**
+- [ ] **10. Strona zarządzania kontem / fakturowania dla klientów**
 Klient chce sam sprawdzić fakturę, zmienić plan, zaktualizować dane. Bez tego jesteś "helpdeskiem" do każdej zmiany.
 
-**11. Dokumentacja dla klientów (helpcenter)**
+- [ ] **11. Dokumentacja dla klientów (helpcenter)**
 "Jak dodać nowy wpis na blog?", "Jak zmienić godziny pracy?", "Jak zobaczyć rezerwacje?" — FAQ lub krótkie wideo walkthrough. Bez tego będziesz odpowiadał na te same pytania 5 razy dziennie.
 
-**12. Program partnerski / reseller**
+- [ ] **12. Program partnerski / reseller**
 Gdy masz 5+ klientów, zacznij szukać agencji reklamowych, grafików, freelancerów którzy mogliby sprzedawać Factory swoim klientom za prowizję (10–20% MRR).
 
 ---
@@ -272,11 +272,11 @@ Gdy masz 5+ klientów, zacznij szukać agencji reklamowych, grafików, freelance
 
 ## Quick wins — co zrobić w ten weekend
 
-1. Uruchom polskie demo dla elektryka lub kosmetyczki (2–4h)
-2. Napisz cennik (30 min)
-3. Przygotuj arkusz z 20 firmami do kontaktu (2h)
-4. Nagraj 2-minutowe wideo z demo systemu rezerwacji (1h)
-5. Zadzwoń do 3 pierwszych firm (1h)
+- [x] Uruchom polskie demo dla elektryka lub kosmetyczki (2–4h) — `elektryk-krakow` gotowy
+- [ ] Napisz cennik (30 min)
+- [ ] Przygotuj arkusz z 20 firmami do kontaktu (2h)
+- [ ] Nagraj 2-minutowe wideo z demo systemu rezerwacji (1h)
+- [ ] Zadzwoń do 3 pierwszych firm (1h)
 
 ---
 
