@@ -31,7 +31,10 @@ export function NavbarStandard({
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <a href="/" className="flex items-center gap-spacing-xs group">
-            {logoIcon && <span className="text-2xl">{logoIcon}</span>}
+            {logoIcon && (typeof logoIcon === 'string' && (logoIcon.startsWith('/') || logoIcon.startsWith('http') || logoIcon.startsWith('data:'))
+              ? <img src={logoIcon} alt={logo} className="h-8 w-auto object-contain" />
+              : <span className="text-2xl">{logoIcon}</span>
+            )}
             <span className="text-xl lg:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
               {logo}
             </span>

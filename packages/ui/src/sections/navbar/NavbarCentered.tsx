@@ -54,7 +54,10 @@ export function NavbarCentered({
 
           {/* Centered Logo */}
           <a href="/" className="flex items-center gap-spacing-xs group mx-8">
-            {logoIcon && <span className="text-3xl">{logoIcon}</span>}
+            {logoIcon && (typeof logoIcon === 'string' && (logoIcon.startsWith('/') || logoIcon.startsWith('http') || logoIcon.startsWith('data:'))
+              ? <img src={logoIcon} alt={logo} className="h-9 w-auto object-contain" />
+              : <span className="text-3xl">{logoIcon}</span>
+            )}
             <span className="text-2xl lg:text-3xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
               {logo}
             </span>

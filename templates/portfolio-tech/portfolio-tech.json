@@ -4,8 +4,8 @@
     "name": "t:business.name",
     "industry": "software",
     "assets": {
-      "favicon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23814AC8'/%3E%3Cpath d='M8 22c1-3 3-6 6-7.5C15 12 17 11 19 11c1.8 0 3.2.8 4 2 1.5.8 2.5 2.2 2.5 4 0 2.5-1.8 4.2-4.2 4.2h-2.5c-.8 1.5-2.2 2.3-4 2.3C12 23.5 9.5 23 8 22z' fill='white'/%3E%3Ccircle cx='21.5' cy='14.5' r='1.2' fill='%23814AC8'/%3E%3Cpath d='M24 13.5c.8-.8 2.2-.6 3 .1' stroke='white' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E",
-      "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M8 22c1-3 3-6 6-7.5C15 12 17 11 19 11c1.8 0 3.2.8 4 2 1.5.8 2.5 2.2 2.5 4 0 2.5-1.8 4.2-4.2 4.2h-2.5c-.8 1.5-2.2 2.3-4 2.3C12 23.5 9.5 23 8 22z' fill='white'/%3E%3Ccircle cx='21.5' cy='14.5' r='1.2' fill='%23814AC8'/%3E%3Cpath d='M24 13.5c.8-.8 2.2-.6 3 .1' stroke='%23814AC8' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"
+      "favicon": "/hazelgrouse_studio_logo.png",
+      "icon": "/hazelgrouse_studio_logo.png"
     },
     "logoIcon": "🐦",
     "contact": {
@@ -28,13 +28,29 @@
     "colors": {
       "light": {
         "primary": "#814AC8",
-        "surface": { "base": "#FFFFFF", "alt": "#000000", "card": "#F5F5F5" },
-        "text": { "main": "#000000", "muted": "#666666", "onPrimary": "#FFFFFF" }
+        "surface": {
+          "base": "#FFFFFF",
+          "alt": "#000000",
+          "card": "#F5F5F5"
+        },
+        "text": {
+          "main": "#000000",
+          "muted": "#666666",
+          "onPrimary": "#FFFFFF"
+        }
       },
       "dark": {
         "primary": "#814AC8",
-        "surface": { "base": "#000000", "alt": "#0D0D0D", "card": "#0D0D0D" },
-        "text": { "main": "#FFFFFF", "muted": "#CCCCCC", "onPrimary": "#FFFFFF" }
+        "surface": {
+          "base": "#000000",
+          "alt": "#0D0D0D",
+          "card": "#0D0D0D"
+        },
+        "text": {
+          "main": "#FFFFFF",
+          "muted": "#CCCCCC",
+          "onPrimary": "#FFFFFF"
+        }
       }
     },
     "typography": {
@@ -44,9 +60,16 @@
     "ui": {
       "radius": "16px",
       "spacing": {
-        "xs": "0.5rem", "sm": "0.75rem", "md": "1rem", "lg": "1.5rem",
-        "xl": "2rem", "2xl": "3rem", "3xl": "4rem",
-        "section-sm": "5rem", "section": "7.5rem", "container": "2.5rem"
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "5rem",
+        "section": "7.5rem",
+        "container": "2.5rem"
       }
     },
     "headingWeight": "400",
@@ -56,62 +79,150 @@
     "badgeVariant": "outlined"
   },
   "layout": {
-    "navbar": { "variant": "standard" },
+    "navbar": {
+      "variant": "standard"
+    },
     "footer": {
       "variant": "multiColumn",
       "copyright": "t:footer.copyright",
       "tagline": "t:footer.tagline",
       "links": [
-        { "label": "GitHub", "target": { "type": "external", "value": "https://github.com/hazelgrouse" } },
-        { "label": "LinkedIn", "target": { "type": "external", "value": "https://linkedin.com/company/hazelgrouse" } },
-        { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com/hazelgrouse" } },
-        { "label": "t:footer.privacyLabel", "target": { "type": "page", "value": "privacy" } }
+        {
+          "label": "GitHub",
+          "target": {
+            "type": "external",
+            "value": "https://github.com/hazelgrouse"
+          }
+        },
+        {
+          "label": "LinkedIn",
+          "target": {
+            "type": "external",
+            "value": "https://linkedin.com/company/hazelgrouse"
+          }
+        },
+        {
+          "label": "Instagram",
+          "target": {
+            "type": "external",
+            "value": "https://instagram.com/hazelgrouse"
+          }
+        },
+        {
+          "label": "t:footer.privacyLabel",
+          "target": {
+            "type": "page",
+            "value": "privacy"
+          }
+        }
       ],
       "columns": [
         {
           "title": "t:footer.col.title",
           "links": [
-            { "label": "t:footer.link.services", "target": { "type": "page", "value": "services" } },
-            { "label": "t:footer.link.process", "target": { "type": "page", "value": "about" } },
-            { "label": "t:footer.link.projects", "target": { "type": "page", "value": "projects" } },
-            { "label": "t:footer.link.contact", "target": { "type": "page", "value": "contact" } }
+            {
+              "label": "t:footer.link.services",
+              "target": {
+                "type": "page",
+                "value": "services"
+              }
+            },
+            {
+              "label": "t:footer.link.process",
+              "target": {
+                "type": "page",
+                "value": "about"
+              }
+            },
+            {
+              "label": "t:footer.link.projects",
+              "target": {
+                "type": "page",
+                "value": "projects"
+              }
+            },
+            {
+              "label": "t:footer.link.contact",
+              "target": {
+                "type": "page",
+                "value": "contact"
+              }
+            }
           ]
         }
       ]
     }
   },
   "navigation": {
-    "cta": { "label": "t:nav.cta", "target": { "type": "page", "value": "contact" } }
+    "cta": {
+      "label": "t:nav.cta",
+      "target": {
+        "type": "page",
+        "value": "contact"
+      }
+    }
   },
   "data": {
     "services": [
       {
-        "id": "website-design", "slug": "website-design",
-        "title": "t:svc.0.title", "description": "t:svc.0.description",
-        "icon": "layout", "category": "design", "available": true,
+        "id": "website-design",
+        "slug": "website-design",
+        "title": "t:svc.0.title",
+        "description": "t:svc.0.description",
+        "icon": "layout",
+        "category": "design",
+        "available": true,
         "image": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=400&fit=crop",
-        "features": ["t:svc.0.f0", "t:svc.0.f1", "t:svc.0.f2"]
+        "features": [
+          "t:svc.0.f0",
+          "t:svc.0.f1",
+          "t:svc.0.f2"
+        ]
       },
       {
-        "id": "mobile-first-development", "slug": "mobile-first-development",
-        "title": "t:svc.1.title", "description": "t:svc.1.description",
-        "icon": "smartphone", "category": "development", "available": true,
+        "id": "mobile-first-development",
+        "slug": "mobile-first-development",
+        "title": "t:svc.1.title",
+        "description": "t:svc.1.description",
+        "icon": "smartphone",
+        "category": "development",
+        "available": true,
         "image": "https://images.unsplash.com/photo-1512941937938-a3d8e14c90c7?w=600&h=400&fit=crop",
-        "features": ["t:svc.1.f0", "t:svc.1.f1", "t:svc.1.f2"]
+        "features": [
+          "t:svc.1.f0",
+          "t:svc.1.f1",
+          "t:svc.1.f2"
+        ]
       },
       {
-        "id": "local-seo", "slug": "local-seo",
-        "title": "t:svc.2.title", "description": "t:svc.2.description",
-        "icon": "map-pin", "category": "marketing", "available": true,
+        "id": "local-seo",
+        "slug": "local-seo",
+        "title": "t:svc.2.title",
+        "description": "t:svc.2.description",
+        "icon": "map-pin",
+        "category": "marketing",
+        "available": true,
         "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop",
-        "features": ["t:svc.2.f0", "t:svc.2.f1", "t:svc.2.f2"]
+        "features": [
+          "t:svc.2.f0",
+          "t:svc.2.f1",
+          "t:svc.2.f2"
+        ]
       },
       {
-        "id": "care-maintenance", "slug": "care-maintenance",
-        "title": "t:svc.3.title", "description": "t:svc.3.description",
-        "icon": "shield-check", "category": "support", "available": true,
+        "id": "care-maintenance",
+        "slug": "care-maintenance",
+        "title": "t:svc.3.title",
+        "description": "t:svc.3.description",
+        "icon": "shield-check",
+        "category": "support",
+        "available": true,
         "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop",
-        "features": ["t:svc.3.f0", "t:svc.3.f1", "t:svc.3.f2"]
+        "features": [
+          "t:svc.3.f0",
+          "t:svc.3.f1",
+          "t:svc.3.f2"
+        ]
       }
     ]
   },
@@ -120,31 +231,74 @@
       "title": "t:pages.home",
       "sections": [
         {
-          "type": "hero", "variant": "gradient", "background": "dark",
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
           "header": {
             "badge": "t:home.hero.badge",
             "title": "t:home.hero.title",
             "subtitle": "t:home.hero.subtitle"
           },
-          "cta": { "label": "t:home.hero.cta", "target": { "type": "page", "value": "contact" } },
-          "secondaryCta": { "label": "t:home.hero.secondaryCta", "target": { "type": "page", "value": "creator" } }
+          "cta": {
+            "label": "t:home.hero.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          },
+          "secondaryCta": {
+            "label": "t:home.hero.secondaryCta",
+            "target": {
+              "type": "page",
+              "value": "creator"
+            }
+          }
         },
         {
-          "type": "trustBar", "variant": "logos", "background": "dark",
-          "header": { "title": "t:home.trust.title" },
+          "type": "trustBar",
+          "variant": "logos",
+          "background": "dark",
+          "header": {
+            "title": "t:home.trust.title"
+          },
           "clientLogos": [
-            { "name": "Elektryka i instalacje", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 32'%3E%3Cpath d='M16 4L9 18h5l-1 10 8-14h-5l1-10z' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EElektryka%20i%20instalacje%3C/text%3E%3C/svg%3E" },
-            { "name": "Fryzjerstwo i uroda", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 210 32'%3E%3Ccircle cx='12' cy='10' r='5' fill='none' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Cpath d='M9 15l-3 13M15 15l3 13' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EFryzjerstwo%20i%20uroda%3C/text%3E%3C/svg%3E" },
-            { "name": "Hydraulika i instalacje", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M8 8h8v6h4v10h-4v2H8v-2H4V14h4z' fill='none' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EHydraulika%20i%20instalacje%3C/text%3E%3C/svg%3E" },
-            { "name": "Gabinety kosmetyczne", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Ccircle cx='8' cy='16' r='4' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='16' cy='11' r='5' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EGabinety%20kosmetyczne%3C/text%3E%3C/svg%3E" },
-            { "name": "Fitness i trenerzy", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 32'%3E%3Crect x='2' y='13' width='4' height='6' rx='2' fill='%23FFFFFF' opacity='0.7'/%3E%3Crect x='18' y='13' width='4' height='6' rx='2' fill='%23FFFFFF' opacity='0.7'/%3E%3Crect x='6' y='15' width='12' height='2' rx='1' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EFitness%20i%20trenerzy%3C/text%3E%3C/svg%3E" },
-            { "name": "Gastronomia", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Cpath d='M8 6v8c0 3 2 5 4 6v8M18 6v4c0 4-3 6-5 6v10M12 6v20' stroke='%23FFFFFF' stroke-width='2' fill='none' opacity='0.7' stroke-linecap='round'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EGastronomia%3C/text%3E%3C/svg%3E" },
-            { "name": "Budownictwo i remonty", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M4 28L12 8l8 20M7 22h10' stroke='%23FFFFFF' stroke-width='2' fill='none' opacity='0.7' stroke-linecap='round'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EBudownictwo%20i%20remonty%3C/text%3E%3C/svg%3E" },
-            { "name": "Zdrowie i rehabilitacja", "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M12 5v22M5 12h14' stroke='%23FFFFFF' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EZdrowie%20i%20rehabilitacja%3C/text%3E%3C/svg%3E" }
+            {
+              "name": "Elektryka i instalacje",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 32'%3E%3Cpath d='M16 4L9 18h5l-1 10 8-14h-5l1-10z' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EElektryka%20i%20instalacje%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Fryzjerstwo i uroda",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 210 32'%3E%3Ccircle cx='12' cy='10' r='5' fill='none' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Cpath d='M9 15l-3 13M15 15l3 13' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EFryzjerstwo%20i%20uroda%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Hydraulika i instalacje",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M8 8h8v6h4v10h-4v2H8v-2H4V14h4z' fill='none' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EHydraulika%20i%20instalacje%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Gabinety kosmetyczne",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Ccircle cx='8' cy='16' r='4' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='16' cy='11' r='5' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EGabinety%20kosmetyczne%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Fitness i trenerzy",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 32'%3E%3Crect x='2' y='13' width='4' height='6' rx='2' fill='%23FFFFFF' opacity='0.7'/%3E%3Crect x='18' y='13' width='4' height='6' rx='2' fill='%23FFFFFF' opacity='0.7'/%3E%3Crect x='6' y='15' width='12' height='2' rx='1' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EFitness%20i%20trenerzy%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Gastronomia",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Cpath d='M8 6v8c0 3 2 5 4 6v8M18 6v4c0 4-3 6-5 6v10M12 6v20' stroke='%23FFFFFF' stroke-width='2' fill='none' opacity='0.7' stroke-linecap='round'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EGastronomia%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Budownictwo i remonty",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M4 28L12 8l8 20M7 22h10' stroke='%23FFFFFF' stroke-width='2' fill='none' opacity='0.7' stroke-linecap='round'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EBudownictwo%20i%20remonty%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Zdrowie i rehabilitacja",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M12 5v22M5 12h14' stroke='%23FFFFFF' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EZdrowie%20i%20rehabilitacja%3C/text%3E%3C/svg%3E"
+            }
           ]
         },
         {
-          "type": "services", "variant": "alternating",
+          "type": "services",
+          "variant": "alternating",
           "header": {
             "badge": "t:home.services.badge",
             "title": "t:home.services.title",
@@ -152,29 +306,51 @@
           },
           "items": [
             {
-              "title": "t:svc.0.title", "description": "t:home.svc.0.description",
+              "title": "t:svc.0.title",
+              "description": "t:home.svc.0.description",
               "image": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=400&fit=crop",
-              "tags": ["t:svc.0.f0", "t:svc.0.f1", "t:svc.0.f2"]
+              "tags": [
+                "t:svc.0.f0",
+                "t:svc.0.f1",
+                "t:svc.0.f2"
+              ]
             },
             {
-              "title": "t:svc.1.title", "description": "t:home.svc.1.description",
+              "title": "t:svc.1.title",
+              "description": "t:home.svc.1.description",
               "image": "https://images.unsplash.com/photo-1512941937938-a3d8e14c90c7?w=600&h=400&fit=crop",
-              "tags": ["t:svc.1.f0", "t:svc.1.f1", "t:svc.1.f2"]
+              "tags": [
+                "t:svc.1.f0",
+                "t:svc.1.f1",
+                "t:svc.1.f2"
+              ]
             },
             {
-              "title": "t:svc.2.title", "description": "t:home.svc.2.description",
+              "title": "t:svc.2.title",
+              "description": "t:home.svc.2.description",
               "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop",
-              "tags": ["t:svc.2.f0", "t:svc.2.f1", "t:svc.2.f2"]
+              "tags": [
+                "t:svc.2.f0",
+                "t:svc.2.f1",
+                "t:svc.2.f2"
+              ]
             },
             {
-              "title": "t:svc.3.title", "description": "t:home.svc.3.description",
+              "title": "t:svc.3.title",
+              "description": "t:home.svc.3.description",
               "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop",
-              "tags": ["t:svc.3.f0", "t:svc.3.f1", "t:svc.3.f2"]
+              "tags": [
+                "t:svc.3.f0",
+                "t:svc.3.f1",
+                "t:svc.3.f2"
+              ]
             }
           ]
         },
         {
-          "type": "process", "variant": "grid", "background": "dark",
+          "type": "process",
+          "variant": "grid",
+          "background": "dark",
           "header": {
             "badge": "t:home.process.badge",
             "title": "t:home.process.title",
@@ -182,37 +358,58 @@
           },
           "steps": [
             {
-              "number": 1, "icon": "eye",
+              "number": 1,
+              "icon": "eye",
               "title": "t:home.step.0.title",
               "description": "t:home.step.0.description",
               "image": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=400&fit=crop",
-              "badges": ["t:home.step.0.b0", "t:home.step.0.b1", "t:home.step.0.b2"]
+              "badges": [
+                "t:home.step.0.b0",
+                "t:home.step.0.b1",
+                "t:home.step.0.b2"
+              ]
             },
             {
-              "number": 2, "icon": "pen-tool",
+              "number": 2,
+              "icon": "pen-tool",
               "title": "t:home.step.1.title",
               "description": "t:home.step.1.description",
               "image": "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=800&h=400&fit=crop",
-              "badges": ["t:home.step.1.b0", "t:home.step.1.b1", "t:home.step.1.b2"]
+              "badges": [
+                "t:home.step.1.b0",
+                "t:home.step.1.b1",
+                "t:home.step.1.b2"
+              ]
             },
             {
-              "number": 3, "icon": "code",
+              "number": 3,
+              "icon": "code",
               "title": "t:home.step.2.title",
               "description": "t:home.step.2.description",
               "image": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&h=400&fit=crop",
-              "badges": ["t:home.step.2.b0", "t:home.step.2.b1", "t:home.step.2.b2"]
+              "badges": [
+                "t:home.step.2.b0",
+                "t:home.step.2.b1",
+                "t:home.step.2.b2"
+              ]
             },
             {
-              "number": 4, "icon": "rocket",
+              "number": 4,
+              "icon": "rocket",
               "title": "t:home.step.3.title",
               "description": "t:home.step.3.description",
               "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop",
-              "badges": ["t:home.step.3.b0", "t:home.step.3.b1", "t:home.step.3.b2"]
+              "badges": [
+                "t:home.step.3.b0",
+                "t:home.step.3.b1",
+                "t:home.step.3.b2"
+              ]
             }
           ]
         },
         {
-          "type": "project", "variant": "horizontal",
+          "type": "project",
+          "variant": "horizontal",
           "header": {
             "badge": "t:home.projects.badge",
             "title": "t:home.projects.title",
@@ -220,45 +417,96 @@
           },
           "projects": [
             {
-              "title": "t:proj.0.title", "description": "t:proj.0.description",
+              "title": "t:proj.0.title",
+              "description": "t:proj.0.description",
               "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=500&fit=crop",
-              "metrics": ["t:proj.0.m0", "t:proj.0.m1", "t:proj.0.m2", "t:proj.0.m3"]
+              "metrics": [
+                "t:proj.0.m0",
+                "t:proj.0.m1",
+                "t:proj.0.m2",
+                "t:proj.0.m3"
+              ]
             },
             {
-              "title": "t:proj.1.title", "description": "t:proj.1.description",
+              "title": "t:proj.1.title",
+              "description": "t:proj.1.description",
               "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=500&fit=crop",
-              "metrics": ["t:proj.1.m0", "t:proj.1.m1", "t:proj.1.m2", "t:proj.1.m3"]
+              "metrics": [
+                "t:proj.1.m0",
+                "t:proj.1.m1",
+                "t:proj.1.m2",
+                "t:proj.1.m3"
+              ]
             },
             {
-              "title": "t:proj.2.title", "description": "t:proj.2.description",
+              "title": "t:proj.2.title",
+              "description": "t:proj.2.description",
               "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=500&fit=crop",
-              "metrics": ["t:proj.2.m0", "t:proj.2.m1", "t:proj.2.m2", "t:proj.2.m3"]
+              "metrics": [
+                "t:proj.2.m0",
+                "t:proj.2.m1",
+                "t:proj.2.m2",
+                "t:proj.2.m3"
+              ]
             },
             {
-              "title": "t:proj.3.title", "description": "t:proj.3.description",
+              "title": "t:proj.3.title",
+              "description": "t:proj.3.description",
               "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=500&fit=crop",
-              "metrics": ["t:proj.3.m0", "t:proj.3.m1", "t:proj.3.m2", "t:proj.3.m3"]
+              "metrics": [
+                "t:proj.3.m0",
+                "t:proj.3.m1",
+                "t:proj.3.m2",
+                "t:proj.3.m3"
+              ]
             }
           ]
         },
         {
-          "type": "features", "variant": "gradient", "background": "dark",
+          "type": "features",
+          "variant": "gradient",
+          "background": "dark",
           "header": {
             "badge": "t:home.features.badge",
             "title": "t:home.features.title",
             "subtitle": "t:home.features.subtitle"
           },
           "items": [
-            { "title": "t:feat.0.title", "description": "t:feat.0.description", "icon": "search" },
-            { "title": "t:feat.1.title", "description": "t:feat.1.description", "icon": "star" },
-            { "title": "t:feat.2.title", "description": "t:feat.2.description", "icon": "smartphone" },
-            { "title": "t:feat.3.title", "description": "t:feat.3.description", "icon": "zap" },
-            { "title": "t:feat.4.title", "description": "t:feat.4.description", "icon": "heart" },
-            { "title": "t:feat.5.title", "description": "t:feat.5.description", "icon": "eye" }
+            {
+              "title": "t:feat.0.title",
+              "description": "t:feat.0.description",
+              "icon": "search"
+            },
+            {
+              "title": "t:feat.1.title",
+              "description": "t:feat.1.description",
+              "icon": "star"
+            },
+            {
+              "title": "t:feat.2.title",
+              "description": "t:feat.2.description",
+              "icon": "smartphone"
+            },
+            {
+              "title": "t:feat.3.title",
+              "description": "t:feat.3.description",
+              "icon": "zap"
+            },
+            {
+              "title": "t:feat.4.title",
+              "description": "t:feat.4.description",
+              "icon": "heart"
+            },
+            {
+              "title": "t:feat.5.title",
+              "description": "t:feat.5.description",
+              "icon": "eye"
+            }
           ]
         },
         {
-          "type": "pricing", "variant": "xtract",
+          "type": "pricing",
+          "variant": "xtract",
           "header": {
             "badge": "t:pricing.badge",
             "title": "t:pricing.title",
@@ -266,23 +514,69 @@
           },
           "pricingTiers": [
             {
-              "name": "t:tier.0.name", "price": "t:tier.0.price", "period": "t:tier.0.period",
-              "icon": "zap", "description": "t:tier.0.description",
-              "features": ["t:tier.0.f0", "t:tier.0.f1", "t:tier.0.f2", "t:tier.0.f3", "t:tier.0.f4"],
-              "cta": { "label": "t:tier.cta.preview", "target": { "type": "page", "value": "contact" } }
+              "name": "t:tier.0.name",
+              "price": "t:tier.0.price",
+              "period": "t:tier.0.period",
+              "icon": "zap",
+              "description": "t:tier.0.description",
+              "features": [
+                "t:tier.0.f0",
+                "t:tier.0.f1",
+                "t:tier.0.f2",
+                "t:tier.0.f3",
+                "t:tier.0.f4"
+              ],
+              "cta": {
+                "label": "t:tier.cta.preview",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
             },
             {
-              "name": "t:tier.1.name", "price": "t:tier.1.price", "period": "t:tier.1.period",
-              "icon": "bolt", "description": "t:tier.1.description",
-              "highlighted": true, "badge": "t:tier.1.badge",
-              "features": ["t:tier.1.f0", "t:tier.1.f1", "t:tier.1.f2", "t:tier.1.f3", "t:tier.1.f4", "t:tier.1.f5"],
-              "cta": { "label": "t:tier.cta.preview", "target": { "type": "page", "value": "contact" } }
+              "name": "t:tier.1.name",
+              "price": "t:tier.1.price",
+              "period": "t:tier.1.period",
+              "icon": "bolt",
+              "description": "t:tier.1.description",
+              "highlighted": true,
+              "badge": "t:tier.1.badge",
+              "features": [
+                "t:tier.1.f0",
+                "t:tier.1.f1",
+                "t:tier.1.f2",
+                "t:tier.1.f3",
+                "t:tier.1.f4",
+                "t:tier.1.f5"
+              ],
+              "cta": {
+                "label": "t:tier.cta.preview",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
             },
             {
-              "name": "t:tier.2.name", "price": "t:tier.2.price",
-              "icon": "crown", "description": "t:tier.2.description",
-              "features": ["t:tier.2.f0", "t:tier.2.f1", "t:tier.2.f2", "t:tier.2.f3", "t:tier.2.f4"],
-              "cta": { "label": "t:tier.cta.custom", "target": { "type": "page", "value": "contact" } }
+              "name": "t:tier.2.name",
+              "price": "t:tier.2.price",
+              "icon": "crown",
+              "description": "t:tier.2.description",
+              "features": [
+                "t:tier.2.f0",
+                "t:tier.2.f1",
+                "t:tier.2.f2",
+                "t:tier.2.f3",
+                "t:tier.2.f4"
+              ],
+              "cta": {
+                "label": "t:tier.cta.custom",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
             }
           ]
         },
@@ -294,17 +588,43 @@
             "subtitle": "t:home.faq.subtitle"
           },
           "faqItems": [
-            { "question": "t:home.faq.q0", "answer": "t:home.faq.a0" },
-            { "question": "t:home.faq.q1", "answer": "t:home.faq.a1" },
-            { "question": "t:home.faq.q2", "answer": "t:home.faq.a2" },
-            { "question": "t:home.faq.q3", "answer": "t:home.faq.a3" },
-            { "question": "t:home.faq.q4", "answer": "t:home.faq.a4" }
+            {
+              "question": "t:home.faq.q0",
+              "answer": "t:home.faq.a0"
+            },
+            {
+              "question": "t:home.faq.q1",
+              "answer": "t:home.faq.a1"
+            },
+            {
+              "question": "t:home.faq.q2",
+              "answer": "t:home.faq.a2"
+            },
+            {
+              "question": "t:home.faq.q3",
+              "answer": "t:home.faq.a3"
+            },
+            {
+              "question": "t:home.faq.q4",
+              "answer": "t:home.faq.a4"
+            }
           ]
         },
         {
-          "type": "ctaBanner", "variant": "card", "background": "dark",
-          "header": { "title": "t:home.cta.title", "subtitle": "t:home.cta.subtitle" },
-          "cta": { "label": "t:home.cta.button", "target": { "type": "page", "value": "contact" } }
+          "type": "ctaBanner",
+          "variant": "card",
+          "background": "dark",
+          "header": {
+            "title": "t:home.cta.title",
+            "subtitle": "t:home.cta.subtitle"
+          },
+          "cta": {
+            "label": "t:home.cta.button",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
         }
       ]
     },
@@ -312,7 +632,9 @@
       "title": "t:pages.about",
       "sections": [
         {
-          "type": "hero", "variant": "gradient", "background": "dark",
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
           "header": {
             "badge": "t:about.hero.badge",
             "title": "t:about.hero.title",
@@ -320,33 +642,80 @@
           }
         },
         {
-          "type": "about-summary", "background": "dark",
-          "header": { "title": "t:about.summary.title" },
+          "type": "about-summary",
+          "background": "dark",
+          "header": {
+            "title": "t:about.summary.title"
+          },
           "stats": [
-            { "value": "t:about.stat.0.value", "label": "t:about.stat.0.label" },
-            { "value": "t:about.stat.1.value", "label": "t:about.stat.1.label" },
-            { "value": "t:about.stat.2.value", "label": "t:about.stat.2.label" }
+            {
+              "value": "t:about.stat.0.value",
+              "label": "t:about.stat.0.label"
+            },
+            {
+              "value": "t:about.stat.1.value",
+              "label": "t:about.stat.1.label"
+            },
+            {
+              "value": "t:about.stat.2.value",
+              "label": "t:about.stat.2.label"
+            }
           ]
         },
         {
-          "type": "about", "variant": "story",
-          "header": { "badge": "t:about.story.badge", "title": "t:about.story.header" },
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "badge": "t:about.story.badge",
+            "title": "t:about.story.header"
+          },
           "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
-          "story": { "title": "t:about.story.title", "content": "t:about.story.content" },
-          "cta": { "label": "t:about.story.cta", "target": { "type": "page", "value": "contact" } }
+          "story": {
+            "title": "t:about.story.title",
+            "content": "t:about.story.content"
+          },
+          "cta": {
+            "label": "t:about.story.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
         },
         {
-          "type": "features", "variant": "compact", "background": "dark",
-          "header": { "badge": "t:about.values.badge", "title": "t:about.values.title" },
+          "type": "features",
+          "variant": "compact",
+          "background": "dark",
+          "header": {
+            "badge": "t:about.values.badge",
+            "title": "t:about.values.title"
+          },
           "items": [
-            { "title": "t:about.val.0.title", "description": "t:about.val.0.description", "icon": "eye" },
-            { "title": "t:about.val.1.title", "description": "t:about.val.1.description", "icon": "zap" },
-            { "title": "t:about.val.2.title", "description": "t:about.val.2.description", "icon": "heart" },
-            { "title": "t:about.val.3.title", "description": "t:about.val.3.description", "icon": "map-pin" }
+            {
+              "title": "t:about.val.0.title",
+              "description": "t:about.val.0.description",
+              "icon": "eye"
+            },
+            {
+              "title": "t:about.val.1.title",
+              "description": "t:about.val.1.description",
+              "icon": "zap"
+            },
+            {
+              "title": "t:about.val.2.title",
+              "description": "t:about.val.2.description",
+              "icon": "heart"
+            },
+            {
+              "title": "t:about.val.3.title",
+              "description": "t:about.val.3.description",
+              "icon": "map-pin"
+            }
           ]
         },
         {
-          "type": "comparison", "background": "dark",
+          "type": "comparison",
+          "background": "dark",
           "header": {
             "badge": "t:about.comp.badge",
             "title": "t:about.comp.title",
@@ -355,12 +724,30 @@
           "leftTitle": "t:about.comp.left",
           "rightTitle": "t:about.comp.right",
           "rows": [
-            { "left": "t:about.comp.r0.left", "right": "t:about.comp.r0.right" },
-            { "left": "t:about.comp.r1.left", "right": "t:about.comp.r1.right" },
-            { "left": "t:about.comp.r2.left", "right": "t:about.comp.r2.right" },
-            { "left": "t:about.comp.r3.left", "right": "t:about.comp.r3.right" },
-            { "left": "t:about.comp.r4.left", "right": "t:about.comp.r4.right" },
-            { "left": "t:about.comp.r5.left", "right": "t:about.comp.r5.right" }
+            {
+              "left": "t:about.comp.r0.left",
+              "right": "t:about.comp.r0.right"
+            },
+            {
+              "left": "t:about.comp.r1.left",
+              "right": "t:about.comp.r1.right"
+            },
+            {
+              "left": "t:about.comp.r2.left",
+              "right": "t:about.comp.r2.right"
+            },
+            {
+              "left": "t:about.comp.r3.left",
+              "right": "t:about.comp.r3.right"
+            },
+            {
+              "left": "t:about.comp.r4.left",
+              "right": "t:about.comp.r4.right"
+            },
+            {
+              "left": "t:about.comp.r5.left",
+              "right": "t:about.comp.r5.right"
+            }
           ]
         },
         {
@@ -371,18 +758,45 @@
             "subtitle": "t:about.team.subtitle"
           },
           "members": [
-            { "name": "Mateusz", "role": "t:about.team.m0.role", "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face", "linkedin": "https://linkedin.com/in/" },
-            { "name": "t:about.team.m1.name", "role": "t:about.team.m1.role", "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face", "linkedin": "https://linkedin.com/in/" },
-            { "name": "t:about.team.m2.name", "role": "t:about.team.m2.role", "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face", "linkedin": "https://linkedin.com/in/" }
+            {
+              "name": "Mateusz",
+              "role": "t:about.team.m0.role",
+              "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+              "linkedin": "https://linkedin.com/in/"
+            },
+            {
+              "name": "t:about.team.m1.name",
+              "role": "t:about.team.m1.role",
+              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face",
+              "linkedin": "https://linkedin.com/in/"
+            },
+            {
+              "name": "t:about.team.m2.name",
+              "role": "t:about.team.m2.role",
+              "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+              "linkedin": "https://linkedin.com/in/"
+            }
           ]
         },
         {
           "type": "faq",
-          "header": { "badge": "t:about.faq.badge", "title": "t:about.faq.title" },
+          "header": {
+            "badge": "t:about.faq.badge",
+            "title": "t:about.faq.title"
+          },
           "faqItems": [
-            { "question": "t:about.faq.q0", "answer": "t:about.faq.a0" },
-            { "question": "t:about.faq.q1", "answer": "t:about.faq.a1" },
-            { "question": "t:about.faq.q2", "answer": "t:about.faq.a2" }
+            {
+              "question": "t:about.faq.q0",
+              "answer": "t:about.faq.a0"
+            },
+            {
+              "question": "t:about.faq.q1",
+              "answer": "t:about.faq.a1"
+            },
+            {
+              "question": "t:about.faq.q2",
+              "answer": "t:about.faq.a2"
+            }
           ]
         }
       ]
@@ -391,7 +805,8 @@
       "title": "t:pages.services",
       "sections": [
         {
-          "type": "services", "variant": "featured",
+          "type": "services",
+          "variant": "featured",
           "header": {
             "badge": "t:svcpage.badge",
             "title": "t:svcpage.title",
@@ -399,18 +814,92 @@
           }
         },
         {
-          "type": "pricing", "variant": "default", "background": "dark",
-          "header": { "badge": "t:pricing.badge", "title": "t:svcpage.pricing.title", "subtitle": "t:svcpage.pricing.subtitle" },
+          "type": "pricing",
+          "variant": "default",
+          "background": "dark",
+          "header": {
+            "badge": "t:pricing.badge",
+            "title": "t:svcpage.pricing.title",
+            "subtitle": "t:svcpage.pricing.subtitle"
+          },
           "pricingTiers": [
-            { "name": "t:tier.0.name", "price": "t:tier.0.price", "period": "t:tier.0.period", "description": "t:tier.0.short", "features": ["t:tier.0.sf0", "t:tier.0.sf1", "t:tier.0.sf2", "t:tier.0.sf3", "t:tier.0.sf4"], "cta": { "label": "t:tier.cta.preview", "target": { "type": "page", "value": "contact" } } },
-            { "name": "t:tier.1.name", "price": "t:tier.1.price", "period": "t:tier.1.period", "description": "t:tier.1.short", "highlighted": true, "badge": "t:tier.1.badge", "features": ["t:tier.1.sf0", "t:tier.1.sf1", "t:tier.1.sf2", "t:tier.1.sf3", "t:tier.1.sf4"], "cta": { "label": "t:tier.cta.preview", "target": { "type": "page", "value": "contact" } } },
-            { "name": "t:tier.2.name", "price": "t:tier.2.price", "description": "t:tier.2.short", "features": ["t:tier.2.sf0", "t:tier.2.sf1", "t:tier.2.sf2", "t:tier.2.sf3", "t:tier.2.sf4"], "cta": { "label": "t:tier.cta.custom", "target": { "type": "page", "value": "contact" } } }
+            {
+              "name": "t:tier.0.name",
+              "price": "t:tier.0.price",
+              "period": "t:tier.0.period",
+              "description": "t:tier.0.short",
+              "features": [
+                "t:tier.0.sf0",
+                "t:tier.0.sf1",
+                "t:tier.0.sf2",
+                "t:tier.0.sf3",
+                "t:tier.0.sf4"
+              ],
+              "cta": {
+                "label": "t:tier.cta.preview",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
+            },
+            {
+              "name": "t:tier.1.name",
+              "price": "t:tier.1.price",
+              "period": "t:tier.1.period",
+              "description": "t:tier.1.short",
+              "highlighted": true,
+              "badge": "t:tier.1.badge",
+              "features": [
+                "t:tier.1.sf0",
+                "t:tier.1.sf1",
+                "t:tier.1.sf2",
+                "t:tier.1.sf3",
+                "t:tier.1.sf4"
+              ],
+              "cta": {
+                "label": "t:tier.cta.preview",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
+            },
+            {
+              "name": "t:tier.2.name",
+              "price": "t:tier.2.price",
+              "description": "t:tier.2.short",
+              "features": [
+                "t:tier.2.sf0",
+                "t:tier.2.sf1",
+                "t:tier.2.sf2",
+                "t:tier.2.sf3",
+                "t:tier.2.sf4"
+              ],
+              "cta": {
+                "label": "t:tier.cta.custom",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              }
+            }
           ]
         },
         {
-          "type": "ctaBanner", "variant": "default",
-          "header": { "title": "t:svcpage.cta.title", "subtitle": "t:svcpage.cta.subtitle" },
-          "cta": { "label": "t:svcpage.cta.button", "target": { "type": "page", "value": "contact" } }
+          "type": "ctaBanner",
+          "variant": "default",
+          "header": {
+            "title": "t:svcpage.cta.title",
+            "subtitle": "t:svcpage.cta.subtitle"
+          },
+          "cta": {
+            "label": "t:svcpage.cta.button",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
         }
       ]
     },
@@ -418,17 +907,54 @@
       "title": "t:pages.projects",
       "sections": [
         {
-          "type": "project", "variant": "carousel",
+          "type": "project",
+          "variant": "carousel",
           "header": {
             "badge": "t:projpage.badge",
             "title": "t:projpage.title",
             "subtitle": "t:projpage.subtitle"
           },
           "projects": [
-            { "title": "t:proj.0.title", "description": "t:proj.0.short", "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=500&fit=crop", "metrics": ["t:proj.0.sm0", "t:proj.0.sm1", "t:proj.0.sm2"] },
-            { "title": "t:proj.1.title", "description": "t:proj.1.short", "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=500&fit=crop", "metrics": ["t:proj.1.sm0", "t:proj.1.sm1", "t:proj.1.sm2"] },
-            { "title": "t:proj.2.title", "description": "t:proj.2.short", "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=500&fit=crop", "metrics": ["t:proj.2.sm0", "t:proj.2.sm1", "t:proj.2.sm2"] },
-            { "title": "t:proj.3.title", "description": "t:proj.3.short", "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=500&fit=crop", "metrics": ["t:proj.3.sm0", "t:proj.3.sm1", "t:proj.3.sm2"] }
+            {
+              "title": "t:proj.0.title",
+              "description": "t:proj.0.short",
+              "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=500&fit=crop",
+              "metrics": [
+                "t:proj.0.sm0",
+                "t:proj.0.sm1",
+                "t:proj.0.sm2"
+              ]
+            },
+            {
+              "title": "t:proj.1.title",
+              "description": "t:proj.1.short",
+              "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=500&fit=crop",
+              "metrics": [
+                "t:proj.1.sm0",
+                "t:proj.1.sm1",
+                "t:proj.1.sm2"
+              ]
+            },
+            {
+              "title": "t:proj.2.title",
+              "description": "t:proj.2.short",
+              "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=500&fit=crop",
+              "metrics": [
+                "t:proj.2.sm0",
+                "t:proj.2.sm1",
+                "t:proj.2.sm2"
+              ]
+            },
+            {
+              "title": "t:proj.3.title",
+              "description": "t:proj.3.short",
+              "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=500&fit=crop",
+              "metrics": [
+                "t:proj.3.sm0",
+                "t:proj.3.sm1",
+                "t:proj.3.sm2"
+              ]
+            }
           ]
         }
       ]
@@ -437,22 +963,43 @@
       "title": "t:pages.blog",
       "sections": [
         {
-          "type": "hero", "variant": "gradient", "background": "dark",
-          "header": { "badge": "t:blog.badge", "title": "t:blog.title", "subtitle": "t:blog.subtitle" }
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
+          "header": {
+            "badge": "t:blog.badge",
+            "title": "t:blog.title",
+            "subtitle": "t:blog.subtitle"
+          }
         },
-        { "type": "blog", "variant": "default", "header": { "title": "t:blog.latest" } }
+        {
+          "type": "blog",
+          "variant": "default",
+          "header": {
+            "title": "t:blog.latest"
+          }
+        }
       ]
     },
     "contact": {
       "title": "t:pages.contact",
       "sections": [
         {
-          "type": "hero", "variant": "gradient", "background": "dark",
-          "header": { "badge": "t:contact.hero.badge", "title": "t:contact.hero.title", "subtitle": "t:contact.hero.subtitle" }
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
+          "header": {
+            "badge": "t:contact.hero.badge",
+            "title": "t:contact.hero.title",
+            "subtitle": "t:contact.hero.subtitle"
+          }
         },
         {
-          "type": "contact", "variant": "split",
-          "header": { "title": "t:contact.form.header" },
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "title": "t:contact.form.header"
+          },
           "form": {
             "nameLabel": "t:contact.form.nameLabel",
             "namePlaceholder": "t:contact.form.name",
@@ -463,13 +1010,27 @@
                 "name": "industry",
                 "label": "t:contact.form.industryLabel",
                 "placeholder": "t:contact.form.industryPlaceholder",
-                "options": ["t:contact.form.ind.0", "t:contact.form.ind.1", "t:contact.form.ind.2", "t:contact.form.ind.3", "t:contact.form.ind.4", "t:contact.form.ind.5", "t:contact.form.ind.6", "t:contact.form.ind.7", "t:contact.form.ind.8"]
+                "options": [
+                  "t:contact.form.ind.0",
+                  "t:contact.form.ind.1",
+                  "t:contact.form.ind.2",
+                  "t:contact.form.ind.3",
+                  "t:contact.form.ind.4",
+                  "t:contact.form.ind.5",
+                  "t:contact.form.ind.6",
+                  "t:contact.form.ind.7",
+                  "t:contact.form.ind.8"
+                ]
               },
               {
                 "name": "hasWebsite",
                 "label": "t:contact.form.hasWebsiteLabel",
                 "placeholder": "t:contact.form.hasWebsitePlaceholder",
-                "options": ["t:contact.form.hw.0", "t:contact.form.hw.1", "t:contact.form.hw.2"]
+                "options": [
+                  "t:contact.form.hw.0",
+                  "t:contact.form.hw.1",
+                  "t:contact.form.hw.2"
+                ]
               }
             ],
             "messageLabel": "t:contact.form.messageLabel",
@@ -491,12 +1052,27 @@
       "sections": [
         {
           "type": "faq",
-          "header": { "title": "t:privacy.title", "subtitle": "t:privacy.subtitle" },
+          "header": {
+            "title": "t:privacy.title",
+            "subtitle": "t:privacy.subtitle"
+          },
           "faqItems": [
-            { "question": "t:privacy.q0", "answer": "t:privacy.a0" },
-            { "question": "t:privacy.q1", "answer": "t:privacy.a1" },
-            { "question": "t:privacy.q2", "answer": "t:privacy.a2" },
-            { "question": "t:privacy.q3", "answer": "t:privacy.a3" }
+            {
+              "question": "t:privacy.q0",
+              "answer": "t:privacy.a0"
+            },
+            {
+              "question": "t:privacy.q1",
+              "answer": "t:privacy.a1"
+            },
+            {
+              "question": "t:privacy.q2",
+              "answer": "t:privacy.a2"
+            },
+            {
+              "question": "t:privacy.q3",
+              "answer": "t:privacy.a3"
+            }
           ]
         }
       ]
