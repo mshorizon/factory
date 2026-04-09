@@ -17,15 +17,16 @@ export const defaultLanguage: Language = "pl";
 // Parse domain mapping from environment
 function getDomainMap(): Record<string, string> {
   try {
-    return JSON.parse(import.meta.env.DOMAIN_MAP || "{}");
+    const raw = import.meta.env.DOMAIN_MAP || process.env.DOMAIN_MAP || "{}";
+    return JSON.parse(raw);
   } catch {
     return {};
   }
 }
 
 const domainMap = getDomainMap();
-const defaultBusiness = import.meta.env.DEFAULT_BUSINESS || "barber";
-const baseDomain = import.meta.env.BASE_DOMAIN || "";
+const defaultBusiness = import.meta.env.DEFAULT_BUSINESS || process.env.DEFAULT_BUSINESS || "barber";
+const baseDomain = import.meta.env.BASE_DOMAIN || process.env.BASE_DOMAIN || "";
 
 // Get all available business IDs from database
 export async function getAvailableBusinessIds(): Promise<string[]> {
