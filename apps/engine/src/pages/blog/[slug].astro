@@ -8,7 +8,6 @@ import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import { getBlogBySlug } from "@mshorizon/db";
 import CommentSection from "../../components/blog/CommentSection.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import type { BusinessProfile } from "@mshorizon/schema";
 
 // Get route params
@@ -81,13 +80,6 @@ const jsonLd = {
   "url": canonicalUrl
 };
 
-// Breadcrumbs
-const breadcrumbs = [
-  { label: t(translations, "nav.home", "Strona główna"), href: "/" },
-  { label: "Blog", href: "/blog" },
-  { label: blog.title },
-];
-
 // Social share URLs (built client-side via script, but encode title here)
 const shareTitle = encodeURIComponent(blog.title);
 
@@ -146,80 +138,64 @@ const formattedDate = blog.publishedAt ? new Date(blog.publishedAt).toLocaleDate
     socials={business.business.socials}
   />
   <main class="flex-1">
-    <!-- Dark Hero Section -->
-    <section id="page-hero" class="relative bg-secondary pt-16 pb-16 mb-48 md:mb-64 overflow-visible">
-      <!-- Decorative dot pattern -->
-      <div class="absolute top-8 left-8 w-24 h-24 opacity-20">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="dots-1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill="currentColor" class="text-primary" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#dots-1)" />
-        </svg>
-      </div>
-      <div class="absolute bottom-8 right-8 w-32 h-32 opacity-20">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="dots-2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill="currentColor" class="text-primary" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#dots-2)" />
-        </svg>
-      </div>
+    <!-- Blog Header -->
+    <section class="py-spacing-section-sm">
+      <div class="container mx-auto">
+        <div class="max-w-3xl mx-auto">
+          <!-- Go back link -->
+          <a href="/blog" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+            Go back
+          </a>
 
-      <div class="container mx-auto px-spacing-container relative z-10">
-        <!-- Text Content -->
-        <div class="max-w-4xl mx-auto text-center mb-12">
-          {blog.category && (
-            <p class="text-primary text-sm font-semibold uppercase tracking-wider mb-4">
-              {blog.category}
-            </p>
-          )}
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 uppercase">
+          <!-- Category + Date -->
+          <div class="flex items-center gap-spacing-md mb-spacing-lg">
+            {blog.category && (
+              <span class="inline-flex items-center border border-border/30 rounded-md px-2.5 py-1 text-xs font-medium text-muted">
+                {blog.category}
+              </span>
+            )}
+            {formattedDate && (
+              <time datetime={blog.publishedAt?.toISOString()} class="text-sm text-muted">
+                {formattedDate}
+              </time>
+            )}
+          </div>
+
+          <!-- Title -->
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-heading text-foreground mb-spacing-lg">
             {blog.title}
           </h1>
+
+          <!-- Description -->
           {blog.description && (
-            <p class="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-6">
+            <p class="text-lg text-muted leading-relaxed">
               {blog.description}
             </p>
           )}
-          <div class="flex items-center justify-center gap-spacing-lg text-sm text-muted">
-            {blog.author && <span>{blog.author}</span>}
-            {formattedDate && (
-              <>
-                {blog.author && <span>•</span>}
-                <time datetime={blog.publishedAt?.toISOString()}>{formattedDate}</time>
-              </>
-            )}
-          </div>
         </div>
-
-        <!-- Blog Image - Absolutely Positioned at Bottom of Dark Section -->
-        {blog.image && (
-          <div class="absolute left-0 right-0 bottom-0 translate-y-[calc(50%+100px)] z-30">
-            <div class="container mx-auto px-spacing-container">
-              <div class="max-w-5xl mx-auto">
-                <div class="relative w-full max-w-[930px] h-[320px] mx-auto rounded-radius overflow-hidden shadow-2xl">
-                  <img
-                    src={blog.image}
-                    alt={blog.title}
-                    class="w-full h-full object-cover"
-                    loading="eager"
-                    decoding="async"
-                    width="930"
-                    height="320"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </section>
 
-    <!-- White Content Section -->
-    <section class="relative bg-background pt-16 md:pt-24 pb-16 md:pb-24">
-      <!-- Breadcrumbs -->
-      <Breadcrumbs items={breadcrumbs} />
+    <!-- Cover Image -->
+    {blog.image && (
+      <div class="container mx-auto mb-spacing-3xl">
+        <div class="max-w-5xl mx-auto">
+          <div class="w-full rounded-lg overflow-hidden">
+            <img
+              src={blog.image}
+              alt={blog.title}
+              class="w-full h-auto max-h-[500px] object-cover"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- Content Section -->
+    <section class="relative pb-16 md:pb-24">
 
       <!-- Blog Content -->
       <div class="container mx-auto px-spacing-container mt-spacing-lg">

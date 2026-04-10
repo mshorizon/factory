@@ -8,7 +8,7 @@ import type { ProcessStepsProps } from "./types";
 export function ProcessGrid({ steps, className }: ProcessStepsProps) {
   return (
     <StaggerContainer
-      className={cn("flex flex-wrap gap-5", className)}
+      className={cn("flex flex-wrap justify-center gap-[1.25rem]", className)}
       staggerDelay={0.1}
     >
       {steps.map((step, index) => {
@@ -44,11 +44,22 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
                 {step.description}
               </p>
 
-              {step.image && (
+              {step.video ? (
+                <div className="mt-spacing-lg">
+                  <video
+                    src={step.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full max-w-[360px] h-[160px] object-cover rounded-lg"
+                  />
+                </div>
+              ) : step.image ? (
                 <div className="mt-spacing-lg">
                   <SafeImage src={step.image} alt={step.title} className="w-full max-w-[360px] h-[160px] object-cover rounded-lg" loading="lazy" />
                 </div>
-              )}
+              ) : null}
             </div>
           </StaggerItem>
         );

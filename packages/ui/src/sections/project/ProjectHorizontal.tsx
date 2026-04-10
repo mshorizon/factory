@@ -10,6 +10,7 @@ interface ProjectHorizontalProps {
     title: string;
     description: string;
     image?: string;
+    logo?: string;
     metrics?: string[];
   }>;
   className?: string;
@@ -78,7 +79,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
   };
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative", className)} style={{ "--carousel-max-width": "1000px" } as React.CSSProperties}>
       {/* Gradient edges */}
       <div className="absolute left-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
@@ -87,7 +88,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
       <div
         ref={scrollRef}
         className={cn(
-          "flex gap-spacing-lg overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none",
+          "flex gap-spacing-lg overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none mx-auto",
           isDragging ? "cursor-grabbing" : "cursor-grab"
         )}
         onMouseDown={handleMouseDown}
@@ -97,12 +98,13 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        style={{ scrollBehavior: "smooth", scrollSnapType: "x mandatory" }}
+        style={{ scrollBehavior: "smooth", scrollSnapType: "x mandatory", maxWidth: "var(--carousel-max-width)" }}
       >
         {projects.map((project, index) => (
           <div
             key={index}
-            className="w-[85vw] md:w-[700px] lg:w-[800px] flex-shrink-0 select-none snap-start"
+            className="flex-shrink-0 select-none snap-start"
+            style={{ width: "var(--carousel-max-width, 800px)" }}
           >
             <div
               className="flex flex-col md:flex-row border-0 rounded-none overflow-hidden h-full gap-[30px]"
@@ -129,11 +131,15 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
                   project.image ? "flex-1" : "w-full"
                 )}
               >
-                {/* Logo placeholder */}
+                {/* Logo */}
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-foreground">
-                    {project.title.charAt(0)}
-                  </div>
+                  {project.logo ? (
+                    <img src={project.logo} alt="" className="h-6 w-auto opacity-70" draggable="false" />
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-foreground">
+                      {project.title.charAt(0)}
+                    </div>
+                  )}
                 </div>
 
                 <h3

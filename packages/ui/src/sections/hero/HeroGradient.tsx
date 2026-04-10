@@ -46,7 +46,7 @@ export function HeroGradient({
     <section
       className={cn(
         "relative z-0 bg-background overflow-hidden flex items-center justify-center",
-        isHomePage ? "min-h-[calc(100vh-100px)] py-spacing-section" : "py-spacing-section-sm",
+        isHomePage ? "min-h-[calc(100vh-100px)] pt-[6rem] pb-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >
@@ -78,9 +78,10 @@ export function HeroGradient({
           to { opacity: 1; filter: blur(0px); }
         }
         @keyframes particle-to-center {
-          0% { opacity: 0.3; transform: translate(0, 0) scale(0.8); }
-          70% { opacity: 0.7; }
-          100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2); }
+          0% { opacity: 0; transform: translate(0, 0) scale(1); }
+          15% { opacity: 0.8; }
+          70% { opacity: 0.6; }
+          100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.1); }
         }
         @keyframes hero-word-reveal {
           from { opacity: 0; filter: blur(10px); }
@@ -111,25 +112,31 @@ export function HeroGradient({
         </div>
         {/* Scattered particles */}
         {[
-          { top: "20%", left: "35%", delay: "0s", size: "2px" },
-          { top: "65%", left: "60%", delay: "1.2s", size: "1.5px" },
-          { top: "30%", left: "70%", delay: "2.4s", size: "2px" },
-          { top: "75%", left: "30%", delay: "0.6s", size: "1.5px" },
-          { top: "25%", left: "55%", delay: "1.8s", size: "1px" },
-          { top: "55%", left: "45%", delay: "3s", size: "2px" },
-          { top: "40%", left: "75%", delay: "2s", size: "1px" },
-          { top: "80%", left: "55%", delay: "0.8s", size: "1.5px" },
-          { top: "15%", left: "45%", delay: "3.5s", size: "1px" },
-          { top: "50%", left: "25%", delay: "1.5s", size: "2px" },
+          { top: "10%", left: "20%", delay: "0s", size: "2px" },
+          { top: "65%", left: "60%", delay: "1.2s", size: "2px" },
+          { top: "30%", left: "70%", delay: "2.4s", size: "2.5px" },
+          { top: "75%", left: "30%", delay: "0.6s", size: "2px" },
+          { top: "25%", left: "55%", delay: "1.8s", size: "1.5px" },
+          { top: "55%", left: "45%", delay: "3s", size: "2.5px" },
+          { top: "40%", left: "75%", delay: "2s", size: "1.5px" },
+          { top: "80%", left: "55%", delay: "0.8s", size: "2px" },
+          { top: "15%", left: "45%", delay: "3.5s", size: "1.5px" },
+          { top: "50%", left: "25%", delay: "1.5s", size: "2.5px" },
+          { top: "85%", left: "40%", delay: "0.3s", size: "2px" },
+          { top: "35%", left: "15%", delay: "2.8s", size: "1.5px" },
+          { top: "70%", left: "80%", delay: "1s", size: "2px" },
+          { top: "20%", left: "85%", delay: "2.2s", size: "1.5px" },
+          { top: "90%", left: "70%", delay: "0.4s", size: "2px" },
+          { top: "45%", left: "10%", delay: "3.2s", size: "2.5px" },
         ].map((p, i) => (
           <div
             key={i}
-            className="absolute rounded-full bg-white/60"
+            className="absolute rounded-full bg-white/80"
             style={{
               top: p.top, left: p.left,
               width: p.size, height: p.size,
               ...calcParticleVars(p.top, p.left),
-              animation: `particle-to-center 3s ease-in-out ${p.delay} infinite`,
+              animation: `particle-to-center 4s ease-in-out ${p.delay} infinite`,
             }}
           />
         ))}

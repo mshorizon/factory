@@ -301,6 +301,7 @@
               "description": { "type": "string" },
               "icon": { "type": "string" },
               "image": { "type": "string" },
+              "video": { "type": "string", "title": "Video URL" },
               "badges": {
                 "type": "array",
                 "title": "Visual Badges",
@@ -421,6 +422,7 @@
               "title": { "type": "string", "title": "Title" },
               "description": { "type": "string", "title": "Description" },
               "image": { "type": "string", "title": "Image URL" },
+              "logo": { "type": "string", "title": "Logo Image URL" },
               "date": { "type": "string", "title": "Date" },
               "metric": { "type": "string", "title": "Key Metric" },
               "metricLabel": { "type": "string", "title": "Metric Label" },
@@ -484,6 +486,7 @@
       "title": "Page",
       "properties": {
         "title": { "type": "string", "title": "Page Title" },
+        "navLabel": { "type": "string", "title": "Nav Label" },
         "hideFromNav": { "type": "boolean", "title": "Hide From Nav" },
         "sections": {
           "type": "array",

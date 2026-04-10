@@ -4,6 +4,7 @@ export interface BlogPost {
   image?: string;
   date?: string;
   href?: string;
+  category?: string;
 }
 
 export interface BlogGridProps {

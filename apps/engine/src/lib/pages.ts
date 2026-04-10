@@ -103,7 +103,7 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
   const links = slugs
     .filter((slug) => !pages[slug].hideFromNav)
     .map((slug) => ({
-      label: pages[slug].title,
+      label: (pages[slug] as any).navLabel || pages[slug].title,
       href: slug === "home" ? "/" : `/${slug}`,
     }));
 

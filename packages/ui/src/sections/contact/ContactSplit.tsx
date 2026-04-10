@@ -92,42 +92,98 @@ export function ContactSplit({
 
   return (
     <div className={cn("max-w-6xl mx-auto", className)}>
-      <div className="grid lg:grid-cols-2 gap-0">
-        {/* Contact Form - Left side with dark background */}
-        <ScrollReveal delay={0.1} direction="left" distance={30} className="min-w-0">
-          <form onSubmit={handleSubmit} className="space-y-spacing-lg bg-[#16181D] p-6 sm:p-spacing-3xl rounded-radius-secondary text-white overflow-hidden">
-            <div className="space-y-spacing-xs">
-              <Label htmlFor="name" className="text-white">
-                {form?.nameLabel || "Name"}
-              </Label>
-              <Input
-                type="text"
-                id="name"
-                name="name"
-                placeholder={form?.namePlaceholder}
-                required
-                disabled={status === "loading"}
-                className="bg-white text-black border-none"
-              />
+      {/* Header (only rendered when badge/title/subtitle are passed directly) */}
+      {(badge || title) && (
+        <div className="text-center mb-spacing-3xl">
+          {badge && (
+            <div className="flex items-center gap-spacing-sm justify-center mb-spacing-lg">
+              <span className="w-12 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
+              <Badge variant="accent" data-field="header.badge" style={{ color: "var(--primary-dark)" }}>
+                {badge}
+              </Badge>
             </div>
-            <div className="space-y-spacing-xs">
-              <Label htmlFor="email" className="text-white">
-                {form?.emailLabel || "Email"}
-              </Label>
-              <Input
-                type="email"
-                id="email"
-                name="email"
-                placeholder={form?.emailPlaceholder}
-                required
-                disabled={status === "loading"}
-                className="bg-white text-black border-none"
-              />
+          )}
+          {title && (
+            <h1 className="text-4xl lg:text-5xl font-heading text-foreground leading-tight mb-spacing-md" data-field="header.title">
+              {title}
+            </h1>
+          )}
+          {subtitle && (
+            <p className="text-muted text-lg leading-relaxed max-w-2xl mx-auto" data-field="header.subtitle">
+              {subtitle}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="grid lg:grid-cols-[auto,1fr] gap-spacing-2xl items-start">
+        {/* Contact Info - Left side */}
+        <ScrollReveal delay={0.1} direction="left" distance={30} className="min-w-0">
+          <div className="flex flex-col gap-spacing-md">
+            {contactInfo.email && (
+              <a
+                href={`mailto:${contactInfo.email}`}
+                className="flex flex-col gap-spacing-xs rounded-lg border border-border/15 p-spacing-lg hover:border-border/30 transition-colors group"
+              >
+                <div className="flex items-center gap-spacing-sm">
+                  <Mail className="h-5 w-5 shrink-0 text-foreground" />
+                  <span className="text-sm font-medium text-foreground">E-mail</span>
+                </div>
+                <span className="text-sm text-muted group-hover:text-foreground transition-colors">{contactInfo.email}</span>
+              </a>
+            )}
+            {contactInfo.phone && (
+              <a
+                href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
+                className="flex flex-col gap-spacing-xs rounded-lg border border-border/15 p-spacing-lg hover:border-border/30 transition-colors group"
+              >
+                <div className="flex items-center gap-spacing-sm">
+                  <Phone className="h-5 w-5 shrink-0 text-foreground" />
+                  <span className="text-sm font-medium text-foreground">Phone</span>
+                </div>
+                <span className="text-sm text-muted group-hover:text-foreground transition-colors">{contactInfo.phone}</span>
+              </a>
+            )}
+          </div>
+        </ScrollReveal>
+
+        {/* Contact Form - Right side */}
+        <ScrollReveal delay={0.1} direction="right" distance={30} className="min-w-0">
+          <form onSubmit={handleSubmit} className="space-y-spacing-lg rounded-lg border border-border/15 p-6 sm:p-spacing-2xl overflow-hidden">
+            <div className="grid sm:grid-cols-2 gap-spacing-lg">
+              <div className="space-y-spacing-xs">
+                <Label htmlFor="name" className="text-foreground text-sm">
+                  {form?.nameLabel || "Name"}
+                </Label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder={form?.namePlaceholder}
+                  required
+                  disabled={status === "loading"}
+                  className="bg-transparent border-border/30 text-foreground"
+                />
+              </div>
+              <div className="space-y-spacing-xs">
+                <Label htmlFor="email" className="text-foreground text-sm">
+                  {form?.emailLabel || "Email"}
+                </Label>
+                <Input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder={form?.emailPlaceholder}
+                  required
+                  disabled={status === "loading"}
+                  className="bg-transparent border-border/30 text-foreground"
+                />
+              </div>
             </div>
             {(form?.selectFields ?? []).map((field: SelectField) => (
               <div key={field.name} className="space-y-spacing-xs">
                 {field.label && (
-                  <Label htmlFor={field.name} className="text-white">
+                  <Label htmlFor={field.name} className="text-foreground text-sm">
                     {field.label}
                   </Label>
                 )}
@@ -135,7 +191,7 @@ export function ContactSplit({
                   id={field.name}
                   name={field.name}
                   disabled={status === "loading"}
-                  className="w-full min-w-0 rounded-md border-none bg-white text-black px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full min-w-0 rounded-md border border-border/30 bg-transparent text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                   defaultValue="__placeholder__"
                 >
                   {field.placeholder && (
@@ -152,17 +208,17 @@ export function ContactSplit({
               </div>
             ))}
             <div className="space-y-spacing-xs">
-              <Label htmlFor="message" className="text-white">
+              <Label htmlFor="message" className="text-foreground text-sm">
                 {form?.messageLabel || "Message"}
               </Label>
               <Textarea
                 id="message"
                 name="message"
                 placeholder={form?.messagePlaceholder}
-                rows={7}
+                rows={5}
                 required
                 disabled={status === "loading"}
-                className="bg-white text-black border-none"
+                className="bg-transparent border-border/30 text-foreground"
               />
             </div>
             {turnstileSiteKey && (
@@ -193,82 +249,6 @@ export function ContactSplit({
               {status === "loading" ? "Sending..." : (form?.submitButton || "Submit")}
             </Button>
           </form>
-        </ScrollReveal>
-
-        {/* Contact Info - Right side */}
-        <ScrollReveal delay={0.1} direction="right" distance={30} className="min-w-0">
-          <div className="space-y-spacing-2xl px-spacing-3xl pt-8 pb-12 bg-background flex flex-col justify-center rounded-radius-secondary">
-            {badge && (
-              <div className="flex items-center gap-spacing-sm">
-                <span className="w-12 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
-                <Badge variant="accent" data-field="header.badge" style={{ color: "var(--primary-dark)" }}>
-                  {badge}
-                </Badge>
-              </div>
-            )}
-
-            {title && (
-              <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight" data-field="header.title">
-                {title}
-              </h1>
-            )}
-
-            {subtitle && (
-              <p className="text-muted text-lg leading-relaxed" data-field="header.subtitle">
-                {subtitle}
-              </p>
-            )}
-
-            <div className="h-px bg-border my-4"></div>
-
-            <div className="space-y-spacing-lg">
-              {contactInfo.address && (
-                mapsUrl ? (
-                  <a
-                    href={mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-spacing-sm group cursor-pointer"
-                  >
-                    <MapPin className="h-5 w-5 shrink-0 transition-opacity group-hover:opacity-80" style={{ color: "var(--primary-dark)" }} />
-                    <p className="text-foreground transition-colors" style={{ "--hover-color": "var(--primary-dark)" } as React.CSSProperties} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary-dark)")} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>{contactInfo.address}</p>
-                  </a>
-                ) : (
-                  <div className="flex items-center gap-spacing-sm">
-                    <MapPin className="h-5 w-5 shrink-0" style={{ color: "var(--primary-dark)" }} />
-                    <p className="text-foreground">{contactInfo.address}</p>
-                  </div>
-                )
-              )}
-
-              {contactInfo.phone && (
-                <a
-                  href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
-                  className="flex items-center gap-spacing-sm group cursor-pointer"
-                >
-                  <Phone className="h-5 w-5 shrink-0 transition-opacity group-hover:opacity-80" style={{ color: "var(--primary-dark)" }} />
-                  <p className="text-foreground transition-colors" style={{ "--hover-color": "var(--primary-dark)" } as React.CSSProperties} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary-dark)")} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>{contactInfo.phone}</p>
-                </a>
-              )}
-
-              {contactInfo.email && (
-                <a
-                  href={`mailto:${contactInfo.email}`}
-                  className="flex items-center gap-spacing-sm group cursor-pointer"
-                >
-                  <Mail className="h-5 w-5 shrink-0 transition-opacity group-hover:opacity-80" style={{ color: "var(--primary-dark)" }} />
-                  <p className="text-foreground transition-colors" style={{ "--hover-color": "var(--primary-dark)" } as React.CSSProperties} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary-dark)")} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>{contactInfo.email}</p>
-                </a>
-              )}
-
-              {contactInfo.hours && (
-                <div className="flex items-center gap-spacing-sm">
-                  <Clock className="h-5 w-5 shrink-0" style={{ color: "var(--primary-dark)" }} />
-                  <p className="text-foreground">{contactInfo.hours}</p>
-                </div>
-              )}
-            </div>
-          </div>
         </ScrollReveal>
       </div>
     </div>

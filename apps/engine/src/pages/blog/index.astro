@@ -7,8 +7,7 @@ import { resolveTarget } from "../../lib/target";
 import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import { getBlogsBySiteId } from "@mshorizon/db";
-import { BlogGrid } from "@mshorizon/ui";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { BlogOverlay, SectionHeader } from "@mshorizon/ui";
 import type { BusinessProfile } from "@mshorizon/schema";
 import type { BlogPost } from "@mshorizon/ui/sections/blog/types";
 
@@ -27,11 +26,12 @@ if (blogs.length === 0 && site) {
   blogs = await getBlogsBySiteId(site.id, true);
 }
 
-// Transform blogs to BlogPost[] format for BlogGrid component
+// Transform blogs to BlogPost[] format for BlogOverlay component
 const blogPosts: BlogPost[] = blogs.map((blog) => ({
   title: blog.title,
   description: blog.description || "",
   image: blog.image || undefined,
+  category: (blog as any).category || "Article",
   date: blog.publishedAt ? new Date(blog.publishedAt).toLocaleDateString(currentLang, {
     year: 'numeric',
     month: 'long',
@@ -39,6 +39,16 @@ const blogPosts: BlogPost[] = blogs.map((blog) => ({
   }) : undefined,
   href: `/blog/${blog.slug}`,
 }));
+
+// Get badge variant from theme
+const badgeVariant = (business as any).theme?.badgeVariant || "accent";
+
+// Get blog page config from template
+const blogPage = business.pages?.blog;
+const blogHeader = blogPage?.sections?.[0]?.header || {};
+const blogBadge = blogHeader.badge || t(translations, "blog.badge", "Blog");
+const blogTitle = blogHeader.title || t(translations, "blog.title", "Blog");
+const blogSubtitle = blogHeader.subtitle || t(translations, "blog.subtitle", "");
 
 // Get layout configuration
 const layout = getLayoutConfig(business);
@@ -100,12 +110,6 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
   p.sections?.some((s: any) => s.type === "shop")
 );
 
-// Breadcrumbs
-const breadcrumbs = [
-  { label: t(translations, "nav.home", "Strona główna"), href: "/" },
-  { label: "Blog" },
-];
-
 // Extract phone for sticky mobile CTA
 const businessPhone = business.business.contact?.phone;
 
@@ -128,44 +132,16 @@ const socialLinks = business.business.socials
     socials={business.business.socials}
   />
   <main class="flex-1">
-    <!-- Dark Hero Section -->
-    <section id="page-hero" class="relative bg-secondary py-spacing-section-sm overflow-visible">
-      <!-- Decorative dot pattern -->
-      <div class="absolute top-8 left-8 w-24 h-24 opacity-20">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="dots-1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill="currentColor" class="text-primary" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#dots-1)" />
-        </svg>
-      </div>
-      <div class="absolute bottom-8 right-8 w-32 h-32 opacity-20">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="dots-2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill="currentColor" class="text-primary" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#dots-2)" />
-        </svg>
-      </div>
-
-      <div class="container mx-auto px-spacing-container relative z-10">
-        <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase">
-            Blog
-          </h1>
-          <p class="text-lg md:text-xl text-muted mt-spacing-lg max-w-2xl mx-auto">
-            Najnowsze artykuły, porady i aktualności
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Blog Posts Grid -->
-    <section class="bg-background py-spacing-section-sm">
-      <Breadcrumbs items={breadcrumbs} />
-      <div class="container mx-auto px-spacing-container">
+    <section class="py-spacing-section-sm">
+      <div class="container mx-auto">
+        <SectionHeader
+          badge={blogBadge}
+          title={blogTitle}
+          subtitle={blogSubtitle}
+          badgeVariant={badgeVariant as any}
+        />
         {blogPosts.length > 0 ? (
-          <BlogGrid client:load posts={blogPosts} ctaLabel="Czytaj więcej" />
+          <BlogOverlay client:load posts={blogPosts} />
         ) : (
           <div class="text-center py-spacing-3xl">
             <p class="text-muted text-lg">Brak opublikowanych artykułów</p>

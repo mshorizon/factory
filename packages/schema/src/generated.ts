@@ -74,6 +74,7 @@ export type FooterExtensions = {
 export type NavigationLinks = Link[];
 export type Label1 = string;
 export type PageTitle = string;
+export type NavLabel = string;
 export type HideFromNav = boolean;
 export type SectionType =
   | "hero"
@@ -131,6 +132,7 @@ export type Currency = string;
 export type CTALabel = string;
 export type OutOfStockCTALabel = string;
 export type OutOfStockCTAHref = string;
+export type VideoURL = string;
 export type VisualBadges = string[];
 export type ProcessSteps = ProcessStep[];
 export type ServiceAreas = string[];
@@ -156,6 +158,7 @@ export type PricingTiers = PricingTier[];
 export type Title1 = string;
 export type Description1 = string;
 export type ImageURL1 = string;
+export type LogoImageURL = string;
 export type Date = string;
 export type KeyMetric = string;
 export type MetricLabel1 = string;
@@ -357,6 +360,7 @@ export interface Pages {
 }
 export interface Page {
   title: PageTitle;
+  navLabel?: NavLabel;
   hideFromNav?: HideFromNav;
   sections: Sections;
 }
@@ -504,6 +508,7 @@ export interface ProcessStep {
   description?: string;
   icon?: string;
   image?: string;
+  video?: VideoURL;
   badges?: VisualBadges;
 }
 export interface BeforeAfterPair {
@@ -547,6 +552,7 @@ export interface ProjectItem {
   title?: Title1;
   description?: Description1;
   image?: ImageURL1;
+  logo?: LogoImageURL;
   date?: Date;
   metric?: KeyMetric;
   metricLabel?: MetricLabel1;

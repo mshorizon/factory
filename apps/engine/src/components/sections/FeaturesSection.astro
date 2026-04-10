@@ -1,14 +1,15 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { FeaturesGrid, FeaturesCompact, FeaturesGradient, Badge } from "@mshorizon/ui";
+import { FeaturesGrid, FeaturesCompact, FeaturesGradient, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 import { resolveTarget } from "../../lib/target";
@@ -23,35 +24,13 @@ const items = rawItems.map((item: any) => ({
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
-    <div class="mb-spacing-3xl">
-      {header.badge && (
-        <div data-reveal data-reveal-delay="0" class="flex items-center gap-spacing-sm mb-spacing-lg">
-          <span
-            class="w-12 h-[2px]"
-            style={`background-color: ${section.background === "dark" ? "var(--primary)" : "var(--primary-dark)"}`}
-          ></span>
-          <Badge
-            variant="accent"
-            data-field="header.badge"
-            style={{ color: section.background === "dark" ? "var(--primary)" : "var(--primary-dark)" }}
-          >
-            {header.badge}
-          </Badge>
-        </div>
-      )}
-      <div class="grid md:grid-cols-2 gap-spacing-2xl items-start">
-        {header.title && (
-          <h2 data-reveal data-reveal-delay={header.badge ? "100" : "0"} class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading" data-field="header.title">
-            {header.title}
-          </h2>
-        )}
-        {header.subtitle && (
-          <p data-reveal data-reveal-delay={header.badge ? "200" : "100"} class="text-muted leading-relaxed" data-field="header.subtitle">
-            {header.subtitle}
-          </p>
-        )}
-      </div>
-    </div>
+    <SectionHeader
+      badge={header.badge}
+      title={header.title}
+      subtitle={header.subtitle}
+      background={section.background}
+      badgeVariant={badgeVariant as any}
+    />
     {variant === "compact" ? (
       <FeaturesCompact client:visible items={items} />
     ) : variant === "gradient" ? (

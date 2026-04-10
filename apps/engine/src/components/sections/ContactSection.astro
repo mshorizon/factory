@@ -1,15 +1,16 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ContactCentered, ContactSplit } from "@mshorizon/ui";
+import { ContactCentered, ContactSplit, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
   isHomePage?: boolean;
   section: Section;
   business?: any;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false, business: businessProp } = Astro.props;
+const { section, isHomePage = false, business: businessProp, badgeVariant } = Astro.props;
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const businessId = Astro.locals.businessId;
@@ -19,12 +20,21 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
+    {header.badge && (
+      <SectionHeader
+        badge={header.badge}
+        title={header.title}
+        subtitle={header.subtitle}
+        background={section.background}
+        badgeVariant={badgeVariant as any}
+      />
+    )}
     {variant === "split" ? (
       <ContactSplit
         client:visible
-        title={header.title}
-        subtitle={header.subtitle}
-        badge={header.badge}
+        title={!header.badge ? header.title : undefined}
+        subtitle={!header.badge ? header.subtitle : undefined}
+        badge={!header.badge ? header.badge : undefined}
         form={section.form}
         info={section.info}
         labels={section.labels}

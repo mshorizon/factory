@@ -4,6 +4,7 @@ export interface ProcessStep {
   description: string;
   icon?: string;
   image?: string;
+  video?: string;
   badges?: string[];
 }
 

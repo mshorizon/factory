@@ -76,7 +76,7 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
             <StaggerItem key={index} direction="up" distance={30}>
               <div
                 className={cn(
-                  "rounded-lg border border-border/30 p-6 relative overflow-hidden h-full flex flex-col"
+                  "rounded-lg border border-border/15 p-6 relative overflow-hidden h-full flex flex-col"
                 )}
                 style={{
                   background: tier.highlighted
@@ -147,7 +147,7 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                       variant={tier.highlighted ? "default" : "outline"}
                       className={cn(
                         "w-full !rounded-lg",
-                        !tier.highlighted && "text-foreground border-border/50 hover:bg-white/5"
+                        !tier.highlighted && "text-foreground border-border/20 hover:bg-white/5"
                       )}
                       asChild
                     >

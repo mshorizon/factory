@@ -67,7 +67,7 @@ export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard } from "./ctaBanner";
 export type { CtaBannerProps } from "./ctaBanner";
 
 // Blog variants
-export { BlogGrid } from "./blog";
+export { BlogGrid, BlogOverlay } from "./blog";
 export type { BlogGridProps, BlogPost } from "./blog";
 
 // Project variants

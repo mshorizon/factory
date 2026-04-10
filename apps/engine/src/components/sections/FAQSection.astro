@@ -20,43 +20,27 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
-    <div class="grid lg:grid-cols-[1fr,448px] gap-spacing-3xl lg:gap-spacing-2xl items-start">
-      <div class="flex flex-col min-w-0">
-        <SectionHeader
-          badge={header.badge}
-          title={header.title}
-          subtitle={header.subtitle}
-          layout="stacked"
-          align="left"
-          background={section.background}
-          badgeVariant={badgeVariant as any}
-          className="!mb-spacing-xl"
-        />
-        {variant === "bordered" ? (
-          <FAQBordered
-            client:visible
-            items={faqItems}
-            ctaText={ctaLabel}
-            ctaHref={ctaHref}
-          />
-        ) : (
-          <FAQAccordion
-            client:visible
-            items={faqItems}
-            ctaText={ctaLabel}
-            ctaHref={ctaHref}
-          />
-        )}
-      </div>
-      {section.image && (
-        <div class="hidden lg:block sticky top-32">
-          <img
-            src={section.image}
-            alt=""
-            class="w-[448px] h-[448px] object-cover rounded-2xl"
-          />
-        </div>
-      )}
-    </div>
+    <SectionHeader
+      badge={header.badge}
+      title={header.title}
+      subtitle={header.subtitle}
+      background={section.background}
+      badgeVariant={badgeVariant as any}
+    />
+    {variant === "bordered" ? (
+      <FAQBordered
+        client:visible
+        items={faqItems}
+        ctaText={ctaLabel}
+        ctaHref={ctaHref}
+      />
+    ) : (
+      <FAQAccordion
+        client:visible
+        items={faqItems}
+        ctaText={ctaLabel}
+        ctaHref={ctaHref}
+      />
+    )}
   </div>
 </section>
