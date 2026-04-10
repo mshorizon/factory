@@ -144,3 +144,11 @@ vite.config.ts.timestamp-*
 # Screenshots and debug images
 screenshots/
 .playwright-mcp/
+
+# IDE
+.idea/
+
+# AI tooling
+.ai/
+.claude/
+.mcp.json
