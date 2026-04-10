@@ -163,14 +163,7 @@ const socialLinks = business.business.socials
     contact={business.business.contact}
     socials={business.business.socials}
   />
-  <main class="flex-1">
-    <!-- Page hero banner for all non-home pages -->
-    {normalizedSlug !== 'home' && (
-      <PageHero
-        title={page.title}
-        hasUpperBar={layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') ?? false}
-      />
-    )}
+  <main class:list={["flex-1", normalizedSlug !== 'home' && "pt-14 lg:pt-16"]}>
     <SectionDispatcher sections={page.sections} business={business} isHomePage={normalizedSlug === 'home'} />
   </main>
   <Footer

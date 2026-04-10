@@ -1,0 +1,1 @@
+add whole newsleter implementation - entry point is subscribing in footer

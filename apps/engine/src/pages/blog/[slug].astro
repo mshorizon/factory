@@ -137,7 +137,7 @@ const formattedDate = blog.publishedAt ? new Date(blog.publishedAt).toLocaleDate
     contact={business.business.contact}
     socials={business.business.socials}
   />
-  <main class="flex-1">
+  <main class="flex-1 pt-14 lg:pt-16">
     <!-- Blog Header -->
     <section class="py-spacing-section-sm">
       <div class="container mx-auto">
@@ -149,21 +149,21 @@ const formattedDate = blog.publishedAt ? new Date(blog.publishedAt).toLocaleDate
           </a>
 
           <!-- Category + Date -->
-          <div class="flex items-center gap-spacing-md mb-spacing-lg">
+          <div class="flex items-center gap-spacing-sm mb-spacing-lg">
             {blog.category && (
               <span class="inline-flex items-center border border-border/30 rounded-md px-2.5 py-1 text-xs font-medium text-muted">
                 {blog.category}
               </span>
             )}
             {formattedDate && (
-              <time datetime={blog.publishedAt?.toISOString()} class="text-sm text-muted">
+              <time datetime={blog.publishedAt?.toISOString()} class="inline-flex items-center border border-border/30 rounded-md px-2.5 py-1 text-xs font-medium text-muted">
                 {formattedDate}
               </time>
             )}
           </div>
 
           <!-- Title -->
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-heading text-foreground mb-spacing-lg">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading text-foreground mb-spacing-lg">
             {blog.title}
           </h1>
 
@@ -181,7 +181,9 @@ const formattedDate = blog.publishedAt ? new Date(blog.publishedAt).toLocaleDate
     {blog.image && (
       <div class="container mx-auto mb-spacing-3xl">
         <div class="max-w-5xl mx-auto">
-          <div class="w-full rounded-lg overflow-hidden">
+          <div class="relative w-full rounded-lg overflow-hidden">
+            <div class="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+            <div class="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
             <img
               src={blog.image}
               alt={blog.title}

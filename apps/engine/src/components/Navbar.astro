@@ -91,7 +91,7 @@ const isTransparent = variant === "transparent";
 ]}>
   <div class="container mx-auto">
     <div class:list={[
-      "flex items-center h-16 lg:h-24",
+      "flex items-center h-14 lg:h-16",
       variant === "centered" ? "justify-center" : "justify-between"
     ]}>
       {/* Left: Logo + Nav Links */}
@@ -102,7 +102,7 @@ const isTransparent = variant === "transparent";
             <img src={logoIcon} alt="" class="w-7 h-7" />
           )}
           <span class:list={[
-            "nav-logo text-xl lg:text-2xl font-bold tracking-tight group-hover:text-primary transition-colors",
+            "nav-logo text-xl lg:text-2xl font-semibold tracking-tight group-hover:text-primary transition-colors",
             isTransparent ? "text-white" : "text-foreground"
           ]}>
             {logo}
@@ -118,7 +118,7 @@ const isTransparent = variant === "transparent";
             <a
               href={link.href}
               class:list={[
-                "nav-link relative px-3 py-2 text-[16px] font-medium transition-colors group whitespace-nowrap",
+                "nav-link relative px-3 py-2 text-[length:var(--nav-font-size,16px)] font-medium transition-colors group whitespace-nowrap",
                 isTransparent ? "text-white/80 hover:text-white" : "text-foreground/60 hover:text-foreground"
               ]}
             >
@@ -170,7 +170,7 @@ const isTransparent = variant === "transparent";
         {links.map((link) => (
           <a
             href={link.href}
-            class="px-4 py-3 text-[16px] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
+            class="px-4 py-3 text-[length:var(--nav-font-size,16px)] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
           >
             {link.label}
           </a>

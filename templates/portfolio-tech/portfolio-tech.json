@@ -73,7 +73,7 @@
         "container": "2.5rem"
       }
     },
-    "headingWeight": "400",
+    "headingWeight": "300",
     "navFontSize": "14px",
     "navLinksPosition": "right",
     "scrollType": "momentum",
@@ -638,10 +638,64 @@
       "title": "t:pages.about",
       "sections": [
         {
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
+          "header": {
+            "badge": "t:about.hero.badge",
+            "title": "t:about.hero.title",
+            "subtitle": "t:about.hero.subtitle"
+          }
+        },
+        {
+          "type": "trustBar",
+          "variant": "logos",
+          "background": "dark",
+          "header": {
+            "title": "t:home.trust.title"
+          },
+          "clientLogos": [
+            {
+              "name": "Elektryka i instalacje",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 32'%3E%3Cpath d='M16 4L9 18h5l-1 10 8-14h-5l1-10z' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EElektryka%20i%20instalacje%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Fryzjerstwo i uroda",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 210 32'%3E%3Ccircle cx='12' cy='10' r='5' fill='none' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Cpath d='M9 15l-3 13M15 15l3 13' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EFryzjerstwo%20i%20uroda%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Hydraulika i instalacje",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M8 8h8v6h4v10h-4v2H8v-2H4V14h4z' fill='none' stroke='%23FFFFFF' stroke-width='2' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EHydraulika%20i%20instalacje%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Gabinety kosmetyczne",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Ccircle cx='8' cy='16' r='4' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='16' cy='11' r='5' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EGabinety%20kosmetyczne%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Fitness i trenerzy",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 32'%3E%3Crect x='2' y='13' width='4' height='6' rx='2' fill='%23FFFFFF' opacity='0.7'/%3E%3Crect x='18' y='13' width='4' height='6' rx='2' fill='%23FFFFFF' opacity='0.7'/%3E%3Crect x='6' y='15' width='12' height='2' rx='1' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EFitness%20i%20trenerzy%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Gastronomia",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Cpath d='M8 6v8c0 3 2 5 4 6v8M18 6v4c0 4-3 6-5 6v10M12 6v20' stroke='%23FFFFFF' stroke-width='2' fill='none' opacity='0.7' stroke-linecap='round'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EGastronomia%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Budownictwo i remonty",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M4 28L12 8l8 20M7 22h10' stroke='%23FFFFFF' stroke-width='2' fill='none' opacity='0.7' stroke-linecap='round'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EBudownictwo%20i%20remonty%3C/text%3E%3C/svg%3E"
+            },
+            {
+              "name": "Zdrowie i rehabilitacja",
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M12 5v22M5 12h14' stroke='%23FFFFFF' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EZdrowie%20i%20rehabilitacja%3C/text%3E%3C/svg%3E"
+            }
+          ]
+        },
+        {
           "type": "about-summary",
           "background": "dark",
           "header": {
-            "title": "t:about.summary.title"
+            "badge": "t:about.story.badge",
+            "title": "t:about.story.title",
+            "subtitle": "t:about.story.content"
           },
           "stats": [
             {
@@ -659,28 +713,8 @@
           ]
         },
         {
-          "type": "about",
-          "variant": "story",
-          "header": {
-            "badge": "t:about.story.badge",
-            "title": "t:about.story.header"
-          },
-          "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
-          "story": {
-            "title": "t:about.story.title",
-            "content": "t:about.story.content"
-          },
-          "cta": {
-            "label": "t:about.story.cta",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
-          }
-        },
-        {
           "type": "features",
-          "variant": "compact",
+          "variant": "gradient",
           "background": "dark",
           "header": {
             "badge": "t:about.values.badge",

@@ -91,7 +91,7 @@ export function ContactSplit({
     : null;
 
   return (
-    <div className={cn("max-w-6xl mx-auto", className)}>
+    <div className={cn("max-w-5xl mx-auto", className)}>
       {/* Header (only rendered when badge/title/subtitle are passed directly) */}
       {(badge || title) && (
         <div className="text-center mb-spacing-3xl">
@@ -124,6 +124,7 @@ export function ContactSplit({
               <a
                 href={`mailto:${contactInfo.email}`}
                 className="flex flex-col gap-spacing-xs rounded-lg border border-border/15 p-spacing-lg hover:border-border/30 transition-colors group"
+                style={{ background: "radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--primary) 15%, transparent) 0%, transparent 70%)" }}
               >
                 <div className="flex items-center gap-spacing-sm">
                   <Mail className="h-5 w-5 shrink-0 text-foreground" />
@@ -136,6 +137,7 @@ export function ContactSplit({
               <a
                 href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
                 className="flex flex-col gap-spacing-xs rounded-lg border border-border/15 p-spacing-lg hover:border-border/30 transition-colors group"
+                style={{ background: "radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--primary) 15%, transparent) 0%, transparent 70%)" }}
               >
                 <div className="flex items-center gap-spacing-sm">
                   <Phone className="h-5 w-5 shrink-0 text-foreground" />
@@ -243,7 +245,7 @@ export function ContactSplit({
             <Button
               type="submit"
               size="lg"
-              className="w-full"
+              className="w-full !rounded-md"
               disabled={status === "loading" || (turnstileSiteKey != null && !turnstileToken)}
             >
               {status === "loading" ? "Sending..." : (form?.submitButton || "Submit")}

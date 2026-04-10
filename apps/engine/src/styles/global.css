@@ -30,6 +30,12 @@ html[style*="--heading-weight:400"] .font-bold {
 html[style*="--heading-weight:400"] .font-semibold {
   font-weight: 500 !important;
 }
+html[style*="--heading-weight:300"] .font-bold {
+  font-weight: 300 !important;
+}
+html[style*="--heading-weight:300"] .font-semibold {
+  font-weight: 400 !important;
+}
 
 /* Momentum scroll - disable native overscroll so JS handles it */
 html.scroll-momentum {

@@ -117,6 +117,7 @@ All spacing must use the following tokens from `theme.ui.spacing`:
 * **Static by Default.** Use Astro components for content.
 * **Selective Hydration.** Use React ONLY for interactivity (forms, widgets) using `client:*` directives.
 * **Zero Hardcoded Strings.** All copy, image URLs, and prices must come from the business JSON.
+* **Navbar overlap:** The navbar is `position: fixed`. Non-home pages must add `pt-14 lg:pt-16` to `<main>` so the first section is not hidden behind the navbar. Blog pages (`/blog`, `/blog/[slug]`) and dynamic pages (`[...slug].astro`) already apply this. Home page does NOT need it (hero fills the viewport).
 
 ### 📁 File Organization
 * **NEVER save images, screenshots, or secondary files in the root folder.**

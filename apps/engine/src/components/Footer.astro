@@ -342,12 +342,12 @@ const languages = [
             {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7" />}
             {businessName}
           </span>
-          {tagline && <p class="text-sm text-white/30 mb-spacing-lg">{tagline}</p>}
+          {tagline && <p class="text-sm text-white/60 mb-spacing-lg">{tagline}</p>}
           <div class="mt-spacing-lg">
             <p class="text-sm font-medium text-white mb-2">Join our newsletter</p>
-            <div class="flex gap-2">
-              <input type="email" placeholder="Enter your email" class="flex-1 bg-white/5 border border-border/30 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/40" />
-              <button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium">Subscribe</button>
+            <div class="relative">
+              <input type="email" placeholder="Enter your email" class="w-full bg-white/5 border border-border/30 rounded-lg pl-3 pr-[110px] py-2.5 text-sm text-white placeholder:text-white/40" />
+              <button class="absolute right-1 top-1/2 -translate-y-1/2 bg-primary text-on-primary px-4 py-1.5 rounded-md text-sm font-medium">Subscribe</button>
             </div>
           </div>
         </div>
