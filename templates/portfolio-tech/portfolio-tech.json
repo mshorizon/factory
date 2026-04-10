@@ -4,8 +4,9 @@
     "name": "t:business.name",
     "industry": "software",
     "assets": {
-      "favicon": "/hazelgrouse_studio_logo.png",
-      "icon": "/hazelgrouse_studio_logo.png"
+      "favicon": "/hazelgrouse_studio_logo_v2.png",
+      "icon": "/hazelgrouse_studio_logo_v2.png",
+      "logo": "/hazelgrouse_studio_logo_v2.png"
     },
     "logoIcon": "🐦",
     "contact": {
