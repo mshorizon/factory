@@ -51,7 +51,7 @@ export { GalleryGrid, GalleryShowcase } from "./gallery";
 export type { GalleryGridProps, GalleryShowcaseProps, GalleryItem } from "./gallery";
 
 // Testimonials variants
-export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured } from "./testimonials";
+export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered } from "./testimonials";
 export type { TestimonialsGridProps, TestimonialItem } from "./testimonials";
 
 // FAQ variants

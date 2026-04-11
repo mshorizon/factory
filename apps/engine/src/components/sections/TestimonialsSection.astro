@@ -1,6 +1,6 @@
 ---
 import type { Section, BusinessProfile } from "@mshorizon/schema";
-import { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, SectionHeader } from "@mshorizon/ui";
+import { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -38,6 +38,8 @@ const showHeader = section.variant !== 'full';
         <TestimonialsGradient client:visible items={items} />
       ) : variant === "featured" ? (
         <TestimonialsFeatured client:visible items={items} sectionImage={section.image} />
+      ) : variant === "centered" ? (
+        <TestimonialsCentered client:visible items={items} />
       ) : (
         <TestimonialsGrid client:visible items={items} />
       )}
