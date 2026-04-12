@@ -46,10 +46,32 @@ export type SpacingScale = number;
 export type ButtonStyle = string;
 export type HeadingFontWeight = string;
 export type NavbarFontSize = string;
+export type NavbarLogoFontSize = string;
+export type NavbarLogoFontWeight = string;
 export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "outlined";
 export type NavbarVariant = "standard" | "centered";
+/**
+ * Override the business name displayed in the navbar
+ */
+export type LogoTextOverride = string;
+/**
+ * Hide the bottom border when scroll is at the very top of the page
+ */
+export type HideBorderWhenAtTop = boolean;
+/**
+ * Hide the call-to-action button in the navbar
+ */
+export type HideCTAButton = boolean;
+/**
+ * Show social media icons in the upper bar extension
+ */
+export type ShowSocialMediaIconsInExtension = boolean;
+/**
+ * Show availability badge in the upper bar extension
+ */
+export type ShowAvailabilityInExtension = boolean;
 export type ExtensionType = "upper-bar";
 export type NavbarExtensions = {
   type: ExtensionType;
@@ -273,6 +295,8 @@ export interface Theme {
   ui?: UISettings;
   headingWeight?: HeadingFontWeight;
   navFontSize?: NavbarFontSize;
+  navLogoSize?: NavbarLogoFontSize;
+  navLogoWeight?: NavbarLogoFontWeight;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;
@@ -325,6 +349,11 @@ export interface Layout {
 }
 export interface Navbar {
   variant?: NavbarVariant;
+  logoText?: LogoTextOverride;
+  hideBorderOnTop?: HideBorderWhenAtTop;
+  hideCta?: HideCTAButton;
+  showSocials?: ShowSocialMediaIconsInExtension;
+  showAvailability?: ShowAvailabilityInExtension;
   extensions?: NavbarExtensions;
 }
 export interface FooterConfig {

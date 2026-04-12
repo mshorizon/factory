@@ -62,7 +62,7 @@ const year = new Date().getFullYear();
 
 <BaseLayout title={`Polityka prywatności | ${businessName}`} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
   <Navbar
-    logo={businessName}
+    logo={layout.navbar.logoText || businessName}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     links={navLinks}
     cta={navCta}
@@ -71,6 +71,10 @@ const year = new Date().getFullYear();
     extensions={layout.navbar.extensions}
     contact={business.business.contact}
     socials={business.business.socials}
+    hideBorderOnTop={layout.navbar.hideBorderOnTop}
+    hideCta={layout.navbar.hideCta}
+    showSocials={layout.navbar.showSocials}
+    showAvailability={layout.navbar.showAvailability}
   />
   <main class="flex-1">
     <PageHero title="Polityka prywatności" hasUpperBar={layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') ?? false} />

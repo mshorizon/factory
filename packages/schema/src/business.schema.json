@@ -741,6 +741,8 @@
         },
         "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
         "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
+        "navLogoSize": { "type": "string", "title": "Navbar Logo Font Size", "default": "24px" },
+        "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
         "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
         "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
         "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "outlined"], "default": "accent" }
@@ -759,6 +761,35 @@
               "title": "Navbar Variant",
               "enum": ["standard", "centered"],
               "default": "standard"
+            },
+            "logoText": {
+              "type": "string",
+              "title": "Logo Text Override",
+              "description": "Override the business name displayed in the navbar"
+            },
+            "hideBorderOnTop": {
+              "type": "boolean",
+              "title": "Hide Border When At Top",
+              "description": "Hide the bottom border when scroll is at the very top of the page",
+              "default": false
+            },
+            "hideCta": {
+              "type": "boolean",
+              "title": "Hide CTA Button",
+              "description": "Hide the call-to-action button in the navbar",
+              "default": false
+            },
+            "showSocials": {
+              "type": "boolean",
+              "title": "Show Social Media Icons in Extension",
+              "description": "Show social media icons in the upper bar extension",
+              "default": true
+            },
+            "showAvailability": {
+              "type": "boolean",
+              "title": "Show Availability in Extension",
+              "description": "Show availability badge in the upper bar extension",
+              "default": true
             },
             "extensions": {
               "type": "array",

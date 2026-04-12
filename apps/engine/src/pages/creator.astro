@@ -67,7 +67,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
   siteName={business.business.name}
 >
   <Navbar
-    logo={business.business.name}
+    logo={layout.navbar.logoText || business.business.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     links={navLinks}
     cta={navCta}
@@ -76,6 +76,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
     extensions={layout.navbar.extensions}
     contact={business.business.contact}
     socials={business.business.socials}
+    hideBorderOnTop={layout.navbar.hideBorderOnTop}
+    hideCta={layout.navbar.hideCta}
+    showSocials={layout.navbar.showSocials}
+    showAvailability={layout.navbar.showAvailability}
   />
   <main class="flex-1 py-20 md:py-28">
     <div class="max-w-3xl mx-auto px-4 sm:px-6">

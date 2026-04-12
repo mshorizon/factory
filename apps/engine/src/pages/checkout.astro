@@ -91,11 +91,15 @@ const checkoutLabels = {
 
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
   <Navbar
-    logo={business.business.name}
+    logo={layout.navbar.logoText || business.business.name}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered"}
     showCart={true}
+    hideBorderOnTop={layout.navbar.hideBorderOnTop}
+    hideCta={layout.navbar.hideCta}
+    showSocials={layout.navbar.showSocials}
+    showAvailability={layout.navbar.showAvailability}
   />
   <main class="flex-1">
     <div id="page-hero" class="py-8 lg:py-12">

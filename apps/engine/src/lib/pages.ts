@@ -73,6 +73,11 @@ export function getLayoutConfig(businessData: BusinessProfile) {
     navbar: {
       variant: layout.navbar?.variant || "standard",
       extensions: layout.navbar?.extensions || [],
+      logoText: (layout.navbar as any)?.logoText || undefined,
+      hideBorderOnTop: (layout.navbar as any)?.hideBorderOnTop || false,
+      hideCta: (layout.navbar as any)?.hideCta || false,
+      showSocials: (layout.navbar as any)?.showSocials !== false,
+      showAvailability: (layout.navbar as any)?.showAvailability !== false,
     },
     footer: {
       variant: layout.footer?.variant || "simple",

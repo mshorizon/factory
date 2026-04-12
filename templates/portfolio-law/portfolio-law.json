@@ -71,13 +71,20 @@
     },
     "headingWeight": "400",
     "navFontSize": "15px",
-    "navLinksPosition": "center",
+    "navLogoSize": "16px",
+    "navLogoWeight": "400",
+    "navLinksPosition": "right",
     "scrollType": "smooth",
     "badgeVariant": "accent"
   },
   "layout": {
     "navbar": {
       "variant": "standard",
+      "logoText": "Marcin Starzec",
+      "hideBorderOnTop": true,
+      "hideCta": true,
+      "showSocials": false,
+      "showAvailability": false,
       "extensions": [
         {
           "type": "upper-bar"
