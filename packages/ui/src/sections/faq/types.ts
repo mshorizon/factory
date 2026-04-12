@@ -9,3 +9,12 @@ export interface FAQAccordionProps {
   ctaText?: string;
   ctaHref?: string;
 }
+
+export interface FAQSplitProps {
+  items: FAQItem[];
+  className?: string;
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}

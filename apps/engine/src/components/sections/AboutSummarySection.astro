@@ -7,13 +7,27 @@ import { resolveTarget } from "../../lib/target";
 interface Props {
   isHomePage?: boolean;
   section: Section;
+  badgeVariant?: string;
 }
 
-const { section, isHomePage = false } = Astro.props;
+const { section, isHomePage = false, badgeVariant: themeBadgeVariant } = Astro.props;
 const header = getSectionHeader(section);
 
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/about";
+
+// Section-level badgeVariant overrides theme-level
+const sectionBadgeVariant = (section as any).badgeVariant || themeBadgeVariant || "accent";
+const sectionBadgeColor = (section as any).badgeColor;
+const sectionDescriptionColor = (section as any).descriptionColor;
+const sectionCtaColor = (section as any).ctaColor;
+const sectionStatsInverted = (section as any).statsInverted;
+
+// Use section.description if available, fall back to header.subtitle
+const description = (section as any).description || header.subtitle;
+
+// Resolve background: treat "dark-padded" as "dark" for component internal logic
+const componentBackground = section.background === "dark-padded" ? "dark" : section.background;
 ---
 
 <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"} overflow-hidden`}>
@@ -22,14 +36,20 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/abou
       client:visible
       badge={header.badge}
       title={header.title}
-      description={section.description}
+      description={description}
       image={section.image}
-      experienceYears={section.experienceYears}
-      experienceLabel={section.experienceLabel}
+      experienceYears={(section as any).experienceYears}
+      experienceLabel={(section as any).experienceLabel}
       cta={ctaLabel}
       ctaHref={ctaHref}
       stats={section.stats}
-      background={section.background}
+      background={componentBackground}
+      hideDots={section.hideDots}
+      badgeVariant={sectionBadgeVariant as any}
+      badgeColor={sectionBadgeColor}
+      descriptionColor={sectionDescriptionColor}
+      ctaColor={sectionCtaColor}
+      statsInverted={sectionStatsInverted}
     />
   </div>
 </section>

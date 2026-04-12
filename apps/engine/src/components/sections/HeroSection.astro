@@ -14,9 +14,10 @@ const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const heroImage = section.image || section.backgroundImage;
 
-// Get business phone from locals
+// Get business phone from locals — only pass to component when CTA explicitly targets phone
 const { businessData } = Astro.locals;
-const businessPhone = businessData?.business?.contact?.phone;
+const isPhoneCta = section.cta?.target?.type === "phone";
+const businessPhone = isPhoneCta ? businessData?.business?.contact?.phone : undefined;
 
 // Resolve CTA targets to hrefs
 const cta = section.cta ? {
@@ -46,6 +47,8 @@ const secondaryCta = section.secondaryCta ? {
     phone={businessPhone}
     background={section.background}
     isHomePage={isHomePage}
+    hideDots={section.hideDots}
+    badgeLayout={section.badgeLayout}
   />
 ) : variant === "gradient" ? (
   <HeroGradient

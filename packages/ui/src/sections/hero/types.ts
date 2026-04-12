@@ -29,4 +29,6 @@ export interface HeroProps {
   className?: string;
   background?: string;
   isHomePage?: boolean;
+  hideDots?: boolean;
+  badgeLayout?: "row" | "column";
 }

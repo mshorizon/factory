@@ -7,7 +7,7 @@ export interface SectionHeaderProps {
   title?: string;
   subtitle?: string;
   align?: "left" | "center" | "right";
-  layout?: "stacked" | "split";
+  layout?: "stacked" | "split" | "most-minimalistic" | "none";
   className?: string;
   background?: string;
   badgeVariant?: "accent" | "outlined";
@@ -33,7 +33,7 @@ export function SectionHeader({
   // Determine badge color based on background
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
 
-  if (!badge && !title && !subtitle) {
+  if (layout === "none" || (!badge && !title && !subtitle)) {
     return null;
   }
 
@@ -65,6 +65,23 @@ export function SectionHeader({
       </div>
     );
   };
+
+  if (layout === "most-minimalistic") {
+    return (
+      <div className={cn("mb-spacing-3xl text-left", className)}>
+        {title && (
+          <h2
+            data-reveal
+            data-reveal-delay="0"
+            className="text-[2.5rem] leading-tight text-foreground font-heading"
+            data-field="header.title"
+          >
+            {title}
+          </h2>
+        )}
+      </div>
+    );
+  }
 
   if (layout === "split") {
     return (

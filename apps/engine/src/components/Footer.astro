@@ -21,8 +21,15 @@ interface FooterExtension {
   phone?: string;
 }
 
+interface FooterBackground {
+  enabled?: boolean;
+  padding?: string;
+  borderRadius?: string;
+}
+
 interface Props {
   businessName: string;
+  footerName?: string;
   logoIcon?: string;
   links?: FooterLink[];
   columns?: FooterColumn[];
@@ -32,10 +39,12 @@ interface Props {
   variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient";
   socialLinks?: SocialLink[];
   extensions?: FooterExtension[];
+  background?: FooterBackground;
 }
 
 const {
   businessName,
+  footerName,
   logoIcon,
   links = [],
   columns = [],
@@ -45,7 +54,10 @@ const {
   variant = "simple",
   socialLinks = [],
   extensions = [],
+  background,
 } = Astro.props;
+
+const displayName = footerName || businessName;
 
 const callExtension = extensions.find((e) => e.type === "call");
 
@@ -287,44 +299,52 @@ const languages = [
 )}
 
 {variant === "multiColumn" && (
-  <footer class="bg-secondary text-on-primary shrink-0">
-    <div class="container mx-auto py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-        <div class="lg:col-span-1">
-          <span class="font-bold text-2xl tracking-tight block mb-4">{businessName}</span>
-          {tagline && <p class="text-on-primary/70 text-sm leading-relaxed">{tagline}</p>}
-        </div>
-        {columns.map((column) => (
-          <div>
-            <h3 class="font-semibold text-on-primary mb-4">{column.title}</h3>
-            <ul class="space-y-2">
-              {column.links.map((link) => (
-                <li>
-                  <a href={link.href} class="text-on-primary/70 hover:text-on-primary text-sm transition-colors">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <div class="mt-12 pt-8 border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
-        <p class="text-sm text-on-primary/60 text-center md:text-left">{copyrightText}</p>
-        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-          {currentLanguage && (
-            <div class="lang-switcher flex items-center gap-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-              {languages.map((lang, i) => (
-                <>
-                  {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
-                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
-                </>
-              ))}
+  <footer class:list={["shrink-0", background?.enabled ? "px-4 pb-4" : ""]}>
+    <div
+      class="bg-secondary text-on-primary"
+      style={background?.enabled ? `padding: ${background.padding || '16px'}; border-radius: ${background.borderRadius || '12px'};` : ''}
+    >
+      <div class="container mx-auto py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <div class="lg:col-span-1">
+            <div class="flex items-center gap-3 mb-4">
+              {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7" />}
+              <span class="font-bold text-2xl tracking-tight">{displayName}</span>
             </div>
-          )}
-          <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">Ustawienia cookies</button>
-          <span class="text-xs text-on-primary/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
+            {tagline && <p class="text-on-primary/50 text-sm leading-relaxed font-heading">{tagline}</p>}
+          </div>
+          {columns.map((column) => (
+            <div>
+              <h3 class="font-semibold text-on-primary mb-4">{column.title}</h3>
+              <ul class="space-y-2">
+                {column.links.map((link) => (
+                  <li>
+                    <a href={link.href} class="text-on-primary/70 hover:text-on-primary text-sm transition-colors">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div class="mt-12 pt-8 border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
+          <p class="text-sm text-on-primary/40 text-center md:text-left">{copyrightText}</p>
+          <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            {currentLanguage && (
+              <div class="lang-switcher flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                {languages.map((lang, i) => (
+                  <>
+                    {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
+                    <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
+                  </>
+                ))}
+              </div>
+            )}
+            <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
+            <span class="text-xs text-on-primary/40">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/60 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
+          </div>
         </div>
       </div>
     </div>

@@ -4,8 +4,8 @@
     "name": "Komornik Sądowy Marcin Starzec",
     "industry": "legal",
     "assets": {
-      "favicon": "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=32&h=32&fit=crop",
-      "icon": "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=64&h=64&fit=crop"
+      "favicon": "/assets/portfolio-law-logo.svg",
+      "icon": "/assets/portfolio-law-logo.svg"
     },
     "contact": {
       "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
@@ -24,15 +24,15 @@
     "mode": "light",
     "colors": {
       "light": {
-        "primary": "#2E3A4D",
+        "primary": "#232F43",
         "surface": {
           "base": "#EDF0F5",
-          "alt": "#2E3A4D",
+          "alt": "#232F43",
           "card": "#FFFFFF"
         },
         "text": {
-          "main": "#1A2332",
-          "muted": "#5A6577",
+          "main": "#131820",
+          "muted": "#23E238",
           "onPrimary": "#FFFFFF"
         }
       },
@@ -51,8 +51,8 @@
       }
     },
     "typography": {
-      "primary": "'DM Serif Display', 'Georgia', serif",
-      "secondary": "'Inter', system-ui, -apple-system, sans-serif"
+      "primary": "'Lustria', 'Georgia', serif",
+      "secondary": "'Satoshi', system-ui, -apple-system, sans-serif"
     },
     "ui": {
       "radius": "12px",
@@ -75,7 +75,8 @@
     "navLogoWeight": "400",
     "navLinksPosition": "right",
     "scrollType": "smooth",
-    "badgeVariant": "accent"
+    "badgeVariant": "accent",
+    "badgeFontSize": "14px"
   },
   "layout": {
     "navbar": {
@@ -93,8 +94,14 @@
     },
     "footer": {
       "variant": "multiColumn",
+      "name": "Marcin Starzec",
       "copyright": "2026 Kancelaria Komornicza nr IX w Otwocku",
       "tagline": "Komornik Sądowy przy Sądzie Rejonowym w Otwocku. Profesjonalna i terminowa obsługa spraw egzekucyjnych.",
+      "background": {
+        "enabled": true,
+        "padding": "16px",
+        "borderRadius": "12px"
+      },
       "columns": [
         {
           "title": "Strony",
@@ -240,24 +247,19 @@
         {
           "type": "hero",
           "variant": "split",
+          "hideDots": true,
+          "badgeLayout": "column",
           "header": {
             "badge": "Komornik Sądowy",
             "title": "Profesjonalna egzekucja sądowa w Otwocku",
             "subtitle": "Kancelaria Komornicza nr IX przy Sądzie Rejonowym w Otwocku. Skuteczna i terminowa realizacja tytułów wykonawczych."
           },
-          "image": "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=600&h=700&fit=crop",
+          "image": "/assets/portfolio-law-hero.png",
           "cta": {
             "label": "Skontaktuj się",
             "target": {
               "type": "page",
               "value": "contact"
-            }
-          },
-          "secondaryCta": {
-            "label": "Poznaj usługi",
-            "target": {
-              "type": "page",
-              "value": "services"
             }
           }
         },
@@ -265,9 +267,8 @@
           "type": "services",
           "variant": "grid",
           "header": {
-            "badge": "Usługi",
             "title": "Zakres czynności komorniczych",
-            "subtitle": "Realizuję szeroki zakres czynności egzekucyjnych i zabezpieczających zgodnie z obowiązującymi przepisami prawa."
+            "layout": "most-minimalistic"
           },
           "items": [
             {
@@ -312,7 +313,13 @@
         {
           "type": "about-summary",
           "variant": "default",
-          "background": "dark",
+          "background": "dark-padded",
+          "hideDots": true,
+          "badgeVariant": "text",
+          "badgeColor": "#CCCCCC",
+          "descriptionColor": "#CCCCCC",
+          "ctaColor": "#FFFFFF",
+          "statsInverted": true,
           "header": {
             "badge": "O kancelarii",
             "title": "Skuteczna i rzetelna egzekucja sądowa",
@@ -350,7 +357,9 @@
           "variant": "centered",
           "header": {
             "badge": "Opinie",
-            "title": "Co mówią nasi klienci"
+            "title": "Co mówią nasi klienci",
+            "subtitle": "Zaufanie i skuteczność potwierdzone przez naszych klientów",
+            "layout": "none"
           },
           "items": [
             {
@@ -372,11 +381,10 @@
         },
         {
           "type": "faq",
-          "variant": "bordered",
+          "variant": "split",
           "background": "light",
           "header": {
-            "badge": "FAQ",
-            "title": "Najczęściej zadawane pytania",
+            "title": "FAQ",
             "subtitle": "Nie znalazłeś odpowiedzi na swoje pytanie?"
           },
           "cta": {
@@ -439,12 +447,12 @@
           ]
         },
         {
-          "type": "ctaBanner",
-          "variant": "default",
+          "type": "contact",
+          "variant": "cta",
           "header": {
             "badge": "Kontakt",
-            "title": "Potrzebujesz pomocy prawnej?",
-            "subtitle": "Skontaktuj się z naszą kancelarią. Chętnie odpowiemy na Twoje pytania."
+            "title": "Skontaktuj się z nami",
+            "subtitle": "Potrzebujesz pomocy prawnej lub masz pytania? Jesteśmy do Twojej dyspozycji."
           },
           "cta": {
             "label": "Skontaktuj się",

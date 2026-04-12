@@ -16,7 +16,9 @@ const badgeVariants = cva(
         outline:
           "text-foreground border-border text-xs",
         accent:
-          "border-transparent bg-transparent text-base uppercase tracking-wide",
+          "border-transparent bg-transparent text-[length:var(--badge-font-size,16px)] uppercase tracking-wide",
+        text:
+          "border-transparent bg-transparent text-[length:var(--badge-font-size,14px)] uppercase tracking-wide px-0",
       },
     },
     defaultVariants: {

@@ -1,9 +1,9 @@
 "use client";
 
 import { cn } from "../../lib/utils";
-import { Button } from "../../atoms/Button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../../atoms/Card";
+import { Card } from "../../atoms/Card";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
+import { ArrowUpRight } from "lucide-react";
 import type { ServicesProps } from "./types";
 
 export function ServicesGrid({
@@ -14,29 +14,27 @@ export function ServicesGrid({
 }: ServicesProps) {
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 lg:grid-cols-4 gap-spacing-lg", className)}
+      className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-spacing-lg", className)}
       staggerDelay={0.1}
     >
       {items.map((item, index) => {
-        // Varied directions for 4-column grid: left, up, up, right pattern
-        const directions = ["left", "up", "up", "right"] as const;
-        const direction = directions[index % 4];
+        const directions = ["left", "up", "right"] as const;
+        const direction = directions[index % 3];
         return (
         <StaggerItem key={index} direction={direction} distance={30}>
           <a href={`/services/${item.slug || item.id}`} className="block h-full cursor-pointer" data-field={`items.${index}`}>
-            <Card className="group hover:shadow-lg transition-all hover:-translate-y-1 h-full !rounded-radius-secondary">
-              <CardHeader>
-                <CardTitle data-field={`items.${index}.title`}>{item.title}</CardTitle>
-                <CardDescription data-field={`items.${index}.description`}>{item.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {item.price && <p className="text-2xl font-bold text-primary" data-field={`items.${index}.price`}>{item.price}</p>}
-                {ctaLabel && (
-                  <Button asChild variant="outline" size="sm" className="mt-spacing-md w-full pointer-events-none">
-                    <span>{ctaLabel}</span>
-                  </Button>
-                )}
-              </CardContent>
+            <Card className="group hover:shadow-lg transition-all hover:-translate-y-1 h-full !rounded-radius-secondary p-spacing-xl flex flex-col">
+              <span className="block w-10 h-[2px] bg-primary mb-spacing-lg" />
+              <h3 className="text-2xl font-heading text-foreground mb-spacing-md" data-field={`items.${index}.title`}>
+                {item.title}
+              </h3>
+              <p className="text-base font-body text-muted mb-spacing-xl flex-1" data-field={`items.${index}.description`}>
+                {item.description}
+              </p>
+              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline underline-offset-4 group-hover:gap-2.5 transition-all">
+                See more details
+                <ArrowUpRight className="h-4 w-4" />
+              </span>
             </Card>
           </a>
         </StaggerItem>

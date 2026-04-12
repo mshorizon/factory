@@ -50,4 +50,10 @@ export interface AboutSummaryProps {
   stats?: StatItem[];
   className?: string;
   background?: string;
+  hideDots?: boolean;
+  badgeVariant?: "accent" | "outlined" | "text";
+  badgeColor?: string;
+  descriptionColor?: string;
+  ctaColor?: string;
+  statsInverted?: boolean;
 }

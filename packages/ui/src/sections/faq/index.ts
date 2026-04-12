@@ -1,3 +1,4 @@
 export { FAQAccordion } from "./FAQAccordion";
 export { FAQBordered } from "./FAQBordered";
-export type { FAQAccordionProps, FAQItem } from "./types";
+export { FAQSplit } from "./FAQSplit";
+export type { FAQAccordionProps, FAQSplitProps, FAQItem } from "./types";

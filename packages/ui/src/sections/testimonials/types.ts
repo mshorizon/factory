@@ -7,4 +7,6 @@ export interface TestimonialItem {
 export interface TestimonialsGridProps {
   items: TestimonialItem[];
   className?: string;
+  sectionTitle?: string;
+  sectionDescription?: string;
 }

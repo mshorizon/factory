@@ -38,6 +38,8 @@ export function HeroSplit({
   phone,
   background,
   isHomePage = false,
+  hideDots = false,
+  badgeLayout = "row",
 }: HeroProps & { phone?: string }) {
   const heroImage = image || backgroundImage;
   const allTestimonials = testimonials || (testimonial ? [testimonial] : []);
@@ -57,9 +59,15 @@ export function HeroSplit({
           <div className="flex flex-col justify-center">
             {badge && (
               <ScrollReveal delay={0} direction="up">
-                <div className="flex items-center gap-spacing-sm mb-spacing-lg">
-                  {/* Horizontal decorative line */}
-                  <div className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+                <div className={cn(
+                  "flex gap-spacing-sm mb-spacing-lg",
+                  badgeLayout === "column" ? "flex-col items-start" : "flex-row items-center"
+                )}>
+                  {/* Decorative line */}
+                  <div
+                    className={badgeLayout === "column" ? "h-12 w-[2px]" : "w-12 h-[2px]"}
+                    style={{ backgroundColor: badgeColor }}
+                  />
                   <Badge variant="accent" className="text-base font-medium px-spacing-md py-1.5 uppercase tracking-wide" data-field="header.badge" style={{ color: badgeColor }}>
                     {badge}
                   </Badge>
@@ -81,7 +89,7 @@ export function HeroSplit({
             {(cta || secondaryCta) && (
               <ScrollReveal delay={0.3} direction="up">
                 <div className="flex flex-wrap gap-spacing-md">
-                  {cta && (
+                  {cta && phone ? (
                     <Button
                       asChild
                       size="xl"
@@ -90,17 +98,28 @@ export function HeroSplit({
                       data-field="cta"
                     >
                       <a href={cta.href} className="flex items-center gap-spacing-md" onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
-                        {/* Phone number on the left */}
                         <span className="text-lg font-bold tracking-wide">
-                          {phone || cta.label}
+                          {phone}
                         </span>
-                        {/* White circle with phone icon on the right */}
                         <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110">
                           <Phone className="h-5 w-5 text-[#16181D] fill-[#16181D] group-hover:animate-wiggle" />
                         </div>
                       </a>
                     </Button>
-                  )}
+                  ) : cta ? (
+                    <Button
+                      asChild
+                      size="xl"
+                      variant={cta.variant || "default"}
+                      className="shadow-lg shadow-primary/25 h-14 px-8 text-base font-semibold hover:brightness-90 transition-all group rounded-full"
+                      data-field="cta"
+                    >
+                      <a href={cta.href} className="flex items-center gap-spacing-sm" onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
+                        <span>{cta.label}</span>
+                        <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                      </a>
+                    </Button>
+                  ) : null}
                   {secondaryCta && (
                     <Button
                       asChild
@@ -121,31 +140,43 @@ export function HeroSplit({
           {/* Image Side */}
           {heroImage && (
             <ScrollReveal delay={0.2} direction="right" distance={50}>
-              <div className="w-full max-w-[384px] mx-auto lg:ml-auto lg:mr-0">
-                {/* Image with dots behind (z-index) */}
-                <div className="relative w-full h-[300px] sm:h-[380px] lg:h-[460px]" data-field="image">
-                  {/* Dots BEHIND image (z-index) - 2x bigger dots, 2x less dense */}
-                  <div
-                    className="absolute top-[26px] -left-[46px] w-[36px] h-[216px] opacity-15 pointer-events-none text-foreground -z-10"
-                    style={{
-                      backgroundImage: "radial-gradient(circle, currentColor 4px, transparent 4px)",
-                      backgroundSize: "18px 18px",
-                    }}
-                  />
-                  <div
-                    className="absolute bottom-[26px] -right-[46px] w-[36px] h-[144px] opacity-15 pointer-events-none text-foreground -z-10"
-                    style={{
-                      backgroundImage: "radial-gradient(circle, currentColor 4px, transparent 4px)",
-                      backgroundSize: "18px 18px",
-                    }}
-                  />
+              <div className={cn(
+                "w-full mx-auto lg:ml-auto lg:mr-0",
+                hideDots ? "max-w-[444px]" : "max-w-[384px]"
+              )}>
+                <div className={cn(
+                  "relative w-full",
+                  hideDots ? "h-[260px] sm:h-[320px] lg:h-[360px]" : "h-[300px] sm:h-[380px] lg:h-[460px]"
+                )} data-field="image">
+                  {/* Dots BEHIND image (z-index) */}
+                  {!hideDots && (
+                    <>
+                      <div
+                        className="absolute top-[26px] -left-[46px] w-[36px] h-[216px] opacity-15 pointer-events-none text-foreground -z-10"
+                        style={{
+                          backgroundImage: "radial-gradient(circle, currentColor 4px, transparent 4px)",
+                          backgroundSize: "18px 18px",
+                        }}
+                      />
+                      <div
+                        className="absolute bottom-[26px] -right-[46px] w-[36px] h-[144px] opacity-15 pointer-events-none text-foreground -z-10"
+                        style={{
+                          backgroundImage: "radial-gradient(circle, currentColor 4px, transparent 4px)",
+                          backgroundSize: "18px 18px",
+                        }}
+                      />
+                    </>
+                  )}
 
                   {/* Image on top */}
                   <div
-                    className="relative w-full h-full overflow-hidden z-10"
-                    style={{
+                    className={cn(
+                      "relative w-full h-full overflow-hidden z-10",
+                      hideDots && "rounded-radius"
+                    )}
+                    style={!hideDots ? {
                       borderRadius: "var(--radius-secondary) 100px var(--radius-secondary) 100px"
-                    }}
+                    } : undefined}
                   >
                     <SafeImage
                       src={heroImage}

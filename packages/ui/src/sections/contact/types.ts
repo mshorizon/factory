@@ -53,3 +53,12 @@ export interface ContactSplitProps {
   turnstileSiteKey?: string;
   className?: string;
 }
+
+export interface ContactCTAProps {
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  className?: string;
+}

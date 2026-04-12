@@ -56,7 +56,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     "about-summary": "default",
     contact: "split",
     testimonials: "centered",
-    faq: "bordered",
+    faq: "split",
     features: "default",
     ctaBanner: "default",
     process: "default",

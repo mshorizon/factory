@@ -27,7 +27,7 @@ const showHeader = section.variant !== 'full';
         badge={header.badge}
         title={header.title}
         subtitle={header.subtitle}
-        layout="split"
+        layout={(header.layout as any) || "split"}
         align="left"
         background={section.background}
         badgeVariant={badgeVariant as any}
@@ -39,7 +39,7 @@ const showHeader = section.variant !== 'full';
       ) : variant === "featured" ? (
         <TestimonialsFeatured client:visible items={items} sectionImage={section.image} />
       ) : variant === "centered" ? (
-        <TestimonialsCentered client:visible items={items} />
+        <TestimonialsCentered client:visible items={items} sectionTitle={header.layout === 'none' ? header.title : undefined} sectionDescription={header.layout === 'none' ? header.subtitle : undefined} />
       ) : (
         <TestimonialsGrid client:visible items={items} />
       )}

@@ -69,6 +69,7 @@ const sectionComponents: Record<string, any> = {
 // Map background prop to CSS class
 function getBgClass(bg?: string): string {
   if (bg === "dark") return "section-bg-dark";
+  if (bg === "dark-padded") return "section-bg-dark-padded";
   if (bg === "primary") return "section-bg-primary";
   return "";
 }

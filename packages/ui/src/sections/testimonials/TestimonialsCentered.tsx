@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { TestimonialsGridProps } from "./types";
 
-export function TestimonialsCentered({ items, className }: TestimonialsGridProps) {
+export function TestimonialsCentered({ items, className, sectionTitle, sectionDescription }: TestimonialsGridProps) {
   const item = items[0];
   if (!item) return null;
 
@@ -20,8 +20,24 @@ export function TestimonialsCentered({ items, className }: TestimonialsGridProps
 
   return (
     <div className={cn("flex flex-col items-center text-center max-w-3xl mx-auto", className)}>
+      {/* Section title & description */}
+      {sectionTitle && (
+        <ScrollReveal delay={0} direction="up" distance={20}>
+          <h2 className="text-[2.5rem] leading-tight font-heading text-foreground mb-spacing-md">
+            {sectionTitle}
+          </h2>
+        </ScrollReveal>
+      )}
+      {sectionDescription && (
+        <ScrollReveal delay={0.05} direction="up" distance={20}>
+          <p className="text-base font-sans text-muted mb-spacing-3xl">
+            {sectionDescription}
+          </p>
+        </ScrollReveal>
+      )}
+
       {/* Quote marks */}
-      <ScrollReveal delay={0} direction="up" distance={20}>
+      <ScrollReveal delay={sectionTitle ? 0.1 : 0} direction="up" distance={20}>
         <svg
           className="w-14 h-14 text-primary mb-spacing-lg"
           viewBox="0 0 48 48"
@@ -33,7 +49,7 @@ export function TestimonialsCentered({ items, className }: TestimonialsGridProps
       </ScrollReveal>
 
       {/* Quote text */}
-      <ScrollReveal delay={0.1} direction="up" distance={20}>
+      <ScrollReveal delay={sectionTitle ? 0.15 : 0.1} direction="up" distance={20}>
         <blockquote
           className="text-2xl md:text-3xl lg:text-4xl font-heading text-foreground leading-snug mb-spacing-2xl"
           data-field="items.0.description"
@@ -43,7 +59,7 @@ export function TestimonialsCentered({ items, className }: TestimonialsGridProps
       </ScrollReveal>
 
       {/* Author */}
-      <ScrollReveal delay={0.2} direction="up" distance={20}>
+      <ScrollReveal delay={sectionTitle ? 0.2 : 0.2} direction="up" distance={20}>
         <div className="flex flex-col items-center gap-spacing-sm">
           {item.image && (
             <img

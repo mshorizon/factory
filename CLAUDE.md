@@ -186,6 +186,30 @@ The admin panel (`/admin`) is built with **shadcn/ui** components and has **comp
 
 ---
 
+## 📋 Task List Processing (MANDATORY)
+
+When given a markdown file or message containing multiple tasks (numbered list, checklist, bullet points):
+
+### Step 1: Register ALL tasks upfront
+Before writing any code, use the `TaskCreate` tool to register **every single task** from the list. Each task gets its own entry with a clear title.
+
+### Step 2: Work sequentially, mark as you go
+- Pick the next incomplete task
+- Do the work
+- Mark it complete with `TaskUpdate` immediately
+- Check remaining tasks before moving on
+
+### Step 3: Final verification
+After completing what you think is the last task, **always** run `TaskList` to verify zero tasks remain incomplete. If any are incomplete, continue working.
+
+### Rules:
+- **NEVER skip tasks** — if a task is unclear, ask about it rather than silently skipping
+- **NEVER say "done"** until TaskList shows all tasks complete
+- **If context is getting long**, summarize progress so far and tell the user which tasks remain, so they can continue in a new conversation
+- **Update the source markdown** file with checkmarks (`[x]`) as tasks are completed (if the tasks come from a file)
+
+---
+
 ## 🤖 AI Interaction Guidelines
 * **Communication Style:** Technical, "dev-to-dev", 100% honest. No fluff.
 * **Scalability Mindset:** Every piece of code must work for 100+ different businesses simultaneously.

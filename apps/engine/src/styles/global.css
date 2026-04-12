@@ -24,16 +24,16 @@ h1, h2 {
 }
 
 /* Override font weights for templates with light heading weight */
-html[style*="--heading-weight:400"] .font-bold {
+html[style*="--heading-weight:400"] .font-bold,
+html[style*="--heading-weight:400"] .font-semibold,
+html[style*="--heading-weight:400"] .font-medium {
   font-weight: 400 !important;
-}
-html[style*="--heading-weight:400"] .font-semibold {
-  font-weight: 500 !important;
 }
 html[style*="--heading-weight:300"] .font-bold {
   font-weight: 300 !important;
 }
-html[style*="--heading-weight:300"] .font-semibold {
+html[style*="--heading-weight:300"] .font-semibold,
+html[style*="--heading-weight:300"] .font-medium {
   font-weight: 400 !important;
 }
 

@@ -51,7 +51,8 @@
       "properties": {
         "badge": { "type": "string", "title": "Badge Text" },
         "title": { "type": "string", "title": "Title" },
-        "subtitle": { "type": "string", "title": "Subtitle" }
+        "subtitle": { "type": "string", "title": "Subtitle" },
+        "layout": { "type": "string", "title": "Header Layout", "enum": ["stacked", "split", "most-minimalistic", "none"] }
       }
     },
     "productCustomizationOption": {
@@ -146,11 +147,18 @@
         "background": {
           "type": "string",
           "title": "Section Background",
-          "enum": ["light", "dark", "primary"]
+          "enum": ["light", "dark", "dark-padded", "primary"]
         },
         "header": { "$ref": "#/definitions/sectionHeader" },
         "backgroundImage": { "type": "string", "title": "Background Image URL" },
         "image": { "type": "string", "title": "Image URL" },
+        "hideDots": { "type": "boolean", "title": "Hide Decorative Dots" },
+        "badgeLayout": { "type": "string", "title": "Badge Layout Direction", "enum": ["row", "column"] },
+        "badgeVariant": { "type": "string", "title": "Section-level Badge Variant Override", "enum": ["accent", "outlined", "text"] },
+        "badgeColor": { "type": "string", "title": "Badge Text Color Override" },
+        "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
+        "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
+        "statsInverted": { "type": "boolean", "title": "Invert stat colors (light bg, dark text)" },
         "cta": { "$ref": "#/definitions/cta" },
         "secondaryCta": { "$ref": "#/definitions/cta" },
         "testimonial": {
@@ -745,7 +753,8 @@
         "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
         "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
         "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
-        "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "outlined"], "default": "accent" }
+        "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "outlined", "text"], "default": "accent" },
+        "badgeFontSize": { "type": "string", "title": "Badge Font Size", "default": "16px" }
       }
     },
     "layout": {
@@ -825,6 +834,16 @@
               "type": "array",
               "title": "Footer Columns",
               "items": { "$ref": "#/definitions/footerColumn" }
+            },
+            "name": { "type": "string", "title": "Footer Display Name", "description": "Overrides business name in footer" },
+            "background": {
+              "type": "object",
+              "title": "Footer Background",
+              "properties": {
+                "enabled": { "type": "boolean", "title": "Enable Background Container", "default": false },
+                "padding": { "type": "string", "title": "Container Padding", "default": "16px" },
+                "borderRadius": { "type": "string", "title": "Container Border Radius", "default": "12px" }
+              }
             },
             "extensions": {
               "type": "array",

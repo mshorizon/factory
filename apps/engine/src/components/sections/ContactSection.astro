@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ContactCentered, ContactSplit, SectionHeader } from "@mshorizon/ui";
+import { ContactCentered, ContactSplit, ContactCTA, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -16,41 +16,63 @@ const header = getSectionHeader(section);
 const businessId = Astro.locals.businessId;
 const business = businessProp ?? Astro.locals.businessData;
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+
+// Resolve CTA href from target
+const ctaHref = section.cta?.target?.type === "phone"
+  ? `tel:${section.cta.target.value || ""}`
+  : section.cta?.target?.value
+    ? (section.cta.target.value === "home" ? "/" : `/${section.cta.target.value}`)
+    : "/contact";
 ---
 
-<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
-  <div class="container mx-auto">
-    {header.badge && (
-      <SectionHeader
+{variant === "cta" ? (
+  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+    <div class="container mx-auto">
+      <ContactCTA
+        client:visible
         badge={header.badge}
         title={header.title}
         subtitle={header.subtitle}
-        background={section.background}
-        badgeVariant={badgeVariant as any}
+        ctaLabel={section.cta?.label}
+        ctaHref={ctaHref}
       />
-    )}
-    {variant === "split" ? (
-      <ContactSplit
-        client:visible
-        title={!header.badge ? header.title : undefined}
-        subtitle={!header.badge ? header.subtitle : undefined}
-        badge={!header.badge ? header.badge : undefined}
-        form={section.form}
-        info={section.info}
-        labels={section.labels}
-        businessId={businessId}
-        business={business}
-        turnstileSiteKey={turnstileSiteKey}
-      />
-    ) : (
-      <ContactCentered
-        client:visible
-        title={header.title}
-        subtitle={header.subtitle}
-        form={section.form}
-        businessId={businessId}
-        turnstileSiteKey={turnstileSiteKey}
-      />
-    )}
-  </div>
-</section>
+    </div>
+  </section>
+) : (
+  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+    <div class="container mx-auto">
+      {header.badge && (
+        <SectionHeader
+          badge={header.badge}
+          title={header.title}
+          subtitle={header.subtitle}
+          background={section.background}
+          badgeVariant={badgeVariant as any}
+        />
+      )}
+      {variant === "split" ? (
+        <ContactSplit
+          client:visible
+          title={!header.badge ? header.title : undefined}
+          subtitle={!header.badge ? header.subtitle : undefined}
+          badge={!header.badge ? header.badge : undefined}
+          form={section.form}
+          info={section.info}
+          labels={section.labels}
+          businessId={businessId}
+          business={business}
+          turnstileSiteKey={turnstileSiteKey}
+        />
+      ) : (
+        <ContactCentered
+          client:visible
+          title={header.title}
+          subtitle={header.subtitle}
+          form={section.form}
+          businessId={businessId}
+          turnstileSiteKey={turnstileSiteKey}
+        />
+      )}
+    </div>
+  </section>
+)}

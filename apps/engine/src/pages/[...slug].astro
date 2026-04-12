@@ -172,6 +172,7 @@ const socialLinks = business.business.socials
   </main>
   <Footer
     businessName={business.business.name}
+    footerName={layout.footer.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     links={footerLinks}
     columns={footerColumns}
@@ -181,5 +182,6 @@ const socialLinks = business.business.socials
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
     socialLinks={socialLinks}
     extensions={layout.footer.extensions}
+    background={layout.footer.background}
   />
 </BaseLayout>

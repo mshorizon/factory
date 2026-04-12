@@ -50,7 +50,8 @@ export type NavbarLogoFontSize = string;
 export type NavbarLogoFontWeight = string;
 export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
-export type SectionBadgeVariant = "accent" | "outlined";
+export type SectionBadgeVariant = "accent" | "outlined" | "text";
+export type BadgeFontSize = string;
 export type NavbarVariant = "standard" | "centered";
 /**
  * Override the business name displayed in the navbar
@@ -85,6 +86,13 @@ export type TargetValue = string;
 export type FooterLinks = Link[];
 export type ColumnTitle = string;
 export type FooterColumns = FooterColumn[];
+/**
+ * Overrides business name in footer
+ */
+export type FooterDisplayName = string;
+export type EnableBackgroundContainer = boolean;
+export type ContainerPadding = string;
+export type ContainerBorderRadius = string;
 export type ExtensionType1 = "call";
 export type Headline = string;
 export type Phone1 = string;
@@ -127,12 +135,20 @@ export type SectionType =
   | "events";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type Variant = string;
-export type SectionBackground = "light" | "dark" | "primary";
+export type SectionBackground = "light" | "dark" | "dark-padded" | "primary";
 export type BadgeText = string;
 export type Title = string;
 export type Subtitle = string;
+export type HeaderLayout = "stacked" | "split" | "most-minimalistic" | "none";
 export type BackgroundImageURL = string;
 export type ImageURL = string;
+export type HideDecorativeDots = boolean;
+export type BadgeLayoutDirection = "row" | "column";
+export type SectionLevelBadgeVariantOverride = "accent" | "outlined" | "text";
+export type BadgeTextColorOverride = string;
+export type DescriptionTextColorOverride = string;
+export type CTATextColorOverride = string;
+export type InvertStatColorsLightBgDarkText = boolean;
 export type AvatarImageURL = string;
 export type AvatarImageURL1 = string;
 export type Testimonials = {
@@ -300,6 +316,7 @@ export interface Theme {
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;
+  badgeFontSize?: BadgeFontSize;
 }
 export interface ColorSchemes {
   light?: ThemeColorMode;
@@ -362,6 +379,8 @@ export interface FooterConfig {
   tagline?: Tagline;
   links?: FooterLinks;
   columns?: FooterColumns;
+  name?: FooterDisplayName;
+  background?: FooterBackground;
   extensions?: FooterExtensions;
 }
 export interface Link {
@@ -375,6 +394,11 @@ export interface Target {
 export interface FooterColumn {
   title?: ColumnTitle;
   links?: Link[];
+}
+export interface FooterBackground {
+  enabled?: EnableBackgroundContainer;
+  padding?: ContainerPadding;
+  borderRadius?: ContainerBorderRadius;
 }
 export interface Navigation {
   links?: NavigationLinks;
@@ -401,6 +425,13 @@ export interface Section {
   header?: SectionHeader;
   backgroundImage?: BackgroundImageURL;
   image?: ImageURL;
+  hideDots?: HideDecorativeDots;
+  badgeLayout?: BadgeLayoutDirection;
+  badgeVariant?: SectionLevelBadgeVariantOverride;
+  badgeColor?: BadgeTextColorOverride;
+  descriptionColor?: DescriptionTextColorOverride;
+  ctaColor?: CTATextColorOverride;
+  statsInverted?: InvertStatColorsLightBgDarkText;
   cta?: Cta1;
   secondaryCta?: Cta1;
   testimonial?: Testimonial;
@@ -446,6 +477,7 @@ export interface SectionHeader {
   badge?: BadgeText;
   title?: Title;
   subtitle?: Subtitle;
+  layout?: HeaderLayout;
 }
 export interface Cta1 {
   label: Label1;
