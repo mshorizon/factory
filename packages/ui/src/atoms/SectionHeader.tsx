@@ -68,7 +68,7 @@ export function SectionHeader({
 
   if (layout === "most-minimalistic") {
     return (
-      <div className={cn("mb-spacing-lg text-left", className)}>
+      <div className={cn("mb-spacing-2xl text-left", className)}>
         {title && (
           <h2
             data-reveal

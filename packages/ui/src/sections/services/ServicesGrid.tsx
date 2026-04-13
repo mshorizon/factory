@@ -26,9 +26,9 @@ export function ServicesGrid({
           <a href={`/services/${item.slug || item.id}`} className="block h-full cursor-pointer" data-field={`items.${index}`}>
             <Card
               className={cn(
-                "group hover:shadow-lg transition-all hover:-translate-y-1 h-full !rounded-radius-secondary p-spacing-xl flex flex-col cursor-pointer",
-                // minimal variant = portfolio-law/lawfolio style: no border, accent line in primaryLight
-                minimal && "!border-0"
+                "group hover:shadow-lg transition-all hover:-translate-y-1 h-full p-spacing-xl flex flex-col cursor-pointer",
+                // minimal variant = portfolio-law/lawfolio style: no border, accent line in primaryLight, larger rounding
+                minimal ? "!border-0 !rounded-radius" : "!rounded-radius-secondary"
               )}
             >
               <span

@@ -27,7 +27,11 @@ const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 ---
 
-<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+<section class={
+  minimal
+    ? (isHomePage ? "pb-spacing-section" : "pb-spacing-section-sm")
+    : (isHomePage ? "py-spacing-section" : "py-spacing-section-sm")
+}>
   <div class="container mx-auto">
     <SectionHeader
       badge={header.badge}
