@@ -1,4 +1,4 @@
-# Tasks — Part 1
+# Tasks
 
 Every task below have common purpose:
 * modify my code to achive that my business template "portfolio-law" looks as close as website https://lawfolio.framer.website/
@@ -6,9 +6,8 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf 
 
 All tasks below are in "Navbar" component:
-- [x] Task: as option include behaviour when if scroll is on the very top - then navbar dont have bottom border
-- [x] Task: Modify navbar business name to "Marcin Starzec"
-- [x] Task: business name should have font 16px and font weight: 400
-- [x] Task: remove CTA button as option  - use this option in this template
-- [x] Task: move navbar links into right side check if we already have this implemented - if not then implement as option/variant
-- [x] Task: Navbar extension changes: font color: while, remove social media icons (there should be option in schema to indlude them), remove availibility ((there should be option in schema to indlude it) font size: 14px, 
+- [x] Task: border bottom of navbar should be in color 50% primary color - only for this variant of navbar
+- [x] Task: change icons of navbar extendion (phone and mail) into more fulfiled and a little bigger (svg: 16x16)
+- [x] Task: business name "Marcin Starzec" should be "small" variant (create this varinat in needed) should have font 16px and font weight: 400
+- [x] Task: for this variant of navbar: move navbar links /home, /about etc. should be aligned into right side
+- [x] Task: for this variant of navbar: font weight of navbar links /home, /about etc. should have 400 font weight - 400 font weight is primary font weight of whole website
