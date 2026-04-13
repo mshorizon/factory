@@ -1076,6 +1076,8 @@ export default function AdminForm({
         title: "Colors",
         properties: {
           primary: { type: "string", title: "Primary Color", pattern: "^#[0-9A-Fa-f]{6}$" },
+          primaryLight: { type: "string", title: "Primary Light", pattern: "^#[0-9A-Fa-f]{6}$" },
+          primaryDark: { type: "string", title: "Primary Dark", pattern: "^#[0-9A-Fa-f]{6}$" },
           surface: {
             type: "object", title: "Surface Colors",
             properties: {
