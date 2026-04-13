@@ -30,7 +30,8 @@
         "surface": {
           "base": "#EDF0F5",
           "alt": "#232F43",
-          "card": "#FFFFFF"
+          "card": "#FFFFFF",
+          "gradient": "#EBEEF4"
         },
         "text": {
           "main": "#2E3238",
@@ -384,7 +385,7 @@
         {
           "type": "faq",
           "variant": "split",
-          "background": "light",
+          "background": "light-padded",
           "header": {
             "title": "FAQ",
             "subtitle": "Nie znalazłeś odpowiedzi na swoje pytanie?"

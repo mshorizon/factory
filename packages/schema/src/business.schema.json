@@ -147,7 +147,7 @@
         "background": {
           "type": "string",
           "title": "Section Background",
-          "enum": ["light", "dark", "dark-padded", "primary"]
+          "enum": ["light", "dark", "dark-padded", "light-padded", "primary"]
         },
         "header": { "$ref": "#/definitions/sectionHeader" },
         "backgroundImage": { "type": "string", "title": "Background Image URL" },
@@ -549,6 +549,12 @@
             "card": {
               "type": "string",
               "title": "Card Surface",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "gradient": {
+              "type": "string",
+              "title": "Gradient Surface",
+              "description": "Optional surface tint used as the top stop of light-padded section gradients.",
               "pattern": "^#[0-9A-Fa-f]{6}$"
             }
           }

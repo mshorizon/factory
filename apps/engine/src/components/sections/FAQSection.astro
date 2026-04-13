@@ -16,9 +16,15 @@ const header = getSectionHeader(section);
 const faqItems = section.faqItems || [];
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
+// When background is "light-padded", the wrapper supplies its own internal padding
+// via .section-bg-light-padded > *, so we strip the section's vertical padding.
+const isLightPadded = section.background === "light-padded";
+const sectionPaddingClass = isLightPadded
+  ? "py-0"
+  : `py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`;
 ---
 
-<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+<section class={sectionPaddingClass}>
   <div class="container mx-auto">
     {variant === "split" ? (
       <FAQSplit

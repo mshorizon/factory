@@ -24,7 +24,12 @@ export function FAQSplit({
     <div className={cn("grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-spacing-3xl lg:gap-spacing-3xl", className)}>
       {/* Left column — header + CTA */}
       <div className="flex flex-col items-start">
-        <div className="w-12 h-[1px] bg-border mb-spacing-lg" data-reveal data-reveal-delay="0" />
+        <div
+          className="w-12 h-[2px] mb-spacing-lg"
+          style={{ backgroundColor: "var(--primary-dark)" }}
+          data-reveal
+          data-reveal-delay="0"
+        />
         {title && (
           <h2
             data-reveal

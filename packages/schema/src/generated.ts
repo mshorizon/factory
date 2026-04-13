@@ -27,6 +27,10 @@ export type PrimaryDarkColor = string;
 export type BaseSurface = string;
 export type AltSurface = string;
 export type CardSurface = string;
+/**
+ * Optional surface tint used as the top stop of light-padded section gradients.
+ */
+export type GradientSurface = string;
 export type MainText = string;
 export type MutedText = string;
 export type TextOnPrimary = string;
@@ -141,7 +145,7 @@ export type SectionType =
   | "events";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type Variant = string;
-export type SectionBackground = "light" | "dark" | "dark-padded" | "primary";
+export type SectionBackground = "light" | "dark" | "dark-padded" | "light-padded" | "primary";
 export type BadgeText = string;
 export type Title = string;
 export type Subtitle = string;
@@ -340,6 +344,7 @@ export interface SurfaceColors {
   base?: BaseSurface;
   alt?: AltSurface;
   card?: CardSurface;
+  gradient?: GradientSurface;
 }
 export interface TextColors {
   main?: MainText;
