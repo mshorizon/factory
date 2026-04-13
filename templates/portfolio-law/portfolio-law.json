@@ -32,7 +32,7 @@
         },
         "text": {
           "main": "#131820",
-          "muted": "#23E238",
+          "muted": "#2E3238",
           "onPrimary": "#FFFFFF"
         }
       },
@@ -51,8 +51,8 @@
       }
     },
     "typography": {
-      "primary": "'Lustria', 'Georgia', serif",
-      "secondary": "'Satoshi', system-ui, -apple-system, sans-serif"
+      "primary": "'Satoshi', system-ui, -apple-system, sans-serif",
+      "secondary": "'Lustria', 'Georgia', serif"
     },
     "ui": {
       "radius": "12px",

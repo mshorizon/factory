@@ -75,7 +75,7 @@ export function HeroSplit({
               </ScrollReveal>
             )}
             <ScrollReveal delay={0.1} direction="up">
-              <h1 className="text-[36px] sm:text-[48px] lg:text-[60px] leading-[1.1] font-semibold tracking-tight text-foreground mb-spacing-lg" data-field="header.title">
+              <h1 className="text-[36px] sm:text-[48px] lg:text-[60px] leading-[1.1] font-semibold tracking-tight text-foreground mb-spacing-lg font-heading" data-field="header.title">
                 {title}
               </h1>
             </ScrollReveal>
