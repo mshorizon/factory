@@ -18,34 +18,20 @@ html.scroll-smooth {
   scroll-behavior: smooth;
 }
 
-/* Heading weight from theme */
+/* Heading weight from theme (already capped at build-time by BaseLayout to maxFontWeight) */
 h1, h2 {
   font-weight: var(--heading-weight, 700);
 }
 
-/* Override font weights for templates with light heading weight */
-html[style*="--heading-weight:400"] .font-bold,
-html[style*="--heading-weight:400"] .font-semibold,
-html[style*="--heading-weight:400"] .font-medium,
-html[style*="--heading-weight:400"] .font-extrabold,
-html[style*="--heading-weight:400"] .font-black {
-  font-weight: 400 !important;
-}
-
-/* Cap max font weight to 400 for portfolio-law template (covers inline styles, b/strong, utility classes) */
-html[data-major-theme="portfolio-law"],
-html[data-major-theme="portfolio-law"] *,
-html[data-major-theme="portfolio-law"] b,
-html[data-major-theme="portfolio-law"] strong {
-  font-weight: 400 !important;
-}
-html[style*="--heading-weight:300"] .font-bold {
-  font-weight: 300 !important;
-}
-html[style*="--heading-weight:300"] .font-semibold,
-html[style*="--heading-weight:300"] .font-medium {
-  font-weight: 400 !important;
-}
+/* Global max font-weight cap — driven by theme.maxFontWeight (injected as --max-font-weight).
+   Uses CSS min() so heavier Tailwind utility classes and bold elements collapse to the cap
+   while lighter weights pass through unchanged. */
+.font-medium { font-weight: min(500, var(--max-font-weight, 900)) !important; }
+.font-semibold { font-weight: min(600, var(--max-font-weight, 900)) !important; }
+.font-bold { font-weight: min(700, var(--max-font-weight, 900)) !important; }
+.font-extrabold { font-weight: min(800, var(--max-font-weight, 900)) !important; }
+.font-black { font-weight: min(900, var(--max-font-weight, 900)) !important; }
+b, strong { font-weight: min(700, var(--max-font-weight, 900)); }
 
 /* Momentum scroll - disable native overscroll so JS handles it */
 html.scroll-momentum {

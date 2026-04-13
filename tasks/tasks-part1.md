@@ -5,7 +5,4 @@ Every task below have common purpose:
 * design in figma: https://framer.com/projects/Lawfolio-copy--Qasu075tlTIB9u6L5jxr-93os5?duplicate=8X0tfSphausP6hDCMCIV&node=augiA20Il
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf 
 
-- [x] Task: there is need to add in business schema colors: primaryLight and primaryDark. For this template: primaryDark: #1A2332, primaryLight: #2B3A54 
-- [x] Task: favicon should have white background with rounding
-- [x] Task: Max font weight of every text in website should be set into 400 font weight
-
+- [x] Task: add field in theme in business json that describe max font weight. add in admin panel posibility to change this value. for portlofio-law set this variable to 400. none of website text cant have more font weight greater than this new variable  

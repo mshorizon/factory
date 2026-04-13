@@ -47,6 +47,10 @@ export type ContainerSpacing = string;
 export type SpacingScale = number;
 export type ButtonStyle = string;
 export type HeadingFontWeight = string;
+/**
+ * Caps the maximum font-weight used anywhere on the site (e.g. "400" forces all text to weight 400 or lower).
+ */
+export type MaxFontWeight = string;
 export type NavbarFontSize = string;
 export type NavbarLogoFontSize = string;
 export type NavbarLogoFontWeight = string;
@@ -312,6 +316,7 @@ export interface Theme {
   typography?: Typography;
   ui?: UISettings;
   headingWeight?: HeadingFontWeight;
+  maxFontWeight?: MaxFontWeight;
   navFontSize?: NavbarFontSize;
   navLogoSize?: NavbarLogoFontSize;
   navLogoWeight?: NavbarLogoFontWeight;

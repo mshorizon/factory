@@ -74,6 +74,7 @@
       }
     },
     "headingWeight": "400",
+    "maxFontWeight": "400",
     "navFontSize": "15px",
     "navLogoSize": "16px",
     "navLogoWeight": "400",

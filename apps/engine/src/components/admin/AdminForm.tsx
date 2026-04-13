@@ -1109,6 +1109,8 @@ export default function AdminForm({
         properties: {
           preset: schema.properties?.theme ? (schema.properties.theme as any).properties?.preset : undefined,
           typography: schema.properties?.theme ? (schema.properties.theme as any).properties?.typography : undefined,
+          headingWeight: schema.properties?.theme ? (schema.properties.theme as any).properties?.headingWeight : undefined,
+          maxFontWeight: schema.properties?.theme ? (schema.properties.theme as any).properties?.maxFontWeight : undefined,
         },
         definitions: schema.definitions,
       };
@@ -1278,7 +1280,7 @@ export default function AdminForm({
               <CardContent className="pt-6">
                 <Form
                   schema={typographySchema}
-                  formData={{ preset: themeData.preset, typography: themeData.typography }}
+                  formData={{ preset: themeData.preset, typography: themeData.typography, headingWeight: themeData.headingWeight, maxFontWeight: (themeData as any).maxFontWeight }}
                   validator={validator}
                   widgets={configWidgets}
                   templates={customTemplates}
@@ -1287,7 +1289,7 @@ export default function AdminForm({
                     if (data.formData) {
                       setFormData((prev) => ({
                         ...prev,
-                        theme: { ...(prev.theme as Record<string, unknown>), preset: data.formData.preset, typography: data.formData.typography },
+                        theme: { ...(prev.theme as Record<string, unknown>), preset: data.formData.preset, typography: data.formData.typography, headingWeight: data.formData.headingWeight, maxFontWeight: data.formData.maxFontWeight },
                       }));
                       setSaveStatus("idle");
                     }

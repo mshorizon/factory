@@ -82,6 +82,7 @@ const cssVars: Record<string, string> = {
   headingTransform: theme.preset === "bold" ? "uppercase" : "none",
   headingLetterSpacing: theme.preset === "bold" ? "-0.02em" : "normal",
   headingWeight: (theme as any).headingWeight || "700",
+  maxFontWeight: (theme as any).maxFontWeight || "900",
   navFontSize: (theme as any).navFontSize || "16px",
   navLogoSize: (theme as any).navLogoSize || "24px",
   navLogoWeight: (theme as any).navLogoWeight || "600",
@@ -97,6 +98,17 @@ const cssVars: Record<string, string> = {
   spacingSection: theme.ui?.spacing?.section || "10rem",
   spacingContainer: theme.ui?.spacing?.container || "2.5rem",
 };
+
+// Cap explicit theme weights to maxFontWeight so the cap applies everywhere, including
+// CSS custom properties consumed by headings/navbar (not only Tailwind utility classes).
+const maxFw = parseInt(cssVars.maxFontWeight, 10) || 900;
+const capWeight = (w: string): string => {
+  const n = parseInt(w, 10);
+  if (!Number.isFinite(n)) return w;
+  return String(Math.min(n, maxFw));
+};
+cssVars.headingWeight = capWeight(cssVars.headingWeight);
+cssVars.navLogoWeight = capWeight(cssVars.navLogoWeight);
 
 // Extract Google Font names from font-family strings
 function extractGoogleFonts(...fontStrings: string[]): string[] {
@@ -127,10 +139,10 @@ const googleFontsUrl = googleFonts.length > 0
 
 // CSS vars as inline style on <html> to win over :root in global.css (inline > stylesheet specificity).
 // Layout rules go in a separate <style> tag.
-const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primaryDark};--primary-light:${cssVars.primaryLight};--secondary:${cssVars.secondary};--accent:${cssVars.accent};--background:${cssVars.background};--card:${cssVars.card};--foreground:${cssVars.foreground};--muted:${cssVars.muted};--border:${cssVars.border};--text-on-primary:${cssVars.textOnPrimary};--page-background:${cssVars.background};--page-foreground:${cssVars.foreground};--page-muted:${cssVars.muted};--dark-background:${cssVars.darkBackground};--dark-card:${cssVars.darkCard};--dark-foreground:${cssVars.darkForeground};--dark-muted:${cssVars.darkMuted};--dark-border:${cssVars.darkBorder};--radius-sm:${cssVars.radiusSm};--radius:${cssVars.radius};--radius-secondary:${cssVars.radiusSecondary};--radius-lg:${cssVars.radiusLg};--radius-full:${cssVars.radiusFull};--shadow-sm:${cssVars.shadowSm};--shadow:${cssVars.shadow};--shadow-lg:${cssVars.shadowLg};--font-sans:${cssVars.fontSans};--font-heading:${cssVars.fontHeading};--heading-transform:${cssVars.headingTransform};--heading-letter-spacing:${cssVars.headingLetterSpacing};--spacing-xs:${cssVars.spacingXs};--spacing-sm:${cssVars.spacingSm};--spacing-md:${cssVars.spacingMd};--spacing-lg:${cssVars.spacingLg};--spacing-xl:${cssVars.spacingXl};--spacing-2xl:${cssVars.spacing2xl};--spacing-3xl:${cssVars.spacing3xl};--spacing-section-sm:${cssVars.spacingSectionSm};--spacing-section:${cssVars.spacingSection};--spacing-container:${cssVars.spacingContainer};--heading-weight:${cssVars.headingWeight};--nav-font-size:${cssVars.navFontSize};--nav-logo-size:${cssVars.navLogoSize};--nav-logo-weight:${cssVars.navLogoWeight};--badge-font-size:${cssVars.badgeFontSize}`;
+const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primaryDark};--primary-light:${cssVars.primaryLight};--secondary:${cssVars.secondary};--accent:${cssVars.accent};--background:${cssVars.background};--card:${cssVars.card};--foreground:${cssVars.foreground};--muted:${cssVars.muted};--border:${cssVars.border};--text-on-primary:${cssVars.textOnPrimary};--page-background:${cssVars.background};--page-foreground:${cssVars.foreground};--page-muted:${cssVars.muted};--dark-background:${cssVars.darkBackground};--dark-card:${cssVars.darkCard};--dark-foreground:${cssVars.darkForeground};--dark-muted:${cssVars.darkMuted};--dark-border:${cssVars.darkBorder};--radius-sm:${cssVars.radiusSm};--radius:${cssVars.radius};--radius-secondary:${cssVars.radiusSecondary};--radius-lg:${cssVars.radiusLg};--radius-full:${cssVars.radiusFull};--shadow-sm:${cssVars.shadowSm};--shadow:${cssVars.shadow};--shadow-lg:${cssVars.shadowLg};--font-sans:${cssVars.fontSans};--font-heading:${cssVars.fontHeading};--heading-transform:${cssVars.headingTransform};--heading-letter-spacing:${cssVars.headingLetterSpacing};--spacing-xs:${cssVars.spacingXs};--spacing-sm:${cssVars.spacingSm};--spacing-md:${cssVars.spacingMd};--spacing-lg:${cssVars.spacingLg};--spacing-xl:${cssVars.spacingXl};--spacing-2xl:${cssVars.spacing2xl};--spacing-3xl:${cssVars.spacing3xl};--spacing-section-sm:${cssVars.spacingSectionSm};--spacing-section:${cssVars.spacingSection};--spacing-container:${cssVars.spacingContainer};--heading-weight:${cssVars.headingWeight};--max-font-weight:${cssVars.maxFontWeight};--nav-font-size:${cssVars.navFontSize};--nav-logo-size:${cssVars.navLogoSize};--nav-logo-weight:${cssVars.navLogoWeight};--badge-font-size:${cssVars.badgeFontSize}`;
 ---
 
-<html lang={lang} style={htmlStyle} data-badge-variant={(theme as any).badgeVariant || "accent"} data-nav-links-position={(theme as any).navLinksPosition || "center"} data-major-theme={(theme as any).majorTheme || ""} class={(() => { const st = (theme as any).scrollType; return st === 'momentum' ? 'scroll-momentum' : st === 'smooth' ? 'scroll-smooth' : ''; })()}>
+<html lang={lang} style={htmlStyle} data-badge-variant={(theme as any).badgeVariant || "accent"} data-nav-links-position={(theme as any).navLinksPosition || "center"} data-major-theme={(theme as any).majorTheme || ""} data-max-font-weight={cssVars.maxFontWeight} class={(() => { const st = (theme as any).scrollType; return st === 'momentum' ? 'scroll-momentum' : st === 'smooth' ? 'scroll-smooth' : ''; })()}>
   <head>
     <meta charset="utf-8" />
     {favicon && <link rel="icon" href={favicon} />}
