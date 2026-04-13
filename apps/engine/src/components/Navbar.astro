@@ -233,24 +233,6 @@ const showCta = !hideCta && !!cta;
     display: none;
   }
 
-  /* ---- portfolio-law navbar overrides ---- */
-  /* Border: 50% primary color for portfolio-law variant.
-     Use a fully global selector + !important to win over Tailwind's
-     `.border-border` (border-color shorthand) which is added by the
-     scroll handler dynamically. */
-  :global([data-major-theme="portfolio-law"] #main-nav) {
-    border-bottom-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
-  }
-  /* Nav links font weight: 400 (primary weight for whole site).
-     Also redundant safety vs Tailwind's `font-medium` utility. */
-  :global([data-major-theme="portfolio-law"] #main-nav .nav-link) {
-    font-weight: 400 !important;
-  }
-  /* Mobile menu links — same treatment */
-  :global([data-major-theme="portfolio-law"] #mobile-menu a) {
-    font-weight: 400 !important;
-  }
-
   @media (min-width: 1024px) {
     /* Nav links position: center (default) */
     :global([data-nav-links-position="center"]) .nav-links-center {
@@ -267,6 +249,33 @@ const showCta = !hideCta && !!cta;
     :global([data-nav-links-position="right"]) .nav-links-right {
       display: flex;
     }
+  }
+</style>
+
+{/* ---- navbar overrides (global so they survive Astro scoping) ---- */}
+<style is:global>
+  /* Nav links position: right — hide center column, show right column.
+     Global so the descendant combinator from <html data-*> reaches the
+     nav link containers regardless of scoping. */
+  @media (min-width: 1024px) {
+    [data-nav-links-position="right"] #main-nav .nav-links-center {
+      display: none !important;
+    }
+    [data-nav-links-position="right"] #main-nav .nav-links-right {
+      display: flex !important;
+    }
+  }
+
+  /* portfolio-law specific */
+  [data-major-theme="portfolio-law"] #main-nav .nav-logo {
+    font-family: var(--font-heading) !important;
+  }
+  [data-major-theme="portfolio-law"] #main-nav {
+    border-bottom-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
+  }
+  [data-major-theme="portfolio-law"] #main-nav .nav-link,
+  [data-major-theme="portfolio-law"] #mobile-menu a {
+    font-weight: 400 !important;
   }
 </style>
 
