@@ -61,6 +61,7 @@
     "colors": {
       "light": {
         "primary": "#FFC633",
+        "primaryLight": "#FFD97A",
         "primaryDark": "#CA9102",
         "surface": {
           "base": "#F4F4F6",
@@ -75,6 +76,7 @@
       },
       "dark": {
         "primary": "#FFC633",
+        "primaryLight": "#FFD97A",
         "primaryDark": "#CA9102",
         "surface": {
           "base": "#16181D",
