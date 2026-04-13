@@ -368,19 +368,16 @@
           },
           "items": [
             {
-              "title": "Anna Kowalska, Otwock",
-              "description": "Profesjonalna i sprawna obsługa mojej sprawy. Komornik Starzec i jego zespół przeprowadzili cały proces terminowo, informując mnie na bieżąco o każdym etapie postępowania.",
-              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face"
+              "title": "Profesjonalna i sprawna obsługa",
+              "description": "Komornik Starzec i jego zespół przeprowadzili cały proces terminowo, informując nas na bieżąco o każdym etapie postępowania. Polecam każdemu, kto szuka skutecznej i rzetelnej kancelarii komorniczej."
             },
             {
-              "title": "Marek Wiśniewski, Warszawa",
-              "description": "Rzetelna kancelaria komornicza. Szybka realizacja wniosków egzekucyjnych i pełna transparentność działań. Polecam każdemu wierzycielowi szukającemu skutecznej pomocy.",
-              "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
+              "title": "Rzetelność i transparentność",
+              "description": "Szybka realizacja wniosków egzekucyjnych i pełna transparentność działań. Kancelaria, której można zaufać na każdym etapie współpracy."
             },
             {
-              "title": "Katarzyna Nowak, Józefów",
-              "description": "Sprawna komunikacja elektroniczna i terminowa realizacja. Kancelaria korzysta z nowoczesnych systemów, co znacząco przyspiesza cały proces egzekucyjny.",
-              "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
+              "title": "Nowoczesna komunikacja",
+              "description": "Sprawna komunikacja elektroniczna i terminowa realizacja. Kancelaria korzysta z nowoczesnych systemów, co znacząco przyspiesza cały proces egzekucyjny."
             }
           ]
         },
