@@ -31,8 +31,8 @@
           "card": "#FFFFFF"
         },
         "text": {
-          "main": "#131820",
-          "muted": "#2E3238",
+          "main": "#2E3238",
+          "muted": "#131820",
           "onPrimary": "#FFFFFF"
         }
       },
