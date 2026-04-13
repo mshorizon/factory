@@ -234,13 +234,21 @@ const showCta = !hideCta && !!cta;
   }
 
   /* ---- portfolio-law navbar overrides ---- */
-  /* Border: 50% primary color for portfolio-law variant */
-  :global([data-major-theme="portfolio-law"]) #main-nav.border-b {
-    border-bottom-color: color-mix(in srgb, var(--primary) 50%, transparent);
+  /* Border: 50% primary color for portfolio-law variant.
+     Use a fully global selector + !important to win over Tailwind's
+     `.border-border` (border-color shorthand) which is added by the
+     scroll handler dynamically. */
+  :global([data-major-theme="portfolio-law"] #main-nav) {
+    border-bottom-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
   }
-  /* Nav links font weight: 400 (primary weight for whole site) */
-  :global([data-major-theme="portfolio-law"]) #main-nav .nav-link {
-    font-weight: 400;
+  /* Nav links font weight: 400 (primary weight for whole site).
+     Also redundant safety vs Tailwind's `font-medium` utility. */
+  :global([data-major-theme="portfolio-law"] #main-nav .nav-link) {
+    font-weight: 400 !important;
+  }
+  /* Mobile menu links — same treatment */
+  :global([data-major-theme="portfolio-law"] #mobile-menu a) {
+    font-weight: 400 !important;
   }
 
   @media (min-width: 1024px) {
