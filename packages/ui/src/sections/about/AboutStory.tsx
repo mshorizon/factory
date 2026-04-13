@@ -98,7 +98,7 @@ export function AboutStory({
       {commitment && (
         <ScrollReveal delay={0.3} direction="up">
           <section>
-            <h2 className="text-2xl font-bold text-foreground mb-spacing-md" data-field="commitment.title">{commitment.title}</h2>
+            <h2 className="text-2xl font-bold font-heading text-foreground mb-spacing-md" data-field="commitment.title">{commitment.title}</h2>
             <p className="text-muted leading-relaxed mb-spacing-lg" data-field="commitment.content">{commitment.content}</p>
             {!cta && commitment && (
               <a

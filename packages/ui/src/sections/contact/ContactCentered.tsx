@@ -63,7 +63,7 @@ export function ContactCentered({
         <ScrollReveal delay={0} direction="up">
           <div className="text-center mb-spacing-2xl">
             {title && (
-              <h1 className="text-4xl font-bold text-foreground mb-spacing-xs" data-field="header.title">{title}</h1>
+              <h1 className="text-4xl font-bold font-heading text-foreground mb-spacing-xs" data-field="header.title">{title}</h1>
             )}
             {subtitle && (
               <p className="text-muted" data-field="header.subtitle">{subtitle}</p>

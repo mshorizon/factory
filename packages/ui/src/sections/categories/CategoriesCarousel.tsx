@@ -37,7 +37,7 @@ export function CategoriesCarousel({ items, className }: CategoriesProps) {
 
               {/* Content */}
               <div className="p-spacing-md">
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
+                <h3 className="font-semibold font-heading text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
                   {item.title}
                 </h3>
                 {item.description && (

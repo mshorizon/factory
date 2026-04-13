@@ -49,7 +49,7 @@ export function GalleryShowcase({
             <div className="flex items-end justify-between p-spacing-lg pt-0">
               <div>
                 <h3
-                  className="text-lg font-medium text-foreground"
+                  className="text-lg font-medium font-heading text-foreground"
                   data-field={`items.${index}.title`}
                 >
                   {item.title}

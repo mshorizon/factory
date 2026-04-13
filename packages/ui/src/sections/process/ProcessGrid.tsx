@@ -31,7 +31,7 @@ export function ProcessGrid({ steps, className }: ProcessStepsProps) {
               <div className="h-px bg-border/50 my-spacing-sm" />
 
               <h3
-                className="text-xl text-foreground mb-spacing-sm"
+                className="text-xl font-heading text-foreground mb-spacing-sm"
                 data-field={`steps.${index}.title`}
               >
                 {step.title}

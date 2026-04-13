@@ -43,7 +43,7 @@ export function EventsDefault({ items, className }: EventsDefaultProps) {
                 )}
 
                 <h3
-                  className="text-xl font-medium text-foreground mb-spacing-xs"
+                  className="text-xl font-medium font-heading text-foreground mb-spacing-xs"
                   data-field={`items.${index}.title`}
                 >
                   {item.title}

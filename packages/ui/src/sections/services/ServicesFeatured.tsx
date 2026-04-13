@@ -55,7 +55,7 @@ export function ServicesFeatured({
 
                 <div>
                   <h3
-                    className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors"
+                    className="text-xl font-semibold font-heading text-foreground mb-2 group-hover:text-primary transition-colors"
                     data-field={`items.${index}.title`}
                   >
                     {item.title}

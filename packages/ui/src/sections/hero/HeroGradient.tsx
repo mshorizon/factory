@@ -169,7 +169,7 @@ export function HeroGradient({
             )}
           </div>
         )}
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-[var(--heading-weight,700)] mb-spacing-lg tracking-tight text-foreground max-w-4xl mx-auto" data-field="header.title">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-[var(--heading-weight,700)] font-heading mb-spacing-lg tracking-tight text-foreground max-w-4xl mx-auto" data-field="header.title">
           {titleWords ? (
             titleWords.map((word, idx) => (
               <span

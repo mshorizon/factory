@@ -33,7 +33,7 @@ export function GalleryGrid({ items, className }: GalleryGridProps) {
               </div>
               <div className="p-spacing-md">
                 <h3
-                  className="font-semibold text-foreground"
+                  className="font-semibold font-heading text-foreground"
                   data-field={`items.${index}.title`}
                 >
                   {item.title}

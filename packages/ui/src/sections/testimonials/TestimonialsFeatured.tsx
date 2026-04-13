@@ -45,7 +45,7 @@ export function TestimonialsFeatured({ items, sectionImage, className }: Testimo
             )}
             <div>
               <p
-                className="font-medium text-foreground"
+                className="font-medium font-heading text-foreground"
                 data-field="items.0.title"
               >
                 {author.name}

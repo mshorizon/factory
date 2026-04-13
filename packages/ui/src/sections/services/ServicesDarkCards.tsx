@@ -42,7 +42,7 @@ export function ServicesDarkCards({ items, className }: ServicesProps) {
             <div className="relative z-10 w-full flex items-start justify-between gap-spacing-sm">
               <div className="flex-1">
                 <h3
-                  className="text-lg font-semibold text-white mb-1"
+                  className="text-lg font-semibold font-heading text-white mb-1"
                   data-field={`items.${index}.title`}
                 >
                   {item.title}

@@ -43,7 +43,7 @@ export function BlogOverlay({ posts, className }: BlogGridProps) {
                     </span>
                   )}
                   <h3
-                    className="text-xl md:text-2xl font-medium text-white leading-tight"
+                    className="text-xl md:text-2xl font-medium font-heading text-white leading-tight"
                     data-field={`blogPosts.${index}.title`}
                   >
                     {post.title}

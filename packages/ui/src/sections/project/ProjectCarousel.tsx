@@ -72,7 +72,7 @@ export function ProjectCarousel({ projects, className }: ProjectCarouselProps) {
               )}
               <div className="p-spacing-xl space-y-4">
                 <h3
-                  className="text-lg font-semibold text-foreground"
+                  className="text-lg font-semibold font-heading text-foreground"
                   data-field={`projects.${index}.title`}
                 >
                   {project.title}

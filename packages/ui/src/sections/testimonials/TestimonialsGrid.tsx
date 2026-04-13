@@ -61,7 +61,7 @@ export function TestimonialsGrid({ items, className }: TestimonialsGridProps) {
               />
               <div className="flex-1 min-w-0">
                 <p
-                  className="font-semibold text-foreground dark:text-gray-900 text-base"
+                  className="font-semibold font-heading text-foreground dark:text-gray-900 text-base"
                   data-field={`items.${index}.title`}
                 >
                   {author.name}

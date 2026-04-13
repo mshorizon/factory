@@ -56,7 +56,7 @@ export function FooterMultiColumn({
           {/* Link Columns */}
           {columns && columns.map((column, colIndex) => (
             <div key={colIndex}>
-              <h3 className="font-semibold text-white mb-spacing-md">{column.title}</h3>
+              <h3 className="font-semibold font-heading text-white mb-spacing-md">{column.title}</h3>
               <ul className="space-y-spacing-xs">
                 {(column.links || []).map((link: Link, linkIndex: number) => {
                   const href = getFooterLinkHref(link, resolveTarget);

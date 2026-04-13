@@ -88,7 +88,7 @@ export function ServicesAlternating({
 
                   <a href={`/services/${item.slug || item.id}`}>
                     <h3
-                      className="text-2xl font-semibold text-foreground"
+                      className="text-2xl font-semibold font-heading text-foreground"
                       data-field={`items.${index}.title`}
                     >
                       {item.title}

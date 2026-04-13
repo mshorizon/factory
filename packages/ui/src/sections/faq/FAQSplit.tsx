@@ -74,7 +74,7 @@ export function FAQSplit({
                   className="flex w-full items-center justify-between py-spacing-lg text-left transition-colors group"
                 >
                   <span
-                    className="text-base font-medium text-foreground pr-spacing-md"
+                    className="text-base font-medium font-heading text-foreground pr-spacing-md"
                     data-field={`faqItems.${index}.question`}
                   >
                     {item.question}

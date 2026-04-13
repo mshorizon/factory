@@ -71,7 +71,7 @@ export function TestimonialsGradient({ items, className }: TestimonialsGridProps
                 />
                 <div>
                   <p
-                    className="text-sm font-semibold text-foreground"
+                    className="text-sm font-semibold font-heading text-foreground"
                     data-field={`items.${index}.title`}
                   >
                     {author.name}

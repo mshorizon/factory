@@ -63,7 +63,7 @@ export function HeroDefault({
         <ScrollReveal delay={0.1} direction="up">
           <h1
             className={cn(
-              "text-4xl md:text-5xl lg:text-6xl font-bold mb-spacing-md tracking-tight",
+              "text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight",
               backgroundImage ? "text-on-primary" : "text-foreground"
             )}
             data-field="header.title"

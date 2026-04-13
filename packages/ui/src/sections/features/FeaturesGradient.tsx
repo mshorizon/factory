@@ -65,7 +65,7 @@ export function FeaturesGradient({ items, className }: FeaturesGridProps) {
               </div>
 
               <h3
-                className="text-xl font-bold text-foreground mb-spacing-sm"
+                className="text-xl font-bold font-heading text-foreground mb-spacing-sm"
                 data-field={`items.${index}.title`}
               >
                 {item.title}

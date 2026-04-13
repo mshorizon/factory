@@ -45,7 +45,7 @@ export function CategoriesFeatured({ items, exploreLabel, className }: Categorie
             {item.icon && (
               <span className="text-3xl mb-3 block">{item.icon}</span>
             )}
-            <h3 className="text-xl font-bold text-white mb-spacing-xs group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
+            <h3 className="text-xl font-bold font-heading text-white mb-spacing-xs group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
               {item.title}
             </h3>
             {item.description && (

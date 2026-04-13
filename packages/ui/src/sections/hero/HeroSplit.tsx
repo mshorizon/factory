@@ -232,7 +232,7 @@ export function HeroSplit({
                       ))}
                     </div>
                     {/* Title - larger and bold */}
-                    <p className="text-xl font-bold text-foreground leading-tight">{testimonialItem.title}</p>
+                    <p className="text-xl font-bold font-heading text-foreground leading-tight">{testimonialItem.title}</p>
                     {/* Quote - muted */}
                     {testimonialItem.quote && (
                       <p className="text-sm text-muted leading-relaxed">&ldquo;{testimonialItem.quote}&rdquo;</p>

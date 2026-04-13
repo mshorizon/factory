@@ -46,7 +46,7 @@ export function BlogGrid({ posts, ctaLabel, className }: BlogGridProps) {
                   </div>
                 )}
                 <h3
-                  className="text-lg font-semibold text-foreground mb-spacing-xs"
+                  className="text-lg font-semibold font-heading text-foreground mb-spacing-xs"
                   data-field={`blogPosts.${index}.title`}
                 >
                   {post.title}

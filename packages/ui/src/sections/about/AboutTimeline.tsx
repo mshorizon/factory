@@ -51,7 +51,7 @@ export function AboutTimeline({
                       <span className="inline-block px-3 py-1 text-sm font-bold text-primary bg-primary/10 rounded-full mb-3" data-field={`timeline.${index}.year`}>
                         {item.year}
                       </span>
-                      <h3 className="text-xl font-bold text-foreground mb-spacing-xs" data-field={`timeline.${index}.title`}>{item.title}</h3>
+                      <h3 className="text-xl font-bold font-heading text-foreground mb-spacing-xs" data-field={`timeline.${index}.title`}>{item.title}</h3>
                       {item.description && (
                         <p className="text-muted" data-field={`timeline.${index}.description`}>{item.description}</p>
                       )}

@@ -143,7 +143,7 @@ export function ProjectHorizontal({ projects, className }: ProjectHorizontalProp
                 </div>
 
                 <h3
-                  className="text-2xl font-bold text-foreground"
+                  className="text-2xl font-bold font-heading text-foreground"
                   data-field={`projects.${index}.title`}
                 >
                   {project.title}

@@ -55,7 +55,7 @@ export function HeroCards({
                     {badge}
                   </Badge>
                 )}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-spacing-lg tracking-tight text-foreground" data-field="header.title">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-lg tracking-tight text-foreground" data-field="header.title">
                   {title}
                 </h1>
                 {subtitle && (

@@ -56,7 +56,7 @@ export function HeroVideo({
           </ScrollReveal>
         )}
         <ScrollReveal delay={0.1} direction="up">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-spacing-md tracking-tight text-foreground max-w-3xl" data-field="header.title">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight text-foreground max-w-3xl" data-field="header.title">
             {title}
           </h1>
         </ScrollReveal>

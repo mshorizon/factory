@@ -36,7 +36,7 @@ export function ServicesImageGrid({ items, className }: ServicesProps) {
             <div className="absolute left-0 right-0 bottom-0 bg-black px-spacing-lg pt-6 pb-3 transition-all duration-500 ease-out">
               <div className="flex items-start justify-between gap-spacing-md mb-3">
                 <h3
-                  className="text-xl font-semibold text-white leading-tight"
+                  className="text-xl font-semibold font-heading text-white leading-tight"
                   data-field={`items.${index}.title`}
                 >
                   {item.title}
