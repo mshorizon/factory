@@ -15,7 +15,7 @@ export function AboutSummaryStats({ stats, className }: AboutSummaryStatsProps) 
   return (
     <ScrollReveal delay={0.2} direction="up">
       <StaggerContainer
-        className={`flex flex-row flex-nowrap justify-center gap-spacing-lg md:gap-spacing-xl ${className ?? ""}`}
+        className={`flex flex-row flex-nowrap justify-center gap-spacing-2xl md:gap-spacing-3xl ${className ?? ""}`}
         staggerDelay={0.1}
       >
         {stats.map((stat, index) => (

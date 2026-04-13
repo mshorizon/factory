@@ -6,8 +6,7 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf
 
 All tasks below are in "footer" component:
-- [x] Task: insert business logo on left side of business name
-- [x] Task: add bacground option: 16px padding on bacground and small rounding
-- [x] Task: business name - shorter "Marcin Starzec"
-- [x] Task: description on less bright color and secondary font
-- [x] Task: last line of footer should have less bright color
+- [ ] Task: logo in footer should be white
+- [ ] Task: footer should have proms/option from business json > to be rounding  = whole footer should have 16px padding and rounding
+- [ ] Task: business name - shorter "Marcin Starzec"
+- [ ] Task: whole footer should have gradient from bottom primaryDark to top primary color

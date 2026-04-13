@@ -6,5 +6,5 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf
 
 All tasks below are in "Home" page > forth section "testimonials" section:
-- [x] Task: add option in json schema to remove section title like "none" variant - and use this varinat here
-- [x] Task: now there is one text: i want split it into title - 40px font size and primary font, and description: 16px font size and secondary font size
+- [ ] Task: remove section title like "none" variant - use this as business template option/varinat 
+- [ ] Task: now there is one text: i want split it into two texts: title - 40px font size and primary font, and description: 16px font size and secondary font size

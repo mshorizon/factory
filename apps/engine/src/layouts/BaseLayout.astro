@@ -212,14 +212,14 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
         padding: 16px;
       }
       .section-bg-dark-padded > * {
-        background-image: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+        background-image: linear-gradient(to top, var(--primary-dark), var(--primary-light));
         background-color: var(--background);
         border-radius: 16px;
       }
       .section-bg-dark-padded > [data-stats-breakout] {
         background-image: none;
-        background-color: transparent;
-        border-radius: 0;
+        background-color: #FFFFFF;
+        border-radius: 16px;
         --background: var(--page-background);
         --foreground: var(--page-foreground);
         --muted: var(--page-muted);

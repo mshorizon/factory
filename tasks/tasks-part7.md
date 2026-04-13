@@ -6,4 +6,7 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf
 
 All tasks below are in "Home" page > fiveht section "faq" section:
-- [x] Task: implement whole new variant of faq - implement as close as here: tasks/faq.png
+- [ ] Task: section badge line should be the same line as in other sections e.g. in hero section
+- [ ] Task: whole section should have 16px padding and rounding - everytink egacly like in "about" section
+- [ ] Task: in business json theme surface inser dark surface color: #EBEEF4 then use this color to gradient whole section tom top: #EBEEF4 to bottom - whole website background
+- [ ] Task: remove whole section bottom and top padding 
