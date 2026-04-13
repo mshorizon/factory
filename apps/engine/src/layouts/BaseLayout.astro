@@ -179,6 +179,15 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
     ))}
     <title>{title}</title>
     <style>html,body{height:100%}body{font-family:var(--font-sans);background-color:var(--background);color:var(--foreground);display:flex;flex-direction:column;min-height:100vh}main{flex:1}</style>
+    {/* Global max font-weight cap — pre-computed per theme to avoid CSS min() on font-weight */}
+    <style is:global set:html={`
+      .font-medium{font-weight:${Math.min(500, maxFw)} !important}
+      .font-semibold{font-weight:${Math.min(600, maxFw)} !important}
+      .font-bold{font-weight:${Math.min(700, maxFw)} !important}
+      .font-extrabold{font-weight:${Math.min(800, maxFw)} !important}
+      .font-black{font-weight:${Math.min(900, maxFw)} !important}
+      b,strong{font-weight:${Math.min(700, maxFw)}}
+    `} />
     <style is:global>
       h1, h2 {
         text-transform: var(--heading-transform);

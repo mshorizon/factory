@@ -23,15 +23,9 @@ h1, h2 {
   font-weight: var(--heading-weight, 700);
 }
 
-/* Global max font-weight cap — driven by theme.maxFontWeight (injected as --max-font-weight).
-   Uses CSS min() so heavier Tailwind utility classes and bold elements collapse to the cap
-   while lighter weights pass through unchanged. */
-.font-medium { font-weight: min(500, var(--max-font-weight, 900)) !important; }
-.font-semibold { font-weight: min(600, var(--max-font-weight, 900)) !important; }
-.font-bold { font-weight: min(700, var(--max-font-weight, 900)) !important; }
-.font-extrabold { font-weight: min(800, var(--max-font-weight, 900)) !important; }
-.font-black { font-weight: min(900, var(--max-font-weight, 900)) !important; }
-b, strong { font-weight: min(700, var(--max-font-weight, 900)); }
+/* Tailwind weight utilities are capped per-page by BaseLayout, which injects a <style>
+   block with concrete numeric values derived from theme.maxFontWeight. The rules below
+   are the uncapped fallback (when no theme is loaded). */
 
 /* Momentum scroll - disable native overscroll so JS handles it */
 html.scroll-momentum {
