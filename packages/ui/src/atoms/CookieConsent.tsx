@@ -131,55 +131,62 @@ export function CookieConsent() {
       }}
     >
       <div className="container mx-auto px-spacing-container">
-        {/* Main bar */}
+        {/* Main bar — buttons hidden when expanded (duplicated in expanded panel) */}
         <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-spacing-md py-4 md:py-0" style={{ minHeight: "var(--spacing-section-sm)" }}>
           <p className="text-sm text-foreground flex-1 leading-relaxed">
             Używamy plików cookies, aby zapewnić prawidłowe działanie strony oraz — za Twoją zgodą — do celów analitycznych i marketingowych.
           </p>
-          <div className="flex flex-wrap gap-2 shrink-0">
-            <Button variant="outline" size="sm" onClick={acceptNecessary} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
-              Tylko niezbędne
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setExpanded((v) => !v)} className="text-foreground hover:bg-foreground/10">
-              Dostosuj
-            </Button>
-            <Button size="sm" onClick={acceptAll}>
-              Akceptuj wszystkie
-            </Button>
-          </div>
+          {!expanded && (
+            <div className="flex flex-wrap gap-2 shrink-0">
+              <Button variant="outline" size="sm" onClick={acceptNecessary} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
+                Tylko niezbędne
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setExpanded(true)} className="text-foreground hover:bg-foreground/10">
+                Dostosuj
+              </Button>
+              <Button size="sm" onClick={acceptAll}>
+                Akceptuj wszystkie
+              </Button>
+            </div>
+          )}
         </div>
 
-        {/* Expandable preferences */}
-        <div className="border-t border-white/10 pb-6 pt-4 flex flex-col gap-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <CookieRow
-              label="Niezbędne"
-              description="Wymagane do prawidłowego działania strony."
-              checked
-              disabled
-            />
-            <CookieRow
-              label="Analityczne"
-              description="Pomagają zrozumieć, jak korzystasz ze strony."
-              checked={analytics}
-              onChange={() => setAnalytics((v) => !v)}
-            />
-            <CookieRow
-              label="Marketingowe"
-              description="Używane do spersonalizowanych reklam."
-              checked={marketing}
-              onChange={() => setMarketing((v) => !v)}
-            />
+        {/* Expandable preferences — only rendered when expanded */}
+        {expanded && (
+          <div className="border-t border-white/10 pb-6 pt-4 flex flex-col gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <CookieRow
+                label="Niezbędne"
+                description="Wymagane do prawidłowego działania strony."
+                checked
+                disabled
+              />
+              <CookieRow
+                label="Analityczne"
+                description="Pomagają zrozumieć, jak korzystasz ze strony."
+                checked={analytics}
+                onChange={() => setAnalytics((v) => !v)}
+              />
+              <CookieRow
+                label="Marketingowe"
+                description="Używane do spersonalizowanych reklam."
+                checked={marketing}
+                onChange={() => setMarketing((v) => !v)}
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" size="sm" onClick={acceptNecessary} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
+                Tylko niezbędne
+              </Button>
+              <Button variant="outline" size="sm" onClick={saveCustom} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
+                Zapisz wybór
+              </Button>
+              <Button size="sm" onClick={acceptAll}>
+                Akceptuj wszystkie
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={saveCustom} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
-              Zapisz wybór
-            </Button>
-            <Button size="sm" onClick={acceptAll}>
-              Akceptuj wszystkie
-            </Button>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
