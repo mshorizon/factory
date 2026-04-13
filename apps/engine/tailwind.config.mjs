@@ -120,6 +120,8 @@ export default {
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',
+          light: 'var(--primary-light)',
+          dark: 'var(--primary-dark)',
         },
         secondary: {
           DEFAULT: 'var(--secondary)',
