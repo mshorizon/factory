@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { AboutSummary } from "@mshorizon/ui";
+import { AboutSummary, AboutSummaryStats } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -53,3 +53,10 @@ const componentBackground = section.background === "dark-padded" ? "dark" : sect
     />
   </div>
 </section>
+{sectionStatsInverted && section.stats && section.stats.length > 0 && (
+  <div data-stats-breakout class={`pt-spacing-2xl pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+    <div class="container mx-auto">
+      <AboutSummaryStats client:visible stats={section.stats} />
+    </div>
+  </div>
+)}

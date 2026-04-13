@@ -153,8 +153,8 @@ export function AboutSummary({
         </ScrollReveal>
       </div>
 
-      {/* Stats row */}
-      {stats && stats.length > 0 && (
+      {/* Stats row — skipped when statsInverted (rendered outside dark panel by parent section) */}
+      {stats && stats.length > 0 && !statsInverted && (
         <ScrollReveal delay={0.2} direction="up">
           <StaggerContainer
             className="flex flex-row flex-nowrap justify-center gap-spacing-lg md:gap-spacing-xl pt-spacing-2xl"
