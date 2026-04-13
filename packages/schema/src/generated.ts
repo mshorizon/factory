@@ -22,6 +22,8 @@ export type GlobalVariant = string;
 export type MajorTheme = "specialist" | "portfolio-tech" | "portfolio-art" | "portfolio-law";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
+export type PrimaryLightColor = string;
+export type PrimaryDarkColor = string;
 export type BaseSurface = string;
 export type AltSurface = string;
 export type CardSurface = string;
@@ -324,6 +326,8 @@ export interface ColorSchemes {
 }
 export interface ThemeColorMode {
   primary?: PrimaryColor;
+  primaryLight?: PrimaryLightColor;
+  primaryDark?: PrimaryDarkColor;
   surface?: SurfaceColors;
   text?: TextColors;
 }

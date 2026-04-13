@@ -522,6 +522,16 @@
           "pattern": "^#[0-9A-Fa-f]{6}$",
           "default": "#0066CC"
         },
+        "primaryLight": {
+          "type": "string",
+          "title": "Primary Light Color",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "primaryDark": {
+          "type": "string",
+          "title": "Primary Dark Color",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
         "surface": {
           "type": "object",
           "title": "Surface Colors",

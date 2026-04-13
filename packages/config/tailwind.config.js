@@ -15,6 +15,8 @@ export default {
     extend: {
       colors: {
         primary: 'var(--primary)',
+        'primary-light': 'var(--primary-light)',
+        'primary-dark': 'var(--primary-dark)',
         secondary: 'var(--secondary)',
         background: 'var(--background)',
         card: 'var(--card)',

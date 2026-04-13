@@ -4,7 +4,7 @@
     "name": "Komornik Sądowy Marcin Starzec",
     "industry": "legal",
     "assets": {
-      "favicon": "/assets/portfolio-law-logo.svg",
+      "favicon": "/assets/portfolio-law-favicon.svg",
       "icon": "/assets/portfolio-law-logo.svg"
     },
     "contact": {
@@ -25,6 +25,8 @@
     "colors": {
       "light": {
         "primary": "#232F43",
+        "primaryLight": "#2B3A54",
+        "primaryDark": "#1A2332",
         "surface": {
           "base": "#EDF0F5",
           "alt": "#232F43",
@@ -38,6 +40,8 @@
       },
       "dark": {
         "primary": "#8BA0C2",
+        "primaryLight": "#2B3A54",
+        "primaryDark": "#1A2332",
         "surface": {
           "base": "#1A2332",
           "alt": "#2E3A4D",

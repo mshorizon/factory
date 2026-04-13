@@ -26,7 +26,17 @@ h1, h2 {
 /* Override font weights for templates with light heading weight */
 html[style*="--heading-weight:400"] .font-bold,
 html[style*="--heading-weight:400"] .font-semibold,
-html[style*="--heading-weight:400"] .font-medium {
+html[style*="--heading-weight:400"] .font-medium,
+html[style*="--heading-weight:400"] .font-extrabold,
+html[style*="--heading-weight:400"] .font-black {
+  font-weight: 400 !important;
+}
+
+/* Cap max font weight to 400 for portfolio-law template (covers inline styles, b/strong, utility classes) */
+html[data-major-theme="portfolio-law"],
+html[data-major-theme="portfolio-law"] *,
+html[data-major-theme="portfolio-law"] b,
+html[data-major-theme="portfolio-law"] strong {
   font-weight: 400 !important;
 }
 html[style*="--heading-weight:300"] .font-bold {
