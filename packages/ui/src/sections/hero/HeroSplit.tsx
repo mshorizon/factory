@@ -55,7 +55,11 @@ export function HeroSplit({
       )}
     >
       <div className="container mx-auto flex flex-col gap-spacing-section">
-        <div className="grid lg:grid-cols-[65fr_35fr] gap-spacing-2xl lg:gap-16 items-center">
+        <div className={cn(
+          "grid gap-spacing-2xl lg:gap-16 items-center",
+          // portfolio-law: lock image column to 444px so it actually reaches max size
+          hideDots ? "lg:grid-cols-[1fr_444px]" : "lg:grid-cols-[65fr_35fr]"
+        )}>
           {/* Content Side */}
           <div className="flex flex-col justify-center">
             {badge && (
@@ -69,7 +73,16 @@ export function HeroSplit({
                     className={badgeLayout === "column" ? "w-8 h-[2px]" : "w-12 h-[2px]"}
                     style={{ backgroundColor: badgeColor }}
                   />
-                  <Badge variant="accent" className="text-base font-medium px-spacing-md py-1.5 uppercase tracking-wide" data-field="header.badge" style={{ color: badgeColor }}>
+                  <Badge
+                    variant="accent"
+                    className={cn(
+                      "text-base font-medium uppercase tracking-wide",
+                      // portfolio-law: badge sits flush with the decorative line, no padding
+                      hideDots ? "px-0 py-0" : "px-spacing-md py-1.5"
+                    )}
+                    data-field="header.badge"
+                    style={{ color: badgeColor }}
+                  >
                     {badge}
                   </Badge>
                 </div>

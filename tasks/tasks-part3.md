@@ -6,7 +6,6 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf 
 
 All tasks below are in "Home" page > "Hero" section:
-- [x] Task: image max size: 444x360
-- [x] Task: badge - first component in this hero sectioon > now have vertical line > this line sohuld be horizontal and have 32px width
+- [x] Task: image max size: 444x360 - still image is too small
+- [x] Task: badge title in this variant of badge should have not padding
 - [x] Task: cta button > should have primaryLight color and bigger rounding
-- [x] Task: padding top and bottom of this section should be 2x less
