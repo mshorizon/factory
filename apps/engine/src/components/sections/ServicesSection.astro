@@ -22,6 +22,7 @@ const items = (section.items && section.items.length > 0)
 const header = getSectionHeader(section);
 const headerLayout = header.layout || (variant === "darkCards" || variant === "imageGrid" ? "split" : undefined);
 const headerAlign = headerLayout === "most-minimalistic" || variant === "darkCards" || variant === "imageGrid" ? "left" : "center";
+const minimal = headerLayout === "most-minimalistic";
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 ---
@@ -49,13 +50,13 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
     ) : variant === "alternating" ? (
       <ServicesAlternating client:visible items={items} />
     ) : (
-      <ServicesGrid client:visible items={items} />
+      <ServicesGrid client:visible items={items} minimal={minimal} />
     )}
     {ctaLabel && (
       <div class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>
         <a
           href={ctaHref}
-          class="inline-flex items-center justify-center gap-spacing-xs rounded-radius bg-primary text-on-primary px-spacing-2xl py-3 text-base font-medium shadow hover:bg-primary/90 transition-all"
+          class={`inline-flex items-center justify-center gap-spacing-xs bg-primary text-on-primary px-spacing-2xl py-3 text-base font-medium shadow hover:bg-primary/90 transition-all ${minimal ? "rounded-full" : "rounded-radius"}`}
           data-field="cta"
         >
           {ctaLabel}

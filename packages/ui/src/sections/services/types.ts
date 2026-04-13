@@ -16,4 +16,6 @@ export interface ServicesProps {
   ctaLabel?: string;
   ctaHref?: string;
   className?: string;
+  /** Minimal variant — portfolio-law-style cards (borderless, primaryLight accent line, larger details link). */
+  minimal?: boolean;
 }
