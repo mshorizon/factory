@@ -361,7 +361,7 @@ const formattedDate = blog.publishedAt ? new Date(blog.publishedAt).toLocaleDate
   }
 
   .prose :global(strong) {
-    font-weight: 600;
+    font-weight: var(--fw-semibold, 600);
   }
 
   .prose :global(a) {

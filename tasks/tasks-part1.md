@@ -5,4 +5,4 @@ Every task below have common purpose:
 * design in figma: https://framer.com/projects/Lawfolio-copy--Qasu075tlTIB9u6L5jxr-93os5?duplicate=8X0tfSphausP6hDCMCIV&node=augiA20Il
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf 
 
-- [x] Task: add field in theme in business json that describe max font weight. add in admin panel posibility to change this value. for portlofio-law set this variable to 400. none of website text cant have more font weight greater than this new variable  
+- [x] Task: add field in theme in business json that describe max font weight. add in admin panel posibility to change this value. for portlofio-law set this variable to 400. none of website text cant have more font weight greater than this new variable

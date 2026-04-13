@@ -186,7 +186,7 @@ const year = new Date().getFullYear();
 <style>
   .prose h2 {
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: var(--fw-bold, 700);
     margin-top: 2rem;
     margin-bottom: 0.75rem;
     color: var(--foreground);
@@ -207,6 +207,6 @@ const year = new Date().getFullYear();
   }
   .prose strong {
     color: var(--foreground);
-    font-weight: 600;
+    font-weight: var(--fw-semibold, 600);
   }
 </style>
