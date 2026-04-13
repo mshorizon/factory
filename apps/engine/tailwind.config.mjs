@@ -173,6 +173,10 @@ export default {
         radius: 'var(--radius)',
         'radius-secondary': 'var(--radius-secondary)',
       },
+      fontFamily: {
+        sans: 'var(--font-sans)',
+        heading: 'var(--font-heading)',
+      },
       spacing: {
         'spacing-xs': 'var(--spacing-xs)',
         'spacing-sm': 'var(--spacing-sm)',
