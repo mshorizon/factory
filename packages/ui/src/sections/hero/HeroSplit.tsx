@@ -49,7 +49,8 @@ export function HeroSplit({
     <section
       className={cn(
         "relative z-0 bg-background flex items-center",
-        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
+        // hideDots marks the portfolio-law-style hero, which uses halved (compact) vertical padding.
+        hideDots ? "py-spacing-section-sm" : (isHomePage ? "py-spacing-section" : "py-spacing-section-sm"),
         className
       )}
     >
@@ -63,9 +64,9 @@ export function HeroSplit({
                   "flex gap-spacing-sm mb-spacing-lg",
                   badgeLayout === "column" ? "flex-col items-start" : "flex-row items-center"
                 )}>
-                  {/* Decorative line */}
+                  {/* Decorative line — horizontal 32px in column layout (lawfolio style), wider horizontal in row layout */}
                   <div
-                    className={badgeLayout === "column" ? "h-12 w-[2px]" : "w-12 h-[2px]"}
+                    className={badgeLayout === "column" ? "w-8 h-[2px]" : "w-12 h-[2px]"}
                     style={{ backgroundColor: badgeColor }}
                   />
                   <Badge variant="accent" className="text-base font-medium px-spacing-md py-1.5 uppercase tracking-wide" data-field="header.badge" style={{ color: badgeColor }}>
@@ -111,7 +112,11 @@ export function HeroSplit({
                       asChild
                       size="xl"
                       variant={cta.variant || "default"}
-                      className="shadow-lg shadow-primary/25 h-14 px-8 text-base font-semibold hover:brightness-90 transition-all group rounded-full"
+                      className={cn(
+                        "shadow-lg shadow-primary/25 h-14 px-8 text-base font-semibold hover:brightness-90 transition-all group rounded-full",
+                        // portfolio-law (hideDots) hero CTA uses primaryLight tint
+                        hideDots && "bg-primary-light hover:bg-primary-light/90"
+                      )}
                       data-field="cta"
                     >
                       <a href={cta.href} className="flex items-center gap-spacing-sm" onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
@@ -146,7 +151,7 @@ export function HeroSplit({
               )}>
                 <div className={cn(
                   "relative w-full",
-                  hideDots ? "h-[260px] sm:h-[320px] lg:h-[360px]" : "h-[300px] sm:h-[380px] lg:h-[460px]"
+                  hideDots ? "h-[260px] sm:h-[320px] lg:h-[360px] max-h-[360px]" : "h-[300px] sm:h-[380px] lg:h-[460px]"
                 )} data-field="image">
                   {/* Dots BEHIND image (z-index) */}
                   {!hideDots && (

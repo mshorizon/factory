@@ -6,7 +6,7 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf 
 
 All tasks below are in "Home" page > "Hero" section:
-- [ ] Task: image max size: 444x360
+- [x] Task: image max size: 444x360
 - [x] Task: badge - first component in this hero sectioon > now have vertical line > this line sohuld be horizontal and have 32px width
-- [x] Task: replace cta phone number button > use "Contact me" button with arrow. remove button /services
-- [x] Task: "Contact me" button should have biger rounding
+- [x] Task: cta button > should have primaryLight color and bigger rounding
+- [x] Task: padding top and bottom of this section should be 2x less

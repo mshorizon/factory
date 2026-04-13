@@ -6,6 +6,11 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf 
 
 All tasks below are in "Home" page > second section "Services" section:
-- [x] Task: implement whole new variant of section header: "most-mionimalistic". this variant have only one text around 40px font size - and this text is alignet to left side
-- [x] Task: actual variant of service card should looks like on screen tasks/service-card.png. First text have primary font and around 24px font size. description font is secondary font and have 16px font size 
-- [x] Task: in this variant button "see all services" should be aligned to left site
+- [ ] Task: section title: "Zakres czynności komorniczych" > "Specjalizuję się w" 
+- [ ] Task: for this variant of section header > decreate secion header bottom margin
+- [ ] Task: card should have rounding
+- [ ] Task: first element in cards > line > should have 32px width and be in primaryLight color
+- [ ] Task: cards should not have border
+- [ ] Task: See more details button should not have border and should have bigger font size
+- [ ] Task: Whole card should have cursor pointer effect
+- [ ] Task: See all services button should have more rounding
