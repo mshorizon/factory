@@ -51,8 +51,16 @@ export function FieldTemplate(props: FieldTemplateProps) {
     return <div className={classNames}>{children}</div>;
   }
 
+  const hideLabel = uiSchema?.["ui:label"] === false;
+
   return (
     <div className={classNames}>
+      {!hideLabel && label && (
+        <label htmlFor={id} className="block text-sm font-medium mb-1">
+          {label}
+          {required && <span className="text-destructive ml-1">*</span>}
+        </label>
+      )}
       {children}
       {description && <p className="text-xs text-muted-foreground mt-1">{description}</p>}
       {errors && <div className="text-xs text-destructive mt-1">{errors}</div>}
