@@ -147,6 +147,13 @@
                 "type": "page",
                 "value": "contact"
               }
+            },
+            {
+              "label": "Informacje dla dłużnika",
+              "target": {
+                "type": "page",
+                "value": "informacje-dla-dluznika"
+              }
             }
           ]
         },
@@ -783,7 +790,6 @@
     "informacje-dla-dluznika": {
       "title": "Informacje dla dłużnika",
       "navLabel": "Informacje dla dłużnika",
-      "hideFromNav": true,
       "sections": [
         {
           "type": "blog-standalone",
