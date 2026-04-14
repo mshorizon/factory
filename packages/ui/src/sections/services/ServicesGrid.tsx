@@ -26,21 +26,21 @@ export function ServicesGrid({
           <a href={`/services/${item.slug || item.id}`} className="block h-full cursor-pointer" data-field={`items.${index}`}>
             <Card
               className={cn(
-                "group hover:shadow-lg transition-all hover:-translate-y-1 h-full p-spacing-xl flex flex-col cursor-pointer",
+                "group hover:shadow-lg transition-all hover:-translate-y-1 h-full p-spacing-lg flex flex-col cursor-pointer",
                 // minimal variant = portfolio-law/lawfolio style: no border, accent line in primaryLight, larger rounding
                 minimal ? "!border-0 !rounded-radius" : "!rounded-radius-secondary"
               )}
             >
               <span
                 className={cn(
-                  "block h-[2px] mb-spacing-lg",
+                  "block h-[2px] mb-spacing-md",
                   minimal ? "w-8 bg-primary-light" : "w-10 bg-primary"
                 )}
               />
-              <h3 className="text-2xl font-heading text-foreground mb-spacing-md" data-field={`items.${index}.title`}>
+              <h3 className="text-2xl font-heading text-foreground mb-spacing-sm" data-field={`items.${index}.title`}>
                 {item.title}
               </h3>
-              <p className="text-base font-body text-muted mb-spacing-xl flex-1" data-field={`items.${index}.description`}>
+              <p className="text-base font-body text-muted mb-spacing-md flex-1" data-field={`items.${index}.description`}>
                 {item.description}
               </p>
               <span
@@ -49,7 +49,7 @@ export function ServicesGrid({
                   minimal ? "text-base no-underline" : "text-sm underline underline-offset-4"
                 )}
               >
-                See more details
+                Zobacz szczegóły
                 <ArrowUpRight className={cn(minimal ? "h-5 w-5" : "h-4 w-4")} />
               </span>
             </Card>

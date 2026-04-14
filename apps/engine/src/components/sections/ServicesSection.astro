@@ -60,7 +60,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
       <div class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>
         <a
           href={ctaHref}
-          class={`inline-flex items-center justify-center gap-spacing-xs bg-primary text-on-primary px-spacing-2xl py-3 text-base font-medium shadow hover:bg-primary/90 transition-all ${minimal ? "rounded-full" : "rounded-radius"}`}
+          class={`inline-flex items-center justify-center gap-spacing-xs bg-primary-light text-on-primary px-spacing-2xl py-3 text-base font-medium shadow hover:bg-primary-light/90 transition-all ${minimal ? "rounded-full" : "rounded-radius"}`}
           data-field="cta"
         >
           {ctaLabel}
