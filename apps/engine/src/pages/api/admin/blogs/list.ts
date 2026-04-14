@@ -22,8 +22,8 @@ export const GET: APIRoute = async ({ url, locals }) => {
       );
     }
 
-    // Get all blogs (including drafts) for admin, optionally filtered by lang
-    const blogs = await getBlogsBySiteId(site.id, false, lang);
+    // Get all blogs (including drafts and standalone) for admin, optionally filtered by lang
+    const blogs = await getBlogsBySiteId(site.id, false, lang, true);
 
     return new Response(
       JSON.stringify({ blogs }),
