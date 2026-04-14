@@ -106,7 +106,8 @@
       "background": {
         "enabled": true,
         "padding": "16px",
-        "borderRadius": "12px"
+        "borderRadius": "16px",
+        "gradient": "primary-to-primary-dark"
       },
       "columns": [
         {
@@ -451,11 +452,11 @@
         },
         {
           "type": "contact",
-          "variant": "cta",
+          "variant": "minimal",
           "header": {
             "badge": "Kontakt",
             "title": "Skontaktuj się z nami",
-            "subtitle": "Potrzebujesz pomocy prawnej lub masz pytania? Jesteśmy do Twojej dyspozycji."
+            "subtitle": "Potrzebujesz pomocy prawnej lub masz pytania? Jestem do Twojej dyspozycji."
           },
           "cta": {
             "label": "Skontaktuj się",

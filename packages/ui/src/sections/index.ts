@@ -23,7 +23,7 @@ export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats } from "./ab
 export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, StatItem, TimelineItem, StoryContent } from "./about";
 
 // Contact variants
-export { ContactCentered, ContactSplit, ContactCTA } from "./contact";
+export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal } from "./contact";
 export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactForm, ContactInfo, ContactLabels } from "./contact";
 
 // Shop variants

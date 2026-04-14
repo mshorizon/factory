@@ -6,7 +6,7 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf
 
 All tasks below are in "footer" component:
-- [ ] Task: logo in footer should be white
-- [ ] Task: footer should have proms/option from business json > to be rounding  = whole footer should have 16px padding and rounding
-- [ ] Task: business name - shorter "Marcin Starzec"
-- [ ] Task: whole footer should have gradient from bottom primaryDark to top primary color
+- [x] Task: logo in footer should be white
+- [x] Task: footer should have proms/option from business json > to be rounding  = whole footer should have 16px padding and rounding
+- [x] Task: business name - shorter "Marcin Starzec"
+- [x] Task: whole footer should have gradient from bottom primaryDark to top primary color

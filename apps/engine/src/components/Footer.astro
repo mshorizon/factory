@@ -25,6 +25,8 @@ interface FooterBackground {
   enabled?: boolean;
   padding?: string;
   borderRadius?: string;
+  /** Optional vertical gradient — e.g. "primary-to-primary-dark". Falls back to bg-secondary when absent. */
+  gradient?: "primary-to-primary-dark" | string;
 }
 
 interface Props {
@@ -299,16 +301,19 @@ const languages = [
 )}
 
 {variant === "multiColumn" && (
-  <footer class:list={["shrink-0", background?.enabled ? "px-4 pb-4" : ""]}>
+  <footer class:list={["shrink-0", background?.enabled ? "p-4" : ""]}>
     <div
-      class="bg-secondary text-on-primary"
-      style={background?.enabled ? `padding: ${background.padding || '16px'}; border-radius: ${background.borderRadius || '12px'};` : ''}
+      class:list={["text-on-primary", !background?.gradient && "bg-secondary"]}
+      style={[
+        background?.gradient === "primary-to-primary-dark" ? "background: linear-gradient(to top, var(--primary-dark) 0%, var(--primary) 100%);" : "",
+        background?.enabled ? `padding: ${background.padding || '16px'}; border-radius: ${background.borderRadius || '12px'};` : "",
+      ].filter(Boolean).join(' ')}
     >
       <div class="container mx-auto py-16">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div class="lg:col-span-1">
             <div class="flex items-center gap-3 mb-4">
-              {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7" />}
+              {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7 footer-logo-white" />}
               <span class="font-bold text-2xl tracking-tight">{displayName}</span>
             </div>
             {tagline && <p class="text-on-primary/50 text-sm leading-relaxed font-heading">{tagline}</p>}
@@ -359,7 +364,7 @@ const languages = [
         {/* Brand Column */}
         <div class="max-w-md">
           <span class="text-2xl font-bold mb-spacing-md flex items-center gap-2">
-            {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7" />}
+            {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7 footer-logo-white" />}
             {businessName}
           </span>
           {tagline && <p class="text-sm text-white/60 mb-spacing-lg">{tagline}</p>}
@@ -469,5 +474,9 @@ const languages = [
     .footer-grid {
       grid-template-columns: var(--footer-cols, 1fr);
     }
+  }
+  /* Force footer logo icon to render in white — footers sit on dark surfaces */
+  .footer-logo-white {
+    filter: brightness(0) invert(1);
   }
 </style>
