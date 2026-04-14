@@ -35,6 +35,9 @@ export {
   bookings,
   type Booking,
   type NewBooking,
+  businessFiles,
+  type BusinessFile,
+  type NewBusinessFile,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -97,4 +100,8 @@ export {
   getBookingByCancelToken,
   getBookingByConfirmToken,
   getUpcomingBookings,
+  createBusinessFile,
+  getBusinessFilesBySiteId,
+  getBusinessFileById,
+  deleteBusinessFile,
 } from "./queries.js";

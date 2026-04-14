@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 let r2Config: {
   endpoint: string;
@@ -68,6 +68,24 @@ export async function uploadToR2(
 
   const baseUrl = r2Config.publicUrl.replace(/\/+$/, "");
   return `${baseUrl}/${key}`;
+}
+
+/**
+ * Delete a file from R2 by its object key.
+ */
+export async function deleteFromR2(key: string): Promise<void> {
+  if (!r2Config) {
+    throw new Error("R2 not initialized. Call initR2() first.");
+  }
+
+  const client = getR2Client();
+
+  await client.send(
+    new DeleteObjectCommand({
+      Bucket: r2Config.bucketName,
+      Key: key,
+    })
+  );
 }
 
 /**

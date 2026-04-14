@@ -17,6 +17,7 @@ import { StatusTab } from "./StatusTab";
 import { OverviewTab } from "./OverviewTab";
 import { OrdersTab } from "./OrdersTab";
 import { BookingsTab } from "./BookingsTab";
+import { FilesTab } from "./FilesTab";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -1396,6 +1397,10 @@ export default function AdminForm({
       return <BookingsTab businessId={businessId} />;
     }
 
+    if (activeTab === "files") {
+      return <FilesTab businessId={businessId} />;
+    }
+
     if (activeTab === "notifications") {
       return (
         <NotificationsTab
@@ -1530,6 +1535,7 @@ export default function AdminForm({
         { id: "projects", label: "Projects", Icon: FolderKanban },
         { id: "orders", label: "Orders", Icon: Receipt },
         { id: "bookings", label: "Bookings", Icon: CalendarDays },
+        { id: "files", label: "Files", Icon: File },
       ],
     },
     {

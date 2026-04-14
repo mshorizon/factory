@@ -1,8 +1,8 @@
 import { eq, and, desc, gte, sql, count } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking } from "./schema.js";
+import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking, NewBusinessFile } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -616,4 +616,36 @@ export async function getUpcomingBookings(date: string, startTime: string, endTi
         eq(bookings.status, "confirmed"),
       )
     );
+}
+
+// --- Business Files ---
+
+export async function createBusinessFile(file: NewBusinessFile) {
+  const db = getDb();
+  const [row] = await db.insert(businessFiles).values(file).returning();
+  return row;
+}
+
+export async function getBusinessFilesBySiteId(siteId: number) {
+  const db = getDb();
+  return await db
+    .select()
+    .from(businessFiles)
+    .where(eq(businessFiles.siteId, siteId))
+    .orderBy(desc(businessFiles.createdAt));
+}
+
+export async function getBusinessFileById(id: number) {
+  const db = getDb();
+  const [row] = await db
+    .select()
+    .from(businessFiles)
+    .where(eq(businessFiles.id, id))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function deleteBusinessFile(id: number) {
+  const db = getDb();
+  await db.delete(businessFiles).where(eq(businessFiles.id, id));
 }

@@ -275,3 +275,24 @@ export const bookings = pgTable("bookings", {
 
 export type Booking = typeof bookings.$inferSelect;
 export type NewBooking = typeof bookings.$inferInsert;
+
+// --- Business Files ---
+
+export const businessFiles = pgTable("business_files", {
+  id: serial("id").primaryKey(),
+  siteId: integer("site_id").notNull().references(() => sites.id, { onDelete: 'cascade' }),
+
+  // File info
+  name: text("name").notNull(),         // original filename (sanitized)
+  originalName: text("original_name").notNull(), // as uploaded by user
+  url: text("url").notNull(),           // public R2 URL
+  r2Key: text("r2_key").notNull(),      // R2 object key (for deletion)
+  mimeType: text("mime_type").notNull(),
+  size: integer("size").notNull(),       // bytes
+
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type BusinessFile = typeof businessFiles.$inferSelect;
+export type NewBusinessFile = typeof businessFiles.$inferInsert;
