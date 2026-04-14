@@ -3,7 +3,7 @@
 Everythink todo below should be used in business template "portfolio-law":
 
 TODO:
-* fix bug: [vite] The requested module '@mshorizon/db' does not provide an export named 'getBusinessFilesBySiteId'
+* [x] fix bug: [vite] The requested module '@mshorizon/db' does not provide an export named 'getBusinessFilesBySiteId'
   node/module-runner.js:530:39
   Open in editor
   Stack Trace

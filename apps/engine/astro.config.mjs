@@ -4,6 +4,10 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import node from '@astrojs/node';
 import sentry from '@sentry/astro';
+import { fileURLToPath } from 'url';
+import { resolve } from 'path';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
@@ -32,9 +36,13 @@ export default defineConfig({
   },
 
   vite: {
+    resolve: {
+      alias: {
+        '@mshorizon/db': resolve(__dirname, '../../packages/db/src/index.ts'),
+      },
+    },
     ssr: {
       external: [
-        '@mshorizon/db',
         'postgres',
         'drizzle-orm',
         '@aws-sdk/client-s3',

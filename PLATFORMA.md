@@ -74,6 +74,7 @@ Budowanie pozycji eksperta i ruchu organicznego z Google.
 - Tryby **szkic / opublikowany** — praca bez presji natychmiastowej publikacji
 - System komentarzy z moderacją (zatwierdź / odrzuć / oznacz jako spam)
 - Blog w 4 językach — ten sam artykuł można przygotować w kilku wersjach językowych
+- **Strony autonomiczne z artykułów** — poszczególne artykuły mogą być wyświetlane jako pełnoprawne strony (bez archiwum blogów, bez powiązanych artykułów) — idealne dla porad, instrukcji, informacji dla klientów
 
 ---
 
