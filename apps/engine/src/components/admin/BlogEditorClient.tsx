@@ -46,10 +46,17 @@ export default function BlogEditorClient({
   const [linkUrl, setLinkUrl] = useState("");
   const savedSelectionRef = useRef<Range | null>(null);
 
+  // Convert markdown-style links [text](url) to <a> tags in HTML content
+  const convertMarkdownLinks = (html: string): string =>
+    html.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
+
   // Load content into editor
   useEffect(() => {
     if (editorRef.current && blog?.content) {
-      editorRef.current.innerHTML = blog.content;
+      editorRef.current.innerHTML = convertMarkdownLinks(blog.content);
     }
   }, [blog?.content]);
 
@@ -254,7 +261,7 @@ export default function BlogEditorClient({
         ? "/api/admin/blogs/update"
         : "/api/admin/blogs/create";
 
-      const content = editorRef.current?.innerHTML || "";
+      const content = convertMarkdownLinks(editorRef.current?.innerHTML || "");
 
       const payload = {
         businessId,

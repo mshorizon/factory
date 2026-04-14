@@ -206,7 +206,7 @@ const formattedDate = blog.publishedAt ? new Date(blog.publishedAt).toLocaleDate
       <!-- Blog Content -->
       <div class="container mx-auto px-spacing-container mt-spacing-lg">
         <div class="max-w-3xl mx-auto prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
-          <Fragment set:html={blog.content} />
+          <Fragment set:html={blog.content?.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>') ?? ''} />
         </div>
       </div>
 
