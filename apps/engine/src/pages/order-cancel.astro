@@ -80,11 +80,13 @@ const pageTitle = `Zamówienie anulowane | ${business.business.name}`;
   </main>
   <Footer
     businessName={business.business.name}
+    footerName={layout.footer.name}
     links={footerLinks}
     columns={footerColumns}
     copyright={layout.footer.copyright}
     tagline={layout.footer.tagline}
     currentLanguage={currentLang}
-    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
+    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient"}
+    background={layout.footer.background}
   />
 </BaseLayout>

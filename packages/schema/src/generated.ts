@@ -103,6 +103,10 @@ export type FooterDisplayName = string;
 export type EnableBackgroundContainer = boolean;
 export type ContainerPadding = string;
 export type ContainerBorderRadius = string;
+/**
+ * Gradient preset e.g. primary-to-primary-dark
+ */
+export type BackgroundGradient = string;
 export type ExtensionType1 = "call";
 export type Headline = string;
 export type Phone1 = string;
@@ -413,6 +417,7 @@ export interface FooterBackground {
   enabled?: EnableBackgroundContainer;
   padding?: ContainerPadding;
   borderRadius?: ContainerBorderRadius;
+  gradient?: BackgroundGradient;
 }
 export interface Navigation {
   links?: NavigationLinks;

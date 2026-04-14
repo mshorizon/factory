@@ -859,7 +859,8 @@
               "properties": {
                 "enabled": { "type": "boolean", "title": "Enable Background Container", "default": false },
                 "padding": { "type": "string", "title": "Container Padding", "default": "16px" },
-                "borderRadius": { "type": "string", "title": "Container Border Radius", "default": "12px" }
+                "borderRadius": { "type": "string", "title": "Container Border Radius", "default": "12px" },
+                "gradient": { "type": "string", "title": "Background Gradient", "description": "Gradient preset e.g. primary-to-primary-dark" }
               }
             },
             "extensions": {

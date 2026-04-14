@@ -88,14 +88,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "";
   </main>
   <Footer
     businessName={business.business.name}
+    footerName={layout.footer.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     links={footerLinks}
     columns={footerColumns}
     copyright={layout.footer.copyright}
     tagline={layout.footer.tagline}
     currentLanguage={currentLang}
-    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked"}
+    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient"}
     socialLinks={socialLinks}
     extensions={layout.footer.extensions}
+    background={layout.footer.background}
   />
 </BaseLayout>
