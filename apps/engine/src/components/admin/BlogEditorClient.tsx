@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { Languages, Loader2, Star } from "lucide-react";
+import { Languages, Loader2, Star, Link2, Unlink2 } from "lucide-react";
 
 interface BlogEditorClientProps {
   blog?: any;
@@ -41,6 +41,9 @@ export default function BlogEditorClient({
   const [saving, setSaving] = useState(false);
   const [translating, setTranslating] = useState(false);
   const [error, setError] = useState("");
+  const [linkMode, setLinkMode] = useState(false);
+  const [linkUrl, setLinkUrl] = useState("");
+  const savedSelectionRef = useRef<Range | null>(null);
 
   // Load content into editor
   useEffect(() => {
@@ -69,6 +72,54 @@ export default function BlogEditorClient({
   const handleFormat = (command: string, value?: string) => {
     editorRef.current?.focus();
     document.execCommand(command, false, value);
+  };
+
+  const handleLinkButtonClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      savedSelectionRef.current = selection.getRangeAt(0).cloneRange();
+    } else {
+      savedSelectionRef.current = null;
+    }
+    setLinkUrl("");
+    setLinkMode(true);
+  };
+
+  const handleInsertLink = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!linkUrl.trim()) {
+      setLinkMode(false);
+      return;
+    }
+    const url = /^https?:\/\//i.test(linkUrl) ? linkUrl : `https://${linkUrl}`;
+    const selection = window.getSelection();
+    if (savedSelectionRef.current && selection) {
+      selection.removeAllRanges();
+      selection.addRange(savedSelectionRef.current);
+    }
+    editorRef.current?.focus();
+    document.execCommand("createLink", false, url);
+    // Set target and rel on the newly created <a>
+    const newSel = window.getSelection();
+    if (newSel && newSel.rangeCount > 0) {
+      let node: Node | null = newSel.getRangeAt(0).commonAncestorContainer;
+      while (node && (node as Element).nodeName !== "A") {
+        node = node.parentNode;
+      }
+      if (node && (node as Element).nodeName === "A") {
+        (node as HTMLAnchorElement).target = "_blank";
+        (node as HTMLAnchorElement).rel = "noopener noreferrer";
+      }
+    }
+    setLinkMode(false);
+    setLinkUrl("");
+  };
+
+  const handleUnlink = (e: React.MouseEvent) => {
+    e.preventDefault();
+    editorRef.current?.focus();
+    document.execCommand("unlink");
   };
 
   // Translate empty fields from primary language blog
@@ -481,6 +532,53 @@ export default function BlogEditorClient({
             >
               ¶
             </button>
+            <div className="w-px bg-border self-stretch mx-1" />
+            <button
+              type="button"
+              onMouseDown={handleLinkButtonClick}
+              className="px-2 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted inline-flex items-center gap-1"
+              title="Insert Link"
+            >
+              <Link2 className="h-4 w-4" />
+              Link
+            </button>
+            <button
+              type="button"
+              onMouseDown={handleUnlink}
+              className="px-2 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted inline-flex items-center gap-1"
+              title="Remove Link"
+            >
+              <Unlink2 className="h-4 w-4" />
+            </button>
+            {linkMode && (
+              <form
+                onSubmit={handleInsertLink}
+                className="flex items-center gap-1 ml-1"
+                onKeyDown={(e) => e.key === "Escape" && setLinkMode(false)}
+              >
+                <input
+                  autoFocus
+                  type="text"
+                  value={linkUrl}
+                  onChange={(e) => setLinkUrl(e.target.value)}
+                  placeholder="https://..."
+                  className="px-2 py-1 text-sm border border-border rounded-md bg-background w-52 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+                <button
+                  type="submit"
+                  className="px-2 py-1 rounded text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  OK
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLinkMode(false)}
+                  className="px-2 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
+                >
+                  ✕
+                </button>
+              </form>
+            )}
           </div>
           {/* Editor */}
           <div
