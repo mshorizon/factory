@@ -96,9 +96,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   } catch (error) {
     (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/files/upload" }, "Error uploading file");
     return new Response(
-      JSON.stringify({
-        message: error instanceof Error ? error.message : "Upload failed",
-      }),
+      JSON.stringify({ message: "Upload failed" }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
