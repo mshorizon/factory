@@ -24,6 +24,7 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
   pricing: "default",
   project: "grid",
   events: "default",
+  files: "default",
 };
 
 /**

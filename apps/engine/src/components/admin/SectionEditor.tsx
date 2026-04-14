@@ -671,6 +671,108 @@ function TrustBarFields({ section, savedSection, onUpdate, businessId, si }: { s
   );
 }
 
+function FilesFields({ section, savedSection, onUpdate, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
+  const updater = createFieldUpdater(section, onUpdate);
+  const groups: any[] = section.fileGroups || [];
+
+  const updateGroup = (gi: number, key: string, value: any) => {
+    const next = [...groups];
+    next[gi] = { ...next[gi], [key]: value };
+    onUpdate({ ...section, fileGroups: next });
+  };
+
+  const addGroup = () =>
+    onUpdate({ ...section, fileGroups: [...groups, { title: "Nowa grupa", files: [] }] });
+
+  const removeGroup = (gi: number) => {
+    const next = [...groups];
+    next.splice(gi, 1);
+    onUpdate({ ...section, fileGroups: next });
+  };
+
+  const updateFile = (gi: number, fi: number, key: string, value: any) => {
+    const next = [...groups];
+    const files = [...(next[gi].files || [])];
+    files[fi] = { ...files[fi], [key]: value };
+    next[gi] = { ...next[gi], files };
+    onUpdate({ ...section, fileGroups: next });
+  };
+
+  const addFile = (gi: number) => {
+    const next = [...groups];
+    next[gi] = { ...next[gi], files: [...(next[gi].files || []), { name: "Nowy plik", type: "pdf", url: "" }] };
+    onUpdate({ ...section, fileGroups: next });
+  };
+
+  const removeFile = (gi: number, fi: number) => {
+    const next = [...groups];
+    const files = [...(next[gi].files || [])];
+    files.splice(fi, 1);
+    next[gi] = { ...next[gi], files };
+    onUpdate({ ...section, fileGroups: next });
+  };
+
+  return (
+    <>
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <div className="mt-3 pt-3 border-t border-border">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            File Groups ({groups.length})
+          </span>
+          <Button size="sm" variant="outline" onClick={addGroup}>
+            <Plus className="h-3 w-3 mr-1" />
+            Add Group
+          </Button>
+        </div>
+        {groups.map((group, gi) => (
+          <div key={gi} className="mb-4 p-3 bg-muted/30 border border-border rounded-lg space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-muted-foreground">Group {gi + 1}</span>
+              <Button size="icon-xs" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => removeGroup(gi)}>
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
+            <TextField
+              label="Title"
+              value={group.title || ""}
+              onChange={(v) => updateGroup(gi, "title", v)}
+              sectionIndex={si}
+              fieldPath={`fileGroups.${gi}.title`}
+            />
+            <div className="mt-2 pt-2 border-t border-border/50">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-muted-foreground">Files ({(group.files || []).length})</span>
+                <Button size="sm" variant="outline" onClick={() => addFile(gi)}>
+                  <Plus className="h-3 w-3 mr-1" />
+                  Add File
+                </Button>
+              </div>
+              {(group.files || []).map((file: any, fi: number) => (
+                <div key={fi} className="mb-2 p-2 bg-background border border-border rounded space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">File {fi + 1}</span>
+                    <Button size="icon-xs" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => removeFile(gi, fi)}>
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  </div>
+                  <TextField label="Name" value={file.name || ""} onChange={(v) => updateFile(gi, fi, "name", v)} sectionIndex={si} fieldPath={`fileGroups.${gi}.files.${fi}.name`} />
+                  <TextField label="Type" value={file.type || ""} onChange={(v) => updateFile(gi, fi, "type", v)} placeholder="pdf, docx..." sectionIndex={si} fieldPath={`fileGroups.${gi}.files.${fi}.type`} />
+                  <TextField label="URL" value={file.url || ""} onChange={(v) => updateFile(gi, fi, "url", v)} placeholder="/assets/forms/file.pdf" sectionIndex={si} fieldPath={`fileGroups.${gi}.files.${fi}.url`} />
+                </div>
+              ))}
+              {(group.files || []).length === 0 && (
+                <p className="text-xs italic text-muted-foreground">No files yet</p>
+              )}
+            </div>
+          </div>
+        ))}
+        {groups.length === 0 && <p className="text-xs italic text-muted-foreground">No groups yet</p>}
+      </div>
+    </>
+  );
+}
+
 function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = createFieldUpdater(section, onUpdate);
   return (
@@ -715,6 +817,7 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
       case "comparison": return <ComparisonFields {...props} />;
       case "team": return <TeamFields {...props} />;
       case "trustBar": return <TrustBarFields {...props} />;
+      case "files": return <FilesFields {...props} />;
       default: return <DefaultFields {...props} />;
     }
   };
@@ -766,6 +869,7 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
             <option value="blog">Blog</option>
             <option value="comparison">Comparison</option>
             <option value="team">Team</option>
+            <option value="files">Files</option>
           </select>
           {typeChanged && <RevertButton onClick={() => onUpdate({ ...section, type: savedSection.type, variant: savedSection.variant })} />}
         </div>

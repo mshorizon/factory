@@ -680,6 +680,62 @@
       "hideFromNav": true,
       "sections": []
     },
+    "forms": {
+      "title": "Formularze",
+      "navLabel": "Formularze",
+      "sections": [
+        {
+          "type": "files",
+          "header": {
+            "badge": "Do pobrania",
+            "title": "Formularze i dokumenty",
+            "subtitle": "Pobierz niezbędne formularze i dokumenty związane z postępowaniem egzekucyjnym."
+          },
+          "fileGroups": [
+            {
+              "title": "Formularze",
+              "files": [
+                {
+                  "name": "Wniosek o wszczęcie egzekucji",
+                  "type": "pdf",
+                  "url": "/assets/forms/wniosek-wszczecie-egzekucji.pdf"
+                },
+                {
+                  "name": "Wniosek o wyjawienie majątku",
+                  "type": "pdf",
+                  "url": "/assets/forms/wniosek-wyjawienie-majatku.pdf"
+                },
+                {
+                  "name": "Wniosek o umorzenie postępowania",
+                  "type": "pdf",
+                  "url": "/assets/forms/wniosek-umorzenie-postepowania.pdf"
+                }
+              ]
+            },
+            {
+              "title": "Dokumenty",
+              "files": [
+                {
+                  "name": "Regulamin kancelarii",
+                  "type": "pdf",
+                  "url": "/assets/forms/regulamin-kancelarii.pdf"
+                },
+                {
+                  "name": "Cennik opłat komorniczych",
+                  "type": "pdf",
+                  "url": "/assets/forms/cennik-oplat.pdf"
+                },
+                {
+                  "name": "Pouczenie dla dłużnika",
+                  "type": "docx",
+                  "url": "/assets/forms/pouczenie-dluznik.docx"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "contact": {
       "title": "Kontakt",
       "navLabel": "Kontakt",

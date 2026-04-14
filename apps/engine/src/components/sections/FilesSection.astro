@@ -1,0 +1,30 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { FilesPage, SectionHeader } from "@mshorizon/ui";
+
+interface Props {
+  isHomePage?: boolean;
+  section: Section;
+  badgeVariant?: string;
+}
+
+const { section, isHomePage = false, badgeVariant } = Astro.props;
+const header = (section as any).header;
+const fileGroups = (section as any).fileGroups || [];
+const sectionPaddingClass = `py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`;
+---
+
+<section class={sectionPaddingClass}>
+  <div class="container mx-auto">
+    {header && (
+      <SectionHeader
+        badge={header.badge}
+        title={header.title}
+        subtitle={header.subtitle}
+        background={section.background}
+        badgeVariant={badgeVariant as any}
+      />
+    )}
+    <FilesPage client:visible groups={fileGroups} />
+  </div>
+</section>

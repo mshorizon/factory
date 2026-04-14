@@ -146,7 +146,8 @@ export type SectionType =
   | "project"
   | "comparison"
   | "team"
-  | "events";
+  | "events"
+  | "files";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "dark-padded" | "light-padded" | "primary";
@@ -226,6 +227,12 @@ export type Role = string;
 export type PhotoURL = string;
 export type LinkedInURL = string;
 export type TeamMembers = TeamMember[];
+export type GroupTitle = string;
+export type FileName = string;
+export type FileTypeEGPdfDocx = string;
+export type DownloadURL = string;
+export type Files = FileItem[];
+export type FileGroups = FileGroup[];
 export type Country = "polska";
 export type Region =
   | "mazowsze"
@@ -490,6 +497,7 @@ export interface Section {
   rightTitle?: RightColumnTitleEGAIAutomation;
   rows?: ComparisonRows;
   members?: TeamMembers;
+  fileGroups?: FileGroups;
   area?: ServiceAreaConfiguration;
 }
 export interface SectionHeader {
@@ -647,6 +655,15 @@ export interface TeamMember {
   role?: Role;
   image?: PhotoURL;
   linkedin?: LinkedInURL;
+}
+export interface FileGroup {
+  title: GroupTitle;
+  files: Files;
+}
+export interface FileItem {
+  name: FileName;
+  type?: FileTypeEGPdfDocx;
+  url: DownloadURL;
 }
 export interface ServiceAreaConfiguration {
   country?: Country;

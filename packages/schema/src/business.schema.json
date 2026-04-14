@@ -140,7 +140,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking", "pricing", "project", "comparison", "team", "events"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking", "pricing", "project", "comparison", "team", "events", "files"]
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
         "variant": { "type": "string", "title": "Variant" },
@@ -468,6 +468,32 @@
               "image": { "type": "string", "title": "Photo URL" },
               "linkedin": { "type": "string", "title": "LinkedIn URL" }
             }
+          }
+        },
+        "fileGroups": {
+          "type": "array",
+          "title": "File Groups",
+          "items": {
+            "type": "object",
+            "title": "FileGroup",
+            "properties": {
+              "title": { "type": "string", "title": "Group Title" },
+              "files": {
+                "type": "array",
+                "title": "Files",
+                "items": {
+                  "type": "object",
+                  "title": "FileItem",
+                  "properties": {
+                    "name": { "type": "string", "title": "File Name" },
+                    "type": { "type": "string", "title": "File Type (e.g. pdf, docx)" },
+                    "url": { "type": "string", "title": "Download URL" }
+                  },
+                  "required": ["name", "url"]
+                }
+              }
+            },
+            "required": ["title", "files"]
           }
         },
         "area": {

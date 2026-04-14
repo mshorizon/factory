@@ -97,3 +97,7 @@ export type { TeamGridProps, TeamMember } from "./team";
 // Events variants
 export { EventsDefault } from "./events";
 export type { EventsDefaultProps, EventItem } from "./events";
+
+// Files variants
+export { FilesPage } from "./files";
+export type { FilesPageProps, FileGroup, FileItem } from "./files";
