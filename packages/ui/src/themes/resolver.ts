@@ -64,8 +64,12 @@ export function resolveTheme(
     return basePreset;
   }
 
-  // Start with base preset
-  const result: Theme = { ...basePreset };
+  // Start with base preset, then overlay all overrides so top-level scalar
+  // properties (majorTheme, headingWeight, maxFontWeight, navFontSize,
+  // navLogoSize, navLogoWeight, navLinksPosition, scrollType, badgeVariant,
+  // badgeFontSize, etc.) pass through automatically.
+  // Nested objects (colors, typography, ui) are deep-merged below.
+  const result: Theme = { ...basePreset, ...overrides };
 
   // Override mode if specified
   if (overrides.mode) {
