@@ -6,6 +6,6 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf 
 
 All tasks below are in "Home" page > second section "Services" section:
-- [x] Task: section title: "Zakres czynności komorniczych" should have a little bigger margin bottom
-- [x] Task: card should have bigger rounding
-- [x] Task: whole section should not have top padding
+- [ ] Task: cards height should be smaller > perhabs reduce gaps between card elements will help - especially margin above See more details button
+- [ ] Task: "See more details button" should be translated into polsih
+- [ ] Task: See all services button should be in primaryLight color

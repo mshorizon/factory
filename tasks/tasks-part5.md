@@ -6,7 +6,9 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf
 
 All tasks below are in "Home" page > third section "About" section:
-- [x] Task: gradinet on dark bacground should be from bottom prmaryDark to top primaryLight
-- [x] Task: stats os about section should have background in FFFFFF - background width should be the same as dark bacground of this section - FFFFFF stats panel should have the same rounding as dar kbackground
-- [x] Task: increate gap between every stat and top padding of whole stats panel
-- [x] Task: remove section bottom padding
+- [ ] Task: change text: "O kancelarii" > "O mnie" - the same in navbar and links to /about
+- [ ] Task: replace images, download and insert into claudflare: https://framerusercontent.com/images/f1oLaSrqVCxcZ9NZwsC79KJ8NE.png?width=1024&height=1024
+- [ ] Task: dark panel in about section should have 120px (taken from spaceing of theme) bottom padding
+- [ ] Task: gap between dark panel and light panel with stats should be equal 16px
+- [ ] Task: increate gap between every stat element in white panel
+- [ ] Task: decreate text mandatory (in style) of stat description

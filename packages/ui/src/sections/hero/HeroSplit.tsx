@@ -43,7 +43,9 @@ export function HeroSplit({
 }: HeroProps & { phone?: string }) {
   const heroImage = image || backgroundImage;
   const allTestimonials = testimonials || (testimonial ? [testimonial] : []);
-  const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
+  const badgeColor = hideDots
+    ? "var(--primary-light)"
+    : background === "dark" ? "var(--primary)" : "var(--primary-dark)";
 
   return (
     <section
@@ -76,7 +78,8 @@ export function HeroSplit({
                   <Badge
                     variant="accent"
                     className={cn(
-                      "text-base font-medium uppercase tracking-wide",
+                      "font-medium uppercase",
+                      hideDots ? "text-[14px] tracking-[.05rem]" : "text-base tracking-wide",
                       // portfolio-law: badge sits flush with the decorative line, no padding
                       hideDots ? "px-0 py-0" : "px-spacing-md py-1.5"
                     )}
@@ -126,9 +129,9 @@ export function HeroSplit({
                       size="xl"
                       variant={cta.variant || "default"}
                       className={cn(
-                        "shadow-lg shadow-primary/25 h-14 px-8 text-base font-semibold hover:brightness-90 transition-all group rounded-full",
-                        // portfolio-law (hideDots) hero CTA uses primaryLight tint
-                        hideDots && "bg-primary-light hover:bg-primary-light/90"
+                        "shadow-lg shadow-primary/25 h-14 px-8 text-base font-semibold hover:brightness-90 transition-all group",
+                        // portfolio-law (hideDots) hero CTA uses primaryLight tint + pill rounding
+                        hideDots && "bg-primary-light hover:bg-primary-light/90 !rounded-full"
                       )}
                       data-field="cta"
                     >
