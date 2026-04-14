@@ -1,6 +1,6 @@
 import { eq, and, desc, gte, sql, count, ne } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles, passwordResetTokens } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
 import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking, NewBusinessFile } from "./schema.js";
 
@@ -429,6 +429,16 @@ export async function updateUserBusinessId(id: number, businessId: string | null
 
 // --- Auth ---
 
+export async function getUserById(id: number) {
+  const db = getDb();
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, id))
+    .limit(1);
+  return user ?? null;
+}
+
 export async function getUserByEmail(email: string) {
   const db = getDb();
   const [user] = await db
@@ -445,6 +455,35 @@ export async function updateUserLastLogin(userId: number) {
     .update(users)
     .set({ lastLoginAt: new Date(), updatedAt: new Date() })
     .where(eq(users.id, userId));
+}
+
+// --- Password Reset Tokens ---
+
+export async function createPasswordResetToken(userId: number, token: string, expiresAt: Date) {
+  const db = getDb();
+  const [row] = await db
+    .insert(passwordResetTokens)
+    .values({ userId, token, expiresAt })
+    .returning();
+  return row;
+}
+
+export async function getPasswordResetToken(token: string) {
+  const db = getDb();
+  const [row] = await db
+    .select()
+    .from(passwordResetTokens)
+    .where(eq(passwordResetTokens.token, token))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function markPasswordResetTokenUsed(id: number) {
+  const db = getDb();
+  await db
+    .update(passwordResetTokens)
+    .set({ usedAt: new Date() })
+    .where(eq(passwordResetTokens.id, id));
 }
 
 export async function logLoginAttempt(email: string, ipAddress: string | null, success: boolean) {
