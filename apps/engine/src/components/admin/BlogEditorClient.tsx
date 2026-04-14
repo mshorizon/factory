@@ -34,6 +34,7 @@ export default function BlogEditorClient({
     category: blog?.category || "",
     tags: blog?.tags?.join(", ") || "",
     status: blog?.status || "draft",
+    standalone: blog?.standalone || false,
     metaTitle: blog?.metaTitle || "",
     metaDescription: blog?.metaDescription || "",
   });
@@ -263,6 +264,7 @@ export default function BlogEditorClient({
           lang,
           content, // HTML content
           tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
+          standalone: formData.standalone,
         },
       };
 
@@ -434,6 +436,20 @@ export default function BlogEditorClient({
               <option value="draft">Draft</option>
               <option value="published">Published</option>
             </select>
+          </div>
+
+          <div className="flex items-start gap-3 pt-1">
+            <input
+              type="checkbox"
+              id="standalone-toggle"
+              checked={formData.standalone}
+              onChange={(e) => setFormData({ ...formData, standalone: e.target.checked })}
+              className="mt-0.5 h-4 w-4 rounded border-border"
+            />
+            <div>
+              <label htmlFor="standalone-toggle" className="block text-sm font-medium cursor-pointer">Standalone</label>
+              <p className="text-xs text-muted-foreground mt-0.5">Hidden from /blog listing and blog sections. Embed via blog-standalone section type.</p>
+            </div>
           </div>
         </div>
       </div>

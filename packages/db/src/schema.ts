@@ -34,6 +34,7 @@ export const blogs = pgTable("blogs", {
 
   // Publishing
   status: text("status").notNull().default("draft"), // "draft" | "published"
+  standalone: boolean("standalone").notNull().default(false), // if true: hidden from /blog listing and blog sections
   publishedAt: timestamp("published_at"),
 
   // SEO

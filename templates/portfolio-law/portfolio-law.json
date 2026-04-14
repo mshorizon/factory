@@ -779,6 +779,17 @@
           }
         }
       ]
+    },
+    "informacje-dla-dluznika": {
+      "title": "Informacje dla dłużnika",
+      "navLabel": "Informacje dla dłużnika",
+      "hideFromNav": true,
+      "sections": [
+        {
+          "type": "blog-standalone",
+          "blogSlug": "informacje-dla-dluznika"
+        }
+      ]
     }
   },
   "sharedSections": {}

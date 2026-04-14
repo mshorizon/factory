@@ -1,0 +1,147 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { getBlogBySlug } from "@mshorizon/db";
+
+interface Props {
+  section: Section;
+}
+
+const { section } = Astro.props;
+const { site, currentLang } = Astro.locals;
+
+const blogSlug = (section as any).blogSlug as string | undefined;
+
+let blog = null;
+if (site && blogSlug) {
+  blog = await getBlogBySlug(site.id, blogSlug, currentLang);
+  if (!blog) {
+    blog = await getBlogBySlug(site.id, blogSlug);
+  }
+}
+---
+
+{blog && (
+  <section class="py-spacing-section-sm">
+    <div class="container mx-auto px-spacing-container">
+      <div class="max-w-3xl mx-auto">
+
+        <!-- Category + Date -->
+        {(blog.category || blog.publishedAt) && (
+          <div class="flex items-center gap-spacing-sm mb-spacing-lg">
+            {blog.category && (
+              <span class="inline-flex items-center border border-border/30 rounded-md px-2.5 py-1 text-xs font-medium text-muted">
+                {blog.category}
+              </span>
+            )}
+          </div>
+        )}
+
+        <!-- Title -->
+        <h1 class="text-4xl md:text-5xl font-heading text-foreground mb-spacing-lg">
+          {blog.title}
+        </h1>
+
+        <!-- Description -->
+        {blog.description && (
+          <p class="text-lg text-muted leading-relaxed mb-spacing-2xl">
+            {blog.description}
+          </p>
+        )}
+
+        <!-- Cover Image -->
+        {blog.image && (
+          <div class="mb-spacing-2xl">
+            <div class="relative w-full rounded-lg overflow-hidden">
+              <img
+                src={blog.image}
+                alt={blog.title}
+                class="w-full h-auto max-h-[400px] object-cover"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          </div>
+        )}
+
+        <!-- Content -->
+        <div class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
+          <Fragment set:html={blog.content} />
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .prose :global(h2) {
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .prose :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose :global(h4) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .prose :global(ul), .prose :global(ol) {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.75rem;
+  }
+
+  .prose :global(strong) {
+    font-weight: var(--fw-semibold, 600);
+  }
+
+  .prose :global(a) {
+    transition: all 0.2s ease;
+  }
+
+  .prose :global(img) {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: var(--radius);
+  }
+
+  .prose :global(blockquote) {
+    border-left: 4px solid var(--primary);
+    padding-left: 1.5rem;
+    font-style: italic;
+    color: var(--muted-foreground);
+    margin: 2rem 0;
+  }
+
+  .prose :global(code) {
+    background: var(--secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+
+  .prose :global(pre) {
+    background: var(--secondary);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    margin: 2rem 0;
+  }
+
+  .prose :global(pre code) {
+    background: transparent;
+    padding: 0;
+  }
+</style>

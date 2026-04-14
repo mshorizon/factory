@@ -42,6 +42,7 @@ export const PUT: APIRoute = async ({ request, locals }) => {
       category: blog.category || null,
       tags: blog.tags || [],
       status: blog.status || "draft",
+      standalone: blog.standalone || false,
       publishedAt,
       metaTitle: blog.metaTitle || null,
       metaDescription: blog.metaDescription || null,

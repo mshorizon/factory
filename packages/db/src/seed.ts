@@ -136,6 +136,7 @@ async function seed() {
               category: blogData.category || null,
               tags: blogData.tags || [],
               status: blogData.status || "published",
+              standalone: blogData.standalone || false,
               publishedAt: blogData.publishedAt ? new Date(blogData.publishedAt) : new Date(),
               metaTitle: blogData.metaTitle || null,
               metaDescription: blogData.metaDescription || null,

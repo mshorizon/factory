@@ -51,6 +51,7 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
     { value: "card", label: "Card" },
   ],
   blog: [{ value: "default", label: "Default" }],
+  "blog-standalone": [{ value: "default", label: "Default" }],
   process: [
     { value: "default", label: "Default" },
     { value: "visual", label: "Visual" },
@@ -773,6 +774,24 @@ function FilesFields({ section, savedSection, onUpdate, si }: { section: any; sa
   );
 }
 
+function BlogStandaloneFields({ section, savedSection, onUpdate, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
+  const updater = createFieldUpdater(section, onUpdate);
+  return (
+    <>
+      <TextField
+        label="Blog Slug"
+        value={section.blogSlug || ""}
+        savedValue={savedSection?.blogSlug || ""}
+        onChange={(v) => updater.set("blogSlug", v)}
+        placeholder="e.g. informacje-dla-dluznika"
+        sectionIndex={si}
+        fieldPath="blogSlug"
+      />
+      <p className="text-xs text-muted-foreground ml-28">Slug of the standalone blog post to embed on this page.</p>
+    </>
+  );
+}
+
 function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = createFieldUpdater(section, onUpdate);
   return (
@@ -818,6 +837,7 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
       case "team": return <TeamFields {...props} />;
       case "trustBar": return <TrustBarFields {...props} />;
       case "files": return <FilesFields {...props} />;
+      case "blog-standalone": return <BlogStandaloneFields {...props} />;
       default: return <DefaultFields {...props} />;
     }
   };
@@ -867,6 +887,7 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
             <option value="process">Process</option>
             <option value="ctaBanner">CTA Banner</option>
             <option value="blog">Blog</option>
+            <option value="blog-standalone">Blog Standalone</option>
             <option value="comparison">Comparison</option>
             <option value="team">Team</option>
             <option value="files">Files</option>

@@ -1,4 +1,4 @@
-import { eq, and, desc, gte, sql, count } from "drizzle-orm";
+import { eq, and, desc, gte, sql, count, ne } from "drizzle-orm";
 import { getDb } from "./client.js";
 import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
@@ -82,11 +82,12 @@ export async function updateSiteTranslations(
 
 // ========== Blog Queries ==========
 
-export async function getBlogsBySiteId(siteId: number, publishedOnly = true, lang?: string) {
+export async function getBlogsBySiteId(siteId: number, publishedOnly = true, lang?: string, includeStandalone = false) {
   const db = getDb();
   const conditions = [eq(blogs.siteId, siteId)];
   if (publishedOnly) conditions.push(eq(blogs.status, "published"));
   if (lang) conditions.push(eq(blogs.lang, lang));
+  if (!includeStandalone) conditions.push(eq(blogs.standalone, false));
 
   return await db
     .select()
@@ -110,7 +111,7 @@ export async function getBlogBySlug(siteId: number, slug: string, lang?: string)
 
 export async function getLatestBlogs(siteId: number, limit = 2, lang?: string) {
   const db = getDb();
-  const conditions = [eq(blogs.siteId, siteId), eq(blogs.status, "published")];
+  const conditions = [eq(blogs.siteId, siteId), eq(blogs.status, "published"), eq(blogs.standalone, false)];
   if (lang) conditions.push(eq(blogs.lang, lang));
 
   return await db

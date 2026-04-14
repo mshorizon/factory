@@ -140,9 +140,10 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "map", "ref", "booking", "pricing", "project", "comparison", "team", "events", "files"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "blog-standalone", "map", "ref", "booking", "pricing", "project", "comparison", "team", "events", "files"]
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
+        "blogSlug": { "type": "string", "title": "Blog Slug (used when type is blog-standalone)" },
         "variant": { "type": "string", "title": "Variant" },
         "background": {
           "type": "string",

@@ -139,6 +139,7 @@ export type SectionType =
   | "features"
   | "ctaBanner"
   | "blog"
+  | "blog-standalone"
   | "map"
   | "ref"
   | "booking"
@@ -149,6 +150,7 @@ export type SectionType =
   | "events"
   | "files";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
+export type BlogSlugUsedWhenTypeIsBlogStandalone = string;
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "dark-padded" | "light-padded" | "primary";
 export type BadgeText = string;
@@ -446,6 +448,7 @@ export interface Page {
 export interface Section {
   type: SectionType;
   sectionId?: SharedSectionIDUsedWhenTypeIsRef;
+  blogSlug?: BlogSlugUsedWhenTypeIsBlogStandalone;
   variant?: Variant;
   background?: SectionBackground;
   header?: SectionHeader;
