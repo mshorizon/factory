@@ -148,7 +148,7 @@
         "background": {
           "type": "string",
           "title": "Section Background",
-          "enum": ["light", "dark", "dark-padded", "light-padded", "primary"]
+          "enum": ["light", "dark", "dark-padded", "light-padded", "primary", "gradient"]
         },
         "header": { "$ref": "#/definitions/sectionHeader" },
         "backgroundImage": { "type": "string", "title": "Background Image URL" },
@@ -202,6 +202,8 @@
                 "title": "Feature Tags",
                 "items": { "type": "string" }
               },
+              "author": { "type": "string", "title": "Author Name" },
+              "role": { "type": "string", "title": "Author Role" },
               "metric": { "type": "string", "title": "Metric" },
               "metricLabel": { "type": "string", "title": "Metric Label" },
               "dateStart": { "type": "string", "title": "Start Date" },

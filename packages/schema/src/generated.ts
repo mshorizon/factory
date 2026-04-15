@@ -152,7 +152,7 @@ export type SectionType =
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type BlogSlugUsedWhenTypeIsBlogStandalone = string;
 export type Variant = string;
-export type SectionBackground = "light" | "dark" | "dark-padded" | "light-padded" | "primary";
+export type SectionBackground = "light" | "dark" | "dark-padded" | "light-padded" | "primary" | "gradient";
 export type BadgeText = string;
 export type Title = string;
 export type Subtitle = string;
@@ -174,6 +174,8 @@ export type Testimonials = {
   image?: AvatarImageURL1;
 }[];
 export type FeatureTags = string[];
+export type AuthorName = string;
+export type AuthorRole = string;
 export type Metric = string;
 export type MetricLabel = string;
 export type StartDate = string;
@@ -527,6 +529,8 @@ export interface ServiceItem {
   icon?: string;
   image?: string;
   tags?: FeatureTags;
+  author?: AuthorName;
+  role?: AuthorRole;
   metric?: Metric;
   metricLabel?: MetricLabel;
   dateStart?: StartDate;

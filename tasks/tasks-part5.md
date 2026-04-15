@@ -6,9 +6,10 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf
 
 All tasks below are in "Home" page > third section "About" section:
-- [ ] Task: change text: "O kancelarii" > "O mnie" - the same in navbar and links to /about
-- [ ] Task: replace images, download and insert into claudflare: https://framerusercontent.com/images/f1oLaSrqVCxcZ9NZwsC79KJ8NE.png?width=1024&height=1024
-- [ ] Task: dark panel in about section should have 120px (taken from spaceing of theme) bottom padding
-- [ ] Task: gap between dark panel and light panel with stats should be equal 16px
-- [ ] Task: increate gap between every stat element in white panel
-- [ ] Task: decreate text mandatory (in style) of stat description
+- [x] Task: change text: "O kancelarii" > "O mnie" - the same in navbar and links to /about
+- [x] Task: replace images, download and insert into claudflare: https://framerusercontent.com/images/f1oLaSrqVCxcZ9NZwsC79KJ8NE.png?width=1024&height=1024
+- [x] Task: dark panel in about section should have 120px (taken from spaceing of theme) bottom padding
+- [x] Task: gap between dark panel and light panel with stats should be equal 16px
+- [x] Task: increate gap between every stat element in white panel
+- [x] Task: decreate text mandatory (in style) of stat description
+- [x] Task: while scrolling now only stats values have animation of revealing > i want whole stats while panel to bu animating (revealing)

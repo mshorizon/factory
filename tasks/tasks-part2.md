@@ -6,5 +6,4 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf 
 
 All tasks below are in "Navbar" component:
-- [x] Task: border bottom of navbar should be in color 20% transparency and in primary color - only for this variant of navbar
-- [x] Task: now business icon is in size: 28x28 > should be in size: 24x24 
+- [ ] 

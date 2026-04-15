@@ -2,6 +2,8 @@ export interface TestimonialItem {
   title: string;
   description: string;
   image?: string;
+  author?: string;
+  role?: string;
 }
 
 export interface TestimonialsGridProps {

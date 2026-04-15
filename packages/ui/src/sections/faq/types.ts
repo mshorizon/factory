@@ -15,6 +15,7 @@ export interface FAQSplitProps {
   className?: string;
   title?: string;
   subtitle?: string;
+  badge?: string;
   ctaText?: string;
   ctaHref?: string;
 }

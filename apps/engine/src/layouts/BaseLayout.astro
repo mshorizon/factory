@@ -243,6 +243,11 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
         padding-top: var(--spacing-section-sm);
         padding-bottom: var(--spacing-section-sm);
       }
+      .section-bg-gradient {
+        background-image: linear-gradient(to bottom, var(--surface-gradient), var(--background));
+        padding-top: var(--spacing-section-sm);
+        padding-bottom: var(--spacing-section-sm);
+      }
     </style>
     {!isPreview && umamiWebsiteId && umamiUrl && (
       <script define:vars={{ umamiUrl, umamiWebsiteId }} is:inline>

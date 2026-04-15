@@ -6,4 +6,4 @@ Every task below have common purpose:
 * All information like mail, phoine number, data about business etc. should be taken from: https://tinyurl.com/ahxc8nhf
 
 All tasks below are in "Home" page > sixht section "contact" section:
-- [x] Task: implement whole new variant of contact section - implement as close as here: tasks/contact.png
+- [ ] Task: implement whole new variant of contact section - implement as close as here: tasks/contact.png

@@ -16,10 +16,10 @@ const header = getSectionHeader(section);
 const faqItems = section.faqItems || [];
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
-// When background is "light-padded", the wrapper supplies its own internal padding
-// via .section-bg-light-padded > *, so we strip the section's vertical padding.
-const isLightPadded = section.background === "light-padded";
-const sectionPaddingClass = isLightPadded
+
+// Sections with these backgrounds supply their own padding
+const noPaddingBgs = ["light-padded", "gradient"];
+const sectionPaddingClass = noPaddingBgs.includes(section.background as string)
   ? "py-0"
   : `py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`;
 ---
@@ -32,6 +32,7 @@ const sectionPaddingClass = isLightPadded
         items={faqItems}
         title={header.title}
         subtitle={header.subtitle}
+        badge={header.badge}
         ctaText={ctaLabel}
         ctaHref={ctaHref}
       />

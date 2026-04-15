@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Plus, Minus, ArrowRight } from "lucide-react";
+import { ChevronDown, ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { Badge } from "../../atoms/Badge";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { FAQSplitProps } from "./types";
 
@@ -11,10 +12,11 @@ export function FAQSplit({
   className,
   title,
   subtitle,
+  badge,
   ctaText,
   ctaHref,
 }: FAQSplitProps) {
-  const [openIndex, setOpenIndex] = React.useState<number | null>(null);
+  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -24,12 +26,18 @@ export function FAQSplit({
     <div className={cn("grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-spacing-3xl lg:gap-spacing-3xl", className)}>
       {/* Left column — header + CTA */}
       <div className="flex flex-col items-start">
-        <div
-          className="w-12 h-[2px] mb-spacing-lg"
-          style={{ backgroundColor: "var(--primary-dark)" }}
-          data-reveal
-          data-reveal-delay="0"
-        />
+        {badge && (
+          <div
+            data-reveal
+            data-reveal-delay="0"
+            className="flex items-center gap-spacing-sm mb-spacing-lg"
+          >
+            <span className="w-12 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
+            <Badge variant="accent" data-field="header.badge" style={{ color: "var(--primary-dark)" }}>
+              {badge}
+            </Badge>
+          </div>
+        )}
         {title && (
           <h2
             data-reveal
@@ -63,33 +71,29 @@ export function FAQSplit({
         )}
       </div>
 
-      {/* Right column — accordion items */}
-      <StaggerContainer className="flex flex-col" staggerDelay={0.06}>
+      {/* Right column — expandable cards */}
+      <StaggerContainer className="flex flex-col gap-spacing-sm" staggerDelay={0.06}>
         {items.map((item, index) => {
           const isOpen = openIndex === index;
 
           return (
             <StaggerItem key={index} direction="right" distance={15}>
               <div
-                className="border-t border-border"
+                className="bg-card rounded-radius border border-border overflow-hidden"
                 data-field={`faqItems.${index}`}
               >
                 <button
                   onClick={() => toggle(index)}
-                  className="flex w-full items-center justify-between py-spacing-lg text-left transition-colors group"
+                  className="flex w-full items-center justify-between p-spacing-lg text-left transition-colors group"
                 >
                   <span
-                    className="text-base font-medium font-heading text-foreground pr-spacing-md"
+                    className="text-base font-heading text-foreground pr-spacing-md"
                     data-field={`faqItems.${index}.question`}
                   >
                     {item.question}
                   </span>
-                  <span className="flex-shrink-0 text-foreground">
-                    {isOpen ? (
-                      <Minus className="h-5 w-5" />
-                    ) : (
-                      <Plus className="h-5 w-5" />
-                    )}
+                  <span className="flex-shrink-0 text-muted transition-transform duration-300" style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
+                    <ChevronDown className="h-5 w-5" />
                   </span>
                 </button>
                 <div
@@ -100,7 +104,7 @@ export function FAQSplit({
                 >
                   <div className="overflow-hidden">
                     <p
-                      className="pb-spacing-lg text-sm text-muted leading-relaxed"
+                      className="px-spacing-lg pb-spacing-lg text-sm font-sans text-muted leading-relaxed"
                       data-field={`faqItems.${index}.answer`}
                     >
                       {item.answer}
@@ -111,8 +115,6 @@ export function FAQSplit({
             </StaggerItem>
           );
         })}
-        {/* Bottom border for the last item */}
-        <div className="border-t border-border" />
       </StaggerContainer>
     </div>
   );

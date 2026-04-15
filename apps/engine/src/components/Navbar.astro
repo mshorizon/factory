@@ -290,15 +290,23 @@ const showCta = !hideCta && !!cta;
     const offset = navH + barH;
     const target = document.getElementById('page-hero') || document.querySelector('[data-section-index="0"]');
     if (target) {
+      // Subtract any existing CSS padding-top on the parent <main> to avoid
+      // double-padding on non-home pages that already have pt-14/lg:pt-16.
+      const mainEl = target.closest('main');
+      const existingMainPadding = mainEl
+        ? (parseFloat(getComputedStyle(mainEl).paddingTop) || 0)
+        : 0;
+      const sectionOffset = Math.max(0, offset - existingMainPadding);
+
       if (target.id === 'page-hero') {
         // Reset before measuring so resize recalculates from clean state
         target.style.paddingTop = '0';
         target.style.minHeight = '';
         const originalHeight = target.getBoundingClientRect().height;
-        target.style.paddingTop = offset + 'px';
-        target.style.minHeight = (originalHeight + offset) + 'px';
+        target.style.paddingTop = sectionOffset + 'px';
+        target.style.minHeight = (originalHeight + sectionOffset) + 'px';
       } else {
-        target.style.paddingTop = offset + 'px';
+        target.style.paddingTop = sectionOffset + 'px';
       }
     }
   }

@@ -30,7 +30,7 @@ const description = (section as any).description || header.subtitle;
 const componentBackground = section.background === "dark-padded" ? "dark" : section.background;
 ---
 
-<section class={`pt-${isHomePage ? "spacing-section" : "spacing-section-sm"} overflow-hidden`}>
+<section class={`pt-${isHomePage ? "spacing-section" : "spacing-section-sm"} pb-spacing-section overflow-hidden`}>
   <div class="container mx-auto">
     <AboutSummary
       client:visible
@@ -54,7 +54,7 @@ const componentBackground = section.background === "dark-padded" ? "dark" : sect
   </div>
 </section>
 {sectionStatsInverted && section.stats && section.stats.length > 0 && (
-  <div data-stats-breakout class={`pt-spacing-section-sm pb-spacing-3xl`}>
+  <div data-stats-breakout class={`pt-spacing-md pb-spacing-3xl`}>
     <div class="container mx-auto">
       <AboutSummaryStats client:visible stats={section.stats} />
     </div>
