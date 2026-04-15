@@ -45,6 +45,7 @@ export default function BlogEditorClient({
   const [linkMode, setLinkMode] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
   const savedSelectionRef = useRef<Range | null>(null);
+  const lastEditorSelectionRef = useRef<Range | null>(null);
 
   // Convert markdown-style links [text](url) to <a> tags in HTML content
   const convertMarkdownLinks = (html: string): string =>
@@ -59,6 +60,18 @@ export default function BlogEditorClient({
       editorRef.current.innerHTML = convertMarkdownLinks(blog.content);
     }
   }, [blog?.content]);
+
+  // Track the last valid selection within the editor so toolbar buttons can restore it
+  useEffect(() => {
+    const trackSelection = () => {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount > 0 && editorRef.current?.contains(sel.anchorNode)) {
+        lastEditorSelectionRef.current = sel.getRangeAt(0).cloneRange();
+      }
+    };
+    document.addEventListener("selectionchange", trackSelection);
+    return () => document.removeEventListener("selectionchange", trackSelection);
+  }, []);
 
   // Generate slug from title
   const generateSlug = (title: string) => {
@@ -78,7 +91,14 @@ export default function BlogEditorClient({
   };
 
   const handleFormat = (command: string, value?: string) => {
+    const sel = window.getSelection();
+    const savedRange = lastEditorSelectionRef.current;
     editorRef.current?.focus();
+    // Restore selection after focus() call (some browsers reset it)
+    if (savedRange && sel) {
+      sel.removeAllRanges();
+      sel.addRange(savedRange);
+    }
     document.execCommand(command, false, value);
   };
 

@@ -76,6 +76,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
+    if (!import.meta.env.RESEND_API_KEY) {
+      (locals.logger ?? logger).error({ endpoint: "/api/contact" }, "RESEND_API_KEY is not configured");
+      return new Response(JSON.stringify({ error: "Email service is not configured on this server." }), {
+        status: 503,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
     const { data, error } = await resend.emails.send({
@@ -134,8 +142,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    (locals.logger ?? logger).error({ err, endpoint: "/api/contact" }, "Contact form error");
-    return new Response(JSON.stringify({ error: "Failed to send message" }), {
+    const message = err instanceof Error ? err.message : "Failed to send message";
+    (locals.logger ?? logger).error({ err, message, endpoint: "/api/contact" }, "Contact form error");
+    return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });

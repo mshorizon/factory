@@ -310,7 +310,20 @@ const showCta = !hideCta && !!cta;
       }
     }
   }
-  requestAnimationFrame(updateFirstSectionPadding);
+  // Defer until DOM is fully parsed — the inline script runs before <main> is parsed,
+  // so a raw requestAnimationFrame can fire before [data-section-index="0"] exists.
+  if (document.readyState !== 'loading') {
+    requestAnimationFrame(updateFirstSectionPadding);
+  } else {
+    document.addEventListener('DOMContentLoaded', function () {
+      requestAnimationFrame(updateFirstSectionPadding);
+    });
+  }
+  // Re-run after all resources (fonts, images, OverlayScrollbar) are loaded to catch
+  // cases where layout shifts after DOMContentLoaded change the nav height.
+  window.addEventListener('load', function () {
+    requestAnimationFrame(updateFirstSectionPadding);
+  }, { once: true });
   window.addEventListener('resize', updateFirstSectionPadding, { passive: true });
 
   // --- Entrance animation (only once per session) ---
