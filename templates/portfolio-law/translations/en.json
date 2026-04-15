@@ -1,0 +1,76 @@
+{
+  "business.name": "Court Bailiff Marcin Starzec",
+
+  "nav.cta": "Contact",
+
+  "pages.home.title": "Home",
+  "pages.about.title": "About",
+  "pages.services.title": "Services",
+  "pages.blog.title": "Blog",
+  "pages.forms.title": "Files",
+  "pages.contact.title": "Contact",
+  "pages.informacje-dla-dluznika.title": "Information for Debtors",
+
+  "hero.badge": "Court Bailiff",
+  "hero.title": "Professional Court Enforcement in Otwock",
+  "hero.subtitle": "Bailiff's Office No. IX at the District Court in Otwock. Effective and timely enforcement of court orders.",
+  "hero.cta": "Contact Us",
+
+  "services.badge": "Enforcement Activities",
+  "services.title": "Full Range of Enforcement Services",
+  "services.subtitle": "We carry out all enforcement activities provided for by law, ensuring timely and professional handling.",
+  "services.cta": "See all services",
+
+  "about.badge": "About",
+  "about.title": "Court Bailiff Marcin Starzec",
+  "about.story.title": "Bailiff's Office No. IX in Otwock",
+  "about.cta": "Contact Us",
+
+  "testimonials.badge": "Testimonials",
+  "testimonials.title": "What Our Clients Say",
+  "testimonials.subtitle": "Trust and effectiveness confirmed by our clients",
+
+  "faq.badge": "FAQ",
+  "faq.title": "Frequently Asked Questions",
+  "faq.subtitle": "Didn't find an answer to your question?",
+  "faq.cta": "Contact Us",
+
+  "blog.badge": "Blog",
+  "blog.title": "Legal Updates",
+  "blog.subtitle": "Stay up to date with information on enforcement proceedings.",
+  "blog.readMore": "Read More",
+
+  "contact.badge": "Contact",
+  "contact.title": "Get in Touch",
+  "contact.subtitle": "Need legal assistance or have questions? I am at your disposal.",
+  "contact.form.nameLabel": "Full Name",
+  "contact.form.namePlaceholder": "Your full name",
+  "contact.form.emailLabel": "Email",
+  "contact.form.emailPlaceholder": "your@email.com",
+  "contact.form.messageLabel": "Message",
+  "contact.form.messagePlaceholder": "Describe your case...",
+  "contact.form.submitButton": "Send Message",
+  "contact.form.topic.label": "Topic",
+  "contact.form.topic.placeholder": "Select a topic",
+  "contact.form.topic.options.enforcement": "Enforcement Application",
+  "contact.form.topic.options.caseInfo": "Case Information",
+  "contact.form.topic.options.delivery": "Document Delivery",
+  "contact.form.topic.options.auction": "Auctions",
+  "contact.form.topic.options.other": "Other Question",
+
+  "footer.copyright": "2026 Bailiff's Office No. IX in Otwock",
+  "footer.tagline": "Court Bailiff at the District Court in Otwock. Professional and timely handling of enforcement cases.",
+  "footer.privacy": "Privacy Policy",
+  "footer.terms": "Terms of Service",
+  "footer.columns.pages.title": "Pages",
+  "footer.columns.contact.title": "Contact",
+
+  "files.badge": "Downloads",
+  "files.title": "Forms & Documents",
+  "files.subtitle": "Download the necessary forms and documents related to enforcement proceedings.",
+
+  "ctaBanner.badge": "Contact",
+  "ctaBanner.title": "Contact the Office",
+  "ctaBanner.subtitle": "Need help with an enforcement case? We are at your disposal.",
+  "ctaBanner.cta": "Contact Us"
+}

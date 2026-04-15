@@ -54,10 +54,25 @@ export default function BlogEditorClient({
       '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
     );
 
-  // Load content into editor
+  // Load content into editor and initialize block structure
   useEffect(() => {
-    if (editorRef.current && blog?.content) {
-      editorRef.current.innerHTML = convertMarkdownLinks(blog.content);
+    if (editorRef.current) {
+      // Ensure new paragraphs use <p> tags (Chrome/Edge)
+      document.execCommand("defaultParagraphSeparator", false, "p");
+
+      if (blog?.content) {
+        editorRef.current.innerHTML = convertMarkdownLinks(blog.content);
+      }
+
+      // Normalize: wrap bare text nodes in <p> so block commands work
+      const editor = editorRef.current;
+      Array.from(editor.childNodes).forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+          const p = document.createElement("p");
+          editor.insertBefore(p, node);
+          p.appendChild(node);
+        }
+      });
     }
   }, [blog?.content]);
 
@@ -90,15 +105,66 @@ export default function BlogEditorClient({
     }
   };
 
-  const handleFormat = (command: string, value?: string) => {
+  const restoreSelection = () => {
     const sel = window.getSelection();
     const savedRange = lastEditorSelectionRef.current;
     editorRef.current?.focus();
-    // Restore selection after focus() call (some browsers reset it)
     if (savedRange && sel) {
-      sel.removeAllRanges();
-      sel.addRange(savedRange);
+      try {
+        sel.removeAllRanges();
+        sel.addRange(savedRange);
+      } catch {
+        // Range may be stale, ignore
+      }
     }
+    return sel;
+  };
+
+  const handleBlockFormat = (tagName: string) => {
+    const sel = restoreSelection();
+    if (!sel || sel.rangeCount === 0) return;
+
+    const range = sel.getRangeAt(0);
+    const editor = editorRef.current;
+    if (!editor) return;
+
+    // Find the nearest block ancestor within the editor
+    let node: Node | null = range.startContainer;
+    while (node && node !== editor) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const tag = (node as HTMLElement).tagName.toLowerCase();
+        if (["p", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "div", "li"].includes(tag)) break;
+      }
+      node = node.parentNode;
+    }
+
+    if (node && node !== editor) {
+      // Replace existing block element tag
+      const oldEl = node as HTMLElement;
+      const newEl = document.createElement(tagName);
+      while (oldEl.firstChild) newEl.appendChild(oldEl.firstChild);
+      Array.from(oldEl.attributes).forEach((a) => newEl.setAttribute(a.name, a.value));
+      oldEl.parentNode?.replaceChild(newEl, oldEl);
+
+      // Restore caret inside new element
+      const newRange = document.createRange();
+      newRange.selectNodeContents(newEl);
+      newRange.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+      lastEditorSelectionRef.current = newRange.cloneRange();
+    } else {
+      // Fallback: use execCommand with angle brackets (Firefox requires them)
+      document.execCommand("formatBlock", false, `<${tagName}>`);
+    }
+  };
+
+  const handleFormat = (command: string, value?: string) => {
+    if (command === "formatBlock" && value) {
+      handleBlockFormat(value);
+      return;
+    }
+    restoreSelection();
     document.execCommand(command, false, value);
   };
 

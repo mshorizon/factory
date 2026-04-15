@@ -8,11 +8,12 @@ Every task below have common purpose:
 Next tasks:
 * [x] Task: resolve all from file root folder >  tasks/tasks-fixes.md
 * [x] Task: resolve all from file root folder >  tasks/tasks-admin-panel.md
-* [x] Task: resolve all from file root folder >  tasks/tasks-navbar.md
-* [x] Task: resolve all from file root folder >  tasks/tasks-hero.md
-* [x] Task: resolve all from file root folder >  tasks/tasks-services.md
-* [x] Task: resolve all from file root folder >  tasks/tasks-about.md
-* [x] Task: resolve all from file root folder >  tasks/tasks-faq.md
-* [x] Task: resolve all from file root folder >  tasks/tasks-contact.md
-* [x] Task: resolve all from file root folder >  tasks/tasks-footer.md
-* [x] Task: resolve all from file root folder >  tasks/tasks-blog.md
+* [x] [ALL_DONE] Task: resolve all from file root folder >  tasks/tasks-navbar.md
+* [x] [ALL_DONE] Task: resolve all from file root folder >  tasks/tasks-hero.md
+* [x] [ALL_DONE] Task: resolve all from file root folder >  tasks/tasks-services.md
+* [ ] Task: resolve all from file root folder >  tasks/tasks-about.md
+* [ ] Task: resolve all from file root folder >  tasks/tasks-testimonials.md
+* [ ] Task: resolve all from file root folder >  tasks/tasks-faq.md
+* [ ] Task: resolve all from file root folder >  tasks/tasks-blog.md
+* [x] [ALL_DONE] Task: resolve all from file root folder >  tasks/tasks-contact.md
+* [ ] Task: resolve all from file root folder >  tasks/tasks-footer.md

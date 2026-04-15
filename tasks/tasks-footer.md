@@ -1,6 +1,8 @@
 # Tasks
 
 All tasks below are in "footer" component:
-- [x] Task: footer should have props/option from business json > to be rounding and whole footer should have 16px padding and rounding
-- [x] Task: business name - shorter "Marcin Starzec"
-- [x] Task: whole footer should have gradient from bottom primaryDark to top primary color
+- [ ] Task: footer should have rounding and whole footer should have 16px padding around
+- [ ] Task: business name in footer should be shorter "Marcin Starzec"
+- [ ] Task: whole footer should have gradient from bottom primaryDark to top primary color
+- [ ] Task: business description should be les primary: grey/secondary font color and secondary font.
+- [ ] Alle texts between Strony and Kontakt should be less mandatory grey/seconrady font color

@@ -1,0 +1,76 @@
+{
+  "business.name": "Komornik Sądowy Marcin Starzec",
+
+  "nav.cta": "Kontakt",
+
+  "pages.home.title": "Strona główna",
+  "pages.about.title": "O mnie",
+  "pages.services.title": "Usługi",
+  "pages.blog.title": "Blog",
+  "pages.forms.title": "Pliki",
+  "pages.contact.title": "Kontakt",
+  "pages.informacje-dla-dluznika.title": "Informacje dla dłużnika",
+
+  "hero.badge": "Komornik Sądowy",
+  "hero.title": "Profesjonalna egzekucja sądowa w Otwocku",
+  "hero.subtitle": "Kancelaria Komornicza nr IX przy Sądzie Rejonowym w Otwocku. Skuteczna i terminowa realizacja tytułów wykonawczych.",
+  "hero.cta": "Skontaktuj się",
+
+  "services.badge": "Czynności komornicze",
+  "services.title": "Pełen zakres usług egzekucyjnych",
+  "services.subtitle": "Realizujemy wszystkie czynności komornicze przewidziane przepisami prawa, zapewniając terminową i profesjonalną obsługę.",
+  "services.cta": "Zobacz wszystkie usługi",
+
+  "about.badge": "O mnie",
+  "about.title": "Komornik Sądowy Marcin Starzec",
+  "about.story.title": "Kancelaria Komornicza nr IX w Otwocku",
+  "about.cta": "Skontaktuj się",
+
+  "testimonials.badge": "Opinie",
+  "testimonials.title": "Co mówią nasi klienci",
+  "testimonials.subtitle": "Zaufanie i skuteczność potwierdzone przez naszych klientów",
+
+  "faq.badge": "FAQ",
+  "faq.title": "Często zadawane pytania",
+  "faq.subtitle": "Nie znalazłeś odpowiedzi na swoje pytanie?",
+  "faq.cta": "Skontaktuj się",
+
+  "blog.badge": "Blog",
+  "blog.title": "Aktualności prawne",
+  "blog.subtitle": "Bądź na bieżąco z informacjami dotyczącymi postępowań egzekucyjnych.",
+  "blog.readMore": "Czytaj więcej",
+
+  "contact.badge": "Kontakt",
+  "contact.title": "Skontaktuj się z nami",
+  "contact.subtitle": "Potrzebujesz pomocy prawnej lub masz pytania? Jestem do Twojej dyspozycji.",
+  "contact.form.nameLabel": "Imię i nazwisko",
+  "contact.form.namePlaceholder": "Twoje imię i nazwisko",
+  "contact.form.emailLabel": "Email",
+  "contact.form.emailPlaceholder": "twoj@email.pl",
+  "contact.form.messageLabel": "Wiadomość",
+  "contact.form.messagePlaceholder": "Opisz swoją sprawę...",
+  "contact.form.submitButton": "Wyślij wiadomość",
+  "contact.form.topic.label": "Temat",
+  "contact.form.topic.placeholder": "Wybierz temat",
+  "contact.form.topic.options.enforcement": "Wniosek egzekucyjny",
+  "contact.form.topic.options.caseInfo": "Informacja o sprawie",
+  "contact.form.topic.options.delivery": "Doręczenie korespondencji",
+  "contact.form.topic.options.auction": "Licytacje",
+  "contact.form.topic.options.other": "Inne pytanie",
+
+  "footer.copyright": "2026 Kancelaria Komornicza nr IX w Otwocku",
+  "footer.tagline": "Komornik Sądowy przy Sądzie Rejonowym w Otwocku. Profesjonalna i terminowa obsługa spraw egzekucyjnych.",
+  "footer.privacy": "Polityka prywatności",
+  "footer.terms": "Regulamin",
+  "footer.columns.pages.title": "Strony",
+  "footer.columns.contact.title": "Kontakt",
+
+  "files.badge": "Do pobrania",
+  "files.title": "Formularze i dokumenty",
+  "files.subtitle": "Pobierz niezbędne formularze i dokumenty związane z postępowaniem egzekucyjnym.",
+
+  "ctaBanner.badge": "Kontakt",
+  "ctaBanner.title": "Skontaktuj się z kancelarią",
+  "ctaBanner.subtitle": "Potrzebujesz pomocy w sprawie egzekucyjnej? Jesteśmy do dyspozycji.",
+  "ctaBanner.cta": "Skontaktuj się"
+}

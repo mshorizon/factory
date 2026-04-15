@@ -1,9 +1,9 @@
 import type { APIRoute } from "astro";
 import { getSiteBySubdomain, updateSiteUmamiId } from "@mshorizon/db";
 
-const UMAMI_URL = import.meta.env.UMAMI_URL;
-const UMAMI_USERNAME = import.meta.env.UMAMI_USERNAME;
-const UMAMI_PASSWORD = import.meta.env.UMAMI_PASSWORD;
+const UMAMI_URL = import.meta.env.UMAMI_URL || process.env.UMAMI_URL;
+const UMAMI_USERNAME = import.meta.env.UMAMI_USERNAME || process.env.UMAMI_USERNAME;
+const UMAMI_PASSWORD = import.meta.env.UMAMI_PASSWORD || process.env.UMAMI_PASSWORD;
 
 // Cache token in memory (valid ~24h in Umami)
 let cachedToken: { token: string; expiresAt: number } | null = null;

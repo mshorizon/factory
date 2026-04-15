@@ -1,7 +1,6 @@
 # Tasks
 
 All tasks below:
-* [x] fix bug: sometimes after open any of busienss website > first section doesnt have additional top padding - this padding is mandatory because without this padding first section is under navbar
 * [x] sending email in /contact page: curl 'https://portfolio-law.hazelgrouse.pl/api/contact' \
   -H 'accept: */*' \
   -H 'accept-language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7' \

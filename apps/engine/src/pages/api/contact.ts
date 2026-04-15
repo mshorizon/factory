@@ -98,11 +98,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, "<br>")}</p>
       `,
+      text: `New Contact Form Submission\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     });
 
     if (error) {
+      const errMsg = error.message ?? JSON.stringify(error);
       (locals.logger ?? logger).error({ err: error, endpoint: "/api/contact" }, "Resend error");
-      return new Response(JSON.stringify({ error: error.message }), {
+      return new Response(JSON.stringify({ error: errMsg }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
@@ -142,9 +144,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Failed to send message";
+    const message = err instanceof Error ? err.message : (typeof err === "string" ? err : JSON.stringify(err));
     (locals.logger ?? logger).error({ err, message, endpoint: "/api/contact" }, "Contact form error");
-    return new Response(JSON.stringify({ error: message }), {
+    return new Response(JSON.stringify({ error: message || "Failed to send message" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
