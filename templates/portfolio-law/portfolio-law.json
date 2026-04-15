@@ -121,7 +121,7 @@
               }
             },
             {
-              "label": "O kancelarii",
+              "label": "O mnie",
               "target": {
                 "type": "page",
                 "value": "about"
@@ -335,11 +335,11 @@
           "ctaColor": "#FFFFFF",
           "statsInverted": true,
           "header": {
-            "badge": "O kancelarii",
+            "badge": "O mnie",
             "title": "Skuteczna i rzetelna egzekucja sądowa",
             "subtitle": "Kancelaria Komornicza nr IX w Otwocku prowadzona przez Komornika Sądowego Marcina Starzec zapewnia profesjonalną obsługę spraw egzekucyjnych. Gwarantujemy elektroniczną wymianę korespondencji, terminową realizację wniosków egzekucyjnych oraz generowanie raportów z podjętych czynności dla wierzycieli."
           },
-          "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=500&fit=crop",
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
           "cta": {
             "label": "Więcej o kancelarii",
             "target": {
@@ -378,24 +378,31 @@
           "items": [
             {
               "title": "Profesjonalna i sprawna obsługa",
-              "description": "Komornik Starzec i jego zespół przeprowadzili cały proces terminowo, informując nas na bieżąco o każdym etapie postępowania. Polecam każdemu, kto szuka skutecznej i rzetelnej kancelarii komorniczej."
+              "description": "Komornik Starzec i jego zespół przeprowadzili cały proces terminowo, informując nas na bieżąco o każdym etapie postępowania. Polecam każdemu, kto szuka skutecznej i rzetelnej kancelarii komorniczej.",
+              "author": "Marek Wiśniewski",
+              "role": "Wierzyciel"
             },
             {
               "title": "Rzetelność i transparentność",
-              "description": "Szybka realizacja wniosków egzekucyjnych i pełna transparentność działań. Kancelaria, której można zaufać na każdym etapie współpracy."
+              "description": "Szybka realizacja wniosków egzekucyjnych i pełna transparentność działań. Kancelaria, której można zaufać na każdym etapie współpracy.",
+              "author": "Anna Kowalska",
+              "role": "Przedsiębiorca"
             },
             {
               "title": "Nowoczesna komunikacja",
-              "description": "Sprawna komunikacja elektroniczna i terminowa realizacja. Kancelaria korzysta z nowoczesnych systemów, co znacząco przyspiesza cały proces egzekucyjny."
+              "description": "Sprawna komunikacja elektroniczna i terminowa realizacja. Kancelaria korzysta z nowoczesnych systemów, co znacząco przyspiesza cały proces egzekucyjny.",
+              "author": "Piotr Nowak",
+              "role": "Wierzyciel"
             }
           ]
         },
         {
           "type": "faq",
           "variant": "split",
-          "background": "light-padded",
+          "background": "light",
           "header": {
-            "title": "FAQ",
+            "badge": "FAQ",
+            "title": "Często zadawane pytania",
             "subtitle": "Nie znalazłeś odpowiedzi na swoje pytanie?"
           },
           "cta": {
@@ -430,7 +437,7 @@
         },
         {
           "type": "blog",
-          "variant": "default",
+          "variant": "cards",
           "header": {
             "badge": "Blog",
             "title": "Aktualności prawne",
@@ -476,14 +483,14 @@
       ]
     },
     "about": {
-      "title": "O kancelarii",
-      "navLabel": "O kancelarii",
+      "title": "O mnie",
+      "navLabel": "O mnie",
       "sections": [
         {
           "type": "about",
           "variant": "story",
           "header": {
-            "badge": "O kancelarii",
+            "badge": "O mnie",
             "title": "Komornik Sądowy Marcin Starzec"
           },
           "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=600&fit=crop",
@@ -688,8 +695,8 @@
       "sections": []
     },
     "forms": {
-      "title": "Formularze",
-      "navLabel": "Formularze",
+      "title": "Pliki",
+      "navLabel": "Pliki",
       "sections": [
         {
           "type": "files",

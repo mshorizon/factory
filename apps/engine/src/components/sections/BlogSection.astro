@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { BlogGrid, SectionHeader } from "@mshorizon/ui";
+import { BlogGrid, BlogCards, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 import { getLatestBlogs } from "@mshorizon/db";
 import type { BlogPost } from "@mshorizon/ui/sections/blog/types";
@@ -16,11 +16,13 @@ const { site, currentLang } = Astro.locals;
 
 const header = getSectionHeader(section);
 const ctaLabel = section.ctaLabel || "Czytaj więcej";
+const isCards = section.variant === "cards";
 
-// Fetch latest 2 blogs in current language, fallback to all languages
-let blogs = site ? await getLatestBlogs(site.id, 2, currentLang) : [];
+// Fetch latest blogs — cards variant shows 3, default shows 2
+const postCount = isCards ? 3 : 2;
+let blogs = site ? await getLatestBlogs(site.id, postCount, currentLang) : [];
 if (blogs.length === 0 && site) {
-  blogs = await getLatestBlogs(site.id, 2);
+  blogs = await getLatestBlogs(site.id, postCount);
 }
 
 // Transform blogs to BlogPost[] format
@@ -40,16 +42,33 @@ const posts: BlogPost[] = blogs.map((blog) => ({
 {posts.length > 0 && (
   <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
     <div class="container mx-auto px-spacing-container">
-      <SectionHeader
-        badge={header.badge}
-        title={header.title}
-        subtitle={header.subtitle}
-        layout="split"
-        align="left"
-        background={section.background}
-        badgeVariant={badgeVariant as any}
-      />
-      <BlogGrid client:visible posts={posts} ctaLabel={ctaLabel} />
+      {isCards ? (
+        <>
+          <SectionHeader
+            badge={header.badge}
+            title={header.title}
+            subtitle={header.subtitle}
+            layout="stacked"
+            align="center"
+            background={section.background}
+            badgeVariant="text"
+          />
+          <BlogCards client:visible posts={posts} ctaLabel={ctaLabel} />
+        </>
+      ) : (
+        <>
+          <SectionHeader
+            badge={header.badge}
+            title={header.title}
+            subtitle={header.subtitle}
+            layout="split"
+            align="left"
+            background={section.background}
+            badgeVariant={badgeVariant as any}
+          />
+          <BlogGrid client:visible posts={posts} ctaLabel={ctaLabel} />
+        </>
+      )}
     </div>
   </section>
 )}

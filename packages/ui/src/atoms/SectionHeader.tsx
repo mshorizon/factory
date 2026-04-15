@@ -10,7 +10,7 @@ export interface SectionHeaderProps {
   layout?: "stacked" | "split" | "most-minimalistic" | "none";
   className?: string;
   background?: string;
-  badgeVariant?: "accent" | "outlined";
+  badgeVariant?: "accent" | "outlined" | "text";
 }
 
 export function SectionHeader({
@@ -39,6 +39,19 @@ export function SectionHeader({
 
   const renderBadge = () => {
     if (!badge) return null;
+    if (resolvedBadgeVariant === "text") {
+      return (
+        <div data-reveal data-reveal-delay="0" className={cn(
+          "flex items-center mb-spacing-sm",
+          align === "center" && "justify-center",
+          align === "right" && "justify-end"
+        )}>
+          <span className="text-xs font-semibold text-muted uppercase tracking-widest" data-field="header.badge">
+            {badge}
+          </span>
+        </div>
+      );
+    }
     if (resolvedBadgeVariant === "outlined") {
       return (
         <div data-reveal data-reveal-delay="0" className={cn(
