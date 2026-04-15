@@ -387,7 +387,12 @@ export default function AdminForm({
   }, [activeTab, businessId]);
 
   const pages = formData.pages as Record<string, unknown> | undefined;
-  const pageNames = pages ? Object.keys(pages) : [];
+  const pageNames = useMemo(() => {
+    const names = pages ? Object.keys(pages) : [];
+    const home = names.filter((n) => n === "home");
+    const others = names.filter((n) => n !== "home");
+    return [...home, ...others];
+  }, [pages]);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
@@ -1901,7 +1906,7 @@ export default function AdminForm({
 
           {/* Content area */}
           <div className="flex-1 overflow-y-auto admin-form-area">
-            <div className="p-6">
+            <div className="p-6 max-w-[448px]">
               {getTabContent()}
             </div>
           </div>

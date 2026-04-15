@@ -54,9 +54,34 @@ const componentBackground = section.background === "dark-padded" ? "dark" : sect
   </div>
 </section>
 {sectionStatsInverted && section.stats && section.stats.length > 0 && (
-  <div data-stats-breakout class={`pt-spacing-md pb-spacing-3xl`}>
+  <div data-stats-breakout class={`mt-spacing-md pt-spacing-md pb-spacing-3xl`}>
     <div class="container mx-auto">
       <AboutSummaryStats client:visible stats={section.stats} />
     </div>
   </div>
 )}
+
+<style>
+  :global([data-stats-breakout]) {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  :global([data-stats-breakout].stats-revealed) {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+
+<script>
+  const panels = document.querySelectorAll('[data-stats-breakout]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('stats-revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '-50px' });
+  panels.forEach(el => observer.observe(el));
+</script>

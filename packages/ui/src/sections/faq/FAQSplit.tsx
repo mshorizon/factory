@@ -30,10 +30,10 @@ export function FAQSplit({
           <div
             data-reveal
             data-reveal-delay="0"
-            className="flex items-center gap-spacing-sm mb-spacing-lg"
+            className="flex flex-col items-start gap-spacing-sm mb-spacing-lg"
           >
-            <span className="w-12 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
-            <Badge variant="accent" data-field="header.badge" style={{ color: "var(--primary-dark)" }}>
+            <div className="w-8 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
+            <Badge variant="accent" data-field="header.badge" className="px-0 py-0 text-[14px] tracking-[.05rem] uppercase font-medium" style={{ color: "var(--primary-dark)" }}>
               {badge}
             </Badge>
           </div>
@@ -79,7 +79,7 @@ export function FAQSplit({
           return (
             <StaggerItem key={index} direction="right" distance={15}>
               <div
-                className="bg-card rounded-radius border border-border overflow-hidden"
+                className="bg-card rounded-radius border border-border/60 overflow-hidden"
                 data-field={`faqItems.${index}`}
               >
                 <button
@@ -87,7 +87,7 @@ export function FAQSplit({
                   className="flex w-full items-center justify-between p-spacing-lg text-left transition-colors group"
                 >
                   <span
-                    className="text-base font-heading text-foreground pr-spacing-md"
+                    className="text-lg font-heading text-foreground pr-spacing-md leading-snug"
                     data-field={`faqItems.${index}.question`}
                   >
                     {item.question}

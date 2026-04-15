@@ -86,7 +86,7 @@ const cssVars: Record<string, string> = {
   maxFontWeight: (theme as any).maxFontWeight || "900",
   navFontSize: (theme as any).navFontSize || "16px",
   navLogoSize: (theme as any).navLogoSize || "24px",
-  navLogoWeight: (theme as any).navLogoWeight || "600",
+  navLogoWeight: (theme as any).navLogoWeight || (theme as any).maxFontWeight || "600",
   badgeFontSize: (theme as any).badgeFontSize || "16px",
   spacingXs: theme.ui?.spacing?.xs || "0.5rem",
   spacingSm: theme.ui?.spacing?.sm || "0.75rem",
@@ -245,8 +245,6 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
       }
       .section-bg-gradient {
         background-image: linear-gradient(to bottom, var(--surface-gradient), var(--background));
-        padding-top: var(--spacing-section-sm);
-        padding-bottom: var(--spacing-section-sm);
       }
     </style>
     {!isPreview && umamiWebsiteId && umamiUrl && (
