@@ -128,7 +128,7 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
 
     // Send confirmation email + notification to owner (non-blocking)
     const businessConfig = deepTranslate(translations, site.config as any);
-    const resendApiKey = import.meta.env.RESEND_API_KEY;
+    const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
     const baseUrl = `${new URL(request.url).protocol}//${request.headers.get("host")}`;
 
     sendBookingConfirmationEmail(booking, businessConfig, resendApiKey, baseUrl).catch(() => {});

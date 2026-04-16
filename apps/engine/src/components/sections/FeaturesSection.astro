@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { FeaturesGrid, FeaturesCompact, FeaturesGradient, SectionHeader } from "@mshorizon/ui";
+import { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -35,6 +35,8 @@ const items = rawItems.map((item: any) => ({
       <FeaturesCompact client:visible items={items} />
     ) : variant === "gradient" ? (
       <FeaturesGradient client:visible items={items} />
+    ) : variant === "icon-tiles" ? (
+      <FeaturesIconTiles client:visible items={items} />
     ) : (
       <FeaturesGrid client:visible items={items} />
     )}

@@ -56,10 +56,20 @@ fi
 log "Task runner started | file: $TASKS_FILE | poll: ${POLL_INTERVAL}s"
 notify "Task runner started"
 
+TASKS_PROCESSED=false
+
 while true; do
     TASK_LINE=$(get_next_task)
 
     if [ -z "$TASK_LINE" ]; then
+        if $TASKS_PROCESSED; then
+            log "All tasks done — committing changes..."
+            notify "All tasks done. Committing..."
+            claude -p "Commit all current changes to git. Write a concise commit message summarising what was done." --dangerously-skip-permissions
+            log "Commit done."
+            notify "Commit done"
+            TASKS_PROCESSED=false
+        fi
         if $ONCE_MODE; then
             log "No pending tasks. Exiting (--once mode)."
             exit 0
@@ -78,8 +88,10 @@ while true; do
     notify "Running: $TASK_TEXT"
 
     # Run claude non-interactively — fresh context per task, CLAUDE.md auto-loaded
-    if claude -p "$TASK_TEXT"; then
+    # --dangerously-skip-permissions required: no human present to approve prompts in background mode
+    if claude -p "$TASK_TEXT" --dangerously-skip-permissions; then
         mark_done "$LINE_NUM"
+        TASKS_PROCESSED=true
         log "✓ Done: $TASK_TEXT"
         notify "Done: $TASK_TEXT"
     else

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { ContactCTAProps } from "./types";
@@ -57,21 +57,14 @@ export function ContactMinimal({
           </p>
         )}
         {ctaLabel && (
-          <div className="flex items-center gap-spacing-xs mt-spacing-sm">
+          <div className="mt-spacing-sm">
             <a
               href={ctaHref}
-              className="inline-flex items-center bg-primary text-on-primary rounded-full px-7 py-3 text-base font-medium hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-spacing-sm bg-primary text-on-primary rounded-full px-8 py-3.5 text-base font-semibold hover:bg-primary/90 transition-colors group"
               onClick={trackClick}
             >
               {ctaLabel}
-            </a>
-            <a
-              href={ctaHref}
-              className="inline-flex items-center justify-center bg-primary text-on-primary rounded-full w-11 h-11 hover:bg-primary/90 transition-colors"
-              aria-label={ctaLabel}
-              onClick={trackClick}
-            >
-              <ArrowUpRight className="h-5 w-5" />
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </a>
           </div>
         )}

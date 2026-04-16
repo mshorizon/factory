@@ -11,4 +11,5 @@ export interface BlogGridProps {
   posts: BlogPost[];
   ctaLabel?: string;
   className?: string;
+  withCard?: boolean;
 }

@@ -1,7 +1,7 @@
 {
   "business": {
     "id": "portfolio-law-001",
-    "name": "Komornik Sądowy Marcin Starzec",
+    "name": "t:business.name",
     "industry": "legal",
     "assets": {
       "favicon": "/assets/portfolio-law-favicon.svg",
@@ -101,8 +101,8 @@
     "footer": {
       "variant": "multiColumn",
       "name": "Marcin Starzec",
-      "copyright": "2026 Kancelaria Komornicza nr IX w Otwocku",
-      "tagline": "Komornik Sądowy przy Sądzie Rejonowym w Otwocku. Profesjonalna i terminowa obsługa spraw egzekucyjnych.",
+      "copyright": "t:footer.copyright",
+      "tagline": "t:footer.tagline",
       "background": {
         "enabled": true,
         "padding": "16px",
@@ -111,45 +111,45 @@
       },
       "columns": [
         {
-          "title": "Strony",
+          "title": "t:footer.columns.pages.title",
           "links": [
             {
-              "label": "Strona główna",
+              "label": "t:pages.home.title",
               "target": {
                 "type": "page",
                 "value": "home"
               }
             },
             {
-              "label": "O mnie",
+              "label": "t:pages.about.title",
               "target": {
                 "type": "page",
                 "value": "about"
               }
             },
             {
-              "label": "Usługi",
+              "label": "t:pages.services.title",
               "target": {
                 "type": "page",
                 "value": "services"
               }
             },
             {
-              "label": "Blog",
+              "label": "t:pages.blog.title",
               "target": {
                 "type": "page",
                 "value": "blog"
               }
             },
             {
-              "label": "Kontakt",
+              "label": "t:pages.contact.title",
               "target": {
                 "type": "page",
                 "value": "contact"
               }
             },
             {
-              "label": "Informacje dla dłużnika",
+              "label": "t:pages.informacje-dla-dluznika.title",
               "target": {
                 "type": "page",
                 "value": "informacje-dla-dluznika"
@@ -158,7 +158,7 @@
           ]
         },
         {
-          "title": "Kontakt",
+          "title": "t:footer.columns.contact.title",
           "links": [
             {
               "label": "otwock.starzec@komornik.pl",
@@ -175,7 +175,7 @@
               }
             },
             {
-              "label": "Formularz kontaktowy",
+              "label": "t:contact.title",
               "target": {
                 "type": "page",
                 "value": "contact"
@@ -188,7 +188,7 @@
   },
   "navigation": {
     "cta": {
-      "label": "Kontakt",
+      "label": "t:nav.cta",
       "target": {
         "type": "page",
         "value": "contact"
@@ -256,7 +256,7 @@
   "pages": {
     "home": {
       "title": "Komornik Sądowy Otwock",
-      "navLabel": "Strona główna",
+      "navLabel": "t:pages.home.title",
       "sections": [
         {
           "type": "hero",
@@ -264,13 +264,13 @@
           "hideDots": true,
           "badgeLayout": "column",
           "header": {
-            "badge": "Komornik Sądowy",
-            "title": "Profesjonalna egzekucja sądowa w Otwocku",
-            "subtitle": "Kancelaria Komornicza nr IX przy Sądzie Rejonowym w Otwocku. Skuteczna i terminowa realizacja tytułów wykonawczych."
+            "badge": "t:hero.badge",
+            "title": "t:hero.title",
+            "subtitle": "t:hero.subtitle"
           },
           "image": "/assets/portfolio-law-hero.png",
           "cta": {
-            "label": "Skontaktuj się",
+            "label": "t:hero.cta",
             "target": {
               "type": "page",
               "value": "contact"
@@ -317,12 +317,53 @@
             }
           ],
           "cta": {
-            "label": "Zobacz wszystkie usługi",
+            "label": "t:services.cta",
             "target": {
               "type": "page",
               "value": "services"
             }
           }
+        },
+        {
+          "type": "features",
+          "variant": "icon-tiles",
+          "header": {
+            "badge": "Systemy",
+            "title": "Nowoczesne narzędzia kancelarii",
+            "subtitle": "Korzystamy z najnowszych systemów informatycznych zapewniających sprawną i efektywną obsługę spraw."
+          },
+          "items": [
+            {
+              "title": "EPU",
+              "description": "Elektroniczne Postępowanie Upominawcze — prowadzenie postępowań w oparciu o elektroniczny tytuł wykonawczy.",
+              "icon": "monitor"
+            },
+            {
+              "title": "OGNIVO",
+              "description": "System bankowy umożliwiający elektroniczną wymianę informacji pomiędzy komornikiem a bankami.",
+              "icon": "building"
+            },
+            {
+              "title": "PUE ZUS",
+              "description": "Platforma Usług Elektronicznych ZUS do poszukiwania źródeł dochodów i majątku dłużnika.",
+              "icon": "search"
+            },
+            {
+              "title": "CEPIK",
+              "description": "Centralna baza danych o pojazdach mechanicznych, ich właścicielach i posiadaczach.",
+              "icon": "car"
+            },
+            {
+              "title": "Komornik Online",
+              "description": "Moduł umożliwiający wierzycielom zdalny wgląd do akt sprawy przez przeglądarkę internetową.",
+              "icon": "globe"
+            },
+            {
+              "title": "ePUAP",
+              "description": "Elektroniczna Platforma Usług Administracji Publicznej do wymiany dokumentów z urzędami.",
+              "icon": "file-text"
+            }
+          ]
         },
         {
           "type": "about-summary",
@@ -335,7 +376,7 @@
           "ctaColor": "#FFFFFF",
           "statsInverted": true,
           "header": {
-            "badge": "O mnie",
+            "badge": "t:about.badge",
             "title": "Skuteczna i rzetelna egzekucja sądowa",
             "subtitle": "Kancelaria Komornicza nr IX w Otwocku prowadzona przez Komornika Sądowego Marcina Starzec zapewnia profesjonalną obsługę spraw egzekucyjnych. Gwarantujemy elektroniczną wymianę korespondencji, terminową realizację wniosków egzekucyjnych oraz generowanie raportów z podjętych czynności dla wierzycieli."
           },
@@ -370,9 +411,9 @@
           "type": "testimonials",
           "variant": "centered",
           "header": {
-            "badge": "Opinie",
-            "title": "Co mówią nasi klienci",
-            "subtitle": "Zaufanie i skuteczność potwierdzone przez naszych klientów",
+            "badge": "t:testimonials.badge",
+            "title": "t:testimonials.title",
+            "subtitle": "t:testimonials.subtitle",
             "layout": "none"
           },
           "items": [
@@ -401,12 +442,11 @@
           "variant": "split",
           "background": "light",
           "header": {
-            "badge": "FAQ",
-            "title": "Często zadawane pytania",
-            "subtitle": "Nie znalazłeś odpowiedzi na swoje pytanie?"
+            "title": "t:faq.title",
+            "subtitle": "t:faq.subtitle"
           },
           "cta": {
-            "label": "Skontaktuj się",
+            "label": "t:faq.cta",
             "target": {
               "type": "page",
               "value": "contact"
@@ -437,11 +477,11 @@
         },
         {
           "type": "blog",
-          "variant": "cards",
+          "variant": "cards-light",
           "header": {
-            "badge": "Blog",
-            "title": "Aktualności prawne",
-            "subtitle": "Bądź na bieżąco z informacjami dotyczącymi postępowań egzekucyjnych."
+            "badge": "t:blog.badge",
+            "title": "t:blog.title",
+            "subtitle": "t:blog.subtitle"
           },
           "blogPosts": [
             {
@@ -468,12 +508,12 @@
           "type": "contact",
           "variant": "minimal",
           "header": {
-            "badge": "Kontakt",
-            "title": "Skontaktuj się z nami",
-            "subtitle": "Potrzebujesz pomocy prawnej lub masz pytania? Jestem do Twojej dyspozycji."
+            "badge": "t:contact.badge",
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
           },
           "cta": {
-            "label": "Skontaktuj się",
+            "label": "t:ctaBanner.cta",
             "target": {
               "type": "page",
               "value": "contact"
@@ -484,18 +524,18 @@
     },
     "about": {
       "title": "O mnie",
-      "navLabel": "O mnie",
+      "navLabel": "t:pages.about.title",
       "sections": [
         {
           "type": "about",
           "variant": "story",
           "header": {
-            "badge": "O mnie",
-            "title": "Komornik Sądowy Marcin Starzec"
+            "badge": "t:about.badge",
+            "title": "t:about.title"
           },
           "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=600&fit=crop",
           "story": {
-            "title": "Kancelaria Komornicza nr IX w Otwocku",
+            "title": "t:about.story.title",
             "content": "Kancelaria Komornicza nr IX w Otwocku prowadzona jest przez Komornika Sądowego przy Sądzie Rejonowym w Otwocku — Marcina Starzec. Zapewniamy profesjonalną, terminową i zgodną z przepisami prawa obsługę wszystkich spraw egzekucyjnych.\n\nNasza kancelaria korzysta z najnowszych systemów informatycznych, w tym CEPIK, EPU, PUE ZUS, ePUAP, OGNIVO oraz oprogramowania firmy KOMORNIK.IT, co pozwala na sprawną i efektywną realizację wniosków egzekucyjnych. Gwarantujemy elektroniczną wymianę korespondencji, terminową realizację wniosków o doręczenie oraz generowanie raportów z podjętych czynności dla wierzycieli."
           },
           "commitment": {
@@ -517,7 +557,7 @@
             }
           ],
           "cta": {
-            "label": "Skontaktuj się",
+            "label": "t:about.cta",
             "target": {
               "type": "page",
               "value": "contact"
@@ -571,12 +611,12 @@
           "type": "ctaBanner",
           "variant": "default",
           "header": {
-            "badge": "Kontakt",
-            "title": "Skontaktuj się z kancelarią",
-            "subtitle": "Potrzebujesz pomocy w sprawie egzekucyjnej? Jesteśmy do dyspozycji."
+            "badge": "t:ctaBanner.badge",
+            "title": "t:ctaBanner.title",
+            "subtitle": "t:ctaBanner.subtitle"
           },
           "cta": {
-            "label": "Skontaktuj się",
+            "label": "t:ctaBanner.cta",
             "target": {
               "type": "page",
               "value": "contact"
@@ -587,15 +627,15 @@
     },
     "services": {
       "title": "Usługi",
-      "navLabel": "Usługi",
+      "navLabel": "t:pages.services.title",
       "sections": [
         {
           "type": "services",
           "variant": "grid",
           "header": {
-            "badge": "Czynności komornicze",
-            "title": "Pełen zakres usług egzekucyjnych",
-            "subtitle": "Realizujemy wszystkie czynności komornicze przewidziane przepisami prawa, zapewniając terminową i profesjonalną obsługę."
+            "badge": "t:services.badge",
+            "title": "t:services.title",
+            "subtitle": "t:services.subtitle"
           },
           "items": [
             {
@@ -631,47 +671,6 @@
           ]
         },
         {
-          "type": "features",
-          "variant": "default",
-          "header": {
-            "badge": "Systemy",
-            "title": "Nowoczesne narzędzia kancelarii",
-            "subtitle": "Korzystamy z najnowszych systemów informatycznych zapewniających sprawną i efektywną obsługę spraw."
-          },
-          "items": [
-            {
-              "title": "EPU",
-              "description": "Elektroniczne Postępowanie Upominawcze — prowadzenie postępowań w oparciu o elektroniczny tytuł wykonawczy.",
-              "icon": "monitor"
-            },
-            {
-              "title": "OGNIVO",
-              "description": "System bankowy umożliwiający elektroniczną wymianę informacji pomiędzy komornikiem a bankami.",
-              "icon": "building"
-            },
-            {
-              "title": "PUE ZUS",
-              "description": "Platforma Usług Elektronicznych ZUS do poszukiwania źródeł dochodów i majątku dłużnika.",
-              "icon": "search"
-            },
-            {
-              "title": "CEPIK",
-              "description": "Centralna baza danych o pojazdach mechanicznych, ich właścicielach i posiadaczach.",
-              "icon": "car"
-            },
-            {
-              "title": "Komornik Online",
-              "description": "Moduł umożliwiający wierzycielom zdalny wgląd do akt sprawy przez przeglądarkę internetową.",
-              "icon": "globe"
-            },
-            {
-              "title": "ePUAP",
-              "description": "Elektroniczna Platforma Usług Administracji Publicznej do wymiany dokumentów z urzędami.",
-              "icon": "file-text"
-            }
-          ]
-        },
-        {
           "type": "ctaBanner",
           "variant": "default",
           "header": {
@@ -679,7 +678,7 @@
             "subtitle": "Wniosek możesz złożyć osobiście, pocztą lub elektronicznie przez EPU."
           },
           "cta": {
-            "label": "Skontaktuj się",
+            "label": "t:ctaBanner.cta",
             "target": {
               "type": "page",
               "value": "contact"
@@ -690,14 +689,14 @@
     },
     "forms": {
       "title": "Pliki",
-      "navLabel": "Pliki",
+      "navLabel": "t:pages.forms.title",
       "sections": [
         {
           "type": "files",
           "header": {
-            "badge": "Do pobrania",
-            "title": "Formularze i dokumenty",
-            "subtitle": "Pobierz niezbędne formularze i dokumenty związane z postępowaniem egzekucyjnym."
+            "badge": "t:files.badge",
+            "title": "t:files.title",
+            "subtitle": "t:files.subtitle"
           },
           "fileGroups": [
             {
@@ -746,14 +745,14 @@
     },
     "contact": {
       "title": "Kontakt",
-      "navLabel": "Kontakt",
+      "navLabel": "t:pages.contact.title",
       "sections": [
         {
           "type": "contact",
           "variant": "split",
           "background": "dark",
           "header": {
-            "title": "Kontakt",
+            "title": "t:contact.badge",
             "subtitle": "Skontaktuj się z Kancelarią Komorniczą nr IX w Otwocku. Chętnie odpowiemy na pytania dotyczące postępowań egzekucyjnych."
           },
           "info": {
@@ -763,24 +762,24 @@
             "hours": "Poniedziałek - Piątek: 8:00 - 16:00"
           },
           "form": {
-            "nameLabel": "Imię i nazwisko",
-            "namePlaceholder": "Twoje imię i nazwisko",
-            "emailLabel": "Email",
-            "emailPlaceholder": "twoj@email.pl",
-            "messageLabel": "Wiadomość",
-            "messagePlaceholder": "Opisz swoją sprawę...",
-            "submitButton": "Wyślij wiadomość",
+            "nameLabel": "t:contact.form.nameLabel",
+            "namePlaceholder": "t:contact.form.namePlaceholder",
+            "emailLabel": "t:contact.form.emailLabel",
+            "emailPlaceholder": "t:contact.form.emailPlaceholder",
+            "messageLabel": "t:contact.form.messageLabel",
+            "messagePlaceholder": "t:contact.form.messagePlaceholder",
+            "submitButton": "t:contact.form.submitButton",
             "selectFields": [
               {
                 "name": "topic",
-                "label": "Temat",
-                "placeholder": "Wybierz temat",
+                "label": "t:contact.form.topic.label",
+                "placeholder": "t:contact.form.topic.placeholder",
                 "options": [
-                  "Wniosek egzekucyjny",
-                  "Informacja o sprawie",
-                  "Doręczenie korespondencji",
-                  "Licytacje",
-                  "Inne pytanie"
+                  "t:contact.form.topic.options.enforcement",
+                  "t:contact.form.topic.options.caseInfo",
+                  "t:contact.form.topic.options.delivery",
+                  "t:contact.form.topic.options.auction",
+                  "t:contact.form.topic.options.other"
                 ]
               }
             ]
@@ -790,7 +789,7 @@
     },
     "informacje-dla-dluznika": {
       "title": "Informacje dla dłużnika",
-      "navLabel": "Informacje dla dłużnika",
+      "navLabel": "t:pages.informacje-dla-dluznika.title",
       "sections": [
         {
           "type": "blog-standalone",

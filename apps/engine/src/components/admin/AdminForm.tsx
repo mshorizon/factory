@@ -1906,7 +1906,7 @@ export default function AdminForm({
 
           {/* Content area */}
           <div className="flex-1 overflow-y-auto admin-form-area">
-            <div className="p-6 max-w-[640px] mx-auto">
+            <div className={`p-6 ${["meta", "theme", "navbar", "footer"].includes(activeTab) ? "max-w-[640px] mx-auto" : ""}`}>
               {getTabContent()}
             </div>
           </div>
