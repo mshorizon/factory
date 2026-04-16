@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, SectionHeader } from "@mshorizon/ui";
+import { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -25,7 +25,27 @@ const ctaHref = section.cta?.target?.type === "phone"
     : "/contact";
 ---
 
-{variant === "light-panel" ? (
+{variant === "professional" ? (
+  <section
+    class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}
+    style="background-color: color-mix(in srgb, var(--secondary) 50%, var(--background) 50%);"
+  >
+    <div class="container mx-auto">
+      <ContactProfessional
+        client:visible
+        title={header.title}
+        subtitle={header.subtitle}
+        form={section.form}
+        info={section.info}
+        businessId={businessId}
+        business={business}
+        turnstileSiteKey={turnstileSiteKey}
+        ctaLabel={section.cta?.label}
+        ctaHref={ctaHref}
+      />
+    </div>
+  </section>
+) : variant === "light-panel" ? (
   <section
     class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}
     style="background: linear-gradient(160deg, color-mix(in srgb, var(--secondary) 60%, transparent) 0%, var(--background) 60%);"

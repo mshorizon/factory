@@ -529,33 +529,14 @@
         {
           "type": "about",
           "variant": "story",
+          "imagePosition": "right",
           "header": {
-            "badge": "t:about.badge",
             "title": "t:about.title"
           },
-          "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&h=600&fit=crop",
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
           "story": {
-            "title": "t:about.story.title",
-            "content": "Kancelaria Komornicza nr IX w Otwocku prowadzona jest przez Komornika Sądowego przy Sądzie Rejonowym w Otwocku — Marcina Starzec. Zapewniamy profesjonalną, terminową i zgodną z przepisami prawa obsługę wszystkich spraw egzekucyjnych.\n\nNasza kancelaria korzysta z najnowszych systemów informatycznych, w tym CEPIK, EPU, PUE ZUS, ePUAP, OGNIVO oraz oprogramowania firmy KOMORNIK.IT, co pozwala na sprawną i efektywną realizację wniosków egzekucyjnych. Gwarantujemy elektroniczną wymianę korespondencji, terminową realizację wniosków o doręczenie oraz generowanie raportów z podjętych czynności dla wierzycieli."
+            "content": "t:about.story.content"
           },
-          "commitment": {
-            "title": "Nasze gwarancje",
-            "content": "Kancelaria zapewnia elektroniczną wymianę korespondencji, terminową realizację wniosków egzekucyjnych i doręczeń, a także regularne generowanie raportów z podjętych czynności dla wierzycieli."
-          },
-          "stats": [
-            {
-              "value": "15+",
-              "label": "Lat doświadczenia"
-            },
-            {
-              "value": "5000+",
-              "label": "Spraw przeprowadzonych"
-            },
-            {
-              "value": "98%",
-              "label": "Skuteczność egzekucji"
-            }
-          ],
           "cta": {
             "label": "t:about.cta",
             "target": {
@@ -566,44 +547,28 @@
         },
         {
           "type": "about",
-          "variant": "timeline",
+          "variant": "career",
           "header": {
-            "title": "Historia kancelarii"
+            "title": "t:about.career.title"
           },
           "timeline": [
             {
-              "year": "2024",
-              "title": "Wdrożenie systemu Komornik Online",
-              "description": "Udostępnienie wierzycielom możliwości zdalnego wglądu do akt sprawy za pośrednictwem przeglądarki internetowej, co znacząco poprawiło komunikację z klientami."
+              "year": "t:about.career.items.0.year",
+              "title": "t:about.career.items.0.title",
+              "company": "t:about.career.items.0.company",
+              "description": "t:about.career.items.0.description"
             },
             {
-              "year": "2020",
-              "title": "Integracja z systemami elektronicznymi",
-              "description": "Pełna integracja z systemami CEPIK, PUE ZUS, ePUAP i OGNIVO, umożliwiająca szybsze poszukiwanie majątku dłużnika i elektroniczną wymianę korespondencji."
+              "year": "t:about.career.items.1.year",
+              "title": "t:about.career.items.1.title",
+              "company": "t:about.career.items.1.company",
+              "description": "t:about.career.items.1.description"
             },
             {
-              "year": "2015",
-              "title": "Wdrożenie EPU",
-              "description": "Rozpoczęcie obsługi wniosków z Elektronicznego Postępowania Upominawczego, co pozwoliło na prowadzenie postępowań w oparciu o elektroniczny tytuł wykonawczy."
-            },
-            {
-              "year": "2010",
-              "title": "Otwarcie Kancelarii Komorniczej nr IX",
-              "description": "Rozpoczęcie działalności Kancelarii Komorniczej nr IX przy Sądzie Rejonowym w Otwocku pod kierownictwem Komornika Sądowego Marcina Starzec."
-            }
-          ],
-          "stats": [
-            {
-              "value": "2721",
-              "label": "ID komornika w EPU"
-            },
-            {
-              "value": "IX",
-              "label": "Numer kancelarii"
-            },
-            {
-              "value": "Otwock",
-              "label": "Siedziba"
+              "year": "t:about.career.items.2.year",
+              "title": "t:about.career.items.2.title",
+              "company": "t:about.career.items.2.company",
+              "description": "t:about.career.items.2.description"
             }
           ]
         },
@@ -635,7 +600,8 @@
           "header": {
             "badge": "t:services.badge",
             "title": "t:services.title",
-            "subtitle": "t:services.subtitle"
+            "subtitle": "t:services.subtitle",
+            "layout": "most-minimalistic"
           },
           "items": [
             {
@@ -749,11 +715,17 @@
       "sections": [
         {
           "type": "contact",
-          "variant": "split",
-          "background": "dark",
+          "variant": "professional",
           "header": {
-            "title": "t:contact.badge",
+            "title": "t:contact.title",
             "subtitle": "Skontaktuj się z Kancelarią Komorniczą nr IX w Otwocku. Chętnie odpowiemy na pytania dotyczące postępowań egzekucyjnych."
+          },
+          "cta": {
+            "label": "t:contact.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
           },
           "info": {
             "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
@@ -793,7 +765,21 @@
       "sections": [
         {
           "type": "blog-standalone",
-          "blogSlug": "informacje-dla-dluznika"
+          "blogSlug": "informacje-dla-dluznika",
+          "sidebarContact": {
+            "name": "Marcin Starzec",
+            "role": "Komornik Sądowy",
+            "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
+            "phone": "+48 22 180 00 22",
+            "email": "otwock.starzec@komornik.pl",
+            "cta": {
+              "label": "t:contact.cta",
+              "target": {
+                "type": "page",
+                "value": "contact"
+              }
+            }
+          }
         }
       ]
     }

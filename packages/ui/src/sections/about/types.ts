@@ -28,6 +28,20 @@ export interface AboutStoryProps {
   experienceBadgeLabel?: string;
   className?: string;
   background?: string;
+  imagePosition?: "left" | "right";
+}
+
+export interface CareerItem {
+  year: string;
+  title: string;
+  company?: string;
+  description?: string;
+}
+
+export interface AboutCareerProps {
+  title?: string;
+  items: CareerItem[];
+  className?: string;
 }
 
 export interface AboutTimelineProps {

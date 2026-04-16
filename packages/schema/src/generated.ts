@@ -159,6 +159,11 @@ export type SectionType =
   | "files";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type BlogSlugUsedWhenTypeIsBlogStandalone = string;
+export type Name = string;
+export type RoleTitle = string;
+export type AvatarImageURL = string;
+export type Phone2 = string;
+export type Email1 = string;
 export type Variant = string;
 export type SectionBackground = "light" | "dark" | "dark-padded" | "light-padded" | "primary" | "gradient";
 export type BadgeText = string;
@@ -168,18 +173,19 @@ export type HeaderLayout = "stacked" | "split" | "most-minimalistic" | "none";
 export type BackgroundImageURL = string;
 export type ImageURL = string;
 export type HideDecorativeDots = boolean;
+export type ImagePosition = "left" | "right";
 export type BadgeLayoutDirection = "row" | "column";
 export type SectionLevelBadgeVariantOverride = "accent" | "outlined" | "text";
 export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
 export type CTATextColorOverride = string;
 export type InvertStatColorsLightBgDarkText = boolean;
-export type AvatarImageURL = string;
 export type AvatarImageURL1 = string;
+export type AvatarImageURL2 = string;
 export type Testimonials = {
   title?: string;
   quote?: string;
-  image?: AvatarImageURL1;
+  image?: AvatarImageURL2;
 }[];
 export type FeatureTags = string[];
 export type AuthorName = string;
@@ -235,7 +241,7 @@ export type RightColumnTitleEGAIAutomation = string;
 export type LeftProblem = string;
 export type RightSolution = string;
 export type ComparisonRows = ComparisonRow[];
-export type Name = string;
+export type Name1 = string;
 export type Role = string;
 export type PhotoURL = string;
 export type LinkedInURL = string;
@@ -460,12 +466,14 @@ export interface Section {
   type: SectionType;
   sectionId?: SharedSectionIDUsedWhenTypeIsRef;
   blogSlug?: BlogSlugUsedWhenTypeIsBlogStandalone;
+  sidebarContact?: SidebarContactCard;
   variant?: Variant;
   background?: SectionBackground;
   header?: SectionHeader;
   backgroundImage?: BackgroundImageURL;
   image?: ImageURL;
   hideDots?: HideDecorativeDots;
+  imagePosition?: ImagePosition;
   badgeLayout?: BadgeLayoutDirection;
   badgeVariant?: SectionLevelBadgeVariantOverride;
   badgeColor?: BadgeTextColorOverride;
@@ -514,20 +522,28 @@ export interface Section {
   fileGroups?: FileGroups;
   area?: ServiceAreaConfiguration;
 }
+export interface SidebarContactCard {
+  name?: Name;
+  role?: RoleTitle;
+  image?: AvatarImageURL;
+  phone?: Phone2;
+  email?: Email1;
+  cta?: Cta1;
+}
+export interface Cta1 {
+  label: Label1;
+  target?: Target;
+}
 export interface SectionHeader {
   badge?: BadgeText;
   title?: Title;
   subtitle?: Subtitle;
   layout?: HeaderLayout;
 }
-export interface Cta1 {
-  label: Label1;
-  target?: Target;
-}
 export interface Testimonial {
   title?: string;
   quote?: string;
-  image?: AvatarImageURL;
+  image?: AvatarImageURL1;
 }
 export interface ServiceItem {
   id?: string;
@@ -554,6 +570,7 @@ export interface StatItem {
 export interface TimelineItem {
   year?: string;
   title?: string;
+  company?: string;
   description?: string;
 }
 export interface ContactInfo {
@@ -668,7 +685,7 @@ export interface ComparisonRow {
   right?: RightSolution;
 }
 export interface TeamMember {
-  name?: Name;
+  name?: Name1;
   role?: Role;
   image?: PhotoURL;
   linkedin?: LinkedInURL;

@@ -67,11 +67,15 @@ export function SectionHeader({
     }
     return (
       <div data-reveal data-reveal-delay="0" className={cn(
-        "flex items-center gap-spacing-sm mb-spacing-lg",
-        align === "center" && "justify-center",
-        align === "right" && "justify-end"
+        "flex flex-col gap-spacing-sm mb-spacing-lg",
+        align === "center" && "items-center",
+        align === "right" && "items-end",
+        align === "left" && "items-start"
       )}>
         <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+        <Badge variant="accent" data-field="header.badge" className="px-0 py-0 text-[14px] tracking-[.05rem] uppercase font-medium" style={{ color: badgeColor }}>
+          {badge}
+        </Badge>
       </div>
     );
   };

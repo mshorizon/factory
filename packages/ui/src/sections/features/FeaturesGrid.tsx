@@ -14,7 +14,7 @@ import {
   Phone,
   Users,
   ThumbsUp,
-  ArrowRight,
+  ArrowUpRight,
   BadgeCheck,
   Timer,
   Wallet,
@@ -63,10 +63,6 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export function FeaturesGrid({ items, className }: FeaturesGridProps) {
-  const handleCardClick = (href: string) => {
-    window.location.href = href;
-  };
-
   return (
     <StaggerContainer
       className={cn("grid md:grid-cols-2 gap-spacing-lg", className)}
@@ -74,16 +70,13 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
     >
       {items.map((item, index) => {
         const IconComponent = iconMap[item.icon || ""] || Zap;
-        // Alternate directions: left for even (0,2,4), right for odd (1,3,5)
         const direction = index % 2 === 0 ? "left" : "right";
-        const linkHref = item.linkHref || "/contact";
 
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <Card
-              className="h-full flex flex-col !rounded-radius-secondary cursor-pointer group hover:brightness-[0.98] transition-all"
+              className="h-full flex flex-col !rounded-radius-secondary group hover:brightness-[0.98] transition-all"
               data-field={`items.${index}`}
-              onClick={() => handleCardClick(linkHref)}
             >
               <CardHeader className="flex-1">
                 <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light">
@@ -96,12 +89,16 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
                   {item.description}
                 </CardDescription>
               </CardHeader>
-              {item.linkLabel && (
+              {item.linkHref && (
                 <div className="px-spacing-lg pb-6">
-                  <div className="inline-flex items-center gap-1.5 text-base font-semibold" style={{ color: 'var(--primary-dark)' }}>
-                    <span>{item.linkLabel}</span>
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </div>
+                  <a
+                    href={item.linkHref}
+                    className="inline-flex items-center gap-1.5 text-base font-semibold transition-all group-hover:gap-2"
+                    style={{ color: "var(--primary-dark)" }}
+                  >
+                    <span>{item.linkLabel || "Learn more"}</span>
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
                 </div>
               )}
             </Card>

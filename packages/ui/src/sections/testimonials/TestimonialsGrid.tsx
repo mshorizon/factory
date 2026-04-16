@@ -54,11 +54,13 @@ export function TestimonialsGrid({ items, className }: TestimonialsGridProps) {
 
             {/* Author section - positioned absolutely at bottom border */}
             <div className="absolute left-spacing-lg right-spacing-lg -bottom-10 flex items-center gap-spacing-md bg-surface-card dark:bg-white p-spacing-md rounded-xl shadow-lg">
-              <img
-                src={item.image || getAvatarUrl(author.name)}
-                alt={author.name}
-                className="w-14 h-14 rounded-full flex-shrink-0 object-cover"
-              />
+              <div className="w-14 h-14 rounded-full flex-shrink-0 bg-primary overflow-hidden">
+                <img
+                  src={item.image || getAvatarUrl(author.name)}
+                  alt={author.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="flex-1 min-w-0">
                 <p
                   className="font-semibold font-heading text-foreground dark:text-gray-900 text-base"

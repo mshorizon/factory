@@ -7,9 +7,10 @@ import { resolveTarget } from "../../lib/target";
 import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import { getBlogsBySiteId } from "@mshorizon/db";
-import { BlogOverlay, SectionHeader } from "@mshorizon/ui";
+import { BlogCards, BlogGrid, SectionHeader } from "@mshorizon/ui";
 import type { BusinessProfile } from "@mshorizon/schema";
 import type { BlogPost } from "@mshorizon/ui/sections/blog/types";
+import { getSectionVariant } from "../../lib/pages";
 
 // Get business context from middleware
 const { businessId, businessData, theme, currentLang, t: translations, site } = Astro.locals;
@@ -26,7 +27,7 @@ if (blogs.length === 0 && site) {
   blogs = await getBlogsBySiteId(site.id, true);
 }
 
-// Transform blogs to BlogPost[] format for BlogOverlay component
+// Transform blogs to BlogPost[] format
 const blogPosts: BlogPost[] = blogs.map((blog) => ({
   title: blog.title,
   description: blog.description || "",
@@ -42,6 +43,13 @@ const blogPosts: BlogPost[] = blogs.map((blog) => ({
 
 // Get badge variant from theme
 const badgeVariant = (business as any).theme?.badgeVariant || "accent";
+const majorTheme = (business as any).theme?.majorTheme;
+
+// Resolve the same variant as the home page blog section uses
+const homeBlogSection = (business.pages?.home as any)?.sections?.find((s: any) => s.type === "blog");
+const blogVariant = homeBlogSection ? getSectionVariant(homeBlogSection as any, majorTheme) : "default";
+const isCards = blogVariant === "cards";
+const isCardsLight = blogVariant === "cards-light";
 
 // Get blog page config from template
 const blogPage = business.pages?.blog;
@@ -49,6 +57,7 @@ const blogHeader = blogPage?.sections?.[0]?.header || {};
 const blogBadge = blogHeader.badge || t(translations, "blog.badge", "Blog");
 const blogTitle = blogHeader.title || t(translations, "blog.title", "Blog");
 const blogSubtitle = blogHeader.subtitle || t(translations, "blog.subtitle", "");
+const ctaLabel = homeBlogSection?.ctaLabel || t(translations, "blog.readMore", "Czytaj więcej");
 
 // Get layout configuration
 const layout = getLayoutConfig(business);
@@ -136,16 +145,33 @@ const socialLinks = business.business.socials
     showAvailability={layout.navbar.showAvailability}
   />
   <main class="flex-1 pt-14 lg:pt-16">
-    <section class="pb-spacing-section-sm">
-      <div class="container mx-auto">
-        <SectionHeader
-          badge={blogBadge}
-          title={blogTitle}
-          subtitle={blogSubtitle}
-          badgeVariant={badgeVariant as any}
-        />
+    <section class="pt-[120px] pb-spacing-section-sm">
+      <div class="container mx-auto px-spacing-container">
+        {isCards || isCardsLight ? (
+          <SectionHeader
+            badge={blogBadge}
+            title={blogTitle}
+            subtitle={blogSubtitle}
+            layout="stacked"
+            align="center"
+            badgeVariant="text"
+          />
+        ) : (
+          <SectionHeader
+            badge={blogBadge}
+            title={blogTitle}
+            subtitle={blogSubtitle}
+            layout="split"
+            align="left"
+            badgeVariant={badgeVariant as any}
+          />
+        )}
         {blogPosts.length > 0 ? (
-          <BlogOverlay client:load posts={blogPosts} />
+          isCards || isCardsLight ? (
+            <BlogCards client:load posts={blogPosts} ctaLabel={ctaLabel} withCard={isCardsLight} />
+          ) : (
+            <BlogGrid client:load posts={blogPosts} ctaLabel={ctaLabel} />
+          )
         ) : (
           <div class="text-center py-spacing-3xl">
             <p class="text-muted text-lg">Brak opublikowanych artykułów</p>

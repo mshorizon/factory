@@ -107,21 +107,43 @@ export default function BlogEditorClient({
 
   const restoreSelection = () => {
     const sel = window.getSelection();
-    const savedRange = lastEditorSelectionRef.current;
+    if (!sel) return null;
+
+    // If the editor already owns the selection, return it immediately.
+    // Calling focus() on an already-focused contentEditable can silently clear
+    // the selection in some browsers, which breaks all block-level execCommands.
+    const inEditor =
+      sel.rangeCount > 0 && editorRef.current?.contains(sel.anchorNode);
+    if (inEditor) return sel;
+
+    // Selection is outside the editor — focus it, then restore last known position.
     editorRef.current?.focus();
-    // Only restore saved range when the editor doesn't already hold a valid selection.
-    // Calling removeAllRanges() then a failing addRange() wipes the selection entirely,
-    // which is why H2/H3/lists/quote/paragraph appeared to do nothing.
-    const alreadyInEditor =
-      sel && sel.rangeCount > 0 && editorRef.current?.contains(sel.anchorNode);
-    if (savedRange && sel && !alreadyInEditor) {
+
+    const savedRange = lastEditorSelectionRef.current;
+    if (savedRange) {
       try {
-        sel.removeAllRanges();
-        sel.addRange(savedRange);
+        // Only restore if the range is still attached to editor nodes.
+        if (editorRef.current?.contains(savedRange.commonAncestorContainer)) {
+          sel.removeAllRanges();
+          sel.addRange(savedRange);
+          return sel;
+        }
       } catch {
-        // Range may be stale, ignore
+        // Range is detached — fall through to end-of-editor fallback.
       }
     }
+
+    // Last resort: place cursor at end so block commands have a valid target.
+    if (editorRef.current) {
+      const fallback = document.createRange();
+      fallback.selectNodeContents(editorRef.current);
+      fallback.collapse(false);
+      try {
+        sel.removeAllRanges();
+        sel.addRange(fallback);
+      } catch { /* ignore */ }
+    }
+
     return sel;
   };
 
@@ -665,11 +687,7 @@ export default function BlogEditorClient({
               <Unlink2 className="h-4 w-4" />
             </button>
             {linkMode && (
-              <form
-                onSubmit={handleInsertLink}
-                className="flex items-center gap-1 ml-1"
-                onKeyDown={(e) => e.key === "Escape" && setLinkMode(false)}
-              >
+              <div className="flex items-center gap-1 ml-1">
                 <input
                   autoFocus
                   type="text"
@@ -677,9 +695,18 @@ export default function BlogEditorClient({
                   onChange={(e) => setLinkUrl(e.target.value)}
                   placeholder="https://..."
                   className="px-2 py-1 text-sm border border-border rounded-md bg-background w-52 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleInsertLink(e as any);
+                    } else if (e.key === "Escape") {
+                      setLinkMode(false);
+                    }
+                  }}
                 />
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleInsertLink as any}
                   className="px-2 py-1 rounded text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   OK
@@ -691,7 +718,7 @@ export default function BlogEditorClient({
                 >
                   ✕
                 </button>
-              </form>
+              </div>
             )}
           </div>
           {/* Editor */}

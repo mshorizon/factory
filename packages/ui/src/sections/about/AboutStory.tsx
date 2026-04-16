@@ -23,60 +23,80 @@ export function AboutStory({
   experienceBadgeLabel,
   className,
   background,
+  imagePosition = "left",
 }: AboutStoryProps) {
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
-  return (
-    <div className={cn("space-y-spacing-3xl", className)}>
-      {/* Split layout: image left, text right */}
-      <div className="grid lg:grid-cols-[auto_1fr] gap-spacing-section-sm items-stretch">
-        {image && (
-          <ScrollReveal delay={0} direction="left" distance={30}>
-            <div className="relative flex items-center justify-center lg:justify-start py-spacing-2xl">
-              <SafeImage
-                src={image}
-                alt=""
-                className="w-[364px] max-w-full h-[400px] object-cover rounded-radius-secondary shadow-lg"
-                data-field="image"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-          </ScrollReveal>
+  const imageRight = imagePosition === "right";
+
+  const imageBlock = image ? (
+    <ScrollReveal delay={0} direction={imageRight ? "right" : "left"} distance={30}>
+      <div className="relative flex items-center justify-center lg:justify-start py-spacing-2xl">
+        <SafeImage
+          src={image}
+          alt=""
+          className="w-[364px] max-w-full h-[400px] object-cover rounded-radius-secondary shadow-lg"
+          data-field="image"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </ScrollReveal>
+  ) : null;
+
+  const textBlock = (
+    <ScrollReveal delay={0.1} direction={imageRight ? "left" : "right"} distance={30}>
+      <div className="space-y-spacing-lg py-spacing-3xl flex flex-col justify-center">
+        {badge && (
+          <div className="flex items-center gap-spacing-sm">
+            <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+            <Badge variant="accent" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
+          </div>
+        )}
+        {title && (
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading leading-tight" data-field="header.title">{title}</h2>
+        )}
+        {story && story.content && (
+          <div className="space-y-spacing-md">
+            {story.content.split('\n\n').map((paragraph: string, index: number) => (
+              <p key={index} className="text-muted leading-relaxed" data-field={`story.content.${index}`}>{paragraph}</p>
+            ))}
+          </div>
         )}
 
-        <ScrollReveal delay={0.1} direction="right" distance={30}>
-          <div className="space-y-spacing-lg py-spacing-3xl flex flex-col justify-center">
-            {badge && (
-              <div className="flex items-center gap-spacing-sm">
-                <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
-                <Badge variant="accent" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
-              </div>
-            )}
-            {title && (
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading leading-tight" data-field="header.title">{title}</h2>
-            )}
-            {story && story.content && (
-              <div className="space-y-spacing-md">
-                {story.content.split('\n\n').map((paragraph: string, index: number) => (
-                  <p key={index} className="text-muted leading-relaxed" data-field={`story.content.${index}`}>{paragraph}</p>
-                ))}
-              </div>
-            )}
-
-            {cta && (
-              <div className="pt-4">
-                <a
-                  href={ctaHref}
-                  onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-accent font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
-                >
-                  {cta}
-                  <ArrowRight className="h-5 w-5" />
-                </a>
-              </div>
-            )}
+        {cta && (
+          <div className="pt-4">
+            <a
+              href={ctaHref}
+              onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-accent font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
+            >
+              {cta}
+              <ArrowRight className="h-5 w-5" />
+            </a>
           </div>
-        </ScrollReveal>
+        )}
+      </div>
+    </ScrollReveal>
+  );
+
+  return (
+    <div className={cn("space-y-spacing-3xl", className)}>
+      {/* Split layout */}
+      <div className={cn(
+        "grid gap-spacing-section-sm items-stretch",
+        image ? (imageRight ? "lg:grid-cols-[1fr_auto]" : "lg:grid-cols-[auto_1fr]") : "grid-cols-1"
+      )}>
+        {imageRight ? (
+          <>
+            {textBlock}
+            {imageBlock}
+          </>
+        ) : (
+          <>
+            {imageBlock}
+            {textBlock}
+          </>
+        )}
       </div>
 
       {/* Stats row */}

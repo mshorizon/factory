@@ -102,5 +102,6 @@ function getBgClass(bg?: string): string {
   const needsBusiness = ['services', 'shop', 'map', 'testimonials', 'booking', 'contact'].includes(resolvedSection.type);
   const props = needsBusiness ? { section: sectionWithVariant, business, isHomePage, badgeVariant } : { section: sectionWithVariant, isHomePage, badgeVariant };
 
-  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class={bgClass}><Component {...props} /></div>;
+  const firstSectionClass = index === 0 && !isHomePage ? "pt-[120px]" : "";
+  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class={[bgClass, firstSectionClass].filter(Boolean).join(" ")}><Component {...props} /></div>;
 })}

@@ -23,7 +23,7 @@ export function NavbarStandard({
         "transition-all duration-300",
         variant === "transparent"
           ? "absolute top-0 left-0 right-0 z-50 bg-transparent"
-          : cn(sticky && "sticky top-0 z-50", "bg-background/95 backdrop-blur-md shadow-sm border-b border-primary/10"),
+          : cn(sticky && "sticky top-0 z-50", "bg-background/95 backdrop-blur-md shadow-sm border-b border-primary/5"),
         className
       )}
     >

@@ -4,4 +4,5 @@ export { ContactCTA } from "./ContactCTA";
 export { ContactMinimal } from "./ContactMinimal";
 export { ContactCard } from "./ContactCard";
 export { ContactLightPanel } from "./ContactLightPanel";
-export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactForm, ContactInfo, ContactLabels } from "./types";
+export { ContactProfessional } from "./ContactProfessional";
+export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactProfessionalProps, ContactForm, ContactInfo, ContactLabels } from "./types";

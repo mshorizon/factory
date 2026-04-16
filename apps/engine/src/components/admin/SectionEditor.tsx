@@ -792,6 +792,22 @@ function BlogStandaloneFields({ section, savedSection, onUpdate, si }: { section
   );
 }
 
+function FeaturesFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
+  const updater = createFieldUpdater(section, onUpdate);
+  return (
+    <>
+      <HeaderFields section={section} savedSection={savedSection} updater={updater} si={si} />
+      <ItemsEditor section={section} onUpdate={onUpdate} businessId={businessId} si={si} fields={[
+        { key: "title", label: "Title", type: "text" },
+        { key: "description", label: "Description", type: "text" },
+        { key: "icon", label: "Icon", type: "text" },
+        { key: "href", label: "Link URL", type: "text" },
+        { key: "linkLabel", label: "Link Label", type: "text" },
+      ]} />
+    </>
+  );
+}
+
 function DefaultFields({ section, savedSection, onUpdate, businessId, si }: { section: any; savedSection?: any; onUpdate: (s: any) => void; businessId: string; si: number }) {
   const updater = createFieldUpdater(section, onUpdate);
   return (
@@ -838,6 +854,7 @@ export default function SectionEditor({ section, savedSection, index, sectionCou
       case "trustBar": return <TrustBarFields {...props} />;
       case "files": return <FilesFields {...props} />;
       case "blog-standalone": return <BlogStandaloneFields {...props} />;
+      case "features": return <FeaturesFields {...props} />;
       default: return <DefaultFields {...props} />;
     }
   };

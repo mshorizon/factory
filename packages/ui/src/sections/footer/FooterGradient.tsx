@@ -44,7 +44,7 @@ export function FooterGradient({
               {businessName}
             </span>
             {tagline && (
-              <p className="text-sm text-white/30 mb-spacing-lg">{tagline}</p>
+              <p className="text-sm text-white/70 mb-spacing-lg">{tagline}</p>
             )}
 
             {/* Newsletter */}
@@ -54,7 +54,7 @@ export function FooterGradient({
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 bg-white/5 border border-border/30 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/40"
+                  className="flex-1 bg-white/5 border border-border/30 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/60"
                 />
                 <button className="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium">
                   Subscribe

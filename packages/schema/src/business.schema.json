@@ -144,6 +144,18 @@
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
         "blogSlug": { "type": "string", "title": "Blog Slug (used when type is blog-standalone)" },
+        "sidebarContact": {
+          "type": "object",
+          "title": "Sidebar Contact Card",
+          "properties": {
+            "name": { "type": "string", "title": "Name" },
+            "role": { "type": "string", "title": "Role / Title" },
+            "image": { "type": "string", "title": "Avatar Image URL" },
+            "phone": { "type": "string", "title": "Phone" },
+            "email": { "type": "string", "title": "Email" },
+            "cta": { "$ref": "#/definitions/cta" }
+          }
+        },
         "variant": { "type": "string", "title": "Variant" },
         "background": {
           "type": "string",
@@ -154,6 +166,7 @@
         "backgroundImage": { "type": "string", "title": "Background Image URL" },
         "image": { "type": "string", "title": "Image URL" },
         "hideDots": { "type": "boolean", "title": "Hide Decorative Dots" },
+        "imagePosition": { "type": "string", "title": "Image Position", "enum": ["left", "right"] },
         "badgeLayout": { "type": "string", "title": "Badge Layout Direction", "enum": ["row", "column"] },
         "badgeVariant": { "type": "string", "title": "Section-level Badge Variant Override", "enum": ["accent", "outlined", "text"] },
         "badgeColor": { "type": "string", "title": "Badge Text Color Override" },
@@ -247,6 +260,7 @@
             "properties": {
               "year": { "type": "string" },
               "title": { "type": "string" },
+              "company": { "type": "string" },
               "description": { "type": "string" }
             }
           }

@@ -149,11 +149,11 @@ const languages = [
         <div class="w-24 h-px bg-on-primary/20 mb-8"></div>
         {currentLanguage && (
           <div class="lang-switcher flex items-center gap-1.5 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
             {languages.map((lang, i) => (
               <>
-                {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
-                <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
+                {i > 0 && <span class="text-[10px] select-none text-on-primary/40">/</span>}
+                <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/65 hover:text-on-primary"]}>{lang.label}</button>
               </>
             ))}
           </div>
@@ -316,7 +316,7 @@ const languages = [
               {logoIcon && <img src={logoIcon} alt="" class="w-6 h-6 footer-logo-white" />}
               <span class="text-lg font-medium tracking-tight">{displayName}</span>
             </div>
-            {tagline && <p class="text-on-primary/50 text-sm leading-relaxed font-heading max-w-xs">{tagline}</p>}
+            {tagline && <p class="text-on-primary/75 text-sm leading-relaxed font-heading max-w-xs">{tagline}</p>}
           </div>
           {columns.map((column) => (
             <div>
@@ -324,7 +324,7 @@ const languages = [
               <ul class="space-y-spacing-sm">
                 {column.links.map((link) => (
                   <li>
-                    <a href={link.href} class="text-on-primary/50 hover:text-on-primary text-sm transition-colors">
+                    <a href={link.href} class="text-on-primary/75 hover:text-on-primary text-sm transition-colors">
                       {link.label}
                     </a>
                   </li>
@@ -334,21 +334,21 @@ const languages = [
           ))}
         </div>
         <div class="mt-spacing-2xl pt-spacing-lg border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
-          <p class="text-sm text-on-primary/40 text-center md:text-left">{copyrightText}</p>
+          <p class="text-sm text-on-primary/65 text-center md:text-left">{copyrightText}</p>
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             {currentLanguage && (
               <div class="lang-switcher flex items-center gap-1.5">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
                 {languages.map((lang, i) => (
                   <>
-                    {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
-                    <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
+                    {i > 0 && <span class="text-[10px] select-none text-on-primary/40">/</span>}
+                    <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/65 hover:text-on-primary"]}>{lang.label}</button>
                   </>
                 ))}
               </div>
             )}
-            <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
-            <span class="text-xs text-on-primary/40">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/60 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
+            <button data-cookie-settings class="text-xs text-on-primary/65 hover:text-on-primary transition-colors">Ustawienia cookies</button>
+            <span class="text-xs text-on-primary/65">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
           </div>
         </div>
       </div>
@@ -371,7 +371,7 @@ const languages = [
               <span class="text-lg font-medium tracking-tight text-on-primary">{displayName}</span>
             </div>
             {tagline && (
-              <p class="text-on-primary/50 text-sm leading-relaxed font-heading max-w-xs">{tagline}</p>
+              <p class="text-on-primary/75 text-sm leading-relaxed font-heading max-w-xs">{tagline}</p>
             )}
           </div>
 
@@ -382,7 +382,7 @@ const languages = [
               <ul class="space-y-spacing-sm">
                 {column.links.map((link) => (
                   <li>
-                    <a href={link.href} class="text-on-primary/50 hover:text-on-primary text-sm transition-colors">
+                    <a href={link.href} class="text-on-primary/75 hover:text-on-primary text-sm transition-colors">
                       {link.label}
                     </a>
                   </li>
@@ -397,7 +397,7 @@ const languages = [
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.platform}
-                      class="text-on-primary/50 hover:text-on-primary transition-colors"
+                      class="text-on-primary/75 hover:text-on-primary transition-colors"
                     >
                       <Fragment set:html={socialIcons[social.platform] || ''} />
                     </a>
@@ -410,21 +410,21 @@ const languages = [
 
         {/* Bottom Bar */}
         <div class="mt-spacing-2xl pt-spacing-lg border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
-          <p class="text-sm text-on-primary/40 text-center md:text-left">{copyrightText}</p>
+          <p class="text-sm text-on-primary/65 text-center md:text-left">{copyrightText}</p>
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             {currentLanguage && (
               <div class="lang-switcher flex items-center gap-1.5">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
                 {languages.map((lang, i) => (
                   <>
-                    {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
-                    <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
+                    {i > 0 && <span class="text-[10px] select-none text-on-primary/40">/</span>}
+                    <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/65 hover:text-on-primary"]}>{lang.label}</button>
                   </>
                 ))}
               </div>
             )}
-            <button data-cookie-settings class="text-xs text-on-primary/40 hover:text-on-primary/70 transition-colors">Ustawienia cookies</button>
-            <span class="text-xs text-on-primary/40">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/60 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
+            <button data-cookie-settings class="text-xs text-on-primary/65 hover:text-on-primary transition-colors">Ustawienia cookies</button>
+            <span class="text-xs text-on-primary/65">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
           </div>
         </div>
       </div>
@@ -447,7 +447,7 @@ const languages = [
           <div class="mt-spacing-lg">
             <p class="text-sm font-medium text-white mb-2">Join our newsletter</p>
             <div class="relative">
-              <input type="email" placeholder="Enter your email" class="w-full bg-white/5 border border-border/30 rounded-lg pl-3 pr-[110px] py-2.5 text-sm text-white placeholder:text-white/40" />
+              <input type="email" placeholder="Enter your email" class="w-full bg-white/5 border border-border/30 rounded-lg pl-3 pr-[110px] py-2.5 text-sm text-white placeholder:text-white/60" />
               <button class="absolute right-1 top-1/2 -translate-y-1/2 bg-primary text-on-primary px-4 py-1.5 rounded-md text-sm font-medium">Subscribe</button>
             </div>
           </div>
@@ -482,11 +482,11 @@ const languages = [
         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
           {currentLanguage && (
             <div class="lang-switcher flex items-center gap-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-white/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-white/60"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               {languages.map((lang, i) => (
                 <>
-                  {i > 0 && <span class="text-[10px] select-none text-white/20">/</span>}
-                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-white font-medium" : "text-white/40 hover:text-white/70"]}>{lang.label}</button>
+                  {i > 0 && <span class="text-[10px] select-none text-white/40">/</span>}
+                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-white font-medium" : "text-white/60 hover:text-white"]}>{lang.label}</button>
                 </>
               ))}
             </div>
@@ -510,11 +510,11 @@ const languages = [
         <div class="flex items-center gap-4">
           {currentLanguage && (
             <div class="lang-switcher flex items-center gap-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               {languages.map((lang, i) => (
                 <>
-                  {i > 0 && <span class="text-[10px] select-none text-on-primary/20">/</span>}
-                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/40 hover:text-on-primary/70"]}>{lang.label}</button>
+                  {i > 0 && <span class="text-[10px] select-none text-on-primary/40">/</span>}
+                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/65 hover:text-on-primary"]}>{lang.label}</button>
                 </>
               ))}
             </div>

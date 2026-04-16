@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { AboutStory, AboutTimeline, SectionHeader } from "@mshorizon/ui";
+import { AboutStory, AboutTimeline, AboutCareer, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -18,7 +18,7 @@ const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/contact";
 ---
 
-<section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"} overflow-hidden`}>
+<section class={`pt-${isHomePage ? "spacing-section" : "spacing-section-sm"} ${isHomePage ? "pb-[120px]" : "pb-spacing-section-sm"} overflow-hidden`}>
   <div class="container mx-auto">
     {variant === "timeline" ? (
       <>
@@ -36,6 +36,17 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
           ctaHref={ctaHref}
         />
       </>
+    ) : variant === "career" ? (
+      <AboutCareer
+        client:visible
+        title={header.title}
+        items={(section.timeline || []).map((item: any) => ({
+          year: item.year,
+          title: item.title,
+          company: item.company,
+          description: item.description,
+        }))}
+      />
     ) : (
       <AboutStory
         client:visible
@@ -50,6 +61,7 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
         experienceBadge={section.experienceBadge}
         experienceBadgeLabel={section.experienceBadgeLabel}
         background={section.background}
+        imagePosition={(section as any).imagePosition}
       />
     )}
   </div>

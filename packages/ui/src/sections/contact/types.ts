@@ -90,3 +90,16 @@ export interface ContactLightPanelProps {
   ctaHref?: string;
   className?: string;
 }
+
+export interface ContactProfessionalProps {
+  title?: string;
+  subtitle?: string;
+  form?: ContactForm;
+  info?: ContactInfo;
+  businessId?: string;
+  business?: any;
+  turnstileSiteKey?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  className?: string;
+}

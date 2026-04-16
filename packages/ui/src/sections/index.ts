@@ -19,12 +19,12 @@ export { CategoriesCarousel, CategoriesFeatured } from "./categories";
 export type { CategoriesProps, CategoryItem } from "./categories";
 
 // About variants
-export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats } from "./about";
-export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, StatItem, TimelineItem, StoryContent } from "./about";
+export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats, AboutCareer } from "./about";
+export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, AboutCareerProps, CareerItem, StatItem, TimelineItem, StoryContent } from "./about";
 
 // Contact variants
-export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel } from "./contact";
-export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactForm, ContactInfo, ContactLabels } from "./contact";
+export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional } from "./contact";
+export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactProfessionalProps, ContactForm, ContactInfo, ContactLabels } from "./contact";
 
 // Shop variants
 export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid, OrderSuccessContent } from "./shop";
