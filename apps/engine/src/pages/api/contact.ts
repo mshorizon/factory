@@ -76,7 +76,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    if (!import.meta.env.RESEND_API_KEY) {
+    const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
       (locals.logger ?? logger).error({ endpoint: "/api/contact" }, "RESEND_API_KEY is not configured");
       return new Response(JSON.stringify({ error: "Email service is not configured on this server." }), {
         status: 503,
@@ -84,7 +85,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const resend = new Resend(import.meta.env.RESEND_API_KEY);
+    const resend = new Resend(resendApiKey);
 
     const { data, error } = await resend.emails.send({
       from: "noreply@contact.hazelgrouse.pl",

@@ -50,7 +50,7 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         )
       );
 
-    const resendApiKey = import.meta.env.RESEND_API_KEY;
+    const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
 
     for (const booking of tomorrowBookings) {
       // Get site config for business name

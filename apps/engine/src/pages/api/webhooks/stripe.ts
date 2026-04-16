@@ -68,10 +68,11 @@ export const POST: APIRoute = async ({ request }) => {
 
           if (site) {
             const config = site.config as any;
-            sendOrderConfirmationEmail(order, items, config, import.meta.env.RESEND_API_KEY).catch(
+            const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
+            sendOrderConfirmationEmail(order, items, config, resendApiKey).catch(
               (err) => logger.error({ err, orderId: order.id }, "Failed to send order confirmation email")
             );
-            sendOrderNotificationEmail(order, items, config, import.meta.env.RESEND_API_KEY).catch(
+            sendOrderNotificationEmail(order, items, config, resendApiKey).catch(
               (err) => logger.error({ err, orderId: order.id }, "Failed to send order notification email")
             );
           }

@@ -4,6 +4,10 @@ import { cn } from "../../lib/utils";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { TestimonialsGridProps } from "./types";
 
+function getAvatarUrl(name: string) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=128&background=random&color=fff&bold=true`;
+}
+
 export function TestimonialsCentered({ items, className }: TestimonialsGridProps) {
   const item = items[0];
   if (!item) return null;
@@ -50,15 +54,13 @@ export function TestimonialsCentered({ items, className }: TestimonialsGridProps
       {item.author && (
         <ScrollReveal delay={0.3} direction="up" distance={20}>
           <div className="flex flex-col items-center gap-spacing-sm">
-            {item.image && (
-              <img
-                src={item.image}
-                alt={item.author}
-                className="w-14 h-14 rounded-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-            )}
+            <img
+              src={item.image || getAvatarUrl(item.author)}
+              alt={item.author}
+              className="w-14 h-14 rounded-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
             <div className="text-center">
               <p
                 className="font-medium text-foreground"

@@ -16,7 +16,7 @@ export function FAQSplit({
   ctaText,
   ctaHref,
 }: FAQSplitProps) {
-  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+  const [openIndex, setOpenIndex] = React.useState<number | null>(null);
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -79,7 +79,7 @@ export function FAQSplit({
           return (
             <StaggerItem key={index} direction="right" distance={15}>
               <div
-                className="bg-card rounded-radius border border-border/60 overflow-hidden"
+                className="bg-card rounded-radius overflow-hidden"
                 data-field={`faqItems.${index}`}
               >
                 <button
@@ -87,7 +87,7 @@ export function FAQSplit({
                   className="flex w-full items-center justify-between p-spacing-lg text-left transition-colors group"
                 >
                   <span
-                    className="text-lg font-heading text-foreground pr-spacing-md leading-snug"
+                    className="text-xl font-heading text-foreground pr-spacing-md leading-snug"
                     data-field={`faqItems.${index}.question`}
                   >
                     {item.question}

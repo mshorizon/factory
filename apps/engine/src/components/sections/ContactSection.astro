@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, SectionHeader } from "@mshorizon/ui";
+import { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -46,6 +46,23 @@ const ctaHref = section.cta?.target?.type === "phone"
         badge={header.badge}
         title={header.title}
         subtitle={header.subtitle}
+        ctaLabel={section.cta?.label}
+        ctaHref={ctaHref}
+      />
+    </div>
+  </section>
+) : variant === "card" ? (
+  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+    <div class="container mx-auto">
+      <ContactCard
+        client:visible
+        title={header.title}
+        subtitle={header.subtitle}
+        form={section.form}
+        info={section.info}
+        businessId={businessId}
+        business={business}
+        turnstileSiteKey={turnstileSiteKey}
         ctaLabel={section.cta?.label}
         ctaHref={ctaHref}
       />

@@ -29,7 +29,7 @@ export function NavbarCentered({
         sticky && "sticky top-0 z-50",
         variant === "transparent"
           ? "bg-transparent"
-          : "bg-background/95 backdrop-blur-md shadow-sm border-b border-border/10",
+          : "bg-background/95 backdrop-blur-md shadow-sm border-b border-primary/10",
         className
       )}
     >

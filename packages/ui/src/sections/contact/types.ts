@@ -62,3 +62,18 @@ export interface ContactCTAProps {
   ctaHref?: string;
   className?: string;
 }
+
+export interface ContactCardProps {
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  form?: ContactForm;
+  info?: ContactInfo;
+  labels?: ContactLabels;
+  businessId?: string;
+  business?: any;
+  turnstileSiteKey?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  className?: string;
+}

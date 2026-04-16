@@ -306,25 +306,25 @@ const languages = [
       class:list={["text-on-primary", !background?.gradient && "bg-secondary"]}
       style={[
         background?.gradient === "primary-to-primary-dark" ? "background: linear-gradient(to top, var(--primary-dark) 0%, var(--primary) 100%);" : "",
-        background?.enabled ? `padding: ${background.padding || '16px'}; border-radius: ${background.borderRadius || '12px'};` : "",
+        background?.enabled ? `border-radius: ${background.borderRadius || '12px'};` : "",
       ].filter(Boolean).join(' ')}
     >
-      <div class="container mx-auto py-16">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          <div class="lg:col-span-1">
-            <div class="flex items-center gap-3 mb-4">
-              {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7 footer-logo-white" />}
-              <span class="font-bold text-2xl tracking-tight">{displayName}</span>
+      <div class="container mx-auto py-spacing-2xl">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-spacing-2xl lg:gap-spacing-3xl">
+          <div class="md:col-span-1 lg:col-span-2">
+            <div class="flex items-center gap-spacing-sm mb-spacing-md">
+              {logoIcon && <img src={logoIcon} alt="" class="w-6 h-6 footer-logo-white" />}
+              <span class="text-lg font-medium tracking-tight">{displayName}</span>
             </div>
-            {tagline && <p class="text-on-primary/50 text-sm leading-relaxed font-heading">{tagline}</p>}
+            {tagline && <p class="text-on-primary/50 text-sm leading-relaxed font-heading max-w-xs">{tagline}</p>}
           </div>
           {columns.map((column) => (
             <div>
-              <h3 class="font-semibold font-heading text-on-primary mb-4">{column.title}</h3>
-              <ul class="space-y-2">
+              <h3 class="text-sm font-medium text-on-primary mb-spacing-md">{column.title}</h3>
+              <ul class="space-y-spacing-sm">
                 {column.links.map((link) => (
                   <li>
-                    <a href={link.href} class="text-on-primary/70 hover:text-on-primary text-sm transition-colors">
+                    <a href={link.href} class="text-on-primary/50 hover:text-on-primary text-sm transition-colors">
                       {link.label}
                     </a>
                   </li>
@@ -333,7 +333,7 @@ const languages = [
             </div>
           ))}
         </div>
-        <div class="mt-12 pt-8 border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <div class="mt-spacing-2xl pt-spacing-lg border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
           <p class="text-sm text-on-primary/40 text-center md:text-left">{copyrightText}</p>
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             {currentLanguage && (
