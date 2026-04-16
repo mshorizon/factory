@@ -38,3 +38,4 @@ export function getFooterVariant(variant?: string) {
       return FooterSimple;
   }
 }
+

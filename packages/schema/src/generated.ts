@@ -87,7 +87,15 @@ export type ExtensionType = "upper-bar";
 export type NavbarExtensions = {
   type: ExtensionType;
 }[];
-export type FooterVariant = "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient";
+export type FooterVariant =
+  | "simple"
+  | "multiColumn"
+  | "minimal"
+  | "centered"
+  | "branded"
+  | "stacked"
+  | "gradient"
+  | "darkColumns";
 export type CopyrightText = string;
 export type Tagline = string;
 export type Label = string;
@@ -181,6 +189,7 @@ export type MetricLabel = string;
 export type StartDate = string;
 export type EndDate = string;
 export type LinkURL = string;
+export type LinkLabel = string;
 export type Items = ServiceItem[];
 export type Timeline = TimelineItem[];
 export type ExploreLabel = string;
@@ -536,6 +545,7 @@ export interface ServiceItem {
   dateStart?: StartDate;
   dateEnd?: EndDate;
   href?: LinkURL;
+  linkLabel?: LinkLabel;
 }
 export interface StatItem {
   value?: string;

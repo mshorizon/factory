@@ -27,7 +27,7 @@ export interface FooterProps {
   copyright?: string;
   tagline?: string;
   columns?: FooterColumn[];
-  variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked";
+  variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns";
   className?: string;
   currentLanguage?: string;
   availableLanguages?: LanguageOption[];

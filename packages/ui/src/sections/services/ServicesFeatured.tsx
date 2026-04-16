@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Card } from "../../atoms/Card";
 import { Badge } from "../../atoms/Badge";
@@ -78,6 +79,18 @@ export function ServicesFeatured({
                       <span className="text-xs text-muted">{item.metricLabel}</span>
                     )}
                   </div>
+                )}
+
+                {/* Learn more link */}
+                {item.href && (
+                  <a
+                    href={item.href}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all group-hover:gap-2"
+                    style={{ color: "var(--primary-dark)" }}
+                  >
+                    <span>{item.linkLabel || "Learn more"}</span>
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
                 )}
               </div>
             </Card>

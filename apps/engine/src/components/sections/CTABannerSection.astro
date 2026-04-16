@@ -26,7 +26,7 @@ const ctaHref = section.cta?.target?.type === "phone"
     marqueeText={section.marqueeText || header.title}
   />
 ) : variant === "card" ? (
-  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
     <div class="container mx-auto">
       <CtaBannerCard
         client:visible
@@ -37,7 +37,7 @@ const ctaHref = section.cta?.target?.type === "phone"
     </div>
   </section>
 ) : (
-  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
     <div class="container mx-auto">
       <CtaBannerDefault
         client:visible

@@ -9,6 +9,8 @@ export interface ServiceItem {
   tags?: string[];
   metric?: string;
   metricLabel?: string;
+  href?: string;
+  linkLabel?: string;
 }
 
 export interface ServicesProps {

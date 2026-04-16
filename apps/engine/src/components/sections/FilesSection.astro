@@ -11,7 +11,7 @@ interface Props {
 const { section, isHomePage = false, badgeVariant } = Astro.props;
 const header = (section as any).header;
 const fileGroups = (section as any).fileGroups || [];
-const sectionPaddingClass = `py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`;
+const sectionPaddingClass = `pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`;
 ---
 
 <section class={sectionPaddingClass}>

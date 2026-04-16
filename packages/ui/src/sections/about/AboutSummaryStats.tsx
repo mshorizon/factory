@@ -23,7 +23,7 @@ export function AboutSummaryStats({ stats, className }: AboutSummaryStatsProps) 
             {stat.value}
           </div>
           <div
-            className="text-sm md:text-xl mt-spacing-sm md:mt-spacing-xl font-light"
+            className="text-xs md:text-sm mt-spacing-sm md:mt-spacing-xl font-light"
             style={{ color: "var(--muted)" }}
             data-field={`stats.${index}.label`}
           >

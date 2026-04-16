@@ -37,13 +37,13 @@ export function FeaturesCompact({ items, className }: FeaturesGridProps) {
         return (
           <StaggerItem key={index} direction={direction} distance={25}>
             <Card
-              className="group h-full !rounded-[1.25rem] border-border/50 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1"
+              className="group h-full flex flex-col !rounded-[1.25rem] border-border/50 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1"
               data-field={`items.${index}`}
             >
-              <CardHeader className="space-y-4">
+              <CardHeader className="flex-1 space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    <IconComponent className="h-6 w-6 text-primary" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light transition-colors">
+                    <IconComponent className="h-[18px] w-[18px] text-white" />
                   </div>
                   <ArrowUpRight className="h-4 w-4 text-muted opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                 </div>
@@ -56,6 +56,18 @@ export function FeaturesCompact({ items, className }: FeaturesGridProps) {
                   </CardDescription>
                 </div>
               </CardHeader>
+              {item.linkHref && (
+                <div className="px-spacing-lg pb-6">
+                  <a
+                    href={item.linkHref}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all group-hover:gap-2"
+                    style={{ color: "var(--primary-dark)" }}
+                  >
+                    <span>{item.linkLabel || "Learn more"}</span>
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </div>
+              )}
             </Card>
           </StaggerItem>
         );

@@ -109,7 +109,12 @@ export default function BlogEditorClient({
     const sel = window.getSelection();
     const savedRange = lastEditorSelectionRef.current;
     editorRef.current?.focus();
-    if (savedRange && sel) {
+    // Only restore saved range when the editor doesn't already hold a valid selection.
+    // Calling removeAllRanges() then a failing addRange() wipes the selection entirely,
+    // which is why H2/H3/lists/quote/paragraph appeared to do nothing.
+    const alreadyInEditor =
+      sel && sel.rangeCount > 0 && editorRef.current?.contains(sel.anchorNode);
+    if (savedRange && sel && !alreadyInEditor) {
       try {
         sel.removeAllRanges();
         sel.addRange(savedRange);

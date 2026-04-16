@@ -8,7 +8,7 @@ export type HeroVariant = "default" | "split" | "gradient" | "cards" | "video" |
 export type ServicesVariant = "grid" | "list";
 export type CategoriesVariant = "carousel" | "featured";
 export type AboutVariant = "story" | "timeline";
-export type ContactVariant = "centered" | "split";
+export type ContactVariant = "centered" | "split" | "cta" | "minimal" | "card" | "light-panel";
 
 // Footer call extension
 export interface FooterCallExtension {

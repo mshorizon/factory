@@ -15,6 +15,7 @@ import {
   Search,
   Plug,
   Eye,
+  ArrowUpRight,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
@@ -53,7 +54,7 @@ export function FeaturesGradient({ items, className }: FeaturesGridProps) {
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <div
-              className="rounded-lg border border-border/30 p-5 md:px-8 md:py-5 h-full flex flex-col text-left"
+              className="group rounded-lg border border-border/30 p-5 md:px-8 md:py-5 h-full flex flex-col text-left"
               style={{
                 background:
                   "radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--primary) 35%, transparent) 0%, transparent 70%)",
@@ -61,7 +62,9 @@ export function FeaturesGradient({ items, className }: FeaturesGridProps) {
               data-field={`items.${index}`}
             >
               <div className="mb-spacing-md flex">
-                <IconComponent className="h-6 w-6 text-foreground" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light">
+                  <IconComponent className="h-[18px] w-[18px] text-white" />
+                </div>
               </div>
 
               <h3
@@ -77,6 +80,19 @@ export function FeaturesGradient({ items, className }: FeaturesGridProps) {
               >
                 {item.description}
               </p>
+
+              {item.linkHref && (
+                <div className="mt-spacing-md">
+                  <a
+                    href={item.linkHref}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold"
+                    style={{ color: "var(--primary-dark)" }}
+                  >
+                    <span>{item.linkLabel || "Learn more"}</span>
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </div>
+              )}
             </div>
           </StaggerItem>
         );

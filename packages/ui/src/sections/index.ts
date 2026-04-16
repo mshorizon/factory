@@ -23,8 +23,8 @@ export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats } from "./ab
 export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, StatItem, TimelineItem, StoryContent } from "./about";
 
 // Contact variants
-export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard } from "./contact";
-export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactForm, ContactInfo, ContactLabels } from "./contact";
+export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel } from "./contact";
+export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactForm, ContactInfo, ContactLabels } from "./contact";
 
 // Shop variants
 export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid, OrderSuccessContent } from "./shop";

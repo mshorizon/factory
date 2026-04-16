@@ -29,13 +29,13 @@ notify() {
 }
 
 get_next_task() {
-    # Resume interrupted [*] tasks first, then pick next [ ] task
-    grep -n "^\* \[\*\]\|^\* \[ \]" "$TASKS_FILE" 2>/dev/null | head -1
+    # Picks first: [*] interrupted, [ ] pending, or [!] failed (retry) — in file order
+    grep -n "^\* \[\*\]\|^\* \[ \]\|^\* \[!\]" "$TASKS_FILE" 2>/dev/null | head -1
 }
 
 mark_in_progress() {
     local line_num=$1
-    perl -i -pe "s/^\* \[ \]/\* [*]/ if \$. == $line_num" "$TASKS_FILE"
+    perl -i -pe "s/^\* \[[ !]\]/\* [*]/ if \$. == $line_num" "$TASKS_FILE"
 }
 
 mark_done() {

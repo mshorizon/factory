@@ -21,7 +21,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 const noPaddingBgs = ["light-padded", "gradient", "none"];
 const sectionPaddingClass = noPaddingBgs.includes(section.background as string)
   ? "py-0"
-  : `py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`;
+  : `pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`;
 ---
 
 <section class={sectionPaddingClass}>

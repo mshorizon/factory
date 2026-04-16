@@ -99,7 +99,7 @@
       ]
     },
     "footer": {
-      "variant": "multiColumn",
+      "variant": "darkColumns",
       "name": "Marcin Starzec",
       "copyright": "t:footer.copyright",
       "tagline": "t:footer.tagline",

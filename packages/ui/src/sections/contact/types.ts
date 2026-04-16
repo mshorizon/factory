@@ -77,3 +77,16 @@ export interface ContactCardProps {
   ctaHref?: string;
   className?: string;
 }
+
+export interface ContactLightPanelProps {
+  title?: string;
+  subtitle?: string;
+  form?: ContactForm;
+  info?: ContactInfo;
+  businessId?: string;
+  business?: any;
+  turnstileSiteKey?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  className?: string;
+}

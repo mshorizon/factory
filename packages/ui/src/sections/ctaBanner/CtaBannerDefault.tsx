@@ -16,7 +16,7 @@ export function CtaBannerDefault({
   const isPhone = ctaHref.startsWith("tel:");
 
   return (
-    <ScrollReveal className={cn("py-spacing-3xl md:py-spacing-section", className)}>
+    <ScrollReveal className={cn("pb-spacing-3xl md:pb-spacing-section", className)}>
       <div className="space-y-spacing-2xl">
         {badge && (
           <span className="inline-block text-sm text-muted border border-border rounded-full px-4 py-1.5" data-field="header.badge">

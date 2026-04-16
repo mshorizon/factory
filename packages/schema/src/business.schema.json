@@ -208,7 +208,8 @@
               "metricLabel": { "type": "string", "title": "Metric Label" },
               "dateStart": { "type": "string", "title": "Start Date" },
               "dateEnd": { "type": "string", "title": "End Date" },
-              "href": { "type": "string", "title": "Link URL" }
+              "href": { "type": "string", "title": "Link URL" },
+              "linkLabel": { "type": "string", "title": "Link Label" }
             }
           }
         },
@@ -866,7 +867,7 @@
             "variant": {
               "type": "string",
               "title": "Footer Variant",
-              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient"],
+              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient", "darkColumns"],
               "default": "simple"
             },
             "copyright": { "type": "string", "title": "Copyright Text" },

@@ -72,9 +72,6 @@ export function SectionHeader({
         align === "right" && "justify-end"
       )}>
         <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
-        <Badge variant="accent" data-field="header.badge" style={{ color: badgeColor }}>
-          {badge}
-        </Badge>
       </div>
     );
   };

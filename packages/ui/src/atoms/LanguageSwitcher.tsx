@@ -32,7 +32,7 @@ export function LanguageSwitcher({
         strokeLinejoin="round"
         className={cn(
           "shrink-0",
-          tone === "light" ? "text-white/40" : "text-foreground/40"
+          tone === "light" ? "text-white/55" : "text-foreground/55"
         )}
       >
         <circle cx="12" cy="12" r="10" />
@@ -45,7 +45,7 @@ export function LanguageSwitcher({
             <span
               className={cn(
                 "text-[10px] select-none",
-                tone === "light" ? "text-white/20" : "text-foreground/20"
+                tone === "light" ? "text-white/30" : "text-foreground/30"
               )}
             >
               /
@@ -60,8 +60,8 @@ export function LanguageSwitcher({
                   ? "text-white font-medium"
                   : "text-foreground font-medium"
                 : tone === "light"
-                  ? "text-white/40 hover:text-white/70"
-                  : "text-foreground/40 hover:text-foreground/70"
+                  ? "text-white/55 hover:text-white/80"
+                  : "text-foreground/55 hover:text-foreground/80"
             )}
           >
             {lang.label}

@@ -86,8 +86,8 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
               onClick={() => handleCardClick(linkHref)}
             >
               <CardHeader className="flex-1">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-secondary">
-                  <IconComponent className="h-6 w-6 text-primary" />
+                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light">
+                  <IconComponent className="h-[18px] w-[18px] text-white" />
                 </div>
                 <CardTitle data-field={`items.${index}.title`}>
                   {item.title}

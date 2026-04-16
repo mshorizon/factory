@@ -7,7 +7,7 @@ import {
   Timer, Wallet, ShieldCheck, Bolt, Plug, Lightbulb, Gauge,
   CreditCard, MessageCircle, Headphones, Rocket, Hammer,
   Monitor, Building, Search, Car, Globe, FileText, Mail,
-  Gavel, ClipboardList, Banknote, Home, Code, Eye,
+  Gavel, ClipboardList, Banknote, Home, Code, Eye, ArrowUpRight,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
@@ -45,10 +45,10 @@ export function FeaturesIconTiles({ items, className }: FeaturesGridProps) {
               className="group flex flex-col gap-spacing-md p-spacing-lg rounded-2xl bg-card border-0 shadow-none h-full"
               data-field={`items.${index}`}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                <IconComponent className="h-6 w-6 text-primary" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light transition-colors">
+                <IconComponent className="h-[18px] w-[18px] text-white" />
               </div>
-              <div>
+              <div className="flex-1">
                 <h3
                   className="font-semibold font-heading text-foreground mb-spacing-xs leading-snug"
                   data-field={`items.${index}.title`}
@@ -62,6 +62,16 @@ export function FeaturesIconTiles({ items, className }: FeaturesGridProps) {
                   {item.description}
                 </p>
               </div>
+              {item.linkHref && (
+                <a
+                  href={item.linkHref}
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold"
+                  style={{ color: "var(--primary-dark)" }}
+                >
+                  <span>{item.linkLabel || "Learn more"}</span>
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              )}
             </div>
           </StaggerItem>
         );

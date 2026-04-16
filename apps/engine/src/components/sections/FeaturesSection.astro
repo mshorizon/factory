@@ -18,11 +18,11 @@ const rawItems = section.items || [];
 const items = rawItems.map((item: any) => ({
   ...item,
   linkLabel: item.linkLabel,
-  linkHref: item.linkHref || (item.linkTarget ? resolveTarget(item.linkTarget) : undefined),
+  linkHref: item.linkHref || item.href || (item.linkTarget ? resolveTarget(item.linkTarget) : undefined),
 }));
 ---
 
-<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+<section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
   <div class="container mx-auto">
     <SectionHeader
       badge={header.badge}
