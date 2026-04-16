@@ -688,12 +688,6 @@
         }
       ]
     },
-    "blog": {
-      "title": "Blog",
-      "navLabel": "Blog",
-      "hideFromNav": true,
-      "sections": []
-    },
     "forms": {
       "title": "Pliki",
       "navLabel": "Pliki",

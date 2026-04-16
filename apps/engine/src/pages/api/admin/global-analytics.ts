@@ -2,9 +2,9 @@ import type { APIRoute } from "astro";
 import { getAllSubdomains, getSiteBySubdomain, updateSiteUmamiId } from "@mshorizon/db";
 import logger from "../../../lib/logger";
 
-const UMAMI_URL = import.meta.env.UMAMI_URL;
-const UMAMI_USERNAME = import.meta.env.UMAMI_USERNAME;
-const UMAMI_PASSWORD = import.meta.env.UMAMI_PASSWORD;
+const UMAMI_URL = import.meta.env.UMAMI_URL || process.env.UMAMI_URL;
+const UMAMI_USERNAME = import.meta.env.UMAMI_USERNAME || process.env.UMAMI_USERNAME;
+const UMAMI_PASSWORD = import.meta.env.UMAMI_PASSWORD || process.env.UMAMI_PASSWORD;
 
 let cachedToken: { token: string; expiresAt: number } | null = null;
 

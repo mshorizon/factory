@@ -23,7 +23,7 @@ export function NavbarStandard({
         "transition-all duration-300",
         variant === "transparent"
           ? "absolute top-0 left-0 right-0 z-50 bg-transparent"
-          : cn(sticky && "sticky top-0 z-50", "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"),
+          : cn(sticky && "sticky top-0 z-50", "bg-background/95 backdrop-blur-md shadow-sm border-b border-border/10"),
         className
       )}
     >
@@ -35,7 +35,7 @@ export function NavbarStandard({
               ? <img src={logoIcon} alt={logo} className="h-8 w-auto object-contain" />
               : <span className="text-2xl">{logoIcon}</span>
             )}
-            <span className="text-xl lg:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
+            <span className="text-xl lg:text-2xl font-normal text-foreground tracking-tight group-hover:text-primary transition-colors">
               {logo}
             </span>
           </a>

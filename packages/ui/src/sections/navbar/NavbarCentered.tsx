@@ -29,7 +29,7 @@ export function NavbarCentered({
         sticky && "sticky top-0 z-50",
         variant === "transparent"
           ? "bg-transparent"
-          : "bg-background/95 backdrop-blur-md shadow-sm border-b border-border",
+          : "bg-background/95 backdrop-blur-md shadow-sm border-b border-border/10",
         className
       )}
     >
@@ -58,7 +58,7 @@ export function NavbarCentered({
               ? <img src={logoIcon} alt={logo} className="h-9 w-auto object-contain" />
               : <span className="text-3xl">{logoIcon}</span>
             )}
-            <span className="text-2xl lg:text-3xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
+            <span className="text-2xl lg:text-3xl font-normal text-foreground tracking-tight group-hover:text-primary transition-colors">
               {logo}
             </span>
           </a>

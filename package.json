@@ -26,6 +26,10 @@
     
     "deploy": "pnpm db:push && pnpm db:sync && pnpm pm2:reload",
 
+    "tasks": "bash scripts/run-tasks.sh",
+    "tasks:once": "bash scripts/run-tasks.sh --once",
+    "tasks:stop": "pkill -f 'run-tasks.sh' && echo 'Task runner stopped' || echo 'No task runner running'",
+
     "admin1": "bash scripts/claude-admin-1.sh",
     "admin2": "bash scripts/claude-admin-2.sh",
     "client1": "bash scripts/claude-client-1.sh",

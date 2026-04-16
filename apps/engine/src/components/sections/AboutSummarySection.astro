@@ -54,7 +54,7 @@ const componentBackground = section.background === "dark-padded" ? "dark" : sect
   </div>
 </section>
 {sectionStatsInverted && section.stats && section.stats.length > 0 && (
-  <div data-stats-breakout class={`mt-spacing-md pt-spacing-md pb-spacing-3xl`}>
+  <div data-stats-breakout class={`mt-spacing-md pt-spacing-3xl pb-spacing-3xl`}>
     <div class="container mx-auto">
       <AboutSummaryStats client:visible stats={section.stats} />
     </div>
