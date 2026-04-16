@@ -23,7 +23,8 @@
     "pm2:reload": "pm2 restart astro-dev",
     "db:sync": "cd packages/db && DATABASE_URL=\"postgresql://postgres:qM2NsnxsnPsM3FPKqqHE6VOaodrE9P7FJtaG0OwWu4ddkNdVPwhflxbRf1kR6Y4D@46.224.191.237:5432/hazelgrouse-db\" pnpm run db:seed",
     "db:push": "cd packages/db && DATABASE_URL=\"postgresql://postgres:qM2NsnxsnPsM3FPKqqHE6VOaodrE9P7FJtaG0OwWu4ddkNdVPwhflxbRf1kR6Y4D@46.224.191.237:5432/hazelgrouse-db\" pnpm run db:push",
-    "deploy": "pnpm db:sync && pnpm pm2:reload",
+    
+    "deploy": "pnpm db:push && pnpm db:sync && pnpm pm2:reload",
 
     "admin1": "bash scripts/claude-admin-1.sh",
     "admin2": "bash scripts/claude-admin-2.sh",
