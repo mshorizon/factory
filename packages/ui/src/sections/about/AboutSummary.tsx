@@ -181,8 +181,8 @@ export function AboutSummary({
                     {stat.value}
                   </div>
                   <div
-                    className={cn("text-sm md:text-xl mt-spacing-sm md:mt-spacing-xl")}
-                    style={statsInverted ? { color: "var(--light-muted, #6b7280)" } : undefined}
+                    className={cn("text-sm md:text-xl mt-spacing-sm md:mt-spacing-xl font-light")}
+                    style={statsInverted ? { color: "var(--light-muted, #6b7280)" } : { color: "var(--muted)" }}
                     data-field={`stats.${index}.label`}
                   >
                     {stat.label}
