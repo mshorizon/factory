@@ -92,6 +92,10 @@ import {
   LayoutDashboard,
   Receipt,
   CalendarDays,
+  ChevronDown,
+  ChevronRight,
+  Globe,
+  Image as ImageIcon,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -403,16 +407,15 @@ export default function AdminForm({
     uk: (translations?.uk as Record<string, unknown>) || {},
   });
 
-  const [internalActiveTab, setInternalActiveTab] = useState<TabType>("meta");
+  const [internalActiveTab, setInternalActiveTab] = useState<TabType>("business-general");
 
-  const activeTab = internalActiveTab;
+  const activeTab = internalActiveTab === "meta" ? "business-general" : internalActiveTab;
   const setActiveTab = (tab: TabType) => setInternalActiveTab(tab);
 
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string>();
   const [newPageName, setNewPageName] = useState("");
 
-  const [metaSubTab, setMetaSubTab] = useState<"business" | "assets">("business");
   const [themeSubTab, setThemeSubTab] = useState<"colors" | "typography">("colors");
   const [translationsSubTab, setTranslationsSubTab] = useState("en");
   const [translationMode, setTranslationMode] = useState<"keys" | "en" | "pl">("keys");
@@ -508,7 +511,7 @@ export default function AdminForm({
     const saved = savedDataRef.current;
     const savedTrans = savedTransRef.current;
 
-    if (tabId === "meta") return !deepEqual(formData.business, saved.business);
+    if (tabId === "meta" || tabId === "business-general" || tabId === "business-assets") return !deepEqual(formData.business, saved.business);
     if (tabId === "theme") return !deepEqual(formData.theme, saved.theme);
     if (tabId === "navbar") return !deepEqual(getNestedValue(formData, ["layout", "navbar"]), getNestedValue(saved, ["layout", "navbar"]));
     if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"]));
@@ -979,7 +982,7 @@ export default function AdminForm({
   };
 
   const getTabContent = () => {
-    if (activeTab === "meta") {
+    if (activeTab === "business-general" || activeTab === "meta") {
       const businessSchema = schema.properties?.business as any;
 
       const businessInfoSchema: RJSFSchema = {
@@ -1001,6 +1004,67 @@ export default function AdminForm({
         definitions: schema.definitions,
       };
 
+      return (
+        <Form
+          schema={businessInfoSchema}
+          uiSchema={{
+            ...generateColorUiSchema(businessInfoSchema),
+            business: {
+              ...(generateColorUiSchema(businessInfoSchema).business ?? {}),
+              id: { "ui:disabled": true },
+            },
+          }}
+          formData={{ business: resolvedFormData.business }}
+          validator={validator}
+          widgets={configWidgets}
+          templates={customTemplates}
+          formContext={{ businessId }}
+          onChange={(data: any) => {
+            if (data.formData) {
+              if (translationMode !== "keys") {
+                const origBiz = formData.business as Record<string, unknown>;
+                const newBiz = data.formData.business;
+                const translationUpdates: Record<string, string> = {};
+                const lang = translationMode as "en" | "pl";
+                function walkBiz(orig: any, updated: any) {
+                  if (typeof orig === "string" && orig.startsWith("t:")) {
+                    if (typeof updated === "string") translationUpdates[orig.slice(2)] = updated;
+                    return;
+                  }
+                  if (orig && updated && typeof orig === "object" && typeof updated === "object") {
+                    for (const k of Object.keys(orig)) {
+                      if (k in updated) walkBiz(orig[k], updated[k]);
+                    }
+                  }
+                }
+                walkBiz(origBiz, newBiz);
+                if (Object.keys(translationUpdates).length > 0) {
+                  setTranslationsData((prev) => ({
+                    ...prev,
+                    [lang]: { ...(prev[lang] as Record<string, string>), ...translationUpdates },
+                  }));
+                }
+                const reconstructedBiz = reconstructWithTKeys(origBiz, newBiz);
+                setFormData((prev) => ({
+                  ...prev,
+                  business: { ...(prev.business as Record<string, unknown>), ...reconstructedBiz },
+                }));
+              } else {
+                setFormData((prev) => ({
+                  ...prev,
+                  business: { ...(prev.business as Record<string, unknown>), ...data.formData.business },
+                }));
+              }
+              setSaveStatus("idle");
+            }
+          }}
+          liveValidate={false}
+        ><></></Form>
+      );
+    }
+
+    if (activeTab === "business-assets") {
+      const businessSchema = schema.properties?.business as any;
       const assetsSchema: RJSFSchema = {
         type: "object",
         properties: {
@@ -1013,96 +1077,25 @@ export default function AdminForm({
       };
 
       return (
-        <Tabs value={metaSubTab} onValueChange={(v) => setMetaSubTab(v as "business" | "assets")} orientation="horizontal">
-          <TabsList className="mb-6">
-            <TabsTrigger value="business">Business Info</TabsTrigger>
-            <TabsTrigger value="assets">Assets</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="business" className="mt-0">
-            <Form
-              schema={businessInfoSchema}
-              uiSchema={{
-                ...generateColorUiSchema(businessInfoSchema),
-                business: {
-                  ...(generateColorUiSchema(businessInfoSchema).business ?? {}),
-                  id: { "ui:disabled": true },
-                },
-              }}
-              formData={{ business: resolvedFormData.business }}
-              validator={validator}
-              widgets={configWidgets}
-              templates={customTemplates}
-              formContext={{ businessId }}
-              onChange={(data: any) => {
-                if (data.formData) {
-                  if (translationMode !== "keys") {
-                    const origBiz = formData.business as Record<string, unknown>;
-                    const newBiz = data.formData.business;
-                    const translationUpdates: Record<string, string> = {};
-                    const lang = translationMode as "en" | "pl";
-                    function walkBiz(orig: any, updated: any) {
-                      if (typeof orig === "string" && orig.startsWith("t:")) {
-                        if (typeof updated === "string") translationUpdates[orig.slice(2)] = updated;
-                        return;
-                      }
-                      if (orig && updated && typeof orig === "object" && typeof updated === "object") {
-                        for (const k of Object.keys(orig)) {
-                          if (k in updated) walkBiz(orig[k], updated[k]);
-                        }
-                      }
-                    }
-                    walkBiz(origBiz, newBiz);
-                    if (Object.keys(translationUpdates).length > 0) {
-                      setTranslationsData((prev) => ({
-                        ...prev,
-                        [lang]: { ...(prev[lang] as Record<string, string>), ...translationUpdates },
-                      }));
-                    }
-                    const reconstructedBiz = reconstructWithTKeys(origBiz, newBiz);
-                    setFormData((prev) => ({
-                      ...prev,
-                      business: { ...(prev.business as Record<string, unknown>), ...reconstructedBiz },
-                    }));
-                  } else {
-                    setFormData((prev) => ({
-                      ...prev,
-                      business: { ...(prev.business as Record<string, unknown>), ...data.formData.business },
-                    }));
-                  }
-                  setSaveStatus("idle");
-                }
-              }}
-              liveValidate={false}
-            ><></></Form>
-          </TabsContent>
-
-          <TabsContent value="assets" className="mt-0">
-            <Card>
-              <CardContent className="pt-6">
-                <Form
-                  schema={assetsSchema}
-                  uiSchema={generateColorUiSchema(assetsSchema)}
-                  formData={{ business: { assets: (resolvedFormData.business as any)?.assets } }}
-                  validator={validator}
-                  widgets={configWidgets}
-                  templates={customTemplates}
-                  formContext={{ businessId }}
-                  onChange={(data: any) => {
-                    if (data.formData) {
-                      setFormData((prev) => ({
-                        ...prev,
-                        business: { ...(prev.business as Record<string, unknown>), assets: data.formData.business?.assets },
-                      }));
-                      setSaveStatus("idle");
-                    }
-                  }}
-                  liveValidate={false}
-                ><></></Form>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        <Form
+          schema={assetsSchema}
+          uiSchema={generateColorUiSchema(assetsSchema)}
+          formData={{ business: { assets: (resolvedFormData.business as any)?.assets } }}
+          validator={validator}
+          widgets={configWidgets}
+          templates={customTemplates}
+          formContext={{ businessId }}
+          onChange={(data: any) => {
+            if (data.formData) {
+              setFormData((prev) => ({
+                ...prev,
+                business: { ...(prev.business as Record<string, unknown>), assets: data.formData.business?.assets },
+              }));
+              setSaveStatus("idle");
+            }
+          }}
+          liveValidate={false}
+        ><></></Form>
       );
     }
 
@@ -1568,17 +1561,33 @@ export default function AdminForm({
     return null;
   };
 
-  const navGroups = [
+  const navGroups = useMemo(() => [
     {
-      label: "General",
+      id: "dashboards",
+      label: "Dashboards",
+      description: "Track performance and system health at a glance.",
+      Icon: LayoutDashboard,
       items: [
-        { id: "meta", label: "Business", Icon: Briefcase },
-        { id: "notifications", label: "Notifications", Icon: Bell },
-        { id: "translations", label: "Translations", Icon: Languages },
+        { id: "analytics", label: "Analytics", Icon: BarChart2 },
+        { id: "status", label: "Status", Icon: Activity },
       ],
     },
     {
+      id: "business",
+      label: "Business",
+      description: "Manage core business information, notifications and brand assets.",
+      Icon: Briefcase,
+      items: [
+        { id: "business-general", label: "General", Icon: Briefcase },
+        { id: "notifications", label: "Notifications", Icon: Bell },
+        { id: "business-assets", label: "Assets", Icon: ImageIcon },
+      ],
+    },
+    {
+      id: "data",
       label: "Data",
+      description: "Content, commerce and scheduling data that powers the site.",
+      Icon: Database,
       items: [
         { id: "data-products", label: "Products", Icon: ShoppingBag },
         { id: "data-services", label: "Services", Icon: Wrench },
@@ -1590,35 +1599,60 @@ export default function AdminForm({
       ],
     },
     {
-      label: "Layout",
+      id: "website",
+      label: "Website",
+      description: "Customize theme, navigation, footer and translations.",
+      Icon: Globe,
       items: [
         { id: "theme", label: "Theme", Icon: Palette },
         { id: "navbar", label: "Navbar", Icon: Menu },
         { id: "footer", label: "Footer", Icon: Footprints },
+        { id: "translations", label: "Translations", Icon: Languages },
       ],
     },
     {
-      label: "Insights",
-      items: [
-        { id: "analytics", label: "Analytics", Icon: BarChart2 },
-        { id: "status", label: "Status", Icon: Activity },
-      ],
+      id: "pages",
+      label: "Pages",
+      description: "Individual pages and their section layouts.",
+      Icon: FileText,
+      items: pageNames.map((pageName) => ({ id: `page-${pageName}`, label: pageName, Icon: File })),
     },
     ...(auth?.role === "super-admin" ? [
       {
-        label: "Overview",
-        items: [
-          { id: "overview", label: "All Businesses", Icon: LayoutDashboard },
-        ],
-      },
-      {
+        id: "administration",
         label: "Administration",
+        description: "Manage tenants and user access.",
+        Icon: Shield,
         items: [
+          { id: "overview", label: "Businesses", Icon: LayoutDashboard },
           { id: "users", label: "Users", Icon: Users },
         ],
       },
     ] : []),
-  ];
+  ], [pageNames, auth?.role]);
+
+  const activeGroup = useMemo(
+    () => navGroups.find((g) => g.items.some((i) => i.id === activeTab)),
+    [navGroups, activeTab]
+  );
+
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    navGroups.forEach((g) => {
+      initial[g.id] = g.items.some((i) => i.id === activeTab);
+    });
+    return initial;
+  });
+
+  useEffect(() => {
+    if (activeGroup) {
+      setExpandedGroups((prev) => (prev[activeGroup.id] ? prev : { ...prev, [activeGroup.id]: true }));
+    }
+  }, [activeGroup]);
+
+  const toggleGroup = useCallback((groupId: string) => {
+    setExpandedGroups((prev) => ({ ...prev, [groupId]: !prev[groupId] }));
+  }, []);
 
   const [theme, setThemeState] = useState<"light" | "dark">(() => {
     if (typeof window !== "undefined") {
@@ -1677,46 +1711,53 @@ export default function AdminForm({
           </SidebarHeader>
 
           <SidebarContent>
-            {navGroups.map((group) => (
-              <SidebarGroup key={group.label}>
-                <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
-                <SidebarMenu>
-                  {group.items.map((item) => (
-                    <SidebarMenuItem key={item.id}>
+            {navGroups.map((group) => {
+              const isExpanded = expandedGroups[group.id] ?? false;
+              const hasActive = group.items.some((i) => i.id === activeTab);
+              return (
+                <SidebarGroup key={group.id} className="py-0.5">
+                  <SidebarMenu>
+                    <SidebarMenuItem>
                       <SidebarMenuButton
-                        onClick={() => setActiveTab(item.id)}
-                        isActive={activeTab === item.id}
+                        onClick={() => toggleGroup(group.id)}
+                        isActive={hasActive && !isExpanded}
+                        className="font-medium"
+                        aria-expanded={isExpanded}
                       >
-                        <item.Icon />
-                        <span>{item.label}</span>
+                        <group.Icon />
+                        <span>{group.label}</span>
+                        {isExpanded ? (
+                          <ChevronDown className="ml-auto h-4 w-4 transition-transform text-muted-foreground group-data-[collapsible=icon]:hidden" />
+                        ) : (
+                          <ChevronRight className="ml-auto h-4 w-4 transition-transform text-muted-foreground group-data-[collapsible=icon]:hidden" />
+                        )}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroup>
-            ))}
-
-            {pageNames.length > 0 && (
-              <SidebarGroup>
-                <SidebarGroupLabel>Pages</SidebarGroupLabel>
-                <SidebarMenu>
-                  {pageNames.map((pageName) => {
-                    return (
-                      <SidebarMenuItem key={`page-${pageName}`}>
-                        <SidebarMenuButton
-                          onClick={() => setActiveTab(`page-${pageName}`)}
-                          isActive={activeTab === `page-${pageName}`}
-                        >
-                          <File />
-                          <span>{pageName}</span>
-                        </SidebarMenuButton>
+                    {isExpanded && group.items.length > 0 && (
+                      <SidebarMenuItem>
+                        <ul className="mx-3.5 flex min-w-0 flex-col gap-0.5 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]:hidden">
+                          {group.items.map((item) => (
+                            <li key={item.id}>
+                              <button
+                                type="button"
+                                onClick={() => setActiveTab(item.id)}
+                                className={`flex w-full h-7 items-center rounded-md px-2 text-sm text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                                  activeTab === item.id
+                                    ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                                    : "text-sidebar-foreground/80"
+                                }`}
+                              >
+                                <span className="truncate">{item.label}</span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
                       </SidebarMenuItem>
-                    );
-                  })}
-                </SidebarMenu>
-              </SidebarGroup>
-            )}
-
+                    )}
+                  </SidebarMenu>
+                </SidebarGroup>
+              );
+            })}
           </SidebarContent>
 
           <SidebarFooter>
@@ -1794,34 +1835,6 @@ export default function AdminForm({
                           </>
                         );
                       }
-                    }
-                    if (activeTab.startsWith("page-")) {
-                      const pageName = activeTab.replace("page-", "");
-                      return (
-                        <>
-                          <BreadcrumbItem>
-                            <span className="text-muted-foreground">Pages</span>
-                          </BreadcrumbItem>
-                          <BreadcrumbSeparator />
-                          <BreadcrumbItem>
-                            <BreadcrumbPage>{pageName}</BreadcrumbPage>
-                          </BreadcrumbItem>
-                        </>
-                      );
-                    }
-                    if (activeTab === "translations-en" || activeTab === "translations-pl") {
-                      const langLabel = activeTab === "translations-en" ? "English" : "Polski";
-                      return (
-                        <>
-                          <BreadcrumbItem>
-                            <span className="text-muted-foreground">Translations</span>
-                          </BreadcrumbItem>
-                          <BreadcrumbSeparator />
-                          <BreadcrumbItem>
-                            <BreadcrumbPage>{langLabel}</BreadcrumbPage>
-                          </BreadcrumbItem>
-                        </>
-                      );
                     }
                     return (
                       <BreadcrumbItem>
@@ -1952,8 +1965,41 @@ export default function AdminForm({
 
           {/* Content area */}
           <div className="flex-1 overflow-y-auto admin-form-area">
-            <div className={`p-6 ${["navbar", "footer"].includes(activeTab) ? "max-w-[640px] mx-auto" : ""}`}>
-              {getTabContent()}
+            <div className="p-6 max-w-[960px] mx-auto space-y-6">
+              {activeGroup && (
+                <div>
+                  <h2 className="text-2xl font-semibold tracking-tight">{activeGroup.label}</h2>
+                  <p className="text-sm text-muted-foreground mt-1">{activeGroup.description}</p>
+                </div>
+              )}
+              <div className="flex flex-col md:flex-row gap-6 items-start">
+                {activeGroup && activeGroup.items.length > 0 && (
+                  <Card className="w-full md:w-[254px] md:flex-shrink-0 md:sticky md:top-6">
+                    <CardContent className="p-2">
+                      <nav className="flex flex-col gap-0.5">
+                        {activeGroup.items.map((item) => (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => setActiveTab(item.id)}
+                            className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-left transition-colors ${
+                              activeTab === item.id
+                                ? "bg-muted text-foreground font-medium"
+                                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                            }`}
+                          >
+                            <item.Icon className="h-4 w-4 flex-shrink-0" />
+                            <span className="truncate">{item.label}</span>
+                          </button>
+                        ))}
+                      </nav>
+                    </CardContent>
+                  </Card>
+                )}
+                <div className="w-full md:flex-1 md:max-w-[672px] min-w-0 space-y-6">
+                  {getTabContent()}
+                </div>
+              </div>
             </div>
           </div>
         </SidebarInset>
