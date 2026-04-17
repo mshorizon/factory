@@ -144,6 +144,11 @@
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
         "blogSlug": { "type": "string", "title": "Blog Slug (used when type is blog-standalone)" },
+        "blogSlugs": {
+          "type": "array",
+          "title": "Blog Slugs (filter — when type is blog, render only these blogs in the given order; supports standalone blogs)",
+          "items": { "type": "string" }
+        },
         "sidebarContact": {
           "type": "object",
           "title": "Sidebar Contact Card",

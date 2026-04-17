@@ -45,7 +45,7 @@ function Toggle({ checked, onChange, disabled, label }: { checked: boolean; onCh
       <div
         className={cn(
           "w-4 h-4 rounded-full shadow transition-colors",
-          checked ? "bg-background" : "bg-foreground/70"
+          checked ? "bg-background" : "bg-foreground/40"
         )}
       />
     </button>

@@ -16,6 +16,7 @@ export function GoogleMap({
   subtitle,
   className,
   badgeVariant = "accent",
+  badgeLayout = "row",
 }: GoogleMapProps) {
   // Google Maps Embed URL
   const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}&z=${zoom}&output=embed`;
@@ -27,9 +28,17 @@ export function GoogleMap({
         <ScrollReveal delay={0.1} direction="up" distance={20}>
           <div className="mb-spacing-2xl text-center">
             {badge && (
-              <div className="flex items-center justify-center gap-spacing-sm mb-spacing-md">
+              <div className={cn(
+                "flex gap-spacing-sm mb-spacing-md",
+                badgeLayout === "column"
+                  ? "flex-col items-center"
+                  : "flex-row items-center justify-center"
+              )}>
                 {badgeVariant !== "text" && (
-                  <span className="w-12 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
+                  <span
+                    className={badgeLayout === "column" ? "w-8 h-[2px]" : "w-12 h-[2px]"}
+                    style={{ backgroundColor: "var(--primary-dark)" }}
+                  />
                 )}
                 <Badge
                   variant={badgeVariant === "text" ? "text" : "accent"}
@@ -37,7 +46,7 @@ export function GoogleMap({
                 >
                   {badge}
                 </Badge>
-                {badgeVariant !== "text" && (
+                {badgeVariant !== "text" && badgeLayout !== "column" && (
                   <span className="w-12 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
                 )}
               </div>

@@ -60,6 +60,7 @@ export interface ContactCTAProps {
   subtitle?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  ctaVariant?: "accent" | "primaryLight";
   className?: string;
 }
 

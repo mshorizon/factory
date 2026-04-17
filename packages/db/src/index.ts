@@ -51,6 +51,7 @@ export {
   updateSiteTranslations,
   getBlogsBySiteId,
   getBlogBySlug,
+  getBlogsBySlugs,
   getLatestBlogs,
   createBlog,
   updateBlog,

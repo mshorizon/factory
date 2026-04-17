@@ -7,9 +7,9 @@
   "pages.about.title": "O mnie",
   "pages.services.title": "Usługi",
   "pages.blog.title": "Blog",
-  "pages.forms.title": "Do pobrania",
+  "pages.files.title": "Do pobrania",
   "pages.contact.title": "Kontakt",
-  "pages.informacje-dla-dluznika.title": "Informacje dla dłużnika",
+  "pages.informations.title": "Informacje dla dłużnika",
 
   "hero.badge": "Komornik Sądowy",
   "hero.title": "Profesjonalna egzekucja sądowa w Otwocku",
@@ -53,6 +53,10 @@
   "blog.title": "Aktualności prawne",
   "blog.subtitle": "Bądź na bieżąco z informacjami dotyczącymi postępowań egzekucyjnych.",
   "blog.readMore": "Czytaj więcej",
+
+  "informations.badge": "Informacje",
+  "informations.title": "Informacje dla dłużnika",
+  "informations.subtitle": "Najważniejsze informacje o postępowaniu egzekucyjnym — prawa dłużnika, wpłaty, tytuł wykonawczy i EPU.",
 
   "systems.learnMore": "Dowiedz się więcej",
 

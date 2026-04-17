@@ -159,6 +159,7 @@ export type SectionType =
   | "files";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type BlogSlugUsedWhenTypeIsBlogStandalone = string;
+export type BlogSlugsFilterWhenTypeIsBlogRenderOnlyTheseBlogsInTheGivenOrderSupportsStandaloneBlogs = string[];
 export type Name = string;
 export type RoleTitle = string;
 export type AvatarImageURL = string;
@@ -466,6 +467,7 @@ export interface Section {
   type: SectionType;
   sectionId?: SharedSectionIDUsedWhenTypeIsRef;
   blogSlug?: BlogSlugUsedWhenTypeIsBlogStandalone;
+  blogSlugs?: BlogSlugsFilterWhenTypeIsBlogRenderOnlyTheseBlogsInTheGivenOrderSupportsStandaloneBlogs;
   sidebarContact?: SidebarContactCard;
   variant?: Variant;
   background?: SectionBackground;

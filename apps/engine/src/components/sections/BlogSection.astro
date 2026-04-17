@@ -2,7 +2,7 @@
 import type { Section } from "@mshorizon/schema";
 import { BlogGrid, BlogCards, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
-import { getLatestBlogs } from "@mshorizon/db";
+import { getLatestBlogs, getBlogsBySlugs } from "@mshorizon/db";
 import type { BlogPost } from "@mshorizon/ui/sections/blog/types";
 
 interface Props {
@@ -19,11 +19,21 @@ const ctaLabel = section.ctaLabel || "Czytaj więcej";
 const isCards = section.variant === "cards";
 const isCardsLight = section.variant === "cards-light";
 
-// Fetch latest blogs — cards variants show 3, default shows 2
-const postCount = isCards || isCardsLight ? 3 : 2;
-let blogs = site ? await getLatestBlogs(site.id, postCount, currentLang) : [];
-if (blogs.length === 0 && site) {
-  blogs = await getLatestBlogs(site.id, postCount);
+const blogSlugs = (section as any).blogSlugs as string[] | undefined;
+
+let blogs: Awaited<ReturnType<typeof getLatestBlogs>> = [];
+if (site) {
+  if (blogSlugs && blogSlugs.length > 0) {
+    // Render only the explicitly listed blogs (includes standalone), preserving order
+    blogs = await getBlogsBySlugs(site.id, blogSlugs, currentLang);
+  } else {
+    // Fetch latest blogs — cards variants show 3, default shows 2
+    const postCount = isCards || isCardsLight ? 3 : 2;
+    blogs = await getLatestBlogs(site.id, postCount, currentLang);
+    if (blogs.length === 0) {
+      blogs = await getLatestBlogs(site.id, postCount);
+    }
+  }
 }
 
 // Transform blogs to BlogPost[] format

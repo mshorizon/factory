@@ -9,4 +9,5 @@ export interface GoogleMapProps {
   subtitle?: string;
   className?: string;
   badgeVariant?: "accent" | "outlined" | "text";
+  badgeLayout?: "row" | "column";
 }

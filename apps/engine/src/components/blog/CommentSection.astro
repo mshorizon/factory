@@ -4,9 +4,10 @@ import { CommentForm } from "./CommentForm";
 
 interface Props {
   blogId: number;
+  ctaVariant?: "accent" | "primaryLight";
 }
 
-const { blogId } = Astro.props;
+const { blogId, ctaVariant = "accent" } = Astro.props;
 const { currentLang } = Astro.locals;
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
@@ -70,6 +71,6 @@ const comments = await getCommentsByBlogId(blogId, true);
     <h3 class="text-xl font-bold font-heading text-foreground uppercase mb-spacing-lg">
       Dodaj komentarz
     </h3>
-    <CommentForm client:load blogId={blogId} turnstileSiteKey={turnstileSiteKey} />
+    <CommentForm client:load blogId={blogId} turnstileSiteKey={turnstileSiteKey} ctaVariant={ctaVariant} />
   </div>
 </div>

@@ -20,6 +20,7 @@ export function ContactMinimal({
   subtitle,
   ctaLabel = "Contact me",
   ctaHref = "/contact",
+  ctaVariant = "accent",
   className,
 }: ContactCTAProps) {
   const trackClick = () =>
@@ -27,6 +28,10 @@ export function ContactMinimal({
       section: "contact-minimal",
       label: ctaLabel,
     });
+
+  const ctaClass = ctaVariant === "primaryLight"
+    ? "bg-primary-light text-on-accent hover:bg-primary-light/90"
+    : "bg-primary text-on-primary hover:bg-primary/90";
 
   return (
     <ScrollReveal className={cn("text-center", className)}>
@@ -60,7 +65,10 @@ export function ContactMinimal({
           <div className="mt-spacing-sm">
             <a
               href={ctaHref}
-              className="inline-flex items-center gap-spacing-sm bg-primary text-on-primary rounded-full px-8 py-3.5 text-base font-semibold hover:bg-primary/90 transition-colors group"
+              className={cn(
+                "inline-flex items-center gap-spacing-sm rounded-full px-8 py-3.5 text-base font-semibold transition-colors group",
+                ctaClass
+              )}
               onClick={trackClick}
             >
               {ctaLabel}

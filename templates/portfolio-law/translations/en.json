@@ -7,9 +7,9 @@
   "pages.about.title": "About",
   "pages.services.title": "Services",
   "pages.blog.title": "Blog",
-  "pages.forms.title": "Files",
+  "pages.files.title": "Files",
   "pages.contact.title": "Contact",
-  "pages.informacje-dla-dluznika.title": "Information for Debtors",
+  "pages.informations.title": "Information for Debtors",
 
   "hero.badge": "Court Bailiff",
   "hero.title": "Professional Court Enforcement in Otwock",
@@ -53,6 +53,10 @@
   "blog.title": "Legal Updates",
   "blog.subtitle": "Stay up to date with information on enforcement proceedings.",
   "blog.readMore": "Read More",
+
+  "informations.badge": "Information",
+  "informations.title": "Information for Debtors",
+  "informations.subtitle": "Key information about enforcement proceedings — debtor rights, payments, writs of execution and EPU.",
 
   "systems.learnMore": "Learn more",
 

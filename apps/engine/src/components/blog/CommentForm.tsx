@@ -4,9 +4,13 @@ import { Turnstile } from "@marsidev/react-turnstile";
 interface CommentFormProps {
   blogId: number;
   turnstileSiteKey?: string;
+  ctaVariant?: "accent" | "primaryLight";
 }
 
-export function CommentForm({ blogId, turnstileSiteKey }: CommentFormProps) {
+export function CommentForm({ blogId, turnstileSiteKey, ctaVariant = "accent" }: CommentFormProps) {
+  const submitClass = ctaVariant === "primaryLight"
+    ? "bg-primary-light text-on-accent hover:bg-primary-light/90"
+    : "bg-primary text-textOnPrimary hover:opacity-90";
   const [formData, setFormData] = useState({
     authorName: "",
     authorEmail: "",
@@ -129,7 +133,7 @@ export function CommentForm({ blogId, turnstileSiteKey }: CommentFormProps) {
       <button
         type="submit"
         disabled={status === "submitting" || (turnstileSiteKey != null && !turnstileToken)}
-        className="px-spacing-xl py-spacing-md bg-primary text-textOnPrimary font-semibold rounded-radius hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+        className={`px-spacing-xl py-spacing-md ${submitClass} font-semibold rounded-radius disabled:opacity-50 disabled:cursor-not-allowed transition-all`}
       >
         {status === "submitting" ? "Wysyłanie..." : "Dodaj komentarz"}
       </button>

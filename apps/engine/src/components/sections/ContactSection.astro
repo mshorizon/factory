@@ -26,10 +26,7 @@ const ctaHref = section.cta?.target?.type === "phone"
 ---
 
 {variant === "professional" ? (
-  <section
-    class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}
-    style="background-color: var(--background);"
-  >
+  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
     <div class="container mx-auto">
       <ContactProfessional
         client:visible
@@ -88,6 +85,7 @@ const ctaHref = section.cta?.target?.type === "phone"
         subtitle={header.subtitle}
         ctaLabel={section.cta?.label}
         ctaHref={ctaHref}
+        ctaVariant={(section as any).ctaVariant}
       />
     </div>
   </section>

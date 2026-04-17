@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, MessageCircle, CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
+import { MapPinIcon, PhoneIcon, EnvelopeIcon, ClockIcon, ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Input } from "../../atoms/Input";
@@ -115,9 +116,7 @@ export function ContactProfessional({
                 href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
-                  <Phone className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
-                </span>
+                <PhoneIcon className="h-5 w-5 text-primary-light shrink-0" />
                 <span className="text-sm">{contactInfo.phone}</span>
               </a>
             )}
@@ -126,25 +125,19 @@ export function ContactProfessional({
                 href={`mailto:${contactInfo.email}`}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
-                  <Mail className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
-                </span>
+                <EnvelopeIcon className="h-5 w-5 text-primary-light shrink-0" />
                 <span className="text-sm">{contactInfo.email}</span>
               </a>
             )}
             {contactInfo.address && (
               <div className="flex items-center gap-spacing-md text-foreground">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
-                  <MapPin className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
-                </span>
+                <MapPinIcon className="h-5 w-5 text-primary-light shrink-0" />
                 <span className="text-sm">{contactInfo.address}</span>
               </div>
             )}
             {contactInfo.hours && (
               <div className="flex items-center gap-spacing-md text-foreground">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
-                  <Clock className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
-                </span>
+                <ClockIcon className="h-5 w-5 text-primary-light shrink-0" />
                 <span className="text-sm">{contactInfo.hours}</span>
               </div>
             )}
@@ -153,9 +146,7 @@ export function ContactProfessional({
                 href={ctaHref}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
-                  <MessageCircle className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
-                </span>
+                <ChatBubbleOvalLeftIcon className="h-5 w-5 text-primary-light shrink-0" />
                 <span className="text-sm">{ctaLabel}</span>
               </a>
             )}

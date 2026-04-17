@@ -1,4 +1,4 @@
-import { eq, and, desc, gte, sql, count, ne } from "drizzle-orm";
+import { eq, and, desc, gte, sql, count, ne, inArray } from "drizzle-orm";
 import { getDb } from "./client.js";
 import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles, passwordResetTokens } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
@@ -107,6 +107,33 @@ export async function getBlogBySlug(siteId: number, slug: string, lang?: string)
     .where(and(...conditions))
     .limit(1);
   return row ?? null;
+}
+
+export async function getBlogsBySlugs(siteId: number, slugs: string[], lang?: string) {
+  if (slugs.length === 0) return [];
+  const db = getDb();
+  const conditions = [eq(blogs.siteId, siteId), eq(blogs.status, "published"), inArray(blogs.slug, slugs)];
+
+  const primary = lang
+    ? await db.select().from(blogs).where(and(...conditions, eq(blogs.lang, lang)))
+    : await db.select().from(blogs).where(and(...conditions));
+
+  const bySlug = new Map(primary.map((b) => [b.slug, b]));
+
+  // Fallback: fill missing slugs from any language so the list is complete
+  const missing = slugs.filter((s) => !bySlug.has(s));
+  if (missing.length > 0) {
+    const fallback = await db
+      .select()
+      .from(blogs)
+      .where(and(eq(blogs.siteId, siteId), eq(blogs.status, "published"), inArray(blogs.slug, missing)));
+    for (const b of fallback) {
+      if (!bySlug.has(b.slug)) bySlug.set(b.slug, b);
+    }
+  }
+
+  // Preserve the caller-supplied order
+  return slugs.map((s) => bySlug.get(s)).filter((b): b is NonNullable<typeof b> => Boolean(b));
 }
 
 export async function getLatestBlogs(siteId: number, limit = 2, lang?: string) {

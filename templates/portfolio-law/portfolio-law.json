@@ -146,10 +146,10 @@
               }
             },
             {
-              "label": "t:pages.informacje-dla-dluznika.title",
+              "label": "t:pages.informations.title",
               "target": {
                 "type": "page",
-                "value": "informacje-dla-dluznika"
+                "value": "informations"
               }
             }
           ]
@@ -524,6 +524,7 @@
         {
           "type": "contact",
           "variant": "minimal",
+          "ctaVariant": "primaryLight",
           "header": {
             "badge": "t:contact.badge",
             "title": "t:contact.title",
@@ -608,9 +609,9 @@
         }
       ]
     },
-    "forms": {
+    "files": {
       "title": "Do pobrania",
-      "navLabel": "t:pages.forms.title",
+      "navLabel": "t:pages.files.title",
       "sections": [
         {
           "type": "files",
@@ -700,7 +701,8 @@
         },
         {
           "type": "map",
-          "badgeVariant": "text",
+          "badgeVariant": "accent",
+          "badgeLayout": "column",
           "header": {
             "badge": "t:map.badge",
             "title": "t:map.title",
@@ -709,27 +711,25 @@
         }
       ]
     },
-    "informacje-dla-dluznika": {
-      "title": "Informacje dla dłużnika",
-      "navLabel": "t:pages.informacje-dla-dluznika.title",
+    "informations": {
+      "title": "t:pages.informations.title",
+      "navLabel": "t:pages.informations.title",
       "sections": [
         {
-          "type": "blog-standalone",
-          "blogSlug": "informacje-dla-dluznika",
-          "sidebarContact": {
-            "name": "Marcin Starzec",
-            "role": "Komornik Sądowy",
-            "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
-            "phone": "+48 22 180 00 22",
-            "email": "otwock.starzec@komornik.pl",
-            "cta": {
-              "label": "t:contact.cta",
-              "target": {
-                "type": "page",
-                "value": "contact"
-              }
-            }
-          }
+          "type": "blog",
+          "variant": "cards-light",
+          "header": {
+            "badge": "t:informations.badge",
+            "title": "t:informations.title",
+            "subtitle": "t:informations.subtitle"
+          },
+          "blogSlugs": [
+            "informacje-dla-dluznika",
+            "prawa-dluznika",
+            "tytul-wykonawczy",
+            "epu-przewodnik"
+          ],
+          "ctaLabel": "t:blog.readMore"
         }
       ]
     }
