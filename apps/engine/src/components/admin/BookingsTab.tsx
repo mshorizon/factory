@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +15,7 @@ import {
   Mail,
   Loader2,
 } from "lucide-react";
+import { UniversalList } from "./UniversalList";
 
 interface Booking {
   id: number;
@@ -223,94 +225,84 @@ export function BookingsTab({ businessId }: BookingsTabProps) {
   }
 
   // List view
-  return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between">
+  const columns: ColumnDef<Booking, unknown>[] = [
+    {
+      accessorKey: "date",
+      header: "Data i godzina",
+      cell: ({ row }) => (
         <div>
-          <h2 className="text-base font-semibold">Rezerwacje</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">{bookings.length} rezerwacji</p>
+          <p className="font-medium">{formatDate(row.original.date)}</p>
+          <p className="text-xs text-muted-foreground">
+            {row.original.startTime} – {row.original.endTime}
+          </p>
         </div>
-      </div>
-
-      {/* Status filter */}
-      <div className="flex flex-wrap gap-1">
-        {STATUS_FILTERS.map((f) => (
-          <Button
-            key={f.value}
-            variant={statusFilter === f.value ? "default" : "ghost"}
-            size="sm"
-            className="h-7 text-xs"
-            onClick={() => setStatusFilter(f.value)}
-          >
-            {f.label}
-          </Button>
-        ))}
-      </div>
-
-      {loading && (
-        <div className="flex items-center justify-center py-16 text-muted-foreground text-sm">
-          <Loader2 className="h-4 w-4 animate-spin mr-2" /> Ładowanie...
+      ),
+    },
+    {
+      accessorKey: "serviceName",
+      header: "Usługa",
+      cell: ({ row }) => (
+        <div>
+          <p className="font-medium">{row.original.serviceName}</p>
+          <p className="text-xs text-muted-foreground">{row.original.serviceDuration} min</p>
         </div>
-      )}
+      ),
+    },
+    {
+      accessorKey: "customerName",
+      header: "Klient",
+      cell: ({ row }) => (
+        <div>
+          <p className="font-medium">{row.original.customerName}</p>
+          <p className="text-xs text-muted-foreground">{row.original.customerPhone}</p>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const badge = STATUS_BADGE[row.original.status] || STATUS_BADGE.pending;
+        return <Badge variant={badge.variant} className="text-xs">{badge.label}</Badge>;
+      },
+    },
+  ];
 
-      {error && (
-        <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">{error}</div>
-      )}
-
-      {!loading && !error && (
-        <Card>
-          <CardContent className="pt-4 pb-2 px-5">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b text-xs text-muted-foreground">
-                    <th className="text-left py-2 pr-4 font-medium">Data i godzina</th>
-                    <th className="text-left py-2 pr-4 font-medium">Usługa</th>
-                    <th className="text-left py-2 pr-4 font-medium">Klient</th>
-                    <th className="text-left py-2 pr-4 font-medium">Status</th>
-                    <th className="text-right py-2 font-medium"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings.map((booking) => {
-                    const badge = STATUS_BADGE[booking.status] || STATUS_BADGE.pending;
-                    return (
-                      <tr key={booking.id} className="border-b last:border-0 hover:bg-muted/50 transition-colors">
-                        <td className="py-2.5 pr-4">
-                          <p className="font-medium">{formatDate(booking.date)}</p>
-                          <p className="text-xs text-muted-foreground">{booking.startTime} – {booking.endTime}</p>
-                        </td>
-                        <td className="py-2.5 pr-4">
-                          <p className="font-medium">{booking.serviceName}</p>
-                          <p className="text-xs text-muted-foreground">{booking.serviceDuration} min</p>
-                        </td>
-                        <td className="py-2.5 pr-4">
-                          <p className="font-medium">{booking.customerName}</p>
-                          <p className="text-xs text-muted-foreground">{booking.customerPhone}</p>
-                        </td>
-                        <td className="py-2.5 pr-4">
-                          <Badge variant={badge.variant} className="text-xs">{badge.label}</Badge>
-                        </td>
-                        <td className="py-2.5 text-right">
-                          <Button variant="ghost" size="sm" className="h-7" onClick={() => setSelectedBooking(booking)}>
-                            <Eye className="h-3.5 w-3.5" />
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              {bookings.length === 0 && (
-                <div className="text-center py-12 text-sm text-muted-foreground">
-                  <CalendarDays className="h-10 w-10 mx-auto mb-3 text-muted-foreground/30" />
-                  Brak rezerwacji
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+  return (
+    <UniversalList<Booking>
+      title="Rezerwacje"
+      subtitle={`${bookings.length} rezerwacji`}
+      data={bookings}
+      columns={columns}
+      loading={loading}
+      loadingLabel="Ładowanie..."
+      error={error}
+      emptyIcon={CalendarDays}
+      emptyTitle="Brak rezerwacji"
+      getRowId={(row) => row.id}
+      toolbarExtras={
+        <div className="flex flex-wrap gap-1">
+          {STATUS_FILTERS.map((f) => (
+            <Button
+              key={f.value}
+              variant={statusFilter === f.value ? "default" : "ghost"}
+              size="sm"
+              className="h-7 text-xs"
+              onClick={() => setStatusFilter(f.value)}
+            >
+              {f.label}
+            </Button>
+          ))}
+        </div>
+      }
+      rowActions={[
+        {
+          label: "View",
+          icon: Eye,
+          iconOnly: true,
+          onClick: (booking) => setSelectedBooking(booking),
+        },
+      ]}
+    />
   );
 }

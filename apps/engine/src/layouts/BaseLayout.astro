@@ -35,6 +35,16 @@ function darkenColor(hex: string, percent: number = 35): string {
   return "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
 }
 
+// Convert hex color to space-separated RGB channels for Tailwind opacity support
+function hexToRgbChannels(hex: string): string {
+  const clean = hex.replace("#", "");
+  const num = parseInt(clean, 16);
+  const r = (num >> 16) & 0xFF;
+  const g = (num >> 8) & 0xFF;
+  const b = num & 0xFF;
+  return `${r} ${g} ${b}`;
+}
+
 // Extract CSS variables from theme
 const colors = theme.mode === "dark" && theme.colors?.dark ? theme.colors.dark : theme.colors?.light;
 const darkColors = theme.colors?.dark || {
@@ -65,6 +75,7 @@ const cssVars: Record<string, string> = {
   muted: colors?.text?.muted || "#64748B",
   border: (colors?.text?.muted || "#64748B") + "40",
   textOnPrimary: colors?.text?.onPrimary || "#FFFFFF",
+  onPrimaryRgb: hexToRgbChannels(colors?.text?.onPrimary || "#FFFFFF"),
   darkBackground: darkColors.surface?.base || "#16181D",
   darkCard: darkColors.surface?.card || "#1C1E23",
   darkForeground: darkColors.text?.main || "#FFFFFF",
@@ -140,7 +151,7 @@ const googleFontsUrl = googleFonts.length > 0
 
 // CSS vars as inline style on <html> to win over :root in global.css (inline > stylesheet specificity).
 // Layout rules go in a separate <style> tag.
-const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primaryDark};--primary-light:${cssVars.primaryLight};--secondary:${cssVars.secondary};--accent:${cssVars.accent};--background:${cssVars.background};--card:${cssVars.card};--surface-gradient:${cssVars.surfaceGradient};--foreground:${cssVars.foreground};--muted:${cssVars.muted};--border:${cssVars.border};--text-on-primary:${cssVars.textOnPrimary};--page-background:${cssVars.background};--page-foreground:${cssVars.foreground};--page-muted:${cssVars.muted};--dark-background:${cssVars.darkBackground};--dark-card:${cssVars.darkCard};--dark-foreground:${cssVars.darkForeground};--dark-muted:${cssVars.darkMuted};--dark-border:${cssVars.darkBorder};--radius-sm:${cssVars.radiusSm};--radius:${cssVars.radius};--radius-secondary:${cssVars.radiusSecondary};--radius-lg:${cssVars.radiusLg};--radius-full:${cssVars.radiusFull};--shadow-sm:${cssVars.shadowSm};--shadow:${cssVars.shadow};--shadow-lg:${cssVars.shadowLg};--font-sans:${cssVars.fontSans};--font-heading:${cssVars.fontHeading};--heading-transform:${cssVars.headingTransform};--heading-letter-spacing:${cssVars.headingLetterSpacing};--spacing-xs:${cssVars.spacingXs};--spacing-sm:${cssVars.spacingSm};--spacing-md:${cssVars.spacingMd};--spacing-lg:${cssVars.spacingLg};--spacing-xl:${cssVars.spacingXl};--spacing-2xl:${cssVars.spacing2xl};--spacing-3xl:${cssVars.spacing3xl};--spacing-section-sm:${cssVars.spacingSectionSm};--spacing-section:${cssVars.spacingSection};--spacing-container:${cssVars.spacingContainer};--heading-weight:${cssVars.headingWeight};--max-font-weight:${cssVars.maxFontWeight};--fw-medium:${Math.min(500, maxFw)};--fw-semibold:${Math.min(600, maxFw)};--fw-bold:${Math.min(700, maxFw)};--fw-extrabold:${Math.min(800, maxFw)};--fw-black:${Math.min(900, maxFw)};--nav-font-size:${cssVars.navFontSize};--nav-logo-size:${cssVars.navLogoSize};--nav-logo-weight:${cssVars.navLogoWeight};--badge-font-size:${cssVars.badgeFontSize}`;
+const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primaryDark};--primary-light:${cssVars.primaryLight};--secondary:${cssVars.secondary};--accent:${cssVars.accent};--background:${cssVars.background};--card:${cssVars.card};--surface-gradient:${cssVars.surfaceGradient};--foreground:${cssVars.foreground};--muted:${cssVars.muted};--border:${cssVars.border};--text-on-primary:${cssVars.textOnPrimary};--on-primary:${cssVars.onPrimaryRgb};--page-background:${cssVars.background};--page-foreground:${cssVars.foreground};--page-muted:${cssVars.muted};--dark-background:${cssVars.darkBackground};--dark-card:${cssVars.darkCard};--dark-foreground:${cssVars.darkForeground};--dark-muted:${cssVars.darkMuted};--dark-border:${cssVars.darkBorder};--radius-sm:${cssVars.radiusSm};--radius:${cssVars.radius};--radius-secondary:${cssVars.radiusSecondary};--radius-lg:${cssVars.radiusLg};--radius-full:${cssVars.radiusFull};--shadow-sm:${cssVars.shadowSm};--shadow:${cssVars.shadow};--shadow-lg:${cssVars.shadowLg};--font-sans:${cssVars.fontSans};--font-heading:${cssVars.fontHeading};--heading-transform:${cssVars.headingTransform};--heading-letter-spacing:${cssVars.headingLetterSpacing};--spacing-xs:${cssVars.spacingXs};--spacing-sm:${cssVars.spacingSm};--spacing-md:${cssVars.spacingMd};--spacing-lg:${cssVars.spacingLg};--spacing-xl:${cssVars.spacingXl};--spacing-2xl:${cssVars.spacing2xl};--spacing-3xl:${cssVars.spacing3xl};--spacing-section-sm:${cssVars.spacingSectionSm};--spacing-section:${cssVars.spacingSection};--spacing-container:${cssVars.spacingContainer};--heading-weight:${cssVars.headingWeight};--max-font-weight:${cssVars.maxFontWeight};--fw-medium:${Math.min(500, maxFw)};--fw-semibold:${Math.min(600, maxFw)};--fw-bold:${Math.min(700, maxFw)};--fw-extrabold:${Math.min(800, maxFw)};--fw-black:${Math.min(900, maxFw)};--nav-font-size:${cssVars.navFontSize};--nav-logo-size:${cssVars.navLogoSize};--nav-logo-weight:${cssVars.navLogoWeight};--badge-font-size:${cssVars.badgeFontSize}`;
 ---
 
 <html lang={lang} style={htmlStyle} data-badge-variant={(theme as any).badgeVariant || "accent"} data-nav-links-position={(theme as any).navLinksPosition || "center"} data-major-theme={(theme as any).majorTheme || ""} data-max-font-weight={cssVars.maxFontWeight} class={(() => { const st = (theme as any).scrollType; return st === 'momentum' ? 'scroll-momentum' : st === 'smooth' ? 'scroll-smooth' : ''; })()}>

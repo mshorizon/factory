@@ -1,8 +1,5 @@
-import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { DataTable } from "./DataTable";
+import { UniversalList } from "./UniversalList";
 
 interface Project {
   id: number;
@@ -30,18 +27,6 @@ const formatDate = (dateString: string | null) => {
 };
 
 export function ProjectList({ projects, onEdit, onDelete, onCreate }: ProjectListProps) {
-  const [deletingId, setDeletingId] = useState<number | null>(null);
-
-  const handleDelete = async (projectId: number, title: string) => {
-    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
-    setDeletingId(projectId);
-    try {
-      await onDelete(projectId);
-    } finally {
-      setDeletingId(null);
-    }
-  };
-
   const columns: ColumnDef<Project, unknown>[] = [
     {
       accessorKey: "title",
@@ -77,60 +62,31 @@ export function ProjectList({ projects, onEdit, onDelete, onCreate }: ProjectLis
         </span>
       ),
     },
-    {
-      id: "actions",
-      header: () => <span className="sr-only">Actions</span>,
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className="flex items-center justify-end gap-1">
-          <Button size="sm" variant="ghost" onClick={() => onEdit(row.original)}>
-            Edit
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="text-destructive hover:text-destructive"
-            onClick={() => handleDelete(row.original.id, row.original.title)}
-            disabled={deletingId === row.original.id}
-          >
-            {deletingId === row.original.id ? "..." : "Delete"}
-          </Button>
-        </div>
-      ),
-    },
   ];
 
-  if (projects.length === 0) {
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Projects</h2>
-          <Button size="sm" onClick={onCreate}>
-            <Plus className="h-4 w-4 mr-1.5" />
-            New Project
-          </Button>
-        </div>
-        <div className="text-center py-12 bg-muted/30 rounded-lg border border-border">
-          <p className="text-muted-foreground mb-4">No projects yet</p>
-          <Button onClick={onCreate}>Create Your First Project</Button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <DataTable
-      columns={columns}
+    <UniversalList<Project>
+      title="Projects"
       data={projects}
-      toolbar={
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Projects</h2>
-          <Button size="sm" onClick={onCreate}>
-            <Plus className="h-4 w-4 mr-1.5" />
-            New Project
-          </Button>
-        </div>
-      }
+      columns={columns}
+      primaryAction={{ label: "New Project", onClick: onCreate }}
+      emptyTitle="No projects yet"
+      emptyCta={{ label: "Create Your First Project", onClick: onCreate }}
+      getRowId={(row) => row.id}
+      rowActions={[
+        {
+          label: "Edit",
+          onClick: (project) => onEdit(project),
+        },
+        {
+          label: "Delete",
+          variant: "ghost",
+          className: "text-destructive hover:text-destructive",
+          trackBusy: true,
+          confirm: (project) => `Are you sure you want to delete "${project.title}"?`,
+          onClick: (project) => onDelete(project.id),
+        },
+      ]}
     />
   );
 }

@@ -152,7 +152,7 @@ export default {
         border: 'var(--border)',
         input: 'var(--input)',
         ring: 'var(--ring)',
-        'on-primary': 'var(--text-on-primary)',
+        'on-primary': 'rgb(var(--on-primary) / <alpha-value>)',
         // Sidebar colors use oklch channels — admin-only, support opacity modifiers.
         sidebar: {
           DEFAULT: 'oklch(var(--sidebar) / <alpha-value>)',

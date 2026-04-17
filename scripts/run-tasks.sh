@@ -12,6 +12,7 @@
 set -euo pipefail
 
 TASKS_FILE="${TASKS_FILE:-.tasks.md}"
+INBOX_FILE="${INBOX_FILE:-.tasks-inbox.md}"
 LOG_FILE="scripts/tasks.log"
 POLL_INTERVAL="${POLL_INTERVAL:-60}"
 ONCE_MODE=false
@@ -48,6 +49,21 @@ mark_failed() {
     perl -i -pe "s/^\* \[\*\]/\* [!]/ if \$. == $line_num" "$TASKS_FILE"
 }
 
+merge_inbox() {
+    [ ! -f "$INBOX_FILE" ] && return
+    # Extract [ ] lines from inbox
+    local new_tasks
+    new_tasks=$(grep "^\* \[ \]" "$INBOX_FILE" 2>/dev/null || true)
+    [ -z "$new_tasks" ] && return
+    # Append to tasks file
+    echo "$new_tasks" >> "$TASKS_FILE"
+    # Remove merged lines from inbox
+    perl -i -pe "s/^\* \[ \].*\n?//" "$INBOX_FILE"
+    local count
+    count=$(echo "$new_tasks" | wc -l | tr -d ' ')
+    log "Merged $count task(s) from inbox"
+}
+
 if [ ! -f "$TASKS_FILE" ]; then
     echo "ERROR: $TASKS_FILE not found. Create it first." >&2
     exit 1
@@ -59,6 +75,7 @@ notify "Task runner started"
 TASKS_PROCESSED=false
 
 while true; do
+    merge_inbox
     TASK_LINE=$(get_next_task)
 
     if [ -z "$TASK_LINE" ]; then

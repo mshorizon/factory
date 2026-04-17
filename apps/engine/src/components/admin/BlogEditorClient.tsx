@@ -109,11 +109,13 @@ export default function BlogEditorClient({
     const sel = window.getSelection();
     if (!sel) return null;
 
-    // If the editor already owns the selection, return it immediately.
-    // Calling focus() on an already-focused contentEditable can silently clear
-    // the selection in some browsers, which breaks all block-level execCommands.
+    // Only skip focus/restore if the editor actually owns DOM focus AND has a valid selection.
+    // Checking document.activeElement prevents false positives where anchorNode is in the editor
+    // but DOM focus has already moved away (e.g. toolbar button grabbed it despite preventDefault).
     const inEditor =
-      sel.rangeCount > 0 && editorRef.current?.contains(sel.anchorNode);
+      document.activeElement === editorRef.current &&
+      sel.rangeCount > 0 &&
+      editorRef.current?.contains(sel.anchorNode);
     if (inEditor) return sel;
 
     // Selection is outside the editor — focus it, then restore last known position.
@@ -180,6 +182,18 @@ export default function BlogEditorClient({
       sel.removeAllRanges();
       sel.addRange(newRange);
       lastEditorSelectionRef.current = newRange.cloneRange();
+    } else if (range.startContainer.nodeType === Node.TEXT_NODE && range.startContainer.parentNode === editor) {
+      // Text node is a direct child of the editor (no block wrapper) — wrap it now
+      const textNode = range.startContainer;
+      const newEl = document.createElement(tagName);
+      editor.insertBefore(newEl, textNode);
+      newEl.appendChild(textNode);
+      const newRange = document.createRange();
+      newRange.selectNodeContents(newEl);
+      newRange.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+      lastEditorSelectionRef.current = newRange.cloneRange();
     } else {
       // Fallback: use execCommand with angle brackets (Firefox requires them)
       document.execCommand("formatBlock", false, `<${tagName}>`);
@@ -207,19 +221,22 @@ export default function BlogEditorClient({
     setLinkMode(true);
   };
 
-  const handleInsertLink = (e: React.FormEvent) => {
+  const handleInsertLink = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
     if (!linkUrl.trim()) {
       setLinkMode(false);
       return;
     }
     const url = /^https?:\/\//i.test(linkUrl) ? linkUrl : `https://${linkUrl}`;
+    // Focus editor FIRST — restoring a range while a different element has focus is unreliable.
+    editorRef.current?.focus();
     const selection = window.getSelection();
     if (savedSelectionRef.current && selection) {
-      selection.removeAllRanges();
-      selection.addRange(savedSelectionRef.current);
+      try {
+        selection.removeAllRanges();
+        selection.addRange(savedSelectionRef.current);
+      } catch { /* range detached */ }
     }
-    editorRef.current?.focus();
     document.execCommand("createLink", false, url);
     // Set target and rel on the newly created <a>
     const newSel = window.getSelection();
@@ -706,7 +723,7 @@ export default function BlogEditorClient({
                 />
                 <button
                   type="button"
-                  onClick={handleInsertLink as any}
+                  onMouseDown={(e) => { e.preventDefault(); handleInsertLink(e); }}
                   className="px-2 py-1 rounded text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   OK

@@ -1,8 +1,5 @@
-import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { DataTable } from "./DataTable";
+import { UniversalList } from "./UniversalList";
 
 interface Service {
   id: string;
@@ -34,18 +31,6 @@ const formatPrice = (service: Service) => {
 };
 
 export function ServiceList({ services, onEdit, onDelete, onCreate }: ServiceListProps) {
-  const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
-
-  const handleDelete = async (index: number, title: string) => {
-    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
-    setDeletingIndex(index);
-    try {
-      await onDelete(index);
-    } finally {
-      setDeletingIndex(null);
-    }
-  };
-
   const columns: ColumnDef<Service, unknown>[] = [
     {
       accessorKey: "title",
@@ -91,64 +76,30 @@ export function ServiceList({ services, onEdit, onDelete, onCreate }: ServiceLis
         </span>
       ),
     },
-    {
-      id: "actions",
-      header: () => <span className="sr-only">Actions</span>,
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className="flex items-center justify-end gap-1">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => onEdit(row.original, row.index)}
-          >
-            Edit
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="text-destructive hover:text-destructive"
-            onClick={() => handleDelete(row.index, row.original.title)}
-            disabled={deletingIndex === row.index}
-          >
-            {deletingIndex === row.index ? "..." : "Delete"}
-          </Button>
-        </div>
-      ),
-    },
   ];
 
-  if (services.length === 0) {
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Services</h2>
-          <Button size="sm" onClick={onCreate}>
-            <Plus className="h-4 w-4 mr-1.5" />
-            New Service
-          </Button>
-        </div>
-        <div className="text-center py-12 bg-muted/30 rounded-lg border border-border">
-          <p className="text-muted-foreground mb-4">No services yet</p>
-          <Button onClick={onCreate}>Create Your First Service</Button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <DataTable
-      columns={columns}
+    <UniversalList<Service>
+      title="Services"
       data={services}
-      toolbar={
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Services</h2>
-          <Button size="sm" onClick={onCreate}>
-            <Plus className="h-4 w-4 mr-1.5" />
-            New Service
-          </Button>
-        </div>
-      }
+      columns={columns}
+      primaryAction={{ label: "New Service", onClick: onCreate }}
+      emptyTitle="No services yet"
+      emptyCta={{ label: "Create Your First Service", onClick: onCreate }}
+      rowActions={[
+        {
+          label: "Edit",
+          onClick: (service, index) => onEdit(service, index),
+        },
+        {
+          label: "Delete",
+          variant: "ghost",
+          className: "text-destructive hover:text-destructive",
+          trackBusy: true,
+          confirm: (service) => `Are you sure you want to delete "${service.title}"?`,
+          onClick: (_service, index) => onDelete(index),
+        },
+      ]}
     />
   );
 }

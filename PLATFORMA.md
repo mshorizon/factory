@@ -19,6 +19,8 @@ Gotowy, profesjonalnie zaprojektowany serwis z wieloma wariantami układów stro
 - **21 typów sekcji**: hero, usługi, opinie klientów, proces pracy, FAQ, galeria, blog, mapa, wezwanie do działania i wiele innych
 - **6 wariantów nagłówka hero** — video, split, gradient, karty, minimalistyczny
 - **4 warianty prezentacji usług** — siatka, lista, karty z ciemnym tłem, siatka zdjęć
+- **Sekcja "O nas"** — warianty: historia, zespół, **kariera** (nowy)
+- **Sekcja kontaktu** — warianty: standardowy formularz, **dla profesjonalistów/kancelarii** (nowy)
 - **7 motywów graficznych**: Industrial, Wellness, Minimal, Elegant, Modern, Classic, Bold
 - **Tryb jasny i ciemny** — strona dostosowuje się do preferencji użytkownika
 - **Własne kolory, czcionki i zaokrąglenia** — bez ograniczeń

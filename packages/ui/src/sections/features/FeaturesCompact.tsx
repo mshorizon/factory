@@ -45,7 +45,9 @@ export function FeaturesCompact({ items, className }: FeaturesGridProps) {
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light transition-colors">
                     <IconComponent className="h-[18px] w-[18px] text-white" />
                   </div>
-                  <ArrowUpRight className="h-4 w-4 text-muted opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                  {!item.linkHref && (
+                    <ArrowUpRight className="h-4 w-4 text-muted opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                  )}
                 </div>
                 <div>
                   <CardTitle className="text-lg mb-2" data-field={`items.${index}.title`}>

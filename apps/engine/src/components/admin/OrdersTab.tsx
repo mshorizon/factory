@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,7 @@ import {
   CreditCard,
   Clock,
 } from "lucide-react";
+import { UniversalList } from "./UniversalList";
 
 interface Order {
   id: number;
@@ -244,94 +246,87 @@ export function OrdersTab({ businessId }: OrdersTabProps) {
   }
 
   // List view
-  return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between">
+  const columns: ColumnDef<Order, unknown>[] = [
+    {
+      accessorKey: "orderNumber",
+      header: "Nr zamówienia",
+      cell: ({ row }) => (
+        <span className="font-medium font-mono text-xs">{row.original.orderNumber}</span>
+      ),
+    },
+    {
+      id: "customer",
+      header: "Klient",
+      cell: ({ row }) => (
         <div>
-          <h2 className="text-base font-semibold">Zamówienia</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">{orders.length} zamówień</p>
+          <div className="font-medium">
+            {row.original.customerFirstName} {row.original.customerLastName}
+          </div>
+          <div className="text-xs text-muted-foreground">{row.original.customerEmail}</div>
         </div>
-      </div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const badge = STATUS_BADGE[row.original.status] || STATUS_BADGE.pending;
+        return <Badge variant={badge.variant as any} className="text-xs">{badge.label}</Badge>;
+      },
+    },
+    {
+      accessorKey: "total",
+      header: "Kwota",
+      cell: ({ row }) => (
+        <span className="tabular-nums font-medium">
+          {formatPrice(row.original.total, row.original.currency)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Data",
+      cell: ({ row }) => (
+        <span className="text-xs text-muted-foreground">{formatDate(row.original.createdAt)}</span>
+      ),
+    },
+  ];
 
-      {/* Status filter */}
-      <div className="flex gap-1">
-        {STATUS_FILTERS.map((f) => (
-          <Button
-            key={f.value}
-            variant={statusFilter === f.value ? "default" : "ghost"}
-            size="sm"
-            className="h-7 text-xs"
-            onClick={() => setStatusFilter(f.value)}
-          >
-            {f.label}
-          </Button>
-        ))}
-      </div>
-
-      {loading && (
-        <div className="flex items-center justify-center py-16 text-muted-foreground text-sm">Ładowanie...</div>
-      )}
-
-      {error && (
-        <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">{error}</div>
-      )}
-
-      {!loading && !error && (
-        <Card>
-          <CardContent className="pt-4 pb-2 px-5">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b text-xs text-muted-foreground">
-                    <th className="text-left py-2 pr-4 font-medium">Nr zamówienia</th>
-                    <th className="text-left py-2 pr-4 font-medium">Klient</th>
-                    <th className="text-left py-2 pr-4 font-medium">Status</th>
-                    <th className="text-right py-2 pr-4 font-medium">Kwota</th>
-                    <th className="text-right py-2 pr-4 font-medium">Data</th>
-                    <th className="text-right py-2 font-medium"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.map((order) => {
-                    const badge = STATUS_BADGE[order.status] || STATUS_BADGE.pending;
-                    return (
-                      <tr key={order.id} className="border-b last:border-0 hover:bg-muted/50 transition-colors">
-                        <td className="py-2.5 pr-4 font-medium font-mono text-xs">{order.orderNumber}</td>
-                        <td className="py-2.5 pr-4">
-                          <div>
-                            <span className="font-medium">{order.customerFirstName} {order.customerLastName}</span>
-                          </div>
-                          <span className="text-xs text-muted-foreground">{order.customerEmail}</span>
-                        </td>
-                        <td className="py-2.5 pr-4">
-                          <Badge variant={badge.variant as any} className="text-xs">{badge.label}</Badge>
-                        </td>
-                        <td className="py-2.5 pr-4 text-right tabular-nums font-medium">
-                          {formatPrice(order.total, order.currency)}
-                        </td>
-                        <td className="py-2.5 pr-4 text-right text-xs text-muted-foreground">
-                          {formatDate(order.createdAt)}
-                        </td>
-                        <td className="py-2.5 text-right">
-                          <Button variant="ghost" size="sm" className="h-7" onClick={() => viewOrder(order)}>
-                            <Eye className="h-3.5 w-3.5" />
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              {orders.length === 0 && (
-                <div className="text-center py-12 text-sm text-muted-foreground">
-                  <Package className="h-10 w-10 mx-auto mb-3 text-muted-foreground/30" />
-                  Brak zamówień
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+  return (
+    <UniversalList<Order>
+      title="Zamówienia"
+      subtitle={`${orders.length} zamówień`}
+      data={orders}
+      columns={columns}
+      loading={loading}
+      loadingLabel="Ładowanie..."
+      error={error}
+      emptyIcon={Package}
+      emptyTitle="Brak zamówień"
+      getRowId={(row) => row.id}
+      toolbarExtras={
+        <div className="flex flex-wrap gap-1">
+          {STATUS_FILTERS.map((f) => (
+            <Button
+              key={f.value}
+              variant={statusFilter === f.value ? "default" : "ghost"}
+              size="sm"
+              className="h-7 text-xs"
+              onClick={() => setStatusFilter(f.value)}
+            >
+              {f.label}
+            </Button>
+          ))}
+        </div>
+      }
+      rowActions={[
+        {
+          label: "View",
+          icon: Eye,
+          iconOnly: true,
+          onClick: (order) => viewOrder(order),
+        },
+      ]}
+    />
   );
 }

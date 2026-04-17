@@ -8,44 +8,52 @@ import type { AboutCareerProps } from "./types";
 export function AboutCareer({ title, items, className }: AboutCareerProps) {
   return (
     <div className={cn("space-y-spacing-3xl", className)}>
-      {/* Section header */}
       {title && (
         <ScrollReveal delay={0} direction="up" distance={20}>
-          <div className="space-y-spacing-sm">
-            <span className="block w-8 h-[2px] bg-primary" />
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground">{title}</h2>
-          </div>
+          <h2 className="text-[2.5rem] leading-tight text-foreground font-heading mb-spacing-2xl">
+            {title}
+          </h2>
         </ScrollReveal>
       )}
 
-      {/* Career entries */}
-      <StaggerContainer className="divide-y divide-border" staggerDelay={0.1}>
+      <StaggerContainer className="space-y-spacing-lg" staggerDelay={0.1}>
         {items.map((item, index) => (
           <StaggerItem key={index} direction="up" distance={20}>
-            <div className="py-spacing-2xl grid md:grid-cols-[200px_1fr] gap-spacing-lg md:gap-spacing-2xl">
-              {/* Year range */}
-              <div className="flex-shrink-0">
-                <span className="text-sm text-muted font-medium tracking-wide" data-field={`timeline.${index}.year`}>
+            <div className="bg-card rounded-radius p-spacing-2xl">
+              {/* Badge line above title */}
+              <span className="block w-8 h-[2px] bg-primary mb-spacing-sm" />
+
+              {/* Title (left) + Year (right) */}
+              <div className="flex items-start justify-between gap-spacing-lg">
+                <h3
+                  className="text-[24px] font-bold font-heading text-foreground leading-snug"
+                  data-field={`timeline.${index}.title`}
+                >
+                  {item.title}
+                </h3>
+                <span
+                  className="text-sm text-muted font-medium tracking-wide flex-shrink-0"
+                  data-field={`timeline.${index}.year`}
+                >
                   {item.year}
                 </span>
               </div>
 
-              {/* Title + description */}
-              <div className="space-y-spacing-sm">
-                <h3 className="text-lg font-bold font-heading text-foreground leading-snug" data-field={`timeline.${index}.title`}>
-                  {item.title}
-                </h3>
-                {item.company && (
-                  <p className="text-sm text-muted font-medium" data-field={`timeline.${index}.company`}>
-                    {item.company}
-                  </p>
-                )}
-                {item.description && (
-                  <p className="text-muted leading-relaxed" data-field={`timeline.${index}.description`}>
-                    {item.description}
-                  </p>
-                )}
-              </div>
+              {/* Company + Description */}
+              {(item.company || item.description) && (
+                <div className="mt-spacing-sm space-y-spacing-sm">
+                  {item.company && (
+                    <p className="text-sm text-muted font-medium" data-field={`timeline.${index}.company`}>
+                      {item.company}
+                    </p>
+                  )}
+                  {item.description && (
+                    <p className="text-muted leading-relaxed" data-field={`timeline.${index}.description`}>
+                      {item.description}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </StaggerItem>
         ))}

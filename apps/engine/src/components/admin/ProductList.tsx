@@ -1,8 +1,5 @@
-import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { DataTable } from "./DataTable";
+import { UniversalList } from "./UniversalList";
 
 interface Product {
   id: string;
@@ -26,18 +23,6 @@ const formatPrice = (price: number) => {
 };
 
 export function ProductList({ products, onEdit, onDelete, onCreate }: ProductListProps) {
-  const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
-
-  const handleDelete = async (index: number, title: string) => {
-    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
-    setDeletingIndex(index);
-    try {
-      await onDelete(index);
-    } finally {
-      setDeletingIndex(null);
-    }
-  };
-
   const columns: ColumnDef<Product, unknown>[] = [
     {
       accessorKey: "title",
@@ -84,64 +69,30 @@ export function ProductList({ products, onEdit, onDelete, onCreate }: ProductLis
         </span>
       ),
     },
-    {
-      id: "actions",
-      header: () => <span className="sr-only">Actions</span>,
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className="flex items-center justify-end gap-1">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => onEdit(row.original, row.index)}
-          >
-            Edit
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="text-destructive hover:text-destructive"
-            onClick={() => handleDelete(row.index, row.original.title)}
-            disabled={deletingIndex === row.index}
-          >
-            {deletingIndex === row.index ? "..." : "Delete"}
-          </Button>
-        </div>
-      ),
-    },
   ];
 
-  if (products.length === 0) {
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Products</h2>
-          <Button size="sm" onClick={onCreate}>
-            <Plus className="h-4 w-4 mr-1.5" />
-            New Product
-          </Button>
-        </div>
-        <div className="text-center py-12 bg-muted/30 rounded-lg border border-border">
-          <p className="text-muted-foreground mb-4">No products yet</p>
-          <Button onClick={onCreate}>Create Your First Product</Button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <DataTable
-      columns={columns}
+    <UniversalList<Product>
+      title="Products"
       data={products}
-      toolbar={
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Products</h2>
-          <Button size="sm" onClick={onCreate}>
-            <Plus className="h-4 w-4 mr-1.5" />
-            New Product
-          </Button>
-        </div>
-      }
+      columns={columns}
+      primaryAction={{ label: "New Product", onClick: onCreate }}
+      emptyTitle="No products yet"
+      emptyCta={{ label: "Create Your First Product", onClick: onCreate }}
+      rowActions={[
+        {
+          label: "Edit",
+          onClick: (product, index) => onEdit(product, index),
+        },
+        {
+          label: "Delete",
+          variant: "ghost",
+          className: "text-destructive hover:text-destructive",
+          trackBusy: true,
+          confirm: (product) => `Are you sure you want to delete "${product.title}"?`,
+          onClick: (_product, index) => onDelete(index),
+        },
+      ]}
     />
   );
 }

@@ -167,7 +167,7 @@ export function ContactProfessional({
                   placeholder={form?.namePlaceholder}
                   required
                   disabled={status === "loading"}
-                  className="bg-secondary/60 border-transparent focus-visible:border-border/40 text-foreground"
+                  className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
                 />
               </div>
               <div className="space-y-spacing-xs">
@@ -181,7 +181,7 @@ export function ContactProfessional({
                   placeholder={form?.emailPlaceholder}
                   required
                   disabled={status === "loading"}
-                  className="bg-secondary/60 border-transparent focus-visible:border-border/40 text-foreground"
+                  className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
                 />
               </div>
             </div>
@@ -227,7 +227,7 @@ export function ContactProfessional({
                 rows={6}
                 required
                 disabled={status === "loading"}
-                className="bg-secondary/60 border-transparent focus-visible:border-border/40 text-foreground"
+                className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
               />
             </div>
 

@@ -11,7 +11,11 @@
       "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
       "phone": "+48 22 180 00 22",
       "email": "otwock.starzec@komornik.pl",
-      "hours": "Pon-Pt: 8:00 - 16:00"
+      "hours": "Pon-Pt: 8:00 - 16:00",
+      "location": {
+        "latitude": 52.1054,
+        "longitude": 21.2633
+      }
     },
     "socials": {
       "facebook": "https://facebook.com",
@@ -334,34 +338,60 @@
           },
           "items": [
             {
-              "title": "EPU",
-              "description": "Elektroniczne Postępowanie Upominawcze — prowadzenie postępowań w oparciu o elektroniczny tytuł wykonawczy.",
-              "icon": "monitor"
+              "title": "CEPIK",
+              "description": "System informatyczny obejmujący centralną bazę danych zawierającą dane i informacje o drogowych pojazdach mechanicznych, ich właścicielach i posiadaczach.",
+              "icon": "car",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://cepik.gov.pl"
             },
             {
-              "title": "OGNIVO",
-              "description": "System bankowy umożliwiający elektroniczną wymianę informacji pomiędzy komornikiem a bankami.",
-              "icon": "building"
+              "title": "EPU",
+              "description": "Dzięki temu systemowi możemy prowadzić postępowania egzekucyjne w oparciu o elektroniczny tytuł wykonawczy.",
+              "icon": "monitor",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://epu.ms.gov.pl"
             },
             {
               "title": "PUE ZUS",
-              "description": "Platforma Usług Elektronicznych ZUS do poszukiwania źródeł dochodów i majątku dłużnika.",
-              "icon": "search"
-            },
-            {
-              "title": "CEPIK",
-              "description": "Centralna baza danych o pojazdach mechanicznych, ich właścicielach i posiadaczach.",
-              "icon": "car"
-            },
-            {
-              "title": "Komornik Online",
-              "description": "Moduł umożliwiający wierzycielom zdalny wgląd do akt sprawy przez przeglądarkę internetową.",
-              "icon": "globe"
+              "description": "Jest to Platforma Usług Elektronicznych ZUS, dzięki niej poszukujemy źródeł dochodów dłużnika i majątku",
+              "icon": "search",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://pue.zus.pl"
             },
             {
               "title": "ePUAP",
-              "description": "Elektroniczna Platforma Usług Administracji Publicznej do wymiany dokumentów z urzędami.",
-              "icon": "file-text"
+              "description": "Elektroniczna Platforma Usług Administracji Publicznej",
+              "icon": "file-text",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://epuap.gov.pl/wps/portal"
+            },
+            {
+              "title": "OGNIVO",
+              "description": "Jest to system bankowy, który umożliwia wymianę drogą elektroniczną informacji w zakresie komornik – bank.",
+              "icon": "building",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://www.kir.pl"
+            },
+            {
+              "title": "Oprogramowania firmy KOMORNIK.IT",
+              "description": "W tym : SkanDok SQL, Raport Egzekucji, CEIDG, SISP, KRD, GEOPORTAL,DEKRETATOR. Wsparcie IT firmy SPECKOM Tomasz Śmieja",
+              "icon": "cpu",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "#"
+            },
+            {
+              "title": "Komornik Online",
+              "description": "Moduł umożliwiający wgląd do akt sprawy z wykorzystaniem przeglądarki internetowej",
+              "icon": "globe",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "#"
+            },
+            {
+              "title": "BMS",
+              "description": "Moduł do kompleksowego zarządzania sprawami",
+              "icon": "layout",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "#"
             }
           ]
         },
@@ -442,6 +472,7 @@
           "variant": "split",
           "background": "light",
           "header": {
+            "badge": "t:faq.badge",
             "title": "t:faq.title",
             "subtitle": "t:faq.subtitle"
           },
@@ -531,6 +562,7 @@
           "variant": "story",
           "imagePosition": "right",
           "header": {
+            "badge": "t:about.badge",
             "title": "t:about.title"
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
@@ -573,12 +605,12 @@
           ]
         },
         {
-          "type": "ctaBanner",
-          "variant": "default",
+          "type": "contact",
+          "variant": "minimal",
           "header": {
-            "badge": "t:ctaBanner.badge",
-            "title": "t:ctaBanner.title",
-            "subtitle": "t:ctaBanner.subtitle"
+            "badge": "t:contact.badge",
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
           },
           "cta": {
             "label": "t:ctaBanner.cta",
@@ -654,7 +686,7 @@
       ]
     },
     "forms": {
-      "title": "Pliki",
+      "title": "Do pobrania",
       "navLabel": "t:pages.forms.title",
       "sections": [
         {
@@ -740,21 +772,15 @@
             "emailPlaceholder": "t:contact.form.emailPlaceholder",
             "messageLabel": "t:contact.form.messageLabel",
             "messagePlaceholder": "t:contact.form.messagePlaceholder",
-            "submitButton": "t:contact.form.submitButton",
-            "selectFields": [
-              {
-                "name": "topic",
-                "label": "t:contact.form.topic.label",
-                "placeholder": "t:contact.form.topic.placeholder",
-                "options": [
-                  "t:contact.form.topic.options.enforcement",
-                  "t:contact.form.topic.options.caseInfo",
-                  "t:contact.form.topic.options.delivery",
-                  "t:contact.form.topic.options.auction",
-                  "t:contact.form.topic.options.other"
-                ]
-              }
-            ]
+            "submitButton": "t:contact.form.submitButton"
+          }
+        },
+        {
+          "type": "map",
+          "header": {
+            "badge": "t:map.badge",
+            "title": "t:map.title",
+            "subtitle": "t:map.subtitle"
           }
         }
       ]

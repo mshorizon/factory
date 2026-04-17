@@ -88,14 +88,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const resend = new Resend(resendApiKey);
 
     const { data, error } = await resend.emails.send({
-      from: "noreply@contact.hazelgrouse.pl",
+      from: "Formularz kontaktowy <hello@contact.hazelgrouse.pl>",
       to: recipientEmail,
       replyTo: email,
       subject: `New contact form message from ${name}`,
       html: `
         <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+        <p><strong>Email:</strong> ${email}</p>
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, "<br>")}</p>
       `,

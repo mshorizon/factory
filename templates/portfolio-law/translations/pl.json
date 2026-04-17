@@ -7,7 +7,7 @@
   "pages.about.title": "O mnie",
   "pages.services.title": "Usługi",
   "pages.blog.title": "Blog",
-  "pages.forms.title": "Pliki",
+  "pages.forms.title": "Do pobrania",
   "pages.contact.title": "Kontakt",
   "pages.informacje-dla-dluznika.title": "Informacje dla dłużnika",
 
@@ -54,6 +54,8 @@
   "blog.subtitle": "Bądź na bieżąco z informacjami dotyczącymi postępowań egzekucyjnych.",
   "blog.readMore": "Czytaj więcej",
 
+  "systems.learnMore": "Dowiedz się więcej",
+
   "contact.cta": "Skontaktuj się",
   "contact.badge": "Kontakt",
   "contact.title": "Skontaktuj się z nami",
@@ -87,5 +89,9 @@
   "ctaBanner.badge": "Kontakt",
   "ctaBanner.title": "Skontaktuj się z kancelarią",
   "ctaBanner.subtitle": "Potrzebujesz pomocy w sprawie egzekucyjnej? Jesteśmy do dyspozycji.",
-  "ctaBanner.cta": "Skontaktuj się"
+  "ctaBanner.cta": "Skontaktuj się",
+
+  "map.badge": "Lokalizacja",
+  "map.title": "Znajdź nas",
+  "map.subtitle": "Kancelaria Komornicza nr IX, ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock"
 }

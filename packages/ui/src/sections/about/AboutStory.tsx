@@ -34,7 +34,7 @@ export function AboutStory({
         <SafeImage
           src={image}
           alt=""
-          className="w-[364px] max-w-full h-[400px] object-cover rounded-radius-secondary shadow-lg"
+          className="w-[448px] max-w-full h-[500px] object-cover rounded-[var(--radius-lg)] shadow-lg"
           data-field="image"
           loading="lazy"
           decoding="async"
@@ -68,7 +68,7 @@ export function AboutStory({
             <a
               href={ctaHref}
               onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-accent font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-primary font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
             >
               {cta}
               <ArrowRight className="h-5 w-5" />
@@ -124,7 +124,7 @@ export function AboutStory({
               <a
                 href={ctaHref}
                 onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-accent font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-primary font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
               >
                 {cta}
                 <ArrowRight className="h-5 w-5" />

@@ -54,6 +54,8 @@
   "blog.subtitle": "Stay up to date with information on enforcement proceedings.",
   "blog.readMore": "Read More",
 
+  "systems.learnMore": "Learn more",
+
   "contact.cta": "Contact me",
   "contact.badge": "Contact",
   "contact.title": "Get in Touch",
@@ -87,5 +89,9 @@
   "ctaBanner.badge": "Contact",
   "ctaBanner.title": "Contact the Office",
   "ctaBanner.subtitle": "Need help with an enforcement case? We are at your disposal.",
-  "ctaBanner.cta": "Contact Us"
+  "ctaBanner.cta": "Contact Us",
+
+  "map.badge": "Location",
+  "map.title": "Find Us",
+  "map.subtitle": "Bailiff's Office No. IX, ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock"
 }

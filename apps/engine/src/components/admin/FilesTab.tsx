@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,6 +14,7 @@ import {
   Presentation,
   File,
 } from "lucide-react";
+import { UniversalList } from "./UniversalList";
 
 interface BusinessFile {
   id: number;
@@ -72,7 +73,6 @@ export function FilesTab({ businessId }: FilesTabProps) {
   const [files, setFiles] = useState<BusinessFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [deletingId, setDeletingId] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -119,30 +119,23 @@ export function FilesTab({ businessId }: FilesTabProps) {
       setError(e instanceof Error ? e.message : "Upload failed");
     } finally {
       setUploading(false);
-      // Reset input so the same file can be re-uploaded if needed
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
   }, [businessId, loadFiles]);
 
   const handleDelete = useCallback(async (fileId: number) => {
-    if (!confirm("Delete this file? This cannot be undone.")) return;
-
-    setDeletingId(fileId);
     setError(null);
-    try {
-      const res = await fetch("/api/admin/files/delete", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileId }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Delete failed");
-      setFiles((prev) => prev.filter((f) => f.id !== fileId));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Delete failed");
-    } finally {
-      setDeletingId(null);
+    const res = await fetch("/api/admin/files/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileId }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      setError(data.error ?? "Delete failed");
+      return;
     }
+    setFiles((prev) => prev.filter((f) => f.id !== fileId));
   }, []);
 
   const handleCopyLink = useCallback(async (file: BusinessFile) => {
@@ -151,92 +144,98 @@ export function FilesTab({ businessId }: FilesTabProps) {
     setTimeout(() => setCopiedId(null), 2000);
   }, []);
 
+  const columns: ColumnDef<BusinessFile, unknown>[] = [
+    {
+      id: "icon",
+      header: "",
+      enableSorting: false,
+      cell: ({ row }) => <div className="shrink-0">{getFileIcon(row.original.mimeType)}</div>,
+    },
+    {
+      accessorKey: "originalName",
+      header: "Name",
+      cell: ({ row }) => (
+        <div className="min-w-0">
+          <p className="text-sm font-medium truncate max-w-[360px]" title={row.original.originalName}>
+            {row.original.originalName}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {formatBytes(row.original.size)} · {formatDate(row.original.createdAt)}
+          </p>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "mimeType",
+      header: "Type",
+      cell: ({ row }) => (
+        <Badge variant="outline" className="text-xs">
+          {getMimeLabel(row.original.mimeType)}
+        </Badge>
+      ),
+    },
+  ];
+
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-semibold">Files</CardTitle>
-            <div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                className="hidden"
-                onChange={handleUpload}
-                accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.avif,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip"
-              />
-              <Button
-                size="sm"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploading}
-              >
-                <Upload className="h-4 w-4 mr-2" />
-                {uploading ? "Uploading…" : "Upload File"}
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {error && (
-            <p className="text-sm text-destructive mb-3">{error}</p>
-          )}
-
-          {loading ? (
-            <p className="text-sm text-muted-foreground">Loading…</p>
-          ) : files.length === 0 ? (
-            <div className="text-center py-10 text-muted-foreground">
-              <FileText className="h-10 w-10 mx-auto mb-2 opacity-30" />
-              <p className="text-sm">No files uploaded yet.</p>
-              <p className="text-xs mt-1">Click "Upload File" to add files.</p>
-            </div>
-          ) : (
-            <div className="divide-y">
-              {files.map((file) => (
-                <div key={file.id} className="flex items-center gap-3 py-3">
-                  <div className="shrink-0">{getFileIcon(file.mimeType)}</div>
-
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate" title={file.originalName}>
-                      {file.originalName}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {formatBytes(file.size)} · {formatDate(file.createdAt)}
-                    </p>
-                  </div>
-
-                  <Badge variant="outline" className="text-xs shrink-0">
-                    {getMimeLabel(file.mimeType)}
-                  </Badge>
-
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleCopyLink(file)}
-                    title="Copy link"
-                  >
-                    {copiedId === file.id ? (
-                      <Check className="h-4 w-4 text-green-500" />
-                    ) : (
-                      <Copy className="h-4 w-4" />
-                    )}
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => handleDelete(file.id)}
-                    disabled={deletingId === file.id}
-                    title="Delete file"
-                    className="text-destructive hover:text-destructive"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+    <>
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        onChange={handleUpload}
+        accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.avif,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip"
+      />
+      <UniversalList<BusinessFile>
+        title="Files"
+        subtitle={files.length > 0 ? `${files.length} file${files.length !== 1 ? "s" : ""}` : undefined}
+        data={files}
+        columns={columns}
+        loading={loading}
+        error={error}
+        emptyIcon={FileText}
+        emptyTitle="No files uploaded yet"
+        emptyHint='Click "Upload File" to add files.'
+        getRowId={(row) => row.id}
+        primaryAction={{
+          label: uploading ? "Uploading…" : "Upload File",
+          icon: Upload,
+          onClick: () => fileInputRef.current?.click(),
+          disabled: uploading,
+        }}
+        rowActions={[
+          {
+            label: "Copy link",
+            variant: "outline",
+            icon: Copy,
+            iconOnly: true,
+            title: "Copy link",
+            onClick: (file) => handleCopyLink(file),
+            // Swap icon to checkmark when recently copied
+            show: (file) => copiedId !== file.id,
+          },
+          {
+            label: "Copied",
+            variant: "outline",
+            icon: Check,
+            iconOnly: true,
+            className: "text-green-500",
+            title: "Copied",
+            onClick: () => {},
+            show: (file) => copiedId === file.id,
+          },
+          {
+            label: "Delete",
+            variant: "ghost",
+            icon: Trash2,
+            iconOnly: true,
+            title: "Delete file",
+            className: "text-destructive hover:text-destructive",
+            trackBusy: true,
+            confirm: () => "Delete this file? This cannot be undone.",
+            onClick: (file) => handleDelete(file.id),
+          },
+        ]}
+      />
+    </>
   );
 }

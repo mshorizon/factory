@@ -1,8 +1,5 @@
-import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { DataTable } from "./DataTable";
+import { UniversalList } from "./UniversalList";
 
 interface Blog {
   id: number;
@@ -30,18 +27,6 @@ const formatDate = (dateString: string | null) => {
 };
 
 export function BlogList({ blogs, onEdit, onDelete, onCreate }: BlogListProps) {
-  const [deletingId, setDeletingId] = useState<number | null>(null);
-
-  const handleDelete = async (blogId: number, title: string) => {
-    if (!confirm(`Are you sure you want to delete "${title}"? This will also delete all comments.`)) return;
-    setDeletingId(blogId);
-    try {
-      await onDelete(blogId);
-    } finally {
-      setDeletingId(null);
-    }
-  };
-
   const columns: ColumnDef<Blog, unknown>[] = [
     {
       accessorKey: "title",
@@ -77,60 +62,31 @@ export function BlogList({ blogs, onEdit, onDelete, onCreate }: BlogListProps) {
         </span>
       ),
     },
-    {
-      id: "actions",
-      header: () => <span className="sr-only">Actions</span>,
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className="flex items-center justify-end gap-1">
-          <Button size="sm" variant="ghost" onClick={() => onEdit(row.original)}>
-            Edit
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="text-destructive hover:text-destructive"
-            onClick={() => handleDelete(row.original.id, row.original.title)}
-            disabled={deletingId === row.original.id}
-          >
-            {deletingId === row.original.id ? "..." : "Delete"}
-          </Button>
-        </div>
-      ),
-    },
   ];
 
-  if (blogs.length === 0) {
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Blog Posts</h2>
-          <Button size="sm" onClick={onCreate}>
-            <Plus className="h-4 w-4 mr-1.5" />
-            New Post
-          </Button>
-        </div>
-        <div className="text-center py-12 bg-muted/30 rounded-lg border border-border">
-          <p className="text-muted-foreground mb-4">No blog posts yet</p>
-          <Button onClick={onCreate}>Create Your First Post</Button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <DataTable
-      columns={columns}
+    <UniversalList<Blog>
+      title="Blog Posts"
       data={blogs}
-      toolbar={
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Blog Posts</h2>
-          <Button size="sm" onClick={onCreate}>
-            <Plus className="h-4 w-4 mr-1.5" />
-            New Post
-          </Button>
-        </div>
-      }
+      columns={columns}
+      primaryAction={{ label: "New Post", onClick: onCreate }}
+      emptyTitle="No blog posts yet"
+      emptyCta={{ label: "Create Your First Post", onClick: onCreate }}
+      getRowId={(row) => row.id}
+      rowActions={[
+        {
+          label: "Edit",
+          onClick: (blog) => onEdit(blog),
+        },
+        {
+          label: "Delete",
+          variant: "ghost",
+          className: "text-destructive hover:text-destructive",
+          trackBusy: true,
+          confirm: (blog) => `Are you sure you want to delete "${blog.title}"? This will also delete all comments.`,
+          onClick: (blog) => onDelete(blog.id),
+        },
+      ]}
     />
   );
 }

@@ -18,6 +18,8 @@ import { OverviewTab } from "./OverviewTab";
 import { OrdersTab } from "./OrdersTab";
 import { BookingsTab } from "./BookingsTab";
 import { FilesTab } from "./FilesTab";
+import { UniversalList } from "./UniversalList";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -229,8 +231,16 @@ function reconstructWithTKeys(orig: any, updated: any): any {
   return updated;
 }
 
+interface AdminUser {
+  id: number;
+  email: string;
+  role: string;
+  businessId?: string | null;
+  lastLoginAt?: string | null;
+}
+
 function UsersPanel({ currentUserId }: { currentUserId?: number }) {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
   const [businesses, setBusinesses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -247,7 +257,6 @@ function UsersPanel({ currentUserId }: { currentUserId?: number }) {
   }, []);
 
   const handleDelete = async (userId: number) => {
-    if (!confirm('Delete this user?')) return;
     await fetch('/api/admin/users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'delete', userId }) });
     setUsers((u) => u.filter((x) => x.id !== userId));
   };
@@ -261,73 +270,105 @@ function UsersPanel({ currentUserId }: { currentUserId?: number }) {
     setAdding(false);
   };
 
-  if (loading) return <div className="p-8 text-muted-foreground">Loading users…</div>;
-  if (error) return <div className="p-8 text-destructive">{error}</div>;
+  const columns: ColumnDef<AdminUser, unknown>[] = [
+    {
+      accessorKey: 'email',
+      header: 'User',
+      cell: ({ row }) => (
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold flex-shrink-0">
+            {row.original.email.slice(0, 2).toUpperCase()}
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium truncate">{row.original.email}</span>
+              {row.original.id === currentUserId && <Badge variant="secondary" className="text-[10px]">you</Badge>}
+            </div>
+            {row.original.lastLoginAt && (
+              <div className="text-xs text-muted-foreground">
+                Last login {new Date(row.original.lastLoginAt).toLocaleDateString()}
+              </div>
+            )}
+          </div>
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'role',
+      header: 'Role',
+      cell: ({ row }) => (
+        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          {row.original.role}
+        </span>
+      ),
+    },
+    {
+      accessorKey: 'businessId',
+      header: 'Business',
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">{row.original.businessId || '—'}</span>
+      ),
+    },
+  ];
 
   return (
-    <div className="p-6 space-y-6 max-w-3xl">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold">Users</h2>
-          <p className="text-sm text-muted-foreground">{users.length} account{users.length !== 1 ? 's' : ''}</p>
-        </div>
-        <Button size="sm" onClick={() => setShowAdd((v) => !v)}>
-          <Plus className="h-4 w-4 mr-1" /> Add user
-        </Button>
-      </div>
-
-      {showAdd && (
-        <Card>
-          <CardHeader><CardTitle className="text-base">New user</CardTitle></CardHeader>
-          <CardContent>
-            <form onSubmit={handleAdd} className="space-y-3">
-              <input className="w-full border rounded px-3 py-1.5 text-sm" placeholder="Email" type="email" value={addForm.email} onChange={(e) => setAddForm((f) => ({ ...f, email: e.target.value }))} required />
-              <input className="w-full border rounded px-3 py-1.5 text-sm" placeholder="Password" type="password" value={addForm.password} onChange={(e) => setAddForm((f) => ({ ...f, password: e.target.value }))} required />
-              <select className="w-full border rounded px-3 py-1.5 text-sm" value={addForm.role} onChange={(e) => setAddForm((f) => ({ ...f, role: e.target.value }))}>
-                <option value="super-admin">super-admin</option>
-                <option value="admin">admin</option>
-                <option value="editor">editor</option>
-              </select>
-              <select className="w-full border rounded px-3 py-1.5 text-sm" value={addForm.businessId} onChange={(e) => setAddForm((f) => ({ ...f, businessId: e.target.value }))}>
-                <option value="">No business (super-admin)</option>
-                {businesses.map((b) => <option key={b} value={b}>{b}</option>)}
-              </select>
-              <div className="flex gap-2">
-                <Button type="submit" size="sm" disabled={adding}>{adding ? 'Adding…' : 'Create'}</Button>
-                <Button type="button" size="sm" variant="outline" onClick={() => setShowAdd(false)}>Cancel</Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="space-y-2">
-        {users.map((user) => (
-          <Card key={user.id}>
-            <CardContent className="flex items-center gap-4 py-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold flex-shrink-0">
-                {user.email.slice(0, 2).toUpperCase()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium truncate">{user.email}</span>
-                  {user.id === currentUserId && <Badge variant="secondary" className="text-[10px]">you</Badge>}
-                </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="uppercase font-medium">{user.role}</span>
-                  {user.businessId && <span>· {user.businessId}</span>}
-                  {user.lastLoginAt && <span>· Last login {new Date(user.lastLoginAt).toLocaleDateString()}</span>}
-                </div>
-              </div>
-              {user.id !== currentUserId && (
-                <Button size="sm" variant="ghost" onClick={() => handleDelete(user.id)}>
-                  <Trash2 className="h-4 w-4 text-destructive" />
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+    <div className="p-6 space-y-4 max-w-3xl">
+      <UniversalList<AdminUser>
+        title="Users"
+        subtitle={`${users.length} account${users.length !== 1 ? 's' : ''}`}
+        data={users}
+        columns={columns}
+        loading={loading}
+        error={error}
+        emptyIcon={Users}
+        emptyTitle="No users yet"
+        getRowId={(row) => row.id}
+        primaryAction={{
+          label: showAdd ? 'Close' : 'Add user',
+          icon: Plus,
+          onClick: () => setShowAdd((v) => !v),
+        }}
+        toolbarExtras={
+          showAdd && (
+            <Card>
+              <CardHeader><CardTitle className="text-base">New user</CardTitle></CardHeader>
+              <CardContent>
+                <form onSubmit={handleAdd} className="space-y-3">
+                  <input className="w-full border rounded px-3 py-1.5 text-sm" placeholder="Email" type="email" value={addForm.email} onChange={(e) => setAddForm((f) => ({ ...f, email: e.target.value }))} required />
+                  <input className="w-full border rounded px-3 py-1.5 text-sm" placeholder="Password" type="password" value={addForm.password} onChange={(e) => setAddForm((f) => ({ ...f, password: e.target.value }))} required />
+                  <select className="w-full border rounded px-3 py-1.5 text-sm" value={addForm.role} onChange={(e) => setAddForm((f) => ({ ...f, role: e.target.value }))}>
+                    <option value="super-admin">super-admin</option>
+                    <option value="admin">admin</option>
+                    <option value="editor">editor</option>
+                  </select>
+                  <select className="w-full border rounded px-3 py-1.5 text-sm" value={addForm.businessId} onChange={(e) => setAddForm((f) => ({ ...f, businessId: e.target.value }))}>
+                    <option value="">No business (super-admin)</option>
+                    {businesses.map((b) => <option key={b} value={b}>{b}</option>)}
+                  </select>
+                  <div className="flex gap-2">
+                    <Button type="submit" size="sm" disabled={adding}>{adding ? 'Adding…' : 'Create'}</Button>
+                    <Button type="button" size="sm" variant="outline" onClick={() => setShowAdd(false)}>Cancel</Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          )
+        }
+        rowActions={[
+          {
+            label: 'Delete',
+            variant: 'ghost',
+            icon: Trash2,
+            iconOnly: true,
+            className: 'text-destructive hover:text-destructive',
+            title: 'Delete user',
+            trackBusy: true,
+            show: (user) => user.id !== currentUserId,
+            confirm: () => 'Delete this user?',
+            onClick: (user) => handleDelete(user.id),
+          },
+        ]}
+      />
     </div>
   );
 }
@@ -950,7 +991,6 @@ export default function AdminForm({
               id: businessSchema?.properties?.id,
               name: businessSchema?.properties?.name,
               industry: businessSchema?.properties?.industry,
-              serviceArea: businessSchema?.properties?.serviceArea,
               contact: businessSchema?.properties?.contact,
               socials: businessSchema?.properties?.socials,
               trustSignals: businessSchema?.properties?.trustSignals,
@@ -982,7 +1022,13 @@ export default function AdminForm({
           <TabsContent value="business" className="mt-0">
             <Form
               schema={businessInfoSchema}
-              uiSchema={generateColorUiSchema(businessInfoSchema)}
+              uiSchema={{
+                ...generateColorUiSchema(businessInfoSchema),
+                business: {
+                  ...(generateColorUiSchema(businessInfoSchema).business ?? {}),
+                  id: { "ui:disabled": true },
+                },
+              }}
               formData={{ business: resolvedFormData.business }}
               validator={validator}
               widgets={configWidgets}
