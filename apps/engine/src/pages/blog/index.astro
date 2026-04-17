@@ -102,16 +102,19 @@ const pagesColumn = {
   links: navLinks,
 };
 
-// Pre-resolve footer columns (prepend auto pages column, then JSON columns)
+// Pre-resolve footer columns (prepend auto pages column, then JSON columns
+// — filter out any JSON column that duplicates the auto navbar-based one)
 const footerColumns = [
   pagesColumn,
-  ...(layout.footer.columns?.map((col: any) => ({
-    title: col.title,
-    links: col.links?.map((link: any) => ({
-      label: link.label,
-      href: link.href || resolveTarget(link.target, business),
-    })) || [],
-  })) || []),
+  ...(layout.footer.columns
+    ?.filter((col: any) => col.title !== pagesColumn.title)
+    .map((col: any) => ({
+      title: col.title,
+      links: col.links?.map((link: any) => ({
+        label: link.label,
+        href: link.href || resolveTarget(link.target, business),
+      })) || [],
+    })) || []),
 ];
 
 // Check if business has any shop sections (to show cart button)

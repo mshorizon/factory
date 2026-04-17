@@ -105,6 +105,9 @@ export function ContactProfessional({
             )}
           </div>
 
+          {/* Divider */}
+          <hr className="border-0 border-t border-border/40" />
+
           {/* Contact info list */}
           <div className="flex flex-col gap-spacing-md">
             {contactInfo.phone && (
@@ -112,7 +115,9 @@ export function ContactProfessional({
                 href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <Phone className="h-4 w-4 shrink-0 text-muted" />
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
+                  <Phone className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
+                </span>
                 <span className="text-sm">{contactInfo.phone}</span>
               </a>
             )}
@@ -121,19 +126,25 @@ export function ContactProfessional({
                 href={`mailto:${contactInfo.email}`}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <Mail className="h-4 w-4 shrink-0 text-muted" />
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
+                  <Mail className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
+                </span>
                 <span className="text-sm">{contactInfo.email}</span>
               </a>
             )}
             {contactInfo.address && (
               <div className="flex items-center gap-spacing-md text-foreground">
-                <MapPin className="h-4 w-4 shrink-0 text-muted" />
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
+                  <MapPin className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
+                </span>
                 <span className="text-sm">{contactInfo.address}</span>
               </div>
             )}
             {contactInfo.hours && (
               <div className="flex items-center gap-spacing-md text-foreground">
-                <Clock className="h-4 w-4 shrink-0 text-muted" />
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
+                  <Clock className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
+                </span>
                 <span className="text-sm">{contactInfo.hours}</span>
               </div>
             )}
@@ -142,7 +153,9 @@ export function ContactProfessional({
                 href={ctaHref}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <MessageCircle className="h-4 w-4 shrink-0 text-muted" />
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary-light shrink-0">
+                  <MessageCircle className="h-4 w-4 text-on-primary" strokeWidth={2.5} />
+                </span>
                 <span className="text-sm">{ctaLabel}</span>
               </a>
             )}
@@ -152,7 +165,7 @@ export function ContactProfessional({
 
       {/* Right — form card */}
       <ScrollReveal delay={0.2} direction="right" distance={30}>
-        <div className="bg-card border border-border/20 rounded-2xl shadow-sm p-spacing-2xl">
+        <div className="bg-card rounded-2xl shadow-sm p-spacing-2xl">
           <form onSubmit={handleSubmit} className="space-y-spacing-lg">
             {/* Name + Email row */}
             <div className="grid sm:grid-cols-2 gap-spacing-lg">
@@ -224,7 +237,7 @@ export function ContactProfessional({
                 id="prof-message"
                 name="message"
                 placeholder={form?.messagePlaceholder}
-                rows={6}
+                rows={10}
                 required
                 disabled={status === "loading"}
                 className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
@@ -255,7 +268,7 @@ export function ContactProfessional({
             <Button
               type="submit"
               size="lg"
-              className="w-full !rounded-lg"
+              className="w-full !rounded-lg !bg-primary-light hover:!bg-primary-light/90 !text-on-primary"
               disabled={status === "loading" || (turnstileSiteKey != null && !turnstileToken)}
             >
               {status === "loading" ? "Sending..." : form?.submitButton || "Submit"}

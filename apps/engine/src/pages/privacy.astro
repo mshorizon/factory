@@ -38,13 +38,15 @@ const pagesColumn = {
 
 const footerColumns = [
   pagesColumn,
-  ...(layout.footer.columns?.map((col: any) => ({
-    title: col.title,
-    links: col.links?.map((link: any) => ({
-      label: link.label,
-      href: link.href || resolveTarget(link.target, business),
-    })) || [],
-  })) || []),
+  ...(layout.footer.columns
+    ?.filter((col: any) => col.title !== pagesColumn.title)
+    .map((col: any) => ({
+      title: col.title,
+      links: col.links?.map((link: any) => ({
+        label: link.label,
+        href: link.href || resolveTarget(link.target, business),
+      })) || [],
+    })) || []),
 ];
 
 const hasShopSection = Object.values(business.pages).some((p: any) =>

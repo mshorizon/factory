@@ -44,8 +44,10 @@ export default function BlogEditorClient({
   const [error, setError] = useState("");
   const [linkMode, setLinkMode] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
+  const [editingExistingLink, setEditingExistingLink] = useState(false);
   const savedSelectionRef = useRef<Range | null>(null);
   const lastEditorSelectionRef = useRef<Range | null>(null);
+  const editingLinkRef = useRef<HTMLAnchorElement | null>(null);
 
   // Convert markdown-style links [text](url) to <a> tags in HTML content
   const convertMarkdownLinks = (html: string): string =>
@@ -107,97 +109,194 @@ export default function BlogEditorClient({
 
   const restoreSelection = () => {
     const sel = window.getSelection();
-    if (!sel) return null;
+    if (!sel || !editorRef.current) return null;
 
-    // Only skip focus/restore if the editor actually owns DOM focus AND has a valid selection.
-    // Checking document.activeElement prevents false positives where anchorNode is in the editor
-    // but DOM focus has already moved away (e.g. toolbar button grabbed it despite preventDefault).
-    const inEditor =
-      document.activeElement === editorRef.current &&
-      sel.rangeCount > 0 &&
-      editorRef.current?.contains(sel.anchorNode);
-    if (inEditor) return sel;
+    // Always focus the editor so execCommand / DOM edits target it. `focus()` is a no-op
+    // if the editor is already focused, so this is safe.
+    editorRef.current.focus();
 
-    // Selection is outside the editor — focus it, then restore last known position.
-    editorRef.current?.focus();
+    // If the current selection is already anchored inside the editor, use it as-is.
+    if (sel.rangeCount > 0 && editorRef.current.contains(sel.anchorNode)) {
+      lastEditorSelectionRef.current = sel.getRangeAt(0).cloneRange();
+      return sel;
+    }
 
+    // Otherwise restore the last tracked range from inside the editor.
     const savedRange = lastEditorSelectionRef.current;
-    if (savedRange) {
+    if (savedRange && editorRef.current.contains(savedRange.commonAncestorContainer)) {
       try {
-        // Only restore if the range is still attached to editor nodes.
-        if (editorRef.current?.contains(savedRange.commonAncestorContainer)) {
-          sel.removeAllRanges();
-          sel.addRange(savedRange);
-          return sel;
-        }
-      } catch {
-        // Range is detached — fall through to end-of-editor fallback.
-      }
+        sel.removeAllRanges();
+        sel.addRange(savedRange);
+        return sel;
+      } catch { /* range detached — fall through */ }
     }
 
     // Last resort: place cursor at end so block commands have a valid target.
-    if (editorRef.current) {
-      const fallback = document.createRange();
-      fallback.selectNodeContents(editorRef.current);
-      fallback.collapse(false);
-      try {
-        sel.removeAllRanges();
-        sel.addRange(fallback);
-      } catch { /* ignore */ }
-    }
-
+    const fallback = document.createRange();
+    fallback.selectNodeContents(editorRef.current);
+    fallback.collapse(false);
+    try {
+      sel.removeAllRanges();
+      sel.addRange(fallback);
+      lastEditorSelectionRef.current = fallback.cloneRange();
+    } catch { /* ignore */ }
     return sel;
+  };
+
+  // Find the nearest ancestor element matching any of tagNames, up to (but not including) the editor.
+  const findAncestor = (node: Node | null, tagNames: string[]): HTMLElement | null => {
+    const editor = editorRef.current;
+    if (!editor) return null;
+    let current: Node | null = node;
+    while (current && current !== editor) {
+      if (current.nodeType === Node.ELEMENT_NODE) {
+        const tag = (current as HTMLElement).tagName.toLowerCase();
+        if (tagNames.includes(tag)) return current as HTMLElement;
+      }
+      current = current.parentNode;
+    }
+    return null;
+  };
+
+  const placeCaretAtEnd = (sel: Selection, el: HTMLElement) => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    lastEditorSelectionRef.current = range.cloneRange();
   };
 
   const handleBlockFormat = (tagName: string) => {
     const sel = restoreSelection();
-    if (!sel || sel.rangeCount === 0) return;
+    const editor = editorRef.current;
+    if (!sel || !editor || sel.rangeCount === 0) return;
 
     const range = sel.getRangeAt(0);
-    const editor = editorRef.current;
-    if (!editor) return;
+    const BLOCK_TAGS = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "li", "div"];
 
-    // Find the nearest block ancestor within the editor
-    let node: Node | null = range.startContainer;
-    while (node && node !== editor) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const tag = (node as HTMLElement).tagName.toLowerCase();
-        if (["p", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "div", "li"].includes(tag)) break;
+    // Case A: selection is inside a list item — unwrap from list and convert,
+    // splitting the list in place so the converted block appears where the item was.
+    const li = findAncestor(range.startContainer, ["li"]);
+    if (li) {
+      const list = li.parentElement; // ul/ol
+      if (list && (list.tagName === "UL" || list.tagName === "OL") && list.parentNode) {
+        const newEl = document.createElement(tagName);
+        while (li.firstChild) newEl.appendChild(li.firstChild);
+        // Move any following siblings of `li` into a new list that follows `newEl`.
+        let next = li.nextSibling;
+        let trailingList: HTMLElement | null = null;
+        if (next) {
+          trailingList = document.createElement(list.tagName.toLowerCase());
+          while (next) {
+            const toMove = next;
+            next = next.nextSibling;
+            trailingList.appendChild(toMove);
+          }
+        }
+        list.parentNode.insertBefore(newEl, list.nextSibling);
+        if (trailingList) list.parentNode.insertBefore(trailingList, newEl.nextSibling);
+        li.remove();
+        if (list.children.length === 0) list.remove();
+        placeCaretAtEnd(sel, newEl);
+        return;
       }
-      node = node.parentNode;
     }
 
-    if (node && node !== editor) {
-      // Replace existing block element tag
-      const oldEl = node as HTMLElement;
+    // Case B: selection is inside an existing block (p/h1..h6/blockquote/div) — replace the tag
+    const block = findAncestor(range.startContainer, BLOCK_TAGS);
+    if (block && block !== editor) {
       const newEl = document.createElement(tagName);
-      while (oldEl.firstChild) newEl.appendChild(oldEl.firstChild);
-      Array.from(oldEl.attributes).forEach((a) => newEl.setAttribute(a.name, a.value));
-      oldEl.parentNode?.replaceChild(newEl, oldEl);
+      while (block.firstChild) newEl.appendChild(block.firstChild);
+      Array.from(block.attributes).forEach((a) => newEl.setAttribute(a.name, a.value));
+      block.parentNode?.replaceChild(newEl, block);
+      placeCaretAtEnd(sel, newEl);
+      return;
+    }
 
-      // Restore caret inside new element
+    // Case C: empty editor — create a block and place caret inside
+    if (!editor.firstChild || (editor.childNodes.length === 1 && editor.firstChild.nodeType === Node.ELEMENT_NODE && (editor.firstChild as HTMLElement).tagName === "BR")) {
+      if (editor.firstChild) editor.removeChild(editor.firstChild);
+      const newEl = document.createElement(tagName);
+      newEl.appendChild(document.createElement("br"));
+      editor.appendChild(newEl);
       const newRange = document.createRange();
-      newRange.selectNodeContents(newEl);
-      newRange.collapse(false);
+      newRange.setStart(newEl, 0);
+      newRange.collapse(true);
       sel.removeAllRanges();
       sel.addRange(newRange);
       lastEditorSelectionRef.current = newRange.cloneRange();
-    } else if (range.startContainer.nodeType === Node.TEXT_NODE && range.startContainer.parentNode === editor) {
-      // Text node is a direct child of the editor (no block wrapper) — wrap it now
+      return;
+    }
+
+    // Case D: selection is in a text node that's a direct child of the editor (no block wrapper)
+    if (range.startContainer.nodeType === Node.TEXT_NODE && range.startContainer.parentNode === editor) {
       const textNode = range.startContainer;
       const newEl = document.createElement(tagName);
       editor.insertBefore(newEl, textNode);
       newEl.appendChild(textNode);
-      const newRange = document.createRange();
-      newRange.selectNodeContents(newEl);
-      newRange.collapse(false);
-      sel.removeAllRanges();
-      sel.addRange(newRange);
-      lastEditorSelectionRef.current = newRange.cloneRange();
-    } else {
-      // Fallback: use execCommand with angle brackets (Firefox requires them)
-      document.execCommand("formatBlock", false, `<${tagName}>`);
+      placeCaretAtEnd(sel, newEl);
+      return;
     }
+
+    // Case E: fallback — wrap all direct-child loose inline nodes touched by the range
+    try {
+      document.execCommand("formatBlock", false, `<${tagName}>`);
+    } catch { /* ignore */ }
+  };
+
+  const handleList = (listTag: "ul" | "ol") => {
+    const sel = restoreSelection();
+    const editor = editorRef.current;
+    if (!sel || !editor || sel.rangeCount === 0) return;
+    const range = sel.getRangeAt(0);
+
+    // If already inside a list item, toggle: convert li → p (matching/non-matching list)
+    const li = findAncestor(range.startContainer, ["li"]);
+    if (li) {
+      const list = li.parentElement;
+      if (list && (list.tagName === "UL" || list.tagName === "OL")) {
+        const currentTag = list.tagName.toLowerCase();
+        if (currentTag === listTag) {
+          // Same list type: unwrap this item back to a paragraph
+          const p = document.createElement("p");
+          while (li.firstChild) p.appendChild(li.firstChild);
+          list.parentNode?.insertBefore(p, list.nextSibling);
+          li.remove();
+          if (list.children.length === 0) list.remove();
+          placeCaretAtEnd(sel, p);
+          return;
+        }
+        // Different list type: change the list tag (ul ↔ ol)
+        const newList = document.createElement(listTag);
+        while (list.firstChild) newList.appendChild(list.firstChild);
+        list.parentNode?.replaceChild(newList, list);
+        const newLi = newList.querySelector("li");
+        if (newLi) placeCaretAtEnd(sel, newLi as HTMLElement);
+        return;
+      }
+    }
+
+    // Otherwise wrap the current block in a list
+    const block = findAncestor(range.startContainer, ["p", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "div"]);
+    const newList = document.createElement(listTag);
+    const newLi = document.createElement("li");
+    if (block && block !== editor) {
+      while (block.firstChild) newLi.appendChild(block.firstChild);
+      newList.appendChild(newLi);
+      block.parentNode?.replaceChild(newList, block);
+    } else if (range.startContainer.nodeType === Node.TEXT_NODE && range.startContainer.parentNode === editor) {
+      const textNode = range.startContainer;
+      editor.insertBefore(newList, textNode);
+      newLi.appendChild(textNode);
+      newList.appendChild(newLi);
+    } else {
+      // Empty or unusual state — append an empty list
+      newLi.appendChild(document.createElement("br"));
+      newList.appendChild(newLi);
+      editor.appendChild(newList);
+    }
+    placeCaretAtEnd(sel, newLi);
   };
 
   const handleFormat = (command: string, value?: string) => {
@@ -205,59 +304,159 @@ export default function BlogEditorClient({
       handleBlockFormat(value);
       return;
     }
+    if (command === "insertUnorderedList") {
+      handleList("ul");
+      return;
+    }
+    if (command === "insertOrderedList") {
+      handleList("ol");
+      return;
+    }
     restoreSelection();
     document.execCommand(command, false, value);
   };
 
+  const openLinkDialog = (existingLink: HTMLAnchorElement | null, rangeToSave: Range | null) => {
+    savedSelectionRef.current = rangeToSave ? rangeToSave.cloneRange() : null;
+    editingLinkRef.current = existingLink;
+    setEditingExistingLink(!!existingLink);
+    setLinkUrl(existingLink?.getAttribute("href") || "");
+    setLinkMode(true);
+  };
+
   const handleLinkButtonClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      savedSelectionRef.current = selection.getRangeAt(0).cloneRange();
-    } else {
-      savedSelectionRef.current = null;
-    }
+    // Ensure the editor owns the selection so we operate on the right place.
+    const sel = restoreSelection();
+    const range = sel && sel.rangeCount > 0 ? sel.getRangeAt(0) : null;
+    // If cursor is inside an existing <a>, enter "edit link" mode.
+    const existing =
+      range && editorRef.current?.contains(range.startContainer)
+        ? (findAncestor(range.startContainer, ["a"]) as HTMLAnchorElement | null)
+        : null;
+    openLinkDialog(existing, range);
+  };
+
+  const closeLinkDialog = () => {
+    setLinkMode(false);
     setLinkUrl("");
-    setLinkMode(true);
+    setEditingExistingLink(false);
+    editingLinkRef.current = null;
+    savedSelectionRef.current = null;
   };
 
   const handleInsertLink = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-    if (!linkUrl.trim()) {
-      setLinkMode(false);
+    const trimmed = linkUrl.trim();
+    if (!trimmed) {
+      closeLinkDialog();
       return;
     }
-    const url = /^https?:\/\//i.test(linkUrl) ? linkUrl : `https://${linkUrl}`;
-    // Focus editor FIRST — restoring a range while a different element has focus is unreliable.
-    editorRef.current?.focus();
-    const selection = window.getSelection();
-    if (savedSelectionRef.current && selection) {
+    const url = /^(https?:|mailto:|tel:|\/|#)/i.test(trimmed) ? trimmed : `https://${trimmed}`;
+    const editor = editorRef.current;
+    if (!editor) {
+      closeLinkDialog();
+      return;
+    }
+
+    // Editing an existing link: just update href/target/rel
+    if (editingLinkRef.current && editor.contains(editingLinkRef.current)) {
+      const a = editingLinkRef.current;
+      a.setAttribute("href", url);
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+      // Put caret at end of the link so typing continues after it
+      editor.focus();
+      const sel = window.getSelection();
+      if (sel) {
+        const r = document.createRange();
+        r.selectNodeContents(a);
+        r.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(r);
+        lastEditorSelectionRef.current = r.cloneRange();
+      }
+      closeLinkDialog();
+      return;
+    }
+
+    // Restore selection inside the editor.
+    editor.focus();
+    const sel = window.getSelection();
+    if (sel && savedSelectionRef.current && editor.contains(savedSelectionRef.current.commonAncestorContainer)) {
       try {
-        selection.removeAllRanges();
-        selection.addRange(savedSelectionRef.current);
-      } catch { /* range detached */ }
+        sel.removeAllRanges();
+        sel.addRange(savedSelectionRef.current);
+      } catch { /* detached */ }
     }
-    document.execCommand("createLink", false, url);
-    // Set target and rel on the newly created <a>
-    const newSel = window.getSelection();
-    if (newSel && newSel.rangeCount > 0) {
-      let node: Node | null = newSel.getRangeAt(0).commonAncestorContainer;
-      while (node && (node as Element).nodeName !== "A") {
-        node = node.parentNode;
-      }
-      if (node && (node as Element).nodeName === "A") {
-        (node as HTMLAnchorElement).target = "_blank";
-        (node as HTMLAnchorElement).rel = "noopener noreferrer";
-      }
+
+    const currentSel = window.getSelection();
+    if (!currentSel || currentSel.rangeCount === 0) {
+      closeLinkDialog();
+      return;
     }
-    setLinkMode(false);
-    setLinkUrl("");
+    const range = currentSel.getRangeAt(0);
+
+    const a = document.createElement("a");
+    a.setAttribute("href", url);
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "noopener noreferrer");
+
+    if (range.collapsed) {
+      // No text selected — insert the URL as the link text.
+      a.textContent = trimmed;
+      range.insertNode(a);
+    } else {
+      // Wrap the selected contents in the anchor.
+      const contents = range.extractContents();
+      a.appendChild(contents);
+      range.insertNode(a);
+    }
+
+    // Place caret right after the inserted link.
+    const after = document.createRange();
+    after.setStartAfter(a);
+    after.collapse(true);
+    currentSel.removeAllRanges();
+    currentSel.addRange(after);
+    lastEditorSelectionRef.current = after.cloneRange();
+
+    closeLinkDialog();
   };
 
   const handleUnlink = (e: React.MouseEvent) => {
     e.preventDefault();
-    editorRef.current?.focus();
-    document.execCommand("unlink");
+    const sel = restoreSelection();
+    if (!sel || sel.rangeCount === 0) return;
+    const a = findAncestor(sel.getRangeAt(0).startContainer, ["a"]);
+    if (!a) return;
+    // Unwrap: replace the <a> with its children.
+    const parent = a.parentNode;
+    if (!parent) return;
+    const frag = document.createDocumentFragment();
+    while (a.firstChild) frag.appendChild(a.firstChild);
+    parent.replaceChild(frag, a);
+    // Place caret at end of where the link was (best-effort).
+    if (editorRef.current) {
+      const r = document.createRange();
+      r.selectNodeContents(editorRef.current);
+      r.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(r);
+      lastEditorSelectionRef.current = r.cloneRange();
+    }
+  };
+
+  // Double-click an existing link to edit its URL. Single clicks still place the caret normally.
+  const handleEditorDblClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    const a = target.closest("a") as HTMLAnchorElement | null;
+    if (a && editorRef.current?.contains(a)) {
+      e.preventDefault();
+      const r = document.createRange();
+      r.selectNode(a);
+      openLinkDialog(a, r);
+    }
   };
 
   // Translate empty fields from primary language blog
@@ -704,20 +903,24 @@ export default function BlogEditorClient({
               <Unlink2 className="h-4 w-4" />
             </button>
             {linkMode && (
-              <div className="flex items-center gap-1 ml-1">
+              <div className="flex items-center gap-1 ml-1 basis-full order-last mt-2 md:basis-auto md:order-none md:mt-0">
+                <span className="text-xs opacity-60 mr-1">
+                  {editingExistingLink ? "Edit link:" : "Add link:"}
+                </span>
                 <input
                   autoFocus
                   type="text"
                   value={linkUrl}
                   onChange={(e) => setLinkUrl(e.target.value)}
                   placeholder="https://..."
-                  className="px-2 py-1 text-sm border border-border rounded-md bg-background w-52 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="px-2 py-1 text-sm border border-border rounded-md bg-background w-60 focus:outline-none focus:ring-2 focus:ring-primary/30"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
                       handleInsertLink(e as any);
                     } else if (e.key === "Escape") {
-                      setLinkMode(false);
+                      e.preventDefault();
+                      closeLinkDialog();
                     }
                   }}
                 />
@@ -726,11 +929,33 @@ export default function BlogEditorClient({
                   onMouseDown={(e) => { e.preventDefault(); handleInsertLink(e); }}
                   className="px-2 py-1 rounded text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90"
                 >
-                  OK
+                  {editingExistingLink ? "Update" : "OK"}
                 </button>
+                {editingExistingLink && (
+                  <button
+                    type="button"
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      const a = editingLinkRef.current;
+                      if (a && editorRef.current?.contains(a)) {
+                        const parent = a.parentNode;
+                        if (parent) {
+                          const frag = document.createDocumentFragment();
+                          while (a.firstChild) frag.appendChild(a.firstChild);
+                          parent.replaceChild(frag, a);
+                        }
+                      }
+                      closeLinkDialog();
+                    }}
+                    className="px-2 py-1 rounded text-sm font-medium bg-destructive/10 text-destructive hover:bg-destructive/20"
+                    title="Remove link"
+                  >
+                    Remove
+                  </button>
+                )}
                 <button
                   type="button"
-                  onClick={() => setLinkMode(false)}
+                  onMouseDown={(e) => { e.preventDefault(); closeLinkDialog(); }}
                   className="px-2 py-1 rounded text-sm font-medium bg-muted/50 hover:bg-muted"
                 >
                   ✕
@@ -742,7 +967,8 @@ export default function BlogEditorClient({
           <div
             ref={editorRef}
             contentEditable
-            className="prose prose-sm max-w-none focus:outline-none min-h-[400px] p-4 bg-background"
+            className="prose prose-sm max-w-none focus:outline-none min-h-[400px] p-4 bg-background [&_a]:text-primary [&_a]:underline"
+            onDoubleClick={handleEditorDblClick}
             onMouseDown={(e) => {
               // Prevent loss of selection when clicking toolbar buttons
               if (e.target === e.currentTarget) {
@@ -752,7 +978,7 @@ export default function BlogEditorClient({
           />
         </div>
         <p className="text-xs opacity-60 mt-1">
-          Use the toolbar to format your content. Content is saved as HTML.
+          Use the toolbar to format your content. Double-click a link to edit its URL, or place the cursor inside a link and click the Link button. Content is saved as HTML.
         </p>
       </div>
 

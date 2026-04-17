@@ -8,4 +8,5 @@ export interface GoogleMapProps {
   title?: string;
   subtitle?: string;
   className?: string;
+  badgeVariant?: "accent" | "outlined" | "text";
 }

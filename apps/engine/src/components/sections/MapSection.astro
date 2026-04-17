@@ -6,9 +6,11 @@ interface Props {
   isHomePage?: boolean;
   section: Section;
   business: BusinessProfile;
+  badgeVariant?: string;
 }
 
-const { section, business, isHomePage = false } = Astro.props;
+const { section, business, isHomePage = false, badgeVariant: themeBadgeVariant } = Astro.props;
+const sectionBadgeVariant = (section as any).badgeVariant || themeBadgeVariant || "accent";
 
 // Get location from business contact
 const location = business.business.contact?.location;
@@ -30,6 +32,7 @@ if (!location) {
       badge={section.header?.badge}
       title={section.header?.title}
       subtitle={section.header?.subtitle}
+      badgeVariant={sectionBadgeVariant as any}
     />
   </section>
 )}

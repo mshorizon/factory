@@ -52,7 +52,7 @@ export function TestimonialsCentered({ items, className }: TestimonialsGridProps
           <div className="flex flex-col items-center gap-spacing-sm">
             <div
               className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center text-lg font-bold"
-              style={{ backgroundColor: "var(--primary-dark)", color: "var(--text-on-primary)" }}
+              style={{ backgroundColor: "var(--primary-light)", color: "var(--text-on-primary)" }}
             >
               {item.image ? (
                 <img

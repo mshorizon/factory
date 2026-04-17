@@ -66,7 +66,7 @@ export function FooterGradient({
           {/* Link Columns + Socials */}
           <div className="flex flex-wrap gap-spacing-2xl">
             {columns &&
-              columns.filter((col) => !["Pages", "Strony"].includes(col.title)).map((column, colIndex) => (
+              columns.map((column, colIndex) => (
                 <div key={colIndex}>
                   <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-spacing-md">
                     {column.title}

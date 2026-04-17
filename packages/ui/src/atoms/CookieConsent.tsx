@@ -34,15 +34,20 @@ function Toggle({ checked, onChange, disabled, label }: { checked: boolean; onCh
       className={cn(
         "shrink-0 w-10 h-6 rounded-full border transition-colors flex items-center px-0.5",
         checked
-          ? "bg-primary border-primary justify-end"
-          : "bg-transparent border-white/40 justify-start",
+          ? "bg-foreground border-foreground justify-end"
+          : "bg-transparent border-foreground/40 justify-start",
         disabled && "cursor-not-allowed opacity-50"
       )}
       aria-checked={checked}
       aria-label={label}
       role="switch"
     >
-      <div className="w-4 h-4 rounded-full bg-white shadow" />
+      <div
+        className={cn(
+          "w-4 h-4 rounded-full shadow transition-colors",
+          checked ? "bg-background" : "bg-foreground/70"
+        )}
+      />
     </button>
   );
 }

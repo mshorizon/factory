@@ -35,7 +35,7 @@
           "base": "#EDF0F5",
           "alt": "#232F43",
           "card": "#FFFFFF",
-          "gradient": "#EBEEF4"
+          "gradient": "#F9FAFC"
         },
         "text": {
           "main": "#2E3238",
@@ -129,13 +129,6 @@
               "target": {
                 "type": "page",
                 "value": "about"
-              }
-            },
-            {
-              "label": "t:pages.services.title",
-              "target": {
-                "type": "page",
-                "value": "services"
               }
             },
             {
@@ -319,18 +312,12 @@
               "slug": "licytacje",
               "description": "Organizacja i przeprowadzanie licytacji ruchomości oraz nieruchomości w ramach egzekucji."
             }
-          ],
-          "cta": {
-            "label": "t:services.cta",
-            "target": {
-              "type": "page",
-              "value": "services"
-            }
-          }
+          ]
         },
         {
           "type": "features",
           "variant": "icon-tiles",
+          "badgeVariant": "text",
           "header": {
             "badge": "Systemy",
             "title": "Nowoczesne narzędzia kancelarii",
@@ -472,7 +459,6 @@
           "variant": "split",
           "background": "light",
           "header": {
-            "badge": "t:faq.badge",
             "title": "t:faq.title",
             "subtitle": "t:faq.subtitle"
           },
@@ -561,8 +547,8 @@
           "type": "about",
           "variant": "story",
           "imagePosition": "right",
+          "ctaVariant": "primaryLight",
           "header": {
-            "badge": "t:about.badge",
             "title": "t:about.title"
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
@@ -611,69 +597,6 @@
             "badge": "t:contact.badge",
             "title": "t:contact.title",
             "subtitle": "t:contact.subtitle"
-          },
-          "cta": {
-            "label": "t:ctaBanner.cta",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
-          }
-        }
-      ]
-    },
-    "services": {
-      "title": "Usługi",
-      "navLabel": "t:pages.services.title",
-      "sections": [
-        {
-          "type": "services",
-          "variant": "grid",
-          "header": {
-            "badge": "t:services.badge",
-            "title": "t:services.title",
-            "subtitle": "t:services.subtitle",
-            "layout": "most-minimalistic"
-          },
-          "items": [
-            {
-              "title": "Egzekucja należności pieniężnych",
-              "slug": "egzekucja-naleznosci",
-              "description": "Prowadzenie postępowań egzekucyjnych w celu odzyskania należności pieniężnych na podstawie tytułów wykonawczych. Zajmujemy się egzekucją z wynagrodzenia, rachunków bankowych, ruchomości i nieruchomości."
-            },
-            {
-              "title": "Eksmisje i opróżnienie lokalu",
-              "slug": "eksmisje",
-              "description": "Realizacja orzeczeń sądowych dotyczących opróżnienia i wydania nieruchomości zgodnie z obowiązującymi przepisami. Zapewniamy profesjonalne przeprowadzenie procesu z poszanowaniem praw wszystkich stron."
-            },
-            {
-              "title": "Doręczanie korespondencji",
-              "slug": "doreczenia",
-              "description": "Osobiste doręczanie korespondencji sądowej na zlecenie sądu oraz stron postępowania. Gwarantujemy terminową i skuteczną realizację doręczeń na terenie właściwości."
-            },
-            {
-              "title": "Zabezpieczenie roszczeń",
-              "slug": "zabezpieczenie-roszczen",
-              "description": "Wykonywanie postanowień o zabezpieczeniu roszczeń pieniężnych i niepieniężnych na wniosek wierzyciela. Szybka reakcja i skuteczne zabezpieczenie majątku dłużnika."
-            },
-            {
-              "title": "Sporządzanie spisu inwentarza",
-              "slug": "spis-inwentarza",
-              "description": "Sporządzanie protokołów stanu faktycznego oraz spisu inwentarza spadkowego na podstawie postanowienia sądu. Dokładna i rzetelna dokumentacja majątku."
-            },
-            {
-              "title": "Licytacje komornicze",
-              "slug": "licytacje",
-              "description": "Organizacja i przeprowadzanie licytacji ruchomości oraz nieruchomości w ramach postępowania egzekucyjnego. Pełna transparentność i zgodność z przepisami."
-            }
-          ]
-        },
-        {
-          "type": "ctaBanner",
-          "variant": "default",
-          "header": {
-            "title": "Złóż wniosek egzekucyjny",
-            "subtitle": "Wniosek możesz złożyć osobiście, pocztą lub elektronicznie przez EPU."
           },
           "cta": {
             "label": "t:ctaBanner.cta",
@@ -749,7 +672,7 @@
           "type": "contact",
           "variant": "professional",
           "header": {
-            "title": "t:contact.title",
+            "title": "Kontakt",
             "subtitle": "Skontaktuj się z Kancelarią Komorniczą nr IX w Otwocku. Chętnie odpowiemy na pytania dotyczące postępowań egzekucyjnych."
           },
           "cta": {
@@ -777,6 +700,7 @@
         },
         {
           "type": "map",
+          "badgeVariant": "text",
           "header": {
             "badge": "t:map.badge",
             "title": "t:map.title",

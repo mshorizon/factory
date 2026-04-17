@@ -28,7 +28,7 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
 ---
 
 {blog && (
-  <section class="pb-spacing-section-sm">
+  <section class="pt-[120px] pb-spacing-section-sm">
     <div class="container mx-auto px-spacing-container">
       <div class={sidebarContact ? "flex flex-col lg:flex-row gap-spacing-2xl lg:gap-spacing-3xl items-start" : "max-w-3xl mx-auto"}>
 
@@ -82,10 +82,10 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
         <!-- Sidebar contact card -->
         {sidebarContact && (
           <aside class="w-full lg:w-72 xl:w-80 shrink-0 lg:sticky lg:top-24">
-            <div class="bg-card border border-border/40 rounded-xl p-spacing-xl flex flex-col items-center text-center gap-spacing-md">
+            <div class="bg-card rounded-xl p-spacing-md pb-spacing-lg flex flex-col items-center text-center gap-spacing-md">
 
               {sidebarContact.image && (
-                <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-border/30 shrink-0">
+                <div class="w-full max-w-[336px] aspect-[336/256] rounded-md overflow-hidden shrink-0">
                   <img
                     src={sidebarContact.image}
                     alt={sidebarContact.name ?? ""}

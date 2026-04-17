@@ -29,6 +29,7 @@ export interface AboutStoryProps {
   className?: string;
   background?: string;
   imagePosition?: "left" | "right";
+  ctaVariant?: "accent" | "primaryLight";
 }
 
 export interface CareerItem {

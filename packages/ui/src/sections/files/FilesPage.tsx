@@ -34,7 +34,7 @@ function FileRow({ file }: { file: FileItem }) {
           {getFileIcon(file.type)}
         </span>
         <span className="text-foreground font-medium text-sm truncate">{file.name}</span>
-        <span className="flex-shrink-0 inline-flex px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-sm bg-primary text-primary-foreground">
+        <span className="flex-shrink-0 inline-flex px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-primary text-primary-foreground">
           {ext}
         </span>
       </div>
@@ -53,13 +53,10 @@ export function FilesPage({ groups, className }: FilesPageProps) {
           <StaggerItem key={gi} direction="up" distance={16}>
             <div className="flex flex-col gap-spacing-lg">
               <div className="flex flex-col gap-spacing-sm">
-                <div className="h-px w-full bg-border" />
-                <div className="flex items-center gap-spacing-sm pt-spacing-xs">
-                  <span className="w-8 h-[2px] flex-shrink-0 bg-primary" />
-                  <h2 className="text-xs font-semibold uppercase tracking-widest text-primary">
-                    {group.title}
-                  </h2>
-                </div>
+                <span className="w-8 h-[2px] flex-shrink-0 bg-primary" />
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
+                  {group.title}
+                </h2>
               </div>
               <div className="flex flex-col gap-spacing-sm">
                 {group.files.map((file, fi) => (

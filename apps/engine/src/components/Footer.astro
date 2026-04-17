@@ -454,7 +454,7 @@ const languages = [
         </div>
         {/* Link Columns + Socials */}
         <div class="flex flex-wrap gap-spacing-2xl">
-          {columns.filter((col) => !["Pages", "Strony"].includes(col.title)).map((column) => (
+          {columns.map((column) => (
             <div>
               <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-spacing-md">{column.title}</h3>
               <ul class="space-y-spacing-xs">

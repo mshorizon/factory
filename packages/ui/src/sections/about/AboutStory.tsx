@@ -24,9 +24,13 @@ export function AboutStory({
   className,
   background,
   imagePosition = "left",
+  ctaVariant = "accent",
 }: AboutStoryProps) {
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
+  const ctaClass = ctaVariant === "primaryLight"
+    ? "bg-primary-light hover:bg-primary-light/90 text-on-accent"
+    : "bg-accent text-on-primary hover:opacity-90";
 
   const imageBlock = image ? (
     <ScrollReveal delay={0} direction={imageRight ? "right" : "left"} distance={30}>
@@ -46,10 +50,12 @@ export function AboutStory({
   const textBlock = (
     <ScrollReveal delay={0.1} direction={imageRight ? "left" : "right"} distance={30}>
       <div className="space-y-spacing-lg py-spacing-3xl flex flex-col justify-center">
-        {badge && (
+        {(badge || title) && (
           <div className="flex items-center gap-spacing-sm">
             <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
-            <Badge variant="accent" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
+            {badge && (
+              <Badge variant="accent" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
+            )}
           </div>
         )}
         {title && (
@@ -68,7 +74,10 @@ export function AboutStory({
             <a
               href={ctaHref}
               onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-on-primary font-medium rounded-full hover:opacity-90 transition-opacity w-fit"
+              className={cn(
+                "inline-flex items-center gap-2 px-6 py-3 font-medium rounded-full transition-opacity w-fit",
+                ctaClass
+              )}
             >
               {cta}
               <ArrowRight className="h-5 w-5" />

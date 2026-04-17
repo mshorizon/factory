@@ -26,16 +26,18 @@ export function FAQSplit({
     <div className={cn("grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-spacing-3xl lg:gap-spacing-3xl", className)}>
       {/* Left column — header + CTA */}
       <div className="flex flex-col items-start">
-        {badge && (
+        {(badge || title) && (
           <div
             data-reveal
             data-reveal-delay="0"
             className="flex flex-col items-start gap-spacing-sm mb-spacing-lg"
           >
             <div className="w-8 h-[2px]" style={{ backgroundColor: "var(--primary-dark)" }} />
-            <Badge variant="accent" data-field="header.badge" className="px-0 py-0 text-[14px] tracking-[.05rem] uppercase font-medium" style={{ color: "var(--primary-dark)" }}>
-              {badge}
-            </Badge>
+            {badge && (
+              <Badge variant="accent" data-field="header.badge" className="px-0 py-0 text-[14px] tracking-[.05rem] uppercase font-medium" style={{ color: "var(--primary-dark)" }}>
+                {badge}
+              </Badge>
+            )}
           </div>
         )}
         {title && (
