@@ -1,4 +1,4 @@
-import { pgTable, serial, text, jsonb, timestamp, integer, unique, boolean, bigint } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, jsonb, timestamp, integer, unique, boolean, bigint, uuid } from "drizzle-orm/pg-core";
 
 export const sites = pgTable("sites", {
   id: serial("id").primaryKey(),
@@ -309,3 +309,23 @@ export const businessFiles = pgTable("business_files", {
 
 export type BusinessFile = typeof businessFiles.$inferSelect;
 export type NewBusinessFile = typeof businessFiles.$inferInsert;
+
+// --- Claude Code Tasks ---
+
+export const TASK_STATUSES = ["pending", "in-progress", "done", "failed"] as const;
+export type TaskStatus = typeof TASK_STATUSES[number];
+
+export const tasks = pgTable("tasks", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  status: text("status").notNull().default("pending"), // "pending" | "in-progress" | "done" | "failed"
+  domain: text("domain").notNull(),
+  template: text("template").notNull(),
+  location: text("location").notNull(),
+  description: text("description").notNull(),
+  isSuperAdmin: boolean("is_super_admin").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type Task = typeof tasks.$inferSelect;
+export type NewTask = typeof tasks.$inferInsert;

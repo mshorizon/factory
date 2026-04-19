@@ -19,6 +19,7 @@ import { OrdersTab } from "./OrdersTab";
 import { BookingsTab } from "./BookingsTab";
 import { FilesTab } from "./FilesTab";
 import { UniversalList } from "./UniversalList";
+import TaskManager from "./TaskManager";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -96,6 +97,7 @@ import {
   ChevronRight,
   Globe,
   Image as ImageIcon,
+  ListTodo,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -112,6 +114,8 @@ interface AdminFormProps {
   schema: RJSFSchema;
   translations?: Record<string, Record<string, unknown>>;
   auth?: { email: string; role: string; userId: number } | null;
+  availableDomains?: string[];
+  currentTemplate?: string;
 }
 
 type SaveStatus = "idle" | "saving" | "success" | "error";
@@ -383,6 +387,8 @@ export default function AdminForm({
   schema,
   translations,
   auth,
+  availableDomains,
+  currentTemplate,
 }: AdminFormProps) {
   const [formData, setFormData] = useState<Record<string, unknown>>(initialData);
   const [translationsData, setTranslationsData] = useState<Record<string, Record<string, unknown>>>(() => {
@@ -1558,6 +1564,17 @@ export default function AdminForm({
 
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
+    if (activeTab === "tasks") {
+      return (
+        <TaskManager
+          currentDomain={businessId}
+          currentTemplate={currentTemplate}
+          isSuperAdmin={auth?.role === "super-admin"}
+          availableDomains={availableDomains ?? []}
+        />
+      );
+    }
+
     return null;
   };
 
@@ -1616,6 +1633,15 @@ export default function AdminForm({
       description: "Individual pages and their section layouts.",
       Icon: FileText,
       items: pageNames.map((pageName) => ({ id: `page-${pageName}`, label: pageName, Icon: File })),
+    },
+    {
+      id: "automation",
+      label: "Automation",
+      description: "Queue work for the Claude Code /task slash command.",
+      Icon: ListTodo,
+      items: [
+        { id: "tasks", label: "Tasks", Icon: ListTodo },
+      ],
     },
     ...(auth?.role === "super-admin" ? [
       {

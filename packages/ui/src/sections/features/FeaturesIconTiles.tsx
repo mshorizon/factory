@@ -56,7 +56,7 @@ export function FeaturesIconTiles({ items, className }: FeaturesGridProps) {
                   {item.title}
                 </h3>
                 <p
-                  className="text-sm text-muted leading-relaxed"
+                  className="hidden lg:block text-sm text-muted leading-relaxed"
                   data-field={`items.${index}.description`}
                 >
                   {item.description}

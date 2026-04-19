@@ -41,6 +41,11 @@ export {
   businessFiles,
   type BusinessFile,
   type NewBusinessFile,
+  tasks,
+  TASK_STATUSES,
+  type Task,
+  type NewTask,
+  type TaskStatus,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -113,3 +118,11 @@ export {
   getBusinessFileById,
   deleteBusinessFile,
 } from "./queries.js";
+export {
+  listTasks,
+  getTaskById,
+  getFirstPendingTask,
+  createTask,
+  updateTaskStatus,
+  deleteTask,
+} from "./tasks.js";
