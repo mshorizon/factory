@@ -1998,33 +1998,8 @@ export default function AdminForm({
                   <p className="text-sm text-muted-foreground mt-1">{activeGroup.description}</p>
                 </div>
               )}
-              <div className="flex flex-col md:flex-row gap-6 items-start">
-                {activeGroup && activeGroup.items.length > 0 && (
-                  <Card className="w-full md:w-[254px] md:flex-shrink-0 md:sticky md:top-6">
-                    <CardContent className="p-2">
-                      <nav className="flex flex-col gap-0.5">
-                        {activeGroup.items.map((item) => (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => setActiveTab(item.id)}
-                            className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-left transition-colors ${
-                              activeTab === item.id
-                                ? "bg-muted text-foreground font-medium"
-                                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-                            }`}
-                          >
-                            <item.Icon className="h-4 w-4 flex-shrink-0" />
-                            <span className="truncate">{item.label}</span>
-                          </button>
-                        ))}
-                      </nav>
-                    </CardContent>
-                  </Card>
-                )}
-                <div className="w-full md:flex-1 md:max-w-[672px] min-w-0 space-y-6">
-                  {getTabContent()}
-                </div>
+              <div className="w-full min-w-0 space-y-6">
+                {getTabContent()}
               </div>
             </div>
           </div>
