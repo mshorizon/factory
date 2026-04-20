@@ -29,6 +29,7 @@ export interface ContactInfo {
   hours?: string;
   hoursDetailed?: string[];
   receptionHours?: string;
+  receptionLabel?: string;
   additionalInfo?: string[];
   notice?: ContactNotice;
 }

@@ -87,6 +87,9 @@ const socialIcons: Record<string, string> = {
 const year = new Date().getFullYear();
 const copyrightText = (copyright || `© ${year} ${businessName}. All rights reserved.`).replace("{year}", String(year));
 
+const translations = (Astro.locals as any).t || {};
+const cookieSettingsLabel = translations["footer.cookieSettings"] || "Ustawienia cookies";
+
 const languages = [
   { code: "pl", label: "Polski" },
   { code: "en", label: "English" },
@@ -132,7 +135,7 @@ const languages = [
               ))}
             </div>
           )}
-          <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
+          <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">{cookieSettingsLabel}</button>
           <span class="text-xs text-muted">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-foreground/60 hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
@@ -160,7 +163,7 @@ const languages = [
         )}
         <p class="text-sm text-on-primary/60">{copyrightText}</p>
         <div class="flex flex-wrap justify-center items-center gap-4 mt-3">
-          <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">Ustawienia cookies</button>
+          <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">{cookieSettingsLabel}</button>
           <span class="text-xs text-on-primary/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
@@ -232,7 +235,7 @@ const languages = [
               ))}
             </div>
           )}
-          <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
+          <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">{cookieSettingsLabel}</button>
           <span class="text-xs text-muted">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-foreground/60 hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
@@ -291,7 +294,7 @@ const languages = [
                 ))}
               </div>
             )}
-            <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">Ustawienia cookies</button>
+            <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">{cookieSettingsLabel}</button>
             <span class="text-xs text-muted">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-foreground/60 hover:text-foreground transition-colors">Hazelgrouse Studio</a></span>
           </div>
         </div>
@@ -347,7 +350,7 @@ const languages = [
                 ))}
               </div>
             )}
-            <button data-cookie-settings class="text-xs text-on-primary/65 hover:text-on-primary transition-colors">Ustawienia cookies</button>
+            <button data-cookie-settings class="text-xs text-on-primary/65 hover:text-on-primary transition-colors">{cookieSettingsLabel}</button>
             <span class="text-xs text-on-primary/65">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
           </div>
         </div>
@@ -423,7 +426,7 @@ const languages = [
                 ))}
               </div>
             )}
-            <button data-cookie-settings class="text-xs text-on-primary/65 hover:text-on-primary transition-colors">Ustawienia cookies</button>
+            <button data-cookie-settings class="text-xs text-on-primary/65 hover:text-on-primary transition-colors">{cookieSettingsLabel}</button>
             <span class="text-xs text-on-primary/65">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
           </div>
         </div>
@@ -491,7 +494,7 @@ const languages = [
               ))}
             </div>
           )}
-          <button data-cookie-settings class="text-xs text-white/60 hover:text-white transition-colors">Ustawienia cookies</button>
+          <button data-cookie-settings class="text-xs text-white/60 hover:text-white transition-colors">{cookieSettingsLabel}</button>
           <span class="text-xs text-white/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>
@@ -519,7 +522,7 @@ const languages = [
               ))}
             </div>
           )}
-          <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">Ustawienia cookies</button>
+          <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">{cookieSettingsLabel}</button>
           <span class="text-xs text-on-primary/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary/80 hover:text-on-primary transition-colors">Hazelgrouse Studio</a></span>
         </div>
       </div>

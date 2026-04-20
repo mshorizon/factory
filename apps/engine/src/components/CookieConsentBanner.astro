@@ -1,5 +1,21 @@
 ---
 import { CookieConsent } from "@mshorizon/ui";
+
+const translations = (Astro.locals as any).t || {};
+
+const cookieTranslations = {
+  bannerMessage: translations["cookies.banner.message"],
+  buttonOnlyNecessary: translations["cookies.button.onlyNecessary"],
+  buttonCustomize: translations["cookies.button.customize"],
+  buttonAcceptAll: translations["cookies.button.acceptAll"],
+  buttonSaveChoice: translations["cookies.button.saveChoice"],
+  necessaryLabel: translations["cookies.category.necessary.label"],
+  necessaryDescription: translations["cookies.category.necessary.description"],
+  analyticsLabel: translations["cookies.category.analytics.label"],
+  analyticsDescription: translations["cookies.category.analytics.description"],
+  marketingLabel: translations["cookies.category.marketing.label"],
+  marketingDescription: translations["cookies.category.marketing.description"],
+};
 ---
 
-<CookieConsent client:load />
+<CookieConsent translations={cookieTranslations} client:load />

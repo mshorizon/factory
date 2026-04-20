@@ -131,8 +131,17 @@ const majorTheme = (business as any).theme?.majorTheme;
 const isPortfolioLaw = majorTheme === "portfolio-law";
 
 // Find about section image for contact card sidebar (portfolio-law)
-const homeAboutSection = (business.pages?.home as any)?.sections?.find((s: any) => s.type === "about" && s.image);
-const contactCardImage = (homeAboutSection as any)?.image as string | undefined;
+// Match both "about" and "about-summary" types; search home first, then other pages as fallback
+const aboutTypes = new Set(["about", "about-summary"]);
+const findAboutImage = (sections: any[] | undefined) =>
+  sections?.find((s: any) => aboutTypes.has(s?.type) && s?.image)?.image as string | undefined;
+let contactCardImage = findAboutImage((business.pages?.home as any)?.sections);
+if (!contactCardImage) {
+  for (const page of Object.values(business.pages ?? {})) {
+    const img = findAboutImage((page as any)?.sections);
+    if (img) { contactCardImage = img; break; }
+  }
+}
 ---
 
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription || undefined} canonical={canonicalUrl} ogImage={blog.image || undefined} ogType="article" siteName={business.business.name} jsonLd={jsonLd}>

@@ -76,12 +76,40 @@ function CookieRow({
   );
 }
 
-export function CookieConsent() {
+export type CookieConsentTranslations = {
+  bannerMessage?: string;
+  buttonOnlyNecessary?: string;
+  buttonCustomize?: string;
+  buttonAcceptAll?: string;
+  buttonSaveChoice?: string;
+  necessaryLabel?: string;
+  necessaryDescription?: string;
+  analyticsLabel?: string;
+  analyticsDescription?: string;
+  marketingLabel?: string;
+  marketingDescription?: string;
+};
+
+export function CookieConsent({ translations = {} }: { translations?: CookieConsentTranslations } = {}) {
   const [visible, setVisible] = React.useState(false);
   const [hiding, setHiding] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [analytics, setAnalytics] = React.useState(false);
   const [marketing, setMarketing] = React.useState(false);
+
+  const labels = {
+    bannerMessage: translations.bannerMessage || "Używamy plików cookies, aby zapewnić prawidłowe działanie strony oraz — za Twoją zgodą — do celów analitycznych i marketingowych.",
+    buttonOnlyNecessary: translations.buttonOnlyNecessary || "Tylko niezbędne",
+    buttonCustomize: translations.buttonCustomize || "Dostosuj",
+    buttonAcceptAll: translations.buttonAcceptAll || "Akceptuj wszystkie",
+    buttonSaveChoice: translations.buttonSaveChoice || "Zapisz wybór",
+    necessaryLabel: translations.necessaryLabel || "Niezbędne",
+    necessaryDescription: translations.necessaryDescription || "Wymagane do prawidłowego działania strony.",
+    analyticsLabel: translations.analyticsLabel || "Analityczne",
+    analyticsDescription: translations.analyticsDescription || "Pomagają zrozumieć, jak korzystasz ze strony.",
+    marketingLabel: translations.marketingLabel || "Marketingowe",
+    marketingDescription: translations.marketingDescription || "Używane do spersonalizowanych reklam.",
+  };
 
   React.useEffect(() => {
     if (!loadConsent()) setVisible(true);
@@ -139,18 +167,18 @@ export function CookieConsent() {
         {/* Main bar — buttons hidden when expanded (duplicated in expanded panel) */}
         <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-spacing-md py-4 md:py-0" style={{ minHeight: "var(--spacing-section-sm)" }}>
           <p className="text-sm text-foreground flex-1 leading-relaxed">
-            Używamy plików cookies, aby zapewnić prawidłowe działanie strony oraz — za Twoją zgodą — do celów analitycznych i marketingowych.
+            {labels.bannerMessage}
           </p>
           {!expanded && (
             <div className="flex flex-wrap gap-2 shrink-0">
               <Button variant="outline" size="sm" onClick={acceptNecessary} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
-                Tylko niezbędne
+                {labels.buttonOnlyNecessary}
               </Button>
               <Button variant="ghost" size="sm" onClick={() => setExpanded(true)} className="text-foreground hover:bg-foreground/10">
-                Dostosuj
+                {labels.buttonCustomize}
               </Button>
               <Button size="sm" onClick={acceptAll}>
-                Akceptuj wszystkie
+                {labels.buttonAcceptAll}
               </Button>
             </div>
           )}
@@ -161,33 +189,33 @@ export function CookieConsent() {
           <div className="border-t border-white/10 pb-6 pt-4 flex flex-col gap-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <CookieRow
-                label="Niezbędne"
-                description="Wymagane do prawidłowego działania strony."
+                label={labels.necessaryLabel}
+                description={labels.necessaryDescription}
                 checked
                 disabled
               />
               <CookieRow
-                label="Analityczne"
-                description="Pomagają zrozumieć, jak korzystasz ze strony."
+                label={labels.analyticsLabel}
+                description={labels.analyticsDescription}
                 checked={analytics}
                 onChange={() => setAnalytics((v) => !v)}
               />
               <CookieRow
-                label="Marketingowe"
-                description="Używane do spersonalizowanych reklam."
+                label={labels.marketingLabel}
+                description={labels.marketingDescription}
                 checked={marketing}
                 onChange={() => setMarketing((v) => !v)}
               />
             </div>
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={acceptNecessary} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
-                Tylko niezbędne
+                {labels.buttonOnlyNecessary}
               </Button>
               <Button variant="outline" size="sm" onClick={saveCustom} className="border-foreground text-foreground hover:bg-foreground hover:text-background">
-                Zapisz wybór
+                {labels.buttonSaveChoice}
               </Button>
               <Button size="sm" onClick={acceptAll}>
-                Akceptuj wszystkie
+                {labels.buttonAcceptAll}
               </Button>
             </div>
           </div>

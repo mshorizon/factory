@@ -11,7 +11,6 @@
       "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
       "phone": "+48 22 180 00 22",
       "email": "otwock.starzec@komornik.pl",
-      "hours": "Pon-Pt: 8:00 - 16:00",
       "location": {
         "latitude": 52.1054,
         "longitude": 21.2633
@@ -735,14 +734,15 @@
               "t:contact.info.hours.fri"
             ],
             "receptionHours": "t:contact.info.receptionHours",
+            "receptionLabel": "t:contact.info.receptionLabel",
             "additionalInfo": [
-              "Rachunek bankowy: Alior Bank S.A.: 93 2490 0005 0000 4530 4237 7611",
-              "Adres EPUAP (zbiegi): /KS_Marcin_Starzec/ezbiegi (data obowiązywania od 16.03.2018)"
+              "t:contact.info.additionalInfo.bank",
+              "t:contact.info.additionalInfo.epuap"
             ],
             "notice": {
-              "title": "Numer rachunku bankowego kancelarii: Alior Bank S.A.",
+              "title": "t:contact.info.notice.title",
               "highlight": "93 24900005 0000 4530 4237 7611",
-              "description": "Dokonując wpłaty w tytule przelewu należy podać sygnaturę GKM / KM / KMS / KMP / KMN oraz imię i nazwisko lub nazwę dłużnika."
+              "description": "t:contact.info.notice.description"
             }
           },
           "form": {

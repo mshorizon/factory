@@ -77,6 +77,7 @@ export function ContactProfessional({
     hours: business?.business?.contact?.hours || info?.hours,
     hoursDetailed: info?.hoursDetailed,
     receptionHours: info?.receptionHours,
+    receptionLabel: info?.receptionLabel,
     additionalInfo: info?.additionalInfo,
     notice: info?.notice,
   };
@@ -157,7 +158,9 @@ export function ContactProfessional({
               <div className="flex items-start gap-spacing-md text-foreground">
                 <UserGroupIcon className="h-5 w-5 text-primary-light shrink-0 mt-0.5" />
                 <div className="flex flex-col gap-spacing-xs">
-                  <span className="text-sm font-medium">Przyjęcia interesantów</span>
+                  {contactInfo.receptionLabel && (
+                    <span className="text-sm font-medium">{contactInfo.receptionLabel}</span>
+                  )}
                   <span className="text-sm text-muted">{contactInfo.receptionHours}</span>
                 </div>
               </div>

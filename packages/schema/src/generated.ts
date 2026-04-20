@@ -234,6 +234,10 @@ export type DetailedHours = string[];
  */
 export type ReceptionHours = string;
 /**
+ * Localized label for the reception hours block (e.g., 'Client reception'). Rendered above receptionHours.
+ */
+export type ReceptionLabel = string;
+/**
  * Extra contact info lines (e.g., bank account, EPUAP address).
  */
 export type AdditionalInfo1 = string[];
@@ -632,6 +636,7 @@ export interface ContactInfo {
   hours?: string;
   hoursDetailed?: DetailedHours;
   receptionHours?: ReceptionHours;
+  receptionLabel?: ReceptionLabel;
   additionalInfo?: AdditionalInfo1;
   notice?: ContactNotice;
 }

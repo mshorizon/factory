@@ -292,6 +292,11 @@
               "title": "Reception Hours",
               "description": "Separate schedule for client reception (e.g., 'środa 9:00 – 17:00')."
             },
+            "receptionLabel": {
+              "type": "string",
+              "title": "Reception Label",
+              "description": "Localized label for the reception hours block (e.g., 'Client reception'). Rendered above receptionHours."
+            },
             "additionalInfo": {
               "type": "array",
               "title": "Additional Info",
