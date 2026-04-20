@@ -43,6 +43,7 @@ import {
   SidebarMenuButton,
   SidebarProvider,
   SidebarInset,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -1655,13 +1656,11 @@ export default function AdminForm({
       items: pageNames.map((pageName) => ({ id: `page-${pageName}`, label: pageName, Icon: File })),
     },
     {
-      id: "automation",
-      label: "Automation",
+      id: "tasks",
+      label: "Tasks",
       description: "Queue work for the Claude Code /task slash command.",
       Icon: ListTodo,
-      items: [
-        { id: "tasks", label: "Tasks", Icon: ListTodo },
-      ],
+      items: [],
     },
     ...(auth?.role === "super-admin" ? [
       {
@@ -1765,18 +1764,18 @@ export default function AdminForm({
                   <SidebarMenu>
                     <SidebarMenuItem>
                       <SidebarMenuButton
-                        onClick={() => toggleGroup(group.id)}
-                        isActive={hasActive && !isExpanded}
+                        onClick={() => group.items.length === 0 ? setActiveTab(group.id) : toggleGroup(group.id)}
+                        isActive={group.items.length === 0 ? activeTab === group.id : (hasActive && !isExpanded)}
                         className="font-medium"
-                        aria-expanded={isExpanded}
+                        aria-expanded={group.items.length > 0 ? isExpanded : undefined}
                       >
                         <group.Icon />
                         <span>{group.label}</span>
-                        {isExpanded ? (
+                        {group.items.length > 0 && (isExpanded ? (
                           <ChevronDown className="ml-auto h-4 w-4 transition-transform text-muted-foreground group-data-[collapsible=icon]:hidden" />
                         ) : (
                           <ChevronRight className="ml-auto h-4 w-4 transition-transform text-muted-foreground group-data-[collapsible=icon]:hidden" />
-                        )}
+                        ))}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     {isExpanded && group.items.length > 0 && (
@@ -1861,12 +1860,19 @@ export default function AdminForm({
             ref={headerRef}
             className="grid grid-cols-[1fr_auto_1fr] items-center h-[49px] pl-6 pr-4 border-b border-sidebar-border bg-background shrink-0 min-w-0"
           >
-            {/* Col 1: breadcrumb — only in full mode */}
+            {/* Col 1: breadcrumb in full mode, sidebar trigger in smaller modes */}
             {headerMode === 'full' ? (
               <Breadcrumb className="min-w-0 overflow-hidden h-[49px] flex items-center">
                 <BreadcrumbList className="flex-nowrap overflow-hidden">
                   {(() => {
                     for (const group of navGroups) {
+                      if (group.items.length === 0 && group.id === activeTab) {
+                        return (
+                          <BreadcrumbItem>
+                            <BreadcrumbPage>{group.label}</BreadcrumbPage>
+                          </BreadcrumbItem>
+                        );
+                      }
                       const item = group.items.find((i) => i.id === activeTab);
                       if (item) {
                         return (
@@ -1890,7 +1896,9 @@ export default function AdminForm({
                   })()}
                 </BreadcrumbList>
               </Breadcrumb>
-            ) : <div />}
+            ) : (
+              <SidebarTrigger className="h-7 w-7" />
+            )}
 
             {/* Col 2: translation switcher — visible in full + no-breadcrumb, else hidden (goes to menu) */}
             {(headerMode === 'full' || headerMode === 'no-breadcrumb') ? (
