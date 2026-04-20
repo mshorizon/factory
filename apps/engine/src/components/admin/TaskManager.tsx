@@ -29,12 +29,15 @@ import {
   Circle,
   ListTodo,
   ShieldAlert,
+  PauseCircle,
+  MessageSquare,
+  Send,
 } from "lucide-react";
 import type { BusinessPageMeta } from "./AdminForm";
 
 export type TaskRecord = {
   id: string;
-  status: "pending" | "in-progress" | "done" | "failed";
+  status: "pending" | "in-progress" | "on_hold" | "done" | "failed";
   domain: string;
   template: string;
   location: string;
@@ -42,6 +45,7 @@ export type TaskRecord = {
   section: string | null;
   isAdminPanel: boolean;
   description: string;
+  clarification: string | null;
   isSuperAdmin: boolean;
   createdAt: string;
   updatedAt: string;
@@ -131,6 +135,14 @@ function StatusBadge({ status }: { status: TaskRecord["status"] }) {
       </Badge>
     );
   }
+  if (status === "on_hold") {
+    return (
+      <Badge className="gap-1 bg-amber-500 text-white hover:bg-amber-500/90 dark:bg-amber-600">
+        <PauseCircle className="h-3 w-3" />
+        On Hold
+      </Badge>
+    );
+  }
   if (status === "done") {
     return (
       <Badge className="gap-1 bg-emerald-600 text-white hover:bg-emerald-600/90 dark:bg-emerald-700">
@@ -172,6 +184,8 @@ export default function TaskManager({
   // Task list state
   const [tasks, setTasks] = useState<TaskRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [sendingAnswer, setSendingAnswer] = useState<Record<string, boolean>>({});
 
   // When switching between site/admin mode, reset page/section
   useEffect(() => {
@@ -256,6 +270,30 @@ export default function TaskManager({
       setBanner({ type: "err", msg: err instanceof Error ? err.message : "Failed to add task" });
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const sendAnswer = async (taskId: string) => {
+    const answer = (answers[taskId] ?? "").trim();
+    if (!answer) return;
+    setSendingAnswer((prev) => ({ ...prev, [taskId]: true }));
+    try {
+      const res = await fetch(`/api/tasks/${taskId}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answer }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || `Failed (${res.status})`);
+      }
+      setAnswers((prev) => ({ ...prev, [taskId]: "" }));
+      await loadTasks();
+    } catch (err) {
+      setBanner({ type: "err", msg: err instanceof Error ? err.message : "Failed to send answer" });
+    } finally {
+      setSendingAnswer((prev) => ({ ...prev, [taskId]: false }));
     }
   };
 
@@ -496,6 +534,48 @@ export default function TaskManager({
                   </div>
 
                   <div className="text-sm whitespace-pre-wrap break-words">{task.description}</div>
+
+                  {task.status === "on_hold" && task.clarification && (
+                    <div className="flex flex-col gap-2 rounded-lg border border-amber-400/40 bg-amber-50/50 dark:bg-amber-900/10 p-3 mt-1">
+                      <div className="flex items-start gap-2">
+                        <MessageSquare className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                        <div className="flex flex-col gap-1 flex-1">
+                          <span className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wide">
+                            Claude asks
+                          </span>
+                          <p className="text-sm whitespace-pre-wrap text-foreground">
+                            {task.clarification}
+                          </p>
+                        </div>
+                      </div>
+                      <Textarea
+                        rows={3}
+                        placeholder="Type your answer to unblock Claude..."
+                        value={answers[task.id] ?? ""}
+                        onChange={(e) =>
+                          setAnswers((prev) => ({ ...prev, [task.id]: e.target.value }))
+                        }
+                        disabled={sendingAnswer[task.id]}
+                        className="mt-1"
+                      />
+                      <div className="flex justify-end">
+                        <Button
+                          size="sm"
+                          disabled={
+                            sendingAnswer[task.id] ||
+                            !(answers[task.id] ?? "").trim()
+                          }
+                          onClick={() => sendAnswer(task.id)}
+                        >
+                          {sendingAnswer[task.id] ? (
+                            <><Loader2 className="h-3.5 w-3.5 animate-spin" />Sending...</>
+                          ) : (
+                            <><Send className="h-3.5 w-3.5" />Send</>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}

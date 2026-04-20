@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import {
   getTaskById,
-  updateTaskStatus,
+  updateTask,
   TASK_STATUSES,
   type TaskStatus,
 } from "@mshorizon/db";
@@ -42,8 +42,30 @@ export const PATCH: APIRoute = async ({ request, cookies, params, locals }) => {
     }
 
     const body = await request.json();
-    const { status } = body ?? {};
+    const { status, clarification, answer } = body ?? {};
 
+    // --- Flow: user submits answer to on_hold task ---
+    if (answer !== undefined) {
+      if (typeof answer !== "string" || answer.trim().length === 0) {
+        return new Response(JSON.stringify({ error: "Answer cannot be empty" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      const updatedDescription =
+        existing.description + `\n\n---\nClarification: ${answer.trim()}`;
+      const updated = await updateTask(id, {
+        status: "pending",
+        description: updatedDescription,
+        clarification: null,
+      });
+      return new Response(JSON.stringify({ task: updated }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // --- Flow: status update (incl. on_hold with clarification) ---
     if (!status || !TASK_STATUSES.includes(status as TaskStatus)) {
       return new Response(
         JSON.stringify({
@@ -53,7 +75,22 @@ export const PATCH: APIRoute = async ({ request, cookies, params, locals }) => {
       );
     }
 
-    const updated = await updateTaskStatus(id, status as TaskStatus);
+    const fields: Parameters<typeof updateTask>[1] = { status: status as TaskStatus };
+
+    if (status === "on_hold") {
+      if (!clarification || typeof clarification !== "string") {
+        return new Response(
+          JSON.stringify({ error: "clarification required when setting on_hold" }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
+      }
+      fields.clarification = clarification.trim();
+    } else {
+      // Clear clarification when moving out of on_hold
+      fields.clarification = null;
+    }
+
+    const updated = await updateTask(id, fields);
     return new Response(JSON.stringify({ task: updated }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
