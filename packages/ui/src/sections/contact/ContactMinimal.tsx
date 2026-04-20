@@ -30,7 +30,7 @@ export function ContactMinimal({
     });
 
   const ctaClass = ctaVariant === "primaryLight"
-    ? "bg-primary-light text-on-accent hover:bg-primary-light/90"
+    ? "bg-primary-light text-on-primary hover:bg-primary-light/90"
     : "bg-primary text-on-primary hover:bg-primary/90";
 
   return (

@@ -91,7 +91,7 @@
   },
   "layout": {
     "navbar": {
-      "variant": "standard",
+      "variant": "transparent",
       "logoText": "Marcin Starzec",
       "hideBorderOnTop": true,
       "hideCta": true,
@@ -151,6 +151,13 @@
               "target": {
                 "type": "page",
                 "value": "informations"
+              }
+            },
+            {
+              "label": "t:pages.rodo.title",
+              "target": {
+                "type": "page",
+                "value": "rodo"
               }
             }
           ]
@@ -259,6 +266,7 @@
         {
           "type": "hero",
           "variant": "split",
+          "background": "transparent",
           "hideDots": true,
           "badgeLayout": "column",
           "header": {
@@ -312,6 +320,48 @@
               "title": "Licytacje komornicze",
               "slug": "licytacje",
               "description": "Organizacja i przeprowadzanie licytacji ruchomości oraz nieruchomości w ramach egzekucji."
+            }
+          ]
+        },
+        {
+          "type": "about-summary",
+          "variant": "default",
+          "background": "dark-padded",
+          "hideDots": true,
+          "badgeVariant": "text",
+          "badgeColor": "#CCCCCC",
+          "descriptionColor": "#CCCCCC",
+          "ctaColor": "#FFFFFF",
+          "statsInverted": true,
+          "header": {
+            "badge": "t:about.badge",
+            "title": "Skuteczna i rzetelna egzekucja sądowa",
+            "subtitle": "Kancelaria Komornicza nr IX w Otwocku prowadzona przez Komornika Sądowego Marcina Starzec zapewnia profesjonalną obsługę spraw egzekucyjnych. Gwarantujemy elektroniczną wymianę korespondencji, terminową realizację wniosków egzekucyjnych oraz generowanie raportów z podjętych czynności dla wierzycieli."
+          },
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
+          "cta": {
+            "label": "Więcej o kancelarii",
+            "target": {
+              "type": "page",
+              "value": "about"
+            }
+          },
+          "stats": [
+            {
+              "value": "15+",
+              "label": "Lat doświadczenia"
+            },
+            {
+              "value": "5000+",
+              "label": "Spraw przeprowadzonych"
+            },
+            {
+              "value": "98%",
+              "label": "Skuteczność egzekucji"
+            },
+            {
+              "value": "2721",
+              "label": "ID komornika w EPU"
             }
           ]
         },
@@ -384,50 +434,9 @@
           ]
         },
         {
-          "type": "about-summary",
-          "variant": "default",
-          "background": "dark-padded",
-          "hideDots": true,
-          "badgeVariant": "text",
-          "badgeColor": "#CCCCCC",
-          "descriptionColor": "#CCCCCC",
-          "ctaColor": "#FFFFFF",
-          "statsInverted": true,
-          "header": {
-            "badge": "t:about.badge",
-            "title": "Skuteczna i rzetelna egzekucja sądowa",
-            "subtitle": "Kancelaria Komornicza nr IX w Otwocku prowadzona przez Komornika Sądowego Marcina Starzec zapewnia profesjonalną obsługę spraw egzekucyjnych. Gwarantujemy elektroniczną wymianę korespondencji, terminową realizację wniosków egzekucyjnych oraz generowanie raportów z podjętych czynności dla wierzycieli."
-          },
-          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
-          "cta": {
-            "label": "Więcej o kancelarii",
-            "target": {
-              "type": "page",
-              "value": "about"
-            }
-          },
-          "stats": [
-            {
-              "value": "15+",
-              "label": "Lat doświadczenia"
-            },
-            {
-              "value": "5000+",
-              "label": "Spraw przeprowadzonych"
-            },
-            {
-              "value": "98%",
-              "label": "Skuteczność egzekucji"
-            },
-            {
-              "value": "2721",
-              "label": "ID komornika w EPU"
-            }
-          ]
-        },
-        {
           "type": "testimonials",
           "variant": "centered",
+          "paddingTop": "120px",
           "header": {
             "badge": "t:testimonials.badge",
             "title": "t:testimonials.title",
@@ -623,42 +632,57 @@
           },
           "fileGroups": [
             {
-              "title": "Formularze",
+              "title": "Wnioski egzekucyjne",
               "files": [
                 {
-                  "name": "Wniosek o wszczęcie egzekucji",
+                  "name": "Wniosek o wszczęcie postępowania egzekucyjnego",
                   "type": "pdf",
-                  "url": "/assets/forms/wniosek-wszczecie-egzekucji.pdf"
+                  "url": "/assets/forms/portfolio-law/wniosek-wszczecie-egzekucji.pdf"
                 },
                 {
-                  "name": "Wniosek o wyjawienie majątku",
+                  "name": "Wniosek o rozłożenie długu na raty",
                   "type": "pdf",
-                  "url": "/assets/forms/wniosek-wyjawienie-majatku.pdf"
-                },
-                {
-                  "name": "Wniosek o umorzenie postępowania",
-                  "type": "pdf",
-                  "url": "/assets/forms/wniosek-umorzenie-postepowania.pdf"
+                  "url": "/assets/forms/portfolio-law/wniosek-rozlozenie-dlugu-na-raty.pdf"
                 }
               ]
             },
             {
-              "title": "Dokumenty",
+              "title": "Skargi i oświadczenia",
               "files": [
                 {
-                  "name": "Regulamin kancelarii",
+                  "name": "Skarga na czynności komornika",
                   "type": "pdf",
-                  "url": "/assets/forms/regulamin-kancelarii.pdf"
+                  "url": "/assets/forms/portfolio-law/skarga-na-czynnosci-komornika.pdf"
                 },
                 {
-                  "name": "Cennik opłat komorniczych",
+                  "name": "Oświadczenie o wyborze komornika (art. 10 u.k.s.)",
                   "type": "pdf",
-                  "url": "/assets/forms/cennik-oplat.pdf"
+                  "url": "/assets/forms/portfolio-law/oswiadczenie-wybor-komornika.pdf"
+                }
+              ]
+            },
+            {
+              "title": "Doręczenia i ustalenia",
+              "files": [
+                {
+                  "name": "Wniosek o dokonanie doręczenia pisma procesowego",
+                  "type": "pdf",
+                  "url": "/assets/forms/portfolio-law/wniosek-doreczenie-pisma-procesowego.pdf"
                 },
                 {
-                  "name": "Pouczenie dla dłużnika",
-                  "type": "docx",
-                  "url": "/assets/forms/pouczenie-dluznik.docx"
+                  "name": "Wniosek o ustalenie aktualnego miejsca zamieszkania",
+                  "type": "pdf",
+                  "url": "/assets/forms/portfolio-law/wniosek-ustalenie-miejsca-zamieszkania.pdf"
+                }
+              ]
+            },
+            {
+              "title": "Wykaz majątku",
+              "files": [
+                {
+                  "name": "Wykaz majątku – formularz",
+                  "type": "pdf",
+                  "url": "/assets/forms/portfolio-law/wykaz-majatku.pdf"
                 }
               ]
             }
@@ -688,7 +712,24 @@
             "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
             "phone": "+48 22 180 00 22",
             "email": "otwock.starzec@komornik.pl",
-            "hours": "Poniedziałek - Piątek: 8:00 - 16:00"
+            "hours": "Godziny otwarcia",
+            "hoursDetailed": [
+              "poniedziałek 9:00 – 15:00",
+              "wtorek 9:00 – 15:00",
+              "środa 9:00 – 17:00",
+              "czwartek 9:00 – 15:00",
+              "piątek 9:00 – 14:00"
+            ],
+            "receptionHours": "środa 9:00 – 17:00",
+            "additionalInfo": [
+              "Rachunek bankowy: Alior Bank S.A.: 93 2490 0005 0000 4530 4237 7611",
+              "Adres EPUAP (zbiegi): /KS_Marcin_Starzec/ezbiegi (data obowiązywania od 16.03.2018)"
+            ],
+            "notice": {
+              "title": "Numer rachunku bankowego kancelarii: Alior Bank S.A.",
+              "highlight": "93 24900005 0000 4530 4237 7611",
+              "description": "Dokonując wpłaty w tytule przelewu należy podać sygnaturę GKM / KM / KMS / KMP / KMN oraz imię i nazwisko lub nazwę dłużnika."
+            }
           },
           "form": {
             "nameLabel": "t:contact.form.nameLabel",
@@ -708,13 +749,15 @@
             "badge": "t:map.badge",
             "title": "t:map.title",
             "subtitle": "t:map.subtitle"
-          }
+          },
+          "openInMapsLabel": "t:map.openInMaps",
+          "directionsLabel": "t:map.directions"
         }
       ]
     },
     "informations": {
       "title": "t:pages.informations.title",
-      "navLabel": "t:pages.informations.title",
+      "navLabel": "t:pages.informations.navLabel",
       "sections": [
         {
           "type": "blog",
@@ -725,12 +768,19 @@
             "subtitle": "t:informations.subtitle"
           },
           "blogSlugs": [
-            "informacje-dla-dluznika",
-            "prawa-dluznika",
-            "tytul-wykonawczy",
-            "epu-przewodnik"
+            "informacje-dla-dluznika"
           ],
           "ctaLabel": "t:blog.readMore"
+        }
+      ]
+    },
+    "rodo": {
+      "title": "t:pages.rodo.title",
+      "hideFromNav": true,
+      "sections": [
+        {
+          "type": "blog-standalone",
+          "blogSlug": "rodo"
         }
       ]
     }

@@ -1,5 +1,6 @@
 "use client";
 
+import { ExternalLink, Navigation } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import { Badge } from "../../atoms/Badge";
@@ -17,9 +18,20 @@ export function GoogleMap({
   className,
   badgeVariant = "accent",
   badgeLayout = "row",
+  businessName,
+  address,
+  openInMapsLabel = "Otwórz w Mapach Google",
+  directionsLabel = "Trasa do",
 }: GoogleMapProps) {
-  // Google Maps Embed URL
   const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}&z=${zoom}&output=embed`;
+
+  const destinationQuery = address
+    ? encodeURIComponent(address)
+    : `${latitude},${longitude}`;
+  const openMapsHref = `https://www.google.com/maps/search/?api=1&query=${destinationQuery}`;
+  const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${destinationQuery}`;
+
+  const showPanel = Boolean(businessName || address);
 
   return (
     <div className={cn("w-full max-w-6xl mx-auto px-spacing-md", className)}>
@@ -81,12 +93,47 @@ export function GoogleMap({
             src={mapUrl}
             width="100%"
             height={height}
-            style={{ border: 0 }}
+            style={{ border: 0, display: 'block' }}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Business Location"
           />
+
+          {showPanel && (
+            <div className="absolute top-spacing-md left-spacing-md max-w-xs sm:max-w-sm bg-white rounded-radius shadow-lg p-spacing-md border border-black/5">
+              {businessName && (
+                <div className="text-sm font-semibold text-foreground leading-tight mb-spacing-xs">
+                  {businessName}
+                </div>
+              )}
+              {address && (
+                <div className="text-xs text-muted leading-snug mb-spacing-sm">
+                  {address}
+                </div>
+              )}
+              <div className="flex flex-col gap-spacing-xs">
+                <a
+                  href={directionsHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-spacing-xs text-xs font-medium text-primary hover:underline"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                  {directionsLabel}
+                </a>
+                <a
+                  href={openMapsHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-spacing-xs text-xs font-medium text-primary hover:underline"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  {openInMapsLabel}
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </ScrollReveal>
     </div>

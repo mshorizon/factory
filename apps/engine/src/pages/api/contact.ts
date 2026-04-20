@@ -67,7 +67,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const config = site.config as any;
-    const recipientEmail = config?.business?.contact?.email;
+    const recipientEmail = config?.notifications?.email || config?.business?.contact?.email;
 
     if (!recipientEmail) {
       return new Response(JSON.stringify({ error: "No recipient email configured" }), {

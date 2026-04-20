@@ -10,6 +10,8 @@
   "pages.files.title": "Do pobrania",
   "pages.contact.title": "Kontakt",
   "pages.informations.title": "Informacje dla dłużnika",
+  "pages.informations.navLabel": "Informacje",
+  "pages.rodo.title": "RODO",
 
   "hero.badge": "Komornik Sądowy",
   "hero.title": "Profesjonalna egzekucja sądowa w Otwocku",
@@ -97,5 +99,7 @@
 
   "map.badge": "Lokalizacja",
   "map.title": "Znajdź nas",
-  "map.subtitle": "Kancelaria Komornicza nr IX, ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock"
+  "map.subtitle": "Kancelaria Komornicza nr IX, ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
+  "map.openInMaps": "Otwórz w Mapach Google",
+  "map.directions": "Trasa do"
 }

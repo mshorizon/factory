@@ -10,4 +10,8 @@ export interface GoogleMapProps {
   className?: string;
   badgeVariant?: "accent" | "outlined" | "text";
   badgeLayout?: "row" | "column";
+  businessName?: string;
+  address?: string;
+  openInMapsLabel?: string;
+  directionsLabel?: string;
 }

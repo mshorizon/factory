@@ -76,6 +76,12 @@ const TEMPLATE_OPTIONS = [
   { value: "portfolio-art", label: "portfolio-art" },
 ];
 
+const WHOLE_WEBSITE_PAGE: BusinessPageMeta & { label: string } = {
+  name: "whole-website",
+  label: "Whole website",
+  sections: [],
+};
+
 // Admin panel "pages" = nav groups, "sections" = nav items within that group
 const ADMIN_PAGES = [
   {
@@ -208,13 +214,25 @@ export default function TaskManager({
     setSection("");
   }, [page]);
 
-  const currentPages = isAdminPanel ? ADMIN_PAGES : businessPages;
+  const currentPages = isAdminPanel
+    ? ADMIN_PAGES
+    : [WHOLE_WEBSITE_PAGE, ...businessPages];
 
   const currentSections = useMemo(() => {
     if (!page) return [];
-    const p = currentPages.find((p) => p.name === page);
-    return p?.sections ?? [];
-  }, [page, currentPages]);
+    if (isAdminPanel) {
+      const p = ADMIN_PAGES.find((p) => p.name === page);
+      return p?.sections ?? [];
+    }
+    if (page === "whole-website") {
+      return ["navbar", "footer"];
+    }
+    const p = businessPages.find((p) => p.name === page);
+    const pageSections = (p?.sections ?? []).filter(
+      (s) => s !== "navbar" && s !== "footer"
+    );
+    return ["navbar", ...pageSections, "footer"];
+  }, [page, isAdminPanel, businessPages]);
 
   const loadTasks = useCallback(async () => {
     setLoading(true);
@@ -392,7 +410,7 @@ export default function TaskManager({
                     ) : (
                       currentPages.map((p) => (
                         <SelectItem key={p.name} value={p.name}>
-                          {isAdminPanel ? (p as typeof ADMIN_PAGES[0]).label ?? p.name : p.name}
+                          {(p as { label?: string }).label ?? p.name}
                         </SelectItem>
                       ))
                     )}

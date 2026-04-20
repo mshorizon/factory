@@ -13,11 +13,17 @@ const { section, business, isHomePage = false, badgeVariant: themeBadgeVariant }
 const sectionBadgeVariant = (section as any).badgeVariant || themeBadgeVariant || "accent";
 
 // Get location from business contact
-const location = business.business.contact?.location;
+const contact = business.business.contact;
+const location = contact?.location;
 
 if (!location) {
   console.warn("Map section requires location data in business.contact.location");
 }
+
+const businessName = (business.business as any).name;
+const address = contact?.address;
+const openInMapsLabel = (section as any).openInMapsLabel;
+const directionsLabel = (section as any).directionsLabel;
 ---
 
 {location && (
@@ -34,6 +40,10 @@ if (!location) {
       subtitle={section.header?.subtitle}
       badgeVariant={sectionBadgeVariant as any}
       badgeLayout={(section as any).badgeLayout}
+      businessName={businessName}
+      address={address}
+      openInMapsLabel={openInMapsLabel}
+      directionsLabel={directionsLabel}
     />
   </section>
 )}

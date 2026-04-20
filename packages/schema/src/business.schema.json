@@ -165,9 +165,11 @@
         "background": {
           "type": "string",
           "title": "Section Background",
-          "enum": ["light", "dark", "dark-padded", "light-padded", "primary", "gradient"]
+          "enum": ["light", "dark", "dark-padded", "light-padded", "primary", "gradient", "transparent"]
         },
         "header": { "$ref": "#/definitions/sectionHeader" },
+        "paddingTop": { "type": "string", "title": "Section Top Padding Override (e.g. '120px', '8rem')" },
+        "paddingBottom": { "type": "string", "title": "Section Bottom Padding Override (e.g. '120px', '8rem')" },
         "backgroundImage": { "type": "string", "title": "Background Image URL" },
         "image": { "type": "string", "title": "Image URL" },
         "hideDots": { "type": "boolean", "title": "Hide Decorative Dots" },
@@ -277,7 +279,34 @@
             "address": { "type": "string" },
             "phone": { "type": "string" },
             "email": { "type": "string" },
-            "hours": { "type": "string" }
+            "hours": { "type": "string" },
+            "hoursDetailed": {
+              "type": "array",
+              "title": "Detailed Hours",
+              "description": "Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.",
+              "items": { "type": "string" }
+            },
+            "receptionHours": {
+              "type": "string",
+              "title": "Reception Hours",
+              "description": "Separate schedule for client reception (e.g., 'środa 9:00 – 17:00')."
+            },
+            "additionalInfo": {
+              "type": "array",
+              "title": "Additional Info",
+              "description": "Extra contact info lines (e.g., bank account, EPUAP address).",
+              "items": { "type": "string" }
+            },
+            "notice": {
+              "type": "object",
+              "title": "Contact Notice",
+              "description": "Highlighted notice block displayed below the contact info (e.g., bank transfer instructions).",
+              "properties": {
+                "title": { "type": "string" },
+                "highlight": { "type": "string" },
+                "description": { "type": "string" }
+              }
+            }
           }
         },
         "form": {
@@ -840,7 +869,7 @@
             "variant": {
               "type": "string",
               "title": "Navbar Variant",
-              "enum": ["standard", "centered"],
+              "enum": ["standard", "centered", "transparent"],
               "default": "standard"
             },
             "logoText": {
@@ -1026,6 +1055,12 @@
       "type": "object",
       "title": "Notifications",
       "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "title": "Contact Form Notification Email",
+          "description": "Override email for receiving contact form submissions. Use when the public contact email (business.contact.email) has delivery issues (e.g. strict government/corporate mail servers). Leave empty to use business.contact.email."
+        },
         "sms": {
           "type": "object",
           "title": "SMS Notifications",

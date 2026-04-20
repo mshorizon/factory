@@ -10,6 +10,8 @@
   "pages.files.title": "Files",
   "pages.contact.title": "Contact",
   "pages.informations.title": "Information for Debtors",
+  "pages.informations.navLabel": "Information",
+  "pages.rodo.title": "GDPR",
 
   "hero.badge": "Court Bailiff",
   "hero.title": "Professional Court Enforcement in Otwock",
@@ -97,5 +99,7 @@
 
   "map.badge": "Location",
   "map.title": "Find Us",
-  "map.subtitle": "Bailiff's Office No. IX, ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock"
+  "map.subtitle": "Bailiff's Office No. IX, ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
+  "map.openInMaps": "Open in Google Maps",
+  "map.directions": "Directions to"
 }

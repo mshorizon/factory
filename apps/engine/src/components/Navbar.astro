@@ -84,10 +84,15 @@ const showCta = !hideCta && !!cta;
             </a>
           )}
           {contact?.address && (
-            <span class="flex items-center gap-1.5 text-white">
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-1.5 text-white hover:text-white/80 transition-colors"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               <span>{contact.address}</span>
-            </span>
+            </a>
           )}
           {contact?.additionalInfo?.map((info) => (
             <span class="flex items-center gap-1.5 text-white">
@@ -288,6 +293,19 @@ const showCta = !hideCta && !!cta;
   [data-major-theme="portfolio-law"] #main-nav .nav-link,
   [data-major-theme="portfolio-law"] #mobile-menu a {
     font-weight: 400 !important;
+  }
+  /* portfolio-law: nav text always uses foreground color regardless of transparent/scroll state */
+  [data-major-theme="portfolio-law"] #main-nav .nav-link {
+    color: color-mix(in srgb, var(--foreground) 60%, transparent) !important;
+  }
+  [data-major-theme="portfolio-law"] #main-nav .nav-link:hover {
+    color: var(--foreground) !important;
+  }
+  [data-major-theme="portfolio-law"] #main-nav .nav-logo {
+    color: var(--foreground) !important;
+  }
+  [data-major-theme="portfolio-law"] #main-nav .nav-mobile-btn {
+    color: var(--foreground) !important;
   }
 </style>
 

@@ -16,11 +16,21 @@ export interface ContactForm {
   selectFields?: SelectField[];
 }
 
+export interface ContactNotice {
+  title?: string;
+  highlight?: string;
+  description?: string;
+}
+
 export interface ContactInfo {
   address?: string;
   phone?: string;
   email?: string;
   hours?: string;
+  hoursDetailed?: string[];
+  receptionHours?: string;
+  additionalInfo?: string[];
+  notice?: ContactNotice;
 }
 
 export interface ContactLabels {

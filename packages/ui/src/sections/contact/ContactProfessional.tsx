@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle, AlertCircle } from "lucide-react";
-import { MapPinIcon, PhoneIcon, EnvelopeIcon, ClockIcon, ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
+import { MapPinIcon, PhoneIcon, EnvelopeIcon, ClockIcon, ChatBubbleOvalLeftIcon, UserGroupIcon, InformationCircleIcon } from "@heroicons/react/24/solid";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Input } from "../../atoms/Input";
@@ -75,10 +75,15 @@ export function ContactProfessional({
     phone: business?.business?.contact?.phone || info?.phone,
     email: business?.business?.contact?.email || info?.email,
     hours: business?.business?.contact?.hours || info?.hours,
+    hoursDetailed: info?.hoursDetailed,
+    receptionHours: info?.receptionHours,
+    additionalInfo: info?.additionalInfo,
+    notice: info?.notice,
   };
 
   return (
-    <div className={cn("grid lg:grid-cols-[5fr,7fr] gap-spacing-2xl items-center", className)}>
+    <div className={cn("flex flex-col gap-spacing-2xl", className)}>
+    <div className="grid lg:grid-cols-[5fr,7fr] gap-spacing-2xl items-center">
       {/* Left — heading + contact info */}
       <ScrollReveal delay={0.1} direction="left" distance={30}>
         <div className="flex flex-col gap-spacing-2xl">
@@ -135,12 +140,34 @@ export function ContactProfessional({
                 <span className="text-sm">{contactInfo.address}</span>
               </div>
             )}
-            {contactInfo.hours && (
-              <div className="flex items-center gap-spacing-md text-foreground">
-                <ClockIcon className="h-5 w-5 text-primary-light shrink-0" />
-                <span className="text-sm">{contactInfo.hours}</span>
+            {(contactInfo.hours || (contactInfo.hoursDetailed && contactInfo.hoursDetailed.length > 0)) && (
+              <div className="flex items-start gap-spacing-md text-foreground">
+                <ClockIcon className="h-5 w-5 text-primary-light shrink-0 mt-0.5" />
+                <div className="flex flex-col gap-spacing-xs">
+                  {contactInfo.hours && (
+                    <span className="text-sm font-medium">{contactInfo.hours}</span>
+                  )}
+                  {contactInfo.hoursDetailed?.map((line) => (
+                    <span key={line} className="text-sm text-muted">{line}</span>
+                  ))}
+                </div>
               </div>
             )}
+            {contactInfo.receptionHours && (
+              <div className="flex items-start gap-spacing-md text-foreground">
+                <UserGroupIcon className="h-5 w-5 text-primary-light shrink-0 mt-0.5" />
+                <div className="flex flex-col gap-spacing-xs">
+                  <span className="text-sm font-medium">Przyjęcia interesantów</span>
+                  <span className="text-sm text-muted">{contactInfo.receptionHours}</span>
+                </div>
+              </div>
+            )}
+            {contactInfo.additionalInfo?.map((item) => (
+              <div key={item} className="flex items-start gap-spacing-md text-foreground">
+                <InformationCircleIcon className="h-5 w-5 text-primary-light shrink-0 mt-0.5" />
+                <span className="text-sm">{item}</span>
+              </div>
+            ))}
             {ctaLabel && ctaHref && (
               <a
                 href={ctaHref}
@@ -267,6 +294,26 @@ export function ContactProfessional({
           </form>
         </div>
       </ScrollReveal>
+    </div>
+    {contactInfo.notice && (contactInfo.notice.title || contactInfo.notice.highlight || contactInfo.notice.description) && (
+      <ScrollReveal delay={0.15} direction="up" distance={20}>
+        <div className="bg-card rounded-2xl shadow-sm p-spacing-2xl text-center flex flex-col gap-spacing-sm">
+          {contactInfo.notice.title && (
+            <p className="text-foreground text-base leading-relaxed">{contactInfo.notice.title}</p>
+          )}
+          {contactInfo.notice.highlight && (
+            <p className="text-foreground text-xl font-semibold tracking-wide">
+              {contactInfo.notice.highlight}
+            </p>
+          )}
+          {contactInfo.notice.description && (
+            <p className="text-muted text-sm leading-relaxed max-w-2xl mx-auto">
+              {contactInfo.notice.description}
+            </p>
+          )}
+        </div>
+      </ScrollReveal>
+    )}
     </div>
   );
 }

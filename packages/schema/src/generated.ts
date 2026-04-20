@@ -66,7 +66,7 @@ export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "outlined" | "text";
 export type BadgeFontSize = string;
-export type NavbarVariant = "standard" | "centered";
+export type NavbarVariant = "standard" | "centered" | "transparent";
 /**
  * Override the business name displayed in the navbar
  */
@@ -170,11 +170,20 @@ export type AvatarImageURL = string;
 export type Phone2 = string;
 export type Email1 = string;
 export type Variant = string;
-export type SectionBackground = "light" | "dark" | "dark-padded" | "light-padded" | "primary" | "gradient";
+export type SectionBackground =
+  | "light"
+  | "dark"
+  | "dark-padded"
+  | "light-padded"
+  | "primary"
+  | "gradient"
+  | "transparent";
 export type BadgeText = string;
 export type Title = string;
 export type Subtitle = string;
 export type HeaderLayout = "stacked" | "split" | "most-minimalistic" | "none";
+export type SectionTopPaddingOverrideEG120Px8Rem = string;
+export type SectionBottomPaddingOverrideEG120Px8Rem = string;
 export type BackgroundImageURL = string;
 export type ImageURL = string;
 export type HideDecorativeDots = boolean;
@@ -203,6 +212,18 @@ export type LinkURL = string;
 export type LinkLabel = string;
 export type Items = ServiceItem[];
 export type Timeline = TimelineItem[];
+/**
+ * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
+ */
+export type DetailedHours = string[];
+/**
+ * Separate schedule for client reception (e.g., 'środa 9:00 – 17:00').
+ */
+export type ReceptionHours = string;
+/**
+ * Extra contact info lines (e.g., bank account, EPUAP address).
+ */
+export type AdditionalInfo1 = string[];
 export type ExploreLabel = string;
 export type Products = Product[];
 export type Currency = string;
@@ -293,6 +314,10 @@ export type LeadTimeMinutes = number;
 export type MaxAdvanceBookingDays = number;
 export type BufferBetweenAppointmentsMinutes = number;
 export type BlackoutDatesYYYYMMDD = string[];
+/**
+ * Override email for receiving contact form submissions. Use when the public contact email (business.contact.email) has delivery issues (e.g. strict government/corporate mail servers). Leave empty to use business.contact.email.
+ */
+export type ContactFormNotificationEmail = string;
 export type EnableSMSNotifications = boolean;
 export type SMSProvider = "smsapi" | "twilio";
 export type RecipientPhoneNumberWithCountryCodeEG48500600700 = string;
@@ -477,6 +502,8 @@ export interface Section {
   variant?: Variant;
   background?: SectionBackground;
   header?: SectionHeader;
+  paddingTop?: SectionTopPaddingOverrideEG120Px8Rem;
+  paddingBottom?: SectionBottomPaddingOverrideEG120Px8Rem;
   backgroundImage?: BackgroundImageURL;
   image?: ImageURL;
   hideDots?: HideDecorativeDots;
@@ -585,6 +612,18 @@ export interface ContactInfo {
   phone?: string;
   email?: string;
   hours?: string;
+  hoursDetailed?: DetailedHours;
+  receptionHours?: ReceptionHours;
+  additionalInfo?: AdditionalInfo1;
+  notice?: ContactNotice;
+}
+/**
+ * Highlighted notice block displayed below the contact info (e.g., bank transfer instructions).
+ */
+export interface ContactNotice {
+  title?: string;
+  highlight?: string;
+  description?: string;
 }
 export interface ContactForm {
   namePlaceholder?: string;
@@ -767,6 +806,7 @@ export interface BookingDayHours {
   close?: ClosingTime;
 }
 export interface Notifications {
+  email?: ContactFormNotificationEmail;
   sms?: SMSNotifications;
   push?: WebPushNotifications;
 }

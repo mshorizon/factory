@@ -103,5 +103,9 @@ function getBgClass(bg?: string): string {
   const props = needsBusiness ? { section: sectionWithVariant, business, isHomePage, badgeVariant } : { section: sectionWithVariant, isHomePage, badgeVariant };
 
   const firstSectionClass = index === 0 && !isHomePage ? "pt-[120px]" : "";
-  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class={[bgClass, firstSectionClass].filter(Boolean).join(" ")}><Component {...props} /></div>;
+  const paddingStyle = [
+    resolvedSection.paddingTop ? `padding-top: ${resolvedSection.paddingTop}` : "",
+    resolvedSection.paddingBottom ? `padding-bottom: ${resolvedSection.paddingBottom}` : "",
+  ].filter(Boolean).join("; ");
+  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class={[bgClass, firstSectionClass].filter(Boolean).join(" ")} style={paddingStyle || undefined}><Component {...props} /></div>;
 })}
