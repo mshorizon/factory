@@ -10,7 +10,7 @@ const { businessId, businessData, t: translations, auth } = Astro.locals;
 const site = await getSiteBySubdomain(businessId);
 const rawBusinessData = site ? site.config : businessData;
 const allTranslations = (site?.translations || {}) as Record<string, Record<string, unknown>>;
-const currentTemplate = (rawBusinessData as any)?.business?.template || (rawBusinessData as any)?.template || "specialist";
+const currentTemplate = (rawBusinessData as any)?.theme?.majorTheme || (rawBusinessData as any)?.business?.template || (rawBusinessData as any)?.template || "specialist";
 const availableDomains = auth?.role === "super-admin" ? await getAllSubdomains() : [businessId];
 
 // Get translated business name for display
