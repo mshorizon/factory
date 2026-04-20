@@ -1574,14 +1574,16 @@ export default function AdminForm({
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
     if (activeTab === "tasks") {
-      const businessPages: BusinessPageMeta[] = Object.entries(
-        (formData.pages as Record<string, any>) ?? {}
-      ).map(([name, data]) => ({
+      const pagesObj = (formData.pages as Record<string, any>) ?? {};
+      const businessPages: BusinessPageMeta[] = Object.entries(pagesObj).map(([name, data]) => ({
         name,
         sections: (data?.sections ?? [])
           .map((s: any) => s?.type)
           .filter((t: any): t is string => Boolean(t) && t !== "ref"),
       }));
+      if (!("blog" in pagesObj)) {
+        businessPages.push({ name: "blog", sections: [] });
+      }
       return (
         <TaskManager
           currentDomain={businessId}

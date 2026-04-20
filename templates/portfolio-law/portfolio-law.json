@@ -16,10 +16,6 @@
         "latitude": 52.1054,
         "longitude": 21.2633
       }
-    },
-    "socials": {
-      "facebook": "https://facebook.com",
-      "linkedin": "https://linkedin.com"
     }
   },
   "theme": {
@@ -199,7 +195,8 @@
           ]
         }
       ]
-    }
+    },
+    "hideBreadcrumbs": true
   },
   "navigation": {
     "cta": {
@@ -215,8 +212,8 @@
       {
         "id": "egzekucja-naleznosci",
         "slug": "egzekucja-naleznosci",
-        "title": "Egzekucja należności pieniężnych",
-        "description": "Prowadzenie postępowań egzekucyjnych w celu odzyskania należności pieniężnych na podstawie tytułów wykonawczych.",
+        "title": "t:services.items.0.title",
+        "description": "t:services.items.0.fullDescription",
         "icon": "banknote",
         "category": "egzekucja",
         "available": true,
@@ -225,8 +222,8 @@
       {
         "id": "eksmisje",
         "slug": "eksmisje",
-        "title": "Eksmisje i opróżnienie lokalu",
-        "description": "Realizacja orzeczeń sądowych dotyczących opróżnienia i wydania nieruchomości zgodnie z obowiązującymi przepisami.",
+        "title": "t:services.items.1.title",
+        "description": "t:services.items.1.fullDescription",
         "icon": "home",
         "category": "egzekucja",
         "available": true,
@@ -235,8 +232,8 @@
       {
         "id": "doreczenia",
         "slug": "doreczenia",
-        "title": "Doręczanie korespondencji",
-        "description": "Osobiste doręczanie korespondencji sądowej na zlecenie sądu oraz stron postępowania.",
+        "title": "t:services.items.2.title",
+        "description": "t:services.items.2.fullDescription",
         "icon": "mail",
         "category": "doreczenia",
         "available": true,
@@ -245,8 +242,8 @@
       {
         "id": "zabezpieczenie-roszczen",
         "slug": "zabezpieczenie-roszczen",
-        "title": "Zabezpieczenie roszczeń",
-        "description": "Wykonywanie postanowień o zabezpieczeniu roszczeń pieniężnych i niepieniężnych na wniosek wierzyciela.",
+        "title": "t:services.items.3.title",
+        "description": "t:services.items.3.fullDescription",
         "icon": "shield",
         "category": "zabezpieczenie",
         "available": true,
@@ -255,8 +252,8 @@
       {
         "id": "spis-inwentarza",
         "slug": "spis-inwentarza",
-        "title": "Sporządzanie spisu inwentarza",
-        "description": "Sporządzanie protokołów stanu faktycznego oraz spisu inwentarza spadkowego na podstawie postanowienia sądu.",
+        "title": "t:services.items.4.title",
+        "description": "t:services.items.4.fullDescription",
         "icon": "clipboard-list",
         "category": "inwentarz",
         "available": true,
@@ -265,8 +262,8 @@
       {
         "id": "licytacje",
         "slug": "licytacje",
-        "title": "Licytacje komornicze",
-        "description": "Organizacja i przeprowadzanie licytacji ruchomości oraz nieruchomości w ramach postępowania egzekucyjnego.",
+        "title": "t:services.items.5.title",
+        "description": "t:services.items.5.fullDescription",
         "icon": "gavel",
         "category": "licytacje",
         "available": true,
@@ -303,39 +300,39 @@
           "type": "services",
           "variant": "grid",
           "header": {
-            "title": "Specjalizuję się w",
+            "title": "t:home.services.title",
             "layout": "most-minimalistic"
           },
           "items": [
             {
-              "title": "Egzekucja należności pieniężnych",
+              "title": "t:services.items.0.title",
               "slug": "egzekucja-naleznosci",
-              "description": "Prowadzenie postępowań egzekucyjnych w celu odzyskania należności pieniężnych na podstawie tytułów wykonawczych."
+              "description": "t:services.items.0.description"
             },
             {
-              "title": "Eksmisje i opróżnienie lokalu",
+              "title": "t:services.items.1.title",
               "slug": "eksmisje",
-              "description": "Realizacja orzeczeń sądowych dotyczących opróżnienia i wydania nieruchomości."
+              "description": "t:services.items.1.description"
             },
             {
-              "title": "Doręczanie korespondencji",
+              "title": "t:services.items.2.title",
               "slug": "doreczenia",
-              "description": "Osobiste doręczanie korespondencji sądowej na zlecenie sądu oraz stron postępowania."
+              "description": "t:services.items.2.description"
             },
             {
-              "title": "Zabezpieczenie roszczeń",
+              "title": "t:services.items.3.title",
               "slug": "zabezpieczenie-roszczen",
-              "description": "Wykonywanie postanowień o zabezpieczeniu roszczeń pieniężnych i niepieniężnych."
+              "description": "t:services.items.3.description"
             },
             {
-              "title": "Sporządzanie spisu inwentarza",
+              "title": "t:services.items.4.title",
               "slug": "spis-inwentarza",
-              "description": "Sporządzanie protokołów stanu faktycznego oraz spisu inwentarza spadkowego."
+              "description": "t:services.items.4.description"
             },
             {
-              "title": "Licytacje komornicze",
+              "title": "t:services.items.5.title",
               "slug": "licytacje",
-              "description": "Organizacja i przeprowadzanie licytacji ruchomości oraz nieruchomości w ramach egzekucji."
+              "description": "t:services.items.5.description"
             }
           ]
         },
@@ -351,12 +348,12 @@
           "statsInverted": true,
           "header": {
             "badge": "t:about.badge",
-            "title": "Skuteczna i rzetelna egzekucja sądowa",
-            "subtitle": "Kancelaria Komornicza nr IX w Otwocku prowadzona przez Komornika Sądowego Marcina Starzec zapewnia profesjonalną obsługę spraw egzekucyjnych. Gwarantujemy elektroniczną wymianę korespondencji, terminową realizację wniosków egzekucyjnych oraz generowanie raportów z podjętych czynności dla wierzycieli."
+            "title": "t:home.about.title",
+            "subtitle": "t:home.about.subtitle"
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
           "cta": {
-            "label": "Więcej o kancelarii",
+            "label": "t:home.about.cta",
             "target": {
               "type": "page",
               "value": "about"
@@ -365,19 +362,19 @@
           "stats": [
             {
               "value": "15+",
-              "label": "Lat doświadczenia"
+              "label": "t:home.about.stats.0"
             },
             {
               "value": "5000+",
-              "label": "Spraw przeprowadzonych"
+              "label": "t:home.about.stats.1"
             },
             {
               "value": "98%",
-              "label": "Skuteczność egzekucji"
+              "label": "t:home.about.stats.2"
             },
             {
               "value": "2721",
-              "label": "ID komornika w EPU"
+              "label": "t:home.about.stats.3"
             }
           ]
         },
@@ -386,63 +383,63 @@
           "variant": "icon-tiles",
           "badgeVariant": "text",
           "header": {
-            "badge": "Systemy",
-            "title": "Nowoczesne narzędzia kancelarii",
-            "subtitle": "Korzystamy z najnowszych systemów informatycznych zapewniających sprawną i efektywną obsługę spraw."
+            "badge": "t:features.badge",
+            "title": "t:features.title",
+            "subtitle": "t:features.subtitle"
           },
           "items": [
             {
               "title": "CEPIK",
-              "description": "System informatyczny obejmujący centralną bazę danych zawierającą dane i informacje o drogowych pojazdach mechanicznych, ich właścicielach i posiadaczach.",
+              "description": "t:features.items.0.description",
               "icon": "car",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://cepik.gov.pl"
             },
             {
               "title": "EPU",
-              "description": "Dzięki temu systemowi możemy prowadzić postępowania egzekucyjne w oparciu o elektroniczny tytuł wykonawczy.",
+              "description": "t:features.items.1.description",
               "icon": "monitor",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://epu.ms.gov.pl"
             },
             {
               "title": "PUE ZUS",
-              "description": "Jest to Platforma Usług Elektronicznych ZUS, dzięki niej poszukujemy źródeł dochodów dłużnika i majątku",
+              "description": "t:features.items.2.description",
               "icon": "search",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://pue.zus.pl"
             },
             {
               "title": "ePUAP",
-              "description": "Elektroniczna Platforma Usług Administracji Publicznej",
+              "description": "t:features.items.3.description",
               "icon": "file-text",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://epuap.gov.pl/wps/portal"
             },
             {
               "title": "OGNIVO",
-              "description": "Jest to system bankowy, który umożliwia wymianę drogą elektroniczną informacji w zakresie komornik – bank.",
+              "description": "t:features.items.4.description",
               "icon": "building",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://www.kir.pl/nasza-oferta/banki/centrum-wymiany-informacji/ognivo"
             },
             {
-              "title": "Oprogramowania firmy KOMORNIK.IT",
-              "description": "W tym : SkanDok SQL, Raport Egzekucji, CEIDG, SISP, KRD, GEOPORTAL,DEKRETATOR. Wsparcie IT firmy SPECKOM Tomasz Śmieja",
+              "title": "t:features.items.5.title",
+              "description": "t:features.items.5.description",
               "icon": "cpu",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://komornik.it/"
             },
             {
-              "title": "Komornik Online",
-              "description": "Moduł umożliwiający wgląd do akt sprawy z wykorzystaniem przeglądarki internetowej",
+              "title": "t:features.items.6.title",
+              "description": "t:features.items.6.description",
               "icon": "globe",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://www.komornik-online.eu/"
             },
             {
               "title": "BMS",
-              "description": "Moduł do kompleksowego zarządzania sprawami",
+              "description": "t:features.items.7.description",
               "icon": "layout",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://smartbs.pl/"
@@ -461,22 +458,22 @@
           },
           "items": [
             {
-              "title": "Profesjonalna i sprawna obsługa",
-              "description": "Komornik Starzec i jego zespół przeprowadzili cały proces terminowo, informując nas na bieżąco o każdym etapie postępowania. Polecam każdemu, kto szuka skutecznej i rzetelnej kancelarii komorniczej.",
+              "title": "t:testimonials.items.0.title",
+              "description": "t:testimonials.items.0.description",
               "author": "Marek Wiśniewski",
-              "role": "Wierzyciel"
+              "role": "t:testimonials.items.0.role"
             },
             {
-              "title": "Rzetelność i transparentność",
-              "description": "Szybka realizacja wniosków egzekucyjnych i pełna transparentność działań. Kancelaria, której można zaufać na każdym etapie współpracy.",
+              "title": "t:testimonials.items.1.title",
+              "description": "t:testimonials.items.1.description",
               "author": "Anna Kowalska",
-              "role": "Przedsiębiorca"
+              "role": "t:testimonials.items.1.role"
             },
             {
-              "title": "Nowoczesna komunikacja",
-              "description": "Sprawna komunikacja elektroniczna i terminowa realizacja. Kancelaria korzysta z nowoczesnych systemów, co znacząco przyspiesza cały proces egzekucyjny.",
+              "title": "t:testimonials.items.2.title",
+              "description": "t:testimonials.items.2.description",
               "author": "Piotr Nowak",
-              "role": "Wierzyciel"
+              "role": "t:testimonials.items.2.role"
             }
           ]
         },
@@ -497,24 +494,24 @@
           },
           "faqItems": [
             {
-              "question": "Jak złożyć wniosek egzekucyjny?",
-              "answer": "Wniosek egzekucyjny można złożyć osobiście w kancelarii, przesłać pocztą tradycyjną lub elektronicznie poprzez system EPU. Do wniosku należy dołączyć tytuł wykonawczy opatrzony klauzulą wykonalności."
+              "question": "t:faq.items.0.question",
+              "answer": "t:faq.items.0.answer"
             },
             {
-              "question": "Ile trwa postępowanie egzekucyjne?",
-              "answer": "Czas trwania postępowania zależy od wielu czynników, w tym od rodzaju egzekucji, majątku dłużnika oraz jego współpracy. Proste sprawy mogą być rozwiązane w ciągu kilku tygodni, bardziej złożone mogą trwać dłużej."
+              "question": "t:faq.items.1.question",
+              "answer": "t:faq.items.1.answer"
             },
             {
-              "question": "Jakie koszty wiążą się z egzekucją komorniczą?",
-              "answer": "Koszty egzekucji reguluje Ustawa o kosztach komorniczych. Opłata egzekucyjna wynosi co do zasady 10% wartości wyegzekwowanego świadczenia. Szczegółowe informacje o kosztach udzielane są indywidualnie."
+              "question": "t:faq.items.2.question",
+              "answer": "t:faq.items.2.answer"
             },
             {
-              "question": "Czy mogę śledzić postęp mojej sprawy online?",
-              "answer": "Tak, kancelaria korzysta z systemu Komornik Online, który umożliwia wgląd do akt sprawy z wykorzystaniem przeglądarki internetowej. Dostęp jest zapewniany po zgłoszeniu takiej potrzeby."
+              "question": "t:faq.items.3.question",
+              "answer": "t:faq.items.3.answer"
             },
             {
-              "question": "Jaki jest obszar właściwości kancelarii?",
-              "answer": "Kancelaria działa przy Sądzie Rejonowym w Otwocku i obejmuje swoją właściwością teren tego sądu. Na wybór wierzyciela możemy również prowadzić sprawy na terenie całego kraju, z wyłączeniem spraw o eksmisję."
+              "question": "t:faq.items.4.question",
+              "answer": "t:faq.items.4.answer"
             }
           ]
         },
@@ -528,20 +525,20 @@
           },
           "blogPosts": [
             {
-              "title": "Czym jest tytuł wykonawczy i jak go uzyskać?",
-              "description": "Wyjaśniamy czym jest tytuł wykonawczy, jak go uzyskać i jakie dokumenty są potrzebne do wszczęcia egzekucji komorniczej.",
+              "title": "t:blog.preview.0.title",
+              "description": "t:blog.preview.0.description",
               "image": "https://images.unsplash.com/photo-1450101499163-c8848e968838?w=600&h=400&fit=crop",
               "date": "2026-03-15"
             },
             {
-              "title": "Prawa dłużnika w postępowaniu egzekucyjnym",
-              "description": "Poznaj swoje prawa jako dłużnik. Jakie przedmioty są wyłączone spod egzekucji i na jaką ochronę możesz liczyć.",
+              "title": "t:blog.preview.1.title",
+              "description": "t:blog.preview.1.description",
               "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop",
               "date": "2026-02-28"
             },
             {
-              "title": "Elektroniczne Postępowanie Upominawcze (EPU) — przewodnik",
-              "description": "Jak działa e-sąd i system EPU? Praktyczny przewodnik po elektronicznym postępowaniu upominawczym dla wierzycieli.",
+              "title": "t:blog.preview.2.title",
+              "description": "t:blog.preview.2.description",
               "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
               "date": "2026-01-20"
             }
@@ -567,7 +564,7 @@
       ]
     },
     "about": {
-      "title": "O mnie",
+      "title": "t:pages.about.title",
       "navLabel": "t:pages.about.title",
       "navOrder": 1,
       "sections": [
@@ -637,7 +634,7 @@
       ]
     },
     "files": {
-      "title": "Do pobrania",
+      "title": "t:pages.files.title",
       "navLabel": "t:pages.files.title",
       "sections": [
         {
@@ -649,55 +646,55 @@
           },
           "fileGroups": [
             {
-              "title": "Wnioski egzekucyjne",
+              "title": "t:files.groups.0.title",
               "files": [
                 {
-                  "name": "Wniosek o wszczęcie postępowania egzekucyjnego",
+                  "name": "t:files.groups.0.files.0.name",
                   "type": "pdf",
                   "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125767-wniosek-wszczecie-egzekucji.pdf"
                 },
                 {
-                  "name": "Wniosek o rozłożenie długu na raty",
+                  "name": "t:files.groups.0.files.1.name",
                   "type": "pdf",
                   "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125131-wniosek-rozlozenie-dlugu-na-raty.pdf"
                 }
               ]
             },
             {
-              "title": "Skargi i oświadczenia",
+              "title": "t:files.groups.1.title",
               "files": [
                 {
-                  "name": "Skarga na czynności komornika",
+                  "name": "t:files.groups.1.files.0.name",
                   "type": "pdf",
                   "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124542-skarga-na-czynnosci-komornika.pdf"
                 },
                 {
-                  "name": "Oświadczenie o wyborze komornika (art. 10 u.k.s.)",
+                  "name": "t:files.groups.1.files.1.name",
                   "type": "pdf",
                   "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124040-oswiadczenie-wybor-komornika.pdf"
                 }
               ]
             },
             {
-              "title": "Doręczenia i ustalenia",
+              "title": "t:files.groups.2.title",
               "files": [
                 {
-                  "name": "Wniosek o dokonanie doręczenia pisma procesowego",
+                  "name": "t:files.groups.2.files.0.name",
                   "type": "pdf",
                   "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124860-wniosek-doreczenie-pisma-procesowego.pdf"
                 },
                 {
-                  "name": "Wniosek o ustalenie aktualnego miejsca zamieszkania",
+                  "name": "t:files.groups.2.files.1.name",
                   "type": "pdf",
                   "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125420-wniosek-ustalenie-miejsca-zamieszkania.pdf"
                 }
               ]
             },
             {
-              "title": "Wykaz majątku",
+              "title": "t:files.groups.3.title",
               "files": [
                 {
-                  "name": "Wykaz majątku – formularz",
+                  "name": "t:files.groups.3.files.0.name",
                   "type": "pdf",
                   "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681126100-wykaz-majatku.pdf"
                 }
@@ -708,15 +705,15 @@
       ]
     },
     "contact": {
-      "title": "Kontakt",
+      "title": "t:pages.contact.title",
       "navLabel": "t:pages.contact.title",
       "sections": [
         {
           "type": "contact",
           "variant": "professional",
           "header": {
-            "title": "Kontakt",
-            "subtitle": "Skontaktuj się z Kancelarią Komorniczą nr IX w Otwocku. Chętnie odpowiemy na pytania dotyczące postępowań egzekucyjnych."
+            "title": "t:contact.title",
+            "subtitle": "t:contact.page.subtitle"
           },
           "cta": {
             "label": "t:contact.cta",
@@ -729,15 +726,15 @@
             "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
             "phone": "+48 22 180 00 22",
             "email": "otwock.starzec@komornik.pl",
-            "hours": "Godziny otwarcia",
+            "hours": "t:contact.info.hours",
             "hoursDetailed": [
-              "poniedziałek 9:00 – 15:00",
-              "wtorek 9:00 – 15:00",
-              "środa 9:00 – 17:00",
-              "czwartek 9:00 – 15:00",
-              "piątek 9:00 – 14:00"
+              "t:contact.info.hours.mon",
+              "t:contact.info.hours.tue",
+              "t:contact.info.hours.wed",
+              "t:contact.info.hours.thu",
+              "t:contact.info.hours.fri"
             ],
-            "receptionHours": "środa 9:00 – 17:00",
+            "receptionHours": "t:contact.info.receptionHours",
             "additionalInfo": [
               "Rachunek bankowy: Alior Bank S.A.: 93 2490 0005 0000 4530 4237 7611",
               "Adres EPUAP (zbiegi): /KS_Marcin_Starzec/ezbiegi (data obowiązywania od 16.03.2018)"

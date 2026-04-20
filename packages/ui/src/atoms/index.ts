@@ -20,3 +20,5 @@ export type { DottedMapProps } from "./DottedMap";
 export { Turnstile } from "./Turnstile";
 export { CookieConsent } from "./CookieConsent";
 export { SafeImage } from "./SafeImage";
+export { RotatingText } from "./RotatingText";
+export type { RotatingTextProps } from "./RotatingText";

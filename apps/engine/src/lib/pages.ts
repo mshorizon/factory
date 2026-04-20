@@ -94,6 +94,7 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       columns: layout.footer?.columns || [],
       extensions: layout.footer?.extensions || [],
     },
+    hideBreadcrumbs: (layout as any)?.hideBreadcrumbs || false,
   };
 }
 

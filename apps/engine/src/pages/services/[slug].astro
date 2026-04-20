@@ -132,7 +132,7 @@ const socialLinks = business.business.socials
     <!-- White Content Section -->
     <section class="relative bg-background pt-16 md:pt-24 pb-16 md:pb-24">
       <!-- Breadcrumbs -->
-      <Breadcrumbs items={breadcrumbs} />
+      {!layout.hideBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}
 
       <!-- Service Content -->
       {service.content && (

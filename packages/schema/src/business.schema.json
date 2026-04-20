@@ -975,6 +975,12 @@
               }
             }
           }
+        },
+        "hideBreadcrumbs": {
+          "type": "boolean",
+          "title": "Hide Breadcrumbs",
+          "description": "Hide breadcrumb navigation on service detail pages",
+          "default": false
         }
       }
     },

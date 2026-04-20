@@ -135,6 +135,10 @@ export type FooterExtensions = {
   headline?: Headline;
   phone?: Phone1;
 }[];
+/**
+ * Hide breadcrumb navigation on service detail pages
+ */
+export type HideBreadcrumbs = boolean;
 export type NavigationLinks = Link[];
 export type Label1 = string;
 export type PageTitle = string;
@@ -448,6 +452,7 @@ export interface ThemeSpacing {
 export interface Layout {
   navbar?: Navbar;
   footer?: FooterConfig;
+  hideBreadcrumbs?: HideBreadcrumbs;
 }
 export interface Navbar {
   variant?: NavbarVariant;

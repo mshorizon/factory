@@ -51,7 +51,7 @@ const posts: BlogPost[] = blogs.map((blog) => ({
 ---
 
 {posts.length > 0 && (
-  <section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <section class={`${isHomePage ? "pb-spacing-section" : "pt-[120px] pb-spacing-section-sm"}`}>
     <div class="container mx-auto px-spacing-container">
       {isCards || isCardsLight ? (
         <>
@@ -62,7 +62,7 @@ const posts: BlogPost[] = blogs.map((blog) => ({
             layout="stacked"
             align="center"
             background={section.background}
-            badgeVariant="text"
+            badgeVariant={badgeVariant as any}
           />
           <BlogCards client:visible posts={posts} ctaLabel={ctaLabel} withCard={isCardsLight} />
         </>

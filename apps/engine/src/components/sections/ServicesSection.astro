@@ -1,6 +1,6 @@
 ---
 import type { Section, BusinessProfile } from "@mshorizon/schema";
-import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating, SectionHeader, Button } from "@mshorizon/ui";
+import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating, SectionHeader, Button, RotatingText } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -41,8 +41,21 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
       align={headerAlign as any}
       background={section.background}
       badgeVariant={badgeVariant as any}
-      className={variant === "alternating" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
+      className={
+        variant === "alternating"
+          ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto"
+          : minimal && items.length > 0
+          ? "!mb-spacing-sm"
+          : undefined
+      }
     />
+    {minimal && items.length > 0 && (
+      <RotatingText
+        client:visible
+        words={items.map((item: any) => item.title)}
+        className="mb-spacing-2xl"
+      />
+    )}
     {variant === "list" ? (
       <ServicesList client:visible items={items} />
     ) : variant === "imageGrid" ? (
