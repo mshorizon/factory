@@ -25,6 +25,7 @@ const headerAlign = headerLayout === "most-minimalistic" || variant === "darkCar
 const minimal = headerLayout === "most-minimalistic";
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
+const detailsLabel = section.detailsLabel;
 ---
 
 <section class={
@@ -54,7 +55,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
     ) : variant === "alternating" ? (
       <ServicesAlternating client:visible items={items} />
     ) : (
-      <ServicesGrid client:visible items={items} minimal={minimal} />
+      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} />
     )}
     {ctaLabel && (
       <div class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>

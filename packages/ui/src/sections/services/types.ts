@@ -20,4 +20,6 @@ export interface ServicesProps {
   className?: string;
   /** Minimal variant — portfolio-law-style cards (borderless, primaryLight accent line, larger details link). */
   minimal?: boolean;
+  /** Label for the per-card details link (translatable). */
+  detailsLabel?: string;
 }

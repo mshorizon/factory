@@ -207,6 +207,7 @@ export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
 export type CTATextColorOverride = string;
 export type InvertStatColorsLightBgDarkText = boolean;
+export type DetailsButtonLabelEGSeeDetailsLearnMore = string;
 export type AvatarImageURL1 = string;
 export type AvatarImageURL2 = string;
 export type Testimonials = {
@@ -538,6 +539,7 @@ export interface Section {
   statsInverted?: InvertStatColorsLightBgDarkText;
   cta?: Cta1;
   secondaryCta?: Cta1;
+  detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
   items?: Items;

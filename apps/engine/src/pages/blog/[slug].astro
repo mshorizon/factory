@@ -228,13 +228,13 @@ if (!contactCardImage) {
 
             <!-- Sidebar contact card -->
             <aside class="w-full lg:w-[368px] shrink-0 lg:sticky lg:top-24">
-              <div class="bg-card rounded-xl overflow-hidden flex flex-col items-start text-left">
+              <div class="bg-card rounded-xl flex flex-col items-start text-left">
                 {contactCardImage && (
-                  <div class="w-full">
+                  <div class="w-full p-spacing-md">
                     <img
                       src={contactCardImage}
                       alt={business.business.name}
-                      class="w-full h-auto object-cover"
+                      class="w-full max-w-[336px] max-h-[256px] object-cover rounded-radius"
                       loading="lazy"
                       decoding="async"
                     />

@@ -68,8 +68,8 @@
         "xl": "2rem",
         "2xl": "3rem",
         "3xl": "4rem",
-        "section-sm": "5rem",
-        "section": "7.5rem",
+        "section-sm": "3.75rem",
+        "section": "3.75rem",
         "container": "2.5rem"
       }
     },
@@ -298,6 +298,8 @@
         {
           "type": "services",
           "variant": "grid",
+          "paddingTop": "60px",
+          "detailsLabel": "t:services.viewDetails",
           "header": {
             "title": "t:home.services.title",
             "layout": "most-minimalistic"
@@ -448,7 +450,7 @@
         {
           "type": "testimonials",
           "variant": "centered",
-          "paddingTop": "120px",
+          "paddingTop": "60px",
           "header": {
             "badge": "t:testimonials.badge",
             "title": "t:testimonials.title",
@@ -479,6 +481,7 @@
         {
           "type": "faq",
           "variant": "split",
+          "paddingTop": "60px",
           "background": "light",
           "header": {
             "title": "t:faq.title",
@@ -517,6 +520,7 @@
         {
           "type": "blog",
           "variant": "cards-light",
+          "paddingTop": "60px",
           "header": {
             "badge": "t:blog.badge",
             "title": "t:blog.title",
@@ -546,6 +550,7 @@
         {
           "type": "contact",
           "variant": "minimal",
+          "paddingTop": "60px",
           "ctaVariant": "primaryLight",
           "header": {
             "badge": "t:contact.badge",
@@ -777,7 +782,6 @@
         {
           "type": "blog",
           "variant": "cards-light",
-          "paddingTop": "120px",
           "header": {
             "badge": "t:informations.badge",
             "title": "t:informations.title",

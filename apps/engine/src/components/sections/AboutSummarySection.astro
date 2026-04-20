@@ -30,7 +30,7 @@ const description = (section as any).description || header.subtitle;
 const componentBackground = section.background === "dark-padded" ? "dark" : section.background;
 ---
 
-<section class="pt-[120px] pb-[120px] overflow-hidden">
+<section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"} overflow-hidden`}>
   <div class="container mx-auto">
     <AboutSummary
       client:visible

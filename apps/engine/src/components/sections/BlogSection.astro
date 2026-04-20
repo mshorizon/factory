@@ -4,6 +4,7 @@ import { BlogGrid, BlogCards, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 import { getLatestBlogs, getBlogsBySlugs } from "@mshorizon/db";
 import type { BlogPost } from "@mshorizon/ui/sections/blog/types";
+import { t } from "../../lib/i18n";
 
 interface Props {
   isHomePage?: boolean;
@@ -12,10 +13,10 @@ interface Props {
 }
 
 const { section, isHomePage = false, badgeVariant } = Astro.props;
-const { site, currentLang } = Astro.locals;
+const { site, currentLang, t: translations } = Astro.locals;
 
 const header = getSectionHeader(section);
-const ctaLabel = section.ctaLabel || "Czytaj więcej";
+const ctaLabel = section.ctaLabel || t(translations, "blog.readMore", "Czytaj więcej");
 const isCards = section.variant === "cards";
 const isCardsLight = section.variant === "cards-light";
 
@@ -51,7 +52,7 @@ const posts: BlogPost[] = blogs.map((blog) => ({
 ---
 
 {posts.length > 0 && (
-  <section class={`${isHomePage ? "pb-spacing-section" : "pt-[120px] pb-spacing-section-sm"}`}>
+  <section class={`${isHomePage ? "pb-spacing-section" : "py-spacing-section-sm"}`}>
     <div class="container mx-auto px-spacing-container">
       {isCards || isCardsLight ? (
         <>

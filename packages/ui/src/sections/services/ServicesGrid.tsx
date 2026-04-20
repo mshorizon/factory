@@ -12,6 +12,7 @@ export function ServicesGrid({
   ctaHref = "/contact",
   className,
   minimal = false,
+  detailsLabel = "Zobacz szczegóły",
 }: ServicesProps) {
   return (
     <StaggerContainer
@@ -49,7 +50,7 @@ export function ServicesGrid({
                   minimal ? "text-base no-underline" : "text-sm underline underline-offset-4"
                 )}
               >
-                Zobacz szczegóły
+                {detailsLabel}
                 <ArrowUpRight className={cn(minimal ? "h-5 w-5" : "h-4 w-4")} />
               </span>
             </Card>
