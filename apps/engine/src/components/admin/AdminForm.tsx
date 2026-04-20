@@ -1223,6 +1223,8 @@ export default function AdminForm({
                       const themeDefaults: Record<string, Record<string, string>> = {
                         specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
                         "portfolio-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid", comparison: "default", team: "default" },
+                        "portfolio-art": { hero: "split", services: "grid", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
+                        "portfolio-law": { hero: "split", services: "grid", categories: "featured", about: "story", contact: "minimal", testimonials: "centered", faq: "split", features: "icon-tiles", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "cards-light", shop: "grid", comparison: "default", team: "default" },
                       };
                       const oldDefaults = oldTheme ? themeDefaults[oldTheme] || {} : {};
                       const newDefaults = themeDefaults[newTheme] || {};
@@ -1254,6 +1256,8 @@ export default function AdminForm({
                   <option value="">None</option>
                   <option value="specialist">Specialist</option>
                   <option value="portfolio-tech">Portfolio Tech</option>
+                  <option value="portfolio-art">Portfolio Art</option>
+                  <option value="portfolio-law">Portfolio Law</option>
                 </select>
               </div>
             </CardContent>
