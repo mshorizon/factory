@@ -191,8 +191,8 @@ export default function TaskManager({
   const [domain, setDomain] = useState(currentDomain);
   const [template, setTemplate] = useState(currentTemplate || "specialist");
   const [isAdminPanel, setIsAdminPanel] = useState(false);
-  const [page, setPage] = useState("");
-  const [section, setSection] = useState("");
+  const [page, setPage] = useState<string | null>(null);
+  const [section, setSection] = useState<string | null>(null);
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [banner, setBanner] = useState<{ type: "ok" | "err"; msg: string } | null>(null);
@@ -205,13 +205,13 @@ export default function TaskManager({
 
   // When switching between site/admin mode, reset page/section
   useEffect(() => {
-    setPage("");
-    setSection("");
+    setPage(null);
+    setSection(null);
   }, [isAdminPanel]);
 
   // When page changes, reset section
   useEffect(() => {
-    setSection("");
+    setSection(null);
   }, [page]);
 
   const currentPages = isAdminPanel
@@ -274,8 +274,8 @@ export default function TaskManager({
         body: JSON.stringify({
           domain,
           template,
-          page,
-          section: section || null,
+          page: page ?? null,
+          section: section ?? null,
           isAdminPanel,
           description: description.trim(),
         }),
@@ -400,11 +400,11 @@ export default function TaskManager({
                   {isAdminPanel ? "Admin group" : "Page"}
                   <span className="ml-1 text-xs text-muted-foreground font-normal">(optional)</span>
                 </Label>
-                <Select value={page} onValueChange={(v) => setPage(v as string)}>
+                <Select value={page ?? undefined} onValueChange={(v) => setPage(v ?? null)}>
                   <SelectTrigger id="task-page" className="w-full">
                     <SelectValue placeholder={isAdminPanel ? "Select admin group" : "Select page"} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent alignItemWithTrigger={false}>
                     {currentPages.length === 0 ? (
                       <SelectItem value="__none" disabled>No pages available</SelectItem>
                     ) : (
@@ -424,8 +424,8 @@ export default function TaskManager({
                   <span className="ml-1 text-xs text-muted-foreground font-normal">(optional)</span>
                 </Label>
                 <Select
-                  value={section}
-                  onValueChange={(v) => setSection(v as string)}
+                  value={section ?? undefined}
+                  onValueChange={(v) => setSection(v ?? null)}
                   disabled={!page || currentSections.length === 0}
                 >
                   <SelectTrigger id="task-section" className="w-full">
@@ -437,7 +437,7 @@ export default function TaskManager({
                         : isAdminPanel ? "Select tab" : "Select section"
                     } />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent alignItemWithTrigger={false}>
                     {currentSections.map((s) => (
                       <SelectItem key={s} value={s}>{s}</SelectItem>
                     ))}
