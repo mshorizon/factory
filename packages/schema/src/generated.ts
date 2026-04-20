@@ -139,6 +139,7 @@ export type NavigationLinks = Link[];
 export type Label1 = string;
 export type PageTitle = string;
 export type NavLabel = string;
+export type NavOrder = number;
 export type HideFromNav = boolean;
 export type SectionType =
   | "hero"
@@ -305,6 +306,7 @@ export type Region =
   | "opolskie"
   | "lubuskie";
 export type Sections = Section[];
+export type BlogSlugLinksToABlogStandalonePostShownAfterServiceDetails = string;
 export type Services = Service[];
 export type Products1 = Product[];
 export type EnableBooking = boolean;
@@ -500,6 +502,7 @@ export interface Pages {
 export interface Page {
   title: PageTitle;
   navLabel?: NavLabel;
+  navOrder?: NavOrder;
   hideFromNav?: HideFromNav;
   sections: Sections;
 }
@@ -783,6 +786,7 @@ export interface Service {
   duration?: string;
   features?: string[];
   available?: boolean;
+  blogSlug?: BlogSlugLinksToABlogStandalonePostShownAfterServiceDetails;
 }
 export interface Booking {
   enabled?: EnableBooking;

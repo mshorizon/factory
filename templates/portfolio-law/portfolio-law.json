@@ -12,7 +12,6 @@
       "phone": "+48 22 180 00 22",
       "email": "otwock.starzec@komornik.pl",
       "hours": "Pon-Pt: 8:00 - 16:00",
-      "additionalInfo": ["ID komornika w EPU : 2721"],
       "location": {
         "latitude": 52.1054,
         "longitude": 21.2633
@@ -98,7 +97,6 @@
       "showSocials": false,
       "showAvailability": false,
       "showAddress": false,
-      "showAdditionalInfo": false,
       "extensions": [
         {
           "type": "upper-bar"
@@ -116,6 +114,15 @@
         "borderRadius": "16px",
         "gradient": "primary-to-primary-dark"
       },
+      "links": [
+        {
+          "label": "t:pages.rodo.title",
+          "target": {
+            "type": "page",
+            "value": "rodo"
+          }
+        }
+      ],
       "columns": [
         {
           "title": "t:footer.columns.pages.title",
@@ -135,6 +142,13 @@
               }
             },
             {
+              "label": "t:pages.informations.title",
+              "target": {
+                "type": "page",
+                "value": "informations"
+              }
+            },
+            {
               "label": "t:pages.blog.title",
               "target": {
                 "type": "page",
@@ -146,13 +160,6 @@
               "target": {
                 "type": "page",
                 "value": "contact"
-              }
-            },
-            {
-              "label": "t:pages.informations.title",
-              "target": {
-                "type": "page",
-                "value": "informations"
               }
             },
             {
@@ -211,7 +218,8 @@
         "description": "Prowadzenie postępowań egzekucyjnych w celu odzyskania należności pieniężnych na podstawie tytułów wykonawczych.",
         "icon": "banknote",
         "category": "egzekucja",
-        "available": true
+        "available": true,
+        "blogSlug": "service-egzekucja-naleznosci"
       },
       {
         "id": "eksmisje",
@@ -220,7 +228,8 @@
         "description": "Realizacja orzeczeń sądowych dotyczących opróżnienia i wydania nieruchomości zgodnie z obowiązującymi przepisami.",
         "icon": "home",
         "category": "egzekucja",
-        "available": true
+        "available": true,
+        "blogSlug": "service-eksmisje"
       },
       {
         "id": "doreczenia",
@@ -229,7 +238,8 @@
         "description": "Osobiste doręczanie korespondencji sądowej na zlecenie sądu oraz stron postępowania.",
         "icon": "mail",
         "category": "doreczenia",
-        "available": true
+        "available": true,
+        "blogSlug": "service-doreczenia"
       },
       {
         "id": "zabezpieczenie-roszczen",
@@ -238,7 +248,8 @@
         "description": "Wykonywanie postanowień o zabezpieczeniu roszczeń pieniężnych i niepieniężnych na wniosek wierzyciela.",
         "icon": "shield",
         "category": "zabezpieczenie",
-        "available": true
+        "available": true,
+        "blogSlug": "service-zabezpieczenie-roszczen"
       },
       {
         "id": "spis-inwentarza",
@@ -247,7 +258,8 @@
         "description": "Sporządzanie protokołów stanu faktycznego oraz spisu inwentarza spadkowego na podstawie postanowienia sądu.",
         "icon": "clipboard-list",
         "category": "inwentarz",
-        "available": true
+        "available": true,
+        "blogSlug": "service-spis-inwentarza"
       },
       {
         "id": "licytacje",
@@ -256,7 +268,8 @@
         "description": "Organizacja i przeprowadzanie licytacji ruchomości oraz nieruchomości w ramach postępowania egzekucyjnego.",
         "icon": "gavel",
         "category": "licytacje",
-        "available": true
+        "available": true,
+        "blogSlug": "service-licytacje"
       }
     ]
   },
@@ -555,6 +568,7 @@
     "about": {
       "title": "O mnie",
       "navLabel": "t:pages.about.title",
+      "navOrder": 1,
       "sections": [
         {
           "type": "about",
@@ -760,10 +774,12 @@
     "informations": {
       "title": "t:pages.informations.title",
       "navLabel": "t:pages.informations.navLabel",
+      "navOrder": 2,
       "sections": [
         {
           "type": "blog",
           "variant": "cards-light",
+          "paddingTop": "120px",
           "header": {
             "badge": "t:informations.badge",
             "title": "t:informations.title",
@@ -773,6 +789,23 @@
             "informacje-dla-dluznika"
           ],
           "ctaLabel": "t:blog.readMore"
+        },
+        {
+          "type": "blog-standalone",
+          "blogSlug": "informacje-dla-wierzyciela",
+          "sidebarContact": {
+            "name": "t:about.title",
+            "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
+            "phone": "+48 22 180 00 22",
+            "email": "otwock.starzec@komornik.pl",
+            "cta": {
+              "label": "t:contact.cta",
+              "target": {
+                "type": "email",
+                "value": "otwock.starzec@komornik.pl"
+              }
+            }
+          }
         }
       ]
     },

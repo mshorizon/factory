@@ -129,7 +129,8 @@
           "type": "array",
           "items": { "type": "string" }
         },
-        "available": { "type": "boolean" }
+        "available": { "type": "boolean" },
+        "blogSlug": { "type": "string", "title": "Blog Slug (links to a blog-standalone post shown after service details)" }
       },
       "required": ["id", "title", "slug"]
     },
@@ -573,6 +574,7 @@
       "properties": {
         "title": { "type": "string", "title": "Page Title" },
         "navLabel": { "type": "string", "title": "Nav Label" },
+        "navOrder": { "type": "number", "title": "Nav Order" },
         "hideFromNav": { "type": "boolean", "title": "Hide From Nav" },
         "sections": {
           "type": "array",

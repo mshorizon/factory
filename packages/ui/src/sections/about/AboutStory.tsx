@@ -29,7 +29,7 @@ export function AboutStory({
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
   const ctaClass = ctaVariant === "primaryLight"
-    ? "bg-primary-light hover:bg-primary-light/90 text-on-accent"
+    ? "bg-primary-light hover:bg-primary-light/90 text-on-primary"
     : "bg-accent text-on-primary hover:opacity-90";
 
   const imageBlock = image ? (

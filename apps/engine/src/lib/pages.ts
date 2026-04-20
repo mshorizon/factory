@@ -109,6 +109,9 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
     if (b === "home") return 1;
     if (a === "contact") return 1;
     if (b === "contact") return -1;
+    const orderA = (pages[a] as any).navOrder ?? Infinity;
+    const orderB = (pages[b] as any).navOrder ?? Infinity;
+    if (orderA !== orderB) return orderA - orderB;
     return a.localeCompare(b);
   });
 

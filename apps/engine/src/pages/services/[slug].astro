@@ -7,6 +7,7 @@ import { resolveTarget } from "../../lib/target";
 import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import BlogStandaloneSection from "../../components/sections/BlogStandaloneSection.astro";
 import type { BusinessProfile, Service } from "@mshorizon/schema";
 
 // Get route params
@@ -201,6 +202,11 @@ const socialLinks = business.business.socials
         </div>
       )}
     </section>
+
+    <!-- Blog standalone section (linked via service.blogSlug) -->
+    {service.blogSlug && (
+      <BlogStandaloneSection section={{ type: "blog-standalone", blogSlug: service.blogSlug } as any} />
+    )}
   </main>
   <Footer
     businessName={business.business.name}
