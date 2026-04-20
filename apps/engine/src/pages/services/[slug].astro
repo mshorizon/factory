@@ -129,20 +129,18 @@ const socialLinks = business.business.socials
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
   <main class="flex-1 pt-14 lg:pt-16">
-    <!-- White Content Section -->
-    <section class="relative bg-background pt-16 md:pt-24 pb-16 md:pb-24">
-      <!-- Breadcrumbs -->
-      {!layout.hideBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-
-      <!-- Service Content -->
-      {service.content && (
-        <div class="container mx-auto px-4 mt-spacing-lg">
-          <div class="max-w-3xl mx-auto prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground">
-            <Fragment set:html={service.content} />
+    {(!layout.hideBreadcrumbs || service.content) && (
+      <section class="relative bg-background pt-16 md:pt-24 pb-16 md:pb-24">
+        {!layout.hideBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+        {service.content && (
+          <div class="container mx-auto px-4 mt-spacing-lg">
+            <div class="max-w-3xl mx-auto prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground">
+              <Fragment set:html={service.content} />
+            </div>
           </div>
-        </div>
-      )}
-    </section>
+        )}
+      </section>
+    )}
 
     <!-- Blog standalone section (linked via service.blogSlug) -->
     {service.blogSlug && (
