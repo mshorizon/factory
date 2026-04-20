@@ -61,7 +61,7 @@ export async function updateTask(
   id: string,
   fields: Partial<Pick<Task, "status" | "description" | "clarification">>
 ): Promise<Task | null> {
-  if (fields.status && !TASK_STATUSES.includes(fields.status)) {
+  if (fields.status && !TASK_STATUSES.includes(fields.status as TaskStatus)) {
     throw new Error(`Invalid status: ${fields.status}`);
   }
   const db = getDb();

@@ -1,23 +1,21 @@
 #!/usr/bin/env bash
-# run-tasks.sh — Automated Claude Code task processor
+# run-tasks.sh — Automated Claude Code task processor (DB-backed)
 #
 # Usage:
 #   ./scripts/run-tasks.sh            # polls every 60s (default)
 #   POLL_INTERVAL=30 ./scripts/run-tasks.sh
 #   ./scripts/run-tasks.sh --once     # process one task and exit
-#
-# Task format in .tasks.md:
-#   * [ ] TASK: description of what to do
 
 set -euo pipefail
 
-TASKS_FILE="${TASKS_FILE:-.tasks.md}"
-INBOX_FILE="${INBOX_FILE:-.tasks-inbox.md}"
-LOG_FILE="scripts/tasks.log"
 POLL_INTERVAL="${POLL_INTERVAL:-60}"
 ONCE_MODE=false
+LOG_FILE="scripts/tasks.log"
+TASK_DB="tsx scripts/task-db.ts"
 
 [[ "${1:-}" == "--once" ]] && ONCE_MODE=true
+
+export DATABASE_URL="${DATABASE_URL:-postgresql://postgres:qM2NsnxsnPsM3FPKqqHE6VOaodrE9P7FJtaG0OwWu4ddkNdVPwhflxbRf1kR6Y4D@46.224.191.237:5432/hazelgrouse-db}"
 
 log() {
     local msg="[$(date '+%Y-%m-%d %H:%M:%S')] $*"
@@ -29,64 +27,63 @@ notify() {
     osascript -e "display notification \"$1\" with title \"Task Runner\" sound name \"Glass\"" 2>/dev/null || true
 }
 
-get_next_task() {
-    # Picks first: [*] interrupted, [ ] pending, or [!] failed (retry) — in file order
-    grep -n "^\* \[\*\]\|^\* \[ \]\|^\* \[!\]" "$TASKS_FILE" 2>/dev/null | head -1
+# ── Build prompt for claude -p ─────────────────────────────────────────────
+build_prompt() {
+    local domain="$1" template="$2" page="$3" section="$4" is_admin="$5" description="$6"
+
+    local target
+    if [[ "$is_admin" == "true" ]]; then
+        target="Admin panel"
+        [[ -n "$page" ]]    && target+=" › group: $page"
+        [[ -n "$section" ]] && target+=" › tab: $section"
+    else
+        target="Site page: /$page"
+        [[ -n "$section" ]] && target+=" › section: $section"
+    fi
+
+    cat <<PROMPT
+You are executing a task from the admin Task Manager queue in the Hazelgrouse Studio factory repo.
+
+CONTEXT:
+  Domain:   $domain
+  Template: $template
+  Target:   $target
+
+TASK:
+$description
+
+INSTRUCTIONS:
+1. Complete the task as described. Follow all rules in CLAUDE.md strictly.
+2. If the task is completely clear, do the work and output a brief summary of what you did.
+3. If you CANNOT proceed without clarification, output EXACTLY this (and nothing else):
+   QUESTION: <your question here>
+   Do NOT ask and also do partial work — either fully complete or ask.
+4. After completing: stage your changes (git add) but do NOT commit. The runner commits separately.
+PROMPT
 }
 
-mark_in_progress() {
-    local line_num=$1
-    perl -i -pe "s/^\* \[[ !]\]/\* [*]/ if \$. == $line_num" "$TASKS_FILE"
-}
-
-mark_done() {
-    local line_num=$1
-    perl -i -pe "s/^\* \[\*\]/\* [x]/ if \$. == $line_num" "$TASKS_FILE"
-}
-
-mark_failed() {
-    local line_num=$1
-    perl -i -pe "s/^\* \[\*\]/\* [!]/ if \$. == $line_num" "$TASKS_FILE"
-}
-
-merge_inbox() {
-    [ ! -f "$INBOX_FILE" ] && return
-    # Extract [ ] lines from inbox
-    local new_tasks
-    new_tasks=$(grep "^\* \[ \]" "$INBOX_FILE" 2>/dev/null || true)
-    [ -z "$new_tasks" ] && return
-    # Append to tasks file
-    echo "$new_tasks" >> "$TASKS_FILE"
-    # Remove merged lines from inbox
-    perl -i -pe "s/^\* \[ \].*\n?//" "$INBOX_FILE"
-    local count
-    count=$(echo "$new_tasks" | wc -l | tr -d ' ')
-    log "Merged $count task(s) from inbox"
-}
-
-if [ ! -f "$TASKS_FILE" ]; then
-    echo "ERROR: $TASKS_FILE not found. Create it first." >&2
-    exit 1
-fi
-
-log "Task runner started | file: $TASKS_FILE | poll: ${POLL_INTERVAL}s"
+# ── Main loop ─────────────────────────────────────────────────────────────
+log "Task runner started | poll: ${POLL_INTERVAL}s"
 notify "Task runner started"
 
 TASKS_PROCESSED=false
 
 while true; do
-    merge_inbox
-    TASK_LINE=$(get_next_task)
+    # ── Get oldest pending task from DB ───────────────────────────────────
+    TASK_JSON=$(cd /home/dev/factory && $TASK_DB get-pending 2>/dev/null || true)
 
-    if [ -z "$TASK_LINE" ]; then
+    if [[ -z "$TASK_JSON" ]]; then
         if $TASKS_PROCESSED; then
             log "All tasks done — committing changes..."
             notify "All tasks done. Committing..."
-            claude -p "Commit all current changes to git. Write a concise commit message summarising what was done." --dangerously-skip-permissions
-            log "Commit done."
+            cd /home/dev/factory
+            claude -p "Commit all staged changes to git. Write a concise conventional commit message summarising what was done across all completed tasks. Do NOT push." \
+                --dangerously-skip-permissions 2>&1 | tee -a "$LOG_FILE" || true
+            log "Commit step done."
             notify "Commit done"
             TASKS_PROCESSED=false
         fi
+
         if $ONCE_MODE; then
             log "No pending tasks. Exiting (--once mode)."
             exit 0
@@ -96,26 +93,52 @@ while true; do
         continue
     fi
 
-    LINE_NUM=$(echo "$TASK_LINE" | cut -d: -f1)
-    # Strip leading line number and checkbox — keep the task description
-    TASK_TEXT=$(echo "$TASK_LINE" | sed 's/^[0-9]*:\* \[.\] //')
+    # ── Parse task fields ─────────────────────────────────────────────────
+    TASK_ID=$(echo "$TASK_JSON"      | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['id'])")
+    DOMAIN=$(echo "$TASK_JSON"       | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['domain'])")
+    TEMPLATE=$(echo "$TASK_JSON"     | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['template'])")
+    PAGE=$(echo "$TASK_JSON"         | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('page') or '')")
+    SECTION=$(echo "$TASK_JSON"      | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('section') or '')")
+    IS_ADMIN=$(echo "$TASK_JSON"     | python3 -c "import sys,json; d=json.load(sys.stdin); print(str(d.get('isAdminPanel', False)).lower())")
+    DESCRIPTION=$(echo "$TASK_JSON"  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['description'])")
 
-    log "→ Picked task (line $LINE_NUM): $TASK_TEXT"
-    mark_in_progress "$LINE_NUM"
-    notify "Running: $TASK_TEXT"
+    log "→ Task $TASK_ID | $DOMAIN / $TEMPLATE / ${PAGE}${SECTION:+#$SECTION}"
+    log "  $DESCRIPTION"
 
-    # Run claude non-interactively — fresh context per task, CLAUDE.md auto-loaded
-    # --dangerously-skip-permissions required: no human present to approve prompts in background mode
-    if claude -p "$TASK_TEXT" --dangerously-skip-permissions; then
-        mark_done "$LINE_NUM"
+    # ── Mark in-progress ──────────────────────────────────────────────────
+    (cd /home/dev/factory && $TASK_DB set-status "$TASK_ID" "in-progress") 2>&1 | tee -a "$LOG_FILE" || true
+
+    # ── Build & run prompt ────────────────────────────────────────────────
+    PROMPT=$(build_prompt "$DOMAIN" "$TEMPLATE" "$PAGE" "$SECTION" "$IS_ADMIN" "$DESCRIPTION")
+    TMPOUT=$(mktemp)
+
+    notify "Running: ${DESCRIPTION:0:60}..."
+
+    set +e
+    (cd /home/dev/factory && claude -p "$PROMPT" --dangerously-skip-permissions) 2>&1 | tee "$TMPOUT" | tee -a "$LOG_FILE"
+    CLAUDE_EXIT=${PIPESTATUS[0]}
+    set -e
+
+    OUTPUT=$(cat "$TMPOUT")
+    rm -f "$TMPOUT"
+
+    # ── Detect QUESTION: marker ────────────────────────────────────────────
+    if echo "$OUTPUT" | grep -qE "^QUESTION:"; then
+        QUESTION=$(echo "$OUTPUT" | grep -E "^QUESTION:" | sed 's/^QUESTION:[[:space:]]*//' | head -1)
+        log "⏸ Task $TASK_ID on hold — Claude asks: $QUESTION"
+        notify "On hold: ${QUESTION:0:80}"
+        echo "$QUESTION" | (cd /home/dev/factory && $TASK_DB set-on-hold "$TASK_ID") 2>&1 | tee -a "$LOG_FILE" || {
+            log "✗ Failed to set on_hold for $TASK_ID"
+        }
+    elif [[ $CLAUDE_EXIT -eq 0 ]]; then
+        (cd /home/dev/factory && $TASK_DB set-status "$TASK_ID" "done") 2>&1 | tee -a "$LOG_FILE" || true
         TASKS_PROCESSED=true
-        log "✓ Done: $TASK_TEXT"
-        notify "Done: $TASK_TEXT"
+        log "✓ Done: $TASK_ID"
+        notify "Done: ${DESCRIPTION:0:60}"
     else
-        EXIT=$?
-        mark_failed "$LINE_NUM"
-        log "✗ Failed (exit $EXIT): $TASK_TEXT — marked [!], continuing..."
-        notify "Failed: $TASK_TEXT"
+        (cd /home/dev/factory && $TASK_DB set-status "$TASK_ID" "failed") 2>&1 | tee -a "$LOG_FILE" || true
+        log "✗ Failed (exit $CLAUDE_EXIT): $TASK_ID"
+        notify "Failed: ${DESCRIPTION:0:60}"
     fi
 
     if $ONCE_MODE; then
@@ -123,6 +146,5 @@ while true; do
         exit 0
     fi
 
-    # Short pause between tasks to avoid hammering the API
     sleep 5
 done
