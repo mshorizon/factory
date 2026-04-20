@@ -8,6 +8,9 @@
 
 set -euo pipefail
 
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO_ROOT"
+
 POLL_INTERVAL="${POLL_INTERVAL:-60}"
 ONCE_MODE=false
 LOG_FILE="scripts/tasks.log"
@@ -70,13 +73,13 @@ TASKS_PROCESSED=false
 
 while true; do
     # ── Get oldest pending task from DB ───────────────────────────────────
-    TASK_JSON=$(cd /home/dev/factory && $TASK_DB get-pending 2>/dev/null || true)
+    TASK_JSON=$(cd "$REPO_ROOT" && $TASK_DB get-pending 2>/dev/null || true)
 
     if [[ -z "$TASK_JSON" ]]; then
         if $TASKS_PROCESSED; then
             log "All tasks done — committing changes..."
             notify "All tasks done. Committing..."
-            cd /home/dev/factory
+            cd "$REPO_ROOT"
             claude -p "Commit all staged changes to git. Write a concise conventional commit message summarising what was done across all completed tasks. Do NOT push." \
                 --dangerously-skip-permissions 2>&1 | tee -a "$LOG_FILE" || true
             log "Commit step done."
@@ -106,7 +109,7 @@ while true; do
     log "  $DESCRIPTION"
 
     # ── Mark in-progress ──────────────────────────────────────────────────
-    (cd /home/dev/factory && $TASK_DB set-status "$TASK_ID" "in-progress") 2>&1 | tee -a "$LOG_FILE" || true
+    (cd "$REPO_ROOT" && $TASK_DB set-status "$TASK_ID" "in-progress") 2>&1 | tee -a "$LOG_FILE" || true
 
     # ── Build & run prompt ────────────────────────────────────────────────
     PROMPT=$(build_prompt "$DOMAIN" "$TEMPLATE" "$PAGE" "$SECTION" "$IS_ADMIN" "$DESCRIPTION")
@@ -115,7 +118,7 @@ while true; do
     notify "Running: ${DESCRIPTION:0:60}..."
 
     set +e
-    (cd /home/dev/factory && claude -p "$PROMPT" --dangerously-skip-permissions) 2>&1 | tee "$TMPOUT" | tee -a "$LOG_FILE"
+    (cd "$REPO_ROOT" && claude -p "$PROMPT" --dangerously-skip-permissions) 2>&1 | tee "$TMPOUT" | tee -a "$LOG_FILE"
     CLAUDE_EXIT=${PIPESTATUS[0]}
     set -e
 
@@ -127,16 +130,16 @@ while true; do
         QUESTION=$(echo "$OUTPUT" | grep -E "^QUESTION:" | sed 's/^QUESTION:[[:space:]]*//' | head -1)
         log "⏸ Task $TASK_ID on hold — Claude asks: $QUESTION"
         notify "On hold: ${QUESTION:0:80}"
-        echo "$QUESTION" | (cd /home/dev/factory && $TASK_DB set-on-hold "$TASK_ID") 2>&1 | tee -a "$LOG_FILE" || {
+        echo "$QUESTION" | (cd "$REPO_ROOT" && $TASK_DB set-on-hold "$TASK_ID") 2>&1 | tee -a "$LOG_FILE" || {
             log "✗ Failed to set on_hold for $TASK_ID"
         }
     elif [[ $CLAUDE_EXIT -eq 0 ]]; then
-        (cd /home/dev/factory && $TASK_DB set-status "$TASK_ID" "done") 2>&1 | tee -a "$LOG_FILE" || true
+        (cd "$REPO_ROOT" && $TASK_DB set-status "$TASK_ID" "done") 2>&1 | tee -a "$LOG_FILE" || true
         TASKS_PROCESSED=true
         log "✓ Done: $TASK_ID"
         notify "Done: ${DESCRIPTION:0:60}"
     else
-        (cd /home/dev/factory && $TASK_DB set-status "$TASK_ID" "failed") 2>&1 | tee -a "$LOG_FILE" || true
+        (cd "$REPO_ROOT" && $TASK_DB set-status "$TASK_ID" "failed") 2>&1 | tee -a "$LOG_FILE" || true
         log "✗ Failed (exit $CLAUDE_EXIT): $TASK_ID"
         notify "Failed: ${DESCRIPTION:0:60}"
     fi
