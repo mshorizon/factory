@@ -157,6 +157,8 @@ Jeśli celujesz w nieco większe firmy lub B2B:
 
 ## Co zrobić z produktem żeby zdobyć klientów (braki)
 
+https://www.kmklegal.pl/rezerwacja-rozmowy-on-line/
+
 To jest szczera lista rzeczy, bez których sprzedaż będzie trudna.
 
 ### Krytyczne (zablokuje sprzedaż)
