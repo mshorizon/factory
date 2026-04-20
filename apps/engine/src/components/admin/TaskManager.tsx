@@ -244,10 +244,6 @@ export default function TaskManager({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!page) {
-      setBanner({ type: "err", msg: "Select a page" });
-      return;
-    }
     if (description.trim().length < 3) {
       setBanner({ type: "err", msg: "Description must be at least 3 characters" });
       return;
@@ -386,6 +382,7 @@ export default function TaskManager({
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="task-page">
                   {isAdminPanel ? "Admin group" : "Page"}
+                  <span className="ml-1 text-xs text-muted-foreground font-normal">(optional)</span>
                 </Label>
                 <Select value={page} onValueChange={(v) => setPage(v as string)}>
                   <SelectTrigger id="task-page" className="w-full">
@@ -461,7 +458,7 @@ export default function TaskManager({
             <div className="flex justify-end">
               <Button
                 type="submit"
-                disabled={submitting || !page || description.trim().length < 3}
+                disabled={submitting || description.trim().length < 3}
               >
                 {submitting ? (
                   <><Loader2 className="h-4 w-4 animate-spin" />Adding...</>
