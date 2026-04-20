@@ -502,5 +502,6 @@ const showCta = !hideCta && !!cta;
     menu?.classList.toggle('hidden');
     menuIcon?.classList.toggle('hidden');
     closeIcon?.classList.toggle('hidden');
+    requestAnimationFrame(updateFirstSectionPadding);
   });
 </script>

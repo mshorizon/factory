@@ -157,14 +157,14 @@ export function AboutSummary({
       {stats && stats.length > 0 && !statsInverted && (
         <ScrollReveal delay={0.2} direction="up">
           <StaggerContainer
-            className="flex flex-row flex-nowrap justify-center gap-spacing-lg md:gap-spacing-xl pt-spacing-2xl"
+            className="grid grid-cols-2 md:grid-cols-4 gap-spacing-xl md:gap-spacing-section-sm pt-spacing-2xl"
             staggerDelay={0.1}
           >
             {stats.map((stat, index) => (
               <StaggerItem key={index} direction="up" distance={20}>
                 <div
                   className={cn(
-                    "text-center flex-1 min-w-0",
+                    "text-center",
                     statsInverted && "bg-background rounded-radius-secondary p-spacing-lg"
                   )}
                   style={statsInverted ? {

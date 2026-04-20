@@ -12,10 +12,10 @@ export function AboutSummaryStats({ stats, className }: AboutSummaryStatsProps) 
 
   return (
     <div
-      className={`flex flex-row flex-nowrap justify-center gap-spacing-section-sm md:gap-spacing-section ${className ?? ""}`}
+      className={`grid grid-cols-2 md:grid-cols-4 gap-spacing-xl md:gap-spacing-section-sm ${className ?? ""}`}
     >
       {stats.map((stat, index) => (
-        <div key={index} className="text-center flex-1 min-w-0" data-field={`stats.${index}`}>
+        <div key={index} className="text-center" data-field={`stats.${index}`}>
           <div
             className="text-[40px] md:text-[64px] font-medium font-heading leading-none"
             data-field={`stats.${index}.value`}
