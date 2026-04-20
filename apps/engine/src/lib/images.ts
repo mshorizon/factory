@@ -15,6 +15,10 @@ export function isAbsoluteUrl(url: string): boolean {
   return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:');
 }
 
+export function isLocalStaticAsset(url: string): boolean {
+  return url.startsWith('/');
+}
+
 /**
  * Resolve an image path for a specific business.
  * - Absolute URLs are returned as-is (including R2 URLs)
@@ -27,8 +31,13 @@ export function resolveImagePath(imagePath: string | undefined, businessId: stri
     return imagePath;
   }
 
+  // Local static assets (public folder) — return as-is
+  if (isLocalStaticAsset(imagePath)) {
+    return imagePath;
+  }
+
   // Strip leading slash and known prefixes for legacy paths
-  let cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
+  let cleanPath = imagePath;
 
   // Remove legacy prefixes like "images/{businessId}/" or "data/{businessId}/"
   const legacyPrefixes = [
