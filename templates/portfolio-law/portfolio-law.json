@@ -97,6 +97,8 @@
       "hideCta": true,
       "showSocials": false,
       "showAvailability": false,
+      "showAddress": false,
+      "showAdditionalInfo": false,
       "extensions": [
         {
           "type": "upper-bar"

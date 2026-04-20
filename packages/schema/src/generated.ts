@@ -87,6 +87,14 @@ export type ShowSocialMediaIconsInExtension = boolean;
  * Show availability badge in the upper bar extension
  */
 export type ShowAvailabilityInExtension = boolean;
+/**
+ * Show address in the upper bar extension
+ */
+export type ShowAddressInExtension = boolean;
+/**
+ * Show additionalInfo items in the upper bar extension
+ */
+export type ShowAdditionalInfoInExtension = boolean;
 export type ExtensionType = "upper-bar";
 export type NavbarExtensions = {
   type: ExtensionType;
@@ -446,6 +454,8 @@ export interface Navbar {
   hideCta?: HideCTAButton;
   showSocials?: ShowSocialMediaIconsInExtension;
   showAvailability?: ShowAvailabilityInExtension;
+  showAddress?: ShowAddressInExtension;
+  showAdditionalInfo?: ShowAdditionalInfoInExtension;
   extensions?: NavbarExtensions;
 }
 export interface FooterConfig {

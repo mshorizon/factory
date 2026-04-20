@@ -169,6 +169,8 @@ const socialLinks = business.business.socials
     hideCta={layout.navbar.hideCta}
     showSocials={layout.navbar.showSocials}
     showAvailability={layout.navbar.showAvailability}
+    showAddress={layout.navbar.showAddress}
+    showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
   <main class:list={["flex-1", normalizedSlug !== 'home' && "pt-14 lg:pt-16"]}>
     <SectionDispatcher sections={page.sections} business={business} isHomePage={normalizedSlug === 'home'} />

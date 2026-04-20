@@ -26,9 +26,11 @@ interface Props {
   hideCta?: boolean;
   showSocials?: boolean;
   showAvailability?: boolean;
+  showAddress?: boolean;
+  showAdditionalInfo?: boolean;
 }
 
-const { logo, logoIcon, links, cta, variant = "standard", showCart = false, extensions = [], contact, socials, hideBorderOnTop = false, hideCta = false, showSocials = true, showAvailability = true } = Astro.props;
+const { logo, logoIcon, links, cta, variant = "standard", showCart = false, extensions = [], contact, socials, hideBorderOnTop = false, hideCta = false, showSocials = true, showAvailability = true, showAddress = true, showAdditionalInfo = true } = Astro.props;
 
 const hasUpperBar = extensions.some((ext) => ext.type === "upper-bar");
 const isTransparent = variant === "transparent";
@@ -83,7 +85,7 @@ const showCta = !hideCta && !!cta;
               <span>{contact.email}</span>
             </a>
           )}
-          {contact?.address && (
+          {showAddress && contact?.address && (
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`}
               target="_blank"
@@ -94,7 +96,7 @@ const showCta = !hideCta && !!cta;
               <span>{contact.address}</span>
             </a>
           )}
-          {contact?.additionalInfo?.map((info) => (
+          {showAdditionalInfo && contact?.additionalInfo?.map((info) => (
             <span class="flex items-center gap-1.5 text-white">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
               <span>{info}</span>
@@ -296,7 +298,7 @@ const showCta = !hideCta && !!cta;
   }
   /* portfolio-law: nav text always uses foreground color regardless of transparent/scroll state */
   [data-major-theme="portfolio-law"] #main-nav .nav-link {
-    color: color-mix(in srgb, var(--foreground) 60%, transparent) !important;
+    color: var(--foreground) !important;
   }
   [data-major-theme="portfolio-law"] #main-nav .nav-link:hover {
     color: var(--foreground) !important;

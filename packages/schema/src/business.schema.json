@@ -901,6 +901,18 @@
               "description": "Show availability badge in the upper bar extension",
               "default": true
             },
+            "showAddress": {
+              "type": "boolean",
+              "title": "Show Address in Extension",
+              "description": "Show address in the upper bar extension",
+              "default": true
+            },
+            "showAdditionalInfo": {
+              "type": "boolean",
+              "title": "Show Additional Info in Extension",
+              "description": "Show additionalInfo items in the upper bar extension",
+              "default": true
+            },
             "extensions": {
               "type": "array",
               "title": "Navbar Extensions",
