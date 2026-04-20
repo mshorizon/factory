@@ -639,12 +639,12 @@
                 {
                   "name": "Wniosek o wszczęcie postępowania egzekucyjnego",
                   "type": "pdf",
-                  "url": "/assets/forms/portfolio-law/wniosek-wszczecie-egzekucji.pdf"
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125767-wniosek-wszczecie-egzekucji.pdf"
                 },
                 {
                   "name": "Wniosek o rozłożenie długu na raty",
                   "type": "pdf",
-                  "url": "/assets/forms/portfolio-law/wniosek-rozlozenie-dlugu-na-raty.pdf"
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125131-wniosek-rozlozenie-dlugu-na-raty.pdf"
                 }
               ]
             },
@@ -654,12 +654,12 @@
                 {
                   "name": "Skarga na czynności komornika",
                   "type": "pdf",
-                  "url": "/assets/forms/portfolio-law/skarga-na-czynnosci-komornika.pdf"
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124542-skarga-na-czynnosci-komornika.pdf"
                 },
                 {
                   "name": "Oświadczenie o wyborze komornika (art. 10 u.k.s.)",
                   "type": "pdf",
-                  "url": "/assets/forms/portfolio-law/oswiadczenie-wybor-komornika.pdf"
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124040-oswiadczenie-wybor-komornika.pdf"
                 }
               ]
             },
@@ -669,12 +669,12 @@
                 {
                   "name": "Wniosek o dokonanie doręczenia pisma procesowego",
                   "type": "pdf",
-                  "url": "/assets/forms/portfolio-law/wniosek-doreczenie-pisma-procesowego.pdf"
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124860-wniosek-doreczenie-pisma-procesowego.pdf"
                 },
                 {
                   "name": "Wniosek o ustalenie aktualnego miejsca zamieszkania",
                   "type": "pdf",
-                  "url": "/assets/forms/portfolio-law/wniosek-ustalenie-miejsca-zamieszkania.pdf"
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125420-wniosek-ustalenie-miejsca-zamieszkania.pdf"
                 }
               ]
             },
@@ -684,7 +684,7 @@
                 {
                   "name": "Wykaz majątku – formularz",
                   "type": "pdf",
-                  "url": "/assets/forms/portfolio-law/wykaz-majatku.pdf"
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681126100-wykaz-majatku.pdf"
                 }
               ]
             }
