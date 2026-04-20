@@ -10,6 +10,10 @@ export type Address = string;
 export type Phone = string;
 export type Email = string;
 export type BusinessHours = string;
+/**
+ * Extra info strings shown next to phone/email/address in the navbar upper bar, each rendered with an 'i' info icon (e.g., registration numbers, license IDs).
+ */
+export type AdditionalInfo = string[];
 export type Latitude = number;
 export type Longitude = number;
 export type ServiceArea = string[];
@@ -329,6 +333,7 @@ export interface BusinessContact {
   phone?: Phone;
   email?: Email;
   hours?: BusinessHours;
+  additionalInfo?: AdditionalInfo;
   location?: GeographicLocation;
 }
 export interface GeographicLocation {

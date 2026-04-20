@@ -266,8 +266,6 @@ export default function TaskManager({
         const data = await res.json().catch(() => ({}));
         throw new Error(data?.error || `Failed (${res.status})`);
       }
-      setPage("");
-      setSection("");
       setDescription("");
       setBanner({ type: "ok", msg: "Task added" });
       await loadTasks();

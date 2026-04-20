@@ -12,6 +12,7 @@
       "phone": "+48 22 180 00 22",
       "email": "otwock.starzec@komornik.pl",
       "hours": "Pon-Pt: 8:00 - 16:00",
+      "additionalInfo": ["ID komornika w EPU : 2721"],
       "location": {
         "latitude": 52.1054,
         "longitude": 21.2633
@@ -357,28 +358,28 @@
               "description": "Jest to system bankowy, który umożliwia wymianę drogą elektroniczną informacji w zakresie komornik – bank.",
               "icon": "building",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "https://www.kir.pl"
+              "linkHref": "https://www.kir.pl/nasza-oferta/banki/centrum-wymiany-informacji/ognivo"
             },
             {
               "title": "Oprogramowania firmy KOMORNIK.IT",
               "description": "W tym : SkanDok SQL, Raport Egzekucji, CEIDG, SISP, KRD, GEOPORTAL,DEKRETATOR. Wsparcie IT firmy SPECKOM Tomasz Śmieja",
               "icon": "cpu",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "#"
+              "linkHref": "https://komornik.it/"
             },
             {
               "title": "Komornik Online",
               "description": "Moduł umożliwiający wgląd do akt sprawy z wykorzystaniem przeglądarki internetowej",
               "icon": "globe",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "#"
+              "linkHref": "https://www.komornik-online.eu/"
             },
             {
               "title": "BMS",
               "description": "Moduł do kompleksowego zarządzania sprawami",
               "icon": "layout",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "#"
+              "linkHref": "https://smartbs.pl/"
             }
           ]
         },

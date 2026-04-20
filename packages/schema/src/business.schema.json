@@ -725,6 +725,12 @@
             "phone": { "type": "string", "title": "Phone" },
             "email": { "type": "string", "format": "email", "title": "Email" },
             "hours": { "type": "string", "title": "Business Hours" },
+            "additionalInfo": {
+              "type": "array",
+              "title": "Additional Info",
+              "description": "Extra info strings shown next to phone/email/address in the navbar upper bar, each rendered with an 'i' info icon (e.g., registration numbers, license IDs).",
+              "items": { "type": "string" }
+            },
             "location": {
               "type": "object",
               "title": "Geographic Location",
