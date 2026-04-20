@@ -97,6 +97,7 @@
       "showSocials": false,
       "showAvailability": false,
       "showAddress": false,
+      "showAdditionalInfo": false,
       "extensions": [
         {
           "type": "upper-bar"
@@ -786,26 +787,10 @@
             "subtitle": "t:informations.subtitle"
           },
           "blogSlugs": [
-            "informacje-dla-dluznika"
+            "informacje-dla-dluznika",
+            "informacje-dla-wierzyciela"
           ],
           "ctaLabel": "t:blog.readMore"
-        },
-        {
-          "type": "blog-standalone",
-          "blogSlug": "informacje-dla-wierzyciela",
-          "sidebarContact": {
-            "name": "t:about.title",
-            "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
-            "phone": "+48 22 180 00 22",
-            "email": "otwock.starzec@komornik.pl",
-            "cta": {
-              "label": "t:contact.cta",
-              "target": {
-                "type": "email",
-                "value": "otwock.starzec@komornik.pl"
-              }
-            }
-          }
         }
       ]
     },
