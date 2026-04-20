@@ -124,5 +124,6 @@ export {
   getFirstPendingTask,
   createTask,
   updateTaskStatus,
+  updateTask,
   deleteTask,
 } from "./tasks.js";

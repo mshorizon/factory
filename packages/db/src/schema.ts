@@ -312,7 +312,7 @@ export type NewBusinessFile = typeof businessFiles.$inferInsert;
 
 // --- Claude Code Tasks ---
 
-export const TASK_STATUSES = ["pending", "in-progress", "done", "failed"] as const;
+export const TASK_STATUSES = ["pending", "in-progress", "on_hold", "done", "failed"] as const;
 export type TaskStatus = typeof TASK_STATUSES[number];
 
 export const tasks = pgTable("tasks", {
@@ -325,6 +325,7 @@ export const tasks = pgTable("tasks", {
   section: text("section"),               // section type from business JSON or admin nav item id
   isAdminPanel: boolean("is_admin_panel").notNull().default(false),
   description: text("description").notNull(),
+  clarification: text("clarification"),
   isSuperAdmin: boolean("is_super_admin").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

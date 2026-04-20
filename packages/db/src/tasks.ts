@@ -57,6 +57,22 @@ export async function updateTaskStatus(id: string, status: TaskStatus): Promise<
   return row ?? null;
 }
 
+export async function updateTask(
+  id: string,
+  fields: Partial<Pick<Task, "status" | "description" | "clarification">>
+): Promise<Task | null> {
+  if (fields.status && !TASK_STATUSES.includes(fields.status)) {
+    throw new Error(`Invalid status: ${fields.status}`);
+  }
+  const db = getDb();
+  const [row] = await db
+    .update(tasks)
+    .set({ ...fields, updatedAt: new Date() })
+    .where(eq(tasks.id, id))
+    .returning();
+  return row ?? null;
+}
+
 export async function deleteTask(id: string): Promise<void> {
   const db = getDb();
   await db.delete(tasks).where(eq(tasks.id, id));
