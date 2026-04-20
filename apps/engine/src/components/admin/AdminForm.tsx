@@ -118,6 +118,11 @@ interface AdminFormProps {
   currentTemplate?: string;
 }
 
+export type BusinessPageMeta = {
+  name: string;
+  sections: string[];
+};
+
 type SaveStatus = "idle" | "saving" | "success" | "error";
 type TabType = "meta" | "theme" | "navbar" | "footer" | "translations" | string;
 
@@ -1565,12 +1570,21 @@ export default function AdminForm({
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
     if (activeTab === "tasks") {
+      const businessPages: BusinessPageMeta[] = Object.entries(
+        (formData.pages as Record<string, any>) ?? {}
+      ).map(([name, data]) => ({
+        name,
+        sections: (data?.sections ?? [])
+          .map((s: any) => s?.type)
+          .filter((t: any): t is string => Boolean(t) && t !== "ref"),
+      }));
       return (
         <TaskManager
           currentDomain={businessId}
           currentTemplate={currentTemplate}
           isSuperAdmin={auth?.role === "super-admin"}
           availableDomains={availableDomains ?? []}
+          businessPages={businessPages}
         />
       );
     }

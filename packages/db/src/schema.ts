@@ -320,7 +320,10 @@ export const tasks = pgTable("tasks", {
   status: text("status").notNull().default("pending"), // "pending" | "in-progress" | "done" | "failed"
   domain: text("domain").notNull(),
   template: text("template").notNull(),
-  location: text("location").notNull(),
+  location: text("location").notNull(),   // derived: "admin:{page}/{section}" or "{page}/{section}"
+  page: text("page"),                      // e.g. "home", "about", "services" or admin nav group id
+  section: text("section"),               // section type from business JSON or admin nav item id
+  isAdminPanel: boolean("is_admin_panel").notNull().default(false),
   description: text("description").notNull(),
   isSuperAdmin: boolean("is_super_admin").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),

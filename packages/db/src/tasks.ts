@@ -34,6 +34,9 @@ export async function createTask(data: Omit<NewTask, "id" | "createdAt" | "updat
       domain: data.domain,
       template: data.template,
       location: data.location,
+      page: data.page ?? null,
+      section: data.section ?? null,
+      isAdminPanel: data.isAdminPanel ?? false,
       description: data.description,
       isSuperAdmin: data.isSuperAdmin ?? false,
     })
