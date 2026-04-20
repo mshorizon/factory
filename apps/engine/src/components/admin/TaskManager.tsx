@@ -35,6 +35,16 @@ import {
 } from "lucide-react";
 import type { BusinessPageMeta } from "./AdminForm";
 
+async function fetchWithRefresh(input: string, init?: RequestInit): Promise<Response> {
+  const res = await fetch(input, { ...init, credentials: "include" });
+  if (res.status !== 401) return res;
+  // Try token refresh
+  const refreshRes = await fetch("/api/auth/refresh", { method: "POST", credentials: "include" });
+  if (!refreshRes.ok) return res; // refresh failed → return original 401
+  // Retry original request with fresh cookie
+  return fetch(input, { ...init, credentials: "include" });
+}
+
 export type TaskRecord = {
   id: string;
   status: "pending" | "in-progress" | "on_hold" | "done" | "failed";
@@ -209,7 +219,7 @@ export default function TaskManager({
   const loadTasks = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/tasks", { credentials: "include" });
+      const res = await fetchWithRefresh("/api/tasks");
       if (!res.ok) throw new Error(`Failed to load tasks (${res.status})`);
       const data = await res.json();
       setTasks(data.tasks ?? []);
@@ -244,9 +254,8 @@ export default function TaskManager({
     }
     setSubmitting(true);
     try {
-      const res = await fetch("/api/tasks", {
+      const res = await fetchWithRefresh("/api/tasks", {
         method: "POST",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           domain,
@@ -278,9 +287,8 @@ export default function TaskManager({
     if (!answer) return;
     setSendingAnswer((prev) => ({ ...prev, [taskId]: true }));
     try {
-      const res = await fetch(`/api/tasks/${taskId}`, {
+      const res = await fetchWithRefresh(`/api/tasks/${taskId}`, {
         method: "PATCH",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answer }),
       });
