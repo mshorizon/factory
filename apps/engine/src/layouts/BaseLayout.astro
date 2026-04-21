@@ -138,13 +138,14 @@ function extractGoogleFonts(...fontStrings: string[]): string[] {
 }
 
 // Fonts available from alternative CDNs (not Google Fonts)
-const externalFontUrls: Record<string, string> = {
-  'Satoshi': 'https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap',
-};
+const externalFontUrls: Record<string, string> = {};
+
+// Fonts self-hosted in /public/fonts — skip any external loading
+const selfHostedFonts = new Set(['Satoshi', 'Lustria']);
 
 const allFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
-const googleFonts = allFonts.filter(f => !externalFontUrls[f]);
-const customFontLinks = allFonts.filter(f => externalFontUrls[f]).map(f => externalFontUrls[f]);
+const googleFonts = allFonts.filter(f => !externalFontUrls[f] && !selfHostedFonts.has(f));
+const customFontLinks = allFonts.filter(f => externalFontUrls[f] && !selfHostedFonts.has(f)).map(f => externalFontUrls[f]);
 const googleFontsUrl = googleFonts.length > 0
   ? `https://fonts.googleapis.com/css2?${googleFonts.map(f => `family=${f.replace(/ /g, '+')}:wght@400;500;600;700;800`).join('&')}&display=swap`
   : null;
