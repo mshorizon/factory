@@ -52,10 +52,10 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
     const body = await request.json();
     const { domain, template, page, section, isAdminPanel, description } = body ?? {};
 
-    if (!domain || !template || !page || !description) {
+    if (!domain || !template || !description) {
       return new Response(
         JSON.stringify({
-          error: "Missing required fields (domain, template, page, description)",
+          error: "Missing required fields (domain, template, description)",
         }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
@@ -78,15 +78,16 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
     }
 
     const adminFlag = Boolean(isAdminPanel);
+    const pageStr = page ? String(page) : null;
     const derivedLocation = adminFlag
-      ? `admin:${page}${section ? `/${section}` : ""}`
-      : `${page}${section ? `/${section}` : ""}`;
+      ? `admin:${pageStr ?? ""}${section ? `/${section}` : ""}`
+      : `${pageStr ?? ""}${section ? `/${section}` : ""}`;
 
     const task = await createTask({
       domain: String(domain),
       template: String(template),
       location: derivedLocation,
-      page: String(page),
+      page: pageStr,
       section: section ? String(section) : null,
       isAdminPanel: adminFlag,
       description: String(description).trim(),
