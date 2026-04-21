@@ -312,68 +312,33 @@ const showCta = !hideCta && !!cta;
   [data-major-theme="portfolio-law"] #main-nav > .container > div:first-child {
     height: 84px !important;
   }
-  /* portfolio-law: navbar always transparent with blur, never solid */
-  [data-major-theme="portfolio-law"] #main-nav {
-    background-color: transparent !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
 </style>
 
 <script define:vars={{ hasUpperBar, isTransparent, hideBorderOnTop }}>
   const nav = document.getElementById('main-nav');
   const upperBar = document.getElementById('upper-bar');
 
-  // --- Padding-top on first section instead of body (avoids macOS overscroll gap) ---
-  function updateFirstSectionPadding() {
+  // --- Set <main data-nav-offset> padding-top = actual navbar + upper-bar height ---
+  function updateMainNavOffset() {
     const navH = nav ? nav.getBoundingClientRect().height : 0;
     const barH = (upperBar && window.innerWidth >= 1024) ? upperBar.getBoundingClientRect().height : 0;
     const offset = navH + barH;
-
-    // Standalone pages (blog, services, etc.) opt-in with data-nav-offset on <main>.
-    // JS sets the full navbar height directly — no section hacks needed.
-    const mainWithNavOffset = document.querySelector('main[data-nav-offset]');
-    if (mainWithNavOffset) {
-      mainWithNavOffset.style.paddingTop = offset + 'px';
-    }
-
-    const target = document.getElementById('page-hero') || document.querySelector('[data-section-index="0"]');
-    if (target) {
-      // Subtract any existing CSS padding-top on the parent <main> to avoid
-      // double-padding on non-home pages that already have pt-14/lg:pt-16.
-      const mainEl = target.closest('main');
-      const existingMainPadding = mainEl
-        ? (parseFloat(getComputedStyle(mainEl).paddingTop) || 0)
-        : 0;
-      const sectionOffset = Math.max(0, offset - existingMainPadding);
-
-      if (target.id === 'page-hero') {
-        // Reset before measuring so resize recalculates from clean state
-        target.style.paddingTop = '0';
-        target.style.minHeight = '';
-        const originalHeight = target.getBoundingClientRect().height;
-        target.style.paddingTop = sectionOffset + 'px';
-        target.style.minHeight = (originalHeight + sectionOffset) + 'px';
-      } else {
-        target.style.paddingTop = sectionOffset + 'px';
-      }
+    const mainEl = document.querySelector('main[data-nav-offset]');
+    if (mainEl) {
+      mainEl.style.paddingTop = offset + 'px';
     }
   }
-  // Defer until DOM is fully parsed — the inline script runs before <main> is parsed,
-  // so a raw requestAnimationFrame can fire before [data-section-index="0"] exists.
   if (document.readyState !== 'loading') {
-    requestAnimationFrame(updateFirstSectionPadding);
+    requestAnimationFrame(updateMainNavOffset);
   } else {
     document.addEventListener('DOMContentLoaded', function () {
-      requestAnimationFrame(updateFirstSectionPadding);
+      requestAnimationFrame(updateMainNavOffset);
     });
   }
-  // Re-run after all resources (fonts, images, OverlayScrollbar) are loaded to catch
-  // cases where layout shifts after DOMContentLoaded change the nav height.
   window.addEventListener('load', function () {
-    requestAnimationFrame(updateFirstSectionPadding);
+    requestAnimationFrame(updateMainNavOffset);
   }, { once: true });
-  window.addEventListener('resize', updateFirstSectionPadding, { passive: true });
+  window.addEventListener('resize', updateMainNavOffset, { passive: true });
 
   // --- Entrance animation (only once per session) ---
   if (!sessionStorage.getItem('navbar-entered')) {
@@ -519,6 +484,6 @@ const showCta = !hideCta && !!cta;
     menu?.classList.toggle('hidden');
     menuIcon?.classList.toggle('hidden');
     closeIcon?.classList.toggle('hidden');
-    requestAnimationFrame(updateFirstSectionPadding);
+    requestAnimationFrame(updateMainNavOffset);
   });
 </script>
