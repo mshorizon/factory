@@ -382,6 +382,7 @@
         {
           "type": "features",
           "variant": "icon-tiles",
+          "badgeVariant": "accent-no-line",
           "header": {
             "badge": "t:features.badge",
             "title": "t:features.title",

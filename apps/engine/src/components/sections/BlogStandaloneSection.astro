@@ -35,6 +35,12 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
         <!-- Main content -->
         <div class={sidebarContact ? "min-w-0 flex-1" : ""}>
 
+          <!-- Go back link -->
+          <a data-reveal data-reveal-delay="0" href="/" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+            Go back
+          </a>
+
           <!-- Category + Date -->
           {(blog.category || blog.publishedAt) && (
             <div data-reveal data-reveal-delay="0" class="flex items-center gap-spacing-sm mb-spacing-lg">

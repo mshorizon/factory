@@ -64,7 +64,7 @@ export type NavbarLogoFontSize = string;
 export type NavbarLogoFontWeight = string;
 export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
-export type SectionBadgeVariant = "accent" | "outlined" | "text";
+export type SectionBadgeVariant = "accent" | "accent-no-line" | "outlined" | "text";
 export type BadgeFontSize = string;
 export type NavbarVariant = "standard" | "centered" | "transparent";
 /**
@@ -202,7 +202,7 @@ export type ImageURL = string;
 export type HideDecorativeDots = boolean;
 export type ImagePosition = "left" | "right";
 export type BadgeLayoutDirection = "row" | "column";
-export type SectionLevelBadgeVariantOverride = "accent" | "outlined" | "text";
+export type SectionLevelBadgeVariantOverride = "accent" | "accent-no-line" | "outlined" | "text";
 export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
 export type CTATextColorOverride = string;

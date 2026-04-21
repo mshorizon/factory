@@ -143,7 +143,7 @@ export function ContactProfessional({
             )}
             {(contactInfo.hours || (contactInfo.hoursDetailed && contactInfo.hoursDetailed.length > 0)) && (
               <div className="flex items-start gap-spacing-md text-foreground">
-                <ClockIcon className="h-5 w-5 text-primary-light shrink-0 mt-0.5" />
+                <ClockIcon className="h-5 w-5 text-primary-light shrink-0" />
                 <div className="flex flex-col gap-spacing-xs">
                   {contactInfo.hours && (
                     <span className="text-sm font-medium">{contactInfo.hours}</span>
@@ -156,7 +156,7 @@ export function ContactProfessional({
             )}
             {contactInfo.receptionHours && (
               <div className="flex items-start gap-spacing-md text-foreground">
-                <UserGroupIcon className="h-5 w-5 text-primary-light shrink-0 mt-0.5" />
+                <UserGroupIcon className="h-5 w-5 text-primary-light shrink-0" />
                 <div className="flex flex-col gap-spacing-xs">
                   {contactInfo.receptionLabel && (
                     <span className="text-sm font-medium">{contactInfo.receptionLabel}</span>

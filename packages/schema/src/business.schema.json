@@ -176,7 +176,7 @@
         "hideDots": { "type": "boolean", "title": "Hide Decorative Dots" },
         "imagePosition": { "type": "string", "title": "Image Position", "enum": ["left", "right"] },
         "badgeLayout": { "type": "string", "title": "Badge Layout Direction", "enum": ["row", "column"] },
-        "badgeVariant": { "type": "string", "title": "Section-level Badge Variant Override", "enum": ["accent", "outlined", "text"] },
+        "badgeVariant": { "type": "string", "title": "Section-level Badge Variant Override", "enum": ["accent", "accent-no-line", "outlined", "text"] },
         "badgeColor": { "type": "string", "title": "Badge Text Color Override" },
         "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
@@ -862,7 +862,7 @@
         "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
         "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
         "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
-        "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "outlined", "text"], "default": "accent" },
+        "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "accent-no-line", "outlined", "text"], "default": "accent" },
         "badgeFontSize": { "type": "string", "title": "Badge Font Size", "default": "16px" }
       }
     },

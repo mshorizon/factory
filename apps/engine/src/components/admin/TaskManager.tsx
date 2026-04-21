@@ -110,8 +110,8 @@ const ADMIN_PAGES = [
     sections: ["page-home", "page-about", "page-services", "page-contact", "page-blog"],
   },
   {
-    name: "automation",
-    label: "Automation",
+    name: "tasks",
+    label: "Tasks",
     sections: ["tasks"],
   },
   {
@@ -424,6 +424,7 @@ export default function TaskManager({
                   <span className="ml-1 text-xs text-muted-foreground font-normal">(optional)</span>
                 </Label>
                 <Select
+                  key={page ?? "__no-page"}
                   value={section ?? undefined}
                   onValueChange={(v) => setSection(v ?? null)}
                   disabled={!page || currentSections.length === 0}

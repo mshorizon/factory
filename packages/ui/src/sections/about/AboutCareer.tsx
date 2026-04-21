@@ -16,7 +16,7 @@ export function AboutCareer({ title, items, className }: AboutCareerProps) {
         </ScrollReveal>
       )}
 
-      <StaggerContainer className="space-y-spacing-lg" staggerDelay={0.1}>
+      <StaggerContainer className="space-y-spacing-lg pt-0" staggerDelay={0.1}>
         {items.map((item, index) => (
           <StaggerItem key={index} direction="up" distance={20}>
             <div className="bg-card rounded-radius p-spacing-2xl">

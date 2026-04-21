@@ -10,7 +10,7 @@ export interface SectionHeaderProps {
   layout?: "stacked" | "split" | "most-minimalistic" | "none";
   className?: string;
   background?: string;
-  badgeVariant?: "accent" | "outlined" | "text";
+  badgeVariant?: "accent" | "accent-no-line" | "outlined" | "text";
   revealDelay?: number;
 }
 
@@ -74,7 +74,9 @@ export function SectionHeader({
         align === "right" && "items-end",
         align === "left" && "items-start"
       )}>
-        <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+        {resolvedBadgeVariant === "accent" && (
+          <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+        )}
         <Badge variant="accent" data-field="header.badge" className="px-0 py-0 text-[14px] tracking-[.05rem] uppercase font-medium" style={{ color: badgeColor }}>
           {badge}
         </Badge>
