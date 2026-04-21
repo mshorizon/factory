@@ -341,6 +341,7 @@
           "type": "about-summary",
           "variant": "default",
           "background": "dark-padded",
+          "paddingTop": "3.75rem",
           "hideDots": true,
           "badgeVariant": "text",
           "badgeColor": "#CCCCCC",
