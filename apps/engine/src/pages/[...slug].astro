@@ -172,7 +172,7 @@ const socialLinks = business.business.socials
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1" {...(normalizedSlug !== 'home' ? { 'data-nav-offset': true } : {})}>
+  <main class="flex-1" data-nav-offset>
     <SectionDispatcher sections={page.sections} business={business} isHomePage={normalizedSlug === 'home'} />
   </main>
   <Footer
