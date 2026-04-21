@@ -51,9 +51,7 @@ export function HeroSplit({
     <section
       className={cn(
         "relative z-0 flex items-center",
-        background !== "transparent" && "bg-background",
-        // hideDots marks the portfolio-law-style hero, which uses halved (compact) vertical padding.
-        hideDots ? "py-spacing-section-sm" : (isHomePage ? "py-spacing-section" : "py-spacing-section-sm"),
+        background !== "transparent" && !hideDots && "bg-background",
         className
       )}
     >

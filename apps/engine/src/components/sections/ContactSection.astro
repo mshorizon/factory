@@ -26,7 +26,7 @@ const ctaHref = section.cta?.target?.type === "phone"
 ---
 
 {variant === "professional" ? (
-  <section class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <section>
     <div class="container mx-auto">
       <ContactProfessional
         client:visible
@@ -43,9 +43,7 @@ const ctaHref = section.cta?.target?.type === "phone"
     </div>
   </section>
 ) : variant === "light-panel" ? (
-  <section
-    class={`py-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}
-    style="background: linear-gradient(160deg, color-mix(in srgb, var(--secondary) 60%, transparent) 0%, var(--background) 60%);"
+  <section style="background: linear-gradient(160deg, color-mix(in srgb, var(--secondary) 60%, transparent) 0%, var(--background) 60%);"
   >
     <div class="container mx-auto">
       <ContactLightPanel
@@ -63,7 +61,7 @@ const ctaHref = section.cta?.target?.type === "phone"
     </div>
   </section>
 ) : variant === "cta" ? (
-  <section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <section>
     <div class="container mx-auto">
       <ContactCTA
         client:visible
@@ -76,7 +74,7 @@ const ctaHref = section.cta?.target?.type === "phone"
     </div>
   </section>
 ) : variant === "minimal" ? (
-  <section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <section>
     <div class="container mx-auto">
       <ContactMinimal
         client:visible
@@ -90,7 +88,7 @@ const ctaHref = section.cta?.target?.type === "phone"
     </div>
   </section>
 ) : variant === "card" ? (
-  <section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <section>
     <div class="container mx-auto">
       <ContactCard
         client:visible
@@ -107,7 +105,7 @@ const ctaHref = section.cta?.target?.type === "phone"
     </div>
   </section>
 ) : (
-  <section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+  <section>
     <div class="container mx-auto">
       {header.badge && (
         <SectionHeader

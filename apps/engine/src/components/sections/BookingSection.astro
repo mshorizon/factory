@@ -17,7 +17,7 @@ const businessId = Astro.locals.businessId;
 const bookingConfig = (business as any).booking ?? {};
 ---
 
-<section class={`pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`}>
+<section>
   <div class="container mx-auto px-4">
     <BookingWidget
       client:visible

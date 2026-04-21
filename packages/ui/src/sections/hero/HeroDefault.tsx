@@ -31,7 +31,6 @@ export function HeroDefault({
     <section
       className={cn(
         "relative z-0 bg-background",
-        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
       style={

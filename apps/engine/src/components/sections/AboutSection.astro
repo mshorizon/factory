@@ -18,7 +18,7 @@ const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/contact";
 ---
 
-<section class={`${variant === "career" ? "pt-0" : `pt-${isHomePage ? "spacing-section" : "spacing-section-sm"}`} ${isHomePage ? "pb-spacing-section" : "pb-spacing-section-sm"} overflow-hidden`}>
+<section class="overflow-hidden">
   <div class="container mx-auto">
     {variant === "timeline" ? (
       <>

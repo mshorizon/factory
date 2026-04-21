@@ -25,7 +25,6 @@ export function HeroCards({
     <section
       className={cn(
         "relative z-0 bg-primary/5 flex items-center",
-        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >

@@ -312,6 +312,12 @@ const showCta = !hideCta && !!cta;
   [data-major-theme="portfolio-law"] #main-nav > .container > div:first-child {
     height: 84px !important;
   }
+  /* portfolio-law: navbar always transparent with blur, never solid */
+  [data-major-theme="portfolio-law"] #main-nav {
+    background-color: transparent !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
 </style>
 
 <script define:vars={{ hasUpperBar, isTransparent, hideBorderOnTop }}>

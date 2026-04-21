@@ -23,7 +23,6 @@ export function HeroMinimal({
     <section
       className={cn(
         "relative z-0 bg-background flex items-center",
-        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >

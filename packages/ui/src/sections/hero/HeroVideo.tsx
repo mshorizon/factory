@@ -22,7 +22,6 @@ export function HeroVideo({
     <section
       className={cn(
         "relative z-0 flex items-end",
-        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         className
       )}
     >

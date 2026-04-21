@@ -46,7 +46,7 @@ export function HeroGradient({
     <section
       className={cn(
         "relative z-0 bg-background overflow-hidden flex items-center justify-center",
-        isHomePage ? "min-h-[calc(100vh-100px)] pt-[6rem] pb-spacing-section" : "py-spacing-section-sm",
+        isHomePage && "min-h-[calc(100vh-100px)]",
         className
       )}
     >

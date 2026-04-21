@@ -15,7 +15,6 @@ export function HeroArtist({
     <section
       className={cn(
         "relative z-0 bg-background flex items-center justify-center",
-        isHomePage ? "pt-spacing-section pb-spacing-xl" : "pt-spacing-section-sm pb-spacing-xl",
         className
       )}
     >

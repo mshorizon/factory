@@ -298,7 +298,6 @@
         {
           "type": "services",
           "variant": "grid",
-          "paddingTop": "60px",
           "detailsLabel": "t:services.viewDetails",
           "header": {
             "title": "t:home.services.title",
@@ -341,8 +340,6 @@
           "type": "about-summary",
           "variant": "default",
           "background": "dark-padded",
-          "paddingTop": "3.75rem",
-          "paddingBottom": "60px",
           "hideDots": true,
           "badgeVariant": "text",
           "badgeColor": "#CCCCCC",
@@ -452,7 +449,6 @@
         {
           "type": "testimonials",
           "variant": "centered",
-          "paddingTop": "60px",
           "header": {
             "badge": "t:testimonials.badge",
             "title": "t:testimonials.title",
@@ -483,7 +479,6 @@
         {
           "type": "faq",
           "variant": "split",
-          "paddingTop": "60px",
           "background": "light",
           "header": {
             "title": "t:faq.title",
@@ -522,7 +517,6 @@
         {
           "type": "blog",
           "variant": "cards-light",
-          "paddingTop": "60px",
           "header": {
             "badge": "t:blog.badge",
             "title": "t:blog.title",
@@ -552,8 +546,6 @@
         {
           "type": "contact",
           "variant": "minimal",
-          "paddingTop": "60px",
-          "paddingBottom": "60px",
           "ctaVariant": "primaryLight",
           "header": {
             "badge": "t:contact.badge",

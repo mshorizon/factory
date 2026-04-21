@@ -17,14 +17,9 @@ const faqItems = section.faqItems || [];
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 
-// Sections with these backgrounds supply their own padding
-const noPaddingBgs = ["light-padded", "gradient", "none"];
-const sectionPaddingClass = noPaddingBgs.includes(section.background as string)
-  ? "py-0"
-  : `pb-${isHomePage ? "spacing-section" : "spacing-section-sm"}`;
 ---
 
-<section class={sectionPaddingClass}>
+<section>
   <div class="container mx-auto">
     {variant === "split" ? (
       <FAQSplit
