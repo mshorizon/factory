@@ -33,8 +33,8 @@
           "gradient": "#F9FAFC"
         },
         "text": {
-          "main": "#2E3238",
-          "muted": "#131820",
+          "main": "#131820",
+          "muted": "#2E3238",
           "onPrimary": "#FFFFFF"
         }
       },
