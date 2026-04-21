@@ -141,7 +141,7 @@ function extractGoogleFonts(...fontStrings: string[]): string[] {
 const externalFontUrls: Record<string, string> = {};
 
 // Fonts self-hosted in /public/fonts — skip any external loading
-const selfHostedFonts = new Set(['Montserrat', 'Playfair Display']);
+const selfHostedFonts = new Set(['Montserrat', 'Playfair Display', 'Lora']);
 
 const allFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
 const googleFonts = allFonts.filter(f => !externalFontUrls[f] && !selfHostedFonts.has(f));
