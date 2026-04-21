@@ -44,6 +44,7 @@ import {
   SidebarProvider,
   SidebarInset,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -99,6 +100,7 @@ import {
   Globe,
   Image as ImageIcon,
   ListTodo,
+  X,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -384,6 +386,20 @@ function UsersPanel({ currentUserId }: { currentUserId?: number }) {
         ]}
       />
     </div>
+  );
+}
+
+function MobileSidebarCloseBtn() {
+  const { isMobile, setOpenMobile } = useSidebar();
+  if (!isMobile) return null;
+  return (
+    <button
+      onClick={() => setOpenMobile(false)}
+      className="absolute right-2 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-md text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-colors z-10"
+      aria-label="Close sidebar"
+    >
+      <X className="h-4 w-4" />
+    </button>
   );
 }
 
@@ -1735,7 +1751,7 @@ export default function AdminForm({
       <SidebarProvider defaultOpen={true}>
         {/* ── Sidebar ───────────────────────────────── */}
         <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-          <SidebarHeader className="h-[49px] min-h-[49px] border-b border-sidebar-border !flex-row items-center">
+          <SidebarHeader className="relative h-[49px] min-h-[49px] border-b border-sidebar-border !flex-row items-center">
             <a
               href="/"
               target="_blank"
@@ -1753,6 +1769,7 @@ export default function AdminForm({
               <span className="text-base font-semibold whitespace-nowrap group-data-[collapsible=icon]:hidden">{businessId}</span>
               <ExternalLink className="h-3.5 w-3.5 ml-auto opacity-0 group-hover/link:opacity-100 transition-opacity text-muted-foreground group-data-[collapsible=icon]:hidden" />
             </a>
+            <MobileSidebarCloseBtn />
           </SidebarHeader>
 
           <SidebarContent>

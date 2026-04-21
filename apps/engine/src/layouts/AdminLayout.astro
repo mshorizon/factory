@@ -541,7 +541,7 @@ const { businessId } = Astro.locals;
               </svg>
             </button>
           </div>
-          <iframe id="preview-iframe" src="/?_preview=1" class="preview-iframe"></iframe>
+          <iframe id="preview-iframe" class="preview-iframe"></iframe>
         </div>
     </div>
 
@@ -552,8 +552,23 @@ const { businessId } = Astro.locals;
     </button>
 
     <script is:inline>
+      // Load the preview iframe (called immediately on desktop, lazily on mobile)
+      var previewIframeLoaded = false;
+      function loadPreviewIframe() {
+        if (previewIframeLoaded) return;
+        previewIframeLoaded = true;
+        var iframe = document.getElementById('preview-iframe');
+        if (iframe) iframe.src = '/?_preview=1';
+      }
+
+      // On desktop load immediately; on mobile wait for button click
+      if (window.innerWidth >= 768) {
+        loadPreviewIframe();
+      }
+
       // Global function to refresh preview
       window.refreshPreview = function() {
+        if (!previewIframeLoaded) return;
         var iframe = document.getElementById('preview-iframe');
         if (iframe) {
           setTimeout(function() {
@@ -570,6 +585,7 @@ const { businessId } = Astro.locals;
         if (iframe) {
           var path = page === 'home' ? '/' : '/' + page;
           iframe.src = path + '?_preview=1';
+          previewIframeLoaded = true;
         }
       };
 
@@ -585,6 +601,7 @@ const { businessId } = Astro.locals;
         var panel = document.getElementById('preview-panel');
 
         mobileBtn.addEventListener('click', function() {
+          loadPreviewIframe(); // lazy-load on first open
           panel.classList.add('mobile-open');
         });
         closeBtn.addEventListener('click', function() {
