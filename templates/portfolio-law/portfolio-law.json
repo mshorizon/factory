@@ -55,7 +55,7 @@
       }
     },
     "typography": {
-      "primary": "'Satoshi', system-ui, -apple-system, sans-serif",
+      "primary": "'Montserrat', system-ui, -apple-system, sans-serif",
       "secondary": "'Lustria', 'Georgia', serif"
     },
     "ui": {
@@ -75,7 +75,7 @@
     },
     "headingWeight": "400",
     "maxFontWeight": "400",
-    "navFontSize": "15px",
+    "navFontSize": "16px",
     "navLogoSize": "16px",
     "navLogoWeight": "400",
     "navLinksPosition": "right",

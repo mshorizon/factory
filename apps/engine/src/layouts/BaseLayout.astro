@@ -141,7 +141,7 @@ function extractGoogleFonts(...fontStrings: string[]): string[] {
 const externalFontUrls: Record<string, string> = {};
 
 // Fonts self-hosted in /public/fonts — skip any external loading
-const selfHostedFonts = new Set(['Satoshi', 'Lustria']);
+const selfHostedFonts = new Set(['Montserrat', 'Lustria']);
 
 const allFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
 const googleFonts = allFonts.filter(f => !externalFontUrls[f] && !selfHostedFonts.has(f));
@@ -304,7 +304,7 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
       if ('serviceWorker' in navigator && window.parent === window) {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
       }
-      (function() {
+      setTimeout(function() {
         var els = document.querySelectorAll('[data-reveal]');
         if (!els.length) return;
         var observer = new IntersectionObserver(function(entries) {
@@ -319,7 +319,7 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
           });
         }, { rootMargin: '-60px 0px' });
         els.forEach(function(el) { observer.observe(el); });
-      })();
+      }, 300);
     </script>
     <script is:inline>
       // Preview iframe enhancements - only active inside preview iframe
