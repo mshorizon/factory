@@ -21,6 +21,7 @@ const isCards = section.variant === "cards";
 const isCardsLight = section.variant === "cards-light";
 
 const blogSlugs = (section as any).blogSlugs as string[] | undefined;
+const columns = (section as any).columns as 2 | 3 | undefined;
 
 let blogs: Awaited<ReturnType<typeof getLatestBlogs>> = [];
 if (site) {
@@ -65,7 +66,7 @@ const posts: BlogPost[] = blogs.map((blog) => ({
             background={section.background}
             badgeVariant={badgeVariant as any}
           />
-          <BlogCards client:visible posts={posts} ctaLabel={ctaLabel} withCard={isCardsLight} />
+          <BlogCards client:visible posts={posts} ctaLabel={ctaLabel} withCard={isCardsLight} columns={columns} />
         </>
       ) : (
         <>

@@ -6,11 +6,12 @@ import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { BlogGridProps } from "./types";
 
-export function BlogCards({ posts, ctaLabel, className, withCard }: BlogGridProps) {
+export function BlogCards({ posts, ctaLabel, className, withCard, columns = 3 }: BlogGridProps) {
   const label = ctaLabel || "Read more";
+  const gridCols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
     <StaggerContainer
-      className={cn("grid md:grid-cols-3 gap-spacing-2xl", className)}
+      className={cn(`grid ${gridCols} gap-spacing-2xl`, className)}
       staggerDelay={0.1}
     >
       {posts.map((post, index) => (

@@ -743,10 +743,6 @@
             ],
             "receptionHours": "t:contact.info.receptionHours",
             "receptionLabel": "t:contact.info.receptionLabel",
-            "additionalInfo": [
-              "t:contact.info.additionalInfo.bank",
-              "t:contact.info.additionalInfo.epuap"
-            ],
             "notice": {
               "title": "t:contact.info.notice.title",
               "highlight": "93 24900005 0000 4530 4237 7611",
@@ -785,6 +781,7 @@
         {
           "type": "blog",
           "variant": "cards-light",
+          "columns": 2,
           "header": {
             "badge": "t:informations.badge",
             "title": "t:informations.title",

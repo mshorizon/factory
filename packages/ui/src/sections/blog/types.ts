@@ -12,4 +12,5 @@ export interface BlogGridProps {
   ctaLabel?: string;
   className?: string;
   withCard?: boolean;
+  columns?: 2 | 3;
 }
