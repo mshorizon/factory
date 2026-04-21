@@ -172,14 +172,14 @@ if (!contactCardImage) {
             <!-- Main content -->
             <div class="min-w-0 flex-1">
               <!-- Go back link -->
-              <a href="/blog" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
+              <a data-reveal data-reveal-delay="0" href="/blog" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                 {t(translations, "blog.back", "Go back")}
               </a>
 
               <!-- Category + Date -->
               {(blog.category || formattedDate) && (
-                <div class="flex items-center gap-spacing-sm mb-spacing-lg">
+                <div data-reveal data-reveal-delay="100" class="flex items-center gap-spacing-sm mb-spacing-lg">
                   {blog.category && (
                     <span class="inline-flex items-center border border-border/30 rounded-md px-2.5 py-1 text-xs font-medium text-muted">
                       {blog.category}
@@ -194,20 +194,20 @@ if (!contactCardImage) {
               )}
 
               <!-- Title -->
-              <h1 class="text-4xl md:text-5xl font-heading text-foreground mb-spacing-lg">
+              <h1 data-reveal data-reveal-delay="200" class="text-4xl md:text-5xl font-heading text-foreground mb-spacing-lg">
                 {blog.title}
               </h1>
 
               <!-- Description -->
               {blog.description && (
-                <p class="text-lg text-muted leading-relaxed mb-spacing-2xl">
+                <p data-reveal data-reveal-delay="300" class="text-lg text-muted leading-relaxed mb-spacing-2xl">
                   {blog.description}
                 </p>
               )}
 
               <!-- Cover Image -->
               {blog.image && (
-                <div class="mb-spacing-2xl">
+                <div data-reveal data-reveal-delay="400" class="mb-spacing-2xl">
                   <div class="relative w-full rounded-lg overflow-hidden">
                     <img
                       src={blog.image}
@@ -221,13 +221,13 @@ if (!contactCardImage) {
               )}
 
               <!-- Content -->
-              <div class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
+              <div data-reveal data-reveal-delay="0" class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
                 <Fragment set:html={blog.content?.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>') ?? ''} />
               </div>
             </div>
 
             <!-- Sidebar contact card -->
-            <aside class="w-full lg:w-[368px] shrink-0 lg:sticky lg:top-24">
+            <aside data-reveal data-reveal-delay="200" class="w-full lg:w-[368px] shrink-0 lg:sticky lg:top-24">
               <div class="bg-card rounded-xl flex flex-col items-start text-left">
                 {contactCardImage && (
                   <div class="w-full p-spacing-md">
@@ -285,13 +285,13 @@ if (!contactCardImage) {
           <div class="container mx-auto">
             <div class="max-w-3xl mx-auto">
               <!-- Go back link -->
-              <a href="/blog" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
+              <a data-reveal data-reveal-delay="0" href="/blog" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                 {t(translations, "blog.back", "Go back")}
               </a>
 
               <!-- Category + Date -->
-              <div class="flex items-center gap-spacing-sm mb-spacing-lg">
+              <div data-reveal data-reveal-delay="100" class="flex items-center gap-spacing-sm mb-spacing-lg">
                 {blog.category && (
                   <span class="inline-flex items-center border border-border/30 rounded-md px-2.5 py-1 text-xs font-medium text-muted">
                     {blog.category}
@@ -305,13 +305,13 @@ if (!contactCardImage) {
               </div>
 
               <!-- Title -->
-              <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading text-foreground mb-spacing-lg">
+              <h1 data-reveal data-reveal-delay="200" class="text-4xl md:text-5xl lg:text-6xl font-heading text-foreground mb-spacing-lg">
                 {blog.title}
               </h1>
 
               <!-- Description -->
               {blog.description && (
-                <p class="text-lg text-muted leading-relaxed">
+                <p data-reveal data-reveal-delay="300" class="text-lg text-muted leading-relaxed">
                   {blog.description}
                 </p>
               )}
@@ -321,7 +321,7 @@ if (!contactCardImage) {
 
         <!-- Cover Image -->
         {blog.image && (
-          <div class="container mx-auto mb-spacing-3xl">
+          <div data-reveal data-reveal-delay="0" class="container mx-auto mb-spacing-3xl">
             <div class="max-w-5xl mx-auto">
               <div class="relative w-full rounded-lg overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
@@ -342,7 +342,7 @@ if (!contactCardImage) {
         <section class="relative pb-16 md:pb-24">
 
           <!-- Blog Content -->
-          <div class="container mx-auto px-spacing-container mt-spacing-lg">
+          <div data-reveal data-reveal-delay="0" class="container mx-auto px-spacing-container mt-spacing-lg">
             <div class="max-w-3xl mx-auto prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
               <Fragment set:html={blog.content?.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>') ?? ''} />
             </div>

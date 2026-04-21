@@ -22,6 +22,7 @@ const sectionBadgeColor = (section as any).badgeColor;
 const sectionDescriptionColor = (section as any).descriptionColor;
 const sectionCtaColor = (section as any).ctaColor;
 const sectionStatsInverted = (section as any).statsInverted;
+const sectionImagePaddingY = (section as any).imagePaddingY;
 
 // Use section.description if available, fall back to header.subtitle
 const description = (section as any).description || header.subtitle;
@@ -50,6 +51,7 @@ const componentBackground = section.background === "dark-padded" ? "dark" : sect
       descriptionColor={sectionDescriptionColor}
       ctaColor={sectionCtaColor}
       statsInverted={sectionStatsInverted}
+      imagePaddingY={sectionImagePaddingY}
     />
   </div>
 </section>

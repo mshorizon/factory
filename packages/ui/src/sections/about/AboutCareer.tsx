@@ -7,7 +7,7 @@ import type { AboutCareerProps } from "./types";
 
 export function AboutCareer({ title, items, className }: AboutCareerProps) {
   return (
-    <div className={cn("space-y-spacing-3xl", className)}>
+    <div className={cn(className)}>
       {title && (
         <ScrollReveal delay={0} direction="up" distance={20}>
           <h2 className="text-[2.5rem] leading-tight text-foreground font-heading mb-spacing-2xl">

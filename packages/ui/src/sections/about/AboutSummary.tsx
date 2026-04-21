@@ -26,6 +26,7 @@ export function AboutSummary({
   descriptionColor,
   ctaColor,
   statsInverted,
+  imagePaddingY,
 }: AboutSummaryProps) {
   const defaultBadgeColor = background === "dark" || background === "dark-padded" ? "var(--primary)" : "var(--primary-dark)";
   const resolvedBadgeColor = badgeColor || defaultBadgeColor;
@@ -36,6 +37,7 @@ export function AboutSummary({
       <div className="grid lg:grid-cols-2 gap-spacing-2xl items-center">
         {/* Left: Image with experience badge */}
         {image && (
+          <div style={imagePaddingY ? { paddingTop: imagePaddingY, paddingBottom: imagePaddingY } : undefined}>
           <ScrollReveal delay={0} direction="left" distance={30}>
             <div className="relative w-full max-w-[448px] h-[448px] mx-auto lg:mx-0">
               {/* Dots BEHIND image - mirrored from hero section */}
@@ -91,6 +93,7 @@ export function AboutSummary({
               )}
             </div>
           </ScrollReveal>
+          </div>
         )}
 
         {/* Right: Content */}

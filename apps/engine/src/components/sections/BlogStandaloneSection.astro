@@ -28,7 +28,7 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
 ---
 
 {blog && (
-  <section>
+  <section class="py-spacing-section-sm">
     <div class="container mx-auto px-spacing-container">
       <div class={sidebarContact ? "flex flex-col lg:flex-row gap-spacing-2xl lg:gap-spacing-3xl items-start" : "max-w-3xl mx-auto"}>
 
@@ -37,7 +37,7 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
 
           <!-- Category + Date -->
           {(blog.category || blog.publishedAt) && (
-            <div class="flex items-center gap-spacing-sm mb-spacing-lg">
+            <div data-reveal data-reveal-delay="0" class="flex items-center gap-spacing-sm mb-spacing-lg">
               {blog.category && (
                 <span class="inline-flex items-center border border-border/30 rounded-md px-2.5 py-1 text-xs font-medium text-muted">
                   {blog.category}
@@ -47,20 +47,20 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
           )}
 
           <!-- Title -->
-          <h1 class="text-4xl md:text-5xl font-heading text-foreground mb-spacing-lg">
+          <h1 data-reveal data-reveal-delay="100" class="text-4xl md:text-5xl font-heading text-foreground mb-spacing-lg">
             {blog.title}
           </h1>
 
           <!-- Description -->
           {blog.description && (
-            <p class="text-lg text-muted leading-relaxed mb-spacing-2xl">
+            <p data-reveal data-reveal-delay="200" class="text-lg text-muted leading-relaxed mb-spacing-2xl">
               {blog.description}
             </p>
           )}
 
           <!-- Cover Image -->
           {blog.image && (
-            <div class="mb-spacing-2xl">
+            <div data-reveal data-reveal-delay="300" class="mb-spacing-2xl">
               <div class="relative w-full rounded-lg overflow-hidden">
                 <img
                   src={blog.image}
@@ -74,18 +74,18 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
           )}
 
           <!-- Content -->
-          <div class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
+          <div data-reveal data-reveal-delay="0" class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
             <Fragment set:html={blog.content} />
           </div>
         </div>
 
         <!-- Sidebar contact card -->
         {sidebarContact && (
-          <aside class="w-full lg:w-[368px] shrink-0 lg:sticky lg:top-24">
-            <div class="bg-card rounded-xl p-spacing-md pb-spacing-lg flex flex-col items-start text-left gap-spacing-md">
+          <aside data-reveal data-reveal-delay="200" class="w-full lg:w-[368px] shrink-0 lg:sticky lg:top-24">
+            <div class="bg-card rounded-2xl p-spacing-md pb-spacing-lg flex flex-col items-start text-left gap-spacing-md">
 
               {sidebarContact.image && (
-                <div class="w-full max-w-[336px] aspect-[336/256] rounded-md overflow-hidden shrink-0">
+                <div class="w-full max-w-[336px] aspect-[336/256] rounded-lg overflow-hidden shrink-0">
                   <img
                     src={sidebarContact.image}
                     alt={sidebarContact.name ?? ""}
@@ -105,14 +105,14 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
               {(sidebarContact.phone || sidebarContact.email) && (
                 <div class="w-full flex flex-col gap-spacing-sm">
                   {sidebarContact.phone && (
-                    <a href={`tel:${sidebarContact.phone}`} class="flex items-center gap-spacing-sm text-sm text-foreground hover:text-primary transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="shrink-0 text-muted"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.05-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.3 21 3 13.7 3 4.5a1 1 0 0 1 1-1H7.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.24 1.05l-2.21 2.17z"/></svg>
+                    <a href={`tel:${sidebarContact.phone}`} class="flex items-center gap-spacing-sm text-base text-foreground hover:text-primary transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="shrink-0 text-primary-light"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.05-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.3 21 3 13.7 3 4.5a1 1 0 0 1 1-1H7.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.24 1.05l-2.21 2.17z"/></svg>
                       <span>{sidebarContact.phone}</span>
                     </a>
                   )}
                   {sidebarContact.email && (
-                    <a href={`mailto:${sidebarContact.email}`} class="flex items-center gap-spacing-sm text-sm text-foreground hover:text-primary transition-colors">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="shrink-0 text-muted"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6l8 5 8-5z"/></svg>
+                    <a href={`mailto:${sidebarContact.email}`} class="flex items-center gap-spacing-sm text-base text-foreground hover:text-primary transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="shrink-0 text-primary-light"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5-8-5V6l8 5 8-5z"/></svg>
                       <span class="break-all">{sidebarContact.email}</span>
                     </a>
                   )}

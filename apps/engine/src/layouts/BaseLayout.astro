@@ -141,7 +141,7 @@ function extractGoogleFonts(...fontStrings: string[]): string[] {
 const externalFontUrls: Record<string, string> = {};
 
 // Fonts self-hosted in /public/fonts — skip any external loading
-const selfHostedFonts = new Set(['Montserrat', 'Lustria']);
+const selfHostedFonts = new Set(['Montserrat', 'Playfair Display']);
 
 const allFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
 const googleFonts = allFonts.filter(f => !externalFontUrls[f] && !selfHostedFonts.has(f));
@@ -222,7 +222,8 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
         --muted: var(--dark-muted);
         --border: var(--dark-border);
         color: var(--foreground);
-        padding: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
       }
       .section-bg-dark-padded > * {
         background-image: linear-gradient(to top, var(--primary-dark), var(--primary-light));

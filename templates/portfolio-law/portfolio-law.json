@@ -56,7 +56,7 @@
     },
     "typography": {
       "primary": "'Montserrat', system-ui, -apple-system, sans-serif",
-      "secondary": "'Lustria', 'Georgia', serif"
+      "secondary": "'Playfair Display', 'Georgia', serif"
     },
     "ui": {
       "radius": "12px",
@@ -75,7 +75,7 @@
     },
     "headingWeight": "400",
     "maxFontWeight": "400",
-    "navFontSize": "16px",
+    "navFontSize": "14px",
     "navLogoSize": "16px",
     "navLogoWeight": "400",
     "navLinksPosition": "right",
@@ -346,6 +346,7 @@
           "descriptionColor": "#CCCCCC",
           "ctaColor": "#FFFFFF",
           "statsInverted": true,
+          "imagePaddingY": "100px",
           "header": {
             "badge": "t:about.badge",
             "title": "t:home.about.title",
@@ -381,7 +382,6 @@
         {
           "type": "features",
           "variant": "icon-tiles",
-          "badgeVariant": "text",
           "header": {
             "badge": "t:features.badge",
             "title": "t:features.title",
@@ -517,6 +517,7 @@
         {
           "type": "blog",
           "variant": "cards-light",
+          "badgeVariant": "text",
           "header": {
             "badge": "t:blog.badge",
             "title": "t:blog.title",
@@ -713,13 +714,6 @@
           "header": {
             "title": "t:contact.title",
             "subtitle": "t:contact.page.subtitle"
-          },
-          "cta": {
-            "label": "t:contact.cta",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
           },
           "info": {
             "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",

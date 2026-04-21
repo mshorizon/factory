@@ -112,24 +112,24 @@ export function GoogleMap({
                   {address}
                 </div>
               )}
-              <div className="flex flex-col gap-spacing-xs">
+              <div className="flex flex-row gap-spacing-xs mt-spacing-xs">
                 <a
                   href={directionsHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-spacing-xs text-xs font-medium text-primary hover:underline"
+                  title={directionsLabel}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary text-white hover:opacity-90 transition-opacity shadow-sm"
                 >
-                  <Navigation className="w-3.5 h-3.5" />
-                  {directionsLabel}
+                  <Navigation className="w-4 h-4" />
                 </a>
                 <a
                   href={openMapsHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-spacing-xs text-xs font-medium text-primary hover:underline"
+                  title={openInMapsLabel}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary text-white hover:opacity-90 transition-opacity shadow-sm"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  {openInMapsLabel}
+                  <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
             </div>

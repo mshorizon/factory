@@ -71,4 +71,5 @@ export interface AboutSummaryProps {
   descriptionColor?: string;
   ctaColor?: string;
   statsInverted?: boolean;
+  imagePaddingY?: string;
 }

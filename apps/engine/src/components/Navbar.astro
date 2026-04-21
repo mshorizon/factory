@@ -296,6 +296,11 @@ const showCta = !hideCta && !!cta;
   [data-major-theme="portfolio-law"] #mobile-menu a {
     font-weight: 400 !important;
   }
+  /* portfolio-law: scrolled navbar background uses the top gradient color to match the page top */
+  [data-major-theme="portfolio-law"] #main-nav.bg-background {
+    background-color: var(--surface-gradient) !important;
+  }
+
   /* portfolio-law: nav text always uses foreground color regardless of transparent/scroll state */
   [data-major-theme="portfolio-law"] #main-nav .nav-link {
     color: var(--foreground) !important;
@@ -311,6 +316,12 @@ const showCta = !hideCta && !!cta;
   }
   [data-major-theme="portfolio-law"] #main-nav > .container > div:first-child {
     height: 84px !important;
+  }
+  /* portfolio-law: frosted glass so the upper bar slides under the navbar visually */
+  [data-major-theme="portfolio-law"] #main-nav {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: none !important;
   }
 </style>
 

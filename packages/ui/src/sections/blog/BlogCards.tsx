@@ -33,8 +33,9 @@ export function BlogCards({ posts, ctaLabel, className, withCard, columns = 3 }:
               </div>
             )}
             <div className={cn(withCard && "p-spacing-lg")}>
+              <span className="block h-[2px] mb-spacing-md w-8 bg-primary-light" />
               <h3
-                className="text-base font-semibold font-heading text-foreground mb-spacing-xs leading-snug"
+                className="text-2xl font-heading text-foreground mb-spacing-sm"
                 data-field={`blogPosts.${index}.title`}
               >
                 {post.title}

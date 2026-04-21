@@ -49,7 +49,7 @@ export function FeaturesIconTiles({ items, className }: FeaturesGridProps) {
             </div>
             <div className="flex-1">
               <h3
-                className="font-semibold font-heading text-foreground mb-spacing-xs leading-snug"
+                className="text-2xl font-heading text-foreground mb-spacing-sm"
                 data-field={`items.${index}.title`}
               >
                 {item.title}

@@ -11,6 +11,7 @@ export interface SectionHeaderProps {
   className?: string;
   background?: string;
   badgeVariant?: "accent" | "outlined" | "text";
+  revealDelay?: number;
 }
 
 export function SectionHeader({
@@ -22,6 +23,7 @@ export function SectionHeader({
   className,
   background,
   badgeVariant,
+  revealDelay = 0,
 }: SectionHeaderProps) {
   const resolvedBadgeVariant = badgeVariant || "accent";
   const alignClass = {
@@ -86,7 +88,7 @@ export function SectionHeader({
         {title && (
           <h2
             data-reveal
-            data-reveal-delay="0"
+            data-reveal-delay={revealDelay}
             className="text-[2.5rem] leading-tight text-foreground font-heading"
             data-field="header.title"
           >

@@ -12,7 +12,8 @@ interface Props {
   badgeVariant?: string;
 }
 
-const { section, isHomePage = false, badgeVariant } = Astro.props;
+const { section, isHomePage = false, badgeVariant: themeBadgeVariant } = Astro.props;
+const badgeVariant = (section as any).badgeVariant || themeBadgeVariant;
 const { site, currentLang, t: translations } = Astro.locals;
 
 const header = getSectionHeader(section);
