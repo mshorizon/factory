@@ -115,6 +115,10 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
   p.sections?.some((s: any) => s.type === "shop")
 );
 
+// Determine back link: use ?from= param if present, otherwise fall back to /blog
+const fromParam = Astro.url.searchParams.get("from");
+const backHref = fromParam ? decodeURIComponent(fromParam) : "/blog";
+
 // Convert socials Record<string, string> to SocialLink[] for footer
 const socialLinks = business.business.socials
   ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
@@ -172,7 +176,7 @@ if (!contactCardImage) {
             <!-- Main content -->
             <div class="min-w-0 flex-1">
               <!-- Go back link -->
-              <a data-reveal data-reveal-delay="0" href="/blog" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
+              <a data-reveal data-reveal-delay="0" href={backHref} class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                 {t(translations, "blog.back", "Go back")}
               </a>
@@ -285,7 +289,7 @@ if (!contactCardImage) {
           <div class="container mx-auto">
             <div class="max-w-3xl mx-auto">
               <!-- Go back link -->
-              <a data-reveal data-reveal-delay="0" href="/blog" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
+              <a data-reveal data-reveal-delay="0" href={backHref} class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                 {t(translations, "blog.back", "Go back")}
               </a>

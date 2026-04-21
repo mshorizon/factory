@@ -39,6 +39,10 @@ if (site) {
   }
 }
 
+// Append ?from=<currentPath> so the blog detail page can render the correct back link
+const currentPath = Astro.url.pathname;
+const fromParam = currentPath !== "/blog" ? `?from=${encodeURIComponent(currentPath)}` : "";
+
 // Transform blogs to BlogPost[] format
 const posts: BlogPost[] = blogs.map((blog) => ({
   title: blog.title,
@@ -49,7 +53,7 @@ const posts: BlogPost[] = blogs.map((blog) => ({
     month: 'long',
     day: 'numeric'
   }) : undefined,
-  href: `/blog/${blog.slug}`,
+  href: `/blog/${blog.slug}${fromParam}`,
 }));
 ---
 
