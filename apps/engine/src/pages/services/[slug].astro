@@ -128,7 +128,7 @@ const socialLinks = business.business.socials
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1 pt-14 lg:pt-16">
+  <main class="flex-1" data-nav-offset>
     {(!layout.hideBreadcrumbs || service.content) && (
       <section class="relative bg-background py-spacing-section-sm">
         {!layout.hideBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}

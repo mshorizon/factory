@@ -329,6 +329,14 @@ const showCta = !hideCta && !!cta;
     const navH = nav ? nav.getBoundingClientRect().height : 0;
     const barH = (upperBar && window.innerWidth >= 1024) ? upperBar.getBoundingClientRect().height : 0;
     const offset = navH + barH;
+
+    // Standalone pages (blog, services, etc.) opt-in with data-nav-offset on <main>.
+    // JS sets the full navbar height directly — no section hacks needed.
+    const mainWithNavOffset = document.querySelector('main[data-nav-offset]');
+    if (mainWithNavOffset) {
+      mainWithNavOffset.style.paddingTop = offset + 'px';
+    }
+
     const target = document.getElementById('page-hero') || document.querySelector('[data-section-index="0"]');
     if (target) {
       // Subtract any existing CSS padding-top on the parent <main> to avoid
