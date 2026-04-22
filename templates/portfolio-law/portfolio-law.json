@@ -209,70 +209,70 @@
   "data": {
     "services": [
       {
-        "id": "egzekucja-naleznosci",
-        "slug": "egzekucja-naleznosci",
+        "id": "prawo-cywilne",
+        "slug": "prawo-cywilne",
         "title": "t:services.items.0.title",
         "description": "t:services.items.0.fullDescription",
-        "icon": "banknote",
-        "category": "egzekucja",
+        "icon": "scale",
+        "category": "cywilne",
         "available": true,
-        "blogSlug": "service-egzekucja-naleznosci"
+        "blogSlug": "service-prawo-cywilne"
       },
       {
-        "id": "eksmisje",
-        "slug": "eksmisje",
+        "id": "prawo-gospodarcze",
+        "slug": "prawo-gospodarcze",
         "title": "t:services.items.1.title",
         "description": "t:services.items.1.fullDescription",
-        "icon": "home",
-        "category": "egzekucja",
+        "icon": "briefcase",
+        "category": "gospodarcze",
         "available": true,
-        "blogSlug": "service-eksmisje"
+        "blogSlug": "service-prawo-gospodarcze"
       },
       {
-        "id": "doreczenia",
-        "slug": "doreczenia",
+        "id": "prawo-pracy",
+        "slug": "prawo-pracy",
         "title": "t:services.items.2.title",
         "description": "t:services.items.2.fullDescription",
-        "icon": "mail",
-        "category": "doreczenia",
+        "icon": "users",
+        "category": "pracy",
         "available": true,
-        "blogSlug": "service-doreczenia"
+        "blogSlug": "service-prawo-pracy"
       },
       {
-        "id": "zabezpieczenie-roszczen",
-        "slug": "zabezpieczenie-roszczen",
+        "id": "nieruchomosci",
+        "slug": "nieruchomosci",
         "title": "t:services.items.3.title",
         "description": "t:services.items.3.fullDescription",
-        "icon": "shield",
-        "category": "zabezpieczenie",
+        "icon": "home",
+        "category": "nieruchomosci",
         "available": true,
-        "blogSlug": "service-zabezpieczenie-roszczen"
+        "blogSlug": "service-nieruchomosci"
       },
       {
-        "id": "spis-inwentarza",
-        "slug": "spis-inwentarza",
+        "id": "prawo-rodzinne",
+        "slug": "prawo-rodzinne",
         "title": "t:services.items.4.title",
         "description": "t:services.items.4.fullDescription",
-        "icon": "clipboard-list",
-        "category": "inwentarz",
+        "icon": "heart",
+        "category": "rodzinne",
         "available": true,
-        "blogSlug": "service-spis-inwentarza"
+        "blogSlug": "service-prawo-rodzinne"
       },
       {
-        "id": "licytacje",
-        "slug": "licytacje",
+        "id": "windykacja",
+        "slug": "windykacja",
         "title": "t:services.items.5.title",
         "description": "t:services.items.5.fullDescription",
-        "icon": "gavel",
-        "category": "licytacje",
+        "icon": "banknote",
+        "category": "windykacja",
         "available": true,
-        "blogSlug": "service-licytacje"
+        "blogSlug": "service-windykacja"
       }
     ]
   },
   "pages": {
     "home": {
-      "title": "Komornik Sądowy Otwock",
+      "title": "Kancelaria Prawna Warszawa",
       "navLabel": "t:pages.home.title",
       "sections": [
         {
@@ -306,32 +306,32 @@
           "items": [
             {
               "title": "t:services.items.0.title",
-              "slug": "egzekucja-naleznosci",
+              "slug": "prawo-cywilne",
               "description": "t:services.items.0.description"
             },
             {
               "title": "t:services.items.1.title",
-              "slug": "eksmisje",
+              "slug": "prawo-gospodarcze",
               "description": "t:services.items.1.description"
             },
             {
               "title": "t:services.items.2.title",
-              "slug": "doreczenia",
+              "slug": "prawo-pracy",
               "description": "t:services.items.2.description"
             },
             {
               "title": "t:services.items.3.title",
-              "slug": "zabezpieczenie-roszczen",
+              "slug": "nieruchomosci",
               "description": "t:services.items.3.description"
             },
             {
               "title": "t:services.items.4.title",
-              "slug": "spis-inwentarza",
+              "slug": "prawo-rodzinne",
               "description": "t:services.items.4.description"
             },
             {
               "title": "t:services.items.5.title",
-              "slug": "licytacje",
+              "slug": "windykacja",
               "description": "t:services.items.5.description"
             }
           ]
@@ -367,7 +367,7 @@
               "label": "t:home.about.stats.0"
             },
             {
-              "value": "5000+",
+              "value": "2000+",
               "label": "t:home.about.stats.1"
             },
             {
@@ -375,7 +375,7 @@
               "label": "t:home.about.stats.2"
             },
             {
-              "value": "4217",
+              "value": "2012",
               "label": "t:home.about.stats.3"
             }
           ]
@@ -391,60 +391,60 @@
           },
           "items": [
             {
-              "title": "CEPIK",
+              "title": "LEX",
               "description": "t:features.items.0.description",
-              "icon": "car",
+              "icon": "book-open",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "https://cepik.gov.pl"
+              "linkHref": "https://www.wolterskluwer.com/pl-pl/solutions/lex"
             },
             {
-              "title": "EPU",
+              "title": "e-Sąd",
               "description": "t:features.items.1.description",
               "icon": "monitor",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "https://epu.ms.gov.pl"
+              "linkHref": "https://esad.gov.pl"
             },
             {
-              "title": "PUE ZUS",
+              "title": "KRS / CEIDG",
               "description": "t:features.items.2.description",
-              "icon": "search",
+              "icon": "building",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "https://pue.zus.pl"
+              "linkHref": "https://www.gov.pl/web/krs"
+            },
+            {
+              "title": "Elektroniczne KW",
+              "description": "t:features.items.3.description",
+              "icon": "home",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://ekw.ms.gov.pl"
             },
             {
               "title": "ePUAP",
-              "description": "t:features.items.3.description",
+              "description": "t:features.items.4.description",
               "icon": "file-text",
               "linkLabel": "t:systems.learnMore",
               "linkHref": "https://epuap.gov.pl/wps/portal"
-            },
-            {
-              "title": "OGNIVO",
-              "description": "t:features.items.4.description",
-              "icon": "building",
-              "linkLabel": "t:systems.learnMore",
-              "linkHref": "https://www.kir.pl/nasza-oferta/banki/centrum-wymiany-informacji/ognivo"
             },
             {
               "title": "t:features.items.5.title",
               "description": "t:features.items.5.description",
               "icon": "cpu",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "https://komornik.it/"
+              "linkHref": "#"
             },
             {
               "title": "t:features.items.6.title",
               "description": "t:features.items.6.description",
               "icon": "globe",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "https://www.komornik-online.eu/"
+              "linkHref": "#"
             },
             {
-              "title": "BMS",
+              "title": "t:features.items.7.title",
               "description": "t:features.items.7.description",
-              "icon": "layout",
+              "icon": "shield",
               "linkLabel": "t:systems.learnMore",
-              "linkHref": "https://smartbs.pl/"
+              "linkHref": "#"
             }
           ]
         },
@@ -743,7 +743,7 @@
             "receptionLabel": "t:contact.info.receptionLabel",
             "notice": {
               "title": "t:contact.info.notice.title",
-              "highlight": "12 3456 7890 0000 1234 5678 9012",
+              "highlight": "PL 12 3456 7890 0000 1234 5678 9012",
               "description": "t:contact.info.notice.description"
             }
           },
