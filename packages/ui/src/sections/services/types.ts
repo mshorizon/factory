@@ -22,4 +22,6 @@ export interface ServicesProps {
   minimal?: boolean;
   /** Label for the per-card details link (translatable). */
   detailsLabel?: string;
+  /** When provided, renders as first stagger item (col-span-full) above the cards. */
+  title?: string;
 }

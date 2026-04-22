@@ -32,14 +32,14 @@ const detailsLabel = section.detailsLabel;
   <div class="container mx-auto">
     <SectionHeader
       badge={header.badge}
-      title={header.title}
+      title={minimal ? undefined : header.title}
       subtitle={header.subtitle}
       layout={headerLayout as any}
       align={headerAlign as any}
       background={section.background}
       badgeVariant={badgeVariant as any}
       className={variant === "alternating" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
-      revealDelay={isHomePage ? (minimal ? 1500 : 900) : 0}
+      revealDelay={isHomePage ? 900 : 0}
     />
     {variant === "list" ? (
       <ServicesList client:visible items={items} />
@@ -52,7 +52,7 @@ const detailsLabel = section.detailsLabel;
     ) : variant === "alternating" ? (
       <ServicesAlternating client:visible items={items} />
     ) : (
-      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} />
+      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} />
     )}
     {ctaLabel && (
       <div class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>

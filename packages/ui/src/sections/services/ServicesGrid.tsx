@@ -13,12 +13,20 @@ export function ServicesGrid({
   className,
   minimal = false,
   detailsLabel = "Zobacz szczegóły",
+  title,
 }: ServicesProps) {
   return (
     <StaggerContainer
       className={cn("grid md:grid-cols-2 lg:grid-cols-3 gap-spacing-lg", className)}
       staggerDelay={0.1}
     >
+      {title && (
+        <StaggerItem className="col-span-full mb-spacing-2xl" direction="up" distance={30}>
+          <h2 className="text-[2.5rem] leading-tight text-foreground font-heading" data-field="header.title">
+            {title}
+          </h2>
+        </StaggerItem>
+      )}
       {items.map((item, index) => {
         const directions = ["left", "up", "right"] as const;
         const direction = directions[index % 3];
