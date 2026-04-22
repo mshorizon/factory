@@ -204,14 +204,14 @@ if (!contactCardImage) {
 
               <!-- Description -->
               {blog.description && (
-                <p data-reveal data-reveal-delay="300" class="text-lg text-muted leading-relaxed mb-spacing-2xl">
+                <p data-reveal data-reveal-delay="500" class="text-lg text-muted leading-relaxed mb-spacing-2xl">
                   {blog.description}
                 </p>
               )}
 
               <!-- Cover Image -->
               {blog.image && (
-                <div data-reveal data-reveal-delay="400" class="mb-spacing-2xl">
+                <div data-reveal data-reveal-delay="750" class="mb-spacing-2xl">
                   <div class="relative w-full rounded-lg overflow-hidden">
                     <img
                       src={blog.image}
@@ -225,13 +225,13 @@ if (!contactCardImage) {
               )}
 
               <!-- Content -->
-              <div data-reveal data-reveal-delay="1000" class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
+              <div data-reveal data-reveal-delay="1100" class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
                 <Fragment set:html={blog.content?.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>') ?? ''} />
               </div>
             </div>
 
             <!-- Sidebar contact card -->
-            <aside data-reveal data-reveal-delay="1000" class="w-full lg:w-[368px] shrink-0 lg:sticky lg:top-24">
+            <aside data-reveal data-reveal-delay="1100" class="w-full lg:w-[368px] shrink-0 lg:sticky lg:top-24">
               <div class="bg-card rounded-xl flex flex-col items-start text-left">
                 {contactCardImage && (
                   <div class="w-full p-spacing-md">
@@ -315,7 +315,7 @@ if (!contactCardImage) {
 
               <!-- Description -->
               {blog.description && (
-                <p data-reveal data-reveal-delay="300" class="text-lg text-muted leading-relaxed">
+                <p data-reveal data-reveal-delay="500" class="text-lg text-muted leading-relaxed">
                   {blog.description}
                 </p>
               )}

@@ -43,7 +43,7 @@ export function SectionHeader({
     if (!badge) return null;
     if (resolvedBadgeVariant === "text") {
       return (
-        <div data-reveal data-reveal-delay="0" className={cn(
+        <div data-reveal data-reveal-delay={String(revealDelay)} className={cn(
           "flex items-center mb-spacing-sm",
           align === "center" && "justify-center",
           align === "right" && "justify-end"
@@ -56,7 +56,7 @@ export function SectionHeader({
     }
     if (resolvedBadgeVariant === "outlined") {
       return (
-        <div data-reveal data-reveal-delay="0" className={cn(
+        <div data-reveal data-reveal-delay={String(revealDelay)} className={cn(
           "flex items-center mb-spacing-lg",
           align === "center" && "justify-center",
           align === "right" && "justify-end"
@@ -68,7 +68,7 @@ export function SectionHeader({
       );
     }
     return (
-      <div data-reveal data-reveal-delay="0" className={cn(
+      <div data-reveal data-reveal-delay={String(revealDelay)} className={cn(
         "flex flex-col gap-spacing-sm mb-spacing-lg",
         align === "center" && "items-center",
         align === "right" && "items-end",
@@ -107,10 +107,10 @@ export function SectionHeader({
         {renderBadge()}
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-spacing-md lg:gap-16">
           {title && (
-            <h2 data-reveal data-reveal-delay={badge ? "100" : "0"} className="text-3xl md:text-4xl lg:text-5xl text-foreground font-heading flex-shrink-0 max-w-[700px]" data-field="header.title">{title}</h2>
+            <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className="text-3xl md:text-4xl lg:text-5xl text-foreground font-heading flex-shrink-0 max-w-[700px]" data-field="header.title">{title}</h2>
           )}
           {subtitle && (
-            <p data-reveal data-reveal-delay={badge ? "200" : "100"} className="text-muted max-w-lg lg:text-right" data-field="header.subtitle">
+            <p data-reveal data-reveal-delay={String(badge ? revealDelay + 200 : revealDelay + 100)} className="text-muted max-w-lg lg:text-right" data-field="header.subtitle">
               {subtitle}
             </p>
           )}
@@ -123,12 +123,12 @@ export function SectionHeader({
     <div className={cn("mb-spacing-3xl", alignClass, className)}>
       {renderBadge()}
       {title && (
-        <h2 data-reveal data-reveal-delay={badge ? "100" : "0"} className={cn("text-3xl md:text-4xl lg:text-5xl text-foreground mb-spacing-md font-heading max-w-[700px]", align === "center" && "mx-auto")} data-field="header.title">{title}</h2>
+        <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className={cn("text-3xl md:text-4xl lg:text-5xl text-foreground mb-spacing-md font-heading max-w-[700px]", align === "center" && "mx-auto")} data-field="header.title">{title}</h2>
       )}
       {subtitle && (
         <p
           data-reveal
-          data-reveal-delay={badge ? "200" : "100"}
+          data-reveal-delay={String(badge ? revealDelay + 200 : revealDelay + 100)}
           className={cn(
             "text-muted max-w-2xl",
             align === "center" && "mx-auto"
