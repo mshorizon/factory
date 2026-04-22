@@ -31,7 +31,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 export function FeaturesIconTiles({ items, className }: FeaturesGridProps) {
   return (
     <StaggerContainer
-      className={cn("grid grid-cols-2 lg:grid-cols-4 gap-spacing-md", className)}
+      className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-spacing-md", className)}
       staggerDelay={0.07}
     >
       {items.map((item, index) => {

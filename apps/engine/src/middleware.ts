@@ -6,9 +6,16 @@ import {
   isValidBusiness,
 } from "./lib/business";
 import { getDraft } from "./lib/draft-store";
-import { initDb, getSiteBySubdomain } from "@mshorizon/db";
+import { initDb, getSiteBySubdomain, getUserById } from "@mshorizon/db";
 import { initR2 } from "./lib/r2";
-import { getAuthFromCookies } from "./lib/auth";
+import {
+  getAuthFromCookies,
+  verifyToken,
+  signAccessToken,
+  signRefreshToken,
+  setAuthCookies,
+  type JWTPayload,
+} from "./lib/auth";
 import logger, { createRequestLogger } from "./lib/logger";
 import { initHealthCron } from "./lib/health-cron";
 import { track5xxError } from "./lib/error-tracker";
@@ -65,8 +72,29 @@ export const onRequest = defineMiddleware(async (context, next) => {
     locals.availableBusinesses = await getAvailableBusinessIds();
     locals.site = site;
 
-    // Set auth from cookie for admin pages
-    const auth = await getAuthFromCookies(context.cookies);
+    // Set auth from cookie for admin pages; auto-refresh if access token expired
+    let auth = await getAuthFromCookies(context.cookies);
+    if (!auth) {
+      const refreshToken = context.cookies.get('admin_refresh')?.value;
+      if (refreshToken) {
+        const refreshPayload = await verifyToken(refreshToken);
+        if (refreshPayload) {
+          const user = await getUserById(refreshPayload.userId);
+          if (user) {
+            const newPayload: JWTPayload = {
+              userId: user.id,
+              email: user.email,
+              role: user.role as JWTPayload['role'],
+              businessId: user.businessId ?? null,
+            };
+            const newAccessToken = await signAccessToken(newPayload);
+            const newRefreshToken = await signRefreshToken({ userId: user.id });
+            setAuthCookies(context.cookies, newAccessToken, newRefreshToken);
+            auth = newPayload;
+          }
+        }
+      }
+    }
     locals.auth = auth;
 
     // Protect /admin routes

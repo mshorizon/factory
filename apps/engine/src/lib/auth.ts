@@ -7,7 +7,7 @@ const JWT_SECRET = new TextEncoder().encode(
 );
 const COOKIE_NAME = 'admin_token';
 const ACCESS_TOKEN_EXPIRES = '15m';
-const REFRESH_TOKEN_EXPIRES = '7d';
+const REFRESH_TOKEN_EXPIRES = '30d';
 
 export type JWTPayload = {
   userId: number;
@@ -62,7 +62,7 @@ export function setAuthCookies(cookies: AstroCookies, accessToken: string, refre
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 60 * 24 * 30, // 30 days
   });
 }
 
