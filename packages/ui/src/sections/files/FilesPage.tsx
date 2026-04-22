@@ -27,18 +27,20 @@ function FileRow({ file }: { file: FileItem }) {
       download
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center justify-between gap-spacing-md px-spacing-lg py-spacing-md border border-border rounded-radius bg-background hover:border-primary/50 hover:shadow-sm transition-all duration-200"
+      className="group flex items-start justify-between gap-spacing-md px-spacing-lg py-spacing-md border border-border rounded-radius bg-background hover:border-primary/50 hover:shadow-sm transition-all duration-200"
     >
-      <div className="flex items-center gap-spacing-md min-w-0">
+      <div className="flex items-start gap-spacing-md min-w-0">
         <span className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-radius bg-primary/10 text-primary group-hover:bg-primary/15 transition-colors">
           {getFileIcon(file.type)}
         </span>
-        <span className="text-foreground font-medium text-sm truncate">{file.name}</span>
-        <span className="flex-shrink-0 inline-flex px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-primary text-primary-foreground">
-          {ext}
-        </span>
+        <div className="flex flex-col gap-1 min-w-0 pt-1">
+          <span className="text-foreground font-medium text-sm break-words">{file.name}</span>
+          <span className="self-start inline-flex px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider rounded-full bg-primary text-primary-foreground">
+            {ext}
+          </span>
+        </div>
       </div>
-      <span className="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border border-border bg-background group-hover:bg-primary group-hover:border-primary transition-all duration-200">
+      <span className="flex-shrink-0 mt-1 flex items-center justify-center h-8 w-8 rounded-full border border-border bg-background group-hover:bg-primary group-hover:border-primary transition-all duration-200">
         <ArrowDownToLine className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary-foreground transition-colors duration-200" />
       </span>
     </a>

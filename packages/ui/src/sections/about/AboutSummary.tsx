@@ -27,6 +27,7 @@ export function AboutSummary({
   ctaColor,
   statsInverted,
   imagePaddingY,
+  ctaPaddingBottom,
 }: AboutSummaryProps) {
   const defaultBadgeColor = background === "dark" || background === "dark-padded" ? "var(--primary)" : "var(--primary-dark)";
   const resolvedBadgeColor = badgeColor || defaultBadgeColor;
@@ -140,7 +141,7 @@ export function AboutSummary({
             )}
 
             {cta && ctaHref && (
-              <div className="pt-4">
+              <div className="pt-4" style={ctaPaddingBottom ? { paddingBottom: ctaPaddingBottom } : undefined}>
                 <a
                   href={ctaHref}
                   className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"

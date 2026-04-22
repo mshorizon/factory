@@ -67,6 +67,7 @@ export interface ContactSplitProps {
 
 export interface ContactCTAProps {
   badge?: string;
+  badgeVariant?: "accent" | "accent-no-line" | "text" | "outlined";
   title?: string;
   subtitle?: string;
   ctaLabel?: string;

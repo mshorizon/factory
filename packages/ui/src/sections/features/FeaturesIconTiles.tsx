@@ -44,18 +44,20 @@ export function FeaturesIconTiles({ items, className }: FeaturesGridProps) {
             className="group flex flex-col gap-spacing-md p-spacing-lg rounded-2xl bg-card border-0 shadow-none h-full transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer"
             data-field={`items.${index}`}
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light transition-colors">
-              <IconComponent className="h-[18px] w-[18px] text-white" />
-            </div>
-            <div className="flex-1">
+            <div className="flex flex-row items-center gap-spacing-sm lg:flex-col lg:items-start lg:gap-spacing-md">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary-light transition-colors">
+                <IconComponent className="h-[18px] w-[18px] text-white" />
+              </div>
               <h3
-                className="text-2xl font-heading text-foreground mb-spacing-sm"
+                className="text-2xl font-heading text-foreground"
                 data-field={`items.${index}.title`}
               >
                 {item.title}
               </h3>
+            </div>
+            <div className="hidden lg:block flex-1">
               <p
-                className="hidden lg:block text-sm text-muted leading-relaxed"
+                className="text-sm text-muted leading-relaxed"
                 data-field={`items.${index}.description`}
               >
                 {item.description}
@@ -63,7 +65,7 @@ export function FeaturesIconTiles({ items, className }: FeaturesGridProps) {
             </div>
             {item.linkHref && (
               <span
-                className="inline-flex items-center gap-1.5 text-sm font-semibold opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+                className="hidden lg:inline-flex items-center gap-1.5 text-sm font-semibold opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
                 style={{ color: "var(--primary-dark)" }}
               >
                 <span>{item.linkLabel || "Learn more"}</span>

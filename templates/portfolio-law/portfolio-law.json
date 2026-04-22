@@ -298,10 +298,11 @@
         {
           "type": "services",
           "variant": "grid",
+          "minimal": true,
           "detailsLabel": "t:services.viewDetails",
           "header": {
-            "title": "t:home.services.title",
-            "layout": "most-minimalistic"
+            "badge": "t:services.badge",
+            "title": "t:home.services.title"
           },
           "items": [
             {
@@ -347,6 +348,7 @@
           "ctaColor": "#FFFFFF",
           "statsInverted": true,
           "imagePaddingY": "100px",
+          "ctaPaddingBottom": "100px",
           "header": {
             "badge": "t:about.badge",
             "title": "t:home.about.title",
@@ -518,7 +520,7 @@
         {
           "type": "blog",
           "variant": "cards-light",
-          "badgeVariant": "text",
+          "badgeVariant": "accent",
           "header": {
             "badge": "t:blog.badge",
             "title": "t:blog.title",
@@ -615,6 +617,16 @@
               "description": "t:about.career.items.2.description"
             }
           ]
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "title": "t:about.jurisdiction.title"
+          },
+          "story": {
+            "content": "t:about.jurisdiction.content"
+          }
         },
         {
           "type": "contact",

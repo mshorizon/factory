@@ -16,6 +16,7 @@ import type { ContactCTAProps } from "./types";
  */
 export function ContactMinimal({
   badge,
+  badgeVariant = "accent",
   title,
   subtitle,
   ctaLabel = "Contact me",
@@ -37,13 +38,18 @@ export function ContactMinimal({
     <ScrollReveal className={cn("text-center", className)}>
       <div className="flex flex-col items-center gap-spacing-lg">
         {badge && (
-          <span
-            className="text-sm uppercase tracking-widest font-medium"
-            style={{ color: "var(--primary)" }}
-            data-field="header.badge"
-          >
-            {badge}
-          </span>
+          <div className="flex flex-col items-center gap-spacing-sm">
+            {badgeVariant !== "text" && (
+              <span className="w-12 h-[2px]" style={{ backgroundColor: "var(--primary)" }} />
+            )}
+            <span
+              className="text-sm uppercase tracking-widest font-medium"
+              style={{ color: "var(--primary)" }}
+              data-field="header.badge"
+            >
+              {badge}
+            </span>
+          </div>
         )}
         {title && (
           <h2

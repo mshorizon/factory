@@ -24,15 +24,15 @@ export function AboutCareer({ title, items, className }: AboutCareerProps) {
               <span className="block w-8 h-[2px] bg-primary mb-spacing-sm" />
 
               {/* Title (left) + Year (right) */}
-              <div className="flex items-start justify-between gap-spacing-lg">
+              <div className="flex flex-wrap items-start justify-between gap-x-spacing-lg gap-y-spacing-xs">
                 <h3
-                  className="text-[24px] font-bold font-heading text-foreground leading-snug"
+                  className="text-[24px] font-bold font-heading text-foreground leading-snug min-w-0"
                   data-field={`timeline.${index}.title`}
                 >
                   {item.title}
                 </h3>
                 <span
-                  className="text-sm text-muted font-medium tracking-wide flex-shrink-0"
+                  className="text-sm text-muted font-medium tracking-wide whitespace-nowrap"
                   data-field={`timeline.${index}.year`}
                 >
                   {item.year}

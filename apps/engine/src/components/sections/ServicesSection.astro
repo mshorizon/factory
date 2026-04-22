@@ -21,8 +21,8 @@ const items = (section.items && section.items.length > 0)
 
 const header = getSectionHeader(section);
 const headerLayout = header.layout || (variant === "darkCards" || variant === "imageGrid" ? "split" : undefined);
-const headerAlign = headerLayout === "most-minimalistic" || variant === "darkCards" || variant === "imageGrid" ? "left" : "center";
-const minimal = headerLayout === "most-minimalistic";
+const minimal = headerLayout === "most-minimalistic" || !!(section as any).minimal;
+const headerAlign = (minimal || variant === "darkCards" || variant === "imageGrid") ? "left" : "center";
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 const detailsLabel = section.detailsLabel;

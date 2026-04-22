@@ -1,13 +1,14 @@
 ---
 import type { Section } from "@mshorizon/schema";
 import { getBlogBySlug } from "@mshorizon/db";
+import { t } from "../../lib/i18n";
 
 interface Props {
   section: Section;
 }
 
 const { section } = Astro.props;
-const { site, currentLang } = Astro.locals;
+const { site, currentLang, t: translations } = Astro.locals;
 
 const blogSlug = (section as any).blogSlug as string | undefined;
 const sidebarContact = section.sidebarContact;
@@ -38,7 +39,7 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
           <!-- Go back link -->
           <a data-reveal data-reveal-delay="0" href="/" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors mb-spacing-xl">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-            Go back
+            {t(translations, "blog.back", "Go back")}
           </a>
 
           <!-- Category + Date -->
@@ -87,7 +88,7 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
 
         <!-- Sidebar contact card -->
         {sidebarContact && (
-          <aside data-reveal data-reveal-delay="200" class="w-full lg:w-[368px] shrink-0 lg:sticky lg:top-24">
+          <aside data-reveal data-reveal-delay="200" class="w-full max-w-[368px] lg:w-[368px] shrink-0 lg:sticky lg:top-24">
             <div class="bg-card rounded-2xl p-spacing-md pb-spacing-lg flex flex-col items-start text-left gap-spacing-md">
 
               {sidebarContact.image && (

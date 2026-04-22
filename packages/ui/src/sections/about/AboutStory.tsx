@@ -34,7 +34,7 @@ export function AboutStory({
 
   const imageBlock = image ? (
     <ScrollReveal delay={0} direction={imageRight ? "right" : "left"} distance={30}>
-      <div className="relative flex items-center justify-center lg:justify-start py-spacing-2xl">
+      <div className="relative flex items-center justify-center lg:justify-start">
         <SafeImage
           src={image}
           alt=""
@@ -49,7 +49,7 @@ export function AboutStory({
 
   const textBlock = (
     <ScrollReveal delay={0.1} direction={imageRight ? "left" : "right"} distance={30}>
-      <div className="space-y-spacing-lg py-spacing-3xl flex flex-col justify-center">
+      <div className="space-y-spacing-lg flex flex-col justify-center">
         {(badge || title) && (
           <div className="flex items-center gap-spacing-sm">
             <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
