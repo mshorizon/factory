@@ -1,5 +1,5 @@
 {
-  "business.name": "Court Bailiff Marcin Starzec",
+  "business.name": "Court Bailiff Harvey Specter",
 
   "nav.cta": "Contact",
 
@@ -24,12 +24,12 @@
   "services.viewDetails": "See details",
 
   "about.badge": "About",
-  "about.title": "Court Bailiff Marcin Starzec",
+  "about.title": "Court Bailiff Harvey Specter",
   "about.story.title": "Bailiff's Office No. IX in Otwock",
   "about.story.content": "With over 15 years of experience as a court bailiff, I specialize in effective and timely enforcement of court orders. My goal is to provide creditors with professional service at every stage of the enforcement process.\n\nA graduate of the Faculty of Law at the University of Warsaw and a long-standing practitioner in enforcement law. Bailiff's Office No. IX in Otwock uses modern IT systems — CEPIK, EPU, PUE ZUS, ePUAP, and OGNIVO — ensuring efficient and electronic case handling.\n\nTrust experience and integrity — I am your dedicated bailiff and trusted partner in debt recovery.",
   "about.cta": "Contact Us",
   "about.jurisdiction.title": "Territorial Jurisdiction",
-  "about.jurisdiction.content": "Court Bailiff at the District Court in Otwock, Marcin Starzec, handles enforcement proceedings within the jurisdiction of the appellate court where the bailiff's office is located, in accordance with the Act of 17 November 1964 – Code of Civil Procedure, i.e. within the Warsaw Court of Appeal area. Territorial jurisdiction for enforcement from real property covers the area of the District Court in Otwock, and in particular: the towns and urban municipalities of Otwock and Józefów, and the communes of Karczew (urban-rural), Celestynów, Kołbiel, and Wiązowna.\n\nArt. 10 of the Act of 22 March 2018 on Court Bailiffs (Journal of Laws 2018.771 of 2018.04.25)\n\nArt. 10 para. 1. In cases referred to in Art. 3 para. 3 items 1 and 2, the creditor has the right to choose a bailiff within the jurisdiction of the appellate court where the office of the competent bailiff is located under the Code of Civil Procedure, with the exception of cases: 1) concerning enforcement from real property; 2) concerning delivery of real property; 3) concerning entry into possession of real property; 4) concerning eviction from premises, including residential premises; 5) to which provisions on enforcement from real property apply accordingly.\n\nPara. 2. When the creditor exercises the right of choice, the bailiff acts outside their own circuit.\n\nPara. 3. A creditor exercising the right of choice shall submit, together with the enforcement application, a written statement that they are exercising the right to choose a bailiff. (template statement available in the \"Forms\" section)\n\nTerritorial Scope of Activities within the Warsaw Court of Appeal\n\nThe Warsaw Court of Appeal covers the jurisdiction of the District Court in Warsaw and the District Court Warsaw-Praga in Warsaw.\n\nCourts subordinate to the District Court in Warsaw: District Court in Grodzisk Mazowiecki, District Court in Pruszków, District Court for Warsaw-Mokotów in Warsaw, District Court for the capital city of Warsaw in Warsaw, District Court in Piaseczno, District Court for Warsaw-Śródmieście in Warsaw, District Court for Warsaw-Wola in Warsaw, District Court for Warsaw-Żoliborz in Warsaw.\n\nCourts subordinate to the District Court Warsaw-Praga in Warsaw: District Court in Legionowo, District Court in Nowy Dwór Mazowiecki, District Court in Otwock, District Court in Wołomin, District Court for Warsaw-Praga Południe, District Court for Warsaw-Praga Północ.",
+  "about.jurisdiction.content": "Court Bailiff at the District Court in Otwock, Harvey Specter, handles enforcement proceedings within the jurisdiction of the appellate court where the bailiff's office is located, in accordance with the Act of 17 November 1964 – Code of Civil Procedure, i.e. within the Warsaw Court of Appeal area. Territorial jurisdiction for enforcement from real property covers the area of the District Court in Otwock, and in particular: the towns and urban municipalities of Otwock and Józefów, and the communes of Karczew (urban-rural), Celestynów, Kołbiel, and Wiązowna.\n\nArt. 10 of the Act of 22 March 2018 on Court Bailiffs (Journal of Laws 2018.771 of 2018.04.25)\n\nArt. 10 para. 1. In cases referred to in Art. 3 para. 3 items 1 and 2, the creditor has the right to choose a bailiff within the jurisdiction of the appellate court where the office of the competent bailiff is located under the Code of Civil Procedure, with the exception of cases: 1) concerning enforcement from real property; 2) concerning delivery of real property; 3) concerning entry into possession of real property; 4) concerning eviction from premises, including residential premises; 5) to which provisions on enforcement from real property apply accordingly.\n\nPara. 2. When the creditor exercises the right of choice, the bailiff acts outside their own circuit.\n\nPara. 3. A creditor exercising the right of choice shall submit, together with the enforcement application, a written statement that they are exercising the right to choose a bailiff. (template statement available in the \"Forms\" section)\n\nTerritorial Scope of Activities within the Warsaw Court of Appeal\n\nThe Warsaw Court of Appeal covers the jurisdiction of the District Court in Warsaw and the District Court Warsaw-Praga in Warsaw.\n\nCourts subordinate to the District Court in Warsaw: District Court in Grodzisk Mazowiecki, District Court in Pruszków, District Court for Warsaw-Mokotów in Warsaw, District Court for the capital city of Warsaw in Warsaw, District Court in Piaseczno, District Court for Warsaw-Śródmieście in Warsaw, District Court for Warsaw-Wola in Warsaw, District Court for Warsaw-Żoliborz in Warsaw.\n\nCourts subordinate to the District Court Warsaw-Praga in Warsaw: District Court in Legionowo, District Court in Nowy Dwór Mazowiecki, District Court in Otwock, District Court in Wołomin, District Court for Warsaw-Praga Południe, District Court for Warsaw-Praga Północ.",
   "about.career.title": "My Career",
   "about.career.items.0.year": "2010 — Present",
   "about.career.items.0.title": "Court Bailiff at the District Court in Otwock",
@@ -66,7 +66,7 @@
   "home.services.title": "I specialize in",
 
   "home.about.title": "Effective and Reliable Court Enforcement",
-  "home.about.subtitle": "Bailiff's Office No. IX in Otwock, led by Court Bailiff Marcin Starzec, provides professional handling of enforcement cases. We guarantee electronic correspondence, timely processing of enforcement applications, and reporting to creditors on all actions taken.",
+  "home.about.subtitle": "Bailiff's Office No. IX in Otwock, led by Court Bailiff Harvey Specter, provides professional handling of enforcement cases. We guarantee electronic correspondence, timely processing of enforcement applications, and reporting to creditors on all actions taken.",
   "home.about.cta": "More about the office",
   "home.about.stats.0": "Years of experience",
   "home.about.stats.1": "Cases completed",
@@ -88,7 +88,7 @@
   "features.items.7.description": "Module for comprehensive case management.",
 
   "testimonials.items.0.title": "Professional and Efficient Service",
-  "testimonials.items.0.description": "Bailiff Starzec and his team completed the entire process on time, keeping us informed at every stage of the proceedings. I recommend them to anyone looking for an effective and reliable bailiff's office.",
+  "testimonials.items.0.description": "Bailiff Specter and his team completed the entire process on time, keeping us informed at every stage of the proceedings. I recommend them to anyone looking for an effective and reliable bailiff's office.",
   "testimonials.items.0.role": "Creditor",
   "testimonials.items.1.title": "Reliability and Transparency",
   "testimonials.items.1.description": "Fast processing of enforcement applications and full transparency of actions. An office you can trust at every stage of cooperation.",
@@ -210,7 +210,7 @@
 
   "map.badge": "Location",
   "map.title": "Find Us",
-  "map.subtitle": "Bailiff's Office No. IX, ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
+  "map.subtitle": "Bailiff's Office No. IX, ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
   "map.openInMaps": "Open in Google Maps",
   "map.directions": "Directions to"
 }

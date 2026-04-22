@@ -8,12 +8,12 @@
       "icon": "/assets/portfolio-law-logo.svg"
     },
     "contact": {
-      "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
-      "phone": "+48 22 180 00 22",
-      "email": "otwock.starzec@komornik.pl",
+      "address": "ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
+      "phone": "+48 22 555 01 47",
+      "email": "harvey.specter@pearsonhardman.com",
       "location": {
-        "latitude": 52.1054,
-        "longitude": 21.2633
+        "latitude": 52.2297,
+        "longitude": 21.0122
       }
     }
   },
@@ -86,7 +86,7 @@
   "layout": {
     "navbar": {
       "variant": "transparent",
-      "logoText": "Marcin Starzec",
+      "logoText": "Harvey Specter",
       "hideBorderOnTop": true,
       "hideCta": true,
       "showSocials": false,
@@ -101,7 +101,7 @@
     },
     "footer": {
       "variant": "darkColumns",
-      "name": "Marcin Starzec",
+      "name": "Harvey Specter",
       "copyright": "t:footer.copyright",
       "tagline": "t:footer.tagline",
       "background": {
@@ -171,17 +171,17 @@
           "title": "t:footer.columns.contact.title",
           "links": [
             {
-              "label": "otwock.starzec@komornik.pl",
+              "label": "harvey.specter@pearsonhardman.com",
               "target": {
                 "type": "email",
-                "value": "otwock.starzec@komornik.pl"
+                "value": "harvey.specter@pearsonhardman.com"
               }
             },
             {
-              "label": "+48 22 180 00 22",
+              "label": "+48 22 555 01 47",
               "target": {
                 "type": "phone",
-                "value": "+48221800022"
+                "value": "+48225550147"
               }
             },
             {
@@ -375,7 +375,7 @@
               "label": "t:home.about.stats.2"
             },
             {
-              "value": "2721",
+              "value": "4217",
               "label": "t:home.about.stats.3"
             }
           ]
@@ -728,9 +728,9 @@
             "subtitle": "t:contact.page.subtitle"
           },
           "info": {
-            "address": "ul. Stanisława Staszica 27 lok. 41, 05-400 Otwock",
-            "phone": "+48 22 180 00 22",
-            "email": "otwock.starzec@komornik.pl",
+            "address": "ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
+            "phone": "+48 22 555 01 47",
+            "email": "harvey.specter@pearsonhardman.com",
             "hours": "t:contact.info.hours",
             "hoursDetailed": [
               "t:contact.info.hours.mon",
@@ -743,7 +743,7 @@
             "receptionLabel": "t:contact.info.receptionLabel",
             "notice": {
               "title": "t:contact.info.notice.title",
-              "highlight": "93 24900005 0000 4530 4237 7611",
+              "highlight": "12 3456 7890 0000 1234 5678 9012",
               "description": "t:contact.info.notice.description"
             }
           },
