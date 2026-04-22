@@ -11,6 +11,7 @@
     "test:visual": "pnpm --filter @mshorizon/tests test:visual",
     "test:visual:update": "pnpm --filter @mshorizon/tests test:visual:update",
     "test:validate": "pnpm --filter @mshorizon/tests test:validate",
+    "guard": "pnpm tsx scripts/guard.ts",
     "start": "pnpm --filter @mshorizon/engine start",
     "tmux-new": "tmux new -s ai",
     "tmux": "tmux attach -t ai",

@@ -1,0 +1,7 @@
+LIVE CLIENTS — this template is used by real client sites.
+
+Changing shared components (ServicesSection, HeroSection, etc.) will affect
+every site built on this template. The guard script will warn you on git push.
+
+Live clients built on this template:
+  - komornik.hazelgrouse.pl

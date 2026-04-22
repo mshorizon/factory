@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Warn when pushing changes that affect live protected clients
+pnpm tsx scripts/guard.ts
