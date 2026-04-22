@@ -81,14 +81,14 @@ const ctaHref = sidebarContact?.cta?.target?.type === "email"
           )}
 
           <!-- Content -->
-          <div data-reveal data-reveal-delay="0" class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
+          <div data-reveal data-reveal-delay="900" class="prose prose-lg prose-headings:uppercase prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-li:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
             <Fragment set:html={blog.content} />
           </div>
         </div>
 
         <!-- Sidebar contact card -->
         {sidebarContact && (
-          <aside data-reveal data-reveal-delay="200" class="w-full max-w-[368px] lg:w-[368px] shrink-0 lg:sticky lg:top-24">
+          <aside data-reveal data-reveal-delay="900" class="w-full max-w-[368px] lg:w-[368px] shrink-0 lg:sticky lg:top-24">
             <div class="bg-card rounded-2xl p-spacing-md pb-spacing-lg flex flex-col items-start text-left gap-spacing-md">
 
               {sidebarContact.image && (

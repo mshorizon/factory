@@ -118,7 +118,7 @@ export function GoogleMap({
                   target="_blank"
                   rel="noopener noreferrer"
                   title={directionsLabel}
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary text-white hover:opacity-90 transition-opacity shadow-sm"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary-light text-white hover:opacity-90 transition-opacity shadow-sm"
                 >
                   <Navigation className="w-4 h-4" />
                 </a>
@@ -127,7 +127,7 @@ export function GoogleMap({
                   target="_blank"
                   rel="noopener noreferrer"
                   title={openInMapsLabel}
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary text-white hover:opacity-90 transition-opacity shadow-sm"
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary-light text-white hover:opacity-90 transition-opacity shadow-sm"
                 >
                   <ExternalLink className="w-4 h-4" />
                 </a>

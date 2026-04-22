@@ -39,7 +39,7 @@ const detailsLabel = section.detailsLabel;
       background={section.background}
       badgeVariant={badgeVariant as any}
       className={variant === "alternating" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
-      revealDelay={isHomePage ? 900 : 0}
+      revealDelay={isHomePage ? (minimal ? 1500 : 900) : 0}
     />
     {variant === "list" ? (
       <ServicesList client:visible items={items} />

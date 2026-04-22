@@ -48,7 +48,7 @@ const { businessId } = Astro.locals;
         background: var(--background);
         border-right: 1px solid var(--border);
         flex: 0 0 auto;
-        width: 75%;
+        width: 80%;
         min-width: 0;
         min-height: 0;
       }
@@ -184,7 +184,7 @@ const { businessId } = Astro.locals;
         flex-direction: column;
         background: var(--muted);
         position: relative;
-        min-width: 200px;
+        min-width: 150px;
       }
 
       .preview-overlay-controls {
@@ -615,7 +615,7 @@ const { businessId } = Astro.locals;
         var panel = document.querySelector('.admin-panel');
         var iframe = document.getElementById('preview-iframe');
         var MIN_WIDTH = 400;
-        var MAX_WIDTH = Math.floor(window.innerWidth * 0.75);
+        var MAX_WIDTH = Math.floor(window.innerWidth * 0.80);
         var STORAGE_KEY = 'admin-panel-width';
 
         // Restore saved width
@@ -624,7 +624,7 @@ const { businessId } = Astro.locals;
           var w = Math.max(MIN_WIDTH, Math.min(parseInt(saved, 10), MAX_WIDTH));
           panel.style.width = w + 'px';
         } else {
-          panel.style.width = '75%';
+          panel.style.width = '80%';
         }
 
         var dragging = false;
@@ -655,7 +655,7 @@ const { businessId } = Astro.locals;
         });
 
         window.addEventListener('resize', function() {
-          MAX_WIDTH = Math.floor(window.innerWidth * 0.75);
+          MAX_WIDTH = Math.floor(window.innerWidth * 0.80);
         });
       })();
     </script>

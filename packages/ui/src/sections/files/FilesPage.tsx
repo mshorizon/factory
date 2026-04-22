@@ -33,9 +33,9 @@ function FileRow({ file }: { file: FileItem }) {
         <span className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-radius bg-primary/10 text-primary group-hover:bg-primary/15 transition-colors">
           {getFileIcon(file.type)}
         </span>
-        <div className="flex flex-col gap-1 min-w-0 pt-1">
+        <div className="flex flex-row items-center flex-wrap gap-spacing-sm min-w-0 pt-1">
           <span className="text-foreground font-medium text-sm break-words">{file.name}</span>
-          <span className="self-start inline-flex px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider rounded-full bg-primary text-primary-foreground">
+          <span className="flex-shrink-0 inline-flex px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider rounded-full bg-primary text-primary-foreground">
             {ext}
           </span>
         </div>
