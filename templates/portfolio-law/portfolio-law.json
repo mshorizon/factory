@@ -301,7 +301,6 @@
           "minimal": true,
           "detailsLabel": "t:services.viewDetails",
           "header": {
-            "badge": "t:services.badge",
             "title": "t:home.services.title"
           },
           "items": [
