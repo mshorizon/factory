@@ -24,7 +24,7 @@ export function FooterGradient({
   const year = new Date().getFullYear();
 
   return (
-    <footer className={cn("relative bg-secondary text-white border-t border-border/20", className)}>
+    <footer className={cn("relative bg-card text-foreground border-t border-border", className)}>
       {/* Purple gradient overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -44,17 +44,17 @@ export function FooterGradient({
               {businessName}
             </span>
             {tagline && (
-              <p className="text-sm text-white/70 mb-spacing-lg">{tagline}</p>
+              <p className="text-sm text-muted mb-spacing-lg">{tagline}</p>
             )}
 
             {/* Newsletter */}
             <div className="mt-spacing-lg">
-              <p className="text-sm font-medium text-white mb-2">Join our newsletter</p>
+              <p className="text-sm font-medium text-foreground mb-2">Join our newsletter</p>
               <div className="flex gap-2">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 bg-white/5 border border-border/30 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/60"
+                  className="flex-1 bg-foreground/5 border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted"
                 />
                 <button className="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium">
                   Subscribe
@@ -68,7 +68,7 @@ export function FooterGradient({
             {columns &&
               columns.map((column, colIndex) => (
                 <div key={colIndex}>
-                  <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-spacing-md">
+                  <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-spacing-md">
                     {column.title}
                   </h3>
                   <ul className="space-y-spacing-xs">
@@ -76,7 +76,7 @@ export function FooterGradient({
                       <li key={linkIndex}>
                         <a
                           href={link.href}
-                          className="text-white/60 hover:text-white text-sm transition-colors"
+                          className="text-muted hover:text-foreground text-sm transition-colors"
                         >
                           {link.label}
                         </a>
@@ -89,7 +89,7 @@ export function FooterGradient({
             {/* Social Links as text column */}
             {socialLinks && socialLinks.length > 0 && (
               <div>
-                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-spacing-md">
+                <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-spacing-md">
                   Socials
                 </h3>
                 <ul className="space-y-spacing-xs">
@@ -97,7 +97,7 @@ export function FooterGradient({
                     <li key={social.url}>
                       <a
                         href={social.url}
-                        className="text-white/60 hover:text-white text-sm transition-colors"
+                        className="text-muted hover:text-foreground text-sm transition-colors"
                       >
                         {social.platform}
                       </a>
@@ -114,7 +114,7 @@ export function FooterGradient({
                   <a
                     key={index}
                     href={link.href}
-                    className="text-white/60 hover:text-white text-sm transition-colors"
+                    className="text-muted hover:text-foreground text-sm transition-colors"
                   >
                     {link.label}
                   </a>
@@ -125,9 +125,9 @@ export function FooterGradient({
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-spacing-3xl pt-8 border-t border-white/10">
-          <p className="text-sm text-white/60">
-            {copyright || `\u00A9 ${year} ${businessName}. All rights reserved.`}
+        <div className="mt-spacing-3xl pt-8 border-t border-border">
+          <p className="text-sm text-muted">
+            {copyright || `© ${year} ${businessName}. All rights reserved.`}
           </p>
         </div>
       </div>

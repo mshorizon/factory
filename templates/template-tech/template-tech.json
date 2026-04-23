@@ -25,7 +25,7 @@
   "theme": {
     "preset": "minimal",
     "majorTheme": "template-tech",
-    "mode": "dark",
+    "mode": "light",
     "colors": {
       "light": {
         "primary": "#814AC8",
