@@ -102,5 +102,6 @@ function getBgClass(bg?: string): string {
   const needsBusiness = ['services', 'shop', 'map', 'testimonials', 'booking', 'contact'].includes(resolvedSection.type);
   const props = needsBusiness ? { section: sectionWithVariant, business, isHomePage, badgeVariant } : { section: sectionWithVariant, isHomePage, badgeVariant };
 
-  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class:list={[bgClass, isHomePage ? "py-spacing-section" : "py-spacing-section-sm"]}><Component {...props} /></div>;
+  const isHero = resolvedSection.type === 'hero';
+  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class:list={[bgClass, !isHero && (isHomePage ? "py-spacing-section" : "py-spacing-section-sm")]}><Component {...props} /></div>;
 })}
