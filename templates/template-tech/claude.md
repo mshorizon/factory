@@ -1,8 +1,8 @@
-# Template: portfolio-tech
+# Template: template-tech
 
 ## Czym jest ten template
 
-`portfolio-tech` to **główna strona portfolio Hazelgrouse Studio** — agencji webowej tworzącej strony internetowe dla lokalnych polskich firm.
+`template-tech` to **główna strona portfolio Hazelgrouse Studio** — agencji webowej tworzącej strony internetowe dla lokalnych polskich firm.
 
 ### Pozycjonowanie
 

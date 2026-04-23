@@ -1,4 +1,4 @@
-# TODO & Analiza ulepszeń — portfolio-tech
+# TODO & Analiza ulepszeń — template-tech
 
 ## Priorytet: Krytyczne (blokują konwersję)
 
