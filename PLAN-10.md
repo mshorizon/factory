@@ -9,7 +9,7 @@
 
 ### Fix hazelgrouse.pl
 - [x] Replace placeholder phone and address with real contact data
-- [ ] Add "Twoja branża" + "Miasto" fields to contact form for lead qualification
+- [x] Add "Twoja branża" + "Miasto" fields to contact form for lead qualification
 - [ ] Add both template-law and template-specialist as live demos in portfolio/case studies section
 
 ---

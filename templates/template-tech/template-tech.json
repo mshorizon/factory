@@ -1028,7 +1028,9 @@
             "email": "sadlo.mateusz@gmai.com",
             "phone": "t:contact.info.phone",
             "address": "t:contact.info.address",
-            "hours": "t:contact.info.hours"
+            "hours": "t:contact.info.hours",
+            "industry": "projektowanie stron internetowych",
+            "city": "Warszawa"
           }
         }
       ]
