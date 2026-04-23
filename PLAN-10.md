@@ -3,8 +3,8 @@
 ## Phase 1 — Foundation (Week 1–2)
 
 ### Leverage client #1 (komornik)
-- [ ] Ask for permission to use komornikwotwocku.hazelgrouse.pl as portfolio case
-- [ ] Get a written testimonial (even 1–2 sentences)
+- [x] Ask for permission to use komornikwotwocku.hazelgrouse.pl as portfolio case
+- [x] Get a written testimonial (even 1–2 sentences)
 - [ ] Add komornik as first real case study on hazelgrouse.pl (screenshot + live link)
 
 ### Fix hazelgrouse.pl
