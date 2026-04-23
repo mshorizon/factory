@@ -13,7 +13,7 @@ const SOURCE = "portfolio-law";
 const TARGET = "komornikwotwocku";
 
 async function copyBlogs() {
-  const client = postgres(DATABASE_URL);
+  const client = postgres(DATABASE_URL as string);
   const db = drizzle(client);
 
   const [sourceSite] = await db.select({ id: sites.id }).from(sites).where(eq(sites.subdomain, SOURCE)).limit(1);
