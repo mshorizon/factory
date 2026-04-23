@@ -21,7 +21,7 @@
   },
   "theme": {
     "preset": "elegant",
-    "majorTheme": "portfolio-art",
+    "majorTheme": "template-art",
     "mode": "light",
     "colors": {
       "light": {

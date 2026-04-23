@@ -57,6 +57,7 @@
   },
   "theme": {
     "preset": "bold",
+    "majorTheme": "template-specialist",
     "mode": "light",
     "colors": {
       "light": {
