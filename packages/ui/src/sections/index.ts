@@ -101,3 +101,7 @@ export type { EventsDefaultProps, EventItem } from "./events";
 // Files variants
 export { FilesPage } from "./files";
 export type { FilesPageProps, FileGroup, FileItem } from "./files";
+
+// TemplateShowcase variants
+export { TemplateShowcase } from "./templateShowcase";
+export type { TemplateShowcaseProps, TemplateItem } from "./templateShowcase";

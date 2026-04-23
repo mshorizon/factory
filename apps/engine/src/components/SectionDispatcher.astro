@@ -28,6 +28,7 @@ import ComparisonSection from "./sections/ComparisonSection.astro";
 import TeamSection from "./sections/TeamSection.astro";
 import EventsSection from "./sections/EventsSection.astro";
 import FilesSection from "./sections/FilesSection.astro";
+import TemplateShowcaseSection from "./sections/TemplateShowcaseSection.astro";
 
 interface Props {
   sections: Section[];
@@ -68,6 +69,7 @@ const sectionComponents: Record<string, any> = {
   team: TeamSection,
   events: EventsSection,
   files: FilesSection,
+  templateShowcase: TemplateShowcaseSection,
 };
 
 // Map background prop to CSS class

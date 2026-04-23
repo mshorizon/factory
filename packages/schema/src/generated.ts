@@ -173,7 +173,8 @@ export type SectionType =
   | "comparison"
   | "team"
   | "events"
-  | "files";
+  | "files"
+  | "templateShowcase";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type BlogSlugUsedWhenTypeIsBlogStandalone = string;
 export type BlogSlugsFilterWhenTypeIsBlogRenderOnlyTheseBlogsInTheGivenOrderSupportsStandaloneBlogs = string[];
@@ -297,6 +298,12 @@ export type FileTypeEGPdfDocx = string;
 export type DownloadURL = string;
 export type Files = FileItem[];
 export type FileGroups = FileGroup[];
+export type TemplateName = string;
+export type Description2 = string;
+export type ScreenshotURL = string;
+export type LiveDemoURL = string;
+export type Tags = string[];
+export type TemplateItems = TemplateItem[];
 export type Country = "polska";
 export type Region =
   | "mazowsze"
@@ -324,7 +331,7 @@ export type ServiceID = string;
 export type ServiceName = string;
 export type DurationMinutes = number;
 export type Price1 = number;
-export type Description2 = string;
+export type Description3 = string;
 export type BookingServices = BookingService[];
 export type Open = boolean;
 export type OpeningTime = string;
@@ -579,6 +586,7 @@ export interface Section {
   rows?: ComparisonRows;
   members?: TeamMembers;
   fileGroups?: FileGroups;
+  templateItems?: TemplateItems;
   area?: ServiceAreaConfiguration;
 }
 export interface SidebarContactCard {
@@ -772,6 +780,13 @@ export interface FileItem {
   type?: FileTypeEGPdfDocx;
   url: DownloadURL;
 }
+export interface TemplateItem {
+  name: TemplateName;
+  description: Description2;
+  screenshot: ScreenshotURL;
+  demoUrl: LiveDemoURL;
+  tags?: Tags;
+}
 export interface ServiceAreaConfiguration {
   country?: Country;
   region?: Region;
@@ -817,7 +832,7 @@ export interface BookingService {
   name: ServiceName;
   duration: DurationMinutes;
   price?: Price1;
-  description?: Description2;
+  description?: Description3;
 }
 export interface BusinessHours1 {
   mon?: BookingDayHours;

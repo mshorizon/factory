@@ -1035,6 +1035,60 @@
         }
       ]
     },
+    "templates": {
+      "title": "t:pages.templates",
+      "navLabel": "t:nav.templates",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
+          "header": {
+            "badge": "t:templates.hero.badge",
+            "title": "t:templates.hero.title",
+            "subtitle": "t:templates.hero.subtitle"
+          }
+        },
+        {
+          "type": "templateShowcase",
+          "header": {
+            "badge": "t:templates.showcase.badge",
+            "title": "Example Templates",
+            "subtitle": "t:templates.showcase.subtitle"
+          },
+          "templateItems": [
+            {
+              "name": "Law & Legal Services",
+              "description": "Professional template for law firms, solicitors, and legal professionals. Includes document downloads, attorney profiles, and practice area pages.",
+              "screenshot": "/screenshots/template-law.png",
+              "demoUrl": "https://template-law.hazelgrouse.pl",
+              "tags": ["Law", "Legal", "Professional"]
+            },
+            {
+              "name": "Specialist & Trades",
+              "description": "Versatile template for tradespeople and specialists — electricians, plumbers, carpenters. Features service areas, booking, and before/after gallery.",
+              "screenshot": "/screenshots/template-specialist.png",
+              "demoUrl": "https://template-specialist.hazelgrouse.pl",
+              "tags": ["Trades", "Specialist", "Services"]
+            },
+            {
+              "name": "Tech & Agency",
+              "description": "Sleek template for digital agencies, freelancers, and software companies. Showcases services, case studies, and pricing in a modern dark-mode design.",
+              "screenshot": "/screenshots/template-tech.png",
+              "demoUrl": "https://template-tech.hazelgrouse.pl",
+              "tags": ["Tech", "Agency", "Digital"]
+            },
+            {
+              "name": "Artist & Creative",
+              "description": "Portfolio-first template for artists, photographers, and creatives. Puts your work front and centre with a full-screen gallery and minimal UI.",
+              "screenshot": "/screenshots/template-art.png",
+              "demoUrl": "https://template-art.hazelgrouse.pl",
+              "tags": ["Art", "Creative", "Portfolio"]
+            }
+          ]
+        }
+      ]
+    },
     "privacy": {
       "title": "t:pages.privacy",
       "hideFromNav": true,

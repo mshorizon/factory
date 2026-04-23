@@ -3,6 +3,7 @@
 
   "nav.home": "Główna",
   "nav.cta": "Bezpłatny podgląd",
+  "nav.templates": "Szablony",
 
   "pages.home": "Hazelgrouse Studio — Strony WWW dla lokalnych firm",
   "pages.about": "O nas",
@@ -10,7 +11,14 @@
   "pages.projects": "Realizacje",
   "pages.blog": "Blog",
   "pages.contact": "Kontakt",
+  "pages.templates": "Szablony",
   "pages.privacy": "Polityka Prywatności",
+
+  "templates.hero.badge": "Gotowe do wdrożenia",
+  "templates.hero.title": "Przykładowe Szablony",
+  "templates.hero.subtitle": "Wybierz szablon pasujący do Twojego biznesu — wdrożymy go z Twoimi danymi w ciągu 48 godzin.",
+  "templates.showcase.badge": "Szablony",
+  "templates.showcase.subtitle": "Każdy szablon to w pełni responsywna strona z wbudowanym SEO, blogiem i panelem administracyjnym.",
 
   "footer.copyright": "© 2026 Hazelgrouse Studio. Wszelkie prawa zastrzeżone.",
   "footer.tagline": "Nowoczesne strony WWW dla firm, które chcą rosnąć.",
