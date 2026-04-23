@@ -497,7 +497,8 @@
                 "type": "array",
                 "title": "Metric Badges",
                 "items": { "type": "string" }
-              }
+              },
+              "url": { "type": "string", "title": "Live Website URL" }
             }
           }
         },

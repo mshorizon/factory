@@ -279,6 +279,7 @@ export type Date = string;
 export type KeyMetric = string;
 export type MetricLabel1 = string;
 export type MetricBadges = string[];
+export type LiveWebsiteURL = string;
 export type Projects = ProjectItem[];
 export type LeftColumnTitleEGManualWork = string;
 export type RightColumnTitleEGAIAutomation = string;
@@ -750,6 +751,7 @@ export interface ProjectItem {
   metric?: KeyMetric;
   metricLabel?: MetricLabel1;
   metrics?: MetricBadges;
+  url?: LiveWebsiteURL;
 }
 export interface ComparisonRow {
   left?: LeftProblem;
