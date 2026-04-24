@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { cn } from "../../lib/utils";
 import { SafeImage } from "../../atoms/SafeImage.js";
 import type { TrustBarLogosProps } from "./types";
 
 export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const revealRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(revealRef, { once: true, margin: "-80px" });
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -47,7 +50,13 @@ export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
   const logos = [...clientLogos, ...clientLogos];
 
   return (
-    <div className={cn("", className)}>
+    <motion.div
+      ref={revealRef}
+      className={cn("", className)}
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+    >
       <div className="max-w-[750px] mx-auto overflow-hidden relative">
         {/* Left fade */}
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
@@ -74,6 +83,6 @@ export function TrustBarLogos({ clientLogos, className }: TrustBarLogosProps) {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

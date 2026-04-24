@@ -23,7 +23,7 @@ export type TrustSignals = {
 }[];
 export type ThemePreset = "industrial" | "wellness" | "minimal" | "elegant" | "modern" | "classic" | "bold";
 export type GlobalVariant = string;
-export type MajorTheme = "specialist" | "portfolio-tech" | "portfolio-art" | "portfolio-law";
+export type MajorTheme = "template-specialist" | "template-tech" | "template-art" | "template-law";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
 export type PrimaryLightColor = string;
@@ -173,7 +173,8 @@ export type SectionType =
   | "comparison"
   | "team"
   | "events"
-  | "files";
+  | "files"
+  | "templateShowcase";
 export type SharedSectionIDUsedWhenTypeIsRef = string;
 export type BlogSlugUsedWhenTypeIsBlogStandalone = string;
 export type BlogSlugsFilterWhenTypeIsBlogRenderOnlyTheseBlogsInTheGivenOrderSupportsStandaloneBlogs = string[];
@@ -279,6 +280,7 @@ export type Date = string;
 export type KeyMetric = string;
 export type MetricLabel1 = string;
 export type MetricBadges = string[];
+export type LiveWebsiteURL = string;
 export type Projects = ProjectItem[];
 export type LeftColumnTitleEGManualWork = string;
 export type RightColumnTitleEGAIAutomation = string;
@@ -296,6 +298,12 @@ export type FileTypeEGPdfDocx = string;
 export type DownloadURL = string;
 export type Files = FileItem[];
 export type FileGroups = FileGroup[];
+export type TemplateName = string;
+export type Description2 = string;
+export type ScreenshotURL = string;
+export type LiveDemoURL = string;
+export type Tags = string[];
+export type TemplateItems = TemplateItem[];
 export type Country = "polska";
 export type Region =
   | "mazowsze"
@@ -323,7 +331,7 @@ export type ServiceID = string;
 export type ServiceName = string;
 export type DurationMinutes = number;
 export type Price1 = number;
-export type Description2 = string;
+export type Description3 = string;
 export type BookingServices = BookingService[];
 export type Open = boolean;
 export type OpeningTime = string;
@@ -578,6 +586,7 @@ export interface Section {
   rows?: ComparisonRows;
   members?: TeamMembers;
   fileGroups?: FileGroups;
+  templateItems?: TemplateItems;
   area?: ServiceAreaConfiguration;
 }
 export interface SidebarContactCard {
@@ -750,6 +759,7 @@ export interface ProjectItem {
   metric?: KeyMetric;
   metricLabel?: MetricLabel1;
   metrics?: MetricBadges;
+  url?: LiveWebsiteURL;
 }
 export interface ComparisonRow {
   left?: LeftProblem;
@@ -769,6 +779,13 @@ export interface FileItem {
   name: FileName;
   type?: FileTypeEGPdfDocx;
   url: DownloadURL;
+}
+export interface TemplateItem {
+  name: TemplateName;
+  description: Description2;
+  screenshot: ScreenshotURL;
+  demoUrl: LiveDemoURL;
+  tags?: Tags;
 }
 export interface ServiceAreaConfiguration {
   country?: Country;
@@ -815,7 +832,7 @@ export interface BookingService {
   name: ServiceName;
   duration: DurationMinutes;
   price?: Price1;
-  description?: Description2;
+  description?: Description3;
 }
 export interface BusinessHours1 {
   mon?: BookingDayHours;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { Phone, Mail, Briefcase, MapPin, CheckCircle, AlertCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Input } from "../../atoms/Input";
@@ -11,6 +11,10 @@ import { Badge } from "../../atoms/Badge";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import { Turnstile } from "../../atoms/Turnstile";
 import type { ContactSplitProps, SelectField } from "./types";
+
+const cardStyle = {
+  background: "radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--primary) 15%, transparent) 0%, transparent 70%)",
+};
 
 export function ContactSplit({
   title,
@@ -38,7 +42,6 @@ export function ContactSplit({
 
     const data = new FormData(e.currentTarget);
 
-    // Compose qualifying fields into the message
     let message = (data.get("message") as string) || "";
     const qualifiers: string[] = [];
     for (const field of form?.selectFields ?? []) {
@@ -76,23 +79,18 @@ export function ContactSplit({
     }
   }
 
-  // Use business contact info if available, fallback to info prop
   const contactInfo = {
     address: business?.business?.contact?.address || info?.address,
     phone: business?.business?.contact?.phone || info?.phone,
     email: business?.business?.contact?.email || info?.email,
     hours: business?.business?.contact?.hours || info?.hours,
     location: business?.business?.contact?.location,
+    industry: info?.industry,
+    city: info?.city,
   };
-
-  // Generate Google Maps URL from location coordinates
-  const mapsUrl = contactInfo.location
-    ? `https://www.google.com/maps?q=${contactInfo.location.latitude},${contactInfo.location.longitude}`
-    : null;
 
   return (
     <div className={cn("max-w-5xl mx-auto", className)}>
-      {/* Header (only rendered when badge/title/subtitle are passed directly) */}
       {(badge || title) && (
         <div className="text-center mb-spacing-3xl">
           {badge && (
@@ -116,15 +114,15 @@ export function ContactSplit({
         </div>
       )}
 
-      <div className="grid lg:grid-cols-[auto,1fr] gap-spacing-2xl items-start">
-        {/* Contact Info - Left side */}
-        <ScrollReveal delay={0.1} direction="left" distance={30} className="min-w-0">
-          <div className="flex flex-col gap-spacing-md">
+      <div className="flex flex-col gap-spacing-xl">
+        {/* Row 1: Email + Phone */}
+        <ScrollReveal delay={0.1} direction="up" distance={20}>
+          <div className="grid sm:grid-cols-2 gap-spacing-md">
             {contactInfo.email && (
               <a
                 href={`mailto:${contactInfo.email}`}
                 className="flex flex-col gap-spacing-xs rounded-lg border border-border/15 p-spacing-lg hover:border-border/30 transition-colors group"
-                style={{ background: "radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--primary) 15%, transparent) 0%, transparent 70%)" }}
+                style={cardStyle}
               >
                 <div className="flex items-center gap-spacing-sm">
                   <Mail className="h-5 w-5 shrink-0 text-foreground" />
@@ -137,7 +135,7 @@ export function ContactSplit({
               <a
                 href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
                 className="flex flex-col gap-spacing-xs rounded-lg border border-border/15 p-spacing-lg hover:border-border/30 transition-colors group"
-                style={{ background: "radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--primary) 15%, transparent) 0%, transparent 70%)" }}
+                style={cardStyle}
               >
                 <div className="flex items-center gap-spacing-sm">
                   <Phone className="h-5 w-5 shrink-0 text-foreground" />
@@ -149,8 +147,40 @@ export function ContactSplit({
           </div>
         </ScrollReveal>
 
-        {/* Contact Form - Right side */}
-        <ScrollReveal delay={0.1} direction="right" distance={30} className="min-w-0">
+        {/* Row 2: Industry + City */}
+        {(contactInfo.industry || contactInfo.city) && (
+          <ScrollReveal delay={0.15} direction="up" distance={20}>
+            <div className="grid sm:grid-cols-2 gap-spacing-md">
+              {contactInfo.industry && (
+                <div
+                  className="flex flex-col gap-spacing-xs rounded-lg border border-border/15 p-spacing-lg"
+                  style={cardStyle}
+                >
+                  <div className="flex items-center gap-spacing-sm">
+                    <Briefcase className="h-5 w-5 shrink-0 text-foreground" />
+                    <span className="text-sm font-medium text-foreground">Branża</span>
+                  </div>
+                  <span className="text-sm text-muted">{contactInfo.industry}</span>
+                </div>
+              )}
+              {contactInfo.city && (
+                <div
+                  className="flex flex-col gap-spacing-xs rounded-lg border border-border/15 p-spacing-lg"
+                  style={cardStyle}
+                >
+                  <div className="flex items-center gap-spacing-sm">
+                    <MapPin className="h-5 w-5 shrink-0 text-foreground" />
+                    <span className="text-sm font-medium text-foreground">Miasto</span>
+                  </div>
+                  <span className="text-sm text-muted">{contactInfo.city}</span>
+                </div>
+              )}
+            </div>
+          </ScrollReveal>
+        )}
+
+        {/* Row 3: Contact Form */}
+        <ScrollReveal delay={0.2} direction="up" distance={20}>
           <form onSubmit={handleSubmit} className="space-y-spacing-lg rounded-lg border border-border/15 p-6 sm:p-spacing-2xl overflow-hidden">
             <div className="grid sm:grid-cols-2 gap-spacing-lg">
               <div className="space-y-spacing-xs">

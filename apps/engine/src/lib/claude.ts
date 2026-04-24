@@ -58,7 +58,7 @@ ${THEME_PRESETS}
 
 ${SECTION_VARIANTS}
 
-Available majorTheme values: specialist (for service businesses), portfolio-tech (for tech/portfolio sites)
+Available majorTheme values: template-specialist (for service businesses), template-tech (for tech/portfolio sites), template-art (for art/creative portfolios), template-law (for law/professional services)
 Available navbar variants: standard, centered
 Available footer variants: simple, multiColumn, minimal, centered, branded, stacked, gradient
 Available theme modes: light, dark

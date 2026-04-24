@@ -26,7 +26,7 @@ export function CtaBannerCard({
         className="rounded-xl relative overflow-hidden text-center"
         style={{
           background:
-            "linear-gradient(149deg, color-mix(in srgb, var(--primary) 40%, transparent) 0%, rgba(13,13,13,0.8) 29%, rgba(13,13,13,0.8) 74%, color-mix(in srgb, var(--primary) 40%, transparent) 100%)",
+            "linear-gradient(149deg, color-mix(in srgb, var(--primary) 40%, transparent) 0%, var(--background) 29%, var(--background) 74%, color-mix(in srgb, var(--primary) 40%, transparent) 100%)",
         }}
       >
         <div className="py-20 px-8">

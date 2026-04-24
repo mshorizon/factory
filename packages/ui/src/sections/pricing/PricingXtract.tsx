@@ -45,7 +45,7 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
           onClick={() => setIsAnnual(!isAnnual)}
           className={cn(
             "relative w-12 h-6 rounded-full transition-colors",
-            isAnnual ? "bg-primary" : "bg-white/20"
+            isAnnual ? "bg-primary" : "bg-foreground/20"
           )}
         >
           <span
@@ -95,7 +95,7 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                     {tier.name}
                   </span>
                   {tier.highlighted && tier.badge && (
-                    <span className="ml-auto text-xs px-3 py-2 rounded-md bg-black/60 border border-border/30">
+                    <span className="ml-auto text-xs px-3 py-2 rounded-md bg-foreground/10 text-foreground border border-border/30">
                       {tier.badge}
                     </span>
                   )}
@@ -147,7 +147,7 @@ export function PricingXtract({ tiers, className }: PricingXtractProps) {
                       variant={tier.highlighted ? "default" : "outline"}
                       className={cn(
                         "w-full !rounded-lg",
-                        !tier.highlighted && "text-foreground border-border/20 hover:bg-white/5"
+                        !tier.highlighted && "text-foreground border-border/20 hover:bg-foreground/5"
                       )}
                       asChild
                     >

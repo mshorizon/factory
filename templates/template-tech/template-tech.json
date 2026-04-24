@@ -12,7 +12,7 @@
     "contact": {
       "address": "t:contact.info.address",
       "phone": "t:contact.info.phone",
-      "email": "hello@hazelgrouse.pl",
+      "email": "sadlo.mateusz@gmai.com",
       "hours": "t:contact.info.hours"
     },
     "socials": {
@@ -24,8 +24,8 @@
   },
   "theme": {
     "preset": "minimal",
-    "majorTheme": "portfolio-tech",
-    "mode": "dark",
+    "majorTheme": "template-tech",
+    "mode": "light",
     "colors": {
       "light": {
         "primary": "#814AC8",
@@ -69,7 +69,7 @@
         "2xl": "3rem",
         "3xl": "4rem",
         "section-sm": "5rem",
-        "section": "7.5rem",
+        "section": "3.75rem",
         "container": "2.5rem"
       }
     },
@@ -419,52 +419,17 @@
           },
           "projects": [
             {
-              "title": "t:proj.0.title",
-              "description": "t:proj.0.description",
-              "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=500&fit=crop",
-              "logo": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 32'%3E%3Cpath d='M16 4L9 18h5l-1 10 8-14h-5l1-10z' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EElektryka%20i%20instalacje%3C/text%3E%3C/svg%3E",
+              "title": "Kancelaria Komornicza Marcin Starzec",
+              "description": "Kancelaria Komornicza nr IX w Otwocku prowadzona przez Komornika Sądowego Marcina Starzec. Stworzyliśmy profesjonalną stronę z pełną informacją o usługach komorniczych, możliwością pobierania dokumentów i blogiem prawnym — zapewniając wierzycielom i dłużnikom dostęp do kluczowych informacji 24/7.",
+              "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=500&fit=crop",
+              "logo": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 32'%3E%3Cpath d='M12 4v20M4 10h16' stroke='%23FFFFFF' stroke-width='2' fill='none' opacity='0.7'/%3E%3Cpath d='M4 10l-2 6h4z' fill='%23FFFFFF' opacity='0.5'/%3E%3Cpath d='M16 10l-2 6h4z' fill='%23FFFFFF' opacity='0.5'/%3E%3Ctext x='28' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EKomornik%20Starzec%3C/text%3E%3C/svg%3E",
               "metrics": [
-                "t:proj.0.m0",
-                "t:proj.0.m1",
-                "t:proj.0.m2",
-                "t:proj.0.m3"
-              ]
-            },
-            {
-              "title": "t:proj.1.title",
-              "description": "t:proj.1.description",
-              "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=500&fit=crop",
-              "logo": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 32'%3E%3Cpath d='M8 6v8c0 3 2 5 4 6v8M18 6v4c0 4-3 6-5 6v10M12 6v20' stroke='%23FFFFFF' stroke-width='2' fill='none' opacity='0.7' stroke-linecap='round'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EGastronomia%3C/text%3E%3C/svg%3E",
-              "metrics": [
-                "t:proj.1.m0",
-                "t:proj.1.m1",
-                "t:proj.1.m2",
-                "t:proj.1.m3"
-              ]
-            },
-            {
-              "title": "t:proj.2.title",
-              "description": "t:proj.2.description",
-              "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=500&fit=crop",
-              "logo": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 32'%3E%3Crect x='2' y='13' width='4' height='6' rx='2' fill='%23FFFFFF' opacity='0.7'/%3E%3Crect x='18' y='13' width='4' height='6' rx='2' fill='%23FFFFFF' opacity='0.7'/%3E%3Crect x='6' y='15' width='12' height='2' rx='1' fill='%23FFFFFF' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EFitness%20i%20trenerzy%3C/text%3E%3C/svg%3E",
-              "metrics": [
-                "t:proj.2.m0",
-                "t:proj.2.m1",
-                "t:proj.2.m2",
-                "t:proj.2.m3"
-              ]
-            },
-            {
-              "title": "t:proj.3.title",
-              "description": "t:proj.3.description",
-              "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=500&fit=crop",
-              "logo": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 230 32'%3E%3Cpath d='M12 5v22M5 12h14' stroke='%23FFFFFF' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/%3E%3Ctext x='30' y='22' font-family='system-ui' font-weight='600' font-size='14' fill='%23FFFFFF'%3EZdrowie%20i%20rehabilitacja%3C/text%3E%3C/svg%3E",
-              "metrics": [
-                "t:proj.3.m0",
-                "t:proj.3.m1",
-                "t:proj.3.m2",
-                "t:proj.3.m3"
-              ]
+                "15+ lat doświadczenia",
+                "5000+ spraw przeprowadzonych",
+                "98% skuteczność egzekucji",
+                "ID komornika 2721 w EPU"
+              ],
+              "url": "https://komornikwotwocku.hazelgrouse.pl"
             }
           ]
         },
@@ -1060,11 +1025,67 @@
             "submitButton": "t:contact.form.submit"
           },
           "info": {
-            "email": "hello@hazelgrouse.pl",
+            "email": "sadlo.mateusz@gmai.com",
             "phone": "t:contact.info.phone",
             "address": "t:contact.info.address",
-            "hours": "t:contact.info.hours"
+            "hours": "t:contact.info.hours",
+            "industry": "projektowanie stron internetowych",
+            "city": "Warszawa"
           }
+        }
+      ]
+    },
+    "templates": {
+      "title": "t:pages.templates",
+      "navLabel": "t:nav.templates",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "gradient",
+          "background": "dark",
+          "header": {
+            "badge": "t:templates.hero.badge",
+            "title": "t:templates.hero.title",
+            "subtitle": "t:templates.hero.subtitle"
+          }
+        },
+        {
+          "type": "templateShowcase",
+          "header": {
+            "badge": "t:templates.showcase.badge",
+            "title": "Example Templates",
+            "subtitle": "t:templates.showcase.subtitle"
+          },
+          "templateItems": [
+            {
+              "name": "Law & Legal Services",
+              "description": "Professional template for law firms, solicitors, and legal professionals. Includes document downloads, attorney profiles, and practice area pages.",
+              "screenshot": "/screenshots/template-law.png",
+              "demoUrl": "https://template-law.hazelgrouse.pl",
+              "tags": ["Law", "Legal", "Professional"]
+            },
+            {
+              "name": "Specialist & Trades",
+              "description": "Versatile template for tradespeople and specialists — electricians, plumbers, carpenters. Features service areas, booking, and before/after gallery.",
+              "screenshot": "/screenshots/template-specialist.png",
+              "demoUrl": "https://template-specialist.hazelgrouse.pl",
+              "tags": ["Trades", "Specialist", "Services"]
+            },
+            {
+              "name": "Tech & Agency",
+              "description": "Sleek template for digital agencies, freelancers, and software companies. Showcases services, case studies, and pricing in a modern dark-mode design.",
+              "screenshot": "/screenshots/template-tech.png",
+              "demoUrl": "https://template-tech.hazelgrouse.pl",
+              "tags": ["Tech", "Agency", "Digital"]
+            },
+            {
+              "name": "Artist & Creative",
+              "description": "Portfolio-first template for artists, photographers, and creatives. Puts your work front and centre with a full-screen gallery and minimal UI.",
+              "screenshot": "/screenshots/template-art.png",
+              "demoUrl": "https://template-art.hazelgrouse.pl",
+              "tags": ["Art", "Creative", "Portfolio"]
+            }
+          ]
         }
       ]
     },

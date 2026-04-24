@@ -4,6 +4,7 @@ export interface ProjectCard {
   image?: string;
   date?: string;
   metrics?: string[];
+  url?: string;
 }
 
 export interface ProjectGridProps {

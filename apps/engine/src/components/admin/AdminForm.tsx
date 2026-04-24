@@ -1238,10 +1238,10 @@ export default function AdminForm({
                     // Apply new majorTheme variants to all non-overridden sections
                     if (newTheme) {
                       const themeDefaults: Record<string, Record<string, string>> = {
-                        specialist: { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
-                        "portfolio-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid", comparison: "default", team: "default" },
-                        "portfolio-art": { hero: "split", services: "grid", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
-                        "portfolio-law": { hero: "split", services: "grid", categories: "featured", about: "story", contact: "minimal", testimonials: "centered", faq: "split", features: "icon-tiles", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "cards-light", shop: "grid", comparison: "default", team: "default" },
+                        "template-specialist": { hero: "split", services: "darkCards", categories: "carousel", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
+                        "template-tech": { hero: "gradient", services: "featured", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "compact", ctaBanner: "default", process: "visual", pricing: "default", project: "carousel", blog: "default", shop: "grid", comparison: "default", team: "default" },
+                        "template-art": { hero: "split", services: "grid", categories: "featured", about: "story", contact: "split", testimonials: "default", faq: "default", features: "default", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "default", shop: "grid", comparison: "default", team: "default" },
+                        "template-law": { hero: "split", services: "grid", categories: "featured", about: "story", contact: "minimal", testimonials: "centered", faq: "split", features: "icon-tiles", ctaBanner: "default", process: "default", pricing: "default", project: "grid", blog: "cards-light", shop: "grid", comparison: "default", team: "default" },
                       };
                       const oldDefaults = oldTheme ? themeDefaults[oldTheme] || {} : {};
                       const newDefaults = themeDefaults[newTheme] || {};
@@ -1271,10 +1271,10 @@ export default function AdminForm({
                   className="px-3 py-2 border border-border bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring/20"
                 >
                   <option value="">None</option>
-                  <option value="specialist">Specialist</option>
-                  <option value="portfolio-tech">Portfolio Tech</option>
-                  <option value="portfolio-art">Portfolio Art</option>
-                  <option value="portfolio-law">Portfolio Law</option>
+                  <option value="template-specialist">template-specialist</option>
+                  <option value="template-tech">template-tech</option>
+                  <option value="template-art">template-art</option>
+                  <option value="template-law">template-law</option>
                 </select>
               </div>
             </CardContent>

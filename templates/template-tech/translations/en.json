@@ -3,6 +3,7 @@
 
   "nav.home": "Home",
   "nav.cta": "Get free preview",
+  "nav.templates": "Templates",
 
   "pages.home": "Hazelgrouse Studio — Websites for Local Businesses",
   "pages.about": "About",
@@ -10,7 +11,14 @@
   "pages.projects": "Case Studies",
   "pages.blog": "Blog",
   "pages.contact": "Contact",
+  "pages.templates": "Templates",
   "pages.privacy": "Privacy Policy",
+
+  "templates.hero.badge": "Ready to deploy",
+  "templates.hero.title": "Example Templates",
+  "templates.hero.subtitle": "Pick a template that fits your business — we'll launch it with your data within 48 hours.",
+  "templates.showcase.badge": "Templates",
+  "templates.showcase.subtitle": "Each template is a fully responsive website with built-in SEO, blog, and admin panel.",
 
   "footer.copyright": "© 2026 Hazelgrouse Studio. All rights reserved.",
   "footer.tagline": "Modern websites for businesses that want to grow.",
@@ -334,8 +342,8 @@
   "contact.form.messageLabel": "Tell us more (optional)",
   "contact.form.message": "Where are you based? What's most important to you? Any specific questions?",
   "contact.form.submit": "Request free preview",
-  "contact.info.email": "hello@hazelgrouse.pl",
-  "contact.info.phone": "+48 500 000 000",
+  "contact.info.email": "sadlo.mateusz@gmai.com",
+  "contact.info.phone": "504 472 002",
   "contact.info.address": "Warsaw, Poland",
   "contact.info.hours": "Mon-Fri: 9:00-18:00",
 

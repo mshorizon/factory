@@ -32,6 +32,8 @@ export interface ContactInfo {
   receptionLabel?: string;
   additionalInfo?: string[];
   notice?: ContactNotice;
+  industry?: string;
+  city?: string;
 }
 
 export interface ContactLabels {

@@ -5,12 +5,12 @@
 ### Leverage client #1 (komornik)
 - [x] Ask for permission to use komornikwotwocku.hazelgrouse.pl as portfolio case
 - [x] Get a written testimonial (even 1–2 sentences)
-- [ ] Add komornik as first real case study on hazelgrouse.pl (screenshot + live link)
+- [x] Add komornik as first real case study on hazelgrouse.pl (screenshot + live link)
 
 ### Fix hazelgrouse.pl
-- [ ] Replace placeholder phone and address with real contact data
-- [ ] Add "Twoja branża" + "Miasto" fields to contact form for lead qualification
-- [ ] Add both template-law and template-specialist as live demos in portfolio/case studies section
+- [x] Replace placeholder phone and address with real contact data
+- [x] Add "Twoja branża" + "Miasto" fields to contact form for lead qualification
+- [x] Add both template-law and template-specialist as live demos in portfolio/case studies section
 
 ---
 

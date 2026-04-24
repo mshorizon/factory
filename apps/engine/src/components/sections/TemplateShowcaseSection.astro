@@ -1,0 +1,27 @@
+---
+import type { Section } from "@mshorizon/schema";
+import { TemplateShowcase, SectionHeader } from "@mshorizon/ui";
+import { getSectionHeader } from "../../lib/pages";
+
+interface Props {
+  section: Section;
+  badgeVariant?: string;
+}
+
+const { section, badgeVariant } = Astro.props;
+const header = getSectionHeader(section);
+const templates = (section as any).templateItems || [];
+---
+
+<section>
+  <div class="container mx-auto">
+    <SectionHeader
+      badge={header.badge}
+      title={header.title}
+      subtitle={header.subtitle}
+      background={section.background}
+      badgeVariant={badgeVariant as any}
+    />
+    <TemplateShowcase client:visible templates={templates} />
+  </div>
+</section>

@@ -70,10 +70,10 @@ type TaskManagerProps = {
 };
 
 const TEMPLATE_OPTIONS = [
-  { value: "specialist", label: "specialist" },
-  { value: "portfolio-law", label: "portfolio-law" },
-  { value: "portfolio-tech", label: "portfolio-tech" },
-  { value: "portfolio-art", label: "portfolio-art" },
+  { value: "template-specialist", label: "template-specialist" },
+  { value: "template-law", label: "template-law" },
+  { value: "template-tech", label: "template-tech" },
+  { value: "template-art", label: "template-art" },
 ];
 
 const WHOLE_WEBSITE_PAGE: BusinessPageMeta & { label: string } = {

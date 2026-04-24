@@ -31,6 +31,7 @@ const DEFAULT_VARIANTS: Record<SectionType, string> = {
   team: "default",
   events: "default",
   files: "default",
+  templateShowcase: "default",
 };
 
 /**

@@ -141,7 +141,7 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "blog-standalone", "map", "ref", "booking", "pricing", "project", "comparison", "team", "events", "files"]
+          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "blog-standalone", "map", "ref", "booking", "pricing", "project", "comparison", "team", "events", "files", "templateShowcase"]
         },
         "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
         "blogSlug": { "type": "string", "title": "Blog Slug (used when type is blog-standalone)" },
@@ -497,7 +497,8 @@
                 "type": "array",
                 "title": "Metric Badges",
                 "items": { "type": "string" }
-              }
+              },
+              "url": { "type": "string", "title": "Live Website URL" }
             }
           }
         },
@@ -553,6 +554,26 @@
               }
             },
             "required": ["title", "files"]
+          }
+        },
+        "templateItems": {
+          "type": "array",
+          "title": "Template Items",
+          "items": {
+            "type": "object",
+            "title": "TemplateItem",
+            "properties": {
+              "name": { "type": "string", "title": "Template Name" },
+              "description": { "type": "string", "title": "Description" },
+              "screenshot": { "type": "string", "title": "Screenshot URL" },
+              "demoUrl": { "type": "string", "title": "Live Demo URL" },
+              "tags": {
+                "type": "array",
+                "title": "Tags",
+                "items": { "type": "string" }
+              }
+            },
+            "required": ["name", "description", "screenshot", "demoUrl"]
           }
         },
         "area": {
@@ -820,7 +841,7 @@
         "majorTheme": {
           "type": "string",
           "title": "Major Theme",
-          "enum": ["specialist", "portfolio-tech", "portfolio-art", "portfolio-law"]
+          "enum": ["template-specialist", "template-tech", "template-art", "template-law"]
         },
         "mode": {
           "type": "string",

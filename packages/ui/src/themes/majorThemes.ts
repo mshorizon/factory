@@ -4,7 +4,7 @@
  * Users can override individual variants per section in the admin panel.
  */
 export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
-  specialist: {
+  "template-specialist": {
     hero: "split",
     services: "darkCards",
     categories: "carousel",
@@ -26,7 +26,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     team: "default",
     trustBar: "default",
   },
-  "portfolio-tech": {
+  "template-tech": {
     hero: "gradient",
     services: "alternating",
     categories: "featured",
@@ -48,7 +48,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     team: "default",
     trustBar: "logos",
   },
-  "portfolio-law": {
+  "template-law": {
     hero: "split",
     services: "grid",
     categories: "featured",
@@ -71,7 +71,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     trustBar: "default",
     events: "default",
   },
-  "portfolio-art": {
+  "template-art": {
     hero: "artist",
     services: "grid",
     categories: "featured",

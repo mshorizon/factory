@@ -19,7 +19,7 @@
   },
   "theme": {
     "preset": "elegant",
-    "majorTheme": "portfolio-law",
+    "majorTheme": "template-law",
     "mode": "light",
     "colors": {
       "light": {
