@@ -11,7 +11,7 @@
 - [x] Replace placeholder phone and address with real contact data
 - [x] Add "Twoja branża" + "Miasto" fields to contact form for lead qualification
 - [x] Add both template-law and template-specialist as live demos in portfolio/case studies section
-
+- [ ] perfect site, find new light template, fix
 ---
 
 ## Phase 2 — First 5 Clients (Week 3–8)
