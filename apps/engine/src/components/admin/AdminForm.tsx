@@ -20,6 +20,7 @@ import { BookingsTab } from "./BookingsTab";
 import { FilesTab } from "./FilesTab";
 import { UniversalList } from "./UniversalList";
 import TaskManager from "./TaskManager";
+import { BusinessesPanel } from "./BusinessesPanel";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -100,6 +101,7 @@ import {
   Globe,
   Image as ImageIcon,
   ListTodo,
+  Building2,
   X,
 } from "lucide-react";
 
@@ -1588,6 +1590,10 @@ export default function AdminForm({
       return <OverviewTab />;
     }
 
+    if (activeTab === "businesses") {
+      return <BusinessesPanel />;
+    }
+
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
     if (activeTab === "tasks") {
@@ -1685,7 +1691,8 @@ export default function AdminForm({
         description: "Manage tenants and user access.",
         Icon: Shield,
         items: [
-          { id: "overview", label: "Businesses", Icon: LayoutDashboard },
+          { id: "businesses", label: "Businesses", Icon: Building2 },
+          { id: "overview", label: "Health Overview", Icon: LayoutDashboard },
           { id: "users", label: "Users", Icon: Users },
         ],
       },
