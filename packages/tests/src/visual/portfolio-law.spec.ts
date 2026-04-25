@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const SUBDOMAIN = "portfolio-law";
+const SUBDOMAIN = "template-law";
 const BASE = `http://${SUBDOMAIN}.localhost:4321`;
 
 const PAGES = [
