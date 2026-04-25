@@ -22,6 +22,17 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const c=[];process.stdin.on('data',x=>c.push(x));process.stdin.on('end',()=>{const i=JSON.parse(Buffer.concat(c).toString());if(i.tool_input&&i.tool_input.status==='completed'){const fs=require('fs'),p='/home/dev/factory/CONTEXT.md',d=new Date().toISOString().slice(0,10),t=fs.readFileSync(p,'utf8');fs.writeFileSync(p,t.replace(/(>\\s*Updated:\\s*)\\S+/,'$1'+d).replace(/(\\*\\*Last updated:\\*\\*\\s*)\\S+/,'$1'+d))}})\"",
+            "statusMessage": "Aktualizuję CONTEXT.md...",
+            "timeout": 10
+          }
+        ]
+      },
+      {
         "matcher": "Write|Edit",
         "hooks": [
           {

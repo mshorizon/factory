@@ -1,0 +1,42 @@
+---
+import { getSiteById } from "@mshorizon/db";
+import { BusinessDetailView } from "../../../components/admin/BusinessDetailView";
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+
+const auth = Astro.locals.auth;
+
+if (!auth || auth.role !== "super-admin") {
+  return Astro.redirect("/admin");
+}
+
+const siteId = parseInt(Astro.params.id ?? "", 10);
+if (isNaN(siteId)) {
+  return Astro.redirect("/admin");
+}
+
+const site = await getSiteById(siteId);
+if (!site) {
+  return Astro.redirect("/admin");
+}
+---
+
+<AdminLayout title={`${site.businessName} — Admin`}>
+  <div class="detail-wrapper">
+    <BusinessDetailView client:load siteId={siteId} />
+  </div>
+</AdminLayout>
+
+<style>
+  .detail-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .detail-wrapper {
+      padding: 1rem;
+    }
+  }
+</style>

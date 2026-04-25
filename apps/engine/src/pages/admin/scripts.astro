@@ -1,0 +1,28 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import ScriptsView from "../../components/admin/ScriptsView";
+
+const auth = Astro.locals.auth;
+
+if (!auth) {
+  return Astro.redirect("/admin/login");
+}
+
+if (auth.role !== "super-admin") {
+  return Astro.redirect("/admin");
+}
+---
+
+<AdminLayout title="Scripts — Admin">
+  <div class="scripts-wrapper">
+    <ScriptsView client:load />
+  </div>
+</AdminLayout>
+
+<style>
+  .scripts-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+  }
+</style>
