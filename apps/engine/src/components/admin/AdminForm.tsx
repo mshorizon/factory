@@ -22,6 +22,7 @@ import { UniversalList } from "./UniversalList";
 import TaskManager from "./TaskManager";
 import { BusinessesPanel } from "./BusinessesPanel";
 import StrategyView from "./StrategyView";
+import ScriptsView from "./ScriptsView";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -104,6 +105,7 @@ import {
   ListTodo,
   Building2,
   Lightbulb,
+  Terminal,
   X,
 } from "lucide-react";
 
@@ -1598,6 +1600,8 @@ export default function AdminForm({
 
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
+    if (activeTab === "scripts") return <ScriptsView />;
+
     if (activeTab === "strategy") {
       return <StrategyView />;
     }
@@ -1703,6 +1707,7 @@ export default function AdminForm({
           { id: "businesses", label: "Businesses", Icon: Building2 },
           { id: "overview", label: "Health Overview", Icon: LayoutDashboard },
           { id: "users", label: "Users", Icon: Users },
+          { id: "scripts", label: "Scripts", Icon: Terminal },
         ],
       },
     ] : []),
