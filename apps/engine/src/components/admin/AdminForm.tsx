@@ -1684,18 +1684,14 @@ export default function AdminForm({
       items: pageNames.map((pageName) => ({ id: `page-${pageName}`, label: pageName, Icon: File })),
     },
     {
-      id: "strategy",
-      label: "Strategy",
-      description: "Review and accept Claude's daily suggestions.",
+      id: "ai",
+      label: "AI",
+      description: "Strategic suggestions and task queue for Claude Code.",
       Icon: Lightbulb,
-      items: [],
-    },
-    {
-      id: "tasks",
-      label: "Tasks",
-      description: "Queue work for the Claude Code /task slash command.",
-      Icon: ListTodo,
-      items: [],
+      items: [
+        { id: "strategy", label: "Suggestions", Icon: Lightbulb },
+        { id: "tasks", label: "Tasks", Icon: ListTodo },
+      ],
     },
     ...(auth?.role === "super-admin" ? [
       {
