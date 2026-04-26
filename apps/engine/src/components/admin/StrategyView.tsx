@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, Trophy, RefreshCw, ChevronDown } from "lucide-react";
+import { CheckCircle, XCircle, Trophy, RefreshCw, ChevronDown, Sparkles } from "lucide-react";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -187,6 +187,7 @@ function SuggestionCard({
 export default function StrategyView() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -207,6 +208,27 @@ export default function StrategyView() {
   useEffect(() => {
     fetch_();
   }, [fetch_]);
+
+  const handleGenerate = async () => {
+    setGenerating(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "generate" }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error ?? `HTTP ${res.status}`);
+      }
+      await fetch_();
+    } catch (e: any) {
+      setError(e.message ?? "Failed to generate suggestions.");
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   const handleAction = async (id: number, action: string) => {
     await fetch(`/api/admin/strategy`, {
@@ -247,6 +269,15 @@ export default function StrategyView() {
           >
             <ChevronDown className={`w-3.5 h-3.5 mr-1 transition-transform ${showAll ? "rotate-180" : ""}`} />
             {showAll ? "Hide resolved" : `Show all (${suggestions.length})`}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={handleGenerate}
+            disabled={generating || loading}
+          >
+            <Sparkles className={`w-3.5 h-3.5 mr-1 ${generating ? "animate-pulse" : ""}`} />
+            {generating ? "Generating…" : "Generate more"}
           </Button>
           <Button size="sm" variant="ghost" onClick={fetch_} disabled={loading}>
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
