@@ -67,20 +67,24 @@ export async function processHealthAlert(subdomain: string, checkResult: HealthC
   const statusLabel = checkResult.status === "unhealthy" ? "NIEDOSTĘPNY" : "ZDEGRADOWANY";
   const message = `[${statusLabel}] Serwis ${subdomain} — status: ${checkResult.status}`;
 
-  // Email alert
-  const alertEmail = monitoring?.alertEmail || config?.business?.contact?.email;
-  if (alertEmail) {
-    await sendEmailAlert(
-      alertEmail,
-      `${statusLabel}: ${subdomain}`,
-      `<h2>Alert: ${subdomain}</h2><p>Status: <strong>${checkResult.status}</strong></p><p>Checks: ${JSON.stringify(checkResult.checks, null, 2)}</p><p>Czas: ${new Date().toLocaleString("pl-PL")}</p>`,
-    );
+  // Email alert — always notify studio, optionally notify client
+  const studioEmail = process.env.STUDIO_ALERT_EMAIL || (import.meta as any).env?.STUDIO_ALERT_EMAIL;
+  const clientEmail = monitoring?.alertEmail || config?.business?.contact?.email;
+  const emailHtml = `<h2>Alert: ${subdomain}</h2><p>Status: <strong>${checkResult.status}</strong></p><p>Checks: <pre>${JSON.stringify(checkResult.checks, null, 2)}</pre></p><p>Czas: ${new Date().toLocaleString("pl-PL")}</p>`;
+  const emailSubject = `${statusLabel}: ${subdomain}`;
+
+  const emailTargets = [...new Set([studioEmail, clientEmail].filter(Boolean))] as string[];
+  for (const emailTo of emailTargets) {
+    await sendEmailAlert(emailTo, emailSubject, emailHtml);
+  }
+
+  if (emailTargets.length > 0) {
     await insertAlert({
       siteId: checkResult.siteId,
       type: alertType,
       channel: "email",
       message,
-      metadata: { checks: checkResult.checks },
+      metadata: { checks: checkResult.checks, recipients: emailTargets },
     });
   }
 
