@@ -21,6 +21,7 @@ import { FilesTab } from "./FilesTab";
 import { UniversalList } from "./UniversalList";
 import TaskManager from "./TaskManager";
 import { BusinessesPanel } from "./BusinessesPanel";
+import StrategyView from "./StrategyView";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -102,6 +103,7 @@ import {
   Image as ImageIcon,
   ListTodo,
   Building2,
+  Lightbulb,
   X,
 } from "lucide-react";
 
@@ -1596,6 +1598,10 @@ export default function AdminForm({
 
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
+    if (activeTab === "strategy") {
+      return <StrategyView />;
+    }
+
     if (activeTab === "tasks") {
       const pagesObj = (formData.pages as Record<string, any>) ?? {};
       const businessPages: BusinessPageMeta[] = Object.entries(pagesObj).map(([name, data]) => ({
@@ -1676,6 +1682,13 @@ export default function AdminForm({
       description: "Individual pages and their section layouts.",
       Icon: FileText,
       items: pageNames.map((pageName) => ({ id: `page-${pageName}`, label: pageName, Icon: File })),
+    },
+    {
+      id: "strategy",
+      label: "Strategy",
+      description: "Review and accept Claude's daily suggestions.",
+      Icon: Lightbulb,
+      items: [],
     },
     {
       id: "tasks",
