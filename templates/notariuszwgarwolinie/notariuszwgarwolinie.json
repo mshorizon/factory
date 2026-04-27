@@ -139,6 +139,13 @@
               }
             },
             {
+              "label": "Czynności notarialne",
+              "target": {
+                "type": "page",
+                "value": "notarial-activities"
+              }
+            },
+            {
               "label": "t:pages.informations.title",
               "target": {
                 "type": "page",
@@ -806,6 +813,17 @@
         {
           "type": "blog-standalone",
           "blogSlug": "oplaty"
+        }
+      ]
+    },
+    "notarial-activities": {
+      "title": "Czynności notarialne",
+      "navLabel": "Czynności notarialne",
+      "navOrder": 3,
+      "sections": [
+        {
+          "type": "blog-standalone",
+          "blogSlug": "czynnosci-notarialne"
         }
       ]
     }
