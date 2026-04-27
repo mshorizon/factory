@@ -20,6 +20,23 @@ const siteId: number = rows[0].id;
 
 // Industry-specific images for a notary office (notariusz)
 const blogImages: Record<string, string> = {
+  // "When is a notarial act required?" — pen signing an official legal document
+  "akt-notarialny-kiedy-wymagany":
+    "https://images.unsplash.com/photo-1450101499163-c8848e968838?q=80&w=1200&h=630&fit=crop",
+
+  // "Statutory inheritance vs. will" — legal proceedings, court/judicial documents
+  "dziedziczenie-ustawowe-a-testament":
+    "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&h=630&fit=crop",
+
+  // "GDPR/RODO at the notary office" — digital privacy, data protection
+  "rodo":
+    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200&h=630&fit=crop",
+
+  // "Real estate sales contract" — property transaction, house keys
+  "umowa-sprzedazy-nieruchomosci":
+    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1200&h=630&fit=crop",
+
+  // Legacy service-prefixed slugs (kept for forward compatibility)
   // Notarial acts — formal document signed before a notary, official seal
   "service-akty-notarialne":
     "https://images.unsplash.com/photo-1450101499163-c8848e968838?q=80&w=1200&h=630&fit=crop",
@@ -28,9 +45,9 @@ const blogImages: Record<string, string> = {
   "service-poswiadczenia-dziedziczenia":
     "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&h=630&fit=crop",
 
-  // Certifications / notarizations — official document authentication, stamp
+  // Certifications / notarizations — official document authentication, law library
   "service-poswiadczenia":
-    "https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=1200&h=630&fit=crop",
+    "https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=1200&h=630&fit=crop",
 
   // Real estate sales contracts — property transaction, house keys
   "service-umowy-sprzedazy-nieruchomosci":
@@ -45,7 +62,7 @@ const blogImages: Record<string, string> = {
     "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&h=630&fit=crop",
 };
 
-// Fallback for any other notary-related blogs not mapped above
+// Fallback for any other notary-related blogs not mapped above — legal document signing
 const fallbackImage =
   "https://images.unsplash.com/photo-1450101499163-c8848e968838?q=80&w=1200&h=630&fit=crop";
 
