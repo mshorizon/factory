@@ -5,7 +5,8 @@
     "industry": "legal",
     "assets": {
       "favicon": "/assets/portfolio-law-favicon.svg",
-      "icon": "/assets/portfolio-law-logo.svg"
+      "icon": "/assets/portfolio-law-logo.svg",
+      "iconLucide": "scroll"
     },
     "contact": {
       "address": "ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
