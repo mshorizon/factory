@@ -23,7 +23,7 @@
   },
   "theme": {
     "preset": "minimal",
-    "majorTheme": "template-tech-agency",
+    "majorTheme": "template-tech",
     "mode": "light",
     "colors": {
       "light": {
