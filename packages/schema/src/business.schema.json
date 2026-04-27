@@ -794,7 +794,8 @@
               "title": "Geographic Location",
               "properties": {
                 "latitude": { "type": "number", "title": "Latitude" },
-                "longitude": { "type": "number", "title": "Longitude" }
+                "longitude": { "type": "number", "title": "Longitude" },
+                "googlePlaceQuery": { "type": "string", "title": "Google Place Query", "description": "Business name/address query for Google Maps native panel (e.g. 'Kancelaria Notarialna Garwolin'). When set, the map shows Google's native info card with reviews and directions instead of the custom overlay." }
               },
               "required": ["latitude", "longitude"]
             }

@@ -22,8 +22,11 @@ export function GoogleMap({
   address,
   openInMapsLabel = "Otwórz w Mapach Google",
   directionsLabel = "Trasa do",
+  googlePlaceQuery,
 }: GoogleMapProps) {
-  const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}&z=${zoom}&output=embed`;
+  const mapUrl = googlePlaceQuery
+    ? `https://www.google.com/maps?q=${encodeURIComponent(googlePlaceQuery)}&z=${zoom}&output=embed`
+    : `https://www.google.com/maps?q=${latitude},${longitude}&z=${zoom}&output=embed`;
 
   const destinationQuery = address
     ? encodeURIComponent(address)
@@ -31,7 +34,7 @@ export function GoogleMap({
   const openMapsHref = `https://www.google.com/maps/search/?api=1&query=${destinationQuery}`;
   const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${destinationQuery}`;
 
-  const showPanel = Boolean(businessName || address);
+  const showPanel = !googlePlaceQuery && Boolean(businessName || address);
 
   return (
     <div className={cn("w-full max-w-6xl mx-auto px-spacing-md", className)}>

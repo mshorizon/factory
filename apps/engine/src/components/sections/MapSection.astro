@@ -24,6 +24,7 @@ const businessName = (business.business as any).name;
 const address = contact?.address;
 const openInMapsLabel = (section as any).openInMapsLabel;
 const directionsLabel = (section as any).directionsLabel;
+const googlePlaceQuery = location?.googlePlaceQuery;
 ---
 
 {location && (
@@ -44,6 +45,7 @@ const directionsLabel = (section as any).directionsLabel;
       address={address}
       openInMapsLabel={openInMapsLabel}
       directionsLabel={directionsLabel}
+      googlePlaceQuery={googlePlaceQuery}
     />
   </section>
 )}

@@ -16,6 +16,10 @@ export type BusinessHours = string;
 export type AdditionalInfo = string[];
 export type Latitude = number;
 export type Longitude = number;
+/**
+ * Business name/address query for Google Maps native panel (e.g. 'Kancelaria Notarialna Garwolin'). When set, the map shows Google's native info card with reviews and directions instead of the custom overlay.
+ */
+export type GooglePlaceQuery = string;
 export type ServiceArea = string[];
 export type TrustSignals = {
   icon?: string;
@@ -396,6 +400,7 @@ export interface BusinessContact {
 export interface GeographicLocation {
   latitude: Latitude;
   longitude: Longitude;
+  googlePlaceQuery?: GooglePlaceQuery;
 }
 export interface Socials {
   [k: string]: string;
