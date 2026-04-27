@@ -537,19 +537,19 @@
             {
               "title": "t:blog.preview.0.title",
               "description": "t:blog.preview.0.description",
-              "image": "https://images.unsplash.com/photo-1450101499163-c8848e968838?w=600&h=400&fit=crop",
+              "image": "https://images.unsplash.com/photo-1568992688065-536aad8a12f6?w=600&h=400&fit=crop",
               "date": "2026-03-15"
             },
             {
               "title": "t:blog.preview.1.title",
               "description": "t:blog.preview.1.description",
-              "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop",
+              "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop",
               "date": "2026-02-28"
             },
             {
               "title": "t:blog.preview.2.title",
               "description": "t:blog.preview.2.description",
-              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+              "image": "https://images.unsplash.com/photo-1450101499163-c8848e968838?w=600&h=400&fit=crop",
               "date": "2026-01-20"
             }
           ]
