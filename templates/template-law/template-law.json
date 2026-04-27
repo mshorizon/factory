@@ -802,6 +802,15 @@
           "blogSlug": "rodo"
         }
       ]
+    },
+    "costs": {
+      "title": "t:pages.costs.title",
+      "sections": [
+        {
+          "type": "blog-standalone",
+          "blogSlug": "oplaty"
+        }
+      ]
     }
   },
   "sharedSections": {}

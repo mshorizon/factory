@@ -1,8 +1,6 @@
 {
   "business.name": "Adwokat Harvey Specter",
-
   "nav.cta": "Kontakt",
-
   "pages.home.title": "Strona główna",
   "pages.about.title": "O mnie",
   "pages.services.title": "Usługi",
@@ -12,17 +10,14 @@
   "pages.informations.title": "Porady prawne",
   "pages.informations.navLabel": "Informacje",
   "pages.rodo.title": "RODO",
-
   "hero.badge": "Kancelaria Prawna",
   "hero.title": "Profesjonalna pomoc prawna w Warszawie",
   "hero.subtitle": "Kancelaria Prawna Specter & Associates. Skuteczna i rzetelna obsługa prawna dla osób fizycznych i przedsiębiorców.",
   "hero.cta": "Skontaktuj się",
-
   "services.title": "Pełen zakres usług prawnych",
   "services.subtitle": "Oferujemy kompleksową obsługę prawną w kluczowych dziedzinach prawa, zapewniając terminową i profesjonalną obsługę każdej sprawy.",
   "services.cta": "Zobacz wszystkie usługi",
   "services.viewDetails": "Zobacz szczegóły",
-
   "about.badge": "O mnie",
   "about.title": "Adwokat Harvey Specter",
   "about.story.title": "Kancelaria Prawna Specter & Associates",
@@ -43,28 +38,22 @@
   "about.career.items.2.title": "Aplikant Adwokacki",
   "about.career.items.2.company": "Okręgowa Rada Adwokacka w Warszawie",
   "about.career.items.2.description": "Odbyłem aplikację adwokacką pod nadzorem doświadczonych adwokatów, zdobywając praktyczną wiedzę z zakresu prawa cywilnego, procesowego i gospodarczego. Aplikacja zakończona zdaniem egzaminu adwokackiego z wynikiem bardzo dobrym.",
-
   "testimonials.badge": "Opinie",
   "testimonials.title": "Co mówią nasi klienci",
   "testimonials.subtitle": "Zaufanie i skuteczność potwierdzone przez naszych klientów",
-
   "faq.badge": "FAQ",
   "faq.title": "Często zadawane pytania",
   "faq.subtitle": "Nie znalazłeś odpowiedzi na swoje pytanie?",
   "faq.cta": "Skontaktuj się",
-
   "blog.badge": "Blog",
   "blog.title": "Aktualności prawne",
   "blog.subtitle": "Bądź na bieżąco z najważniejszymi zmianami w prawie i orzecznictwie.",
   "blog.readMore": "Czytaj więcej",
   "blog.back": "Wróć",
-
   "informations.badge": "Informacje",
   "informations.title": "Przewodnik prawny",
   "informations.subtitle": "Najważniejsze informacje prawne dla klientów indywidualnych i przedsiębiorców — prawa, obowiązki i procedury.",
-
   "home.services.title": "Specjalizuję się w",
-
   "home.about.title": "Skuteczna i rzetelna pomoc prawna",
   "home.about.subtitle": "Kancelaria Prawna Specter & Associates prowadzona przez Adwokata Harvey Spectera zapewnia profesjonalną obsługę prawną. Gwarantujemy elektroniczną wymianę korespondencji, terminowe prowadzenie spraw oraz pełną transparentność działań.",
   "home.about.cta": "Więcej o kancelarii",
@@ -72,7 +61,6 @@
   "home.about.stats.1": "Spraw przeprowadzonych",
   "home.about.stats.2": "Zadowolonych klientów",
   "home.about.stats.3": "Rok założenia",
-
   "features.badge": "Narzędzia",
   "features.title": "Nowoczesna kancelaria prawna",
   "features.subtitle": "Korzystamy z nowoczesnych systemów informatycznych zapewniających sprawną i efektywną obsługę spraw.",
@@ -87,7 +75,6 @@
   "features.items.6.description": "Dedykowany portal umożliwiający klientom śledzenie postępu sprawy i wymianę dokumentów online.",
   "features.items.7.title": "Bezpieczna komunikacja",
   "features.items.7.description": "Szyfrowana platforma komunikacji zapewniająca pełną poufność korespondencji z klientem.",
-
   "testimonials.items.0.title": "Profesjonalna i sprawna obsługa",
   "testimonials.items.0.description": "Adwokat Specter i jego zespół przeprowadzili całą sprawę terminowo, informując nas na bieżąco o każdym etapie postępowania. Polecam każdemu, kto szuka skutecznej i rzetelnej kancelarii prawnej.",
   "testimonials.items.0.role": "Klient indywidualny",
@@ -97,7 +84,6 @@
   "testimonials.items.2.title": "Nowoczesna komunikacja",
   "testimonials.items.2.description": "Sprawna komunikacja elektroniczna i terminowa realizacja. Kancelaria korzysta z nowoczesnych systemów, co znacząco usprawnia cały proces obsługi prawnej.",
   "testimonials.items.2.role": "Klient biznesowy",
-
   "faq.items.0.question": "Jak umówić się na pierwszą konsultację?",
   "faq.items.0.answer": "Pierwszą konsultację można umówić telefonicznie, mailowo lub przez formularz kontaktowy na stronie. Konsultacje odbywają się zarówno stacjonarnie w Warszawie, jak i online — dla klientów z całej Polski.",
   "faq.items.1.question": "Ile kosztuje porada prawna?",
@@ -108,14 +94,12 @@
   "faq.items.3.answer": "Tak, kancelaria oferuje pełną obsługę zdalną — konsultacje online, elektroniczna wymiana dokumentów i podpisywanie pełnomocnictw. Obsługujemy klientów z całej Polski i z zagranicy.",
   "faq.items.4.question": "W jakich sprawach kancelaria może mi pomóc?",
   "faq.items.4.answer": "Kancelaria świadczy usługi w zakresie prawa cywilnego, gospodarczego, pracy, nieruchomości, prawa rodzinnego oraz windykacji należności. Zapraszamy do kontaktu w celu omówienia Twojej sprawy.",
-
   "blog.preview.0.title": "Jak wybrać dobrego adwokata?",
   "blog.preview.0.description": "Praktyczny poradnik jak wybrać właściwego adwokata do swojej sprawy — na co zwrócić uwagę i jak ocenić doświadczenie prawnika.",
   "blog.preview.1.title": "Prawa konsumenta — co warto wiedzieć",
   "blog.preview.1.description": "Poznaj swoje prawa jako konsument. Jakie masz uprawnienia przy reklamacjach, zwrotach i wadliwych produktach.",
   "blog.preview.2.title": "Umowa o pracę a umowa zlecenie — różnice",
   "blog.preview.2.description": "Jakie są różnice między umową o pracę a umową zlecenie? Prawa i obowiązki pracownika oraz zleceniobiorcy.",
-
   "services.items.0.title": "Prawo cywilne",
   "services.items.0.description": "Kompleksowa obsługa prawna w sprawach cywilnych: umowy, odszkodowania, sprawy majątkowe i własność.",
   "services.items.0.fullDescription": "Kompleksowa obsługa prawna w sprawach cywilnych: umowy, odszkodowania, sprawy majątkowe i własność.",
@@ -134,7 +118,6 @@
   "services.items.5.title": "Windykacja należności",
   "services.items.5.description": "Skuteczne odzyskiwanie długów dla firm i osób prywatnych — negocjacje, postępowanie sądowe i egzekucja.",
   "services.items.5.fullDescription": "Skuteczne odzyskiwanie długów dla firm i osób prywatnych — negocjacje, postępowanie sądowe i egzekucja.",
-
   "contact.page.subtitle": "Skontaktuj się z Kancelarią Prawną Specter & Associates. Chętnie odpowiemy na pytania dotyczące Twojej sprawy prawnej.",
   "contact.info.hours": "Godziny otwarcia",
   "contact.info.hours.mon": "poniedziałek 9:00 – 17:00",
@@ -146,7 +129,6 @@
   "contact.info.receptionLabel": "Przyjęcia klientów",
   "contact.info.notice.title": "Numer rachunku bankowego kancelarii: PKO Bank Polski S.A.",
   "contact.info.notice.description": "Dokonując wpłaty w tytule przelewu należy podać numer sprawy oraz imię i nazwisko lub nazwę klienta.",
-
   "files.groups.0.title": "Pełnomocnictwa",
   "files.groups.0.files.0.name": "Pełnomocnictwo ogólne do reprezentacji",
   "files.groups.0.files.1.name": "Pełnomocnictwo szczególne do postępowania sądowego",
@@ -158,9 +140,7 @@
   "files.groups.2.files.1.name": "Odwołanie od wypowiedzenia umowy o pracę",
   "files.groups.3.title": "Prawo rodzinne",
   "files.groups.3.files.0.name": "Wniosek o orzeczenie rozwodu",
-
   "systems.learnMore": "Dowiedz się więcej",
-
   "contact.cta": "Skontaktuj się",
   "contact.badge": "Kontakt",
   "contact.title": "Skontaktuj się z nami",
@@ -179,7 +159,6 @@
   "contact.form.topic.options.delivery": "Prawo pracy",
   "contact.form.topic.options.auction": "Nieruchomości",
   "contact.form.topic.options.other": "Inne pytanie",
-
   "footer.copyright": "2026 Kancelaria Prawna Specter & Associates",
   "footer.tagline": "Adwokat Harvey Specter. Profesjonalna i terminowa obsługa prawna w Warszawie.",
   "footer.privacy": "Polityka prywatności",
@@ -187,7 +166,6 @@
   "footer.columns.pages.title": "Strony",
   "footer.columns.contact.title": "Kontakt",
   "footer.cookieSettings": "Ustawienia cookies",
-
   "cookies.banner.message": "Używamy plików cookies, aby zapewnić prawidłowe działanie strony oraz — za Twoją zgodą — do celów analitycznych i marketingowych.",
   "cookies.button.onlyNecessary": "Tylko niezbędne",
   "cookies.button.customize": "Dostosuj",
@@ -199,19 +177,17 @@
   "cookies.category.analytics.description": "Pomagają zrozumieć, jak korzystasz ze strony.",
   "cookies.category.marketing.label": "Marketingowe",
   "cookies.category.marketing.description": "Używane do spersonalizowanych reklam.",
-
   "files.badge": "Do pobrania",
   "files.title": "Formularze i dokumenty",
   "files.subtitle": "Pobierz niezbędne formularze i wzory dokumentów przydatne w sprawach prawnych.",
-
   "ctaBanner.badge": "Kontakt",
   "ctaBanner.title": "Skontaktuj się z kancelarią",
   "ctaBanner.subtitle": "Potrzebujesz pomocy prawnej? Jesteśmy do dyspozycji.",
   "ctaBanner.cta": "Skontaktuj się",
-
   "map.badge": "Lokalizacja",
   "map.title": "Znajdź nas",
   "map.subtitle": "Kancelaria Prawna Specter & Associates, ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
   "map.openInMaps": "Otwórz w Mapach Google",
-  "map.directions": "Trasa do"
+  "map.directions": "Trasa do",
+  "pages.costs.title": "Opłaty"
 }

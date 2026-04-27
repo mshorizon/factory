@@ -1,8 +1,6 @@
 {
   "business.name": "Rechtsanwalt Harvey Specter",
-
   "nav.cta": "Kontakt",
-
   "pages.home.title": "Startseite",
   "pages.about.title": "Über mich",
   "pages.services.title": "Leistungen",
@@ -12,17 +10,14 @@
   "pages.informations.title": "Rechtsratgeber",
   "pages.informations.navLabel": "Informationen",
   "pages.rodo.title": "Datenschutz",
-
   "hero.badge": "Rechtskanzlei",
   "hero.title": "Professionelle Rechtsdienstleistungen in Warschau",
   "hero.subtitle": "Kanzlei Specter & Associates. Effektive und zuverlässige Rechtsberatung für Privatpersonen und Unternehmen.",
   "hero.cta": "Kontakt aufnehmen",
-
   "services.title": "Vollständiges Leistungsspektrum",
   "services.subtitle": "Wir bieten umfassende Rechtsdienstleistungen in den wichtigsten Rechtsbereichen und gewährleisten eine termingerechte und professionelle Bearbeitung.",
   "services.cta": "Alle Leistungen anzeigen",
   "services.viewDetails": "Details ansehen",
-
   "about.badge": "Über mich",
   "about.title": "Rechtsanwalt Harvey Specter",
   "about.story.title": "Kanzlei Specter & Associates",
@@ -43,28 +38,22 @@
   "about.career.items.2.title": "Rechtsreferendar",
   "about.career.items.2.company": "Warschauer Rechtsanwaltskammer",
   "about.career.items.2.description": "Ich absolvierte das Referendariat unter der Aufsicht erfahrener Rechtsanwälte und erwarb praktische Kenntnisse im Zivil-, Prozess- und Handelsrecht. Das Referendariat schloss ich mit sehr gutem Ergebnis beim Anwaltsexamen ab.",
-
   "testimonials.badge": "Bewertungen",
   "testimonials.title": "Was unsere Mandanten sagen",
   "testimonials.subtitle": "Vertrauen und Effektivität, bestätigt von unseren Mandanten",
-
   "faq.badge": "FAQ",
   "faq.title": "Häufig gestellte Fragen",
   "faq.subtitle": "Keine Antwort auf Ihre Frage gefunden?",
   "faq.cta": "Kontakt aufnehmen",
-
   "blog.badge": "Blog",
   "blog.title": "Rechtliche Neuigkeiten",
   "blog.subtitle": "Bleiben Sie über die wichtigsten Änderungen im Recht und in der Rechtsprechung auf dem Laufenden.",
   "blog.readMore": "Mehr lesen",
   "blog.back": "Zurück",
-
   "informations.badge": "Informationen",
   "informations.title": "Rechtsratgeber",
   "informations.subtitle": "Wichtige Rechtsinformationen für Privatpersonen und Unternehmen — Rechte, Pflichten und Verfahren.",
-
   "home.services.title": "Ich spezialisiere mich auf",
-
   "home.about.title": "Effektive und zuverlässige Rechtsdienstleistungen",
   "home.about.subtitle": "Kanzlei Specter & Associates unter Leitung von Rechtsanwalt Harvey Specter bietet professionelle Rechtsberatung. Wir garantieren elektronischen Schriftverkehr, termingerechte Fallbearbeitung und vollständige Transparenz.",
   "home.about.cta": "Mehr über die Kanzlei",
@@ -72,7 +61,6 @@
   "home.about.stats.1": "Abgeschlossene Fälle",
   "home.about.stats.2": "Zufriedene Mandanten",
   "home.about.stats.3": "Gründungsjahr",
-
   "features.badge": "Werkzeuge",
   "features.title": "Moderne Rechtskanzlei",
   "features.subtitle": "Wir nutzen die neuesten IT-Systeme für eine effiziente und effektive Fallbearbeitung.",
@@ -87,7 +75,6 @@
   "features.items.6.description": "Ein dediziertes Portal, das Mandanten ermöglicht, den Fallfortschritt zu verfolgen und Dokumente online auszutauschen.",
   "features.items.7.title": "Sichere Kommunikation",
   "features.items.7.description": "Eine verschlüsselte Kommunikationsplattform, die die vollständige Vertraulichkeit der Mandantenkorrespondenz gewährleistet.",
-
   "testimonials.items.0.title": "Professioneller und effizienter Service",
   "testimonials.items.0.description": "Rechtsanwalt Specter und sein Team haben den Fall termingerecht bearbeitet und uns in jeder Phase informiert. Ich empfehle sie jedem, der eine effektive und zuverlässige Rechtskanzlei sucht.",
   "testimonials.items.0.role": "Privatmandant",
@@ -97,7 +84,6 @@
   "testimonials.items.2.title": "Moderne Kommunikation",
   "testimonials.items.2.description": "Effizienter elektronischer Schriftverkehr und termingerechte Ausführung. Die Kanzlei nutzt moderne Systeme, was den gesamten Rechtsprozess erheblich beschleunigt.",
   "testimonials.items.2.role": "Geschäftsmandant",
-
   "faq.items.0.question": "Wie vereinbare ich eine Erstberatung?",
   "faq.items.0.answer": "Eine Erstberatung kann telefonisch, per E-Mail oder über das Kontaktformular auf unserer Website vereinbart werden. Beratungen sind sowohl persönlich in Warschau als auch online möglich.",
   "faq.items.1.question": "Was kostet eine Rechtsberatung?",
@@ -108,14 +94,12 @@
   "faq.items.3.answer": "Ja, die Kanzlei bietet vollständige Remote-Dienste an — Online-Beratung, elektronischen Dokumentenaustausch und Vollmachtserteilung. Wir betreuen Mandanten aus ganz Polen und dem Ausland.",
   "faq.items.4.question": "In welchen Angelegenheiten kann die Kanzlei helfen?",
   "faq.items.4.answer": "Die Kanzlei bietet Dienstleistungen in den Bereichen Zivilrecht, Handelsrecht, Arbeitsrecht, Immobilienrecht, Familienrecht und Forderungseinzug an. Kontaktieren Sie uns zur Besprechung Ihres Falls.",
-
   "blog.preview.0.title": "Wie wählt man einen guten Rechtsanwalt?",
   "blog.preview.0.description": "Ein praktischer Leitfaden zur Auswahl des richtigen Rechtsanwalts — worauf Sie achten sollten und wie Sie die Erfahrung eines Anwalts bewerten.",
   "blog.preview.1.title": "Verbraucherrechte — Was Sie wissen sollten",
   "blog.preview.1.description": "Erfahren Sie Ihre Rechte als Verbraucher. Welche Ansprüche haben Sie bei Reklamationen, Rückgaben und mangelhaften Produkten.",
   "blog.preview.2.title": "Arbeitsvertrag vs. Dienstleistungsvertrag — Unterschiede",
   "blog.preview.2.description": "Was sind die Unterschiede zwischen einem Arbeitsvertrag und einem Dienstleistungsvertrag? Rechte und Pflichten von Arbeitnehmern und Auftragnehmern.",
-
   "services.items.0.title": "Zivilrecht",
   "services.items.0.description": "Umfassende Rechtsdienstleistungen in Zivilsachen: Verträge, Schadensersatz, Vermögensfragen und Eigentumsrecht.",
   "services.items.0.fullDescription": "Umfassende Rechtsdienstleistungen in Zivilsachen: Verträge, Schadensersatz, Vermögensfragen und Eigentumsrecht.",
@@ -134,7 +118,6 @@
   "services.items.5.title": "Forderungseinzug",
   "services.items.5.description": "Effektiver Forderungseinzug für Unternehmen und Privatpersonen — Verhandlungen, Gerichtsverfahren und Vollstreckung.",
   "services.items.5.fullDescription": "Effektiver Forderungseinzug für Unternehmen und Privatpersonen — Verhandlungen, Gerichtsverfahren und Vollstreckung.",
-
   "contact.page.subtitle": "Kontaktieren Sie die Kanzlei Specter & Associates. Wir beantworten gerne Ihre Fragen zu Ihrer Rechtsangelegenheit.",
   "contact.info.hours": "Öffnungszeiten",
   "contact.info.hours.mon": "Montag 9:00 – 17:00",
@@ -146,7 +129,6 @@
   "contact.info.receptionLabel": "Mandantenempfang",
   "contact.info.notice.title": "Bankkontonummer der Kanzlei: PKO Bank Polski S.A.",
   "contact.info.notice.description": "Bitte geben Sie bei der Zahlung im Verwendungszweck die Fallnummer sowie den vollständigen Namen oder die Firmenbezeichnung des Mandanten an.",
-
   "files.groups.0.title": "Vollmachten",
   "files.groups.0.files.0.name": "Allgemeine Vollmacht",
   "files.groups.0.files.1.name": "Besondere Vollmacht für Gerichtsverfahren",
@@ -158,9 +140,7 @@
   "files.groups.2.files.1.name": "Widerspruch gegen Kündigung",
   "files.groups.3.title": "Familienrecht",
   "files.groups.3.files.0.name": "Scheidungsantrag",
-
   "systems.learnMore": "Mehr erfahren",
-
   "contact.cta": "Kontakt aufnehmen",
   "contact.badge": "Kontakt",
   "contact.title": "Kontakt aufnehmen",
@@ -179,7 +159,6 @@
   "contact.form.topic.options.delivery": "Arbeitsrecht",
   "contact.form.topic.options.auction": "Immobilien",
   "contact.form.topic.options.other": "Andere Frage",
-
   "footer.copyright": "2026 Kanzlei Specter & Associates",
   "footer.tagline": "Rechtsanwalt Harvey Specter. Professionelle und termingerechte Rechtsdienstleistungen in Warschau.",
   "footer.privacy": "Datenschutzrichtlinie",
@@ -187,7 +166,6 @@
   "footer.columns.pages.title": "Seiten",
   "footer.columns.contact.title": "Kontakt",
   "footer.cookieSettings": "Cookie-Einstellungen",
-
   "cookies.banner.message": "Wir verwenden Cookies, um den ordnungsgemäßen Betrieb der Website zu gewährleisten und — mit Ihrer Zustimmung — für Analyse- und Marketingzwecke.",
   "cookies.button.onlyNecessary": "Nur notwendige",
   "cookies.button.customize": "Anpassen",
@@ -199,19 +177,17 @@
   "cookies.category.analytics.description": "Helfen uns zu verstehen, wie Sie die Website nutzen.",
   "cookies.category.marketing.label": "Marketing",
   "cookies.category.marketing.description": "Werden für personalisierte Werbung verwendet.",
-
   "files.badge": "Downloads",
   "files.title": "Formulare & Dokumente",
   "files.subtitle": "Laden Sie die notwendigen Formulare und Dokumentvorlagen für Rechtsangelegenheiten herunter.",
-
   "ctaBanner.badge": "Kontakt",
   "ctaBanner.title": "Kanzlei kontaktieren",
   "ctaBanner.subtitle": "Benötigen Sie rechtliche Hilfe? Wir stehen Ihnen zur Verfügung.",
   "ctaBanner.cta": "Kontakt aufnehmen",
-
   "map.badge": "Standort",
   "map.title": "Finden Sie uns",
   "map.subtitle": "Kanzlei Specter & Associates, ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
   "map.openInMaps": "In Google Maps öffnen",
-  "map.directions": "Route zu"
+  "map.directions": "Route zu",
+  "pages.costs.title": "Kosten"
 }
