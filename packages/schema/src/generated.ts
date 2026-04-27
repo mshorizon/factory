@@ -6,6 +6,10 @@ export type Industry = string;
 export type FaviconURL = string;
 export type LogoURL = string;
 export type IconURL = string;
+/**
+ * Lucide icon name rendered inline with text-primary color (e.g. 'scale', 'gavel'). Takes precedence over icon.
+ */
+export type IconLucideName = string;
 export type Address = string;
 export type Phone = string;
 export type Email = string;
@@ -388,6 +392,7 @@ export interface BusinessAssets {
   favicon?: FaviconURL;
   logo?: LogoURL;
   icon?: IconURL;
+  iconLucide?: IconLucideName;
 }
 export interface BusinessContact {
   address?: Address;

@@ -66,6 +66,7 @@ const year = new Date().getFullYear();
   <Navbar
     logo={layout.navbar.logoText || businessName}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    logoIconLucide={business.business.assets?.iconLucide}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
