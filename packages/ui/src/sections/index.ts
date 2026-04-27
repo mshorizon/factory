@@ -7,7 +7,7 @@ export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered,
 export type { FooterProps, SocialLink, Link, FooterColumn } from "./footer";
 
 // Hero variants
-export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist } from "./hero";
+export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency } from "./hero";
 export type { HeroProps, CTAButton } from "./hero";
 
 // Services variants
@@ -31,7 +31,7 @@ export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid
 export type { ProductCardProps, CartButtonProps, CartPageContentProps, CheckoutPageContentProps, ShopGridProps } from "./shop";
 
 // Process variants
-export { ProcessSteps, ProcessVisual, ProcessGrid } from "./process";
+export { ProcessSteps, ProcessVisual, ProcessGrid, ProcessTimeline } from "./process";
 export type { ProcessStepsProps, ProcessStep } from "./process";
 
 // ServiceArea variants
@@ -39,7 +39,7 @@ export { ServiceArea } from "./serviceArea";
 export type { ServiceAreaProps } from "./serviceArea";
 
 // TrustBar variants
-export { TrustBar, TrustBarLogos } from "./trustBar";
+export { TrustBar, TrustBarLogos, TrustBarStats } from "./trustBar";
 export type { TrustBarProps, TrustBarLogosProps, TrustSignal, GoogleRating, ClientLogo } from "./trustBar";
 
 // GalleryBA variants
@@ -51,7 +51,7 @@ export { GalleryGrid, GalleryShowcase } from "./gallery";
 export type { GalleryGridProps, GalleryShowcaseProps, GalleryItem } from "./gallery";
 
 // Testimonials variants
-export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered } from "./testimonials";
+export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered, TestimonialsAgency } from "./testimonials";
 export type { TestimonialsGridProps, TestimonialItem } from "./testimonials";
 
 // FAQ variants
@@ -63,7 +63,7 @@ export { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles } fr
 export type { FeaturesGridProps, FeatureItem } from "./features";
 
 // CTA Banner variants
-export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard } from "./ctaBanner";
+export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency } from "./ctaBanner";
 export type { CtaBannerProps } from "./ctaBanner";
 
 // Blog variants
@@ -71,7 +71,7 @@ export { BlogGrid, BlogOverlay, BlogCards } from "./blog";
 export type { BlogGridProps, BlogPost } from "./blog";
 
 // Project variants
-export { ProjectGrid, ProjectCarousel, ProjectHorizontal } from "./project";
+export { ProjectGrid, ProjectCarousel, ProjectHorizontal, ProjectShowcase } from "./project";
 export type { ProjectGridProps, ProjectCarouselProps, ProjectCard } from "./project";
 
 // Map variants

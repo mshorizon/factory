@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { TrustBar, TrustBarLogos, SectionHeader } from "@mshorizon/ui";
+import { TrustBar, TrustBarLogos, TrustBarStats, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -24,7 +24,14 @@ const variant = section.variant;
       badgeVariant={badgeVariant as any}
       className="[&_h2]:text-sm [&_h2]:font-medium [&_h2]:text-muted mb-spacing-xl"
     />
-    {variant === "logos" ? (
+    {variant === "stats" ? (
+      <TrustBarStats
+        client:visible
+        label={(section as any).statsLabel}
+        sublabel={(section as any).statsSublabel}
+        stats={(section as any).statsItems}
+      />
+    ) : variant === "logos" ? (
       <TrustBarLogos
         client:visible
         clientLogos={section.clientLogos || []}
