@@ -577,7 +577,6 @@
         {
           "type": "trustBar",
           "variant": "stats",
-          "background": "dark",
           "statsLabel": "Sredni efekt strony",
           "statsSublabel": "u naszych klientow",
           "statsItems": [
@@ -758,7 +757,6 @@
         {
           "type": "ctaBanner",
           "variant": "agency",
-          "background": "dark",
           "header": {
             "badge": "Nastepny krok",
             "title": "Pomowmy o Twojej *nowej stronie.*",
