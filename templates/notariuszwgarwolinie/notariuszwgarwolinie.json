@@ -1,0 +1,817 @@
+{
+  "business": {
+    "id": "notariuszwgarwolinie-001",
+    "name": "t:business.name",
+    "industry": "legal",
+    "assets": {
+      "favicon": "/assets/portfolio-law-favicon.svg",
+      "icon": "/assets/portfolio-law-logo.svg"
+    },
+    "contact": {
+      "address": "ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
+      "phone": "+48 22 555 01 47",
+      "email": "harvey.specter@pearsonhardman.com",
+      "location": {
+        "latitude": 52.2297,
+        "longitude": 21.0122
+      }
+    }
+  },
+  "theme": {
+    "preset": "elegant",
+    "majorTheme": "template-law",
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#232F43",
+        "primaryLight": "#324563",
+        "primaryDark": "#1A2332",
+        "surface": {
+          "base": "#EDF0F5",
+          "alt": "#232F43",
+          "card": "#FFFFFF",
+          "gradient": "#F9FAFC"
+        },
+        "text": {
+          "main": "#131820",
+          "muted": "#2E3238",
+          "onPrimary": "#FFFFFF"
+        }
+      },
+      "dark": {
+        "primary": "#8BA0C2",
+        "primaryLight": "#2B3A54",
+        "primaryDark": "#1A2332",
+        "surface": {
+          "base": "#1A2332",
+          "alt": "#2E3A4D",
+          "card": "#253245"
+        },
+        "text": {
+          "main": "#EDF0F5",
+          "muted": "#8BA0C2",
+          "onPrimary": "#1A2332"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'Montserrat', system-ui, -apple-system, sans-serif",
+      "secondary": "'Lora', 'Georgia', serif"
+    },
+    "ui": {
+      "radius": "12px",
+      "spacing": {
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "3.75rem",
+        "section": "3.75rem",
+        "container": "2.5rem"
+      }
+    },
+    "headingWeight": "400",
+    "maxFontWeight": "400",
+    "navFontSize": "14px",
+    "navLogoSize": "16px",
+    "navLogoWeight": "400",
+    "navLinksPosition": "right",
+    "scrollType": "smooth",
+    "badgeVariant": "accent",
+    "badgeFontSize": "14px"
+  },
+  "layout": {
+    "navbar": {
+      "variant": "transparent",
+      "logoText": "Harvey Specter",
+      "hideBorderOnTop": true,
+      "hideCta": true,
+      "showSocials": false,
+      "showAvailability": false,
+      "showAddress": false,
+      "showAdditionalInfo": false,
+      "extensions": [
+        {
+          "type": "upper-bar"
+        }
+      ]
+    },
+    "footer": {
+      "variant": "darkColumns",
+      "name": "Harvey Specter",
+      "copyright": "t:footer.copyright",
+      "tagline": "t:footer.tagline",
+      "background": {
+        "enabled": true,
+        "padding": "16px",
+        "borderRadius": "16px",
+        "gradient": "primary-to-primary-dark"
+      },
+      "links": [
+        {
+          "label": "t:pages.rodo.title",
+          "target": {
+            "type": "page",
+            "value": "rodo"
+          }
+        }
+      ],
+      "columns": [
+        {
+          "title": "t:footer.columns.pages.title",
+          "links": [
+            {
+              "label": "t:pages.home.title",
+              "target": {
+                "type": "page",
+                "value": "home"
+              }
+            },
+            {
+              "label": "t:pages.about.title",
+              "target": {
+                "type": "page",
+                "value": "about"
+              }
+            },
+            {
+              "label": "t:pages.informations.title",
+              "target": {
+                "type": "page",
+                "value": "informations"
+              }
+            },
+            {
+              "label": "t:pages.blog.title",
+              "target": {
+                "type": "page",
+                "value": "blog"
+              }
+            },
+            {
+              "label": "t:pages.contact.title",
+              "target": {
+                "type": "page",
+                "value": "contact"
+              }
+            },
+            {
+              "label": "t:pages.rodo.title",
+              "target": {
+                "type": "page",
+                "value": "rodo"
+              }
+            }
+          ]
+        },
+        {
+          "title": "t:footer.columns.contact.title",
+          "links": [
+            {
+              "label": "harvey.specter@pearsonhardman.com",
+              "target": {
+                "type": "email",
+                "value": "harvey.specter@pearsonhardman.com"
+              }
+            },
+            {
+              "label": "+48 22 555 01 47",
+              "target": {
+                "type": "phone",
+                "value": "+48225550147"
+              }
+            },
+            {
+              "label": "t:contact.title",
+              "target": {
+                "type": "page",
+                "value": "contact"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "hideBreadcrumbs": true
+  },
+  "navigation": {
+    "cta": {
+      "label": "t:nav.cta",
+      "target": {
+        "type": "page",
+        "value": "contact"
+      }
+    }
+  },
+  "data": {
+    "services": [
+      {
+        "id": "prawo-cywilne",
+        "slug": "prawo-cywilne",
+        "title": "t:services.items.0.title",
+        "description": "t:services.items.0.fullDescription",
+        "icon": "scale",
+        "category": "cywilne",
+        "available": true,
+        "blogSlug": "service-prawo-cywilne"
+      },
+      {
+        "id": "prawo-gospodarcze",
+        "slug": "prawo-gospodarcze",
+        "title": "t:services.items.1.title",
+        "description": "t:services.items.1.fullDescription",
+        "icon": "briefcase",
+        "category": "gospodarcze",
+        "available": true,
+        "blogSlug": "service-prawo-gospodarcze"
+      },
+      {
+        "id": "prawo-pracy",
+        "slug": "prawo-pracy",
+        "title": "t:services.items.2.title",
+        "description": "t:services.items.2.fullDescription",
+        "icon": "users",
+        "category": "pracy",
+        "available": true,
+        "blogSlug": "service-prawo-pracy"
+      },
+      {
+        "id": "nieruchomosci",
+        "slug": "nieruchomosci",
+        "title": "t:services.items.3.title",
+        "description": "t:services.items.3.fullDescription",
+        "icon": "home",
+        "category": "nieruchomosci",
+        "available": true,
+        "blogSlug": "service-nieruchomosci"
+      },
+      {
+        "id": "prawo-rodzinne",
+        "slug": "prawo-rodzinne",
+        "title": "t:services.items.4.title",
+        "description": "t:services.items.4.fullDescription",
+        "icon": "heart",
+        "category": "rodzinne",
+        "available": true,
+        "blogSlug": "service-prawo-rodzinne"
+      },
+      {
+        "id": "windykacja",
+        "slug": "windykacja",
+        "title": "t:services.items.5.title",
+        "description": "t:services.items.5.fullDescription",
+        "icon": "banknote",
+        "category": "windykacja",
+        "available": true,
+        "blogSlug": "service-windykacja"
+      }
+    ]
+  },
+  "pages": {
+    "home": {
+      "title": "Kancelaria Prawna Warszawa",
+      "navLabel": "t:pages.home.title",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "split",
+          "background": "transparent",
+          "hideDots": true,
+          "badgeLayout": "column",
+          "header": {
+            "badge": "t:hero.badge",
+            "title": "t:hero.title",
+            "subtitle": "t:hero.subtitle"
+          },
+          "image": "/assets/notariuszwgarwolinie-hero.jpg",
+          "cta": {
+            "label": "t:hero.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        },
+        {
+          "type": "services",
+          "variant": "grid",
+          "minimal": true,
+          "detailsLabel": "t:services.viewDetails",
+          "header": {
+            "title": "t:home.services.title"
+          },
+          "items": [
+            {
+              "title": "t:services.items.0.title",
+              "slug": "prawo-cywilne",
+              "description": "t:services.items.0.description"
+            },
+            {
+              "title": "t:services.items.1.title",
+              "slug": "prawo-gospodarcze",
+              "description": "t:services.items.1.description"
+            },
+            {
+              "title": "t:services.items.2.title",
+              "slug": "prawo-pracy",
+              "description": "t:services.items.2.description"
+            },
+            {
+              "title": "t:services.items.3.title",
+              "slug": "nieruchomosci",
+              "description": "t:services.items.3.description"
+            },
+            {
+              "title": "t:services.items.4.title",
+              "slug": "prawo-rodzinne",
+              "description": "t:services.items.4.description"
+            },
+            {
+              "title": "t:services.items.5.title",
+              "slug": "windykacja",
+              "description": "t:services.items.5.description"
+            }
+          ]
+        },
+        {
+          "type": "about-summary",
+          "variant": "default",
+          "background": "dark-padded",
+          "hideDots": true,
+          "badgeVariant": "text",
+          "badgeColor": "#CCCCCC",
+          "descriptionColor": "#CCCCCC",
+          "ctaColor": "#FFFFFF",
+          "statsInverted": true,
+          "imagePaddingY": "100px",
+          "ctaPaddingBottom": "100px",
+          "header": {
+            "badge": "t:about.badge",
+            "title": "t:home.about.title",
+            "subtitle": "t:home.about.subtitle"
+          },
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
+          "cta": {
+            "label": "t:home.about.cta",
+            "target": {
+              "type": "page",
+              "value": "about"
+            }
+          },
+          "stats": [
+            {
+              "value": "15+",
+              "label": "t:home.about.stats.0"
+            },
+            {
+              "value": "2000+",
+              "label": "t:home.about.stats.1"
+            },
+            {
+              "value": "98%",
+              "label": "t:home.about.stats.2"
+            },
+            {
+              "value": "2012",
+              "label": "t:home.about.stats.3"
+            }
+          ]
+        },
+        {
+          "type": "features",
+          "variant": "icon-tiles",
+          "badgeVariant": "accent",
+          "header": {
+            "badge": "t:features.badge",
+            "title": "t:features.title",
+            "subtitle": "t:features.subtitle"
+          },
+          "items": [
+            {
+              "title": "LEX",
+              "description": "t:features.items.0.description",
+              "icon": "book-open",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://www.wolterskluwer.com/pl-pl/solutions/lex"
+            },
+            {
+              "title": "e-Sąd",
+              "description": "t:features.items.1.description",
+              "icon": "monitor",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://esad.gov.pl"
+            },
+            {
+              "title": "KRS / CEIDG",
+              "description": "t:features.items.2.description",
+              "icon": "building",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://www.gov.pl/web/krs"
+            },
+            {
+              "title": "Elektroniczne KW",
+              "description": "t:features.items.3.description",
+              "icon": "home",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://ekw.ms.gov.pl"
+            },
+            {
+              "title": "ePUAP",
+              "description": "t:features.items.4.description",
+              "icon": "file-text",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "https://epuap.gov.pl/wps/portal"
+            },
+            {
+              "title": "t:features.items.5.title",
+              "description": "t:features.items.5.description",
+              "icon": "cpu",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "#"
+            },
+            {
+              "title": "t:features.items.6.title",
+              "description": "t:features.items.6.description",
+              "icon": "globe",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "#"
+            },
+            {
+              "title": "t:features.items.7.title",
+              "description": "t:features.items.7.description",
+              "icon": "shield",
+              "linkLabel": "t:systems.learnMore",
+              "linkHref": "#"
+            }
+          ]
+        },
+        {
+          "type": "testimonials",
+          "variant": "centered",
+          "header": {
+            "badge": "t:testimonials.badge",
+            "title": "t:testimonials.title",
+            "subtitle": "t:testimonials.subtitle",
+            "layout": "none"
+          },
+          "items": [
+            {
+              "title": "t:testimonials.items.0.title",
+              "description": "t:testimonials.items.0.description",
+              "author": "Marek Wiśniewski",
+              "role": "t:testimonials.items.0.role"
+            },
+            {
+              "title": "t:testimonials.items.1.title",
+              "description": "t:testimonials.items.1.description",
+              "author": "Anna Kowalska",
+              "role": "t:testimonials.items.1.role"
+            },
+            {
+              "title": "t:testimonials.items.2.title",
+              "description": "t:testimonials.items.2.description",
+              "author": "Piotr Nowak",
+              "role": "t:testimonials.items.2.role"
+            }
+          ]
+        },
+        {
+          "type": "faq",
+          "variant": "split",
+          "background": "light",
+          "header": {
+            "title": "t:faq.title",
+            "subtitle": "t:faq.subtitle"
+          },
+          "cta": {
+            "label": "t:faq.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          },
+          "faqItems": [
+            {
+              "question": "t:faq.items.0.question",
+              "answer": "t:faq.items.0.answer"
+            },
+            {
+              "question": "t:faq.items.1.question",
+              "answer": "t:faq.items.1.answer"
+            },
+            {
+              "question": "t:faq.items.2.question",
+              "answer": "t:faq.items.2.answer"
+            },
+            {
+              "question": "t:faq.items.3.question",
+              "answer": "t:faq.items.3.answer"
+            },
+            {
+              "question": "t:faq.items.4.question",
+              "answer": "t:faq.items.4.answer"
+            }
+          ]
+        },
+        {
+          "type": "blog",
+          "variant": "cards-light",
+          "badgeVariant": "accent",
+          "header": {
+            "badge": "t:blog.badge",
+            "title": "t:blog.title",
+            "subtitle": "t:blog.subtitle"
+          },
+          "blogPosts": [
+            {
+              "title": "t:blog.preview.0.title",
+              "description": "t:blog.preview.0.description",
+              "image": "https://images.unsplash.com/photo-1450101499163-c8848e968838?w=600&h=400&fit=crop",
+              "date": "2026-03-15"
+            },
+            {
+              "title": "t:blog.preview.1.title",
+              "description": "t:blog.preview.1.description",
+              "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop",
+              "date": "2026-02-28"
+            },
+            {
+              "title": "t:blog.preview.2.title",
+              "description": "t:blog.preview.2.description",
+              "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+              "date": "2026-01-20"
+            }
+          ]
+        },
+        {
+          "type": "contact",
+          "variant": "minimal",
+          "ctaVariant": "primaryLight",
+          "header": {
+            "badge": "t:contact.badge",
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
+          },
+          "cta": {
+            "label": "t:ctaBanner.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        }
+      ]
+    },
+    "about": {
+      "title": "t:pages.about.title",
+      "navLabel": "t:pages.about.title",
+      "navOrder": 1,
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "imagePosition": "right",
+          "ctaVariant": "primaryLight",
+          "header": {
+            "title": "t:about.title"
+          },
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law-001/about-lawyer.png",
+          "story": {
+            "content": "t:about.story.content"
+          },
+          "cta": {
+            "label": "t:about.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        },
+        {
+          "type": "about",
+          "variant": "career",
+          "header": {
+            "title": "t:about.career.title"
+          },
+          "timeline": [
+            {
+              "year": "t:about.career.items.0.year",
+              "title": "t:about.career.items.0.title",
+              "company": "t:about.career.items.0.company",
+              "description": "t:about.career.items.0.description"
+            },
+            {
+              "year": "t:about.career.items.1.year",
+              "title": "t:about.career.items.1.title",
+              "company": "t:about.career.items.1.company",
+              "description": "t:about.career.items.1.description"
+            },
+            {
+              "year": "t:about.career.items.2.year",
+              "title": "t:about.career.items.2.title",
+              "company": "t:about.career.items.2.company",
+              "description": "t:about.career.items.2.description"
+            }
+          ]
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "title": "t:about.jurisdiction.title"
+          },
+          "story": {
+            "content": "t:about.jurisdiction.content"
+          }
+        },
+        {
+          "type": "contact",
+          "variant": "minimal",
+          "header": {
+            "badge": "t:contact.badge",
+            "title": "t:contact.title",
+            "subtitle": "t:contact.subtitle"
+          },
+          "cta": {
+            "label": "t:ctaBanner.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        }
+      ]
+    },
+    "files": {
+      "title": "t:pages.files.title",
+      "navLabel": "t:pages.files.title",
+      "sections": [
+        {
+          "type": "files",
+          "header": {
+            "badge": "t:files.badge",
+            "title": "t:files.title",
+            "subtitle": "t:files.subtitle"
+          },
+          "fileGroups": [
+            {
+              "title": "t:files.groups.0.title",
+              "files": [
+                {
+                  "name": "t:files.groups.0.files.0.name",
+                  "type": "pdf",
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125767-wniosek-wszczecie-egzekucji.pdf"
+                },
+                {
+                  "name": "t:files.groups.0.files.1.name",
+                  "type": "pdf",
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125131-wniosek-rozlozenie-dlugu-na-raty.pdf"
+                }
+              ]
+            },
+            {
+              "title": "t:files.groups.1.title",
+              "files": [
+                {
+                  "name": "t:files.groups.1.files.0.name",
+                  "type": "pdf",
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124542-skarga-na-czynnosci-komornika.pdf"
+                },
+                {
+                  "name": "t:files.groups.1.files.1.name",
+                  "type": "pdf",
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124040-oswiadczenie-wybor-komornika.pdf"
+                }
+              ]
+            },
+            {
+              "title": "t:files.groups.2.title",
+              "files": [
+                {
+                  "name": "t:files.groups.2.files.0.name",
+                  "type": "pdf",
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681124860-wniosek-doreczenie-pisma-procesowego.pdf"
+                },
+                {
+                  "name": "t:files.groups.2.files.1.name",
+                  "type": "pdf",
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681125420-wniosek-ustalenie-miejsca-zamieszkania.pdf"
+                }
+              ]
+            },
+            {
+              "title": "t:files.groups.3.title",
+              "files": [
+                {
+                  "name": "t:files.groups.3.files.0.name",
+                  "type": "pdf",
+                  "url": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/portfolio-law/files/1776681126100-wykaz-majatku.pdf"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "title": "t:pages.contact.title",
+      "navLabel": "t:pages.contact.title",
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "professional",
+          "header": {
+            "title": "t:contact.title",
+            "subtitle": "t:contact.page.subtitle"
+          },
+          "info": {
+            "address": "ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
+            "phone": "+48 22 555 01 47",
+            "email": "harvey.specter@pearsonhardman.com",
+            "hours": "t:contact.info.hours",
+            "hoursDetailed": [
+              "t:contact.info.hours.mon",
+              "t:contact.info.hours.tue",
+              "t:contact.info.hours.wed",
+              "t:contact.info.hours.thu",
+              "t:contact.info.hours.fri"
+            ],
+            "receptionHours": "t:contact.info.receptionHours",
+            "receptionLabel": "t:contact.info.receptionLabel",
+            "notice": {
+              "title": "t:contact.info.notice.title",
+              "highlight": "PL 12 3456 7890 0000 1234 5678 9012",
+              "description": "t:contact.info.notice.description"
+            }
+          },
+          "form": {
+            "nameLabel": "t:contact.form.nameLabel",
+            "namePlaceholder": "t:contact.form.namePlaceholder",
+            "emailLabel": "t:contact.form.emailLabel",
+            "emailPlaceholder": "t:contact.form.emailPlaceholder",
+            "messageLabel": "t:contact.form.messageLabel",
+            "messagePlaceholder": "t:contact.form.messagePlaceholder",
+            "submitButton": "t:contact.form.submitButton"
+          }
+        },
+        {
+          "type": "map",
+          "badgeVariant": "accent",
+          "badgeLayout": "column",
+          "header": {
+            "badge": "t:map.badge",
+            "title": "t:map.title",
+            "subtitle": "t:map.subtitle"
+          },
+          "openInMapsLabel": "t:map.openInMaps",
+          "directionsLabel": "t:map.directions"
+        }
+      ]
+    },
+    "informations": {
+      "title": "t:pages.informations.title",
+      "navLabel": "t:pages.informations.navLabel",
+      "navOrder": 2,
+      "sections": [
+        {
+          "type": "blog",
+          "variant": "cards-light",
+          "columns": 2,
+          "header": {
+            "badge": "t:informations.badge",
+            "title": "t:informations.title",
+            "subtitle": "t:informations.subtitle"
+          },
+          "blogSlugs": [
+            "informacje-dla-dluznika",
+            "informacje-dla-wierzyciela"
+          ],
+          "ctaLabel": "t:blog.readMore"
+        }
+      ]
+    },
+    "rodo": {
+      "title": "t:pages.rodo.title",
+      "hideFromNav": true,
+      "sections": [
+        {
+          "type": "blog-standalone",
+          "blogSlug": "rodo"
+        }
+      ]
+    },
+    "costs": {
+      "title": "t:pages.costs.title",
+      "sections": [
+        {
+          "type": "blog-standalone",
+          "blogSlug": "oplaty"
+        }
+      ]
+    }
+  },
+  "sharedSections": {}
+}
