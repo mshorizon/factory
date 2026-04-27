@@ -1,0 +1,13 @@
+{
+  "slug": "oplaty",
+  "title": "Opłaty",
+  "description": "Rodzaje opłat pobieranych przez notariusza: taksa notarialna, podatki i opłaty sądowe.",
+  "standalone": true,
+  "status": "published",
+  "lang": "pl",
+  "category": "Informacje",
+  "content": "<p>Dokonanie czynności notarialnej wiąże się z poniesieniem opłat, do których należą:</p><p><strong>Taksa notarialna</strong></p><p>Notariuszowi za dokonanie czynności notarialnych przysługuje wynagrodzenie, uzgodnione ze stronami czynności, nie wyższe niż maksymalne stawki taksy notarialnej właściwe dla danej czynności, szczegółowo określone w rozporządzeniu Ministra Sprawiedliwości z dnia 28 czerwca 2004 r. w sprawie maksymalnych stawek taksy notarialnej. Notariusz dolicza do taksy notarialnej 23% VAT.</p><p><strong>Podatki</strong><br> Notariusz jest płatnikiem podatku od czynności cywilnoprawnych oraz podatku od spadków i darowizn, pobieranych od czynności notarialnych podlegających opodatkowaniu.</p><p><strong>Opłata sądowa</strong><br> Notariusz pobiera opłatę sądową od wniosku o wpis do księgi wieczystej, którą szczegółowo reguluje ustawa o kosztach sądowych w sprawach cywilnych.</p>",
+  "metaTitle": "Opłaty notarialne – Kancelaria Notarialna Aleksandra Durys Garwolin",
+  "metaDescription": "Informacje o opłatach notarialnych: taksa notarialna, podatki od czynności cywilnoprawnych, podatek od spadków i darowizn oraz opłaty sądowe.",
+  "publishedAt": "2026-01-01"
+}
