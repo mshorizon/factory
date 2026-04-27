@@ -32,6 +32,8 @@ import {
   PauseCircle,
   MessageSquare,
   Send,
+  RotateCcw,
+  Ban,
 } from "lucide-react";
 import type { BusinessPageMeta } from "./AdminForm";
 
@@ -202,6 +204,7 @@ export default function TaskManager({
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [sendingAnswer, setSendingAnswer] = useState<Record<string, boolean>>({});
+  const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
 
   // When switching between site/admin mode, reset page/section
   useEffect(() => {
@@ -291,6 +294,26 @@ export default function TaskManager({
       setBanner({ type: "err", msg: err instanceof Error ? err.message : "Failed to add task" });
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const updateTaskStatus = async (taskId: string, status: TaskRecord["status"]) => {
+    setActionLoading((prev) => ({ ...prev, [taskId]: true }));
+    try {
+      const res = await fetchWithRefresh(`/api/tasks/${taskId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || `Failed (${res.status})`);
+      }
+      await loadTasks();
+    } catch (err) {
+      setBanner({ type: "err", msg: err instanceof Error ? err.message : "Action failed" });
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [taskId]: false }));
     }
   };
 
@@ -536,7 +559,41 @@ export default function TaskManager({
                         </Badge>
                       )}
                     </div>
-                    <span className="text-xs text-muted-foreground">{timeAgo(task.createdAt)}</span>
+                    <div className="flex items-center gap-2">
+                      {task.status === "failed" && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 gap-1 text-xs"
+                          disabled={actionLoading[task.id]}
+                          onClick={() => updateTaskStatus(task.id, "pending")}
+                        >
+                          {actionLoading[task.id] ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : (
+                            <RotateCcw className="h-3 w-3" />
+                          )}
+                          Run again
+                        </Button>
+                      )}
+                      {(task.status === "pending" || task.status === "in-progress") && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 gap-1 text-xs text-destructive hover:text-destructive"
+                          disabled={actionLoading[task.id]}
+                          onClick={() => updateTaskStatus(task.id, "failed")}
+                        >
+                          {actionLoading[task.id] ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : (
+                            <Ban className="h-3 w-3" />
+                          )}
+                          Cancel
+                        </Button>
+                      )}
+                      <span className="text-xs text-muted-foreground">{timeAgo(task.createdAt)}</span>
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-1 text-xs text-muted-foreground flex-wrap">
