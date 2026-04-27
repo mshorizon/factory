@@ -35,6 +35,21 @@ export function SectionHeader({
   // Determine badge color based on background
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
 
+  const renderTitle = (text: string) => {
+    const parts = text.split(/(\*[^*]+\*)/g);
+    if (parts.length === 1) return text;
+    return parts.map((part, i) => {
+      if (part.startsWith("*") && part.endsWith("*")) {
+        return (
+          <span key={i} className="font-heading-secondary italic font-medium text-primary">
+            {part.slice(1, -1)}
+          </span>
+        );
+      }
+      return part;
+    });
+  };
+
   if (layout === "none" || (!badge && !title && !subtitle)) {
     return null;
   }
@@ -94,7 +109,7 @@ export function SectionHeader({
             className="text-[2.5rem] leading-tight text-foreground font-heading"
             data-field="header.title"
           >
-            {title}
+            {renderTitle(title)}
           </h2>
         )}
       </div>
@@ -107,7 +122,7 @@ export function SectionHeader({
         {renderBadge()}
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-spacing-md lg:gap-16">
           {title && (
-            <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className="text-3xl md:text-4xl lg:text-5xl text-foreground font-heading flex-shrink-0 max-w-[700px]" data-field="header.title">{title}</h2>
+            <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className="text-3xl md:text-4xl lg:text-5xl text-foreground font-heading flex-shrink-0 max-w-[700px]" data-field="header.title">{renderTitle(title)}</h2>
           )}
           {subtitle && (
             <p data-reveal data-reveal-delay={String(badge ? revealDelay + 200 : revealDelay + 100)} className="text-muted max-w-lg lg:text-right" data-field="header.subtitle">
@@ -123,7 +138,7 @@ export function SectionHeader({
     <div className={cn("mb-spacing-3xl", alignClass, className)}>
       {renderBadge()}
       {title && (
-        <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className={cn("text-3xl md:text-4xl lg:text-5xl text-foreground mb-spacing-md font-heading max-w-[700px]", align === "center" && "mx-auto")} data-field="header.title">{title}</h2>
+        <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className={cn("text-3xl md:text-4xl lg:text-5xl text-foreground mb-spacing-md font-heading max-w-[700px]", align === "center" && "mx-auto")} data-field="header.title">{renderTitle(title)}</h2>
       )}
       {subtitle && (
         <p
