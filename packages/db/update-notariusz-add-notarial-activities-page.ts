@@ -58,20 +58,18 @@ if (existing.length > 0) {
 
 <p>Zgodnie z art. 79 ustawy z dnia 14 lutego 1991 roku Prawo o notariacie, notariusz dokonuje następujących czynności:</p>
 
-<ol>
-<li>sporządza akty notarialne;</li>
-<li>sporządza akty poświadczenia dziedziczenia;</li>
-<li>podejmuje czynności dotyczące europejskiego poświadczenia spadkowego;</li>
-<li>sporządza poświadczenia;</li>
-<li>doręcza oświadczenia;</li>
-<li>spisuje protokoły;</li>
-<li>sporządza protesty weksli i czeków;</li>
-<li>przyjmuje na przechowanie pieniądze, papiery wartościowe, dokumenty, dane na informatycznym nośniku danych, o którym mowa w przepisach o informatyzacji działalności podmiotów realizujących zadania publiczne;</li>
-<li>sporządza wypisy, odpisy i wyciągi dokumentów;</li>
-<li>sporządza, na żądanie stron, projekty aktów, oświadczeń i innych dokumentów;</li>
-<li>składa wnioski o wpis w księdze wieczystej wraz z dokumentami stanowiącymi podstawę wpisu w księdze wieczystej;</li>
-<li>sporządza inne czynności wynikające z odrębnych przepisów.</li>
-</ol>`;
+<p>1) sporządza akty notarialne;<br>
+1a) sporządza akty poświadczenia dziedziczenia;<br>
+1b) podejmuje czynności dotyczące europejskiego poświadczenia spadkowego;<br>
+2) sporządza poświadczenia;<br>
+3) doręcza oświadczenia;<br>
+4) spisuje protokoły;<br>
+5) sporządza protesty weksli i czeków;<br>
+6) przyjmuje na przechowanie pieniądze, papiery wartościowe, dokumenty, dane na informatycznym nośniku danych, o którym mowa w przepisach o informatyzacji działalności podmiotów realizujących zadania publiczne;<br>
+7) sporządza wypisy, odpisy i wyciągi dokumentów;<br>
+8) sporządza, na żądanie stron, projekty aktów, oświadczeń i innych dokumentów;<br>
+8a) składa wnioski o wpis w księdze wieczystej wraz z dokumentami stanowiącymi podstawę wpisu w księdze wieczystej;<br>
+9) sporządza inne czynności wynikające z odrębnych przepisów.</p>`;
 
   await sql`
     INSERT INTO blogs (site_id, slug, lang, title, description, content, status, standalone, published_at)
