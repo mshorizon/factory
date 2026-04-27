@@ -278,14 +278,14 @@
       "sections": [
         {
           "type": "hero",
-          "variant": "split",
+          "variant": "agency",
           "background": "transparent",
           "header": {
             "badge": "Strony dla polskich firm lokalnych",
-            "title": "Strony, ktore przynasza rezerwacje.",
+            "title": "Strony, ktore *przynasza rezerwacje.*",
             "subtitle": "Profesjonalna strona dla Twojej firmy z systemem rezerwacji, gotowa w 5-7 dni. Zobacz pelny projekt bezplatnie, zanim zaplacisz zlotowke. Od 1 990 zl netto."
           },
-          "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+          "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=1000&fit=crop",
           "cta": {
             "label": "Zobacz bezplatny podglad",
             "target": {
@@ -300,10 +300,43 @@
               "value": "+48602145332"
             }
           },
-          "stats": [
-            { "value": "120+", "label": "stron oddanych" },
-            { "value": "4,9/5", "label": "Google Opinie" },
-            { "value": "5-7 dni", "label": "do publikacji" }
+          "trustSignals": [
+            { "icon": "shield", "label": "Bez zaliczki" },
+            { "icon": "receipt", "label": "Faktura VAT 23%" },
+            { "icon": "lock", "label": "RODO & SSL" },
+            { "icon": "heart", "label": "100% zwrot, jesli Ci sie nie spodoba" }
+          ],
+          "avatarImages": [
+            "https://api.dicebear.com/7.x/notionists/svg?seed=13&backgroundColor=d4e4fc",
+            "https://api.dicebear.com/7.x/notionists/svg?seed=14&backgroundColor=d4e4fc",
+            "https://api.dicebear.com/7.x/notionists/svg?seed=15&backgroundColor=d4e4fc",
+            "https://api.dicebear.com/7.x/notionists/svg?seed=16&backgroundColor=d4e4fc"
+          ],
+          "googleRating": {
+            "score": 4.9,
+            "count": 120,
+            "label": "86 opinii Google"
+          },
+          "floatingCards": [
+            {
+              "type": "booking",
+              "title": "Nowa rezerwacja",
+              "subtitle": "Anna B. — strzyzenie, czw. 14:00"
+            },
+            {
+              "type": "review",
+              "metric": "4,9",
+              "metricLabel": "86 opinii"
+            },
+            {
+              "type": "stats",
+              "subtitle": "Salon Klaudia - Krakow",
+              "metric": "38 rezerwacji",
+              "metricLabel": "w pierwszym miesiacu po publikacji",
+              "metricChange": "+312%",
+              "quote": "Zwrocili koszty w 9 dni.",
+              "author": "Klaudia W"
+            }
           ]
         },
         {
@@ -448,10 +481,10 @@
         },
         {
           "type": "process",
-          "variant": "visual",
+          "variant": "timeline",
           "header": {
             "badge": "Proces - 7 dni roboczych",
-            "title": "Zero ryzyka. Czysta przejrzystosc.",
+            "title": "Zero ryzyka. *Czysta przejrzystosc.*",
             "subtitle": "Kazdy etap ma jasno opisany rezultat i dzien. Codziennie dostajesz krotkie podsumowanie. Niczego nie musisz dopytywac."
           },
           "cta": {
@@ -468,6 +501,7 @@
               "title": "Brief 30 min — online albo telefonicznie",
               "description": "Pytamy o klientow, konkurencje, dotychczasowa sprzedaz. Wychodzisz z gotowym briefem na maila.",
               "badges": [
+                "Dzien 1",
                 "Pisemne podsumowanie ustalen",
                 "Mapa strony na ekranie",
                 "Wstepny harmonogram dni"
@@ -479,6 +513,7 @@
               "title": "Tresci, projekt graficzny, zdjecia",
               "description": "Piszemy teksty oparte na Twoich slowach. Pokazujemy makiete glownej strony. Dwie rundy poprawek bez doplat.",
               "badges": [
+                "Dzien 2-3",
                 "Teksty SEO pod Twoje miasto",
                 "Makieta w Figmie z linkiem",
                 "Zdjecia ze stocku albo Twoje"
@@ -490,6 +525,7 @@
               "title": "Kodowanie, testy, optymalizacja",
               "description": "Budujemy strone na lekkim, szybkim silniku. Testujemy na telefonach, w PageSpeed, w realnych warunkach.",
               "badges": [
+                "Dzien 4-6",
                 "Wynik PageSpeed 95+",
                 "Test na 12 urzadzeniach",
                 "Konfiguracja systemu rezerwacji"
@@ -501,6 +537,7 @@
               "title": "Bezplatny podglad, publikacja, szkolenie",
               "description": "Dostajesz link do strony. Akceptujesz — wystawiamy fakture, podpinamy domene. 30-minutowe szkolenie z panelu.",
               "badges": [
+                "Dzien 7",
                 "Pelna strona na testowym URL",
                 "Faktura dopiero po akceptacji",
                 "Nagranie szkolenia z panelu"
@@ -510,48 +547,40 @@
         },
         {
           "type": "project",
-          "variant": "grid",
+          "variant": "showcase",
           "header": {
             "badge": "Realizacje",
-            "title": "Nie tylko ladne. Skuteczne.",
+            "title": "Nie tylko ladne. *Skuteczne.*",
             "subtitle": "Trzy historie z roznych branz. Z metrykami, ktore naprawde widac w portfelu wlasciciela."
           },
           "projects": [
             {
               "title": "Bella Studio",
-              "description": "Medycyna estetyczna, Wroclaw. Strona z systemem rezerwacji, ktora zarobila na siebie w 9 dni.",
-              "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop",
-              "metric": "+312%",
-              "metricLabel": "rezerwacji w pierwszym kwartale",
-              "metrics": ["+312% rezerwacji", "Zwrot w 9 dni"]
+              "description": "Medycyna estetyczna, Wroclaw.",
+              "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=800&fit=crop",
+              "metrics": ["+312% rezerwacji", "w pierwszym kwartale", "„Strona zarobila na siebie w 9 dni.”", "Medycyna estetyczna", "Wroclaw"]
             },
             {
               "title": "Bistro Kameralne",
-              "description": "Lokalna gastronomia, Krakow. Klienci dziekuja, ze nie musza dzwonic.",
-              "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
-              "metric": "0,8s",
-              "metricLabel": "czas ladowania (PageSpeed 99)",
-              "metrics": ["PageSpeed 99", "0,8s ladowanie"]
+              "description": "Lokalna gastronomia, Krakow.",
+              "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=800&fit=crop",
+              "metrics": ["0,8 s", "czas ladowania (PageSpeed 99)", "„Klienci dziekuja, ze nie musza dzwonic.”", "Lokalna gastronomia", "Krakow"]
             },
             {
               "title": "Volt-Tech",
-              "description": "Uslugi elektryczne, Tarnow. 8 zlecen tygodniowo z formularza wyceny.",
-              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop",
-              "metric": "8 zlecen/tydz.",
-              "metricLabel": "z formularza wyceny",
-              "metrics": ["8 zlecen/tydzien", "Z formularza wyceny"]
+              "description": "Uslugi elektryczne, Tarnow.",
+              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=800&fit=crop",
+              "metrics": ["8 zlecen / tydz.", "z formularza wyceny", "„Nie odbieram juz telefonow wieczorem.”", "Uslugi elektryczne", "Tarnow"]
             }
           ]
         },
         {
-          "type": "about-summary",
-          "background": "dark",
-          "statsInverted": false,
-          "header": {
-            "title": "Sredni efekt strony u naszych klientow"
-          },
-          "stats": [
-            { "value": "+8-15", "label": "nowych klientow miesiecznie z samej strony" },
+          "type": "trustBar",
+          "variant": "stats",
+          "statsLabel": "Sredni efekt strony",
+          "statsSublabel": "u naszych klientow",
+          "statsItems": [
+            { "value": "+8 do 15", "label": "nowych klientow miesiecznie z samej strony" },
             { "value": "~6 000 zl", "label": "dodatkowego przychodu miesiecznie (mediana)" },
             { "value": "~21 dni", "label": "sredni czas zwrotu inwestycji w strone" }
           ]
@@ -635,27 +664,33 @@
         },
         {
           "type": "testimonials",
-          "variant": "grid",
+          "variant": "agency",
           "header": {
             "badge": "Co mowia klienci",
-            "title": "Mowia krotko i konkretnie.",
+            "title": "Mowia *krotko i konkretnie.*",
             "subtitle": "4,9/5 na podstawie 86 opinii Google"
           },
-          "testimonials": [
+          "items": [
             {
-              "title": "Klaudia W., Krakow",
-              "quote": "Balam sie, ze zaplace kilka tysiecy za cos, co mi sie nie spodoba. Tutaj najpierw zobaczylam gotowa strone. Strona zwrocila sie w 9 dni. Mam 3x wiecej zapytan niz z polecen.",
-              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=klaudia&backgroundColor=d4e4fc"
+              "title": "Klaudia W. -- Krakow",
+              "description": "Balam sie, ze zaplace kilka tysiecy za cos, co mi sie nie spodoba. Tutaj najpierw zobaczylam gotowa strone. Strona zwrocila sie w 9 dni. Mam 3x wiecej zapytan niz z polecen.",
+              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=klaudia&backgroundColor=d4e4fc",
+              "role": "Salon Klaudia - fryzjerstwo",
+              "metric": "+38 rezerwacji w 1. miesiacu"
             },
             {
-              "title": "Magda N., Warszawa",
-              "quote": "Rezerwacje online to zloto. Wczesniej musialam odbierac telefony w trakcie zajec. Teraz rano patrze w kalendarz i mam pelny dzien. Ekipa uwinela sie w 6 dni.",
-              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=magda&backgroundColor=d4e4fc"
+              "title": "Magda N. -- Warszawa",
+              "description": "Rezerwacje online to zloto. Wczesniej musialam odbierac telefony w trakcie zajec. Teraz rano patrze w kalendarz i mam pelny dzien. Ekipa uwinela sie w 6 dni.",
+              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=magda&backgroundColor=d4e4fc",
+              "role": "Studio Pilates Zen - fitness",
+              "metric": "Pelne karnety w 3 tygodnie"
             },
             {
-              "title": "Piotr K., Tarnow",
-              "quote": "Konkretnie, szybko, bez sciemy. Nie wciskali mi zbednych bajerow, tylko zrobili to, co dziala. Polski telefon, polska faktura, polski czlowiek odbiera.",
-              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=piotr&backgroundColor=d4e4fc"
+              "title": "Piotr K. -- Tarnow",
+              "description": "Konkretnie, szybko, bez sciemy. Nie wciskali mi zbednych bajerow, tylko zrobili to, co dziala. Polski telefon, polska faktura, polski czlowiek odbiera.",
+              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=piotr&backgroundColor=d4e4fc",
+              "role": "Hydraulik - uslugi 24/7",
+              "metric": "8 zlecen tygodniowo z formularza"
             }
           ]
         },
@@ -721,11 +756,10 @@
         },
         {
           "type": "ctaBanner",
-          "variant": "card",
-          "background": "dark",
+          "variant": "agency",
           "header": {
             "badge": "Nastepny krok",
-            "title": "Pomowmy o Twojej nowej stronie.",
+            "title": "Pomowmy o Twojej *nowej stronie.*",
             "subtitle": "30 minut rozmowy. Krotki brief. Pelna strona za 5-7 dni — do obejrzenia bez placenia. Bez sprzedazy, bez nacisku."
           },
           "cta": {
@@ -741,7 +775,23 @@
               "type": "phone",
               "value": "+48602145332"
             }
-          }
+          },
+          "calendarTitle": "poniedzialek, 11 maja — start prac",
+          "calendarSubtitle": "Najblizsze wolne miejsce",
+          "timeSlots": [
+            { "date": "11 maj", "time": "9:00", "available": true },
+            { "date": "11 maj", "time": "13:00", "available": true },
+            { "date": "12 maj", "time": "10:00", "available": false },
+            { "date": "12 maj", "time": "15:00", "available": true },
+            { "date": "13 maj", "time": "11:00", "available": false },
+            { "date": "13 maj", "time": "16:00", "available": true }
+          ],
+          "trustLabels": [
+            "Bez zaliczki",
+            "Bezplatny podglad",
+            "Strona w 5-7 dni",
+            "100% zwrot, jesli nie pasuje"
+          ]
         }
       ]
     },
