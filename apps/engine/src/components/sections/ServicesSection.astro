@@ -26,6 +26,7 @@ const headerAlign = (minimal || variant === "darkCards" || variant === "imageGri
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 const detailsLabel = section.detailsLabel;
+const showIcons = !!(section as any).showIcons;
 ---
 
 <section>
@@ -52,7 +53,7 @@ const detailsLabel = section.detailsLabel;
     ) : variant === "alternating" ? (
       <ServicesAlternating client:visible items={items} />
     ) : (
-      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} />
+      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} />
     )}
     {ctaLabel && (
       <div class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>
