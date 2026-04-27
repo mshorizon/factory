@@ -14,4 +14,5 @@ export interface GoogleMapProps {
   address?: string;
   openInMapsLabel?: string;
   directionsLabel?: string;
+  googlePlaceQuery?: string;
 }

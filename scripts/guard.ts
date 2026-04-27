@@ -114,6 +114,11 @@ function getProtectedClients(): { name: string; sections: Set<string> }[] {
   return clients;
 }
 
+const branch = run("git rev-parse --abbrev-ref HEAD")[0] ?? "";
+if (branch !== "main") {
+  process.exit(0);
+}
+
 const changed = getChangedFiles();
 const clients = getProtectedClients();
 
