@@ -115,9 +115,7 @@ function getProtectedClients(): { name: string; sections: Set<string> }[] {
 }
 
 const branch = run("git rev-parse --abbrev-ref HEAD")[0] ?? "";
-if (branch !== "main") {
-  process.exit(0);
-}
+const isMainBranch = branch === "main";
 
 const changed = getChangedFiles();
 const clients = getProtectedClients();
@@ -174,6 +172,11 @@ for (const { client, sections, global } of hits) {
     console.error("  Global (all pages affected):");
     global.forEach((l) => console.error(l));
   }
+}
+
+if (!isMainBranch) {
+  console.error(`\n  ℹ️  Branch "${branch}" — warning only, push continues.\n`);
+  process.exit(0);
 }
 
 if (accepted) {
