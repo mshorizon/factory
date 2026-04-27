@@ -8,8 +8,7 @@ import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import BlogStandaloneSection from "../../components/sections/BlogStandaloneSection.astro";
-import { createBlog, getBlogBySlug } from "@mshorizon/db";
-import { generateServiceContent } from "../../lib/service-content-generator";
+import { getBlogBySlug } from "@mshorizon/db";
 import type { BusinessProfile, Service } from "@mshorizon/schema";
 
 // Get route params
@@ -61,35 +60,6 @@ let resolvedBlog = site
   ? (await getBlogBySlug(site.id, resolvedBlogSlug, currentLang ?? "pl")) ??
     (await getBlogBySlug(site.id, resolvedBlogSlug))
   : null;
-
-// If no blog found, generate content on-the-fly and cache it in the DB
-if (!resolvedBlog && site && service.title && import.meta.env.ANTHROPIC_API_KEY) {
-  const generated = await generateServiceContent({
-    title: service.title,
-    description: service.description ?? "",
-    lang: currentLang ?? "pl",
-    businessName: business.business.name,
-    industry: business.business.industry,
-  });
-
-  if (generated) {
-    try {
-      resolvedBlog = await createBlog({
-        siteId: site.id,
-        slug: resolvedBlogSlug,
-        lang: currentLang ?? "pl",
-        title: service.title,
-        description: service.description ?? null,
-        content: generated,
-        status: "published",
-        standalone: true,
-        publishedAt: new Date(),
-      });
-    } catch {
-      // Another concurrent request may have inserted the blog; treat as non-fatal
-    }
-  }
-}
 
 // Get layout configuration
 const layout = getLayoutConfig(business);
