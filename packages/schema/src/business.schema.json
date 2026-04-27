@@ -772,7 +772,8 @@
           "properties": {
             "favicon": { "type": "string", "title": "Favicon URL" },
             "logo": { "type": "string", "title": "Logo URL" },
-            "icon": { "type": "string", "title": "Icon URL" }
+            "icon": { "type": "string", "title": "Icon URL" },
+            "iconLucide": { "type": "string", "title": "Icon Lucide Name", "description": "Lucide icon name rendered inline with text-primary color (e.g. 'scale', 'gavel'). Takes precedence over icon." }
           }
         },
         "contact": {
