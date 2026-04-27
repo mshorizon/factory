@@ -735,6 +735,9 @@
             "hours": "t:contact.info.hours",
             "receptionHours": "t:contact.info.receptionHours",
             "receptionLabel": "t:contact.info.receptionLabel",
+            "additionalInfo": [
+              "Możliwe jest też dokonanie czynności w innych terminach, po uprzednim uzgodnieniu"
+            ],
             "notice": {
               "title": "t:contact.info.notice.title",
               "highlight": "PL 12 3456 7890 0000 1234 5678 9012",
