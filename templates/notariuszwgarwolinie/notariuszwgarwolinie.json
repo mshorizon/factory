@@ -733,13 +733,6 @@
             "phone": "+48 22 555 01 47",
             "email": "harvey.specter@pearsonhardman.com",
             "hours": "t:contact.info.hours",
-            "hoursDetailed": [
-              "t:contact.info.hours.mon",
-              "t:contact.info.hours.tue",
-              "t:contact.info.hours.wed",
-              "t:contact.info.hours.thu",
-              "t:contact.info.hours.fri"
-            ],
             "receptionHours": "t:contact.info.receptionHours",
             "receptionLabel": "t:contact.info.receptionLabel",
             "notice": {
