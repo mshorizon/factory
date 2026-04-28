@@ -572,19 +572,8 @@
       "navOrder": 2,
       "sections": [
         {
-          "type": "blog",
-          "header": {
-            "badge": "t:informations.badge",
-            "title": "t:informations.title",
-            "subtitle": "t:informations.subtitle"
-          },
-          "columns": 2,
-          "variant": "cards-light",
-          "ctaLabel": "t:blog.readMore",
-          "blogSlugs": [
-            "informacje-dla-kupujacych",
-            "informacje-o-oplatach"
-          ]
+          "type": "blog-standalone",
+          "blogSlug": "czynnosci-notarialne"
         }
       ]
     }
