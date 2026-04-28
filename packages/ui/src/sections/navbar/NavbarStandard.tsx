@@ -94,6 +94,7 @@ export function NavbarStandard({
                 <a
                   key={`mobile-${link.label}-${index}`}
                   href={href}
+                  onClick={() => setMobileMenuOpen(false)}
                   className="px-spacing-md py-3 text-[length:var(--nav-font-size,16px)] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
                 >
                   {link.label}
