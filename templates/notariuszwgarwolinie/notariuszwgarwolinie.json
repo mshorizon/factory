@@ -77,7 +77,7 @@
             }
           },
           "type": "hero",
-          "image": "/assets/portfolio-law-hero.png",
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/notariuszwgarwolinie/hero_image.png",
           "header": {
             "badge": "t:hero.badge",
             "title": "t:hero.title",
