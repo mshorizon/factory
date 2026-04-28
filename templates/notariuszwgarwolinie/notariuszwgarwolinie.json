@@ -576,6 +576,17 @@
           "blogSlug": "czynnosci-notarialne"
         }
       ]
+    },
+    "costs": {
+      "title": "t:pages.costs.title",
+      "navLabel": "t:pages.costs.navLabel",
+      "navOrder": 3,
+      "sections": [
+        {
+          "type": "blog-standalone",
+          "blogSlug": "oplaty"
+        }
+      ]
     }
   },
   "theme": {
@@ -678,6 +689,13 @@
               "target": {
                 "type": "page",
                 "value": "informations"
+              }
+            },
+            {
+              "label": "t:pages.costs.title",
+              "target": {
+                "type": "page",
+                "value": "costs"
               }
             },
             {
