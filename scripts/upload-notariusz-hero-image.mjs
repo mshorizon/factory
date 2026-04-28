@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Replaces the hero image for notariuszwgarwolinie with Lady Justice statue.
-// Client requirement: no Afro-American skin in hero image.
+// Replaces the hero image for notariuszwgarwolinie with a document-signing photo.
+// No faces — shows hands signing an official document (notary-specific).
 //
 // Run: DATABASE_URL="..." node scripts/upload-notariusz-hero-image.mjs
 
@@ -10,7 +10,7 @@ import postgres from "postgres";
 const SUBDOMAIN = "notariuszwgarwolinie";
 
 const IMAGE_URL =
-  "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=900&fit=crop&q=85";
+  "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=900&fit=crop&q=85";
 const IMAGE_FILENAME = "hero.jpg";
 const R2_KEY = `${SUBDOMAIN}/${IMAGE_FILENAME}`;
 
