@@ -775,7 +775,8 @@
       "address": "ul. Nadwodna 21, 08-400 Garwolin",
       "location": {
         "latitude": 51.8956,
-        "longitude": 21.6153
+        "longitude": 21.6153,
+        "googlePlaceQuery": "Kancelaria Notarialna Garwolin ul. Nadwodna 21"
       }
     },
     "industry": "legal"
