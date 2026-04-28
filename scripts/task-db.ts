@@ -58,6 +58,15 @@ async function main() {
       break;
     }
 
+    case "set-summary": {
+      const [id] = args;
+      if (!id) { process.stderr.write("Usage: set-summary <id>  (summary on stdin)\n"); process.exit(1); }
+      const summary = await readStdin();
+      if (!summary) { process.stderr.write("set-summary: summary must be on stdin\n"); process.exit(1); }
+      await updateTask(id, { summary });
+      break;
+    }
+
     case "append-answer": {
       const [id] = args;
       if (!id) { process.stderr.write("Usage: append-answer <id>  (answer on stdin)\n"); process.exit(1); }
@@ -74,7 +83,7 @@ async function main() {
     }
 
     default:
-      process.stderr.write(`Unknown command: ${cmd}\nAvailable: get-pending, set-status, set-on-hold, append-answer\n`);
+      process.stderr.write(`Unknown command: ${cmd}\nAvailable: get-pending, set-status, set-on-hold, set-summary, append-answer\n`);
       process.exit(1);
   }
 }

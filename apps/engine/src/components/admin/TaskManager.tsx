@@ -58,6 +58,7 @@ export type TaskRecord = {
   isAdminPanel: boolean;
   description: string;
   clarification: string | null;
+  summary: string | null;
   isSuperAdmin: boolean;
   createdAt: string;
   updatedAt: string;
@@ -613,6 +614,13 @@ export default function TaskManager({
                   </div>
 
                   <div className="text-sm whitespace-pre-wrap break-words">{task.description}</div>
+
+                  {task.status === "done" && task.summary && (
+                    <div className="flex items-start gap-2 rounded-lg border border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-900/10 px-3 py-2 mt-1">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                      <p className="text-xs text-emerald-700 dark:text-emerald-400">{task.summary}</p>
+                    </div>
+                  )}
 
                   {task.status === "on_hold" && task.clarification && (
                     <div className="flex flex-col gap-2 rounded-lg border border-amber-400/40 bg-amber-50/50 dark:bg-amber-900/10 p-3 mt-1">

@@ -42,7 +42,7 @@ export const PATCH: APIRoute = async ({ request, cookies, params, locals }) => {
     }
 
     const body = await request.json();
-    const { status, clarification, answer } = body ?? {};
+    const { status, clarification, answer, summary } = body ?? {};
 
     // --- Flow: user submits answer to on_hold task ---
     if (answer !== undefined) {
@@ -75,7 +75,10 @@ export const PATCH: APIRoute = async ({ request, cookies, params, locals }) => {
       );
     }
 
-    const fields: Parameters<typeof updateTask>[1] = { status: status as TaskStatus };
+    const fields: Parameters<typeof updateTask>[1] = {
+      status: status as TaskStatus,
+      ...(typeof summary === "string" ? { summary: summary.trim() || null } : {}),
+    };
 
     if (status === "on_hold") {
       if (!clarification || typeof clarification !== "string") {
