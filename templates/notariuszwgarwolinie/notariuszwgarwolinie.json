@@ -534,6 +534,7 @@
             "messagePlaceholder": "t:contact.form.messagePlaceholder"
           },
           "info": {
+            "email": "durys@notar.pl",
             "hours": "t:contact.info.hours",
             "phone": "+48 515 430 357",
             "notice": {
@@ -778,6 +779,7 @@
       "footerIcon": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/notariuszwgarwolinie/icon_white.png"
     },
     "contact": {
+      "email": "durys@notar.pl",
       "phone": "+48 515 430 357",
       "address": "ul. Nadwodna 21, 08-400 Garwolin",
       "location": {
