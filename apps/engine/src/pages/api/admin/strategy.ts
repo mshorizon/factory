@@ -135,7 +135,7 @@ Return ONLY a valid JSON array with no preamble, no markdown, no backticks. Each
         priority: Number(suggestion.priority),
         effort: String(suggestion.effort),
         status: "pending",
-        createdBy: "manual",
+        createdBy: suggestion.createdBy ? String(suggestion.createdBy) : "manual",
       });
       return new Response(JSON.stringify(row), {
         headers: { "Content-Type": "application/json" },
