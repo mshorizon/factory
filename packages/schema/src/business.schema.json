@@ -773,6 +773,7 @@
             "favicon": { "type": "string", "title": "Favicon URL" },
             "logo": { "type": "string", "title": "Logo URL" },
             "icon": { "type": "string", "title": "Icon URL" },
+            "footerIcon": { "type": "string", "title": "Footer Icon URL", "description": "Icon used in the footer. Falls back to icon when absent." },
             "iconLucide": { "type": "string", "title": "Icon Lucide Name", "description": "Lucide icon name rendered inline with text-primary color (e.g. 'scale', 'gavel'). Takes precedence over icon." }
           }
         },
