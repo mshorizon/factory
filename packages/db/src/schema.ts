@@ -331,6 +331,7 @@ export const tasks = pgTable("tasks", {
   isAdminPanel: boolean("is_admin_panel").notNull().default(false),
   description: text("description").notNull(),
   clarification: text("clarification"),
+  summary: text("summary"),
   isSuperAdmin: boolean("is_super_admin").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
