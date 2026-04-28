@@ -33,6 +33,7 @@ interface Props {
   businessName: string;
   footerName?: string;
   logoIcon?: string;
+  footerLogoIcon?: string;
   links?: FooterLink[];
   columns?: FooterColumn[];
   copyright?: string;
@@ -48,6 +49,7 @@ const {
   businessName,
   footerName,
   logoIcon,
+  footerLogoIcon,
   links = [],
   columns = [],
   copyright,
@@ -60,6 +62,7 @@ const {
 } = Astro.props;
 
 const displayName = footerName || businessName;
+const effectiveFooterIcon = footerLogoIcon || logoIcon;
 
 const callExtension = extensions.find((e) => e.type === "call");
 
@@ -316,7 +319,7 @@ const languages = [
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-spacing-2xl lg:gap-spacing-3xl">
           <div class="md:col-span-1 lg:col-span-2">
             <div class="flex items-center gap-spacing-sm mb-spacing-md">
-              {logoIcon && <img src={logoIcon} alt="" class="w-6 h-6 footer-logo-white" />}
+              {effectiveFooterIcon && <img src={effectiveFooterIcon} alt="" class="w-6 h-6 footer-logo-white" />}
               <span class="text-lg font-medium tracking-tight">{displayName}</span>
             </div>
             {tagline && <p class="text-on-primary/75 text-sm leading-relaxed font-heading max-w-xs">{tagline}</p>}
@@ -370,7 +373,7 @@ const languages = [
           {/* Brand Column */}
           <div class="md:col-span-1 lg:col-span-2">
             <div class="flex items-center gap-spacing-sm mb-spacing-md">
-              {logoIcon && <img src={logoIcon} alt="" class="w-6 h-6 footer-logo-white" />}
+              {effectiveFooterIcon && <img src={effectiveFooterIcon} alt="" class="w-6 h-6 footer-logo-white" />}
               <span class="text-lg font-medium tracking-tight text-on-primary font-heading">{displayName}</span>
             </div>
             {tagline && (
@@ -443,7 +446,7 @@ const languages = [
         {/* Brand Column */}
         <div class="max-w-md">
           <span class="text-2xl font-bold mb-spacing-md flex items-center gap-2">
-            {logoIcon && <img src={logoIcon} alt="" class="w-7 h-7 footer-logo-white" />}
+            {effectiveFooterIcon && <img src={effectiveFooterIcon} alt="" class="w-7 h-7 footer-logo-white" />}
             {businessName}
           </span>
           {tagline && <p class="text-sm text-white/60 mb-spacing-lg">{tagline}</p>}

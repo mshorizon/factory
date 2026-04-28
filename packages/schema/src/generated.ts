@@ -7,6 +7,10 @@ export type FaviconURL = string;
 export type LogoURL = string;
 export type IconURL = string;
 /**
+ * Icon used in the footer. Falls back to icon when absent.
+ */
+export type FooterIconURL = string;
+/**
  * Lucide icon name rendered inline with text-primary color (e.g. 'scale', 'gavel'). Takes precedence over icon.
  */
 export type IconLucideName = string;
@@ -392,6 +396,7 @@ export interface BusinessAssets {
   favicon?: FaviconURL;
   logo?: LogoURL;
   icon?: IconURL;
+  footerIcon?: FooterIconURL;
   iconLucide?: IconLucideName;
 }
 export interface BusinessContact {
