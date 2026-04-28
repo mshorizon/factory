@@ -1,8 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, Trophy, RefreshCw, ChevronDown, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CheckCircle, XCircle, Trophy, RefreshCw, ChevronDown, Sparkles, Plus, X } from "lucide-react";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -182,6 +191,167 @@ function SuggestionCard({
   );
 }
 
+// ── Add Suggestion Form ───────────────────────────────────────────────────────
+
+const EMPTY_FORM = {
+  title: "",
+  rationale: "",
+  category: "feature",
+  priority: "3",
+  effort: "m",
+};
+
+function AddSuggestionForm({ onAdded }: { onAdded: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const set = (field: keyof typeof EMPTY_FORM) => (val: string | null) =>
+    setForm((f) => ({ ...f, [field]: val ?? f[field] }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.title.trim() || !form.rationale.trim()) {
+      setError("Title and rationale are required.");
+      return;
+    }
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create",
+          suggestion: {
+            title: form.title.trim(),
+            rationale: form.rationale.trim(),
+            category: form.category,
+            priority: Number(form.priority),
+            effort: form.effort,
+            createdBy: "claude_chrome_mcp",
+          },
+        }),
+      });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error ?? `HTTP ${res.status}`);
+      }
+      setForm(EMPTY_FORM);
+      setOpen(false);
+      onAdded();
+    } catch (e: any) {
+      setError(e.message ?? "Failed to add suggestion.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (!open) {
+    return (
+      <Button size="sm" variant="outline" onClick={() => setOpen(true)} id="add-suggestion-btn">
+        <Plus className="w-3.5 h-3.5 mr-1" />
+        Add suggestion
+      </Button>
+    );
+  }
+
+  return (
+    <Card className="mb-6">
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-sm font-semibold">New Suggestion</CardTitle>
+          <Button size="sm" variant="ghost" onClick={() => setOpen(false)} className="h-6 w-6 p-0">
+            <X className="w-4 h-4" />
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} id="add-suggestion-form" className="space-y-3">
+          <div className="space-y-1">
+            <Label htmlFor="suggestion-title">Title</Label>
+            <Input
+              id="suggestion-title"
+              name="title"
+              placeholder="Short imperative title (max 60 chars)"
+              maxLength={60}
+              value={form.title}
+              onChange={(e) => set("title")(e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="suggestion-rationale">Rationale</Label>
+            <Textarea
+              id="suggestion-rationale"
+              name="rationale"
+              placeholder="Why is this worth doing now?"
+              rows={2}
+              value={form.rationale}
+              onChange={(e) => set("rationale")(e.target.value)}
+              required
+            />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="space-y-1">
+              <Label htmlFor="suggestion-category">Category</Label>
+              <Select value={form.category} onValueChange={set("category")} name="category">
+                <SelectTrigger id="suggestion-category">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(CATEGORY_LABELS).map(([val, label]) => (
+                    <SelectItem key={val} value={val}>{label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="suggestion-priority">Priority</Label>
+              <Select value={form.priority} onValueChange={set("priority")} name="priority">
+                <SelectTrigger id="suggestion-priority">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[5, 4, 3, 2, 1].map((p) => (
+                    <SelectItem key={p} value={String(p)}>{p}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="suggestion-effort">Effort</Label>
+              <Select value={form.effort} onValueChange={set("effort")} name="effort">
+                <SelectTrigger id="suggestion-effort">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(EFFORT_LABELS).map(([val, label]) => (
+                    <SelectItem key={val} value={val}>{label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          {error && (
+            <p className="text-xs text-destructive">{error}</p>
+          )}
+          <div className="flex justify-end gap-2 pt-1">
+            <Button type="button" size="sm" variant="ghost" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" size="sm" disabled={submitting} id="submit-suggestion-btn">
+              {submitting ? <RefreshCw className="w-3.5 h-3.5 animate-spin mr-1" /> : <Plus className="w-3.5 h-3.5 mr-1" />}
+              Add
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export default function StrategyView() {
@@ -262,6 +432,7 @@ export default function StrategyView() {
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <AddSuggestionForm onAdded={fetch_} />
           <Button
             size="sm"
             variant="outline"
