@@ -1456,6 +1456,7 @@ export default function AdminForm({
             <CardContent className="pt-6 rjsf-grid-2col">
               <Form
                 schema={footerSchema}
+                uiSchema={{}}
                 formData={getNestedValue(resolvedFormData, ["layout", "footer"])}
                 validator={validator}
                 widgets={configWidgets}
