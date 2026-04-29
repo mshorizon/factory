@@ -10,7 +10,7 @@ const R2_BASE = "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev";
 const ICONS = {
   favicon: `${R2_BASE}/${SUBDOMAIN}/icon.png`,
   icon: `${R2_BASE}/${SUBDOMAIN}/icon.png`,
-  footerIcon: `${R2_BASE}/${SUBDOMAIN}/icon_white.png`,
+  footerIcon: `${R2_BASE}/${SUBDOMAIN}/icon.png`,
 };
 
 const DATABASE_URL = process.env.DATABASE_URL;
