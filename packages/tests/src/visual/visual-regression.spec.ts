@@ -1,18 +1,8 @@
 import { test, expect } from "@playwright/test";
 import { getAllSubdomains } from "@mshorizon/db";
 
-/**
- * Visual Regression Tests
- *
- * Dynamically generates tests for all businesses in the database.
- * Each test navigates to the business subdomain and takes a full-page screenshot.
- *
- * Prerequisites:
- * - PM2 dev server running on port 4321: `pm2 start astro-dev`
- * - Database seeded: `cd packages/db && pnpm run db:seed`
- */
+const TEST_HOST = process.env.TEST_HOST || "localhost:4321";
 
-// Fetch subdomains once before all tests
 const subdomains = await getAllSubdomains();
 console.log(`Found ${subdomains.length} business(es) to test:`, subdomains);
 
@@ -24,7 +14,7 @@ test.describe("Visual Regression Tests", () => {
   // Generate individual test for each business - full page
   for (const subdomain of subdomains) {
     test(`${subdomain} - full page screenshot`, async ({ page, browserName }) => {
-      const url = `http://${subdomain}.localhost:4321`;
+      const url = `http://${subdomain}.${TEST_HOST}`;
 
       await page.goto(url, {
         waitUntil: "load",
@@ -47,7 +37,7 @@ test.describe("Visual Regression Tests", () => {
   // Generate individual test for each business - above the fold
   for (const subdomain of subdomains) {
     test(`${subdomain} - above the fold`, async ({ page, browserName }) => {
-      const url = `http://${subdomain}.localhost:4321`;
+      const url = `http://${subdomain}.${TEST_HOST}`;
 
       await page.goto(url, {
         waitUntil: "load",
