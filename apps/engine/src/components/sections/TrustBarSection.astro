@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { TrustBar, TrustBarLogos, SectionHeader } from "@mshorizon/ui";
+import { TrustBar, TrustBarLogos, TrustBarStats, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -14,27 +14,36 @@ const header = getSectionHeader(section);
 const variant = section.variant;
 ---
 
-<section>
-  <div class="container mx-auto">
-    <SectionHeader
-      badge={header.badge}
-      title={header.title}
-      subtitle={header.subtitle}
-      align="center"
-      badgeVariant={badgeVariant as any}
-      className="[&_h2]:text-sm [&_h2]:font-medium [&_h2]:text-muted mb-spacing-xl"
-    />
-    {variant === "logos" ? (
-      <TrustBarLogos
-        client:visible
-        clientLogos={section.clientLogos || []}
+{variant === "stats" ? (
+  <TrustBarStats
+    client:visible
+    label={(section as any).statsLabel}
+    sublabel={(section as any).statsSublabel}
+    stats={(section as any).statsItems}
+  />
+) : (
+  <section>
+    <div class="container mx-auto">
+      <SectionHeader
+        badge={header.badge}
+        title={header.title}
+        subtitle={header.subtitle}
+        align="center"
+        badgeVariant={badgeVariant as any}
+        className="[&_h2]:text-sm [&_h2]:font-medium [&_h2]:text-muted mb-spacing-xl"
       />
-    ) : (
-      <TrustBar
-        client:visible
-        trustSignals={section.trustSignals}
-        googleRating={section.googleRating}
-      />
-    )}
-  </div>
-</section>
+      {variant === "logos" ? (
+        <TrustBarLogos
+          client:visible
+          clientLogos={section.clientLogos || []}
+        />
+      ) : (
+        <TrustBar
+          client:visible
+          trustSignals={section.trustSignals}
+          googleRating={section.googleRating}
+        />
+      )}
+    </div>
+  </section>
+)}

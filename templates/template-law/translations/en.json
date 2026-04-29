@@ -1,8 +1,6 @@
 {
   "business.name": "Lawyer Harvey Specter",
-
   "nav.cta": "Contact",
-
   "pages.home.title": "Home",
   "pages.about.title": "About",
   "pages.services.title": "Services",
@@ -12,17 +10,14 @@
   "pages.informations.title": "Legal Guides",
   "pages.informations.navLabel": "Information",
   "pages.rodo.title": "GDPR",
-
   "hero.badge": "Law Firm",
   "hero.title": "Professional Legal Services in Warsaw",
   "hero.subtitle": "Specter & Associates Law Firm. Effective and reliable legal services for individuals and businesses.",
   "hero.cta": "Contact Us",
-
   "services.title": "Full Range of Legal Services",
   "services.subtitle": "We provide comprehensive legal services across key areas of law, ensuring timely and professional handling of every case.",
   "services.cta": "See all services",
   "services.viewDetails": "See details",
-
   "about.badge": "About",
   "about.title": "Lawyer Harvey Specter",
   "about.story.title": "Specter & Associates Law Firm",
@@ -43,28 +38,22 @@
   "about.career.items.2.title": "Legal Trainee",
   "about.career.items.2.company": "Warsaw Bar Association",
   "about.career.items.2.description": "I completed my legal traineeship under the supervision of experienced lawyers, gaining practical knowledge of civil, procedural, and commercial law. The traineeship concluded with a very good result on the bar examination.",
-
   "testimonials.badge": "Testimonials",
   "testimonials.title": "What Our Clients Say",
   "testimonials.subtitle": "Trust and effectiveness confirmed by our clients",
-
   "faq.badge": "FAQ",
   "faq.title": "Frequently Asked Questions",
   "faq.subtitle": "Didn't find an answer to your question?",
   "faq.cta": "Contact Us",
-
   "blog.badge": "Blog",
   "blog.title": "Legal Updates",
   "blog.subtitle": "Stay up to date with the most important changes in law and case law.",
   "blog.readMore": "Read More",
   "blog.back": "Go back",
-
   "informations.badge": "Information",
   "informations.title": "Legal Guide",
   "informations.subtitle": "Key legal information for individual clients and businesses — rights, obligations, and procedures.",
-
   "home.services.title": "I specialize in",
-
   "home.about.title": "Effective and Reliable Legal Services",
   "home.about.subtitle": "Specter & Associates Law Firm, led by Lawyer Harvey Specter, provides professional legal handling of every case. We guarantee electronic correspondence, timely case management, and full transparency of actions.",
   "home.about.cta": "More about the firm",
@@ -72,7 +61,6 @@
   "home.about.stats.1": "Cases completed",
   "home.about.stats.2": "Satisfied clients",
   "home.about.stats.3": "Year founded",
-
   "features.badge": "Tools",
   "features.title": "Modern Law Firm",
   "features.subtitle": "We use the latest IT systems to ensure efficient and effective case handling.",
@@ -87,7 +75,6 @@
   "features.items.6.description": "A dedicated portal allowing clients to track case progress and exchange documents online.",
   "features.items.7.title": "Secure Communication",
   "features.items.7.description": "An encrypted communication platform ensuring full confidentiality of client correspondence.",
-
   "testimonials.items.0.title": "Professional and Efficient Service",
   "testimonials.items.0.description": "Lawyer Specter and his team handled the entire case on time, keeping us informed at every stage of the proceedings. I recommend them to anyone looking for an effective and reliable law firm.",
   "testimonials.items.0.role": "Individual Client",
@@ -97,7 +84,6 @@
   "testimonials.items.2.title": "Modern Communication",
   "testimonials.items.2.description": "Efficient electronic communication and timely execution. The firm uses modern systems, which significantly speeds up the entire legal process.",
   "testimonials.items.2.role": "Business Client",
-
   "faq.items.0.question": "How do I schedule a first consultation?",
   "faq.items.0.answer": "The first consultation can be scheduled by phone, email, or via the contact form on our website. Consultations are available both in person in Warsaw and online — for clients from across Poland.",
   "faq.items.1.question": "What is the cost of legal advice?",
@@ -108,14 +94,12 @@
   "faq.items.3.answer": "Yes, the firm offers full remote services — online consultations, electronic document exchange, and power of attorney signing. We serve clients from across Poland and abroad.",
   "faq.items.4.question": "What types of cases can the firm help with?",
   "faq.items.4.answer": "The firm provides services in civil law, commercial law, labor law, real estate, family law, and debt recovery. Contact us to discuss your case.",
-
   "blog.preview.0.title": "How to Choose a Good Lawyer?",
   "blog.preview.0.description": "A practical guide on how to choose the right lawyer for your case — what to look for and how to evaluate a lawyer's experience.",
   "blog.preview.1.title": "Consumer Rights — What You Should Know",
   "blog.preview.1.description": "Learn your rights as a consumer. What entitlements do you have with complaints, returns, and defective products.",
   "blog.preview.2.title": "Employment Contract vs. Service Contract — Differences",
   "blog.preview.2.description": "What are the differences between an employment contract and a service contract? Rights and obligations of employees and contractors.",
-
   "services.items.0.title": "Civil Law",
   "services.items.0.description": "Comprehensive legal services in civil matters: contracts, damages, property issues, and ownership.",
   "services.items.0.fullDescription": "Comprehensive legal services in civil matters: contracts, damages, property issues, and ownership.",
@@ -134,7 +118,6 @@
   "services.items.5.title": "Debt Recovery",
   "services.items.5.description": "Effective debt recovery for businesses and individuals — negotiations, court proceedings, and enforcement.",
   "services.items.5.fullDescription": "Effective debt recovery for businesses and individuals — negotiations, court proceedings, and enforcement.",
-
   "contact.page.subtitle": "Contact Specter & Associates Law Firm. We are happy to answer your questions about your legal matter.",
   "contact.info.hours": "Opening Hours",
   "contact.info.hours.mon": "Monday 9:00 – 17:00",
@@ -146,7 +129,6 @@
   "contact.info.receptionLabel": "Client reception",
   "contact.info.notice.title": "Firm bank account: PKO Bank Polski S.A.",
   "contact.info.notice.description": "When making a payment, please include the case reference number and the client's full name or company name in the transfer description.",
-
   "files.groups.0.title": "Powers of Attorney",
   "files.groups.0.files.0.name": "General Power of Attorney",
   "files.groups.0.files.1.name": "Special Power of Attorney for Court Proceedings",
@@ -158,9 +140,7 @@
   "files.groups.2.files.1.name": "Appeal Against Dismissal",
   "files.groups.3.title": "Family Law",
   "files.groups.3.files.0.name": "Divorce Petition",
-
   "systems.learnMore": "Learn more",
-
   "contact.cta": "Contact me",
   "contact.badge": "Contact",
   "contact.title": "Get in Touch",
@@ -179,7 +159,6 @@
   "contact.form.topic.options.delivery": "Labor Law",
   "contact.form.topic.options.auction": "Real Estate",
   "contact.form.topic.options.other": "Other Question",
-
   "footer.copyright": "2026 Specter & Associates Law Firm",
   "footer.tagline": "Lawyer Harvey Specter. Professional and timely legal services in Warsaw.",
   "footer.privacy": "Privacy Policy",
@@ -187,7 +166,6 @@
   "footer.columns.pages.title": "Pages",
   "footer.columns.contact.title": "Contact",
   "footer.cookieSettings": "Cookie settings",
-
   "cookies.banner.message": "We use cookies to ensure the website works correctly and — with your consent — for analytics and marketing purposes.",
   "cookies.button.onlyNecessary": "Only necessary",
   "cookies.button.customize": "Customize",
@@ -199,19 +177,17 @@
   "cookies.category.analytics.description": "Help us understand how you use the site.",
   "cookies.category.marketing.label": "Marketing",
   "cookies.category.marketing.description": "Used for personalized advertising.",
-
   "files.badge": "Downloads",
   "files.title": "Forms & Documents",
   "files.subtitle": "Download the necessary forms and document templates useful in legal matters.",
-
   "ctaBanner.badge": "Contact",
   "ctaBanner.title": "Contact the Law Firm",
   "ctaBanner.subtitle": "Need legal help? We are at your disposal.",
   "ctaBanner.cta": "Contact Us",
-
   "map.badge": "Location",
   "map.title": "Find Us",
   "map.subtitle": "Specter & Associates Law Firm, ul. Marszałkowska 10 lok. 5, 00-590 Warszawa",
   "map.openInMaps": "Open in Google Maps",
-  "map.directions": "Directions to"
+  "map.directions": "Directions to",
+  "pages.costs.title": "Costs"
 }

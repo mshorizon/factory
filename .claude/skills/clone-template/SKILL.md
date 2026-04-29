@@ -3,10 +3,20 @@ name: clone-template
 description: Create a new business template by cloning the visual design of a website. Takes template name and URL, analyzes the site with Playwright, maps sections to existing engine components (reusing, extending with variants, or creating new), and produces a validated business JSON.
 ---
 
+## ⚠️ KRYTYCZNA ZASADA — przeczytaj przed pracą
+
+**Każda nazwa template'u MUSI zaczynać się od `template-`** (np. `template-restaurant`, `template-medical`).
+
+Jeśli użytkownik poda nazwę bez prefiksu `template-` (np. `notarialny`, `mojafirma`) — **STOP. Zapytaj o potwierdzenie i zaproponuj nazwę z prefiksem** (np. `template-notarialny`).
+
+Tylko ogólne, wielokrotnego użytku blueprinty trafiają do `templates/`. Konkretne instancje firm (np. `notariuszwgarwolinie`) żyją TYLKO w bazie danych — nie w `templates/`. Zobacz ADR-0018.
+
+---
+
 ## Cel
 
-Stwórz nowy template biznesowy na podstawie strony internetowej. Użytkownik podaje:
-1. Nazwę nowego template'u (np. `saas-landing`, `restaurant-modern`)
+Stwórz nowy **reużywalny** template biznesowy na podstawie strony internetowej. Użytkownik podaje:
+1. Nazwę nowego template'u (np. `template-restaurant`, `template-medical`) — **musi zaczynać się od `template-`**
 2. URL strony-wzoru (np. `https://example.framer.ai/`)
 
 ## Pliki do zrozumienia przed pracą
@@ -143,7 +153,7 @@ mcp__playwright__browser_take_screenshot → porównaj z oryginałem
 
 ## FAZA 4 — BUDOWANIE BUSINESS JSON
 
-Stwórz `templates/{templateName}/{templateName}.json` zgodny ze schematem.
+Stwórz `templates/{templateName}/{templateName}.json` zgodny ze schematem. (Pamiętaj: `templateName` MUSI mieć prefix `template-`, np. `templates/template-restaurant/template-restaurant.json`).
 
 ### Struktura obowiązkowa:
 ```json

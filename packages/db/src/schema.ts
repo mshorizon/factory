@@ -1,13 +1,18 @@
 import { pgTable, serial, text, jsonb, timestamp, integer, unique, boolean, bigint, uuid } from "drizzle-orm/pg-core";
 
+export const SITE_STATUSES = ["draft", "released", "suspended"] as const;
+export type SiteStatus = typeof SITE_STATUSES[number];
+
 export const sites = pgTable("sites", {
   id: serial("id").primaryKey(),
   subdomain: text("subdomain").notNull().unique(),
   businessName: text("business_name").notNull(),
   industry: text("industry"),
+  status: text("status").notNull().default("released"), // SiteStatus
   config: jsonb("config").notNull(),
   translations: jsonb("translations").$type<Record<string, Record<string, unknown>>>().default({}),
   umamiWebsiteId: text("umami_website_id"),
+  lastDeployedAt: timestamp("last_deployed_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -326,6 +331,7 @@ export const tasks = pgTable("tasks", {
   isAdminPanel: boolean("is_admin_panel").notNull().default(false),
   description: text("description").notNull(),
   clarification: text("clarification"),
+  summary: text("summary"),
   isSuperAdmin: boolean("is_super_admin").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -333,3 +339,27 @@ export const tasks = pgTable("tasks", {
 
 export type Task = typeof tasks.$inferSelect;
 export type NewTask = typeof tasks.$inferInsert;
+
+// --- Strategic Suggestions ---
+
+export const SUGGESTION_CATEGORIES = ["tech_debt", "feature", "marketing", "client_acquisition", "infrastructure"] as const;
+export const SUGGESTION_EFFORT = ["s", "m", "l", "xl"] as const;
+export const SUGGESTION_STATUSES = ["pending", "accepted", "rejected", "done"] as const;
+export type SuggestionCategory = typeof SUGGESTION_CATEGORIES[number];
+export type SuggestionEffort = typeof SUGGESTION_EFFORT[number];
+export type SuggestionStatus = typeof SUGGESTION_STATUSES[number];
+
+export const strategicSuggestions = pgTable("strategic_suggestions", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  rationale: text("rationale").notNull(),
+  category: text("category").notNull(), // SuggestionCategory
+  priority: integer("priority").notNull(), // 1-5
+  effort: text("effort").notNull(), // SuggestionEffort
+  status: text("status").notNull().default("pending"), // SuggestionStatus
+  createdBy: text("created_by").notNull().default("claude_scheduler"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type StrategicSuggestion = typeof strategicSuggestions.$inferSelect;
+export type NewStrategicSuggestion = typeof strategicSuggestions.$inferInsert;

@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist } from "@mshorizon/ui";
+import { HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -93,6 +93,21 @@ const secondaryCta = section.secondaryCta ? {
     cta={cta}
     secondaryCta={secondaryCta}
     isHomePage={isHomePage}
+  />
+) : variant === "agency" ? (
+  <HeroAgency
+    client:load
+    badge={header.badge}
+    title={header.title || ""}
+    subtitle={header.subtitle}
+    image={heroImage}
+    cta={cta}
+    secondaryCta={secondaryCta}
+    isHomePage={isHomePage}
+    floatingCards={(section as any).floatingCards}
+    trustSignals={(section as any).trustSignals}
+    avatarImages={(section as any).avatarImages}
+    googleRating={(section as any).googleRating}
   />
 ) : variant === "minimal" ? (
   <HeroMinimal

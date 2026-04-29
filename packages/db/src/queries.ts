@@ -1,8 +1,8 @@
-import { eq, and, desc, gte, sql, count, ne, inArray } from "drizzle-orm";
+import { eq, and, desc, gte, sql, count, ne, inArray, lte } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles, passwordResetTokens } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles, passwordResetTokens, strategicSuggestions } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking, NewBusinessFile } from "./schema.js";
+import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking, NewBusinessFile, SiteStatus } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -715,4 +715,112 @@ export async function getBusinessFileById(id: number) {
 export async function deleteBusinessFile(id: number) {
   const db = getDb();
   await db.delete(businessFiles).where(eq(businessFiles.id, id));
+}
+
+// ========== Strategic Suggestions Queries ==========
+
+import type { NewStrategicSuggestion, SuggestionStatus } from "./schema.js";
+
+export async function getStrategicSuggestions(status?: SuggestionStatus) {
+  const db = getDb();
+  const conditions = status ? [eq(strategicSuggestions.status, status)] : [];
+  return db
+    .select()
+    .from(strategicSuggestions)
+    .where(conditions.length ? and(...conditions) : undefined)
+    .orderBy(desc(strategicSuggestions.priority), desc(strategicSuggestions.createdAt));
+}
+
+export async function getPendingStrategicSuggestions() {
+  return getStrategicSuggestions("pending");
+}
+
+export async function countTodaySuggestions(): Promise<number> {
+  const db = getDb();
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+  const [row] = await db
+    .select({ n: count() })
+    .from(strategicSuggestions)
+    .where(
+      and(
+        eq(strategicSuggestions.createdBy, "claude_scheduler"),
+        gte(strategicSuggestions.createdAt, startOfDay)
+      )
+    );
+  return Number(row?.n ?? 0);
+}
+
+export async function createStrategicSuggestion(data: NewStrategicSuggestion) {
+  const db = getDb();
+  const [row] = await db.insert(strategicSuggestions).values(data).returning();
+  return row;
+}
+
+export async function updateStrategicSuggestionStatus(id: number, status: SuggestionStatus) {
+  const db = getDb();
+  const [row] = await db
+    .update(strategicSuggestions)
+    .set({ status })
+    .where(eq(strategicSuggestions.id, id))
+    .returning();
+  return row ?? null;
+}
+
+// ========== Business Management Queries ==========
+
+export async function getAllSites() {
+  const db = getDb();
+  return db.select().from(sites).orderBy(desc(sites.createdAt));
+}
+
+export async function getSiteById(id: number) {
+  const db = getDb();
+  const [row] = await db.select().from(sites).where(eq(sites.id, id)).limit(1);
+  return row ?? null;
+}
+
+export async function updateSiteStatus(subdomain: string, status: SiteStatus) {
+  const db = getDb();
+  const [row] = await db
+    .update(sites)
+    .set({ status, updatedAt: new Date() })
+    .where(eq(sites.subdomain, subdomain))
+    .returning();
+  return row ?? null;
+}
+
+export async function updateSiteLastDeployed(subdomain: string) {
+  const db = getDb();
+  await db
+    .update(sites)
+    .set({ lastDeployedAt: new Date(), updatedAt: new Date() })
+    .where(eq(sites.subdomain, subdomain));
+}
+
+export async function createSiteRecord(data: {
+  subdomain: string;
+  businessName: string;
+  industry?: string;
+  status?: SiteStatus;
+  config: Record<string, unknown>;
+}) {
+  const db = getDb();
+  const [row] = await db
+    .insert(sites)
+    .values({
+      subdomain: data.subdomain,
+      businessName: data.businessName,
+      industry: data.industry ?? null,
+      status: data.status ?? "draft",
+      config: data.config as any,
+      translations: {},
+    })
+    .returning();
+  return row;
+}
+
+export async function deleteSiteById(id: number) {
+  const db = getDb();
+  await db.delete(sites).where(eq(sites.id, id));
 }

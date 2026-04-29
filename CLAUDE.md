@@ -210,6 +210,34 @@ After completing what you think is the last task, **always** run `TaskList` to v
 
 ---
 
+## 📚 Architecture Decision Records
+All architectural decisions are stored in `docs/adr/`.
+- Read this directory at the start of every session before making architectural choices.
+- When making a new architectural decision, create a new ADR file first, then implement.
+- Never supersede an existing decision without creating a new ADR that references the old one.
+
+---
+
+## 🗓 Scheduler
+
+The **Strategic Scheduler** generates proactive work suggestions daily using Claude.
+
+| Item | Value |
+| :--- | :--- |
+| Script | `scripts/strategic-scheduler.ts` |
+| Schedule | Daily at **08:00** (system crontab) |
+| Log | `/tmp/strategic-scheduler.log` |
+| Admin UI | `/admin/strategy` |
+
+**Manual run:**
+```bash
+DATABASE_URL="..." ANTHROPIC_API_KEY="..." tsx scripts/strategic-scheduler.ts
+```
+
+**Idempotent:** Running twice on the same day is a no-op.
+
+---
+
 ## 🤖 AI Interaction Guidelines
 * **Communication Style:** Technical, "dev-to-dev", 100% honest. No fluff.
 * **Scalability Mindset:** Every piece of code must work for 100+ different businesses simultaneously.

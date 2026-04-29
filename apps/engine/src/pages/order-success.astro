@@ -21,7 +21,8 @@ const navLinksRaw = getNavLinks(business);
 const navLinks = navLinksRaw.map((link: any) => ({
   label: link.label,
   href: link.href || resolveTarget(link.target, business),
-}));
+  ...(link.external ? { external: true } : {}),
+}))
 const navCta = business.navigation?.cta
   ? { label: business.navigation.cta.label, href: resolveTarget(business.navigation.cta.target, business) }
   : undefined;
@@ -83,6 +84,7 @@ const pageTitle = `Zamówienie potwierdzone | ${business.business.name}`;
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    logoIconLucide={business.business.assets?.iconLucide}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered"}
@@ -112,6 +114,7 @@ const pageTitle = `Zamówienie potwierdzone | ${business.business.name}`;
     businessName={business.business.name}
     footerName={layout.footer.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    footerLogoIcon={business.business.assets?.footerIcon}
     links={footerLinks}
     columns={footerColumns}
     copyright={layout.footer.copyright}

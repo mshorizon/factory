@@ -28,7 +28,8 @@ const navLinksRaw = getNavLinks(business);
 const navLinks = navLinksRaw.map((link: any) => ({
   label: link.label,
   href: link.href || resolveTarget(link.target, business),
-}));
+  ...(link.external ? { external: true } : {}),
+}))
 
 // Pre-resolve CTA on the server
 const navCta = business.navigation?.cta
@@ -143,6 +144,7 @@ const checkoutLabels = {
   <Footer
     businessName={business.business.name}
     footerName={layout.footer.name}
+    footerLogoIcon={business.business.assets?.footerIcon}
     links={footerLinks}
     columns={footerColumns}
     copyright={layout.footer.copyright}

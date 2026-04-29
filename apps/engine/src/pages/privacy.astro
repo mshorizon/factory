@@ -19,7 +19,8 @@ const navLinksRaw = getNavLinks(business);
 const navLinks = navLinksRaw.map((link: any) => ({
   label: link.label,
   href: link.href || resolveTarget(link.target, business),
-}));
+  ...(link.external ? { external: true } : {}),
+}))
 
 const navCta = business.navigation?.cta ? {
   label: business.navigation.cta.label,
@@ -66,6 +67,7 @@ const year = new Date().getFullYear();
   <Navbar
     logo={layout.navbar.logoText || businessName}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    logoIconLucide={business.business.assets?.iconLucide}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
@@ -177,6 +179,7 @@ const year = new Date().getFullYear();
     businessName={businessName}
     footerName={layout.footer.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    footerLogoIcon={business.business.assets?.footerIcon}
     links={footerLinks}
     columns={footerColumns}
     copyright={layout.footer.copyright}

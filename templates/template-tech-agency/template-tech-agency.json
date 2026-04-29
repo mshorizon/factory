@@ -1,0 +1,897 @@
+{
+  "business": {
+    "id": "template-tech-agency-001",
+    "name": "Hazelgrouse Studio",
+    "industry": "web-agency",
+    "assets": {
+      "favicon": "/hazelgrouse_studio_logo_v2.png",
+      "icon": "/hazelgrouse_studio_logo_v2.png",
+      "logo": "/hazelgrouse_studio_logo_v2.png"
+    },
+    "logoIcon": "🐦",
+    "contact": {
+      "address": "ul. Jozefa 12/4, 31-056 Krakow",
+      "phone": "+48 602 145 332",
+      "email": "halo@hazelgrouse.pl",
+      "hours": "pn-pt 9:00-17:00"
+    },
+    "socials": {
+      "facebook": "https://facebook.com/hazelgrouse",
+      "instagram": "https://instagram.com/hazelgrouse",
+      "linkedin": "https://linkedin.com/company/hazelgrouse"
+    }
+  },
+  "theme": {
+    "preset": "minimal",
+    "majorTheme": "template-tech",
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#79ABD9",
+        "surface": {
+          "base": "#F5F8FF",
+          "alt": "#0B1A3C",
+          "card": "#FFFFFF"
+        },
+        "text": {
+          "main": "#0B1A3C",
+          "muted": "#506380",
+          "onPrimary": "#0B1A3C"
+        }
+      },
+      "dark": {
+        "primary": "#79ABD9",
+        "surface": {
+          "base": "#0B1A3C",
+          "alt": "#F5F8FF",
+          "card": "#11234A"
+        },
+        "text": {
+          "main": "#F5F8FF",
+          "muted": "#8FA3C0",
+          "onPrimary": "#0B1A3C"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'Inter', system-ui, -apple-system, sans-serif",
+      "secondary": "Georgia, serif"
+    },
+    "ui": {
+      "radius": "16px",
+      "spacing": {
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "5rem",
+        "section": "7.5rem",
+        "container": "2.5rem"
+      }
+    },
+    "headingWeight": "800",
+    "navFontSize": "14px",
+    "navLinksPosition": "right",
+    "scrollType": "momentum",
+    "badgeVariant": "accent"
+  },
+  "layout": {
+    "navbar": {
+      "variant": "standard"
+    },
+    "footer": {
+      "variant": "multiColumn",
+      "copyright": "Hazelgrouse Studio sp. z o.o. Wszelkie prawa zastrzezone.",
+      "tagline": "Pracownia stron internetowych z Krakowa. Strony szyte na miare dla polskich firm uslugowych.",
+      "links": [
+        {
+          "label": "Facebook",
+          "target": {
+            "type": "external",
+            "value": "https://facebook.com/hazelgrouse"
+          }
+        },
+        {
+          "label": "Instagram",
+          "target": {
+            "type": "external",
+            "value": "https://instagram.com/hazelgrouse"
+          }
+        },
+        {
+          "label": "LinkedIn",
+          "target": {
+            "type": "external",
+            "value": "https://linkedin.com/company/hazelgrouse"
+          }
+        }
+      ],
+      "columns": [
+        {
+          "title": "Oferta",
+          "links": [
+            {
+              "label": "Strony wizytowki",
+              "target": { "type": "section", "value": "pricing-0" }
+            },
+            {
+              "label": "Strony z rezerwacja",
+              "target": { "type": "section", "value": "pricing-0" }
+            },
+            {
+              "label": "Sklepy i karnety",
+              "target": { "type": "section", "value": "pricing-0" }
+            },
+            {
+              "label": "Opieka nad strona",
+              "target": { "type": "page", "value": "contact" }
+            }
+          ]
+        },
+        {
+          "title": "Branze",
+          "links": [
+            {
+              "label": "Fryzjerzy",
+              "target": { "type": "section", "value": "features-0" }
+            },
+            {
+              "label": "Kosmetyka",
+              "target": { "type": "section", "value": "features-0" }
+            },
+            {
+              "label": "Fizjoterapia",
+              "target": { "type": "section", "value": "features-0" }
+            },
+            {
+              "label": "Elektrycy",
+              "target": { "type": "section", "value": "features-0" }
+            },
+            {
+              "label": "Restauracje",
+              "target": { "type": "section", "value": "features-0" }
+            }
+          ]
+        },
+        {
+          "title": "Firma",
+          "links": [
+            {
+              "label": "Jak pracujemy",
+              "target": { "type": "section", "value": "process-1" }
+            },
+            {
+              "label": "Cennik",
+              "target": { "type": "section", "value": "pricing-0" }
+            },
+            {
+              "label": "Kontakt",
+              "target": { "type": "page", "value": "contact" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "navigation": {
+    "links": [
+      {
+        "label": "Oferta",
+        "target": { "type": "section", "value": "comparison-0" }
+      },
+      {
+        "label": "Branze",
+        "target": { "type": "section", "value": "features-0" }
+      },
+      {
+        "label": "Proces",
+        "target": { "type": "section", "value": "process-1" }
+      },
+      {
+        "label": "Realizacje",
+        "target": { "type": "section", "value": "project-0" }
+      },
+      {
+        "label": "Cennik",
+        "target": { "type": "section", "value": "pricing-0" }
+      }
+    ],
+    "cta": {
+      "label": "Umow rozmowe",
+      "target": {
+        "type": "page",
+        "value": "contact"
+      }
+    }
+  },
+  "data": {
+    "services": [
+      {
+        "id": "website-design",
+        "slug": "website-design",
+        "title": "Projektowanie stron",
+        "description": "Indywidualny projekt graficzny dopasowany do Twojej branzy i marki. Zadnych gotowych szablonow.",
+        "icon": "layout",
+        "category": "design",
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=400&fit=crop",
+        "features": [
+          "Indywidualny projekt graficzny",
+          "Responsywnosc mobile-first",
+          "Optymalizacja UX/UI"
+        ]
+      },
+      {
+        "id": "booking-system",
+        "slug": "booking-system",
+        "title": "System rezerwacji",
+        "description": "Wlasny system rezerwacji online bez prowizji. Powiadomienia SMS i email dla Ciebie i klienta.",
+        "icon": "calendar",
+        "category": "development",
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1512941937938-a3d8e14c90c7?w=600&h=400&fit=crop",
+        "features": [
+          "Bez prowizji od rezerwacji",
+          "Powiadomienia SMS i email",
+          "Synchronizacja z kalendarzem"
+        ]
+      },
+      {
+        "id": "local-seo",
+        "slug": "local-seo",
+        "title": "Lokalne SEO",
+        "description": "Optymalizacja pod Twoje miasto i frazy lokalne. Integracja z Google Moja Firma.",
+        "icon": "map-pin",
+        "category": "marketing",
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop",
+        "features": [
+          "PageSpeed 95+",
+          "Google Moja Firma",
+          "Lokalne frazy kluczowe"
+        ]
+      },
+      {
+        "id": "care-maintenance",
+        "slug": "care-maintenance",
+        "title": "Opieka techniczna",
+        "description": "Hosting, aktualizacje, backup i zmiany tresci. Spokojny sen — my pilnujemy.",
+        "icon": "shield-check",
+        "category": "support",
+        "available": true,
+        "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop",
+        "features": [
+          "Hosting i domena",
+          "Backup i aktualizacje",
+          "Zmiany tresci w cenie"
+        ]
+      }
+    ]
+  },
+  "pages": {
+    "home": {
+      "title": "Strony internetowe dla polskich firm lokalnych",
+      "navLabel": "Strona glowna",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "agency",
+          "background": "transparent",
+          "header": {
+            "badge": "Strony dla polskich firm lokalnych",
+            "title": "Strony, ktore *przynasza rezerwacje.*",
+            "subtitle": "Profesjonalna strona dla Twojej firmy z systemem rezerwacji, gotowa w 5-7 dni. Zobacz pelny projekt bezplatnie, zanim zaplacisz zlotowke. Od 1 990 zl netto."
+          },
+          "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=1000&fit=crop",
+          "cta": {
+            "label": "Zobacz bezplatny podglad",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          },
+          "secondaryCta": {
+            "label": "Zadzwon: 602 145 332",
+            "target": {
+              "type": "phone",
+              "value": "+48602145332"
+            }
+          },
+          "trustSignals": [
+            { "icon": "shield", "label": "Bez zaliczki" },
+            { "icon": "receipt", "label": "Faktura VAT 23%" },
+            { "icon": "lock", "label": "RODO & SSL" },
+            { "icon": "heart", "label": "100% zwrot, jesli Ci sie nie spodoba" }
+          ],
+          "avatarImages": [
+            "https://api.dicebear.com/7.x/notionists/svg?seed=13&backgroundColor=d4e4fc",
+            "https://api.dicebear.com/7.x/notionists/svg?seed=14&backgroundColor=d4e4fc",
+            "https://api.dicebear.com/7.x/notionists/svg?seed=15&backgroundColor=d4e4fc",
+            "https://api.dicebear.com/7.x/notionists/svg?seed=16&backgroundColor=d4e4fc"
+          ],
+          "googleRating": {
+            "score": 4.9,
+            "count": 120,
+            "label": "86 opinii Google"
+          },
+          "floatingCards": [
+            {
+              "type": "booking",
+              "title": "Nowa rezerwacja",
+              "subtitle": "Anna B. — strzyzenie, czw. 14:00"
+            },
+            {
+              "type": "review",
+              "metric": "4,9",
+              "metricLabel": "86 opinii"
+            },
+            {
+              "type": "stats",
+              "subtitle": "Salon Klaudia - Krakow",
+              "metric": "38 rezerwacji",
+              "metricLabel": "w pierwszym miesiacu po publikacji",
+              "metricChange": "+312%",
+              "quote": "Zwrocili koszty w 9 dni.",
+              "author": "Klaudia W"
+            }
+          ]
+        },
+        {
+          "type": "trustBar",
+          "variant": "default",
+          "background": "light",
+          "trustSignals": [
+            { "icon": "sparkles", "text": "120+ stron oddanych" },
+            { "icon": "star", "text": "4,9/5 Google Opinie" },
+            { "icon": "clock", "text": "5-7 dni do publikacji" },
+            { "icon": "shield-check", "text": "100% zwrot jesli nie pasuje" },
+            { "icon": "receipt", "text": "Polska faktura VAT 23%" },
+            { "icon": "map-pin", "text": "Krakow od 2021 roku" }
+          ]
+        },
+        {
+          "type": "process",
+          "variant": "grid",
+          "header": {
+            "badge": "Nasza obietnica",
+            "title": "Najpierw zobacz pelna strone. Placisz dopiero, jesli Ci pasuje.",
+            "subtitle": "Bez zaliczki. Bez ryzyka. Pracujemy na wlasnym koszcie do momentu Twojej akceptacji."
+          },
+          "cta": {
+            "label": "Umow rozmowe bez zobowiazan",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          },
+          "steps": [
+            {
+              "number": 1,
+              "icon": "message-circle",
+              "title": "30-minutowa rozmowa",
+              "description": "Pytamy o branze, klientow i oferte. Spisujemy brief — dostajesz go na maila.",
+              "badges": ["Dzisiaj", "Online lub telefonicznie"]
+            },
+            {
+              "number": 2,
+              "icon": "eye",
+              "title": "Bezplatny podglad",
+              "description": "Za 5-7 dni dostajesz link do gotowej strony na testowym serwerze. Klikasz, sprawdzasz.",
+              "badges": ["Za 5-7 dni", "Link do testowej strony"]
+            },
+            {
+              "number": 3,
+              "icon": "rocket",
+              "title": "Decydujesz",
+              "description": "Podoba sie — wystawiamy fakture, podpinamy domene, ruszasz. Nie podoba sie — rozchodzimy sie bez kosztow.",
+              "badges": ["Twoja decyzja", "Zero ryzyka"]
+            }
+          ]
+        },
+        {
+          "type": "comparison",
+          "background": "dark",
+          "header": {
+            "badge": "Porownanie",
+            "title": "Dlaczego nie Wix, nie Booksy, nie freelancer?",
+            "subtitle": "Kazde z tych rozwiazan ma sens — w zupelnie innym scenariuszu. Jesli chcesz miec strone, ktora bedzie Twoja, ktora znajda w Google i ktora sama zalatwi rezerwacje — roznica jest dramatyczna."
+          },
+          "leftTitle": "Wix / Booksy / DIY",
+          "rightTitle": "Hazelgrouse Studio",
+          "rows": [
+            {
+              "left": "3-6 tygodni wieczorami lub szablon jak u 1000 innych",
+              "right": "5-7 dni od briefu, indywidualny projekt"
+            },
+            {
+              "left": "Generyczny wyglad — gotowe szablony",
+              "right": "Unikalny projekt pod Twoja branze i marke"
+            },
+            {
+              "left": "Brak rezerwacji lub prowizja 30 zl/wizyta",
+              "right": "System rezerwacji bez prowizji — Twoja wlasnosc"
+            },
+            {
+              "left": "Slaba pozycja w Google — wolne szablony",
+              "right": "PageSpeed 95+, wlasna domena, lokalne SEO"
+            },
+            {
+              "left": "Brak polskiej faktury lub obce platformy",
+              "right": "Polska faktura VAT 23%, pelna ksiegowosc"
+            },
+            {
+              "left": "Strona nalezy do platformy — odejdziesz, tracisz",
+              "right": "Strona nalezy tylko do Ciebie — kod oddajemy w pelni"
+            }
+          ]
+        },
+        {
+          "type": "features",
+          "variant": "iconTiles",
+          "header": {
+            "badge": "Branze, ktore obslugujemy",
+            "title": "Specjalizacja, nie generalizacja.",
+            "subtitle": "Nie robimy stron dla wszystkich. Skupiamy sie na osmiu branzach, ktore dobrze znamy. Wiemy, jakie pytania zadaja Twoi klienci i co decyduje o rezerwacji."
+          },
+          "items": [
+            {
+              "title": "Fryzjerzy i barberzy",
+              "description": "23 strony zrealizowane",
+              "icon": "scissors"
+            },
+            {
+              "title": "Kosmetyka i estetyka",
+              "description": "18 stron zrealizowanych",
+              "icon": "star"
+            },
+            {
+              "title": "Fizjoterapia i rehab",
+              "description": "15 stron zrealizowanych",
+              "icon": "stethoscope"
+            },
+            {
+              "title": "Fitness i trenerzy",
+              "description": "12 stron zrealizowanych",
+              "icon": "dumbbell"
+            },
+            {
+              "title": "Elektryka i instalacje",
+              "description": "14 stron zrealizowanych",
+              "icon": "zap"
+            },
+            {
+              "title": "Budowa i remonty",
+              "description": "11 stron zrealizowanych",
+              "icon": "hammer"
+            },
+            {
+              "title": "Gastronomia",
+              "description": "16 stron zrealizowanych",
+              "icon": "utensils"
+            },
+            {
+              "title": "Stolarka i rzemioslo",
+              "description": "9 stron zrealizowanych",
+              "icon": "pen-tool"
+            }
+          ]
+        },
+        {
+          "type": "process",
+          "variant": "timeline",
+          "header": {
+            "badge": "Proces - 7 dni roboczych",
+            "title": "Zero ryzyka. *Czysta przejrzystosc.*",
+            "subtitle": "Kazdy etap ma jasno opisany rezultat i dzien. Codziennie dostajesz krotkie podsumowanie. Niczego nie musisz dopytywac."
+          },
+          "cta": {
+            "label": "Rozpocznij proces",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          },
+          "steps": [
+            {
+              "number": 1,
+              "icon": "message-circle",
+              "title": "Brief 30 min — online albo telefonicznie",
+              "description": "Pytamy o klientow, konkurencje, dotychczasowa sprzedaz. Wychodzisz z gotowym briefem na maila.",
+              "badges": [
+                "Dzien 1",
+                "Pisemne podsumowanie ustalen",
+                "Mapa strony na ekranie",
+                "Wstepny harmonogram dni"
+              ]
+            },
+            {
+              "number": 2,
+              "icon": "pen-tool",
+              "title": "Tresci, projekt graficzny, zdjecia",
+              "description": "Piszemy teksty oparte na Twoich slowach. Pokazujemy makiete glownej strony. Dwie rundy poprawek bez doplat.",
+              "badges": [
+                "Dzien 2-3",
+                "Teksty SEO pod Twoje miasto",
+                "Makieta w Figmie z linkiem",
+                "Zdjecia ze stocku albo Twoje"
+              ]
+            },
+            {
+              "number": 3,
+              "icon": "code",
+              "title": "Kodowanie, testy, optymalizacja",
+              "description": "Budujemy strone na lekkim, szybkim silniku. Testujemy na telefonach, w PageSpeed, w realnych warunkach.",
+              "badges": [
+                "Dzien 4-6",
+                "Wynik PageSpeed 95+",
+                "Test na 12 urzadzeniach",
+                "Konfiguracja systemu rezerwacji"
+              ]
+            },
+            {
+              "number": 4,
+              "icon": "rocket",
+              "title": "Bezplatny podglad, publikacja, szkolenie",
+              "description": "Dostajesz link do strony. Akceptujesz — wystawiamy fakture, podpinamy domene. 30-minutowe szkolenie z panelu.",
+              "badges": [
+                "Dzien 7",
+                "Pelna strona na testowym URL",
+                "Faktura dopiero po akceptacji",
+                "Nagranie szkolenia z panelu"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "project",
+          "variant": "showcase",
+          "header": {
+            "badge": "Realizacje",
+            "title": "Nie tylko ladne. *Skuteczne.*",
+            "subtitle": "Trzy historie z roznych branz. Z metrykami, ktore naprawde widac w portfelu wlasciciela."
+          },
+          "projects": [
+            {
+              "title": "Bella Studio",
+              "description": "Medycyna estetyczna, Wroclaw.",
+              "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=800&fit=crop",
+              "metrics": ["+312% rezerwacji", "w pierwszym kwartale", "„Strona zarobila na siebie w 9 dni.”", "Medycyna estetyczna", "Wroclaw"]
+            },
+            {
+              "title": "Bistro Kameralne",
+              "description": "Lokalna gastronomia, Krakow.",
+              "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=800&fit=crop",
+              "metrics": ["0,8 s", "czas ladowania (PageSpeed 99)", "„Klienci dziekuja, ze nie musza dzwonic.”", "Lokalna gastronomia", "Krakow"]
+            },
+            {
+              "title": "Volt-Tech",
+              "description": "Uslugi elektryczne, Tarnow.",
+              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=800&fit=crop",
+              "metrics": ["8 zlecen / tydz.", "z formularza wyceny", "„Nie odbieram juz telefonow wieczorem.”", "Uslugi elektryczne", "Tarnow"]
+            }
+          ]
+        },
+        {
+          "type": "trustBar",
+          "variant": "stats",
+          "statsLabel": "Sredni efekt strony",
+          "statsSublabel": "u naszych klientow",
+          "statsItems": [
+            { "value": "+8 do 15", "label": "nowych klientow miesiecznie z samej strony" },
+            { "value": "~6 000 zl", "label": "dodatkowego przychodu miesiecznie (mediana)" },
+            { "value": "~21 dni", "label": "sredni czas zwrotu inwestycji w strone" }
+          ]
+        },
+        {
+          "type": "pricing",
+          "variant": "default",
+          "header": {
+            "badge": "Cennik - ceny ostateczne",
+            "title": "Trzy pakiety. Zero gwiazdek przy cenie.",
+            "subtitle": "Cena jest ostateczna. Bez ukrytych abonamentow. Pierwszy projekt zobaczysz zanim zaplacisz."
+          },
+          "pricingTiers": [
+            {
+              "name": "Wizytowka",
+              "price": "1 990 zl",
+              "period": "netto, jednorazowo",
+              "description": "Dla solo-firm i jednoosobowych uslug",
+              "features": [
+                "Strona one-page do 5 sekcji",
+                "Formularz kontaktowy + Google Maps",
+                "Optymalizacja SEO pod Twoje miasto",
+                "Domena .pl + hosting (1 rok gratis)",
+                "1 miesiac opieki technicznej"
+              ],
+              "cta": {
+                "label": "Wybieram wizytowke",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              },
+              "highlighted": false
+            },
+            {
+              "name": "Rezerwacje",
+              "price": "3 490 zl",
+              "period": "netto, jednorazowo",
+              "description": "Najczesciej wybierany — uslugi z kalendarzem",
+              "badge": "Najczesciej wybierany",
+              "features": [
+                "Wszystko z pakietu Wizytowka",
+                "System rezerwacji online (bez prowizji)",
+                "Powiadomienia SMS i e-mail",
+                "Galeria realizacji + cennik uslug",
+                "Integracja Google Moja Firma",
+                "3 miesiace opieki technicznej"
+              ],
+              "cta": {
+                "label": "Wybieram rezerwacje",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              },
+              "highlighted": true
+            },
+            {
+              "name": "Sklep i karnety",
+              "price": "5 990 zl",
+              "period": "netto, jednorazowo",
+              "description": "Dla studiow, restauracji, sprzedazy online",
+              "features": [
+                "Wszystko z pakietu Rezerwacje",
+                "Platnosci online (Przelewy24, BLIK)",
+                "Karnety, vouchery, sklep produktow",
+                "Panel administracyjny do zamowien",
+                "Integracja z ksiegowoscia (Fakturownia)",
+                "6 miesiecy opieki technicznej"
+              ],
+              "cta": {
+                "label": "Wybieram sklep",
+                "target": {
+                  "type": "page",
+                  "value": "contact"
+                }
+              },
+              "highlighted": false
+            }
+          ]
+        },
+        {
+          "type": "testimonials",
+          "variant": "agency",
+          "header": {
+            "badge": "Co mowia klienci",
+            "title": "Mowia *krotko i konkretnie.*",
+            "subtitle": "4,9/5 na podstawie 86 opinii Google"
+          },
+          "items": [
+            {
+              "title": "Klaudia W. -- Krakow",
+              "description": "Balam sie, ze zaplace kilka tysiecy za cos, co mi sie nie spodoba. Tutaj najpierw zobaczylam gotowa strone. Strona zwrocila sie w 9 dni. Mam 3x wiecej zapytan niz z polecen.",
+              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=klaudia&backgroundColor=d4e4fc",
+              "role": "Salon Klaudia - fryzjerstwo",
+              "metric": "+38 rezerwacji w 1. miesiacu"
+            },
+            {
+              "title": "Magda N. -- Warszawa",
+              "description": "Rezerwacje online to zloto. Wczesniej musialam odbierac telefony w trakcie zajec. Teraz rano patrze w kalendarz i mam pelny dzien. Ekipa uwinela sie w 6 dni.",
+              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=magda&backgroundColor=d4e4fc",
+              "role": "Studio Pilates Zen - fitness",
+              "metric": "Pelne karnety w 3 tygodnie"
+            },
+            {
+              "title": "Piotr K. -- Tarnow",
+              "description": "Konkretnie, szybko, bez sciemy. Nie wciskali mi zbednych bajerow, tylko zrobili to, co dziala. Polski telefon, polska faktura, polski czlowiek odbiera.",
+              "image": "https://api.dicebear.com/7.x/notionists/svg?seed=piotr&backgroundColor=d4e4fc",
+              "role": "Hydraulik - uslugi 24/7",
+              "metric": "8 zlecen tygodniowo z formularza"
+            }
+          ]
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "badge": "Czesc",
+            "title": "Jestem Bartek. Z kazdym klientem rozmawiam osobiscie."
+          },
+          "image": "https://api.dicebear.com/7.x/notionists/svg?seed=bartek-founder&backgroundColor=d4e4fc",
+          "story": {
+            "title": "O nas",
+            "content": "Hazelgrouse zalozylem w 2021 w Krakowie. Robimy strony tylko dla polskich firm lokalnych, bo to znamy. Nie obslugujemy korporacji, nie pracujemy zdalnie z zagranicy. Odpowiadam pn-pt, 9:00-17:00. Nasza pracownia jest na Jozefa 12 w Krakowie."
+          },
+          "stats": [
+            { "value": "120+", "label": "stron oddanych" },
+            { "value": "5 lat", "label": "na rynku" },
+            { "value": "8", "label": "obslugiwanych branz" }
+          ]
+        },
+        {
+          "type": "faq",
+          "variant": "default",
+          "header": {
+            "badge": "Pytania i odpowiedzi",
+            "title": "Pytania, ktore najczesciej slyszymy."
+          },
+          "faqItems": [
+            {
+              "question": "Czy naprawde nie place nic z gory?",
+              "answer": "Dokladnie tak. Nie pobieramy zaliczek. Przygotowujemy projekt, kodujemy go i prezentujemy Ci na testowym serwerze. Jesli powiesz 'super, podoba mi sie' — wtedy wystawiamy fakture. Nie podoba sie? Rozchodzimy sie bez kosztow."
+            },
+            {
+              "question": "Co oznacza 'od 1 990 zl'?",
+              "answer": "1 990 zl netto to cena za pelnowartosciowa strone typu one-page. Wiekszosc naszych klientow wybiera pakiet Rezerwacje (3 490 zl) z systemem booking. Zawsze ustalamy konkretna kwote z gory."
+            },
+            {
+              "question": "Ile kosztuje utrzymanie strony po pierwszym roku?",
+              "answer": "W pierwszym roku domene i hosting dostajesz od nas gratis. W kolejnych latach koszt to okolo 300-400 zl netto rocznie. Nie ma zadnego abonamentu dla nas, chyba ze zlecisz nam dodatkowe prace."
+            },
+            {
+              "question": "Czy bede mogl sam edytowac tresci?",
+              "answer": "Tak. Do kazdej strony dolaczamy prosty panel CMS. Bez problemu samodzielnie zmienisz cennik, dodasz zdjecia do galerii, czy zaktualizujesz godziny otwarcia. Otrzymasz od nas rowniez krotkie szkolenie z obslugi."
+            },
+            {
+              "question": "Czym roznice sie od Booksy / Wix / WordPressa?",
+              "answer": "Booksy to platforma — Twoja strona jest jedna z setek innych w miescie, a oni biora prowizje od kazdej rezerwacji. Wix to konstruktor — robisz sam, dlugo. My robimy dla Ciebie unikalna strone, ktora posiadasz na wlasnosc, bez prowizji."
+            },
+            {
+              "question": "Pracujecie w calej Polsce?",
+              "answer": "Tak. Mamy klientow od Trojmiasta po Bieszczady. Wiekszosc pracy robimy zdalnie. Jesli mieszkasz w Krakowie lub okolicy, mozemy spotkac sie osobiscie."
+            },
+            {
+              "question": "Czy strona bedzie moja, czy waszej platformy?",
+              "answer": "Twoja, w 100%. Domena i hosting na Twoje dane. Pelny kod strony przekazujemy. Nie blokujemy Cie w zadnym ekosystemie."
+            },
+            {
+              "question": "A jesli nie mam logo, zdjec, tekstow?",
+              "answer": "Wiekszosc klientow nie ma. Teksty piszemy na podstawie 30-minutowej rozmowy. Zdjecia mozemy dobrac ze stocku albo zarekomendowac lokalnego fotografa. Logo — jesli nie masz, polecimy projektanta lub zrobimy proste w cenie."
+            }
+          ]
+        },
+        {
+          "type": "ctaBanner",
+          "variant": "agency",
+          "header": {
+            "badge": "Nastepny krok",
+            "title": "Pomowmy o Twojej *nowej stronie.*",
+            "subtitle": "30 minut rozmowy. Krotki brief. Pelna strona za 5-7 dni — do obejrzenia bez placenia. Bez sprzedazy, bez nacisku."
+          },
+          "cta": {
+            "label": "Zarezerwuj rozmowe",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          },
+          "secondaryCta": {
+            "label": "+48 602 145 332",
+            "target": {
+              "type": "phone",
+              "value": "+48602145332"
+            }
+          },
+          "calendarTitle": "poniedzialek, 11 maja — start prac",
+          "calendarSubtitle": "Najblizsze wolne miejsce",
+          "timeSlots": [
+            { "date": "11 maj", "time": "9:00", "available": true },
+            { "date": "11 maj", "time": "13:00", "available": true },
+            { "date": "12 maj", "time": "10:00", "available": false },
+            { "date": "12 maj", "time": "15:00", "available": true },
+            { "date": "13 maj", "time": "11:00", "available": false },
+            { "date": "13 maj", "time": "16:00", "available": true }
+          ],
+          "trustLabels": [
+            "Bez zaliczki",
+            "Bezplatny podglad",
+            "Strona w 5-7 dni",
+            "100% zwrot, jesli nie pasuje"
+          ]
+        }
+      ]
+    },
+    "about": {
+      "title": "O nas",
+      "navLabel": "O nas",
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "badge": "O Hazelgrouse Studio",
+            "title": "Pracownia stron z Krakowa. Zalozono w 2021."
+          },
+          "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
+          "story": {
+            "title": "Nasza historia",
+            "content": "Hazelgrouse Studio zalozylem w 2021 roku w Krakowie. Od poczatku wiedzialem, ze nie chce budowac stron dla korporacji. Chcialem pomagac polskim firmom lokalnym — fryzjerom, elektrykom, restauratorom — ktorzy traca klientow, bo nie maja dobrej strony w internecie. Dzis obslugujemy osiem branz i oddalismy ponad 120 stron. Kazda z nich dziala i przynosi realne wyniki."
+          },
+          "stats": [
+            { "value": "120+", "label": "stron oddanych" },
+            { "value": "2021", "label": "rok zalozenia" },
+            { "value": "8", "label": "obslugiwanych branz" },
+            { "value": "4,9/5", "label": "ocena Google" }
+          ]
+        },
+        {
+          "type": "features",
+          "variant": "default",
+          "header": {
+            "badge": "Dlaczego my",
+            "title": "Co nas wyroznia",
+            "subtitle": "Kilka rzeczy, ktore robia roznice."
+          },
+          "items": [
+            {
+              "title": "Bezplatny podglad",
+              "description": "Pelna pierwsza wersja strony przed jakakolwiek platnoscia. Zero ryzyka.",
+              "icon": "eye"
+            },
+            {
+              "title": "Polska faktura VAT",
+              "description": "Wystawiamy na Twoja firme, NIP, pelna ksiegowosc. Bez zagranicznych platform.",
+              "icon": "receipt"
+            },
+            {
+              "title": "Wlasnosc kodu",
+              "description": "Strona nalezy do Ciebie. Pelny kod przekazujemy. Zadnego lock-in.",
+              "icon": "lock"
+            },
+            {
+              "title": "100% zwrot",
+              "description": "Jesli po 30 dniach nie jestes zadowolony — oddajemy pieniadze.",
+              "icon": "heart"
+            }
+          ]
+        },
+        {
+          "type": "ctaBanner",
+          "variant": "default",
+          "header": {
+            "title": "Porozmawiajmy o Twojej stronie"
+          },
+          "cta": {
+            "label": "Umow rozmowe",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        }
+      ]
+    },
+    "contact": {
+      "title": "Kontakt",
+      "navLabel": "Kontakt",
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "badge": "Kontakt",
+            "title": "Porozmawiajmy o Twojej stronie",
+            "subtitle": "Odpowiadamy w ciagu 24 godzin. Najczesciej szybciej."
+          },
+          "info": {
+            "address": "ul. Jozefa 12/4, 31-056 Krakow",
+            "phone": "+48 602 145 332",
+            "email": "halo@hazelgrouse.pl",
+            "hours": "pn-pt 9:00-17:00"
+          },
+          "form": {
+            "namePlaceholder": "Twoje imie",
+            "emailPlaceholder": "Twoj email",
+            "messagePlaceholder": "Opisz swoj biznes i czego szukasz...",
+            "submitButton": "Wyslij wiadomosc"
+          }
+        }
+      ]
+    }
+  },
+  "sharedSections": {}
+}

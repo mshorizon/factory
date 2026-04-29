@@ -8,6 +8,7 @@ import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import BlogStandaloneSection from "../../components/sections/BlogStandaloneSection.astro";
+import { getBlogBySlug } from "@mshorizon/db";
 import type { BusinessProfile, Service } from "@mshorizon/schema";
 
 // Get route params
@@ -22,13 +23,43 @@ const translatedData = deepTranslate(translations, businessData) as BusinessProf
 // Resolve image paths (relative paths become /data/{businessId}/...)
 const business = deepResolveImages(translatedData, businessId);
 
-// Find the service by slug
-const service = business.data.services?.find((s: Service) => s.slug === slug);
+// Find the service by slug — first in data.services, then fall back to home page items
+let service: Service | undefined = business.data.services?.find(
+  (s: Service) => s.slug === slug
+);
 
-// 404 if service not found
 if (!service) {
-  return new Response(null, { status: 404, statusText: "Service Not Found" });
+  // Look for the slug in the home page services section items
+  const homeSection = (business.pages as any)?.home?.sections?.find(
+    (s: any) => s.type === "services"
+  );
+  const homeItem = homeSection?.items?.find(
+    (item: any) => (item.slug || item.id) === slug
+  );
+
+  if (!homeItem) {
+    return new Response(null, { status: 404, statusText: "Service Not Found" });
+  }
+
+  // Build a synthetic service from the home page card data
+  service = {
+    id: slug,
+    slug,
+    title: homeItem.title ?? slug,
+    description: homeItem.description ?? "",
+    available: true,
+  } as Service;
 }
+
+// Determine the blog slug to use (explicit or derived from the service slug)
+const resolvedBlogSlug = service.blogSlug ?? `service-${slug}`;
+
+// Try to load existing blog content for this service
+const { site } = Astro.locals;
+let resolvedBlog = site
+  ? (await getBlogBySlug(site.id, resolvedBlogSlug, currentLang ?? "pl")) ??
+    (await getBlogBySlug(site.id, resolvedBlogSlug))
+  : null;
 
 // Get layout configuration
 const layout = getLayoutConfig(business);
@@ -40,7 +71,8 @@ const navLinksRaw = getNavLinks(business);
 const navLinks = navLinksRaw.map((link: any) => ({
   label: link.label,
   href: link.href || resolveTarget(link.target, business),
-}));
+  ...(link.external ? { external: true } : {}),
+}))
 
 // Pre-resolve CTA on the server
 const navCta = business.navigation?.cta ? {
@@ -114,6 +146,7 @@ const socialLinks = business.business.socials
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    logoIconLucide={business.business.assets?.iconLucide}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
@@ -128,7 +161,7 @@ const socialLinks = business.business.socials
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1" data-nav-offset>
+  <main class="flex-1 pt-14 lg:pt-16" data-nav-offset>
     {(!layout.hideBreadcrumbs || service.content) && (
       <section class="relative bg-background py-spacing-section-sm">
         {!layout.hideBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}
@@ -142,15 +175,16 @@ const socialLinks = business.business.socials
       </section>
     )}
 
-    <!-- Blog standalone section (linked via service.blogSlug) -->
-    {service.blogSlug && (
-      <BlogStandaloneSection section={{ type: "blog-standalone", blogSlug: service.blogSlug } as any} />
+    <!-- Blog standalone section (pre-loaded or linked via blogSlug) -->
+    {resolvedBlog && (
+      <BlogStandaloneSection section={{ type: "blog-standalone", blogSlug: resolvedBlogSlug } as any} />
     )}
   </main>
   <Footer
     businessName={business.business.name}
     footerName={layout.footer.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    footerLogoIcon={business.business.assets?.footerIcon}
     links={footerLinks}
     columns={footerColumns}
     copyright={layout.footer.copyright}

@@ -1,0 +1,24 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import StrategyView from "../../components/admin/StrategyView";
+
+const auth = Astro.locals.auth;
+
+if (!auth) {
+  return Astro.redirect("/admin/login");
+}
+---
+
+<AdminLayout title="Strategy — Admin">
+  <div class="strategy-wrapper">
+    <StrategyView client:load />
+  </div>
+</AdminLayout>
+
+<style>
+  .strategy-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+  }
+</style>

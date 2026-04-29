@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { CtaBannerDefault, CtaBannerTicker, CtaBannerCard } from "@mshorizon/ui";
+import { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -20,7 +20,22 @@ const ctaHref = section.cta?.target?.type === "phone"
     : "/contact";
 ---
 
-{variant === "ticker" ? (
+{variant === "agency" ? (
+  <CtaBannerAgency
+    client:visible
+    title={header.title}
+    subtitle={header.subtitle}
+    badge={header.badge}
+    ctaLabel={section.cta?.label}
+    ctaHref={ctaHref}
+    secondaryCtaLabel={(section as any).secondaryCta?.label}
+    secondaryCtaHref={(section as any).secondaryCta?.target?.value ? ((section as any).secondaryCta.target.type === "phone" ? `tel:${(section as any).secondaryCta.target.value}` : `/${(section as any).secondaryCta.target.value}`) : undefined}
+    calendarTitle={(section as any).calendarTitle}
+    calendarSubtitle={(section as any).calendarSubtitle}
+    timeSlots={(section as any).timeSlots}
+    trustLabels={(section as any).trustLabels}
+  />
+) : variant === "ticker" ? (
   <CtaBannerTicker
     client:visible
     marqueeText={section.marqueeText || header.title}

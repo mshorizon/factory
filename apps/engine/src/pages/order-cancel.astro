@@ -18,7 +18,8 @@ const navLinksRaw = getNavLinks(business);
 const navLinks = navLinksRaw.map((link: any) => ({
   label: link.label,
   href: link.href || resolveTarget(link.target, business),
-}));
+  ...(link.external ? { external: true } : {}),
+}))
 const navCta = business.navigation?.cta
   ? { label: business.navigation.cta.label, href: resolveTarget(business.navigation.cta.target, business) }
   : undefined;
@@ -83,6 +84,7 @@ const pageTitle = `Zamówienie anulowane | ${business.business.name}`;
   <Footer
     businessName={business.business.name}
     footerName={layout.footer.name}
+    footerLogoIcon={business.business.assets?.footerIcon}
     links={footerLinks}
     columns={footerColumns}
     copyright={layout.footer.copyright}

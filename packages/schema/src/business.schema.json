@@ -772,7 +772,9 @@
           "properties": {
             "favicon": { "type": "string", "title": "Favicon URL" },
             "logo": { "type": "string", "title": "Logo URL" },
-            "icon": { "type": "string", "title": "Icon URL" }
+            "icon": { "type": "string", "title": "Icon URL" },
+            "footerIcon": { "type": "string", "title": "Footer Icon URL", "description": "Icon used in the footer. Falls back to icon when absent." },
+            "iconLucide": { "type": "string", "title": "Icon Lucide Name", "description": "Lucide icon name rendered inline with text-primary color (e.g. 'scale', 'gavel'). Takes precedence over icon." }
           }
         },
         "contact": {
@@ -794,7 +796,8 @@
               "title": "Geographic Location",
               "properties": {
                 "latitude": { "type": "number", "title": "Latitude" },
-                "longitude": { "type": "number", "title": "Longitude" }
+                "longitude": { "type": "number", "title": "Longitude" },
+                "googlePlaceQuery": { "type": "string", "title": "Google Place Query", "description": "Business name/address query for Google Maps native panel (e.g. 'Kancelaria Notarialna Garwolin'). When set, the map shows Google's native info card with reviews and directions instead of the custom overlay." }
               },
               "required": ["latitude", "longitude"]
             }
@@ -841,7 +844,7 @@
         "majorTheme": {
           "type": "string",
           "title": "Major Theme",
-          "enum": ["template-specialist", "template-tech", "template-art", "template-law"]
+          "enum": ["template-specialist", "template-tech", "template-art", "template-law", "template-tech-agency"]
         },
         "mode": {
           "type": "string",

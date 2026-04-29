@@ -29,6 +29,7 @@
 
     "tasks": "bash scripts/run-tasks.sh",
     "tasks:once": "bash scripts/run-tasks.sh --once",
+    "tasks:tmux": "tmux kill-session -t tasks 2>/dev/null; tmux new-session -d -s tasks 'pnpm tasks' && tmux attach -t tasks",
     "tasks:stop": "pkill -f 'run-tasks.sh' && echo 'Task runner stopped' || echo 'No task runner running'",
 
     "admin1": "bash scripts/claude-admin-1.sh",
@@ -36,7 +37,9 @@
     "client1": "bash scripts/claude-client-1.sh",
     "client2": "bash scripts/claude-client-2.sh",
 
-    "release": "git checkout main && git merge develop --no-ff -m 'chore: release from develop' && git push origin main && git checkout develop"
+    "release:check": "pnpm guard",
+    "release": "pnpm release:check && git checkout main && git merge develop --no-ff -m 'chore: release from develop' && git push origin main && git checkout develop",
+    "scheduler": "DATABASE_URL=\"postgresql://postgres:qM2NsnxsnPsM3FPKqqHE6VOaodrE9P7FJtaG0OwWu4ddkNdVPwhflxbRf1kR6Y4D@46.224.191.237:5432/hazelgrouse-db\" ANTHROPIC_API_KEY=\"$(grep ANTHROPIC_API_KEY apps/engine/.env | cut -d= -f2-)\" tsx scripts/strategic-scheduler.ts"
   },
   "keywords": [],
   "author": "",

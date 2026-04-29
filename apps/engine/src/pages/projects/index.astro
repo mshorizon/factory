@@ -46,7 +46,8 @@ const navLinksRaw = getNavLinks(business);
 const navLinks = navLinksRaw.map((link: any) => ({
   label: link.label,
   href: link.href || resolveTarget(link.target, business),
-}));
+  ...(link.external ? { external: true } : {}),
+}))
 
 // Pre-resolve CTA on the server
 const navCta = business.navigation?.cta ? {
@@ -109,6 +110,7 @@ const socialLinks = business.business.socials
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    logoIconLucide={business.business.assets?.iconLucide}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
@@ -174,6 +176,7 @@ const socialLinks = business.business.socials
     businessName={business.business.name}
     footerName={layout.footer.name}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    footerLogoIcon={business.business.assets?.footerIcon}
     links={footerLinks}
     columns={footerColumns}
     copyright={layout.footer.copyright}

@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-const SUBDOMAIN = "portfolio-law";
-const BASE = `http://${SUBDOMAIN}.localhost:4321`;
+const TEST_HOST = process.env.TEST_HOST || "localhost:4321";
+const SUBDOMAIN = "template-law";
+const BASE = `http://${SUBDOMAIN}.${TEST_HOST}`;
 
 const PAGES = [
   { name: "home", path: "/" },

@@ -57,11 +57,12 @@ $description
 
 INSTRUCTIONS:
 1. Complete the task as described. Follow all rules in CLAUDE.md strictly.
-2. If the task is completely clear, do the work and output a brief summary of what you did.
-3. If you CANNOT proceed without clarification, output EXACTLY this (and nothing else):
+2. If you CANNOT proceed without clarification, output EXACTLY this (and nothing else):
    QUESTION: <your question here>
    Do NOT ask and also do partial work — either fully complete or ask.
-4. After completing: stage your changes (git add) but do NOT commit. The runner commits separately.
+3. After completing: stage your changes (git add) but do NOT commit. The runner commits separately.
+4. End your response with exactly one line in this format (no newline after):
+   SUMMARY: <one concise sentence describing what you changed and why>
 PROMPT
 }
 
@@ -135,6 +136,10 @@ while true; do
         }
     elif [[ $CLAUDE_EXIT -eq 0 ]]; then
         (cd "$REPO_ROOT" && $TASK_DB set-status "$TASK_ID" "done") 2>&1 | tee -a "$LOG_FILE" || true
+        SUMMARY=$(echo "$OUTPUT" | grep -E "^SUMMARY:" | sed 's/^SUMMARY:[[:space:]]*//' | head -1)
+        if [[ -n "$SUMMARY" ]]; then
+            echo "$SUMMARY" | (cd "$REPO_ROOT" && $TASK_DB set-summary "$TASK_ID") 2>&1 | tee -a "$LOG_FILE" || true
+        fi
         TASKS_PROCESSED=true
         log "✓ Done: $TASK_ID"
         notify "Done: ${DESCRIPTION:0:60}"

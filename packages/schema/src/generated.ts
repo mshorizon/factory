@@ -6,6 +6,14 @@ export type Industry = string;
 export type FaviconURL = string;
 export type LogoURL = string;
 export type IconURL = string;
+/**
+ * Icon used in the footer. Falls back to icon when absent.
+ */
+export type FooterIconURL = string;
+/**
+ * Lucide icon name rendered inline with text-primary color (e.g. 'scale', 'gavel'). Takes precedence over icon.
+ */
+export type IconLucideName = string;
 export type Address = string;
 export type Phone = string;
 export type Email = string;
@@ -16,6 +24,10 @@ export type BusinessHours = string;
 export type AdditionalInfo = string[];
 export type Latitude = number;
 export type Longitude = number;
+/**
+ * Business name/address query for Google Maps native panel (e.g. 'Kancelaria Notarialna Garwolin'). When set, the map shows Google's native info card with reviews and directions instead of the custom overlay.
+ */
+export type GooglePlaceQuery = string;
 export type ServiceArea = string[];
 export type TrustSignals = {
   icon?: string;
@@ -23,7 +35,12 @@ export type TrustSignals = {
 }[];
 export type ThemePreset = "industrial" | "wellness" | "minimal" | "elegant" | "modern" | "classic" | "bold";
 export type GlobalVariant = string;
-export type MajorTheme = "template-specialist" | "template-tech" | "template-art" | "template-law";
+export type MajorTheme =
+  | "template-specialist"
+  | "template-tech"
+  | "template-art"
+  | "template-law"
+  | "template-tech-agency";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
 export type PrimaryLightColor = string;
@@ -379,6 +396,8 @@ export interface BusinessAssets {
   favicon?: FaviconURL;
   logo?: LogoURL;
   icon?: IconURL;
+  footerIcon?: FooterIconURL;
+  iconLucide?: IconLucideName;
 }
 export interface BusinessContact {
   address?: Address;
@@ -391,6 +410,7 @@ export interface BusinessContact {
 export interface GeographicLocation {
   latitude: Latitude;
   longitude: Longitude;
+  googlePlaceQuery?: GooglePlaceQuery;
 }
 export interface Socials {
   [k: string]: string;

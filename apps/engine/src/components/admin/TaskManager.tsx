@@ -32,6 +32,8 @@ import {
   PauseCircle,
   MessageSquare,
   Send,
+  RotateCcw,
+  Ban,
 } from "lucide-react";
 import type { BusinessPageMeta } from "./AdminForm";
 
@@ -56,6 +58,7 @@ export type TaskRecord = {
   isAdminPanel: boolean;
   description: string;
   clarification: string | null;
+  summary: string | null;
   isSuperAdmin: boolean;
   createdAt: string;
   updatedAt: string;
@@ -202,6 +205,7 @@ export default function TaskManager({
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [sendingAnswer, setSendingAnswer] = useState<Record<string, boolean>>({});
+  const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
 
   // When switching between site/admin mode, reset page/section
   useEffect(() => {
@@ -291,6 +295,26 @@ export default function TaskManager({
       setBanner({ type: "err", msg: err instanceof Error ? err.message : "Failed to add task" });
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const updateTaskStatus = async (taskId: string, status: TaskRecord["status"]) => {
+    setActionLoading((prev) => ({ ...prev, [taskId]: true }));
+    try {
+      const res = await fetchWithRefresh(`/api/tasks/${taskId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || `Failed (${res.status})`);
+      }
+      await loadTasks();
+    } catch (err) {
+      setBanner({ type: "err", msg: err instanceof Error ? err.message : "Action failed" });
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [taskId]: false }));
     }
   };
 
@@ -536,7 +560,41 @@ export default function TaskManager({
                         </Badge>
                       )}
                     </div>
-                    <span className="text-xs text-muted-foreground">{timeAgo(task.createdAt)}</span>
+                    <div className="flex items-center gap-2">
+                      {task.status === "failed" && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 gap-1 text-xs"
+                          disabled={actionLoading[task.id]}
+                          onClick={() => updateTaskStatus(task.id, "pending")}
+                        >
+                          {actionLoading[task.id] ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : (
+                            <RotateCcw className="h-3 w-3" />
+                          )}
+                          Run again
+                        </Button>
+                      )}
+                      {(task.status === "pending" || task.status === "in-progress") && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 gap-1 text-xs text-destructive hover:text-destructive"
+                          disabled={actionLoading[task.id]}
+                          onClick={() => updateTaskStatus(task.id, "failed")}
+                        >
+                          {actionLoading[task.id] ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : (
+                            <Ban className="h-3 w-3" />
+                          )}
+                          Cancel
+                        </Button>
+                      )}
+                      <span className="text-xs text-muted-foreground">{timeAgo(task.createdAt)}</span>
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-1 text-xs text-muted-foreground flex-wrap">
@@ -556,6 +614,13 @@ export default function TaskManager({
                   </div>
 
                   <div className="text-sm whitespace-pre-wrap break-words">{task.description}</div>
+
+                  {task.status === "done" && task.summary && (
+                    <div className="flex items-start gap-2 rounded-lg border border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-900/10 px-3 py-2 mt-1">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                      <p className="text-xs text-emerald-700 dark:text-emerald-400">{task.summary}</p>
+                    </div>
+                  )}
 
                   {task.status === "on_hold" && task.clarification && (
                     <div className="flex flex-col gap-2 rounded-lg border border-amber-400/40 bg-amber-50/50 dark:bg-amber-900/10 p-3 mt-1">

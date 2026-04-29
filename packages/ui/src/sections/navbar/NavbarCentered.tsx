@@ -126,6 +126,7 @@ export function NavbarCentered({
                 <a
                   key={`mobile-${link.label}-${index}`}
                   href={href}
+                  onClick={() => setMobileMenuOpen(false)}
                   className="px-spacing-md py-3 text-[16px] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors text-center"
                 >
                   {link.label}

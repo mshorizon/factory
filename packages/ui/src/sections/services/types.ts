@@ -24,4 +24,6 @@ export interface ServicesProps {
   detailsLabel?: string;
   /** When provided, renders as first stagger item (col-span-full) above the cards. */
   title?: string;
+  /** Render lucide icons from item.icon in primary color above each service card's accent line. */
+  showIcons?: boolean;
 }

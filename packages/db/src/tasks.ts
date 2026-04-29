@@ -59,7 +59,7 @@ export async function updateTaskStatus(id: string, status: TaskStatus): Promise<
 
 export async function updateTask(
   id: string,
-  fields: Partial<Pick<Task, "status" | "description" | "clarification">>
+  fields: Partial<Pick<Task, "status" | "description" | "clarification" | "summary">>
 ): Promise<Task | null> {
   if (fields.status && !TASK_STATUSES.includes(fields.status as TaskStatus)) {
     throw new Error(`Invalid status: ${fields.status}`);
