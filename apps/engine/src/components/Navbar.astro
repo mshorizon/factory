@@ -5,6 +5,7 @@ import type { NavbarExtension, BusinessContact } from "@mshorizon/schema";
 interface NavLink {
   label: string;
   href: string;
+  external?: boolean;
 }
 
 interface CTA {
@@ -157,6 +158,7 @@ const showCta = !hideCta && !!cta;
           {links.map((link) => (
             <a
               href={link.href}
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               class:list={[
                 "nav-link relative px-3 py-2 text-[length:var(--nav-font-size,16px)] font-medium transition-colors group whitespace-nowrap",
                 isTransparent ? "text-white/80 hover:text-white" : "text-foreground/60 hover:text-foreground"
@@ -179,6 +181,7 @@ const showCta = !hideCta && !!cta;
           {links.map((link) => (
             <a
               href={link.href}
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               class:list={[
                 "nav-link relative px-3 py-2 text-[length:var(--nav-font-size,16px)] font-medium transition-colors group whitespace-nowrap",
                 isTransparent ? "text-white/80 hover:text-white" : "text-foreground/60 hover:text-foreground"
@@ -226,6 +229,7 @@ const showCta = !hideCta && !!cta;
         {links.map((link) => (
           <a
             href={link.href}
+            {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             class="px-4 py-3 text-[length:var(--nav-font-size,16px)] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
           >
             {link.label}

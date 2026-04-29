@@ -100,9 +100,9 @@ export function getLayoutConfig(businessData: BusinessProfile) {
 }
 
 /**
- * Get navigation links from pages object
+ * Get navigation links from pages object, merged with navigation.links (external links).
  */
-export function getNavLinks(businessData: BusinessProfile): { label: string; href: string }[] {
+export function getNavLinks(businessData: BusinessProfile): { label: string; href: string; external?: boolean }[] {
   const pages = getPages(businessData);
   const slugs = Object.keys(pages);
 
@@ -117,12 +117,26 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
     return a.localeCompare(b);
   });
 
-  const links = slugs
+  const links: { label: string; href: string; external?: boolean }[] = slugs
     .filter((slug) => !pages[slug].hideFromNav)
     .map((slug) => ({
       label: (pages[slug] as any).navLabel || pages[slug].title,
       href: slug === "home" ? "/" : `/${slug}`,
     }));
+
+  // Inject navigation.links (supports external targets) before blog/contact
+  const extraLinks = ((businessData.navigation as any)?.links ?? []).map((link: any) => {
+    const target = link.target;
+    if (target?.type === "external") return { label: link.label, href: target.value, external: true };
+    if (target?.type === "page") return { label: link.label, href: `/${target.value}` };
+    return { label: link.label, href: link.href ?? "#" };
+  });
+
+  if (extraLinks.length > 0) {
+    const contactIndex = links.findIndex((l) => l.href === "/contact");
+    const insertAt = contactIndex !== -1 ? contactIndex : links.length;
+    links.splice(insertAt, 0, ...extraLinks);
+  }
 
   // Always add blog link if not already present (insert before contact)
   if (!slugs.includes("blog")) {
