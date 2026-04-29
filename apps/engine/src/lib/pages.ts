@@ -88,6 +88,7 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       showAvailability: (layout.navbar as any)?.showAvailability !== false,
     },
     footer: {
+      name: layout.footer?.name,
       variant: layout.footer?.variant || "simple",
       copyright: layout.footer?.copyright,
       tagline: layout.footer?.tagline,
