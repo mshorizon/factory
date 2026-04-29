@@ -548,7 +548,7 @@ export default function AdminForm({
     if (tabId === "meta" || tabId === "business-general" || tabId === "business-assets") return !deepEqual(formData.business, saved.business);
     if (tabId === "theme") return !deepEqual(formData.theme, saved.theme);
     if (tabId === "navbar") return !deepEqual(getNestedValue(formData, ["layout", "navbar"]), getNestedValue(saved, ["layout", "navbar"]));
-    if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"]));
+    if (tabId === "footer") return !deepEqual(getNestedValue(formData, ["layout", "footer"]), getNestedValue(saved, ["layout", "footer"])) || !deepEqual((formData.business as any)?.assets?.footerIcon, (saved.business as any)?.assets?.footerIcon);
     if (tabId === "data-products") return !deepEqual(getNestedValue(formData, ["data", "products"]), getNestedValue(saved, ["data", "products"]));
     if (tabId === "data-services") return !deepEqual(getNestedValue(formData, ["data", "services"]), getNestedValue(saved, ["data", "services"]));
     if (tabId === "translations") return SUPPORTED_LANGS.some((lang) => !deepEqual(translationsData[lang], savedTrans[lang]));
@@ -1409,21 +1409,64 @@ export default function AdminForm({
 
     if (activeTab === "footer") {
       const footerSchema = getSubSchema(schema, ["layout", "footer"]);
+      const businessSchema = schema.properties?.business as any;
+      const footerIconSchema: RJSFSchema = {
+        type: "object",
+        properties: {
+          footerIcon: businessSchema?.properties?.assets?.properties?.footerIcon,
+        },
+        definitions: schema.definitions,
+      };
+
       return (
-        <Card>
-          <CardContent className="pt-6 rjsf-grid-2col">
-            <Form
-              schema={footerSchema}
-              formData={getNestedValue(resolvedFormData, ["layout", "footer"])}
-              validator={validator}
-              widgets={configWidgets}
-              templates={customTemplates}
-              formContext={{ businessId }}
-              onChange={(data: any) => handleTranslatedChange(["layout", "footer"], data)}
-              liveValidate={false}
-            ><></></Form>
-          </CardContent>
-        </Card>
+        <div className="space-y-spacing-md">
+          <Card>
+            <CardHeader>
+              <CardTitle>Footer Icon</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Form
+                schema={footerIconSchema}
+                uiSchema={{ footerIcon: { "ui:widget": "ImageUrlWidget" } }}
+                formData={{ footerIcon: (resolvedFormData.business as any)?.assets?.footerIcon }}
+                validator={validator}
+                widgets={configWidgets}
+                templates={customTemplates}
+                formContext={{ businessId }}
+                onChange={(data: any) => {
+                  if (data.formData !== undefined) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      business: {
+                        ...(prev.business as Record<string, unknown>),
+                        assets: {
+                          ...((prev.business as any)?.assets || {}),
+                          footerIcon: data.formData.footerIcon,
+                        },
+                      },
+                    }));
+                    setSaveStatus("idle");
+                  }
+                }}
+                liveValidate={false}
+              ><></></Form>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6 rjsf-grid-2col">
+              <Form
+                schema={footerSchema}
+                formData={getNestedValue(resolvedFormData, ["layout", "footer"])}
+                validator={validator}
+                widgets={configWidgets}
+                templates={customTemplates}
+                formContext={{ businessId }}
+                onChange={(data: any) => handleTranslatedChange(["layout", "footer"], data)}
+                liveValidate={false}
+              ><></></Form>
+            </CardContent>
+          </Card>
+        </div>
       );
     }
 
