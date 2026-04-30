@@ -498,7 +498,15 @@
                 "title": "Metric Badges",
                 "items": { "type": "string" }
               },
-              "url": { "type": "string", "title": "Live Website URL" }
+              "url": { "type": "string", "title": "Live Website URL" },
+              "cta": {
+                "type": "object",
+                "title": "CTA Link",
+                "properties": {
+                  "label": { "type": "string", "title": "CTA Label" },
+                  "href": { "type": "string", "title": "CTA URL" }
+                }
+              }
             }
           }
         },

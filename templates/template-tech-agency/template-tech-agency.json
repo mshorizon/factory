@@ -558,19 +558,22 @@
               "title": "Bella Studio",
               "description": "Medycyna estetyczna, Wroclaw.",
               "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=800&fit=crop",
-              "metrics": ["+312% rezerwacji", "w pierwszym kwartale", "„Strona zarobila na siebie w 9 dni.”", "Medycyna estetyczna", "Wroclaw"]
+              "metrics": ["+312% rezerwacji", "w pierwszym kwartale", "„Strona zarobila na siebie w 9 dni.\"", "Medycyna estetyczna", "Wroclaw"],
+              "cta": { "label": "Chce podobny efekt →", "href": "#ctaBanner-12" }
             },
             {
               "title": "Bistro Kameralne",
               "description": "Lokalna gastronomia, Krakow.",
               "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=800&fit=crop",
-              "metrics": ["0,8 s", "czas ladowania (PageSpeed 99)", "„Klienci dziekuja, ze nie musza dzwonic.”", "Lokalna gastronomia", "Krakow"]
+              "metrics": ["0,8 s", "czas ladowania (PageSpeed 99)", "„Klienci dziekuja, ze nie musza dzwonic.\"", "Lokalna gastronomia", "Krakow"],
+              "cta": { "label": "Chce podobny efekt →", "href": "#ctaBanner-12" }
             },
             {
               "title": "Volt-Tech",
               "description": "Uslugi elektryczne, Tarnow.",
               "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=800&fit=crop",
-              "metrics": ["8 zlecen / tydz.", "z formularza wyceny", "„Nie odbieram juz telefonow wieczorem.”", "Uslugi elektryczne", "Tarnow"]
+              "metrics": ["8 zlecen / tydz.", "z formularza wyceny", "„Nie odbieram juz telefonow wieczorem.\"", "Uslugi elektryczne", "Tarnow"],
+              "cta": { "label": "Chce podobny efekt →", "href": "#ctaBanner-12" }
             }
           ]
         },

@@ -298,6 +298,8 @@ export type KeyMetric = string;
 export type MetricLabel1 = string;
 export type MetricBadges = string[];
 export type LiveWebsiteURL = string;
+export type CTALabel1 = string;
+export type CTAURL = string;
 export type Projects = ProjectItem[];
 export type LeftColumnTitleEGManualWork = string;
 export type RightColumnTitleEGAIAutomation = string;
@@ -780,6 +782,11 @@ export interface ProjectItem {
   metricLabel?: MetricLabel1;
   metrics?: MetricBadges;
   url?: LiveWebsiteURL;
+  cta?: CTALink;
+}
+export interface CTALink {
+  label?: CTALabel1;
+  href?: CTAURL;
 }
 export interface ComparisonRow {
   left?: LeftProblem;

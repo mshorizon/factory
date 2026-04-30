@@ -5,6 +5,7 @@ export interface ProjectCard {
   date?: string;
   metrics?: string[];
   url?: string;
+  cta?: { label: string; href: string };
 }
 
 export interface ProjectGridProps {
