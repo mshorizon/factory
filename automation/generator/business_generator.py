@@ -273,60 +273,54 @@ def generate_translations(lead: dict, service_areas: list[str]) -> dict:
     return translations
 
 
-def create_template_folder(lead: dict) -> tuple[str, Path]:
+def generate_for_db(lead: dict) -> tuple[str, dict, dict]:
     """
-    Create a complete template folder for a business ready for db:seed.
-
-    Args:
-        lead: Dict with scraped business data
+    Generate a complete business profile in memory (no files written).
 
     Returns:
-        Tuple of (subdomain, template_folder_path)
+        Tuple of (subdomain, config, translations)
+        translations = {"pl": {...}, "_settings": {"primaryLanguage": "pl"}}
     """
     config, subdomain = generate_business_json(lead)
     miasto = lead.get("miasto", "Warszawa")
     service_areas = _generate_service_areas(miasto)
     translations_pl = generate_translations(lead, service_areas)
 
-    # Create folder structure
-    template_dir = TEMPLATES_DIR / subdomain
-    translations_dir = template_dir / "translations"
-    translations_dir.mkdir(parents=True, exist_ok=True)
+    translations = {
+        "pl": translations_pl,
+        "_settings": {"primaryLanguage": "pl"},
+    }
 
-    # Write business JSON
-    config_path = template_dir / f"{subdomain}.json"
-    with open(config_path, "w", encoding="utf-8") as f:
-        json.dump(config, f, ensure_ascii=False, indent=2)
-
-    # Write translations
-    pl_path = translations_dir / "pl.json"
-    with open(pl_path, "w", encoding="utf-8") as f:
-        json.dump(translations_pl, f, ensure_ascii=False, indent=2)
-
-    # Write settings
-    settings = {"primaryLanguage": "pl"}
-    settings_path = translations_dir / "_settings.json"
-    with open(settings_path, "w", encoding="utf-8") as f:
-        json.dump(settings, f, ensure_ascii=False, indent=2)
-
-    print(f"  [Generator] Created template: {template_dir}")
-    print(f"  [Generator] Subdomain: {subdomain}.dev.hazelgrouse.pl")
-
-    return subdomain, template_dir
+    return subdomain, config, translations
 
 
 def generate_businesses(leads: list[dict]) -> list[dict]:
     """
-    Generate business JSON + translations for a list of leads.
-    Updates each lead with subdomain and status.
+    Generate business JSON + translations for a list of leads and write
+    directly to PostgreSQL (status = 'draft').
 
     Returns updated leads.
     """
+    from automation.generator.db_writer import upsert_site
+
     print(f"[Generator] Generating business profiles for {len(leads)} leads...")
 
     for lead in leads:
         try:
-            subdomain, template_dir = create_template_folder(lead)
+            subdomain, config, translations = generate_for_db(lead)
+
+            nazwa = lead.get("nazwa_firmy", subdomain)
+            industry = lead.get("branza", "electrician")
+
+            upsert_site(
+                subdomain=subdomain,
+                business_name=nazwa,
+                industry=industry,
+                config=config,
+                translations=translations,
+                status="draft",
+            )
+
             lead["link_preview"] = f"https://{subdomain}.dev.hazelgrouse.pl"
             lead["status"] = "page_generated"
             lead["notatki"] = lead.get("notatki", "")
@@ -334,15 +328,17 @@ def generate_businesses(leads: list[dict]) -> list[dict]:
                 lead["notatki"] += f" | subdomain: {subdomain}"
             else:
                 lead["notatki"] = f"subdomain: {subdomain}"
+
+            print(f"  [Generator] Saved to DB: {subdomain}")
         except Exception as e:
             print(f"  [Generator] Error for {lead.get('nazwa_firmy', '?')}: {e}")
 
-    print(f"[Generator] Done. Generated {len(leads)} business profiles.")
+    print(f"[Generator] Done. Saved {len(leads)} business profiles to DB.")
     return leads
 
 
 if __name__ == "__main__":
-    # Quick test with sample data
+    # Quick test with sample data (dry run — no DB write)
     sample_lead = {
         "nazwa_firmy": "ElektroMax",
         "adres": "ul. Krakowska 15, 31-062 Kraków",
@@ -357,6 +353,8 @@ if __name__ == "__main__":
         "notatki": "",
     }
 
-    subdomain, path = create_template_folder(sample_lead)
-    print(f"\nCreated: {path}")
-    print(f"Preview: https://{subdomain}.dev.hazelgrouse.pl")
+    subdomain, config, translations = generate_for_db(sample_lead)
+    print(f"\nSubdomain: {subdomain}")
+    print(f"Preview:   https://{subdomain}.dev.hazelgrouse.pl")
+    print(f"Config keys: {list(config.keys())}")
+    print(f"Translation langs: {list(translations.keys())}")

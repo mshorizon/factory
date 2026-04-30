@@ -7,18 +7,16 @@ Runs the full automation pipeline:
 2. Scrape new leads from free sources (OSM, Panorama Firm)
 3. Deduplicate and filter
 4. Enrich with website data
-5. Generate business JSON → validate → save to templates/
-6. Seed to PostgreSQL via db:seed
-7. (Manual step: approve pages, add Coolify subdomain)
-8. Send outreach emails to approved leads
-9. Update CSV
+5. Generate business JSON → validate → write directly to PostgreSQL (status=draft)
+6. (Manual step: approve pages, add Coolify subdomain)
+7. Send outreach emails to approved leads
+8. Update CSV
 
 Usage:
     python -m automation.pipeline scrape <category> <city>
     python -m automation.pipeline enrich
     python -m automation.pipeline generate [--limit N]
     python -m automation.pipeline validate
-    python -m automation.pipeline seed
     python -m automation.pipeline approve <lead_id>
     python -m automation.pipeline reject <lead_id>
     python -m automation.pipeline send
@@ -27,9 +25,7 @@ Usage:
 """
 
 import csv
-import subprocess
 import sys
-from pathlib import Path
 
 from automation.config import LEADS_CSV, BASE_DIR
 from automation.scrapers.osm_scraper import scrape_osm
@@ -39,13 +35,13 @@ from automation.scrapers.lead_manager import (
     get_leads_by_status, update_lead_status, CSV_FIELDS,
 )
 from automation.enrichment.web_enricher import enrich_leads
-from automation.generator.business_generator import generate_businesses
-from automation.generator.schema_validator import validate_business_json
+from automation.generator.business_generator import generate_businesses, generate_for_db
+from automation.generator.schema_validator import validate_business_dict
+from automation.generator.db_writer import set_site_status
 from automation.sender.email_sender import send_outreach_emails
 
 
 PROJECT_ROOT = BASE_DIR.parent
-TEMPLATES_DIR = PROJECT_ROOT / "templates"
 
 
 def _update_csv(leads_by_id: dict):
@@ -118,85 +114,113 @@ def cmd_generate(limit: int = 5, branza: str = ""):
         print(f"[Pipeline] Limiting to {limit} leads (of {len(leads)} total). Use --limit N to change.")
         leads = leads[:limit]
 
-    updated = generate_businesses(leads)
+    # Validate in memory before generating (pre-flight check)
+    print(f"\n[Pipeline] Validating business JSONs before saving...")
+    valid_leads = []
+    for lead in leads:
+        try:
+            _, config, _ = generate_for_db(lead)
+            is_valid, errors = validate_business_dict(config)
+            if is_valid:
+                print(f"  [VALID] {lead.get('nazwa_firmy', '?')}")
+                valid_leads.append(lead)
+            else:
+                print(f"  [INVALID] {lead.get('nazwa_firmy', '?')}: {errors}")
+        except Exception as e:
+            print(f"  [ERROR] {lead.get('nazwa_firmy', '?')}: {e}")
 
-    # Validate each generated JSON
-    print(f"\n[Pipeline] Validating generated business JSONs...")
-    for lead in updated:
-        if lead.get("status") != "page_generated":
-            continue
-        # Extract subdomain from notes
-        subdomain = None
-        for part in lead.get("notatki", "").split("|"):
-            if "subdomain:" in part:
-                subdomain = part.split("subdomain:")[1].strip()
-                break
+    if not valid_leads:
+        print("[Pipeline] No valid leads to save.")
+        return
 
-        if subdomain:
-            json_path = TEMPLATES_DIR / subdomain / f"{subdomain}.json"
-            if json_path.exists():
-                is_valid, errors = validate_business_json(json_path)
-                if is_valid:
-                    print(f"  [VALID] {subdomain}")
-                else:
-                    print(f"  [INVALID] {subdomain}: {errors}")
-                    lead["status"] = "new"  # Reset status on validation failure
+    updated = generate_businesses(valid_leads)
 
     _update_csv({l["id"]: l for l in updated})
 
     generated = [l for l in updated if l.get("status") == "page_generated"]
-    print(f"\n[Pipeline] Generated {len(generated)} business profiles.")
+    print(f"\n[Pipeline] Generated {len(generated)} business profiles → saved to DB (status=draft).")
     print("[Pipeline] Next steps:")
-    print("  1. Review templates in templates/<subdomain>/")
-    print("  2. Run: python -m automation.pipeline seed")
+    print("  1. Review at https://<subdomain>.dev.hazelgrouse.pl")
+    print("  2. Approve: python -m automation.pipeline approve <lead_id>")
     print("  3. Add subdomain in Coolify")
-    print("  4. Approve: python -m automation.pipeline approve <lead_id>")
 
 
 def cmd_validate():
-    """Validate all generated business JSON files."""
+    """Validate business JSONs generated from current new leads (in memory)."""
     print(f"\n{'='*60}")
     print(f"  SCHEMA VALIDATION")
     print(f"{'='*60}\n")
 
-    from automation.generator.schema_validator import validate_all_generated
-    results = validate_all_generated(TEMPLATES_DIR)
+    leads = get_leads_by_status("new") + get_leads_by_status("page_generated")
+    if not leads:
+        print("[Pipeline] No leads to validate.")
+        return
 
-    valid = sum(1 for _, v, _ in results if v)
-    invalid = sum(1 for _, v, _ in results if not v)
-    print(f"\nResults: {valid} valid, {invalid} invalid, {len(results)} total")
+    valid = 0
+    invalid = 0
+    for lead in leads:
+        try:
+            _, config, _ = generate_for_db(lead)
+            is_valid, errors = validate_business_dict(config)
+            status = "VALID" if is_valid else "INVALID"
+            print(f"  [{status}] {lead.get('nazwa_firmy', '?')}")
+            if errors:
+                print(f"    {errors}")
+            if is_valid:
+                valid += 1
+            else:
+                invalid += 1
+        except Exception as e:
+            print(f"  [ERROR] {lead.get('nazwa_firmy', '?')}: {e}")
+            invalid += 1
 
-
-def cmd_seed():
-    """Run db:seed to insert generated businesses into PostgreSQL."""
-    print(f"\n{'='*60}")
-    print(f"  DATABASE SEED")
-    print(f"{'='*60}\n")
-
-    result = subprocess.run(
-        ["pnpm", "-F", "@mshorizon/db", "db:seed"],
-        capture_output=True,
-        text=True,
-        cwd=str(PROJECT_ROOT),
-    )
-
-    print(result.stdout)
-    if result.stderr:
-        print(result.stderr)
-
-    if result.returncode == 0:
-        print("[Pipeline] Seed complete.")
-    else:
-        print(f"[Pipeline] Seed failed with exit code {result.returncode}")
+    print(f"\nResults: {valid} valid, {invalid} invalid, {valid + invalid} total")
 
 
 def cmd_approve(lead_id: str):
-    """Manually approve a generated page."""
+    """Approve a generated page: set DB status to released + update CSV."""
+    all_leads = load_existing_leads()
+    lead = next((l for l in all_leads if l["id"] == lead_id), None)
+    if not lead:
+        print(f"[Pipeline] Lead not found: {lead_id}")
+        return
+
+    subdomain = None
+    for part in lead.get("notatki", "").split("|"):
+        if "subdomain:" in part:
+            subdomain = part.split("subdomain:")[1].strip()
+            break
+
+    if subdomain:
+        updated = set_site_status(subdomain, "released")
+        if updated:
+            print(f"[Pipeline] DB status → released: {subdomain}")
+        else:
+            print(f"[Pipeline] WARNING: subdomain '{subdomain}' not found in DB")
+    else:
+        print(f"[Pipeline] WARNING: no subdomain in notes for lead {lead_id}")
+
     update_lead_status(lead_id, "page_approved")
 
 
 def cmd_reject(lead_id: str):
-    """Manually reject a generated page."""
+    """Reject a generated page: set DB status to suspended + update CSV."""
+    all_leads = load_existing_leads()
+    lead = next((l for l in all_leads if l["id"] == lead_id), None)
+    if not lead:
+        print(f"[Pipeline] Lead not found: {lead_id}")
+        return
+
+    subdomain = None
+    for part in lead.get("notatki", "").split("|"):
+        if "subdomain:" in part:
+            subdomain = part.split("subdomain:")[1].strip()
+            break
+
+    if subdomain:
+        set_site_status(subdomain, "suspended")
+        print(f"[Pipeline] DB status → suspended: {subdomain}")
+
     update_lead_status(lead_id, "page_rejected")
 
 
@@ -232,19 +256,19 @@ def cmd_status():
     if not leads:
         print("  (no leads yet)")
 
-    # Show generated template folders
-    print(f"\nGenerated templates:")
-    # Skip known non-automation templates
-    known = {"specialist", "dieta"}
-    for subdir in sorted(TEMPLATES_DIR.iterdir()):
-        if subdir.is_dir() and subdir.name not in known:
-            json_file = subdir / f"{subdir.name}.json"
-            if json_file.exists():
-                print(f"  {subdir.name}.dev.hazelgrouse.pl")
+    approved = [l for l in leads if l.get("status") == "page_approved"]
+    if approved:
+        print(f"\nApproved (live in DB):")
+        for l in approved:
+            subdomain = next(
+                (p.split("subdomain:")[1].strip() for p in l.get("notatki", "").split("|") if "subdomain:" in p),
+                "?",
+            )
+            print(f"  {subdomain}.dev.hazelgrouse.pl")
 
 
 def cmd_full(category: str, city: str, limit: int = 5, branza: str = ""):
-    """Run full pipeline: scrape → enrich → generate → validate."""
+    """Run full pipeline: scrape → enrich → validate → generate → save to DB."""
     cmd_scrape(category, city)
     cmd_enrich()
     cmd_generate(limit=limit, branza=branza or category)
@@ -252,12 +276,11 @@ def cmd_full(category: str, city: str, limit: int = 5, branza: str = ""):
     print("  PIPELINE COMPLETE")
     print(f"{'='*60}")
     print("\nNext steps:")
-    print("  1. Review generated templates in templates/<subdomain>/")
-    print("  2. Seed to DB:  python -m automation.pipeline seed")
-    print("  3. Add Coolify subdomain for each business")
-    print("  4. Approve:     python -m automation.pipeline approve <lead_id>")
-    print("  5. Send emails: python -m automation.pipeline send")
-    print("  6. Status:      python -m automation.pipeline status")
+    print("  1. Review at https://<subdomain>.dev.hazelgrouse.pl")
+    print("  2. Add Coolify subdomain for each business")
+    print("  3. Approve:     python -m automation.pipeline approve <lead_id>")
+    print("  4. Send emails: python -m automation.pipeline send")
+    print("  5. Status:      python -m automation.pipeline status")
 
 
 def main():
@@ -267,7 +290,6 @@ def main():
         print("  python -m automation.pipeline enrich")
         print("  python -m automation.pipeline generate [--limit N]")
         print("  python -m automation.pipeline validate")
-        print("  python -m automation.pipeline seed")
         print("  python -m automation.pipeline approve <lead_id>")
         print("  python -m automation.pipeline reject <lead_id>")
         print("  python -m automation.pipeline send")
@@ -307,9 +329,6 @@ def main():
 
     elif command == "validate":
         cmd_validate()
-
-    elif command == "seed":
-        cmd_seed()
 
     elif command == "approve":
         if len(sys.argv) < 3:

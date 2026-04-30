@@ -10,5 +10,8 @@ colorgram.py>=1.2.0    # Brand color extraction from images
 # Page generation
 Jinja2>=3.1.0          # HTML template engine
 
+# Database
+psycopg2-binary>=2.9.9  # PostgreSQL adapter
+
 # Utilities
 python-dotenv>=1.0.0   # Environment variables (.env)
