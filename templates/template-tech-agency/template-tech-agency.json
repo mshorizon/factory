@@ -320,8 +320,8 @@
           "floatingCards": [
             {
               "type": "booking",
-              "title": "Nowa rezerwacja",
-              "subtitle": "Anna B. — strzyzenie, czw. 14:00"
+              "title": "Nowe zapytanie",
+              "subtitle": "Marcin K. — wycena instalacji elektrycznej"
             },
             {
               "type": "review",
@@ -330,12 +330,12 @@
             },
             {
               "type": "stats",
-              "subtitle": "Salon Klaudia - Krakow",
-              "metric": "38 rezerwacji",
-              "metricLabel": "w pierwszym miesiacu po publikacji",
-              "metricChange": "+312%",
-              "quote": "Zwrocili koszty w 9 dni.",
-              "author": "Klaudia W"
+              "subtitle": "Volt-Tech - Tarnow",
+              "metric": "8 zlecen",
+              "metricLabel": "tygodniowo z formularza kontaktowego",
+              "metricChange": "+8 zlec./tyg.",
+              "quote": "Nie odbieram juz telefonow wieczorem.",
+              "author": "PK"
             }
           ]
         },
