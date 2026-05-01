@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -76,6 +77,14 @@ interface Lead {
   createdAt: string;
 }
 
+interface SiteOption {
+  id: number;
+  subdomain: string;
+  businessName: string;
+  industry: string | null;
+  status: string;
+}
+
 const STATUS_BADGE: Record<string, { variant: "default" | "secondary" | "outline" | "destructive"; label: string }> = {
   new: { variant: "outline", label: "New" },
   site_generated: { variant: "default", label: "Site Generated" },
@@ -110,6 +119,12 @@ export function LeadsTab() {
   const [generating, setGenerating] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
 
+  // Clone from existing business
+  const [cloneMode, setCloneMode] = useState(false);
+  const [sites, setSites] = useState<SiteOption[]>([]);
+  const [sitesLoading, setSitesLoading] = useState(false);
+  const [cloneFrom, setCloneFrom] = useState("");
+
   const fetchLeads = useCallback(async () => {
     setLoading(true);
     try {
@@ -124,6 +139,17 @@ export function LeadsTab() {
   }, []);
 
   useEffect(() => { fetchLeads(); }, [fetchLeads]);
+
+  const fetchSites = useCallback(async () => {
+    setSitesLoading(true);
+    try {
+      const res = await fetch("/api/admin/sites");
+      const data = await res.json();
+      setSites(data.sites ?? []);
+    } finally {
+      setSitesLoading(false);
+    }
+  }, []);
 
   const handleScrape = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,7 +199,10 @@ export function LeadsTab() {
     setGenSubdomain(slug);
     setGenTemplate("template-specialist");
     setGenError(null);
+    setCloneMode(false);
+    setCloneFrom("");
     setGenerateLead(lead);
+    fetchSites();
   };
 
   const handleGenerateSite = async () => {
@@ -184,7 +213,12 @@ export function LeadsTab() {
       const res = await fetch("/api/admin/leads/generate-site", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ leadId: generateLead.id, template: genTemplate, subdomain: genSubdomain }),
+        body: JSON.stringify({
+          leadId: generateLead.id,
+          template: cloneMode ? undefined : genTemplate,
+          cloneFrom: cloneMode ? cloneFrom : undefined,
+          subdomain: genSubdomain,
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -227,6 +261,29 @@ export function LeadsTab() {
       cell: ({ row }) => (
         <p className="text-sm text-muted-foreground truncate max-w-[180px]">{row.original.address || "—"}</p>
       ),
+    },
+    {
+      id: "google",
+      header: "",
+      cell: ({ row }) => {
+        const q = encodeURIComponent(`${row.original.name} ${row.original.city}`);
+        return (
+          <a
+            href={`https://www.google.com/search?q=${q}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`Search Google for "${row.original.name}"`}
+            className="inline-flex items-center justify-center rounded-md p-1.5 text-muted-foreground hover:bg-muted transition-colors"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+          </a>
+        );
+      },
     },
     {
       accessorKey: "website",
@@ -337,7 +394,7 @@ export function LeadsTab() {
       <UniversalList
         title="Leads"
         subtitle={`${leads.length} total`}
-        data={statusFilter ? leads.filter((l) => l.status === statusFilter) : leads}
+        data={statusFilter ? leads.filter((l) => l.status === statusFilter) : leads.filter((l) => l.status !== "rejected")}
         columns={columns}
         loading={loading}
         error={error}
@@ -357,7 +414,7 @@ export function LeadsTab() {
                 }`}
               >
                 {f.label}
-                {f.value === "" && ` (${leads.length})`}
+                {f.value === "" && ` (${leads.filter((l) => l.status !== "rejected").length})`}
                 {f.value !== "" && ` (${leads.filter((l) => l.status === f.value).length})`}
               </button>
             ))}
@@ -407,26 +464,56 @@ export function LeadsTab() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="gen-template">Template</Label>
-              <Select value={genTemplate} onValueChange={setGenTemplate}>
-                <SelectTrigger id="gen-template">
-                  <SelectValue placeholder="Select template" />
-                </SelectTrigger>
-                <SelectContent>
-                  {TEMPLATES.map((t) => (
-                    <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="flex items-center gap-3">
+              <Switch
+                id="clone-mode"
+                checked={cloneMode}
+                onCheckedChange={setCloneMode}
+              />
+              <Label htmlFor="clone-mode" className="cursor-pointer">Generate from existing business</Label>
             </div>
+
+            {!cloneMode && (
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="gen-template">Template</Label>
+                <Select value={genTemplate} onValueChange={setGenTemplate}>
+                  <SelectTrigger id="gen-template">
+                    <SelectValue placeholder="Select template" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TEMPLATES.map((t) => (
+                      <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {cloneMode && (
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="gen-clone-from">Clone from business</Label>
+                <Select value={cloneFrom} onValueChange={setCloneFrom} disabled={sitesLoading}>
+                  <SelectTrigger id="gen-clone-from">
+                    <SelectValue placeholder={sitesLoading ? "Loading…" : "Select a business"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sites.map((s) => (
+                      <SelectItem key={s.subdomain} value={s.subdomain}>
+                        {s.businessName}
+                        <span className="ml-1 text-muted-foreground text-xs">({s.subdomain})</span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             {genError && <p className="text-sm text-destructive">{genError}</p>}
           </div>
 
           <DialogFooter>
             <Button variant="outline" onClick={() => setGenerateLead(null)}>Cancel</Button>
-            <Button onClick={handleGenerateSite} disabled={generating || !genSubdomain}>
+            <Button onClick={handleGenerateSite} disabled={generating || !genSubdomain || (cloneMode && !cloneFrom)}>
               {generating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
               {generating ? "Creating…" : "Generate Site"}
             </Button>

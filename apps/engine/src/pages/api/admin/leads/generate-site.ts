@@ -7,15 +7,16 @@ const json = (data: unknown, status = 200) => new Response(JSON.stringify(data),
 export const POST: APIRoute = async ({ request, locals }) => {
   if (!locals.auth || locals.auth.role !== "super-admin") return forbidden();
 
-  let body: { leadId?: number; template?: string; subdomain?: string };
+  let body: { leadId?: number; template?: string; cloneFrom?: string; subdomain?: string };
   try {
     body = await request.json();
   } catch {
     return json({ error: "Invalid JSON" }, 400);
   }
 
-  const { leadId, template = "template-specialist", subdomain } = body;
+  const { leadId, template = "template-specialist", cloneFrom, subdomain } = body;
   if (!leadId || !subdomain) return json({ error: "leadId and subdomain required" }, 400);
+  if (cloneFrom !== undefined && !cloneFrom) return json({ error: "cloneFrom cannot be empty when provided" }, 400);
 
   const lead = await getLeadById(Number(leadId));
   if (!lead) return json({ error: "Lead not found" }, 404);
@@ -56,6 +57,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return json({ error: "Failed to create site" }, 500);
   }
 
+  const baseInstruction = cloneFrom
+    ? `Clone the design and structure from the existing business "${cloneFrom}" (read its config from the DB via getSiteBySubdomain("${cloneFrom}")) and adapt the content for the new lead.`
+    : `Use the "${template}" template as the base.`;
+
   const taskDescription = `Create a complete business website for a lead.
 
 Lead data:
@@ -69,7 +74,7 @@ Lead data:
 
 Steps:
 1. If an existing website URL was provided (${lead.website || "none"}), scrape it and extract: page copy, services/products, contact info, images. Save images to R2 and use R2 URLs.
-2. Use the "${template}" template as the base.
+2. ${baseInstruction}
 3. Generate a complete and valid business.json config based on the lead data.
 4. Save the business config to the database using upsertSiteConfig("${slugifiedSubdomain}", config).
 5. Update the business status to 'released' when done: updateSiteStatus("${slugifiedSubdomain}", "released").
@@ -77,7 +82,7 @@ Steps:
 
   const task = await createTask({
     domain: slugifiedSubdomain,
-    template,
+    template: cloneFrom ? `clone:${cloneFrom}` : template,
     location: "admin:administration/leads",
     page: "administration",
     section: "leads",
