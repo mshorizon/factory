@@ -441,7 +441,7 @@ export function LeadsTab() {
 
       {/* Generate Site Dialog */}
       <Dialog open={!!generateLead} onOpenChange={(open) => { if (!open) setGenerateLead(null); }}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>Generate Website</DialogTitle>
           </DialogHeader>
@@ -476,10 +476,10 @@ export function LeadsTab() {
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="gen-template">Template</Label>
                 <Select value={genTemplate} onValueChange={setGenTemplate}>
-                  <SelectTrigger id="gen-template">
+                  <SelectTrigger id="gen-template" className="w-full">
                     <SelectValue placeholder="Select template" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="w-full">
                     {TEMPLATES.map((t) => (
                       <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
                     ))}
@@ -492,14 +492,14 @@ export function LeadsTab() {
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="gen-clone-from">Clone from business</Label>
                 <Select value={cloneFrom} onValueChange={setCloneFrom} disabled={sitesLoading}>
-                  <SelectTrigger id="gen-clone-from">
+                  <SelectTrigger id="gen-clone-from" className="w-full">
                     <SelectValue placeholder={sitesLoading ? "Loading…" : "Select a business"} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="w-[--radix-select-trigger-width]">
                     {sites.map((s) => (
                       <SelectItem key={s.subdomain} value={s.subdomain}>
-                        {s.businessName}
-                        <span className="ml-1 text-muted-foreground text-xs">({s.subdomain})</span>
+                        <span className="font-medium">{s.businessName}</span>
+                        <span className="ml-2 text-muted-foreground text-xs">{s.subdomain}</span>
                       </SelectItem>
                     ))}
                   </SelectContent>
