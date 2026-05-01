@@ -73,12 +73,33 @@ Lead data:
 - Existing website: ${lead.website || "none"}
 
 Steps:
-1. If an existing website URL was provided (${lead.website || "none"}), scrape it and extract: page copy, services/products, contact info, images. Save images to R2 and use R2 URLs.
+1. If an existing website URL was provided (${lead.website || "none"}), scrape it with Playwright and extract: page copy, services/products/projects, contact info, images. Save images to R2 and use R2 URLs.
 2. ${baseInstruction}
 3. Generate a complete and valid business.json config based on the lead data.
 4. Save the business config to the database using upsertSiteConfig("${slugifiedSubdomain}", config).
 5. Update the business status to 'released' when done: updateSiteStatus("${slugifiedSubdomain}", "released").
-6. Update this task status to 'done' and write a short result summary.`;
+6. Update this task status to 'done' and write a short result summary.
+
+CONTENT REQUIREMENTS — all of the following are mandatory:
+
+### Translations
+The site must have full translations in 4 languages. Polish is the main/default language.
+Use the createBlog / upsertSiteConfig translation mechanism already used by other sites in the DB.
+Required languages: pl (primary), en, de, uk (Ukrainian).
+Every user-visible string (hero headline, service names, about text, CTA labels, footer tagline, nav items, blog titles/content) must be translated into all 4 languages.
+Look at an existing multilingual site in the DB (e.g. getSiteBySubdomain("template-law")) to understand the translation data structure before writing translations.
+
+### Content items (services / projects / products / files)
+Check what content type the base ${cloneFrom ? `business "${cloneFrom}"` : `template "${template}"`} uses (services, projects, products, or files).
+Generate at least 5 realistic items of that type, tailored to the lead's business type ("${lead.businessType}") and city ("${lead.city}").
+Each item must be translated into all 4 languages (pl, en, de, uk).
+
+### Blog posts
+Create exactly 3 blog posts relevant to the lead's business type and local market.
+Each blog post must exist in all 4 language variants (pl, en, de, uk) — use the createBlog DB function for each language variant.
+Blog posts should be practical, SEO-friendly articles (400–800 words each) that a local customer would actually search for.
+Save blogs to DB after saving the main site config.`;
+
 
   const task = await createTask({
     domain: slugifiedSubdomain,
