@@ -366,7 +366,7 @@ export type NewStrategicSuggestion = typeof strategicSuggestions.$inferInsert;
 
 // --- Leads ---
 
-export const LEAD_STATUSES = ["new", "site_generated"] as const;
+export const LEAD_STATUSES = ["new", "site_generated", "rejected"] as const;
 export type LeadStatus = typeof LEAD_STATUSES[number];
 
 export const leads = pgTable("leads", {

@@ -23,6 +23,7 @@ import TaskManager from "./TaskManager";
 import { BusinessesPanel } from "./BusinessesPanel";
 import StrategyView from "./StrategyView";
 import ScriptsView from "./ScriptsView";
+import { LeadsTab } from "./LeadsTab";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -107,6 +108,7 @@ import {
   Lightbulb,
   Terminal,
   X,
+  UserSearch,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1656,6 +1658,10 @@ export default function AdminForm({
       return <BusinessesPanel />;
     }
 
+    if (activeTab === "leads") {
+      return <LeadsTab />;
+    }
+
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
     if (activeTab === "scripts") return <ScriptsView />;
@@ -1763,6 +1769,7 @@ export default function AdminForm({
         Icon: Shield,
         items: [
           { id: "businesses", label: "Businesses", Icon: Building2 },
+          { id: "leads", label: "Leads", Icon: UserSearch },
           { id: "overview", label: "Health Overview", Icon: LayoutDashboard },
           { id: "users", label: "Users", Icon: Users },
           { id: "scripts", label: "Scripts", Icon: Terminal },
