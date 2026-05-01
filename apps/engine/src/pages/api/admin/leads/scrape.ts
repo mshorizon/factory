@@ -2,7 +2,11 @@ import type { APIRoute } from "astro";
 import { createLeads, getLeadDeduplicationKeys } from "@mshorizon/db";
 import type { NewLead } from "@mshorizon/db";
 
-const OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+const OVERPASS_INSTANCES = [
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass-api.de/api/interpreter",
+  "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+];
 
 // OSM tag presets: label → { key, value }
 const OSM_PRESETS: Record<string, { key: string; value: string }> = {
@@ -130,18 +134,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
     ? buildBboxQuery(preset.key, preset.value, bbox, count * 3)
     : buildAreaQuery(preset.key, preset.value, city, count * 3);
 
-  let osmData: { elements: OsmElement[] };
-  try {
-    const res = await fetch(OVERPASS_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `data=${encodeURIComponent(query)}`,
-    });
-    if (!res.ok) throw new Error(`Overpass HTTP ${res.status}`);
-    osmData = await res.json();
-  } catch (err: any) {
-    return json({ error: `Overpass API error: ${err.message}` }, 502);
+  let osmData: { elements: OsmElement[] } | null = null;
+  let lastError = "";
+  for (const instance of OVERPASS_INSTANCES) {
+    try {
+      const res = await fetch(`${instance}?data=${encodeURIComponent(query)}`, {
+        headers: { "User-Agent": "hazelgrouse-factory/1.0" },
+      });
+      if (!res.ok) { lastError = `HTTP ${res.status} from ${instance}`; continue; }
+      osmData = await res.json();
+      break;
+    } catch (err: any) {
+      lastError = err.message;
+    }
   }
+  if (!osmData) return json({ error: `Overpass API error: ${lastError}` }, 502);
 
   const existing = await getLeadDeduplicationKeys();
   const newLeads: NewLead[] = [];
