@@ -432,7 +432,6 @@ export function LeadsTab() {
             icon: XCircle,
             variant: "ghost",
             onClick: handleReject,
-            confirm: (row) => `Mark "${row.name}" as not interested?`,
             trackBusy: true,
             iconOnly: true,
             show: (row) => row.status !== "rejected",
