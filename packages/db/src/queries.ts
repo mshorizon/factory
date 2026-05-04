@@ -1,8 +1,8 @@
 import { eq, and, desc, gte, sql, count, ne, inArray, lte } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles, passwordResetTokens, strategicSuggestions } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles, passwordResetTokens, strategicSuggestions, leads } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking, NewBusinessFile, SiteStatus } from "./schema.js";
+import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking, NewBusinessFile, SiteStatus, NewLead, LeadStatus } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
@@ -823,4 +823,45 @@ export async function createSiteRecord(data: {
 export async function deleteSiteById(id: number) {
   const db = getDb();
   await db.delete(sites).where(eq(sites.id, id));
+}
+
+// --- Lead queries ---
+
+export async function getAllLeads() {
+  const db = getDb();
+  return db.select().from(leads).orderBy(desc(leads.createdAt));
+}
+
+export async function getLeadById(id: number) {
+  const db = getDb();
+  const [row] = await db.select().from(leads).where(eq(leads.id, id)).limit(1);
+  return row ?? null;
+}
+
+export async function createLeads(data: NewLead[]) {
+  if (data.length === 0) return [];
+  const db = getDb();
+  return db.insert(leads).values(data).returning();
+}
+
+export async function updateLeadStatus(id: number, status: LeadStatus, siteId?: number | null, subdomain?: string | null) {
+  const db = getDb();
+  const [row] = await db
+    .update(leads)
+    .set({ status, siteId: siteId ?? null, generatedSubdomain: subdomain ?? null, updatedAt: new Date() })
+    .where(eq(leads.id, id))
+    .returning();
+  return row ?? null;
+}
+
+export async function deleteLead(id: number) {
+  const db = getDb();
+  await db.delete(leads).where(eq(leads.id, id));
+}
+
+export async function getLeadDeduplicationKeys() {
+  const db = getDb();
+  return db
+    .select({ name: leads.name, city: leads.city, phone: leads.phone, email: leads.email })
+    .from(leads);
 }

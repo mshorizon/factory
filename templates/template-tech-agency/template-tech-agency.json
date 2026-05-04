@@ -282,8 +282,8 @@
           "background": "transparent",
           "header": {
             "badge": "Strony dla polskich firm lokalnych",
-            "title": "Strony, ktore *przynasza rezerwacje.*",
-            "subtitle": "Profesjonalna strona dla Twojej firmy z systemem rezerwacji, gotowa w 5-7 dni. Zobacz pelny projekt bezplatnie, zanim zaplacisz zlotowke. Od 1 990 zl netto."
+            "title": "Strony, ktore *przynasza klientow.*",
+            "subtitle": "Profesjonalna strona dla Twojej firmy, gotowa w 5-7 dni. Zobacz pelny projekt bezplatnie, zanim zaplacisz zlotowke. Od 1 990 zl netto."
           },
           "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=1000&fit=crop",
           "cta": {
@@ -320,8 +320,8 @@
           "floatingCards": [
             {
               "type": "booking",
-              "title": "Nowa rezerwacja",
-              "subtitle": "Anna B. — strzyzenie, czw. 14:00"
+              "title": "Nowe zapytanie",
+              "subtitle": "Marcin K. — wycena instalacji elektrycznej"
             },
             {
               "type": "review",
@@ -330,12 +330,12 @@
             },
             {
               "type": "stats",
-              "subtitle": "Salon Klaudia - Krakow",
-              "metric": "38 rezerwacji",
-              "metricLabel": "w pierwszym miesiacu po publikacji",
-              "metricChange": "+312%",
-              "quote": "Zwrocili koszty w 9 dni.",
-              "author": "Klaudia W"
+              "subtitle": "Volt-Tech - Tarnow",
+              "metric": "8 zlecen",
+              "metricLabel": "tygodniowo z formularza kontaktowego",
+              "metricChange": "+8 zlec./tyg.",
+              "quote": "Nie odbieram juz telefonow wieczorem.",
+              "author": "PK"
             }
           ]
         },
@@ -397,7 +397,7 @@
           "header": {
             "badge": "Porownanie",
             "title": "Dlaczego nie Wix, nie Booksy, nie freelancer?",
-            "subtitle": "Kazde z tych rozwiazan ma sens — w zupelnie innym scenariuszu. Jesli chcesz miec strone, ktora bedzie Twoja, ktora znajda w Google i ktora sama zalatwi rezerwacje — roznica jest dramatyczna."
+            "subtitle": "Kazde z tych rozwiazan ma sens — w zupelnie innym scenariuszu. Jesli chcesz miec strone, ktora bedzie Twoja, ktora znajda w Google i ktora sama bedzie zdobywac klientow — roznica jest dramatyczna."
           },
           "leftTitle": "Wix / Booksy / DIY",
           "rightTitle": "Hazelgrouse Studio",
@@ -412,7 +412,7 @@
             },
             {
               "left": "Brak rezerwacji lub prowizja 30 zl/wizyta",
-              "right": "System rezerwacji bez prowizji — Twoja wlasnosc"
+              "right": "System kontaktu lub rezerwacji — bez prowizji, Twoja wlasnosc"
             },
             {
               "left": "Slaba pozycja w Google — wolne szablony",
@@ -434,7 +434,7 @@
           "header": {
             "badge": "Branze, ktore obslugujemy",
             "title": "Specjalizacja, nie generalizacja.",
-            "subtitle": "Nie robimy stron dla wszystkich. Skupiamy sie na osmiu branzach, ktore dobrze znamy. Wiemy, jakie pytania zadaja Twoi klienci i co decyduje o rezerwacji."
+            "subtitle": "Nie robimy stron dla wszystkich. Skupiamy sie na osmiu branzach, ktore dobrze znamy. Wiemy, jakie pytania zadaja Twoi klienci i co decyduje o kontakcie."
           },
           "items": [
             {
@@ -528,7 +528,7 @@
                 "Dzien 4-6",
                 "Wynik PageSpeed 95+",
                 "Test na 12 urzadzeniach",
-                "Konfiguracja systemu rezerwacji"
+                "Konfiguracja formularzy kontaktowych lub rezerwacji"
               ]
             },
             {
@@ -558,19 +558,22 @@
               "title": "Bella Studio",
               "description": "Medycyna estetyczna, Wroclaw.",
               "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=800&fit=crop",
-              "metrics": ["+312% rezerwacji", "w pierwszym kwartale", "„Strona zarobila na siebie w 9 dni.”", "Medycyna estetyczna", "Wroclaw"]
+              "metrics": ["+312% rezerwacji", "w pierwszym kwartale", "„Strona zarobila na siebie w 9 dni.\"", "Medycyna estetyczna", "Wroclaw"],
+              "cta": { "label": "Chce podobny efekt →", "href": "#ctaBanner-12" }
             },
             {
               "title": "Bistro Kameralne",
               "description": "Lokalna gastronomia, Krakow.",
               "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=800&fit=crop",
-              "metrics": ["0,8 s", "czas ladowania (PageSpeed 99)", "„Klienci dziekuja, ze nie musza dzwonic.”", "Lokalna gastronomia", "Krakow"]
+              "metrics": ["0,8 s", "czas ladowania (PageSpeed 99)", "„Klienci dziekuja, ze nie musza dzwonic.\"", "Lokalna gastronomia", "Krakow"],
+              "cta": { "label": "Chce podobny efekt →", "href": "#ctaBanner-12" }
             },
             {
               "title": "Volt-Tech",
               "description": "Uslugi elektryczne, Tarnow.",
               "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&h=800&fit=crop",
-              "metrics": ["8 zlecen / tydz.", "z formularza wyceny", "„Nie odbieram juz telefonow wieczorem.”", "Uslugi elektryczne", "Tarnow"]
+              "metrics": ["8 zlecen / tydz.", "z formularza wyceny", "„Nie odbieram juz telefonow wieczorem.\"", "Uslugi elektryczne", "Tarnow"],
+              "cta": { "label": "Chce podobny efekt →", "href": "#ctaBanner-12" }
             }
           ]
         },
@@ -616,7 +619,7 @@
               "highlighted": false
             },
             {
-              "name": "Rezerwacje",
+              "name": "Strona z Bookingiem",
               "price": "3 490 zl",
               "period": "netto, jednorazowo",
               "description": "Najczesciej wybierany — uslugi z kalendarzem",
@@ -630,7 +633,7 @@
                 "3 miesiace opieki technicznej"
               ],
               "cta": {
-                "label": "Wybieram rezerwacje",
+                "label": "Wybieram z bookingiem",
                 "target": {
                   "type": "page",
                   "value": "contact"
@@ -726,7 +729,7 @@
             },
             {
               "question": "Co oznacza 'od 1 990 zl'?",
-              "answer": "1 990 zl netto to cena za pelnowartosciowa strone typu one-page. Wiekszosc naszych klientow wybiera pakiet Rezerwacje (3 490 zl) z systemem booking. Zawsze ustalamy konkretna kwote z gory."
+              "answer": "1 990 zl netto to cena za pelnowartosciowa strone typu one-page. Wiekszosc naszych klientow wybiera pakiet Strona z Bookingiem (3 490 zl). Zawsze ustalamy konkretna kwote z gory."
             },
             {
               "question": "Ile kosztuje utrzymanie strony po pierwszym roku?",
@@ -738,7 +741,7 @@
             },
             {
               "question": "Czym roznice sie od Booksy / Wix / WordPressa?",
-              "answer": "Booksy to platforma — Twoja strona jest jedna z setek innych w miescie, a oni biora prowizje od kazdej rezerwacji. Wix to konstruktor — robisz sam, dlugo. My robimy dla Ciebie unikalna strone, ktora posiadasz na wlasnosc, bez prowizji."
+              "answer": "Booksy to platforma — Twoja strona jest jedna z setek innych w miescie, a oni biora prowizje od kazdej rezerwacji i ograniczaja Twoj zasieg. Wix to konstruktor — robisz sam, dlugo. My robimy dla Ciebie unikalna strone, ktora posiadasz na wlasnosc, bez prowizji."
             },
             {
               "question": "Pracujecie w calej Polsce?",
@@ -763,7 +766,7 @@
             "subtitle": "30 minut rozmowy. Krotki brief. Pelna strona za 5-7 dni — do obejrzenia bez placenia. Bez sprzedazy, bez nacisku."
           },
           "cta": {
-            "label": "Zarezerwuj rozmowe",
+            "label": "Umow bezplatna rozmowe",
             "target": {
               "type": "page",
               "value": "contact"

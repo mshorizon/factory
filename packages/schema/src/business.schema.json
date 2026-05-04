@@ -498,7 +498,15 @@
                 "title": "Metric Badges",
                 "items": { "type": "string" }
               },
-              "url": { "type": "string", "title": "Live Website URL" }
+              "url": { "type": "string", "title": "Live Website URL" },
+              "cta": {
+                "type": "object",
+                "title": "CTA Link",
+                "properties": {
+                  "label": { "type": "string", "title": "CTA Label" },
+                  "href": { "type": "string", "title": "CTA URL" }
+                }
+              }
             }
           }
         },
@@ -783,7 +791,7 @@
           "properties": {
             "address": { "type": "string", "title": "Address" },
             "phone": { "type": "string", "title": "Phone" },
-            "email": { "type": "string", "format": "email", "title": "Email" },
+            "email": { "type": "string", "anyOf": [{ "format": "email" }, { "maxLength": 0 }], "title": "Email" },
             "hours": { "type": "string", "title": "Business Hours" },
             "additionalInfo": {
               "type": "array",
@@ -1107,7 +1115,7 @@
       "properties": {
         "email": {
           "type": "string",
-          "format": "email",
+          "anyOf": [{ "format": "email" }, { "maxLength": 0 }],
           "title": "Contact Form Notification Email",
           "description": "Override email for receiving contact form submissions. Use when the public contact email (business.contact.email) has delivery issues (e.g. strict government/corporate mail servers). Leave empty to use business.contact.email."
         },

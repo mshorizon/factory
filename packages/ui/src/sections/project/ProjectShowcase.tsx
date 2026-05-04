@@ -79,6 +79,14 @@ export function ProjectShowcase({ projects, className }: ProjectGridProps) {
                 {quote && (
                   <p className="text-sm text-muted italic leading-relaxed">{quote}</p>
                 )}
+                {project.cta && (
+                  <a
+                    href={project.cta.href}
+                    className="inline-block mt-spacing-sm text-[13px] text-primary no-underline hover:underline"
+                  >
+                    {project.cta.label}
+                  </a>
+                )}
               </div>
             </div>
           </StaggerItem>

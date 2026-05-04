@@ -11,6 +11,9 @@ OUTPUT_DIR = BASE_DIR / "output"
 TEMPLATES_DIR = BASE_DIR / "templates"
 LEADS_CSV = DATA_DIR / "leads.csv"
 
+# Database
+DATABASE_URL = os.getenv("DATABASE_URL", "")
+
 # API Keys
 YELP_API_KEY = os.getenv("YELP_API_KEY", "")
 FOURSQUARE_API_KEY = os.getenv("FOURSQUARE_API_KEY", "")

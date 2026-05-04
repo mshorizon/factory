@@ -23,6 +23,7 @@ import TaskManager from "./TaskManager";
 import { BusinessesPanel } from "./BusinessesPanel";
 import StrategyView from "./StrategyView";
 import ScriptsView from "./ScriptsView";
+import { LeadsTab } from "./LeadsTab";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -107,6 +108,7 @@ import {
   Lightbulb,
   Terminal,
   X,
+  UserSearch,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -160,6 +162,23 @@ function generateColorUiSchema(schema: RJSFSchema): Record<string, any> {
   return uiSchema;
 }
 
+function resolveRefs(obj: any, definitions: Record<string, any>, seen = new Set<string>()): any {
+  if (!obj || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map((item) => resolveRefs(item, definitions, seen));
+  if (obj.$ref && typeof obj.$ref === "string") {
+    const refPath = obj.$ref.replace(/^#\/definitions\//, "");
+    if (seen.has(refPath)) return obj;
+    const def = definitions[refPath];
+    if (!def) return obj;
+    return resolveRefs(def, definitions, new Set([...seen, refPath]));
+  }
+  const result: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    result[key] = resolveRefs(value, definitions, seen);
+  }
+  return result;
+}
+
 function getSubSchema(schema: RJSFSchema, path: string[]): RJSFSchema {
   let current: any = schema;
   for (const key of path) {
@@ -171,7 +190,8 @@ function getSubSchema(schema: RJSFSchema, path: string[]): RJSFSchema {
       return { type: "object", properties: {} };
     }
   }
-  return { ...current, definitions: schema.definitions } as RJSFSchema;
+  const defs = (schema.definitions || {}) as Record<string, any>;
+  return resolveRefs({ ...current }, defs) as RJSFSchema;
 }
 
 function getNestedValue(obj: Record<string, unknown>, path: string[]): any {
@@ -1019,7 +1039,8 @@ export default function AdminForm({
     if (activeTab === "business-general" || activeTab === "meta") {
       const businessSchema = schema.properties?.business as any;
 
-      const businessInfoSchema: RJSFSchema = {
+      const defs = (schema.definitions || {}) as Record<string, any>;
+      const businessInfoSchema: RJSFSchema = resolveRefs({
         type: "object",
         properties: {
           business: {
@@ -1035,8 +1056,7 @@ export default function AdminForm({
             },
           },
         },
-        definitions: schema.definitions,
-      };
+      }, defs) as RJSFSchema;
 
       return (
         <Form
@@ -1107,7 +1127,6 @@ export default function AdminForm({
             properties: { assets: businessSchema?.properties?.assets },
           },
         },
-        definitions: schema.definitions,
       };
 
       return (
@@ -1175,23 +1194,22 @@ export default function AdminForm({
         },
       };
 
+      const themeProps = (schema.properties?.theme as any)?.properties || {};
       const uiSchema: RJSFSchema = {
         type: "object",
         properties: {
-          ui: schema.properties?.theme ? (schema.properties.theme as any).properties?.ui : undefined,
+          ...(themeProps.ui ? { ui: themeProps.ui } : {}),
         },
-        definitions: schema.definitions,
       };
 
       const typographySchema: RJSFSchema = {
         type: "object",
         properties: {
-          preset: schema.properties?.theme ? (schema.properties.theme as any).properties?.preset : undefined,
-          typography: schema.properties?.theme ? (schema.properties.theme as any).properties?.typography : undefined,
-          headingWeight: schema.properties?.theme ? (schema.properties.theme as any).properties?.headingWeight : undefined,
-          maxFontWeight: schema.properties?.theme ? (schema.properties.theme as any).properties?.maxFontWeight : undefined,
+          ...(themeProps.preset ? { preset: themeProps.preset } : {}),
+          ...(themeProps.typography ? { typography: themeProps.typography } : {}),
+          ...(themeProps.headingWeight ? { headingWeight: themeProps.headingWeight } : {}),
+          ...(themeProps.maxFontWeight ? { maxFontWeight: themeProps.maxFontWeight } : {}),
         },
-        definitions: schema.definitions,
       };
 
       const colorData = getNestedValue(formData, ["theme", "colors", currentMode]) || {};
@@ -1415,7 +1433,6 @@ export default function AdminForm({
         properties: {
           footerIcon: businessSchema?.properties?.assets?.properties?.footerIcon,
         },
-        definitions: schema.definitions,
       };
 
       return (
@@ -1456,7 +1473,6 @@ export default function AdminForm({
             <CardContent className="pt-6 rjsf-grid-2col">
               <Form
                 schema={footerSchema}
-                uiSchema={{}}
                 formData={getNestedValue(resolvedFormData, ["layout", "footer"])}
                 validator={validator}
                 widgets={configWidgets}
@@ -1642,6 +1658,10 @@ export default function AdminForm({
       return <BusinessesPanel />;
     }
 
+    if (activeTab === "leads") {
+      return <LeadsTab />;
+    }
+
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
     if (activeTab === "scripts") return <ScriptsView />;
@@ -1749,6 +1769,7 @@ export default function AdminForm({
         Icon: Shield,
         items: [
           { id: "businesses", label: "Businesses", Icon: Building2 },
+          { id: "leads", label: "Leads", Icon: UserSearch },
           { id: "overview", label: "Health Overview", Icon: LayoutDashboard },
           { id: "users", label: "Users", Icon: Users },
           { id: "scripts", label: "Scripts", Icon: Terminal },

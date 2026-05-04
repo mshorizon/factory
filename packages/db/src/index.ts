@@ -57,6 +57,11 @@ export {
   type SuggestionCategory,
   type SuggestionEffort,
   type SuggestionStatus,
+  leads,
+  LEAD_STATUSES,
+  type Lead,
+  type NewLead,
+  type LeadStatus,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -139,6 +144,12 @@ export {
   countTodaySuggestions,
   createStrategicSuggestion,
   updateStrategicSuggestionStatus,
+  getAllLeads,
+  getLeadById,
+  createLeads,
+  updateLeadStatus,
+  deleteLead,
+  getLeadDeduplicationKeys,
 } from "./queries.js";
 export {
   listTasks,

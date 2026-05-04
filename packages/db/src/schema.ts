@@ -363,3 +363,28 @@ export const strategicSuggestions = pgTable("strategic_suggestions", {
 
 export type StrategicSuggestion = typeof strategicSuggestions.$inferSelect;
 export type NewStrategicSuggestion = typeof strategicSuggestions.$inferInsert;
+
+// --- Leads ---
+
+export const LEAD_STATUSES = ["new", "site_generated", "rejected"] as const;
+export type LeadStatus = typeof LEAD_STATUSES[number];
+
+export const leads = pgTable("leads", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  businessType: text("business_type").notNull(),
+  city: text("city").notNull().default(""),
+  address: text("address").notNull().default(""),
+  phone: text("phone").notNull().default(""),
+  email: text("email").notNull().default(""),
+  website: text("website").notNull().default(""),
+  source: text("source").notNull().default("osm"),
+  status: text("status").notNull().default("new"),
+  siteId: integer("site_id").references(() => sites.id, { onDelete: "set null" }),
+  generatedSubdomain: text("generated_subdomain"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type Lead = typeof leads.$inferSelect;
+export type NewLead = typeof leads.$inferInsert;
