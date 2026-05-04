@@ -7,14 +7,14 @@ const json = (data: unknown, status = 200) => new Response(JSON.stringify(data),
 export const POST: APIRoute = async ({ request, locals }) => {
   if (!locals.auth || locals.auth.role !== "super-admin") return forbidden();
 
-  let body: { leadId?: number; template?: string; cloneFrom?: string; subdomain?: string };
+  let body: { leadId?: number; template?: string; cloneFrom?: string; subdomain?: string; additionalRequirements?: string };
   try {
     body = await request.json();
   } catch {
     return json({ error: "Invalid JSON" }, 400);
   }
 
-  const { leadId, template = "template-specialist", cloneFrom, subdomain } = body;
+  const { leadId, template = "template-specialist", cloneFrom, subdomain, additionalRequirements } = body;
   if (!leadId || !subdomain) return json({ error: "leadId and subdomain required" }, 400);
   if (cloneFrom !== undefined && !cloneFrom) return json({ error: "cloneFrom cannot be empty when provided" }, 400);
 
@@ -98,7 +98,10 @@ Each item must be translated into all 4 languages (pl, en, de, uk).
 Create exactly 3 blog posts relevant to the lead's business type and local market.
 Each blog post must exist in all 4 language variants (pl, en, de, uk) — use the createBlog DB function for each language variant.
 Blog posts should be practical, SEO-friendly articles (400–800 words each) that a local customer would actually search for.
-Save blogs to DB after saving the main site config.`;
+Save blogs to DB after saving the main site config.${additionalRequirements ? `
+
+### Additional requirements from operator
+${additionalRequirements}` : ""}`;
 
 
   const task = await createTask({

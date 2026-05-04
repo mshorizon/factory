@@ -124,6 +124,7 @@ export function LeadsTab() {
   const [sites, setSites] = useState<SiteOption[]>([]);
   const [sitesLoading, setSitesLoading] = useState(false);
   const [cloneFrom, setCloneFrom] = useState("");
+  const [additionalRequirements, setAdditionalRequirements] = useState("");
 
   const fetchLeads = useCallback(async () => {
     setLoading(true);
@@ -201,6 +202,7 @@ export function LeadsTab() {
     setGenError(null);
     setCloneMode(false);
     setCloneFrom("");
+    setAdditionalRequirements("");
     setGenerateLead(lead);
     fetchSites();
   };
@@ -218,6 +220,7 @@ export function LeadsTab() {
           template: cloneMode ? undefined : genTemplate,
           cloneFrom: cloneMode ? cloneFrom : undefined,
           subdomain: genSubdomain,
+          additionalRequirements: additionalRequirements.trim() || undefined,
         }),
       });
       const data = await res.json();
@@ -506,6 +509,18 @@ export function LeadsTab() {
                 </Select>
               </div>
             )}
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="gen-additional">Additional requirements</Label>
+              <textarea
+                id="gen-additional"
+                value={additionalRequirements}
+                onChange={(e) => setAdditionalRequirements(e.target.value)}
+                placeholder="e.g. use dark color scheme, focus on emergency services, add a pricing table..."
+                rows={4}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-y"
+              />
+            </div>
 
             {genError && <p className="text-sm text-destructive">{genError}</p>}
           </div>

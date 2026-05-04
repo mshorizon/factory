@@ -77,4 +77,4 @@ Last 3 decisions — full history in `docs/adr/`.
 - Businesses configured in DB: unknown
 - Open questions awaiting answer: 0
 - Days since last deployment: 0
-- Open strategic suggestions: 19
+- Open strategic suggestions: 29

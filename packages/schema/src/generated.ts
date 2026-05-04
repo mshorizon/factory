@@ -16,7 +16,9 @@ export type FooterIconURL = string;
 export type IconLucideName = string;
 export type Address = string;
 export type Phone = string;
-export type Email = string;
+export type Email = {
+  [k: string]: unknown;
+} & string;
 export type BusinessHours = string;
 /**
  * Extra info strings shown next to phone/email/address in the navbar upper bar, each rendered with an 'i' info icon (e.g., registration numbers, license IDs).
@@ -363,7 +365,9 @@ export type BlackoutDatesYYYYMMDD = string[];
 /**
  * Override email for receiving contact form submissions. Use when the public contact email (business.contact.email) has delivery issues (e.g. strict government/corporate mail servers). Leave empty to use business.contact.email.
  */
-export type ContactFormNotificationEmail = string;
+export type ContactFormNotificationEmail = {
+  [k: string]: unknown;
+} & string;
 export type EnableSMSNotifications = boolean;
 export type SMSProvider = "smsapi" | "twilio";
 export type RecipientPhoneNumberWithCountryCodeEG48500600700 = string;
