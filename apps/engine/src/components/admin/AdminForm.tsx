@@ -1753,16 +1753,6 @@ export default function AdminForm({
       Icon: FileText,
       items: pageNames.map((pageName) => ({ id: `page-${pageName}`, label: pageName, Icon: File })),
     },
-    {
-      id: "ai",
-      label: "AI",
-      description: "Strategic suggestions and task queue for Claude Code.",
-      Icon: Lightbulb,
-      items: [
-        { id: "strategy", label: "Suggestions", Icon: Lightbulb },
-        { id: "tasks", label: "Tasks", Icon: ListTodo },
-      ],
-    },
     ...(auth?.role === "super-admin" ? [
       {
         id: "administration",
@@ -1770,6 +1760,8 @@ export default function AdminForm({
         description: "Manage tenants and user access.",
         Icon: Shield,
         items: [
+          { id: "strategy", label: "Suggestions", Icon: Lightbulb },
+          { id: "tasks", label: "Tasks", Icon: ListTodo },
           { id: "businesses", label: "Businesses", Icon: Building2 },
           { id: "leads", label: "Leads", Icon: UserSearch },
           { id: "overview", label: "Health Overview", Icon: LayoutDashboard },
