@@ -461,7 +461,9 @@ export default function AdminForm({
     uk: (translations?.uk as Record<string, unknown>) || {},
   });
 
-  const [internalActiveTab, setInternalActiveTab] = useState<TabType>("business-general");
+  const [internalActiveTab, setInternalActiveTab] = useState<TabType>(
+    auth?.role === "super-admin" ? "tasks" : "business-general"
+  );
 
   const activeTab = internalActiveTab === "meta" ? "business-general" : internalActiveTab;
   const setActiveTab = (tab: TabType) => setInternalActiveTab(tab);
