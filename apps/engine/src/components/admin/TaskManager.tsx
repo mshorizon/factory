@@ -476,7 +476,7 @@ export default function TaskManager({
               <Label htmlFor="task-description">Task description</Label>
               <Textarea
                 id="task-description"
-                rows={3}
+                rows={9}
                 placeholder="Describe what Claude Code should do..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
