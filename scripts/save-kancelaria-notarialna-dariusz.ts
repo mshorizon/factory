@@ -588,13 +588,9 @@ const config = {
             address: "ul. Wielicka 30, budynek A, parter, 30-552 Kraków",
             phone: "+48 536 951 371",
             email: "kancelaria@notariuszdk.pl",
-            hours: "Godziny otwarcia",
+            hours: "GODZINY OTWARCIA",
             hoursDetailed: [
-              "poniedziałek 9:00 – 17:00",
-              "wtorek 9:00 – 17:00",
-              "środa 9:00 – 17:00",
-              "czwartek 9:00 – 17:00",
-              "piątek 9:00 – 17:00"
+              "PONIEDZIAŁEK – PIĄTEK 9.00 – 17.00."
             ],
             receptionHours: "poza godzinami otwarcia i w soboty (po uzgodnieniu telefonicznym)",
             receptionLabel: "Wizyty poza godzinami",
