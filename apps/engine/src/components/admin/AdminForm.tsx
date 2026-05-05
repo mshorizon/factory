@@ -24,6 +24,7 @@ import { BusinessesPanel } from "./BusinessesPanel";
 import StrategyView from "./StrategyView";
 import ScriptsView from "./ScriptsView";
 import { LeadsTab } from "./LeadsTab";
+import { BusinessJsonTab } from "./BusinessJsonTab";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -109,6 +110,7 @@ import {
   Terminal,
   X,
   UserSearch,
+  FileJson,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -1668,6 +1670,19 @@ export default function AdminForm({
 
     if (activeTab === "scripts") return <ScriptsView />;
 
+    if (activeTab === "business-json") {
+      return (
+        <BusinessJsonTab
+          businessId={businessId}
+          formData={formData}
+          onFormDataChange={(data) => {
+            setFormData(data);
+            setSaveStatus("idle");
+          }}
+        />
+      );
+    }
+
     if (activeTab === "strategy") {
       return <StrategyView />;
     }
@@ -1767,6 +1782,7 @@ export default function AdminForm({
           { id: "overview", label: "Health Overview", Icon: LayoutDashboard },
           { id: "users", label: "Users", Icon: Users },
           { id: "scripts", label: "Scripts", Icon: Terminal },
+          { id: "business-json", label: "Business JSON", Icon: FileJson },
         ],
       },
     ] : []),
