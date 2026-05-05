@@ -157,6 +157,21 @@ const { businessId } = Astro.locals;
         flex-shrink: 0;
       }
 
+      .preview-overlay-route {
+        font-size: 0.6875rem;
+        font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+        color: var(--muted-foreground);
+        padding: 0 0.625rem;
+        display: flex;
+        align-items: center;
+        border-right: 1px solid var(--border);
+        white-space: nowrap;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        opacity: 0.8;
+      }
+
       .preview-overlay-btn {
         width: 1.75rem;
         display: flex;
@@ -461,6 +476,7 @@ const { businessId } = Astro.locals;
               <span class="preview-live-dot"></span>
               Live preview
             </span>
+            <span id="preview-route" class="preview-overlay-route">/</span>
             <button id="refresh-preview" class="preview-overlay-btn" title="Refresh preview">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
@@ -482,6 +498,19 @@ const { businessId } = Astro.locals;
         previewIframeLoaded = true;
         var iframe = document.getElementById('preview-iframe');
         if (iframe) iframe.src = '/?_preview=1';
+      }
+
+      function updatePreviewRoute(src) {
+        var routeEl = document.getElementById('preview-route');
+        if (!routeEl) return;
+        try {
+          var url = new URL(src, window.location.origin);
+          var path = url.pathname || '/';
+          routeEl.textContent = path;
+          routeEl.title = path;
+        } catch (e) {
+          routeEl.textContent = '/';
+        }
       }
 
       // On desktop load immediately; on mobile wait for button click
@@ -509,6 +538,7 @@ const { businessId } = Astro.locals;
           var path = page === 'home' ? '/' : '/' + page;
           iframe.src = path + '?_preview=1';
           previewIframeLoaded = true;
+          updatePreviewRoute(path);
         }
       };
 
@@ -516,6 +546,20 @@ const { businessId } = Astro.locals;
       document.getElementById('refresh-preview').addEventListener('click', function() {
         window.refreshPreview();
       });
+
+      // Track iframe navigation and update route display
+      (function() {
+        var iframe = document.getElementById('preview-iframe');
+        if (!iframe) return;
+        iframe.addEventListener('load', function() {
+          try {
+            var src = iframe.src || iframe.contentWindow.location.href;
+            updatePreviewRoute(src);
+          } catch (e) {
+            // cross-origin guard — ignore
+          }
+        });
+      })();
 
       // Resizable admin panel
       (function() {
