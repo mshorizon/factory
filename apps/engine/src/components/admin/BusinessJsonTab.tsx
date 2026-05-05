@@ -1,7 +1,14 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Save, Check, AlertCircle, RotateCcw, Copy } from "lucide-react";
+import { Save, Check, AlertCircle, RotateCcw, Copy, XCircle } from "lucide-react";
+
+interface SchemaError {
+  instancePath: string;
+  message: string;
+  keyword?: string;
+  params?: Record<string, unknown>;
+}
 
 interface BusinessJsonTabProps {
   businessId: string;
@@ -16,6 +23,7 @@ export function BusinessJsonTab({ businessId, formData, onFormDataChange }: Busi
   const [parseError, setParseError] = useState<string | undefined>();
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const [schemaErrors, setSchemaErrors] = useState<SchemaError[]>([]);
   const [isDirty, setIsDirty] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -41,6 +49,8 @@ export function BusinessJsonTab({ businessId, formData, onFormDataChange }: Busi
   const handleReset = useCallback(() => {
     setJsonText(JSON.stringify(formData, null, 2));
     setParseError(undefined);
+    setSchemaErrors([]);
+    setErrorMessage(undefined);
     setIsDirty(false);
     setSaveStatus("idle");
   }, [formData]);
@@ -67,6 +77,7 @@ export function BusinessJsonTab({ businessId, formData, onFormDataChange }: Busi
 
     setSaveStatus("saving");
     setErrorMessage(undefined);
+    setSchemaErrors([]);
 
     try {
       const response = await fetch("/api/admin/save", {
@@ -77,7 +88,14 @@ export function BusinessJsonTab({ businessId, formData, onFormDataChange }: Busi
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || "Failed to save");
+        if (error.errors && Array.isArray(error.errors)) {
+          setSchemaErrors(error.errors);
+          setSaveStatus("error");
+          setErrorMessage(`Schema validation failed (${error.errors.length} error${error.errors.length !== 1 ? "s" : ""})`);
+        } else {
+          throw new Error(error.message || "Failed to save");
+        }
+        return;
       }
 
       onFormDataChange(parsed);
@@ -176,8 +194,28 @@ export function BusinessJsonTab({ businessId, formData, onFormDataChange }: Busi
         autoCapitalize="off"
         autoCorrect="off"
       />
+      {schemaErrors.length > 0 && (
+        <div className="rounded-md border border-destructive/50 bg-destructive/5 p-3">
+          <div className="flex items-center gap-2 mb-2">
+            <XCircle className="w-4 h-4 text-destructive shrink-0" />
+            <span className="text-sm font-medium text-destructive">
+              Schema validation failed — {schemaErrors.length} error{schemaErrors.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+          <ul className="space-y-1">
+            {schemaErrors.map((err, i) => (
+              <li key={i} className="flex gap-2 text-xs font-mono">
+                <span className="text-destructive/70 shrink-0">
+                  {err.instancePath || "(root)"}
+                </span>
+                <span className="text-destructive">{err.message}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <p className="text-xs text-muted-foreground">
-        Editing raw JSON directly bypasses schema validation. Use <strong>Apply to editor</strong> to sync changes to other tabs, or <strong>Save to DB</strong> to persist directly.
+        Editing raw JSON directly bypasses form validation. Use <strong>Apply to editor</strong> to sync changes to other tabs, or <strong>Save to DB</strong> to persist directly.
       </p>
     </div>
   );
