@@ -24,6 +24,7 @@ import { BusinessesPanel } from "./BusinessesPanel";
 import StrategyView from "./StrategyView";
 import ScriptsView from "./ScriptsView";
 import { LeadsTab } from "./LeadsTab";
+import { BusinessJsonTab } from "./BusinessJsonTab";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -109,6 +110,7 @@ import {
   Terminal,
   X,
   UserSearch,
+  FileJson,
 } from "lucide-react";
 
 // Handle CJS/ESM interop
@@ -461,7 +463,9 @@ export default function AdminForm({
     uk: (translations?.uk as Record<string, unknown>) || {},
   });
 
-  const [internalActiveTab, setInternalActiveTab] = useState<TabType>("business-general");
+  const [internalActiveTab, setInternalActiveTab] = useState<TabType>(
+    auth?.role === "super-admin" ? "tasks" : "business-general"
+  );
 
   const activeTab = internalActiveTab === "meta" ? "business-general" : internalActiveTab;
   const setActiveTab = (tab: TabType) => setInternalActiveTab(tab);
@@ -1666,6 +1670,19 @@ export default function AdminForm({
 
     if (activeTab === "scripts") return <ScriptsView />;
 
+    if (activeTab === "business-json") {
+      return (
+        <BusinessJsonTab
+          businessId={businessId}
+          formData={formData}
+          onFormDataChange={(data) => {
+            setFormData(data);
+            setSaveStatus("idle");
+          }}
+        />
+      );
+    }
+
     if (activeTab === "strategy") {
       return <StrategyView />;
     }
@@ -1751,16 +1768,6 @@ export default function AdminForm({
       Icon: FileText,
       items: pageNames.map((pageName) => ({ id: `page-${pageName}`, label: pageName, Icon: File })),
     },
-    {
-      id: "ai",
-      label: "AI",
-      description: "Strategic suggestions and task queue for Claude Code.",
-      Icon: Lightbulb,
-      items: [
-        { id: "strategy", label: "Suggestions", Icon: Lightbulb },
-        { id: "tasks", label: "Tasks", Icon: ListTodo },
-      ],
-    },
     ...(auth?.role === "super-admin" ? [
       {
         id: "administration",
@@ -1768,11 +1775,14 @@ export default function AdminForm({
         description: "Manage tenants and user access.",
         Icon: Shield,
         items: [
+          { id: "strategy", label: "Suggestions", Icon: Lightbulb },
+          { id: "tasks", label: "Tasks", Icon: ListTodo },
           { id: "businesses", label: "Businesses", Icon: Building2 },
           { id: "leads", label: "Leads", Icon: UserSearch },
           { id: "overview", label: "Health Overview", Icon: LayoutDashboard },
           { id: "users", label: "Users", Icon: Users },
           { id: "scripts", label: "Scripts", Icon: Terminal },
+          { id: "business-json", label: "Business JSON", Icon: FileJson },
         ],
       },
     ] : []),

@@ -88,9 +88,14 @@ Use the createBlog / upsertSiteConfig translation mechanism already used by othe
 Required languages: pl (primary), en, de, uk (Ukrainian).
 Every user-visible string (hero headline, service names, about text, CTA labels, footer tagline, nav items, blog titles/content) must be translated into all 4 languages.
 Look at an existing multilingual site in the DB (e.g. getSiteBySubdomain("template-law")) to understand the translation data structure before writing translations.
-
+${cloneFrom ? `
 ### Content items (services / projects / products / files)
-Check what content type the base ${cloneFrom ? `business "${cloneFrom}"` : `template "${template}"`} uses (services, projects, products, or files).
+Copy all content items (services, projects, products, files) directly from the source business "${cloneFrom}" as-is. Do NOT generate new items — use the exact data from the source config.
+
+### Blog posts
+Copy all blog posts from the source business "${cloneFrom}" as-is using getAllBlogsBySubdomain("${cloneFrom}") (or equivalent). Re-create them for the new subdomain using createBlog with the same content and language variants. Do NOT write new blog posts.` : `
+### Content items (services / projects / products / files)
+Check what content type the base template "${template}" uses (services, projects, products, or files).
 Generate at least 5 realistic items of that type, tailored to the lead's business type ("${lead.businessType}") and city ("${lead.city}").
 Each item must be translated into all 4 languages (pl, en, de, uk).
 
@@ -98,7 +103,7 @@ Each item must be translated into all 4 languages (pl, en, de, uk).
 Create exactly 3 blog posts relevant to the lead's business type and local market.
 Each blog post must exist in all 4 language variants (pl, en, de, uk) — use the createBlog DB function for each language variant.
 Blog posts should be practical, SEO-friendly articles (400–800 words each) that a local customer would actually search for.
-Save blogs to DB after saving the main site config.${additionalRequirements ? `
+Save blogs to DB after saving the main site config.`}${additionalRequirements ? `
 
 ### Additional requirements from operator
 ${additionalRequirements}` : ""}`;
