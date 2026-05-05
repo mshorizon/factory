@@ -552,12 +552,14 @@ const { businessId } = Astro.locals;
         var iframe = document.getElementById('preview-iframe');
         if (!iframe) return;
         iframe.addEventListener('load', function() {
+          var src;
           try {
-            var src = iframe.src || iframe.contentWindow.location.href;
-            updatePreviewRoute(src);
+            src = iframe.contentWindow.location.href;
           } catch (e) {
-            // cross-origin guard — ignore
+            // cross-origin: fall back to the src attribute
+            src = iframe.src;
           }
+          if (src) updatePreviewRoute(src);
         });
       })();
 
