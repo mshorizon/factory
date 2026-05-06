@@ -1199,12 +1199,13 @@ export default function AdminForm({
       };
 
       const themeProps = (schema.properties?.theme as any)?.properties || {};
-      const uiSchema: RJSFSchema = {
+      const themeDefs = (schema.definitions || {}) as Record<string, any>;
+      const uiSchema: RJSFSchema = resolveRefs({
         type: "object",
         properties: {
           ...(themeProps.ui ? { ui: themeProps.ui } : {}),
         },
-      };
+      }, themeDefs) as RJSFSchema;
 
       const typographySchema: RJSFSchema = {
         type: "object",
