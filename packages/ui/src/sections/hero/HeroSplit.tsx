@@ -51,6 +51,7 @@ export function HeroSplit({
     <section
       className={cn(
         "relative z-0 flex items-center",
+        isHomePage ? "py-spacing-section" : "py-spacing-section-sm",
         background !== "transparent" && !hideDots && "bg-background",
         className
       )}
