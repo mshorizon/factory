@@ -58,6 +58,7 @@
   "theme": {
     "preset": "bold",
     "majorTheme": "template-specialist",
+    "navLinksPosition": "right",
     "mode": "light",
     "colors": {
       "light": {
