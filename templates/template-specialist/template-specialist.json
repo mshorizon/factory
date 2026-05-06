@@ -745,7 +745,8 @@
       "stats": [
         { "value": "20+", "label": "t:aboutSummary.stats.certifications" },
         { "value": "6,000+", "label": "t:aboutSummary.stats.completedJobs" },
-        { "value": "24/7", "label": "t:aboutSummary.stats.emergency" }
+        { "value": "24/7", "label": "t:aboutSummary.stats.emergency" },
+        { "value": "98%", "label": "t:aboutSummary.stats.satisfaction" }
       ],
       "cta": {
         "label": "t:aboutSummary.cta",
