@@ -104,7 +104,7 @@ export function GoogleMap({
           />
 
           {showPanel && (
-            <div className="absolute top-spacing-md left-spacing-md max-w-xs sm:max-w-sm bg-white rounded-radius shadow-lg p-spacing-md border border-black/5">
+            <div className="absolute top-spacing-md left-spacing-md max-w-xs sm:max-w-sm bg-white rounded-radius-secondary shadow-lg p-spacing-md border border-black/5">
               {businessName && (
                 <div className="text-sm font-semibold text-foreground leading-tight mb-spacing-xs">
                   {businessName}
