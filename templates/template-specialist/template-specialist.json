@@ -582,7 +582,6 @@
           ],
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/mission-electrician.jpg"
         },
-        { "type": "ref", "sectionId": "about-summary-main" },
         { "type": "ref", "sectionId": "features-main" },
         { "type": "ref", "sectionId": "service-area-main" },
         { "type": "ref", "sectionId": "map-google" }
