@@ -15,4 +15,5 @@ export interface GoogleMapProps {
   openInMapsLabel?: string;
   directionsLabel?: string;
   googlePlaceQuery?: string;
+  mapPanelButtonColor?: "primary" | "primary-light";
 }

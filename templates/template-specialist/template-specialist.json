@@ -816,6 +816,7 @@
     },
     "map-google": {
       "type": "map",
+      "mapPanelButtonColor": "primary",
       "header": {
         "badge": "t:map.badge",
         "title": "t:map.title",

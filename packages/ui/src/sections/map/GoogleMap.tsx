@@ -23,6 +23,7 @@ export function GoogleMap({
   openInMapsLabel = "Otwórz w Mapach Google",
   directionsLabel = "Trasa do",
   googlePlaceQuery,
+  mapPanelButtonColor = "primary-light",
 }: GoogleMapProps) {
   const mapUrl = googlePlaceQuery
     ? `https://www.google.com/maps?q=${encodeURIComponent(googlePlaceQuery)}&z=${zoom}&output=embed`
@@ -121,7 +122,10 @@ export function GoogleMap({
                   target="_blank"
                   rel="noopener noreferrer"
                   title={directionsLabel}
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary-light text-white hover:opacity-90 transition-opacity shadow-sm"
+                  className={cn(
+                    "inline-flex items-center justify-center w-9 h-9 rounded-full text-white hover:opacity-90 transition-opacity shadow-sm",
+                    mapPanelButtonColor === "primary" ? "bg-primary" : "bg-primary-light"
+                  )}
                 >
                   <Navigation className="w-4 h-4" />
                 </a>
@@ -130,7 +134,10 @@ export function GoogleMap({
                   target="_blank"
                   rel="noopener noreferrer"
                   title={openInMapsLabel}
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary-light text-white hover:opacity-90 transition-opacity shadow-sm"
+                  className={cn(
+                    "inline-flex items-center justify-center w-9 h-9 rounded-full text-white hover:opacity-90 transition-opacity shadow-sm",
+                    mapPanelButtonColor === "primary" ? "bg-primary" : "bg-primary-light"
+                  )}
                 >
                   <ExternalLink className="w-4 h-4" />
                 </a>

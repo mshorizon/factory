@@ -226,6 +226,10 @@ export type SectionLevelBadgeVariantOverride = "accent" | "accent-no-line" | "ou
 export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
 export type CTATextColorOverride = string;
+/**
+ * Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'.
+ */
+export type MapPanelButtonColor = "primary" | "primary-light";
 export type InvertStatColorsLightBgDarkText = boolean;
 export type DetailsButtonLabelEGSeeDetailsLearnMore = string;
 export type AvatarImageURL1 = string;
@@ -570,6 +574,7 @@ export interface Section {
   badgeColor?: BadgeTextColorOverride;
   descriptionColor?: DescriptionTextColorOverride;
   ctaColor?: CTATextColorOverride;
+  mapPanelButtonColor?: MapPanelButtonColor;
   statsInverted?: InvertStatColorsLightBgDarkText;
   cta?: Cta1;
   secondaryCta?: Cta1;
