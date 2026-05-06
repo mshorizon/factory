@@ -114,6 +114,7 @@
   "layout": {
     "navbar": {
       "variant": "standard",
+      "showAvailability": false,
       "extensions": [
         {
           "type": "upper-bar"
