@@ -70,7 +70,7 @@ const { width, height, dots } = areaData;
 
       {/* Poland map with dots */}
       <div data-reveal data-reveal-delay="500" class="relative flex items-center justify-center">
-        <svg viewBox={`0 0 ${width} ${height}`} class="poland-map w-full max-w-[350px] md:max-w-[450px] lg:max-w-[500px] h-auto">
+        <svg viewBox={`0 0 ${width} ${height}`} class="poland-map w-full max-w-[280px] md:max-w-[360px] lg:max-w-[400px] h-auto">
           {/* Render all dots - grey for country, yellow for region */}
           {dots.map((dot, i) => (
             <circle
