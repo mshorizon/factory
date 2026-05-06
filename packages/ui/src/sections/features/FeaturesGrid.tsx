@@ -79,8 +79,8 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
               data-field={`items.${index}`}
             >
               <CardHeader className="flex-1">
-                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light">
-                  <IconComponent className="h-[18px] w-[18px] text-white" />
+                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--dark-background)]">
+                  <IconComponent className="h-[18px] w-[18px] text-primary" />
                 </div>
                 <CardTitle data-field={`items.${index}.title`}>
                   {item.title}
