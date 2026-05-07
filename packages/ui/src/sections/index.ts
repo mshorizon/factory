@@ -105,3 +105,7 @@ export type { FilesPageProps, FileGroup, FileItem } from "./files";
 // TemplateShowcase variants
 export { TemplateShowcase } from "./templateShowcase";
 export type { TemplateShowcaseProps, TemplateItem } from "./templateShowcase";
+
+// Mission variants
+export { MissionContent } from "./mission";
+export type { MissionContentProps } from "./mission";
