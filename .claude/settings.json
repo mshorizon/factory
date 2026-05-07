@@ -22,17 +22,6 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r '.tool_input.command // \"\"' | grep -q 'git pull' && cd /home/dev/factory && pnpm deploy 2>&1 | tail -10 || true",
-            "statusMessage": "Deploying after git pull...",
-            "timeout": 120
-          }
-        ]
-      },
-      {
         "matcher": "TaskUpdate",
         "hooks": [
           {
