@@ -518,6 +518,8 @@
         },
         {
           "type": "blog",
+          "variant": "cards-light",
+          "badgeVariant": "accent",
           "header": {
             "badge": "t:blog.badge",
             "title": "t:blog.title",
