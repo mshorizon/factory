@@ -23,6 +23,7 @@ export function ContactProfessional({
   ctaLabel,
   ctaHref,
   iconColor = "primary-light",
+  submitButtonColor = "primary-light",
   className,
 }: ContactProfessionalProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -292,7 +293,12 @@ export function ContactProfessional({
             <Button
               type="submit"
               size="lg"
-              className="w-full !rounded-lg !bg-primary-light hover:!bg-primary-light/90 !text-on-primary"
+              className={cn(
+                "w-full !rounded-lg !text-on-primary",
+                submitButtonColor === "primary"
+                  ? "!bg-primary hover:!bg-primary/90"
+                  : "!bg-primary-light hover:!bg-primary-light/90"
+              )}
               disabled={status === "loading" || (turnstileSiteKey != null && !turnstileToken)}
             >
               {status === "loading" ? "Sending..." : form?.submitButton || "Submit"}

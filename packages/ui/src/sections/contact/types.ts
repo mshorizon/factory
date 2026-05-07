@@ -117,5 +117,6 @@ export interface ContactProfessionalProps {
   ctaLabel?: string;
   ctaHref?: string;
   iconColor?: "primary" | "primary-light";
+  submitButtonColor?: "primary" | "primary-light";
   className?: string;
 }
