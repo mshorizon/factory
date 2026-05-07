@@ -650,6 +650,7 @@
     },
     "booking": {
       "title": "t:pages.booking.title",
+      "navLabel": "t:nav.booking",
       "navOrder": 4,
       "sections": [
         {
