@@ -116,5 +116,6 @@ export interface ContactProfessionalProps {
   turnstileSiteKey?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  iconColor?: "primary" | "primary-light";
   className?: string;
 }

@@ -22,6 +22,7 @@ export function ContactProfessional({
   turnstileSiteKey,
   ctaLabel,
   ctaHref,
+  iconColor = "primary-light",
   className,
 }: ContactProfessionalProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -69,6 +70,8 @@ export function ContactProfessional({
       setStatus("error");
     }
   }
+
+  const iconCls = `h-5 w-5 ${iconColor === "primary" ? "text-primary" : "text-primary-light"} shrink-0`;
 
   const contactInfo = {
     address: business?.business?.contact?.address || info?.address,
@@ -122,7 +125,7 @@ export function ContactProfessional({
                 href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <PhoneIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <PhoneIcon className={iconCls} />
                 <span className="text-sm">{contactInfo.phone}</span>
               </a>
             )}
@@ -131,19 +134,19 @@ export function ContactProfessional({
                 href={`mailto:${contactInfo.email}`}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <EnvelopeIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <EnvelopeIcon className={iconCls} />
                 <span className="text-sm">{contactInfo.email}</span>
               </a>
             )}
             {contactInfo.address && (
               <div className="flex items-center gap-spacing-md text-foreground">
-                <MapPinIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <MapPinIcon className={iconCls} />
                 <span className="text-sm">{contactInfo.address}</span>
               </div>
             )}
             {(contactInfo.hours || (contactInfo.hoursDetailed && contactInfo.hoursDetailed.length > 0)) && (
               <div className="flex items-start gap-spacing-md text-foreground">
-                <ClockIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <ClockIcon className={iconCls} />
                 <div className="flex flex-col gap-spacing-xs">
                   {contactInfo.hours && (
                     <span className="text-sm font-medium">{contactInfo.hours}</span>
@@ -156,7 +159,7 @@ export function ContactProfessional({
             )}
             {contactInfo.receptionHours && (
               <div className="flex items-start gap-spacing-md text-foreground">
-                <UserGroupIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <UserGroupIcon className={iconCls} />
                 <div className="flex flex-col gap-spacing-xs">
                   {contactInfo.receptionLabel && (
                     <span className="text-sm font-medium">{contactInfo.receptionLabel}</span>
@@ -167,7 +170,7 @@ export function ContactProfessional({
             )}
             {contactInfo.additionalInfo?.map((item) => (
               <div key={item} className="flex items-start gap-spacing-md text-foreground">
-                <InformationCircleIcon className="h-5 w-5 text-primary-light shrink-0 mt-0.5" />
+                <InformationCircleIcon className={cn(iconCls, "mt-0.5")} />
                 <span className="text-sm">{item}</span>
               </div>
             ))}
@@ -176,7 +179,7 @@ export function ContactProfessional({
                 href={ctaHref}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <ChatBubbleOvalLeftIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <ChatBubbleOvalLeftIcon className={iconCls} />
                 <span className="text-sm">{ctaLabel}</span>
               </a>
             )}
