@@ -404,7 +404,7 @@
             {
               "title": "t:hero.testimonial2.title",
               "quote": "t:hero.testimonial2.quote",
-              "image": "https://api.dicebear.com/7.x/lorelei/svg?seed=Anna"
+              "image": "https://api.dicebear.com/7.x/lorelei/svg?seed=testimonial-2"
             }
           ],
           "cta": {
@@ -543,6 +543,7 @@
     },
     "about": {
       "title": "t:pages.about.title",
+      "navOrder": 1,
       "sections": [
         {
           "type": "about",
@@ -589,6 +590,7 @@
     },
     "services": {
       "title": "t:pages.services.title",
+      "navOrder": 2,
       "sections": [
         {
           "type": "services",
@@ -619,6 +621,7 @@
     },
     "projects": {
       "title": "t:pages.projects.title",
+      "navOrder": 3,
       "sections": []
     },
     "contact": {
@@ -647,6 +650,7 @@
     },
     "booking": {
       "title": "t:pages.booking.title",
+      "navOrder": 4,
       "sections": [
         {
           "type": "booking",
