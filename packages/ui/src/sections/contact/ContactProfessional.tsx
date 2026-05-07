@@ -210,7 +210,7 @@ export function ContactProfessional({
                   placeholder={form?.namePlaceholder}
                   required
                   disabled={status === "loading"}
-                  className={formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground"}
+                  className={cn("rounded-sm", formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground")}
                 />
               </div>
               <div className="space-y-spacing-xs">
@@ -224,7 +224,7 @@ export function ContactProfessional({
                   placeholder={form?.emailPlaceholder}
                   required
                   disabled={status === "loading"}
-                  className={formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground"}
+                  className={cn("rounded-sm", formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground")}
                 />
               </div>
             </div>
@@ -242,7 +242,7 @@ export function ContactProfessional({
                   name={field.name}
                   disabled={status === "loading"}
                   className={cn(
-                    "w-full min-w-0 rounded-md border-0 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring text-foreground",
+                    "w-full min-w-0 rounded-sm border-0 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring text-foreground",
                     formBackground === "dark" ? "bg-white" : "bg-secondary/60"
                   )}
                   defaultValue="__placeholder__"
@@ -273,7 +273,7 @@ export function ContactProfessional({
                 rows={10}
                 required
                 disabled={status === "loading"}
-                className={formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground"}
+                className={cn("rounded-sm", formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground")}
               />
             </div>
 
