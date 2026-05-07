@@ -119,5 +119,6 @@ export interface ContactProfessionalProps {
   iconColor?: "primary" | "primary-light";
   submitButtonColor?: "primary" | "primary-light";
   headerLineColor?: "primary" | "foreground";
+  formBackground?: "dark" | "light";
   className?: string;
 }

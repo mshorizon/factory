@@ -25,6 +25,7 @@ export function ContactProfessional({
   iconColor = "primary-light",
   submitButtonColor = "primary-light",
   headerLineColor = "foreground",
+  formBackground = "light",
   className,
 }: ContactProfessionalProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -191,12 +192,15 @@ export function ContactProfessional({
 
       {/* Right — form card */}
       <ScrollReveal delay={0.2} direction="right" distance={30}>
-        <div className="bg-card rounded-2xl shadow-sm p-spacing-2xl">
+        <div className={cn(
+          "rounded-2xl shadow-sm p-spacing-2xl",
+          formBackground === "dark" ? "bg-secondary" : "bg-card"
+        )}>
           <form onSubmit={handleSubmit} className="space-y-spacing-lg">
             {/* Name + Email row */}
             <div className="grid sm:grid-cols-2 gap-spacing-lg">
               <div className="space-y-spacing-xs">
-                <Label htmlFor="prof-name" className="text-foreground text-sm font-medium">
+                <Label htmlFor="prof-name" className={cn("text-sm font-medium", formBackground === "dark" ? "text-white" : "text-foreground")}>
                   {form?.nameLabel || "Name"}
                 </Label>
                 <Input
@@ -206,11 +210,11 @@ export function ContactProfessional({
                   placeholder={form?.namePlaceholder}
                   required
                   disabled={status === "loading"}
-                  className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
+                  className={formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground"}
                 />
               </div>
               <div className="space-y-spacing-xs">
-                <Label htmlFor="prof-email" className="text-foreground text-sm font-medium">
+                <Label htmlFor="prof-email" className={cn("text-sm font-medium", formBackground === "dark" ? "text-white" : "text-foreground")}>
                   {form?.emailLabel || "Email"}
                 </Label>
                 <Input
@@ -220,7 +224,7 @@ export function ContactProfessional({
                   placeholder={form?.emailPlaceholder}
                   required
                   disabled={status === "loading"}
-                  className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
+                  className={formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground"}
                 />
               </div>
             </div>
@@ -229,7 +233,7 @@ export function ContactProfessional({
             {(form?.selectFields ?? []).map((field: SelectField) => (
               <div key={field.name} className="space-y-spacing-xs">
                 {field.label && (
-                  <Label htmlFor={`prof-${field.name}`} className="text-foreground text-sm font-medium">
+                  <Label htmlFor={`prof-${field.name}`} className={cn("text-sm font-medium", formBackground === "dark" ? "text-white" : "text-foreground")}>
                     {field.label}
                   </Label>
                 )}
@@ -237,7 +241,10 @@ export function ContactProfessional({
                   id={`prof-${field.name}`}
                   name={field.name}
                   disabled={status === "loading"}
-                  className="w-full min-w-0 rounded-md border-0 bg-secondary/60 text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  className={cn(
+                    "w-full min-w-0 rounded-md border-0 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring text-foreground",
+                    formBackground === "dark" ? "bg-white" : "bg-secondary/60"
+                  )}
                   defaultValue="__placeholder__"
                 >
                   {field.placeholder && (
@@ -256,7 +263,7 @@ export function ContactProfessional({
 
             {/* Message */}
             <div className="space-y-spacing-xs">
-              <Label htmlFor="prof-message" className="text-foreground text-sm font-medium">
+              <Label htmlFor="prof-message" className={cn("text-sm font-medium", formBackground === "dark" ? "text-white" : "text-foreground")}>
                 {form?.messageLabel || "Message"}
               </Label>
               <Textarea
@@ -266,7 +273,7 @@ export function ContactProfessional({
                 rows={10}
                 required
                 disabled={status === "loading"}
-                className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
+                className={formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground"}
               />
             </div>
 
