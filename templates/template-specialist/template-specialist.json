@@ -619,6 +619,7 @@
           "iconColor": "primary",
           "submitButtonColor": "primary",
           "headerLineColor": "primary",
+          "formBackground": "dark",
           "header": {
             "title": "t:contact.title",
             "subtitle": "t:contact.page.subtitle"
