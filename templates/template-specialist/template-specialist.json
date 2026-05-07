@@ -600,22 +600,6 @@
             "title": "t:servicesPage.title",
             "subtitle": "t:servicesPage.subtitle"
           }
-        },
-        {
-          "type": "ctaBanner",
-          "variant": "default",
-          "background": "primary",
-          "header": {
-            "title": "t:servicesPage.cta.title",
-            "subtitle": "t:servicesPage.cta.subtitle"
-          },
-          "cta": {
-            "label": "t:servicesPage.cta.button",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
-          }
         }
       ]
     },
