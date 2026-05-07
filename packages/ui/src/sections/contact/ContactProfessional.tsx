@@ -24,6 +24,7 @@ export function ContactProfessional({
   ctaHref,
   iconColor = "primary-light",
   submitButtonColor = "primary-light",
+  headerLineColor = "foreground",
   className,
 }: ContactProfessionalProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -96,7 +97,7 @@ export function ContactProfessional({
           <div className="flex flex-col gap-spacing-md">
             <span
               className="w-8 h-[2px] rounded-full"
-              style={{ backgroundColor: "var(--foreground)" }}
+              style={{ backgroundColor: headerLineColor === "primary" ? "var(--primary)" : "var(--foreground)" }}
             />
             {title && (
               <h2

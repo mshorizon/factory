@@ -181,6 +181,7 @@
         "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
         "mapPanelButtonColor": { "type": "string", "title": "Map Panel Button Color", "enum": ["primary", "primary-light"], "description": "Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'." },
+        "headerLineColor": { "type": "string", "title": "Header Decorative Line Color", "enum": ["primary", "foreground"], "description": "Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'." },
         "statsInverted": { "type": "boolean", "title": "Invert stat colors (light bg, dark text)" },
         "cta": { "$ref": "#/definitions/cta" },
         "secondaryCta": { "$ref": "#/definitions/cta" },

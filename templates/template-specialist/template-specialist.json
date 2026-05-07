@@ -616,6 +616,7 @@
           "variant": "professional",
           "iconColor": "primary",
           "submitButtonColor": "primary",
+          "headerLineColor": "primary",
           "header": {
             "title": "t:contact.title",
             "subtitle": "t:contact.page.subtitle"
