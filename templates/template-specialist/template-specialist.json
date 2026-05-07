@@ -9,7 +9,7 @@
     },
     "contact": {
       "address": "ul. Marszałkowska 115, 00-102 Warszawa",
-      "phone": "+48 504 472 002",
+      "phone": "504 472 002",
       "email": "kontakt@mastervolt.pl",
       "hours": "Godziny pracy",
       "location": {
@@ -659,7 +659,7 @@
           },
           "info": {
             "address": "ul. Marszałkowska 115, 00-102 Warszawa",
-            "phone": "+48 504 472 002",
+            "phone": "504 472 002",
             "email": "kontakt@mastervolt.pl",
             "hours": "t:contact.info.hours",
             "hoursDetailed": [
