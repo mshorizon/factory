@@ -613,11 +613,30 @@
       "sections": [
         {
           "type": "contact",
-          "variant": "split",
+          "variant": "professional",
           "header": {
-            "badge": "t:contact.badge",
             "title": "t:contact.title",
-            "subtitle": "t:contact.subtitle"
+            "subtitle": "t:contact.page.subtitle"
+          },
+          "info": {
+            "address": "ul. Marszałkowska 115, 00-102 Warszawa",
+            "phone": "+48 504 472 002",
+            "email": "kontakt@mastervolt.pl",
+            "hours": "t:contact.info.hours",
+            "hoursDetailed": [
+              "t:contact.info.hours.mon",
+              "t:contact.info.hours.tue",
+              "t:contact.info.hours.wed",
+              "t:contact.info.hours.thu",
+              "t:contact.info.hours.fri",
+              "t:contact.info.hours.sat"
+            ],
+            "receptionHours": "t:contact.info.receptionHours",
+            "receptionLabel": "t:contact.info.receptionLabel",
+            "notice": {
+              "title": "t:contact.info.notice.title",
+              "description": "t:contact.info.notice.description"
+            }
           },
           "form": {
             "nameLabel": "t:contact.form.nameLabel",
