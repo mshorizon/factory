@@ -81,7 +81,7 @@ const cssVars: Record<string, string> = {
   darkForeground: darkColors.text?.main || "#FFFFFF",
   darkMuted: darkColors.text?.muted || "#9CA3AF",
   darkBorder: (darkColors.text?.muted || "#9CA3AF") + "40",
-  radiusSm: "0.25rem",
+  radiusSm: theme.ui?.radiusSm || "0.25rem",
   radius: theme.ui?.radius || "0.5rem",
   radiusSecondary: divideRadius(theme.ui?.radius || "0.5rem", 4),
   radiusLg: "1rem",

@@ -31,6 +31,8 @@ export function AboutSummary({
 }: AboutSummaryProps) {
   const defaultBadgeColor = background === "dark" || background === "dark-padded" ? "var(--primary)" : "var(--primary-dark)";
   const resolvedBadgeColor = badgeColor || defaultBadgeColor;
+  const defaultCtaColor = background === "dark" || background === "dark-padded" ? "var(--primary)" : "var(--primary-dark)";
+  const resolvedCtaColor = ctaColor || defaultCtaColor;
 
   return (
     <div className={cn("space-y-spacing-3xl", className)}>
@@ -145,7 +147,7 @@ export function AboutSummary({
                 <a
                   href={ctaHref}
                   className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"
-                  style={ctaColor ? { color: ctaColor } : undefined}
+                  style={{ color: resolvedCtaColor }}
                   data-field="cta.label"
                 >
                   {cta}

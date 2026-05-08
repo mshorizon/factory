@@ -154,5 +154,7 @@ screenshots/
 
 # AI tooling
 .ai/
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/CLAUDE.md
 .mcp.json

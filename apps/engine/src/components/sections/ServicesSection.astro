@@ -40,7 +40,7 @@ const showIcons = !!(section as any).showIcons;
       background={section.background}
       badgeVariant={badgeVariant as any}
       className={variant === "alternating" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
-      revealDelay={isHomePage ? 900 : 0}
+      revealDelay={0}
     />
     {variant === "list" ? (
       <ServicesList client:visible items={items} />
@@ -59,7 +59,7 @@ const showIcons = !!(section as any).showIcons;
       <div class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>
         <a
           href={ctaHref}
-          class={`inline-flex items-center justify-center gap-spacing-xs bg-primary-light text-on-primary px-spacing-2xl py-3 text-base font-medium shadow hover:bg-primary-light/90 transition-all ${minimal ? "rounded-full" : "rounded-radius"}`}
+          class={`inline-flex items-center justify-center gap-spacing-xs bg-primary text-on-primary px-spacing-2xl py-3 text-base font-medium shadow hover:bg-primary/90 transition-all ${minimal ? "rounded-full" : "rounded-radius"}`}
           data-field="cta"
         >
           {ctaLabel}

@@ -2,6 +2,7 @@
   "business.name": "MasterVolt",
 
   "nav.cta": "Get An Estimate",
+  "nav.booking": "Booking",
 
   "hero.badge": "Electrician and more",
   "hero.title": "Reliable Electrical Services, Whenever You Need Them",
@@ -80,6 +81,8 @@
   "about.stats.availability": "Emergency Availability",
   "about.cta": "Contact us",
 
+  "aboutSummary.stats.satisfaction": "Client Satisfaction",
+
   "faq.badge": "FAQ",
   "faq.title": "Frequently Asked Questions",
   "faq.subtitle": "",
@@ -120,6 +123,7 @@
   "blog.title": "Read About Electricity",
   "blog.subtitle": "",
   "blog.readMore": "Read More",
+  "blog.back": "Go back",
   "blog.posts.0.title": "How to Prepare for an Electrical Inspection",
   "blog.posts.0.description": "Ensure your home passes an electrical inspection with these helpful preparation tips.",
   "blog.posts.0.date": "August 29, 2024",
@@ -133,6 +137,18 @@
   "contact.badge": "CONTACT US",
   "contact.title": "Get in Touch",
   "contact.subtitle": "Have an electrical issue or need an estimate? Reach out and we'll get back to you promptly.",
+  "contact.page.subtitle": "Get in touch with our team. We will answer all your questions and estimate your job as quickly as possible.",
+  "contact.info.hours": "Working Hours",
+  "contact.info.hours.mon": "Monday 7:00 – 18:00",
+  "contact.info.hours.tue": "Tuesday 7:00 – 18:00",
+  "contact.info.hours.wed": "Wednesday 7:00 – 18:00",
+  "contact.info.hours.thu": "Thursday 7:00 – 18:00",
+  "contact.info.hours.fri": "Friday 7:00 – 18:00",
+  "contact.info.hours.sat": "Saturday 8:00 – 14:00",
+  "contact.info.receptionHours": "emergencies only",
+  "contact.info.receptionLabel": "Sunday",
+  "contact.info.notice.title": "Order completion information",
+  "contact.info.notice.description": "For orders requiring material purchases, we collect an advance payment equal to the cost of materials. Upon completion, we issue a VAT invoice or receipt.",
   "contact.form.nameLabel": "Full Name",
   "contact.form.namePlaceholder": "Jane Smith",
   "contact.form.emailLabel": "Email Address",
@@ -161,6 +177,24 @@
   "pages.contact.title": "Contact",
   "pages.testimonials.title": "Testimonials",
   "pages.projects.title": "Projects",
+  "pages.booking.title": "Bookings",
+
+  "booking.badge": "BOOK ONLINE",
+  "booking.title": "Schedule an Electrician",
+  "booking.subtitle": "Choose a service, pick a convenient time, and leave your details. We'll confirm your booking within the hour.",
+
+  "booking.services.inspection.name": "Electrical Inspection",
+  "booking.services.inspection.description": "Comprehensive inspection of your home or business electrical system. Fault diagnosis and recommendations.",
+  "booking.services.lighting.name": "Lighting Installation",
+  "booking.services.lighting.description": "Installation of lighting fixtures, LED, halogen, and smart home systems.",
+  "booking.services.panel.name": "Panel Upgrade",
+  "booking.services.panel.description": "Replacement of old electrical panel with a modern one featuring safety breakers.",
+  "booking.services.ev.name": "EV Charger Installation",
+  "booking.services.ev.description": "Installation of electric vehicle charging stations at home or in the garage.",
+
+  "projectsPage.badge": "Our Projects",
+  "projectsPage.title": "Projects We're Proud Of",
+  "projectsPage.subtitle": "A selection of completed electrical installations — from residential to commercial and industrial properties.",
 
   "servicesPage.badge": "Full Service List",
   "servicesPage.title": "Complete Electrical Solutions",

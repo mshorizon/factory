@@ -132,8 +132,7 @@ const formattedDate = blog.publishedAt ? new Date(blog.publishedAt).toLocaleDate
   day: 'numeric'
 }) : null;
 
-const majorTheme = (business as any).theme?.majorTheme;
-const isPortfolioLaw = majorTheme === "template-law";
+const isSidebarLayout = layout.blog.postVariant === "sidebar";
 
 // Find about section image for contact card sidebar (portfolio-law)
 // Match both "about" and "about-summary" types; search home first, then other pages as fallback
@@ -169,7 +168,7 @@ if (!contactCardImage) {
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
   <main class="flex-1" data-nav-offset>
-    {isPortfolioLaw ? (
+    {isSidebarLayout ? (
       <!-- Portfolio-Law: BlogStandalone-style layout with contact sidebar, no comments -->
       <section class="py-spacing-section-sm">
         <div class="container mx-auto px-spacing-container">
@@ -240,7 +239,7 @@ if (!contactCardImage) {
                     <img
                       src={contactCardImage}
                       alt={business.business.name}
-                      class="w-full max-w-[336px] max-h-[256px] object-cover rounded-radius"
+                      class="w-full max-w-[336px] max-h-[256px] object-cover rounded-radius-sm"
                       loading="lazy"
                       decoding="async"
                     />
@@ -443,6 +442,7 @@ if (!contactCardImage) {
     socialLinks={socialLinks}
     extensions={layout.footer.extensions}
     background={layout.footer.background}
+    contact={business.business.contact}
   />
 </BaseLayout>
 

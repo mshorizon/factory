@@ -136,6 +136,18 @@ html.scroll-momentum {
   transform: none;
 }
 
+/* Badge decorative line reveal — expands from left after badge fades in */
+[data-reveal] .reveal-line {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+  transition-delay: 0ms;
+}
+[data-reveal].is-visible .reveal-line {
+  transform: scaleX(1);
+  transition-delay: calc(var(--reveal-delay, 0ms) + 300ms);
+}
+
 /* Hide native scrollbar immediately to prevent flash */
 html, body {
   scrollbar-width: none;

@@ -61,6 +61,7 @@ export type PrimaryFontFamily = string;
 export type SecondaryFontFamily = string;
 export type BaseFontSize = string;
 export type BorderRadius = string;
+export type SmallBorderRadius = string;
 export type ExtraSmallSpacing = string;
 export type SmallSpacing = string;
 export type MediumSpacing = string;
@@ -155,6 +156,10 @@ export type FooterExtensions = {
   phone?: Phone1;
 }[];
 /**
+ * Layout variant for individual blog post pages
+ */
+export type BlogPostLayout = "default" | "sidebar";
+/**
  * Hide breadcrumb navigation on service detail pages
  */
 export type HideBreadcrumbs = boolean;
@@ -226,6 +231,14 @@ export type SectionLevelBadgeVariantOverride = "accent" | "accent-no-line" | "ou
 export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
 export type CTATextColorOverride = string;
+/**
+ * Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'.
+ */
+export type MapPanelButtonColor = "primary" | "primary-light";
+/**
+ * Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'.
+ */
+export type HeaderDecorativeLineColor = "primary" | "foreground";
 export type InvertStatColorsLightBgDarkText = boolean;
 export type DetailsButtonLabelEGSeeDetailsLearnMore = string;
 export type AvatarImageURL1 = string;
@@ -472,6 +485,7 @@ export interface Typography {
 }
 export interface UISettings {
   radius?: BorderRadius;
+  radiusSm?: SmallBorderRadius;
   spacing?: ThemeSpacing;
   spacingScale?: SpacingScale;
   buttonStyle?: ButtonStyle;
@@ -491,6 +505,7 @@ export interface ThemeSpacing {
 export interface Layout {
   navbar?: Navbar;
   footer?: FooterConfig;
+  blog?: BlogSettings;
   hideBreadcrumbs?: HideBreadcrumbs;
 }
 export interface Navbar {
@@ -532,6 +547,9 @@ export interface FooterBackground {
   borderRadius?: ContainerBorderRadius;
   gradient?: BackgroundGradient;
 }
+export interface BlogSettings {
+  postVariant?: BlogPostLayout;
+}
 export interface Navigation {
   links?: NavigationLinks;
   cta?: Cta;
@@ -570,6 +588,8 @@ export interface Section {
   badgeColor?: BadgeTextColorOverride;
   descriptionColor?: DescriptionTextColorOverride;
   ctaColor?: CTATextColorOverride;
+  mapPanelButtonColor?: MapPanelButtonColor;
+  headerLineColor?: HeaderDecorativeLineColor;
   statsInverted?: InvertStatColorsLightBgDarkText;
   cta?: Cta1;
   secondaryCta?: Cta1;

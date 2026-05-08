@@ -22,6 +22,10 @@ export function ContactProfessional({
   turnstileSiteKey,
   ctaLabel,
   ctaHref,
+  iconColor = "primary-light",
+  submitButtonColor = "primary-light",
+  headerLineColor = "foreground",
+  formBackground = "light",
   className,
 }: ContactProfessionalProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -70,6 +74,8 @@ export function ContactProfessional({
     }
   }
 
+  const iconCls = `h-5 w-5 ${iconColor === "primary" ? "text-primary" : "text-primary-light"} shrink-0`;
+
   const contactInfo = {
     address: business?.business?.contact?.address || info?.address,
     phone: business?.business?.contact?.phone || info?.phone,
@@ -92,7 +98,7 @@ export function ContactProfessional({
           <div className="flex flex-col gap-spacing-md">
             <span
               className="w-8 h-[2px] rounded-full"
-              style={{ backgroundColor: "var(--foreground)" }}
+              style={{ backgroundColor: headerLineColor === "primary" ? "var(--primary)" : "var(--foreground)" }}
             />
             {title && (
               <h2
@@ -122,7 +128,7 @@ export function ContactProfessional({
                 href={`tel:${contactInfo.phone.replace(/\s/g, "")}`}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <PhoneIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <PhoneIcon className={iconCls} />
                 <span className="text-sm">{contactInfo.phone}</span>
               </a>
             )}
@@ -131,19 +137,19 @@ export function ContactProfessional({
                 href={`mailto:${contactInfo.email}`}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <EnvelopeIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <EnvelopeIcon className={iconCls} />
                 <span className="text-sm">{contactInfo.email}</span>
               </a>
             )}
             {contactInfo.address && (
               <div className="flex items-center gap-spacing-md text-foreground">
-                <MapPinIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <MapPinIcon className={iconCls} />
                 <span className="text-sm">{contactInfo.address}</span>
               </div>
             )}
             {(contactInfo.hours || (contactInfo.hoursDetailed && contactInfo.hoursDetailed.length > 0)) && (
               <div className="flex items-start gap-spacing-md text-foreground">
-                <ClockIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <ClockIcon className={iconCls} />
                 <div className="flex flex-col gap-spacing-xs">
                   {contactInfo.hours && (
                     <span className="text-sm font-medium">{contactInfo.hours}</span>
@@ -156,7 +162,7 @@ export function ContactProfessional({
             )}
             {contactInfo.receptionHours && (
               <div className="flex items-start gap-spacing-md text-foreground">
-                <UserGroupIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <UserGroupIcon className={iconCls} />
                 <div className="flex flex-col gap-spacing-xs">
                   {contactInfo.receptionLabel && (
                     <span className="text-sm font-medium">{contactInfo.receptionLabel}</span>
@@ -167,7 +173,7 @@ export function ContactProfessional({
             )}
             {contactInfo.additionalInfo?.map((item) => (
               <div key={item} className="flex items-start gap-spacing-md text-foreground">
-                <InformationCircleIcon className="h-5 w-5 text-primary-light shrink-0 mt-0.5" />
+                <InformationCircleIcon className={cn(iconCls, "mt-0.5")} />
                 <span className="text-sm">{item}</span>
               </div>
             ))}
@@ -176,7 +182,7 @@ export function ContactProfessional({
                 href={ctaHref}
                 className="flex items-center gap-spacing-md text-foreground hover:opacity-70 transition-opacity"
               >
-                <ChatBubbleOvalLeftIcon className="h-5 w-5 text-primary-light shrink-0" />
+                <ChatBubbleOvalLeftIcon className={iconCls} />
                 <span className="text-sm">{ctaLabel}</span>
               </a>
             )}
@@ -186,12 +192,15 @@ export function ContactProfessional({
 
       {/* Right — form card */}
       <ScrollReveal delay={0.2} direction="right" distance={30}>
-        <div className="bg-card rounded-2xl shadow-sm p-spacing-2xl">
+        <div className={cn(
+          "rounded-2xl shadow-sm p-spacing-2xl",
+          formBackground === "dark" ? "bg-secondary" : "bg-card"
+        )}>
           <form onSubmit={handleSubmit} className="space-y-spacing-lg">
             {/* Name + Email row */}
             <div className="grid sm:grid-cols-2 gap-spacing-lg">
               <div className="space-y-spacing-xs">
-                <Label htmlFor="prof-name" className="text-foreground text-sm font-medium">
+                <Label htmlFor="prof-name" className={cn("text-sm font-medium", formBackground === "dark" ? "text-white" : "text-foreground")}>
                   {form?.nameLabel || "Name"}
                 </Label>
                 <Input
@@ -201,11 +210,11 @@ export function ContactProfessional({
                   placeholder={form?.namePlaceholder}
                   required
                   disabled={status === "loading"}
-                  className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
+                  className={cn("rounded-sm", formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground")}
                 />
               </div>
               <div className="space-y-spacing-xs">
-                <Label htmlFor="prof-email" className="text-foreground text-sm font-medium">
+                <Label htmlFor="prof-email" className={cn("text-sm font-medium", formBackground === "dark" ? "text-white" : "text-foreground")}>
                   {form?.emailLabel || "Email"}
                 </Label>
                 <Input
@@ -215,7 +224,7 @@ export function ContactProfessional({
                   placeholder={form?.emailPlaceholder}
                   required
                   disabled={status === "loading"}
-                  className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
+                  className={cn("rounded-sm", formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground")}
                 />
               </div>
             </div>
@@ -224,7 +233,7 @@ export function ContactProfessional({
             {(form?.selectFields ?? []).map((field: SelectField) => (
               <div key={field.name} className="space-y-spacing-xs">
                 {field.label && (
-                  <Label htmlFor={`prof-${field.name}`} className="text-foreground text-sm font-medium">
+                  <Label htmlFor={`prof-${field.name}`} className={cn("text-sm font-medium", formBackground === "dark" ? "text-white" : "text-foreground")}>
                     {field.label}
                   </Label>
                 )}
@@ -232,7 +241,10 @@ export function ContactProfessional({
                   id={`prof-${field.name}`}
                   name={field.name}
                   disabled={status === "loading"}
-                  className="w-full min-w-0 rounded-md border-0 bg-secondary/60 text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  className={cn(
+                    "w-full min-w-0 rounded-sm border-0 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring text-foreground",
+                    formBackground === "dark" ? "bg-white" : "bg-secondary/60"
+                  )}
                   defaultValue="__placeholder__"
                 >
                   {field.placeholder && (
@@ -251,7 +263,7 @@ export function ContactProfessional({
 
             {/* Message */}
             <div className="space-y-spacing-xs">
-              <Label htmlFor="prof-message" className="text-foreground text-sm font-medium">
+              <Label htmlFor="prof-message" className={cn("text-sm font-medium", formBackground === "dark" ? "text-white" : "text-foreground")}>
                 {form?.messageLabel || "Message"}
               </Label>
               <Textarea
@@ -261,7 +273,7 @@ export function ContactProfessional({
                 rows={10}
                 required
                 disabled={status === "loading"}
-                className="bg-background border-transparent focus-visible:border-border/40 text-foreground"
+                className={cn("rounded-sm", formBackground === "dark" ? "bg-white text-foreground border-transparent" : "bg-background border-transparent focus-visible:border-border/40 text-foreground")}
               />
             </div>
 
@@ -289,7 +301,12 @@ export function ContactProfessional({
             <Button
               type="submit"
               size="lg"
-              className="w-full !rounded-lg !bg-primary-light hover:!bg-primary-light/90 !text-on-primary"
+              className={cn(
+                "w-full !rounded-lg !text-on-primary",
+                submitButtonColor === "primary"
+                  ? "!bg-primary hover:!bg-primary/90"
+                  : "!bg-primary-light hover:!bg-primary-light/90"
+              )}
               disabled={status === "loading" || (turnstileSiteKey != null && !turnstileToken)}
             >
               {status === "loading" ? "Sending..." : form?.submitButton || "Submit"}

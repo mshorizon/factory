@@ -2,6 +2,7 @@
   "business.name": "MasterVolt",
 
   "nav.cta": "Bezpłatna Wycena",
+  "nav.booking": "Rezerwacje",
 
   "hero.badge": "Elektryk Warszawa i okolice",
   "hero.title": "Niezawodne Usługi Elektryczne, Kiedy Tylko Potrzebujesz",
@@ -88,6 +89,7 @@
   "aboutSummary.stats.certifications": "Certyfikaty",
   "aboutSummary.stats.completedJobs": "Zrealizowanych zleceń",
   "aboutSummary.stats.emergency": "Dostępność awaryjna",
+  "aboutSummary.stats.satisfaction": "Zadowolonych klientów",
   "aboutSummary.cta": "Dowiedz się więcej",
 
   "faq.badge": "FAQ",
@@ -130,6 +132,7 @@
   "blog.title": "Przeczytaj o Elektryczności",
   "blog.subtitle": "",
   "blog.readMore": "Czytaj Więcej",
+  "blog.back": "Wróć",
   "blog.posts.0.title": "Przeglądy Okresowe Instalacji Elektrycznych",
   "blog.posts.0.description": "Wszystko o obowiązkowych przeglądach okresowych -- kiedy je wykonać i co powinny zawierać.",
   "blog.posts.0.date": "15 Stycznia 2025",
@@ -143,6 +146,18 @@
   "contact.badge": "KONTAKT",
   "contact.title": "Skontaktuj Się z Nami",
   "contact.subtitle": "Masz problem elektryczny lub potrzebujesz wyceny? Napisz do nas, a odpowiemy jak najszybciej.",
+  "contact.page.subtitle": "Skontaktuj się z naszym zespołem. Odpowiemy na wszystkie pytania i wycenimy Twoje zlecenie tak szybko, jak to możliwe.",
+  "contact.info.hours": "Godziny pracy",
+  "contact.info.hours.mon": "poniedziałek 7:00 – 18:00",
+  "contact.info.hours.tue": "wtorek 7:00 – 18:00",
+  "contact.info.hours.wed": "środa 7:00 – 18:00",
+  "contact.info.hours.thu": "czwartek 7:00 – 18:00",
+  "contact.info.hours.fri": "piątek 7:00 – 18:00",
+  "contact.info.hours.sat": "sobota 8:00 – 14:00",
+  "contact.info.receptionHours": "tylko awarie",
+  "contact.info.receptionLabel": "Niedziela",
+  "contact.info.notice.title": "Informacja o realizacji zlecenia",
+  "contact.info.notice.description": "Przy zleceniach wymagających zakupu materiałów pobieramy zaliczkę na poczet ich wartości. Po zakończeniu prac wystawiamy fakturę VAT lub paragon fiskalny.",
   "contact.form.nameLabel": "Imię i Nazwisko",
   "contact.form.namePlaceholder": "Jan Kowalski",
   "contact.form.emailLabel": "Adres Email",
@@ -172,6 +187,10 @@
   "pages.testimonials.title": "Opinie Klientów",
   "pages.projects.title": "Realizacje",
 
+  "projectsPage.badge": "Nasze Realizacje",
+  "projectsPage.title": "Projekty, z których jesteśmy dumni",
+  "projectsPage.subtitle": "Poznaj wybrane realizacje z zakresu instalacji elektrycznych — od obiektów mieszkalnych po komercyjne i przemysłowe.",
+
   "servicesPage.badge": "Pełna Lista Usług",
   "servicesPage.title": "Kompleksowe Rozwiązania Elektryczne",
   "servicesPage.subtitle": "Od rutynowej konserwacji po naprawy awaryjne, zajmujemy się wszystkimi Twoimi potrzebami elektrycznymi z profesjonalizmem i troską.",
@@ -185,7 +204,7 @@
   "map.title": "Nasza Lokalizacja",
   "map.subtitle": "Odwiedź nas w naszym biurze lub sprawdź nasz obszar działania na mapie poniżej.",
 
-  "pages.booking.title": "Rezerwacja",
+  "pages.booking.title": "Rezerwacje",
 
   "booking.badge": "REZERWACJA ONLINE",
   "booking.title": "Umów wizytę elektryka",

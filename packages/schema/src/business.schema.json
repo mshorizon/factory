@@ -180,6 +180,8 @@
         "badgeColor": { "type": "string", "title": "Badge Text Color Override" },
         "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
+        "mapPanelButtonColor": { "type": "string", "title": "Map Panel Button Color", "enum": ["primary", "primary-light"], "description": "Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'." },
+        "headerLineColor": { "type": "string", "title": "Header Decorative Line Color", "enum": ["primary", "foreground"], "description": "Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'." },
         "statsInverted": { "type": "boolean", "title": "Invert stat colors (light bg, dark text)" },
         "cta": { "$ref": "#/definitions/cta" },
         "secondaryCta": { "$ref": "#/definitions/cta" },
@@ -882,6 +884,7 @@
           "title": "UI Settings",
           "properties": {
             "radius": { "type": "string", "title": "Border Radius", "default": "0.5rem" },
+            "radiusSm": { "type": "string", "title": "Small Border Radius", "default": "0.25rem" },
             "spacing": { "$ref": "#/definitions/themeSpacing" },
             "spacingScale": { "type": "number", "title": "Spacing Scale" },
             "buttonStyle": { "type": "string", "title": "Button Style" }
@@ -1011,6 +1014,19 @@
                 },
                 "required": ["type"]
               }
+            }
+          }
+        },
+        "blog": {
+          "type": "object",
+          "title": "Blog Settings",
+          "properties": {
+            "postVariant": {
+              "type": "string",
+              "title": "Blog Post Layout",
+              "description": "Layout variant for individual blog post pages",
+              "enum": ["default", "sidebar"],
+              "default": "default"
             }
           }
         },
