@@ -884,6 +884,7 @@
           "title": "UI Settings",
           "properties": {
             "radius": { "type": "string", "title": "Border Radius", "default": "0.5rem" },
+            "radiusSm": { "type": "string", "title": "Small Border Radius", "default": "0.25rem" },
             "spacing": { "$ref": "#/definitions/themeSpacing" },
             "spacingScale": { "type": "number", "title": "Spacing Scale" },
             "buttonStyle": { "type": "string", "title": "Button Style" }

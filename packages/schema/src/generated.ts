@@ -61,6 +61,7 @@ export type PrimaryFontFamily = string;
 export type SecondaryFontFamily = string;
 export type BaseFontSize = string;
 export type BorderRadius = string;
+export type SmallBorderRadius = string;
 export type ExtraSmallSpacing = string;
 export type SmallSpacing = string;
 export type MediumSpacing = string;
@@ -484,6 +485,7 @@ export interface Typography {
 }
 export interface UISettings {
   radius?: BorderRadius;
+  radiusSm?: SmallBorderRadius;
   spacing?: ThemeSpacing;
   spacingScale?: SpacingScale;
   buttonStyle?: ButtonStyle;
