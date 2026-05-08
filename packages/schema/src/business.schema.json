@@ -1016,6 +1016,19 @@
             }
           }
         },
+        "blog": {
+          "type": "object",
+          "title": "Blog Settings",
+          "properties": {
+            "postVariant": {
+              "type": "string",
+              "title": "Blog Post Layout",
+              "description": "Layout variant for individual blog post pages",
+              "enum": ["default", "sidebar"],
+              "default": "default"
+            }
+          }
+        },
         "hideBreadcrumbs": {
           "type": "boolean",
           "title": "Hide Breadcrumbs",

@@ -155,6 +155,10 @@ export type FooterExtensions = {
   phone?: Phone1;
 }[];
 /**
+ * Layout variant for individual blog post pages
+ */
+export type BlogPostLayout = "default" | "sidebar";
+/**
  * Hide breadcrumb navigation on service detail pages
  */
 export type HideBreadcrumbs = boolean;
@@ -499,6 +503,7 @@ export interface ThemeSpacing {
 export interface Layout {
   navbar?: Navbar;
   footer?: FooterConfig;
+  blog?: BlogSettings;
   hideBreadcrumbs?: HideBreadcrumbs;
 }
 export interface Navbar {
@@ -539,6 +544,9 @@ export interface FooterBackground {
   padding?: ContainerPadding;
   borderRadius?: ContainerBorderRadius;
   gradient?: BackgroundGradient;
+}
+export interface BlogSettings {
+  postVariant?: BlogPostLayout;
 }
 export interface Navigation {
   links?: NavigationLinks;

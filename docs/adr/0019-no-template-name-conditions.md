@@ -24,9 +24,11 @@ Instead, expose the variation as a typed field in the business JSON schema with 
 5. The UI component uses the prop to select the correct style — no identity checks.
 6. Set the non-default value only in the template JSON(s) that need it.
 
-### Example
+### Examples
 
-Field `mapPanelButtonColor: "primary" | "primary-light"` (default `"primary-light"`) was added to the `section` definition. `template-specialist/template-specialist.json` sets `"mapPanelButtonColor": "primary"` in the `map-google` shared section. All other templates that omit the field continue rendering with `primary-light` buttons.
+**Map panel buttons** — Field `mapPanelButtonColor: "primary" | "primary-light"` (default `"primary-light"`) was added to the `section` definition. `template-specialist/template-specialist.json` sets `"mapPanelButtonColor": "primary"` in the `map-google` shared section. All other templates that omit the field continue rendering with `primary-light` buttons.
+
+**Blog post layout** — `layout.blog.postVariant: "default" | "sidebar"` (default `"default"`) controls the blog post page layout. `template-law` and `template-specialist` set `"postVariant": "sidebar"` to get the two-column layout with a sticky contact card sidebar. The engine reads `layout.blog.postVariant` via `getLayoutConfig()` — no template-name checks in page code. A previous violation (`isPortfolioLaw = majorTheme === "template-law" || ...`) was removed in favour of this field.
 
 ## Consequences
 

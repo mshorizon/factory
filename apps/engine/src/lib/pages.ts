@@ -97,6 +97,9 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       extensions: layout.footer?.extensions || [],
     },
     hideBreadcrumbs: (layout as any)?.hideBreadcrumbs || false,
+    blog: {
+      postVariant: (layout as any)?.blog?.postVariant ?? "default",
+    },
   };
 }
 

@@ -177,6 +177,9 @@
           ]
         }
       ]
+    },
+    "blog": {
+      "postVariant": "sidebar"
     }
   },
   "navigation": {
