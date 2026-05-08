@@ -18,7 +18,7 @@ export function ProjectGrid({ projects, className }: ProjectGridProps) {
         return (
         <StaggerItem key={index} direction={direction} distance={30}>
           <Card
-            className="overflow-hidden h-full flex flex-col !rounded-radius-secondary bg-card"
+            className="overflow-hidden h-full flex flex-col !rounded-radius-secondary bg-card group"
             data-field={`projects.${index}`}
           >
             {project.image && (
@@ -26,7 +26,7 @@ export function ProjectGrid({ projects, className }: ProjectGridProps) {
                 <SafeImage
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover rounded-b-radius-secondary"
+                  className="w-full h-full object-cover rounded-b-radius-secondary group-hover:scale-110 transition-transform duration-500"
                   loading="lazy"
                   decoding="async"
                 />
