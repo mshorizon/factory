@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, existsSync } from "fs";
 import { join } from "path";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { sites, blogs } from "./schema.js";
+import { sites, blogs, projects } from "./schema.js";
 import { eq, and } from "drizzle-orm";
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -144,6 +144,50 @@ async function seed() {
             console.log(`    Seeded blog [${lang}]: ${blogData.slug}`);
           } else {
             console.log(`    Skipped existing blog [${lang}]: ${blogData.slug}`);
+          }
+        }
+      }
+    }
+
+    // Seed projects from config pages.projects.sections[0].projects
+    const configProjects: any[] = config?.pages?.projects?.sections?.[0]?.projects || [];
+    if (configProjects.length > 0) {
+      const [site] = await db
+        .select({ id: sites.id })
+        .from(sites)
+        .where(eq(sites.subdomain, subdomain))
+        .limit(1);
+
+      if (site) {
+        for (const proj of configProjects) {
+          if (!proj.title) continue;
+          const slug = proj.title
+            .toLowerCase()
+            .replace(/[^a-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-")
+            .slice(0, 80);
+
+          const [existing] = await db
+            .select({ id: projects.id })
+            .from(projects)
+            .where(and(eq(projects.siteId, site.id), eq(projects.slug, slug), eq(projects.lang, "pl")))
+            .limit(1);
+
+          if (!existing) {
+            await db.insert(projects).values({
+              siteId: site.id,
+              slug,
+              lang: "pl",
+              title: proj.title,
+              description: proj.description || null,
+              image: proj.image || null,
+              status: "published",
+              publishedAt: new Date(),
+            });
+            console.log(`    Seeded project: ${proj.title}`);
+          } else {
+            console.log(`    Skipped existing project: ${proj.title}`);
           }
         }
       }
