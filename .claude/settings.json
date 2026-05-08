@@ -48,17 +48,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | grep -q 'templates/.*\\.json' && cd /home/dev/factory && pnpm test:validate 2>&1 | tail -5 || true",
-            "statusMessage": "Walidacja template...",
-            "timeout": 30
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
             "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | grep -qE '(apps/engine|packages/ui)/.*\\.(astro|tsx|ts)$' && pm2 restart astro-dev --silent 2>/dev/null || true",
             "timeout": 10
           }
