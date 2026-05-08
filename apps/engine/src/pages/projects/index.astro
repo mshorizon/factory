@@ -7,8 +7,7 @@ import { resolveTarget } from "../../lib/target";
 import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import { getProjectsBySiteId } from "@mshorizon/db";
-import { ProjectGrid } from "@mshorizon/ui";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { ProjectGrid, SectionHeader } from "@mshorizon/ui";
 import type { BusinessProfile } from "@mshorizon/schema";
 import type { ProjectCard } from "@mshorizon/ui/sections/project/types";
 
@@ -59,6 +58,14 @@ const navCta = business.navigation?.cta ? {
 const projectsPageTitle = business.pages?.projects?.title || "Projects";
 const pageTitle = `${projectsPageTitle} | ${business.business.name}`;
 
+// Extract section header from template data (analogous to /services and /blog)
+const projectsPage = (business.pages as any)?.projects;
+const projectsHeader = projectsPage?.sections?.[0]?.header || {};
+const projectsBadge = projectsHeader.badge || t(translations, "projectsPage.badge", "Projects");
+const projectsTitle = projectsHeader.title || projectsPageTitle;
+const projectsSubtitle = projectsHeader.subtitle || t(translations, "projectsPage.subtitle", "");
+const badgeVariant = (business as any).theme?.badgeVariant || "accent";
+
 // Pre-resolve footer links
 const footerLinks = layout.footer.links?.map((link: any) => ({
   label: link.label,
@@ -91,12 +98,6 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
   p.sections?.some((s: any) => s.type === "shop")
 );
 
-// Breadcrumbs
-const breadcrumbs = [
-  { label: t(translations, "nav.home", "Strona główna"), href: "/" },
-  { label: projectsPageTitle },
-];
-
 // Extract phone for sticky mobile CTA
 const businessPhone = business.business.contact?.phone;
 
@@ -126,42 +127,17 @@ const socialLinks = business.business.socials
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
   <main class="flex-1" data-nav-offset>
-    <!-- Dark Hero Section -->
-    <section id="page-hero" class="relative bg-secondary py-spacing-section-sm overflow-visible">
-      <!-- Decorative dot pattern -->
-      <div class="absolute top-8 left-8 w-24 h-24 opacity-20">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="dots-1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill="currentColor" class="text-primary" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#dots-1)" />
-        </svg>
-      </div>
-      <div class="absolute bottom-8 right-8 w-32 h-32 opacity-20">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="dots-2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill="currentColor" class="text-primary" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#dots-2)" />
-        </svg>
-      </div>
-
-      <div class="container mx-auto px-spacing-container relative z-10">
-        <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase">
-            {projectsPageTitle}
-          </h1>
-          <p class="text-lg md:text-xl text-muted mt-spacing-lg max-w-2xl mx-auto">
-            {t(translations, "projects.subtitle", "Nasze realizacje i projekty")}
-          </p>
-        </div>
-      </div>
-    </section>
-
     <!-- Projects Grid -->
     <section class="bg-background py-spacing-section-sm">
-      <Breadcrumbs items={breadcrumbs} />
       <div class="container mx-auto px-spacing-container">
+        <SectionHeader
+          badge={projectsBadge}
+          title={projectsTitle}
+          subtitle={projectsSubtitle}
+          layout="stacked"
+          align="center"
+          badgeVariant={badgeVariant as any}
+        />
         {projectCards.length > 0 ? (
           <ProjectGrid client:load projects={projectCards} />
         ) : (
