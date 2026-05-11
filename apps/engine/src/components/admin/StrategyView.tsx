@@ -357,7 +357,8 @@ function AddSuggestionForm({ onAdded }: { onAdded: () => void }) {
 export default function StrategyView() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
-  const [generating, setGenerating] = useState(false);
+  const [queuing, setQueuing] = useState(false);
+  const [queued, setQueued] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -380,7 +381,8 @@ export default function StrategyView() {
   }, [fetch_]);
 
   const handleGenerate = async () => {
-    setGenerating(true);
+    setQueuing(true);
+    setQueued(false);
     setError(null);
     try {
       const res = await fetch("/api/admin/strategy", {
@@ -392,11 +394,12 @@ export default function StrategyView() {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error ?? `HTTP ${res.status}`);
       }
-      await fetch_();
+      setQueued(true);
+      setTimeout(() => setQueued(false), 3000);
     } catch (e: any) {
-      setError(e.message ?? "Failed to generate suggestions.");
+      setError(e.message ?? "Failed to queue suggestion generation.");
     } finally {
-      setGenerating(false);
+      setQueuing(false);
     }
   };
 
@@ -428,7 +431,7 @@ export default function StrategyView() {
         <div>
           <h1 className="text-xl font-semibold">Strategic Suggestions</h1>
           <p className="text-sm text-muted-foreground mt-0.5">
-            {pendingCount} pending · generated daily by Claude
+            {pendingCount} pending · use "Generate more" to queue generation
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -445,10 +448,10 @@ export default function StrategyView() {
             size="sm"
             variant="outline"
             onClick={handleGenerate}
-            disabled={generating || loading}
+            disabled={queuing || loading}
           >
-            <Sparkles className={`w-3.5 h-3.5 mr-1 ${generating ? "animate-pulse" : ""}`} />
-            {generating ? "Generating…" : "Generate more"}
+            <Sparkles className={`w-3.5 h-3.5 mr-1 ${queuing ? "animate-pulse" : ""}`} />
+            {queuing ? "Queuing…" : queued ? "Task queued!" : "Generate more"}
           </Button>
           <Button size="sm" variant="ghost" onClick={fetch_} disabled={loading}>
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
