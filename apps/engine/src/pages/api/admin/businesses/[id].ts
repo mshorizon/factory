@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import {
   getSiteById,
-  updateSiteStatus,
+  updateBusinessStatus,
   deleteSiteById,
   getBusinessFilesBySiteId,
   listTasks,
@@ -98,7 +98,7 @@ export const PATCH: APIRoute = async ({ params, request, cookies, locals }) => {
     const { status } = body ?? {};
 
     if (status) {
-      const updated = await updateSiteStatus(site.subdomain, status);
+      const updated = await updateBusinessStatus(site.id, status);
       return json({ site: updated });
     }
 

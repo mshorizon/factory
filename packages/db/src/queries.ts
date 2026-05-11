@@ -1,15 +1,16 @@
 import { eq, and, desc, gte, sql, count, ne, inArray, lte } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles, passwordResetTokens, strategicSuggestions, leads } from "./schema.js";
+import { sites, blogs, comments, projects, pushSubscriptions, healthChecks, alerts, users, loginAttempts, orders, orderItems, bookings, businessFiles, passwordResetTokens, strategicSuggestions } from "./schema.js";
 import type { BusinessProfile } from "@mshorizon/schema";
-import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking, NewBusinessFile, SiteStatus, NewLead, LeadStatus } from "./schema.js";
+import type { NewBlog, NewComment, NewProject, NewPushSubscription, NewHealthCheck, NewAlert, NewOrder, NewOrderItem, NewBooking, NewBusinessFile, SiteStatus, NewSite } from "./schema.js";
 
 export async function getAllSubdomains(): Promise<string[]> {
   const db = getDb();
   const rows = await db
     .select({ subdomain: sites.subdomain })
-    .from(sites);
-  return rows.map((r) => r.subdomain);
+    .from(sites)
+    .where(sql`${sites.subdomain} IS NOT NULL`);
+  return rows.map((r) => r.subdomain!).filter(Boolean);
 }
 
 export async function getSiteBySubdomain(subdomain: string) {
@@ -790,6 +791,16 @@ export async function updateSiteStatus(subdomain: string, status: SiteStatus) {
   return row ?? null;
 }
 
+export async function updateBusinessStatus(id: number, status: SiteStatus) {
+  const db = getDb();
+  const [row] = await db
+    .update(sites)
+    .set({ status, updatedAt: new Date() })
+    .where(eq(sites.id, id))
+    .returning();
+  return row ?? null;
+}
+
 export async function updateSiteLastDeployed(subdomain: string) {
   const db = getDb();
   await db
@@ -812,7 +823,7 @@ export async function createSiteRecord(data: {
       subdomain: data.subdomain,
       businessName: data.businessName,
       industry: data.industry ?? null,
-      status: data.status ?? "draft",
+      status: data.status ?? "onboarding",
       config: data.config as any,
       translations: {},
     })
@@ -825,43 +836,32 @@ export async function deleteSiteById(id: number) {
   await db.delete(sites).where(eq(sites.id, id));
 }
 
-// --- Lead queries ---
+// --- Business lead operations (scraping / pipeline) ---
 
-export async function getAllLeads() {
-  const db = getDb();
-  return db.select().from(leads).orderBy(desc(leads.createdAt));
-}
-
-export async function getLeadById(id: number) {
-  const db = getDb();
-  const [row] = await db.select().from(leads).where(eq(leads.id, id)).limit(1);
-  return row ?? null;
-}
-
-export async function createLeads(data: NewLead[]) {
+export async function createBusinessLeads(data: Omit<NewSite, "config" | "translations">[]) {
   if (data.length === 0) return [];
   const db = getDb();
-  return db.insert(leads).values(data).returning();
+  return db.insert(sites).values(data.map(d => ({ ...d, config: null, translations: {} }))).returning();
 }
 
-export async function updateLeadStatus(id: number, status: LeadStatus, siteId?: number | null, subdomain?: string | null) {
-  const db = getDb();
-  const [row] = await db
-    .update(leads)
-    .set({ status, siteId: siteId ?? null, generatedSubdomain: subdomain ?? null, updatedAt: new Date() })
-    .where(eq(leads.id, id))
-    .returning();
-  return row ?? null;
-}
-
-export async function deleteLead(id: number) {
-  const db = getDb();
-  await db.delete(leads).where(eq(leads.id, id));
-}
-
-export async function getLeadDeduplicationKeys() {
+export async function getBusinessDeduplicationKeys() {
   const db = getDb();
   return db
-    .select({ name: leads.name, city: leads.city, phone: leads.phone, email: leads.email })
-    .from(leads);
+    .select({ name: sites.businessName, city: sites.city, phone: sites.phone, email: sites.email })
+    .from(sites);
+}
+
+export async function updateBusinessForSiteGeneration(id: number, data: { subdomain: string; config: Record<string, unknown> }) {
+  const db = getDb();
+  const [row] = await db
+    .update(sites)
+    .set({
+      subdomain: data.subdomain,
+      config: data.config as any,
+      status: "site_generated" as SiteStatus,
+      updatedAt: new Date(),
+    })
+    .where(eq(sites.id, id))
+    .returning();
+  return row ?? null;
 }

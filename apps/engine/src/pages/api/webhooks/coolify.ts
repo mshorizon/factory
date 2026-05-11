@@ -63,7 +63,7 @@ export const POST: APIRoute = async ({ url, request }) => {
   const releasedSites = await db
     .select()
     .from(sites)
-    .where(eq(sites.status, "released"));
+    .where(eq(sites.status, "active"));
 
   const results: Record<string, string> = {};
   let anyUnhealthy = false;

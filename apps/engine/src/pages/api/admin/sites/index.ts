@@ -8,7 +8,11 @@ export const GET: APIRoute = async ({ locals }) => {
   if (!locals.auth || locals.auth.role !== "super-admin") return forbidden();
   try {
     const sites = await getAllSites();
-    return json({ sites: sites.map((s) => ({ id: s.id, subdomain: s.subdomain, businessName: s.businessName, industry: s.industry, status: s.status })) });
+    return json({
+      sites: sites
+        .filter((s) => s.subdomain && s.config)
+        .map((s) => ({ id: s.id, subdomain: s.subdomain, businessName: s.businessName, industry: s.industry, status: s.status })),
+    });
   } catch {
     return json({ error: "Failed to load sites" }, 500);
   }

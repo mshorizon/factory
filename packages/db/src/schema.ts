@@ -1,18 +1,56 @@
 import { pgTable, serial, text, jsonb, timestamp, integer, unique, boolean, bigint, uuid } from "drizzle-orm/pg-core";
 
-export const SITE_STATUSES = ["draft", "released", "suspended"] as const;
+export const SITE_STATUSES = [
+  "lead",
+  "site_generated",
+  "after_first_sms",
+  "after_first_call",
+  "demo_scheduled",
+  "after_demo",
+  "offer_sent",
+  "onboarding",
+  "active",
+  "not_interested",
+  "churned",
+] as const;
 export type SiteStatus = typeof SITE_STATUSES[number];
+
+export const BUSINESS_PIPELINE: readonly {
+  status: SiteStatus;
+  label: string;
+  action: string | null;
+  nextStatus: SiteStatus | null;
+  actionType: "generate_site" | "advance" | null;
+}[] = [
+  { status: "lead", label: "Lead", action: "Generate website", nextStatus: "site_generated", actionType: "generate_site" },
+  { status: "site_generated", label: "Site Generated", action: "Send first SMS", nextStatus: "after_first_sms", actionType: "advance" },
+  { status: "after_first_sms", label: "After First SMS", action: "Make first call", nextStatus: "after_first_call", actionType: "advance" },
+  { status: "after_first_call", label: "After First Call", action: "Schedule demo", nextStatus: "demo_scheduled", actionType: "advance" },
+  { status: "demo_scheduled", label: "Demo Scheduled", action: "Conduct demo", nextStatus: "after_demo", actionType: "advance" },
+  { status: "after_demo", label: "After Demo", action: "Send offer", nextStatus: "offer_sent", actionType: "advance" },
+  { status: "offer_sent", label: "Offer Sent", action: "Close deal", nextStatus: "onboarding", actionType: "advance" },
+  { status: "onboarding", label: "Onboarding", action: "Launch site", nextStatus: "active", actionType: "advance" },
+  { status: "active", label: "Active", action: null, nextStatus: null, actionType: null },
+  { status: "not_interested", label: "Not Interested", action: null, nextStatus: null, actionType: null },
+  { status: "churned", label: "Churned", action: null, nextStatus: null, actionType: null },
+] as const;
 
 export const sites = pgTable("sites", {
   id: serial("id").primaryKey(),
-  subdomain: text("subdomain").notNull().unique(),
+  subdomain: text("subdomain").unique(),
   businessName: text("business_name").notNull(),
   industry: text("industry"),
-  status: text("status").notNull().default("released"), // SiteStatus
-  config: jsonb("config").notNull(),
+  status: text("status").notNull().default("lead"),
+  config: jsonb("config"),
   translations: jsonb("translations").$type<Record<string, Record<string, unknown>>>().default({}),
   umamiWebsiteId: text("umami_website_id"),
   lastDeployedAt: timestamp("last_deployed_at"),
+  city: text("city").notNull().default(""),
+  address: text("address").notNull().default(""),
+  phone: text("phone").notNull().default(""),
+  email: text("email").notNull().default(""),
+  website: text("website").notNull().default(""),
+  source: text("source").notNull().default("manual"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -364,27 +402,3 @@ export const strategicSuggestions = pgTable("strategic_suggestions", {
 export type StrategicSuggestion = typeof strategicSuggestions.$inferSelect;
 export type NewStrategicSuggestion = typeof strategicSuggestions.$inferInsert;
 
-// --- Leads ---
-
-export const LEAD_STATUSES = ["new", "site_generated", "rejected"] as const;
-export type LeadStatus = typeof LEAD_STATUSES[number];
-
-export const leads = pgTable("leads", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  businessType: text("business_type").notNull(),
-  city: text("city").notNull().default(""),
-  address: text("address").notNull().default(""),
-  phone: text("phone").notNull().default(""),
-  email: text("email").notNull().default(""),
-  website: text("website").notNull().default(""),
-  source: text("source").notNull().default("osm"),
-  status: text("status").notNull().default("new"),
-  siteId: integer("site_id").references(() => sites.id, { onDelete: "set null" }),
-  generatedSubdomain: text("generated_subdomain"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
-export type Lead = typeof leads.$inferSelect;
-export type NewLead = typeof leads.$inferInsert;

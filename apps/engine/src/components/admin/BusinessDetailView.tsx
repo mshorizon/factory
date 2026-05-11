@@ -650,29 +650,29 @@ export function BusinessDetailView({ siteId }: Props) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              {site.status !== "suspended" ? (
+              {site.status === "active" ? (
                 <Button
                   variant="outline"
                   size="sm"
                   className="w-full justify-start text-yellow-700 border-yellow-500/30 hover:bg-yellow-500/10"
                   onClick={() => {
-                    if (confirm("Suspend this business? The site will be disabled.")) {
-                      updateStatus("suspended");
+                    if (confirm("Mark this business as churned? The site will remain accessible.")) {
+                      updateStatus("churned");
                     }
                   }}
                 >
-                  <ZapOff className="h-3.5 w-3.5 mr-2" />Suspend
+                  <ZapOff className="h-3.5 w-3.5 mr-2" />Mark Churned
                 </Button>
-              ) : (
+              ) : site.status === "churned" ? (
                 <Button
                   variant="outline"
                   size="sm"
                   className="w-full justify-start text-green-700 border-green-500/30 hover:bg-green-500/10"
-                  onClick={() => updateStatus("released")}
+                  onClick={() => updateStatus("active")}
                 >
                   <CheckCircle2 className="h-3.5 w-3.5 mr-2" />Reactivate
                 </Button>
-              )}
+              ) : null}
             </CardContent>
           </Card>
 

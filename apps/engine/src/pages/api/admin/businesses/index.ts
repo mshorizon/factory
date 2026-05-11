@@ -25,34 +25,38 @@ export const GET: APIRoute = async ({ cookies, locals }) => {
   if (!auth || auth.role !== "super-admin") return forbidden();
 
   try {
-    const sites = await getAllSites();
+    const allSites = await getAllSites();
 
-    const businessesWithHealth = await Promise.all(
-      sites.map(async (site) => {
+    const businesses = await Promise.all(
+      allSites.map(async (site) => {
         let healthStatus: string = "unknown";
         let lastCheckedAt: string | null = null;
-        try {
-          const latest = await getLatestHealthCheck(site.id);
-          if (latest) {
-            healthStatus = latest.status;
-            lastCheckedAt = latest.checkedAt.toISOString();
+        if (site.subdomain) {
+          try {
+            const latest = await getLatestHealthCheck(site.id);
+            if (latest) {
+              healthStatus = latest.status;
+              lastCheckedAt = latest.checkedAt.toISOString();
+            }
+          } catch {
+            // ignore health check errors
           }
-        } catch {
-          // ignore health check errors
         }
-
-        const derivedStatus =
-          healthStatus === "unhealthy" ? "error" : (site.status ?? "released");
 
         return {
           id: site.id,
           subdomain: site.subdomain,
           businessName: site.businessName,
           industry: site.industry,
-          status: derivedStatus,
-          storedStatus: site.status ?? "released",
+          status: site.status ?? "lead",
           healthStatus,
           lastCheckedAt,
+          city: site.city,
+          address: site.address,
+          phone: site.phone,
+          email: site.email,
+          website: site.website,
+          source: site.source,
           createdAt: site.createdAt.toISOString(),
           updatedAt: site.updatedAt.toISOString(),
           lastDeployedAt: site.lastDeployedAt?.toISOString() ?? null,
@@ -60,7 +64,7 @@ export const GET: APIRoute = async ({ cookies, locals }) => {
       })
     );
 
-    return json({ businesses: businessesWithHealth });
+    return json({ businesses });
   } catch (error) {
     (locals.logger ?? logger).error({ err: error }, "GET /api/admin/businesses failed");
     return json({ error: "Failed to fetch businesses" }, 500);
@@ -122,7 +126,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
       subdomain: slugifiedSubdomain,
       businessName,
       industry,
-      status: "draft",
+      status: "onboarding",
       config: minimalConfig,
     });
 
@@ -137,7 +141,7 @@ Steps to follow:
 3. Generate a complete and valid business.json config based on the collected data and the chosen template schema.
 4. Depending on the business type, populate as needed: blog posts, products, projects, services.
 5. Save the business config to the database using upsertSiteConfig("${slugifiedSubdomain}", config).
-6. Update the business status to 'released' when done: updateSiteStatus("${slugifiedSubdomain}", "released").
+6. Update the business status to 'active' when done: updateSiteStatus("${slugifiedSubdomain}", "active").
 7. Update this task status to 'done' and write a short result summary.`;
 
     const task = await createTask({
