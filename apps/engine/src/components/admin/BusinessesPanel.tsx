@@ -147,7 +147,6 @@ const BUSINESS_TYPE_PRESETS = [
   { value: "locksmith", label: "Locksmith" },
   { value: "hotel", label: "Hotel" },
   { value: "veterinary", label: "Veterinary" },
-  { value: "__custom__", label: "Custom..." },
 ];
 
 const CITIES = [
@@ -184,6 +183,7 @@ export function BusinessesPanel() {
   const [scrapeType, setScrapeType] = useState("electrician");
   const [scrapeCustomType, setScrapeCustomType] = useState("");
   const [scrapeCity, setScrapeCity] = useState("Kraków");
+  const [scrapeCustomCity, setScrapeCustomCity] = useState("");
   const [scraping, setScraping] = useState(false);
   const [scrapeMsg, setScrapeMsg] = useState<string | null>(null);
   const [scrapeModalOpen, setScrapeModalOpen] = useState(false);
@@ -236,14 +236,15 @@ export function BusinessesPanel() {
     e.preventDefault();
     setScraping(true);
     setScrapeMsg(null);
-    const businessType = scrapeType === "__custom__" ? scrapeCustomType.trim() : scrapeType;
+    const businessType = scrapeCustomType.trim() || scrapeType;
+    const city = scrapeCustomCity.trim() || scrapeCity;
     if (!businessType) { setScraping(false); setScrapeMsg("Enter a business type"); return; }
 
     try {
       const res = await fetch("/api/admin/leads/scrape", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ count: scrapeCount, businessType, city: scrapeCity }),
+        body: JSON.stringify({ count: scrapeCount, businessType, city }),
         credentials: "include",
       });
       const data = await res.json();
@@ -620,19 +621,13 @@ export function BusinessesPanel() {
                     ))}
                   </SelectContent>
                 </Select>
+                <Input
+                  id="scrape-custom"
+                  placeholder="Custom type override (e.g. tax_advisor)"
+                  value={scrapeCustomType}
+                  onChange={(e) => setScrapeCustomType(e.target.value)}
+                />
               </div>
-
-              {scrapeType === "__custom__" && (
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="scrape-custom">Custom Type</Label>
-                  <Input
-                    id="scrape-custom"
-                    placeholder="e.g. tax_advisor"
-                    value={scrapeCustomType}
-                    onChange={(e) => setScrapeCustomType(e.target.value)}
-                  />
-                </div>
-              )}
 
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="scrape-city">City</Label>
@@ -646,6 +641,12 @@ export function BusinessesPanel() {
                     ))}
                   </SelectContent>
                 </Select>
+                <Input
+                  id="scrape-custom-city"
+                  placeholder="Custom city override (e.g. Rzeszów)"
+                  value={scrapeCustomCity}
+                  onChange={(e) => setScrapeCustomCity(e.target.value)}
+                />
               </div>
 
               {scrapeMsg && (
