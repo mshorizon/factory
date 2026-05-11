@@ -73,6 +73,20 @@ const STATUS_FILTERS: { value: string; label: string }[] = [
   ...PIPELINE.map((p) => ({ value: p.status, label: p.label })),
 ];
 
+const STATUS_STYLE: Record<SiteStatus, string> = {
+  lead:             "bg-slate-500/10 text-slate-600 border-slate-400/40",
+  site_generated:   "bg-sky-500/10 text-sky-700 border-sky-400/40",
+  after_first_sms:  "bg-blue-500/10 text-blue-700 border-blue-400/40",
+  after_first_call: "bg-indigo-500/10 text-indigo-700 border-indigo-400/40",
+  demo_scheduled:   "bg-violet-500/10 text-violet-700 border-violet-400/40",
+  after_demo:       "bg-purple-500/10 text-purple-700 border-purple-400/40",
+  offer_sent:       "bg-amber-500/10 text-amber-700 border-amber-400/40",
+  onboarding:       "bg-orange-500/10 text-orange-700 border-orange-400/40",
+  active:           "bg-green-600/15 text-green-700 border-green-600/30",
+  not_interested:   "bg-gray-500/10 text-gray-500 border-gray-400/40",
+  churned:          "bg-red-500/15 text-red-700 border-red-500/30",
+};
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface BusinessRow {
@@ -146,19 +160,7 @@ const TEMPLATES = [
 function StatusBadge({ status }: { status: SiteStatus }) {
   const stage = PIPELINE_MAP.get(status);
   const label = stage?.label ?? status;
-
-  if (status === "active")
-    return <Badge className="bg-green-600/15 text-green-700 border-green-600/25 text-[11px]">{label}</Badge>;
-  if (status === "not_interested")
-    return <Badge variant="destructive" className="text-[11px]">{label}</Badge>;
-  if (status === "churned")
-    return <Badge className="bg-orange-500/15 text-orange-700 border-orange-500/25 text-[11px]">{label}</Badge>;
-  if (status === "lead")
-    return <Badge variant="outline" className="text-[11px]">{label}</Badge>;
-  if (status === "onboarding")
-    return <Badge className="bg-blue-500/15 text-blue-700 border-blue-500/25 text-[11px]">{label}</Badge>;
-
-  return <Badge variant="secondary" className="text-[11px]">{label}</Badge>;
+  return <Badge className={`${STATUS_STYLE[status] ?? ""} text-[11px]`}>{label}</Badge>;
 }
 
 // ── Main Panel ────────────────────────────────────────────────────────────────
@@ -502,16 +504,20 @@ export function BusinessesPanel() {
                 const count = f.value === ""
                   ? businesses.filter((b) => b.status !== "not_interested").length
                   : businesses.filter((b) => b.status === f.value).length;
+                const isSelected = statusFilter === f.value;
+                const isEmpty = count === 0 && f.value !== "";
                 return (
                   <button
                     key={f.value}
-                    onClick={() => setStatusFilter(f.value)}
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors ${
-                      statusFilter === f.value
-                        ? "bg-foreground text-background"
-                        : count === 0 && f.value !== ""
-                          ? "bg-muted text-muted-foreground/35 cursor-default"
-                          : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    onClick={isEmpty ? undefined : () => setStatusFilter(f.value)}
+                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium border transition-colors ${
+                      isSelected
+                        ? "bg-foreground text-background border-transparent"
+                        : isEmpty
+                          ? "bg-muted text-muted-foreground/35 cursor-default border-transparent"
+                          : f.value === ""
+                            ? "bg-muted text-muted-foreground border-transparent hover:bg-muted/80"
+                            : `${STATUS_STYLE[f.value as SiteStatus]} hover:opacity-90`
                     }`}
                   >
                     {f.label}{count > 0 ? ` (${count})` : ""}
