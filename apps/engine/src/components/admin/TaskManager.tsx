@@ -113,14 +113,9 @@ const ADMIN_PAGES = [
     sections: ["page-home", "page-about", "page-services", "page-contact", "page-blog"],
   },
   {
-    name: "tasks",
-    label: "Tasks",
-    sections: ["tasks"],
-  },
-  {
     name: "administration",
     label: "Administration (super-admin)",
-    sections: ["overview", "users"],
+    sections: ["strategy", "tasks", "businesses", "overview", "users", "scripts", "business-json"],
   },
 ];
 
