@@ -227,13 +227,6 @@ export default function ScriptsView() {
 
   return (
     <div className="p-4 lg:p-6 max-w-3xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-xl font-semibold">Scripts</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">
-          Run server-side scripts from the admin panel. Super-admin only.
-        </p>
-      </div>
-
       {loading && (
         <div className="flex items-center gap-2 text-sm text-muted-foreground py-8">
           <Loader2 className="w-4 h-4 animate-spin" /> Loading…

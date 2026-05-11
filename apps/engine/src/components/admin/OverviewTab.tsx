@@ -243,12 +243,6 @@ export function OverviewTab() {
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-semibold">Przegląd wszystkich serwisów</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Status i analityka dla {businesses.length} biznesów
-          </p>
-        </div>
         <div className="flex gap-1">
           {PERIODS.map((p, i) => (
             <Button

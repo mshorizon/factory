@@ -2127,12 +2127,6 @@ export default function AdminForm({
           {/* Content area */}
           <div className="flex-1 overflow-y-auto admin-form-area">
             <div className="p-6 max-w-[960px] mx-auto space-y-6">
-              {activeGroup && (
-                <div>
-                  <h2 className="text-2xl font-semibold tracking-tight">{activeGroup.label}</h2>
-                  <p className="text-sm text-muted-foreground mt-1">{activeGroup.description}</p>
-                </div>
-              )}
               <div className="w-full min-w-0 space-y-6">
                 {getTabContent()}
               </div>

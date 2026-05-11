@@ -428,12 +428,6 @@ export default function StrategyView() {
     <div className="p-4 lg:p-6 max-w-5xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <div>
-          <h1 className="text-xl font-semibold">Strategic Suggestions</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            {pendingCount} pending · use "Generate more" to queue generation
-          </p>
-        </div>
         <div className="flex items-center gap-2">
           <AddSuggestionForm onAdded={fetch_} />
           <Button

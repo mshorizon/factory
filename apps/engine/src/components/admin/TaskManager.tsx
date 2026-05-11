@@ -338,16 +338,6 @@ export default function TaskManager({
 
   return (
     <div className="flex flex-col gap-6 p-6 max-w-4xl mx-auto w-full">
-      <div className="flex items-center gap-2">
-        <ListTodo className="h-5 w-5" />
-        <h1 className="text-xl font-semibold">Tasks for Claude Code</h1>
-      </div>
-      <p className="text-sm text-muted-foreground -mt-4">
-        Queue work for the{" "}
-        <code className="rounded bg-muted px-1 py-0.5 text-xs">/task</code> slash command.
-        Claude Code picks up pending tasks and executes them sequentially.
-      </p>
-
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
