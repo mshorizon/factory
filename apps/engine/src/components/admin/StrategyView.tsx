@@ -425,7 +425,7 @@ export default function StrategyView() {
   const hiddenCount = suggestions.length - visible.length;
 
   return (
-    <div className="p-4 lg:p-6 max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <div className="flex items-center gap-2">

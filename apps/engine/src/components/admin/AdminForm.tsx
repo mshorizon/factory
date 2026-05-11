@@ -354,7 +354,7 @@ function UsersPanel({ currentUserId }: { currentUserId?: number }) {
   ];
 
   return (
-    <div className="p-6 space-y-4 max-w-3xl">
+    <div className="space-y-4">
       <UniversalList<AdminUser>
         title="Users"
         subtitle={`${users.length} account${users.length !== 1 ? 's' : ''}`}
@@ -1836,6 +1836,12 @@ export default function AdminForm({
 
   const faviconUrl = (formData.business as any)?.assets?.favicon;
 
+  const TABS_WITH_DATA_TABLE = new Set([
+    "businesses", "users", "blog", "projects", "orders", "bookings", "files",
+    "data-products", "data-services",
+  ]);
+  const tabHasDataTable = TABS_WITH_DATA_TABLE.has(activeTab);
+
   return (
     <TooltipProvider>
       <SidebarProvider defaultOpen={true}>
@@ -2126,7 +2132,7 @@ export default function AdminForm({
 
           {/* Content area */}
           <div className="flex-1 overflow-y-auto admin-form-area">
-            <div className="p-6 max-w-[960px] mx-auto space-y-6">
+            <div className={`p-4 space-y-6${!tabHasDataTable ? ' max-w-[960px] mx-auto' : ''}`}>
               <div className="w-full min-w-0 space-y-6">
                 {getTabContent()}
               </div>

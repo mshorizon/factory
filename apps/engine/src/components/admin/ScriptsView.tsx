@@ -226,7 +226,7 @@ export default function ScriptsView() {
   const danger = Object.entries(scripts).filter(([, m]) => m.danger);
 
   return (
-    <div className="p-4 lg:p-6 max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto">
       {loading && (
         <div className="flex items-center gap-2 text-sm text-muted-foreground py-8">
           <Loader2 className="w-4 h-4 animate-spin" /> Loading…
