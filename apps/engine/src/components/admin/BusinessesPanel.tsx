@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { UniversalList } from "./UniversalList";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -27,8 +26,8 @@ import {
   Globe,
   LayoutDashboard,
   Loader2,
-  Plus,
   RefreshCw,
+  Search,
   XCircle,
 } from "lucide-react";
 
@@ -177,6 +176,7 @@ export function BusinessesPanel() {
   const [scrapeCity, setScrapeCity] = useState("Kraków");
   const [scraping, setScraping] = useState(false);
   const [scrapeMsg, setScrapeMsg] = useState<string | null>(null);
+  const [scrapeModalOpen, setScrapeModalOpen] = useState(false);
 
   // Generate site dialog
   const [generateBiz, setGenerateBiz] = useState<BusinessRow | null>(null);
@@ -478,77 +478,6 @@ export function BusinessesPanel() {
 
   return (
     <div className="flex flex-col gap-spacing-lg p-spacing-lg">
-      {/* Scraper Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Scrape Leads</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleScrape} className="flex flex-wrap items-end gap-spacing-md">
-            <div className="flex flex-col gap-1.5 w-20">
-              <Label htmlFor="scrape-count">Count</Label>
-              <Input
-                id="scrape-count"
-                type="number"
-                min={1}
-                max={100}
-                value={scrapeCount}
-                onChange={(e) => setScrapeCount(Number(e.target.value))}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1.5 min-w-[160px]">
-              <Label htmlFor="scrape-type">Business Type</Label>
-              <Select value={scrapeType} onValueChange={(v) => v && setScrapeType(v)}>
-                <SelectTrigger id="scrape-type">
-                  <SelectValue placeholder="Select type" />
-                </SelectTrigger>
-                <SelectContent>
-                  {BUSINESS_TYPE_PRESETS.map((p) => (
-                    <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {scrapeType === "__custom__" && (
-              <div className="flex flex-col gap-1.5 min-w-[160px]">
-                <Label htmlFor="scrape-custom">Custom Type</Label>
-                <Input
-                  id="scrape-custom"
-                  placeholder="e.g. tax_advisor"
-                  value={scrapeCustomType}
-                  onChange={(e) => setScrapeCustomType(e.target.value)}
-                />
-              </div>
-            )}
-
-            <div className="flex flex-col gap-1.5 min-w-[160px]">
-              <Label htmlFor="scrape-city">City</Label>
-              <Select value={scrapeCity} onValueChange={(v) => v && setScrapeCity(v)}>
-                <SelectTrigger id="scrape-city">
-                  <SelectValue placeholder="Select city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {CITIES.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <Button type="submit" disabled={scraping} className="gap-2">
-              {scraping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-              {scraping ? "Scraping…" : "Scrape Leads"}
-            </Button>
-          </form>
-
-          {scrapeMsg && (
-            <p className="mt-spacing-md text-sm text-muted-foreground">{scrapeMsg}</p>
-          )}
-        </CardContent>
-      </Card>
-
       {/* Businesses List */}
       <UniversalList<BusinessRow>
         title="Businesses"
@@ -585,10 +514,16 @@ export function BusinessesPanel() {
                 );
               })}
             </div>
-            <Button size="sm" variant="ghost" onClick={load} title="Refresh">
-              <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
-              Refresh
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button size="sm" variant="outline" onClick={() => { setScrapeMsg(null); setScrapeModalOpen(true); }}>
+                <Search className="h-3.5 w-3.5 mr-1.5" />
+                Scrape Leads
+              </Button>
+              <Button size="sm" variant="ghost" onClick={load} title="Refresh">
+                <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
+                Refresh
+              </Button>
+            </div>
           </div>
         }
         getRowId={(row) => row.id}
@@ -612,6 +547,82 @@ export function BusinessesPanel() {
           },
         ]}
       />
+
+      {/* Scrape Leads Dialog */}
+      <Dialog open={scrapeModalOpen} onOpenChange={(open) => { if (!open) { setScrapeModalOpen(false); setScrapeMsg(null); } }}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Scrape Leads</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleScrape}>
+            <div className="flex flex-col gap-spacing-md py-2">
+              <div className="flex flex-col gap-1.5 w-20">
+                <Label htmlFor="scrape-count">Count</Label>
+                <Input
+                  id="scrape-count"
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={scrapeCount}
+                  onChange={(e) => setScrapeCount(Number(e.target.value))}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="scrape-type">Business Type</Label>
+                <Select value={scrapeType} onValueChange={(v) => v && setScrapeType(v)}>
+                  <SelectTrigger id="scrape-type">
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {BUSINESS_TYPE_PRESETS.map((p) => (
+                      <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {scrapeType === "__custom__" && (
+                <div className="flex flex-col gap-1.5">
+                  <Label htmlFor="scrape-custom">Custom Type</Label>
+                  <Input
+                    id="scrape-custom"
+                    placeholder="e.g. tax_advisor"
+                    value={scrapeCustomType}
+                    onChange={(e) => setScrapeCustomType(e.target.value)}
+                  />
+                </div>
+              )}
+
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="scrape-city">City</Label>
+                <Select value={scrapeCity} onValueChange={(v) => v && setScrapeCity(v)}>
+                  <SelectTrigger id="scrape-city">
+                    <SelectValue placeholder="Select city" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CITIES.map((c) => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {scrapeMsg && (
+                <p className="text-sm text-muted-foreground">{scrapeMsg}</p>
+              )}
+            </div>
+
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setScrapeModalOpen(false)}>Cancel</Button>
+              <Button type="submit" disabled={scraping} className="gap-2">
+                {scraping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+                {scraping ? "Scraping…" : "Scrape Leads"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* Generate Site Dialog */}
       <Dialog open={!!generateBiz} onOpenChange={(open) => { if (!open) setGenerateBiz(null); }}>
