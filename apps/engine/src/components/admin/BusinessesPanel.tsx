@@ -21,11 +21,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Building2,
   ExternalLink,
+  Eye,
   Globe,
   LayoutDashboard,
   Loader2,
+  MoreHorizontal,
   RefreshCw,
   Search,
   XCircle,
@@ -476,6 +484,46 @@ export function BusinessesPanel() {
         );
       },
     },
+    {
+      id: "__actions",
+      header: () => <span className="sr-only">Actions</span>,
+      enableSorting: false,
+      cell: ({ row }) => {
+        const b = row.original;
+        const canReject =
+          b.status !== "not_interested" &&
+          b.status !== "active" &&
+          b.status !== "churned";
+        return (
+          <div className="flex items-center justify-end gap-1">
+            <Button
+              size="sm"
+              variant="ghost"
+              title="Show details"
+              onClick={() => { window.location.href = `/admin/businesses/${b.id}`; }}
+            >
+              <Eye className="h-4 w-4" />
+            </Button>
+            {canReject && (
+              <DropdownMenu>
+                <DropdownMenuTrigger render={<Button size="sm" variant="ghost" title="More actions" />}>
+                  <MoreHorizontal className="h-4 w-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    variant="destructive"
+                    onClick={() => handleReject(b)}
+                  >
+                    <XCircle />
+                    Not interested
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
+        );
+      },
+    },
   ];
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -538,25 +586,6 @@ export function BusinessesPanel() {
           </div>
         }
         getRowId={(row) => row.id}
-        rowActions={[
-          {
-            label: "Not interested",
-            icon: XCircle,
-            variant: "ghost",
-            onClick: handleReject,
-            trackBusy: true,
-            iconOnly: true,
-            show: (row) => row.status !== "not_interested" && row.status !== "active" && row.status !== "churned",
-          },
-          {
-            label: "Dashboard",
-            icon: LayoutDashboard,
-            onClick: (row) => { window.location.href = `/admin/businesses/${row.id}`; },
-            iconOnly: true,
-            title: "Open dashboard",
-            show: (row) => !!row.subdomain,
-          },
-        ]}
       />
 
       {/* Scrape Leads Dialog */}
