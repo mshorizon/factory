@@ -1,290 +1,323 @@
-# Plan zdobycia pierwszych klientów — MS Horizon Factory
+# GO-TO-MARKET — Plan Sprzedaży Stron Internetowych
+
+**Hazelgrouse Studio** | Aktualizacja: maj 2026
 
 ---
 
-## Sytuacja wyjściowa
+## Twoja sytuacja i przewaga
 
-Mamy gotowy produkt z realną przewagą: rezerwacje + sklep + CMS + analityka + powiadomienia w jednym. Problem polega na tym, że nikt o nas jeszcze nie wie. Celem tego planu jest zdobycie **pierwszego klienta w ciągu 2–4 tygodni** i **5 klientów w ciągu 3 miesięcy**.
+Masz coś, czego nie ma żaden freelancer na rynku: **pipeline, który generuje spersonalizowane, gotowe strony w minuty, nie w tygodniach.** Scraper znajduje firmy bez strony (lub z przestarzałą), a Ty jednym kliknięciem tworzysz demo z ich danymi — nazwą, adresem, telefonem, branżą.
 
-Strategia bazuje na metodzie "ręczna sprzedaż najpierw" — zanim zainwestujemy w marketing, potwierdzamy, że klienci są gotowi płacić.
+To oznacza, że zamiast mówić "zrobię Ci stronę" — **pokazujesz gotową stronę zanim klient zapyta.** To fundamentalna zmiana w rozmowie sprzedażowej.
 
----
-
-## Zanim zaczniesz: co musisz mieć gotowe
-
-### Minimum, bez którego nie ruszasz
-
-- [x] **Demo strona działająca pod własną domeną** — `specialist.hazelgrouse.pl` i `elektryk-krakow.hazelgrouse.pl` działają z prawdziwą treścią, formularzem i systemem rezerwacji.
-- [x] **Cennik** — dostępny na `hazelgrouse.pl` (sekcja "Cennik"): Starter 1 990 zł jed. + 99 zł/mies., Professional 3 990 zł jed. + 149 zł/mies., Na Zamówienie (wycena).
-- [ ] **Krótki pitch (3 zdania)** — co to jest, dla kogo, ile kosztuje. Przykład: *"Buduję strony internetowe dla specjalistów usługowych — elektrycy, fryzjerzy, kosmetyczki. Mają wbudowany system rezerwacji, sklep i panel do zarządzania treścią. Koszt to 3 990 zł jednorazowo + 149 zł miesięcznie, bez dodatkowych narzędzi."*
-- [x] **Konto firmowe / forma rozliczeń** — faktura lub rachunek gotowy do wystawienia.
-
-### Warto mieć, ale nie blokuj się na tym
-
-- [x] Portfolio z 1–2 przykładowymi stronami (możesz pokazać demo jako przykład)
-- [ ] Umowa o świadczenie usług (1 strona, może być prosta)
-- [ ] Sposób na onboarding — jak zbierzesz dane od klienta żeby uruchomić jego stronę
+**Problem na dziś:** 4 maile i 1 SMS wysłane, 0 odpowiedzi. Ten plan naprawia podejście i daje powtarzalny proces.
 
 ---
 
-## KROK 1 — Pierwszy klient (tydzień 1–4)
+## Zasada #1 — Telefon zamyka sprzedaż, nie SMS
 
-### Strategia: ciepłe kontakty + jedna wąska nisza
+SMS i mail to **narzędzia do otwarcia drzwi**, nie do zamknięcia transakcji. Ich jedyny cel: sprawić, żeby klient zobaczył demo i był ciepły na telefon.
 
-Nie szukaj "kogokolwiek". Wybierz **jedną konkretną grupę** i uderz bezpośrednio.
+Schemat który działa:
 
-**Rekomendowana nisza na start: elektrycy, hydraulicy, glazurnicy, malarze — specjaliści budowlani w Twojej okolicy (lub w największym mieście w pobliżu).**
+```
+SMS otwiera → demo robi wrażenie → telefon zamyka
+```
 
-Dlaczego ta nisza:
-- Mają dużo klientów szukających ich przez Google ("elektryk Warszawa")
-- Prawie żaden nie ma porządnej strony z rezerwacjami
-- Płacą podwykonawcom bez problemów — przyzwyczajeni do faktur
-- Decyzja zakupowa prosta — właściciel = decydent
+Schemat który NIE działa:
 
----
+```
+Mail/SMS → czekanie na odpowiedź → cisza → kolejny mail → cisza
+```
 
-### Działania — tydzień 1
-
-**1. Lista 50 potencjalnych klientów (2–3 godziny roboty)**
-
-Wejdź na Google Maps i wpisz:
-- "elektryk [miasto]"
-- "hydraulik [miasto]"
-- "glazurnik [miasto]"
-- "malarz [miasto]"
-
-Zbierz do arkusza: nazwa firmy, telefon, czy ma stronę www (tak/nie/słaba), czy ma Google Business.
-
-Przefiltruj do 20 firm, które mają słabą stronę lub nie mają żadnej.
-
-**2. Personalizowany cold call / cold message**
-
-Nie wysyłaj masowego maila. Dzwoń lub pisz na WhatsApp / SMS.
-
-Skrypt rozmowy telefonicznej:
-> "Dzień dobry, mówię z [imię]. Znalazłem Pana firmę na Google Maps i zobaczyłem, że strona albo jest trochę przestarzała, albo nie ma systemu rezerwacji. Buduję strony dla specjalistów takich jak Pan — z wbudowanym kalendarzem rezerwacji żeby klienci mogli się umawiać sami przez telefon. Czy ma Pan 5 minut żebym pokazał jak to działa?"
-
-**3. Demo na żywo (Zoom/Meet lub spotkanie)**
-
-Pokaż działający demo na ekranie. Kluczowe rzeczy do zademonstrowania:
-1. Klient wchodzi na stronę, wybiera usługę, rezerwuje termin
-2. Właściciel dostaje SMS/email z rezerwacją
-3. Właściciel zatwierdza rezerwację w panelu
-4. Strona wygląda profesjonalnie na telefonie
-
-Nie pokazuj panelu admina za wcześnie — najpierw widok klienta.
-
-**4. Zamknięcie sprzedaży**
-
-> "Gdybym dostosował tę stronę do Pana firmy w ciągu tygodnia — zdjęcia, usługi, godziny pracy — czy byłby Pan gotów spróbować przez 3 miesiące za [cena]?"
-
-Jeśli mówi "muszę pomyśleć" — zapytaj: "Co musiałoby być inaczej, żebyście mogli podjąć decyzję dziś?"
+**Jeśli nie dzwonisz — nie sprzedajesz.** Każdy SMS bez follow-up telefonem to zmarnowany lead.
 
 ---
 
-### Działania — tydzień 2–4
+## Proces sprzedaży — krok po kroku
 
-**Onboarding pierwszego klienta:**
-- Ankieta dla klienta (imię firmy, opis usług, zdjęcia, obszar działania, godziny pracy)
-- Uruchomienie strony w ciągu 3–5 dni roboczych
-- Konfiguracja e-maili powiadomień i numeru SMS
-- Krótkie szkolenie (30 min Zoom) z panelu admina
+### Krok 1: Znajdź i zakwalifikuj firmę
 
-**Zbieranie feedbacku:**
-- Po 2 tygodniach zadzwoń i zapytaj: "Jak działa rezerwacja? Czy klienci korzystają?"
-- Notuj wszystko — to złoto na przyszłość
+Użyj scrappera. Wpisz branżę + miasto. Dostaniesz listę firm.
 
----
+**Kwalifikacja — firma nadaje się jeśli spełnia 4/4:**
+- [ ] Działa aktywnie (aktualne godziny, opinie z ostatnich miesięcy)
+- [ ] Nie ma strony LUB strona jest przestarzała / nieresponsywna
+- [ ] Branża pasuje do Twojego szablonu
+- [ ] Numer telefonu jest dostępny (Google Maps, profil, wizytówka)
 
-## KROK 2 — Klienci 2–5 (miesiąc 2–3)
+Jeśli 3/4 lub mniej — pomiń, nie trać czasu.
 
-### Strategia: powtarzalny proces + rozszerzenie na 2–3 nisze
+### Krok 2: Wygeneruj spersonalizowane demo
 
-Mając pierwszego klienta, masz dowód społeczny. Teraz skaluj.
+Kliknij "wygeneruj stronę" w scrappingu. Szablon + dane klienta = gotowe demo.
 
----
+**Minimum personalizacji (3 minuty, obowiązkowe):**
+- Nazwa firmy w nagłówku i tytule strony
+- Numer telefonu klienta w przycisku CTA i sekcji kontakt
+- Adres firmy w stopce i na mapie
+- Branża dopasowana do szablonu
 
-### Kanał 1: Polecenia (najszybszy)
+**Dodatkowa personalizacja (5–8 minut, podnosi konwersję):**
+- Godziny otwarcia z profilu Google
+- Logo jeśli widoczne na FB lub Google
+- Opinie klientów z Google (liczba gwiazdek, cytaty)
+- Zdjęcie budynku z Google Street View jako baner
 
-Po pierwszym miesiącu zapytaj klienta wprost:
-> "Czy zna Pan kogoś — znajomego elektryka, hydraulika, kolegę z branży — komu mógłby Pan mnie polecić? Jeśli tak, chętnie wyślę mu dostęp do dema."
+**Zasada:** klient musi zobaczyć coś swojego zanim przewinie stronę do połowy. Jeśli widzi generyczny template — zamyka. Jeśli widzi własny adres i numer — czyta dalej.
 
-Bonus: zaoferuj klientowi miesiąc gratis za każde polecenie, które zakończy się podpisaniem umowy.
+### Krok 3: Wyślij SMS z linkiem do demo
 
----
+**Szablon SMS:**
 
-### Kanał 2: Google Maps + telefon — nisza 2
+```
+Dzień dobry Panie [Imię], przygotowałem wstępny projekt strony internetowej dla Pana firmy: [LINK]. Jeśli się Panu spodoba — będę do dyspozycji, aby wdrożyć go w kilka dni. [imię] [tel.]
+```
 
-Po sukcesie z pierwszą niszą, wybierz drugą. Dobry wybór:
+**Zasady wysyłki:**
+- Wysyłaj wtorek–środa, godz. 9:00–11:00
+- Czwartek 9:00–10:30 też ok
+- Nigdy w poniedziałek przed 10:00, nigdy w piątek po 14:00
+- Nigdy w weekend
+- Zawsze z Twojego prawdziwego numeru (nie z bramki SMS z nazwą firmy — budzi podejrzliwość)
 
-- **Gabinety kosmetyczne / fryzjerzy / barberzy** — system rezerwacji jest dla nich kluczowy, wiele ma tylko Booksy i nic więcej
-- **Trenerzy personalni / dietetycy / fizjoterapeuci** — potrzebują konsultacji online
-- **Małe restauracje / cukiernie** — zamówienia online lub rezerwacje stolików
+### Krok 4: Sekwencja follow-up
 
----
+| Dzień | Co robisz | Kanał |
+|-------|-----------|-------|
+| 0 | Wysyłasz SMS z demo | SMS |
+| 2–3 | Krótki follow-up (tylko jeśli brak odpowiedzi) | SMS |
+| 5 | **DZWONISZ** — to najważniejszy krok | Telefon |
+| 9 | SMS z pilnością (tylko jeśli telefon bez odzewu) | SMS |
+| 14 | Ostatni SMS — zamknięcie tematu, bez nacisku | SMS |
 
-### Kanał 3: Grupy na Facebooku (darmowy, czasochłonny)
+**Follow-up SMS (dzień 2–3):**
+```
+Dzień dobry, czy miał Pan chwilę zobaczyć projekt strony?
+[LINK] — chętnie odpowiem na pytania. [imię]
+```
 
-Wejdź do grup branżowych:
-- "Elektrycy Polska"
-- "Fryzjerzy i kosmetyczki Polska"
-- "Przedsiębiorcy [miasto]"
-- "Freelancerzy i samozatrudnieni PL"
+**Telefon (dzień 5) — skrypt 30 sekund:**
+```
+"Dzień dobry Panie [Imię], dzwonię [imię] z Hazelgrouse Studio.
+Wysłałem SMS-a z projektem strony dla Pana firmy —
+czy miał Pan chwilę zerknąć?"
 
-**Nie sprzedawaj wprost.** Zamiast tego:
-- Odpowiadaj na posty gdzie ktoś pyta "polecacie firmę do strony www?"
-- Wrzucaj wartościowe posty: "5 błędów na stronach firm usługowych które kosztują klientów" + link do demo
-- Po 2–3 tygodniach aktywności możesz napisać post prezentujący produkt
+→ Jeśli tak: "Super, co Pan o tym myśli? Mogę dostosować
+   szczegóły — czy miałby Pan 10–15 minut na krótką rozmowę?"
 
----
+→ Jeśli nie: "Rozumiem, w skrócie — przygotowałem gotowy
+   projekt strony dla Pana firmy, z Pana danymi i kontaktem.
+   Wrzucę link jeszcze raz SMS-em, proszę zerknąć
+   jak będzie Pan miał chwilę."
 
-### Kanał 4: LinkedIn (wolniejszy, ale lepsi klienci)
+→ Jeśli nie odbiera: nie zostawiaj wiadomości głosowej.
+   Zadzwoń ponownie następnego dnia o innej godzinie.
+```
 
-Jeśli celujesz w nieco większe firmy lub B2B:
-- Zoptymalizuj profil pod kątem "strony internetowe dla firm usługowych"
-- Wysyłaj personalizowane wiadomości do właścicieli firm (nie szablony!)
-- Wrzucaj posty o case studies (zanonimizowane jeśli klient nie zgadza się na publiczne)
+**SMS z pilnością (dzień 9):**
+```
+Projekt strony dostępny jeszcze kilka dni: [LINK]
+Pozdrawiam, [imię]
+```
 
----
+**SMS zamknięcie (dzień 14):**
+```
+Zamykam projekt strony. Jeśli kiedyś zainteresowany —
+proszę śmiało pisać. Pozdrawiam, [imię]
+```
 
-### Kanał 5: Lokalne networking
+### Krok 5: Rozmowa sprzedażowa (gdy klient jest zainteresowany)
 
-- Izby gospodarcze i stowarzyszenia branżowe (elektrycy, budowlańcy, kosmetyczki mają swoje organizacje)
-- Spotkania networkingowe BNI / lokalne meetupy przedsiębiorców
-- Targi branżowe — stoisko lub bycie gościem
+Klient odpowiedział lub odebrał telefon i chce pogadać. Masz 15 minut.
 
----
+**Struktura rozmowy:**
 
-## Co zrobić z produktem żeby zdobyć klientów (braki)
+1. **(2 min)** Zapytaj o jego sytuację: "Jak teraz trafiają do Pana klienci? Głównie z polecenia?" — daj mu mówić
+2. **(3 min)** Pokaż demo na żywo: udostępnij ekran lub prześlij link — przejdź przez stronę razem z nim
+3. **(3 min)** Zapytaj co by zmienił: "Jest coś co by Pan dodał albo zmienił?"
+4. **(2 min)** Powiedz co dostajesz w pakiecie: strona, hosting, formularz kontaktowy, wersje językowe jeśli potrzebne, SEO, panel do edycji treści
+5. **(2 min)** Podaj cenę i zamknij: "Mogę wdrożyć to pod Pana domeną w ciągu tygodnia. Koszt to [kwota]. Jeśli wyślę fakturę dziś, strona może działać przed [konkretna data]."
 
-https://www.kmklegal.pl/rezerwacja-rozmowy-on-line/
+**Obiekcje i odpowiedzi:**
 
-To jest szczera lista rzeczy, bez których sprzedaż będzie trudna.
-
-### Krytyczne (zablokuje sprzedaż)
-
-- [x] **1. Strona sprzedażowa / landing page dla platformy**
-`hazelgrouse.pl` działa na templacie `portfolio-tech` — pełna strona sprzedażowa w języku polskim z sekcjami: usługi, jak działamy, realizacje, cennik, FAQ, formularz kontaktowy. CTA "Stwórz swoją stronę" kieruje do `CreatorWizard` (`/creator`), który auto-generuje demo dla potencjalnego klienta.
-  > ⚠️ **Uwaga:** Testimoniale i case studies ("Piotr Kowalski elektryk", "Anna Nowak — Złoty Kłos") są **fikcyjne** — placeholder data. Klient może to sprawdzić. Usuń lub zastąp prawdziwymi zaraz po zdobyciu pierwszego klienta.
-  > ⚠️ **Uwaga:** "Ponad 50 lokalnych firm już jest w internecie" — fałszywa social proof. Zmień na neutralne sformułowanie zanim zaczniesz outreach.
-
-- [ ] **2. Onboarding pipeline**
-Jak przebiega setup nowego klienta? Ile to zajmuje? Ile kosztuje? Musi być to powtarzalne i dokumentowane. Bez tego będziesz robił każdy projekt od zera i się wypalisz przy 3. kliencie.
-
-- [ ] **3. Domeny i hosting — model operacyjny**
-Kto kupuje domenę dla klienta? Kto płaci za hosting? Jak rozliczasz? To trzeba mieć ustalone zanim pojawi się pierwszy klient który pyta.
-
----
-
-### Ważne (utrudni sprzedaż bez tego)
-
-- [x] **4. Strona demo z prawdziwą polską treścią**
-Polskie demo elektryka (`elektryk-krakow`) gotowe z pełnymi tłumaczeniami PL. Jeden dobry demo = wart więcej niż godzina rozmowy.
-
-- [ ] **5. Case study / testimonial po pierwszym kliencie**
-Nawet jedno zdanie od klienta ("odkąd uruchomiłem system rezerwacji, mam 3x więcej umówionych wizyt") warte więcej niż cały cennik. **Priorytet:** zastąpienie fikcyjnych testimoniali i case studies na `hazelgrouse.pl` prawdziwymi danymi — to jest warunek wiarygodności.
-
-- [ ] **6. Wideo demo (2–3 minuty)**
-Nagranie ekranu pokazujące: klient rezerwuje wizytę → właściciel dostaje SMS → zatwierdza w panelu. Wrzuć na YouTube. Wyślij zamiast tłumaczenia przez telefon.
-
-- [x] **7. Polityka prywatności / RODO dla klientów końcowych**
-Strona `/privacy` istnieje i jest dynamicznie generowana per biznes. Klient pyta "czy to jest zgodne z RODO?" — masz gotową odpowiedź.
-
----
-
-### Długoterminowe (potrzebujesz to przy 5.+ kliencie)
-
-- [x] **8. Automatyczne emaile po rezerwacji i zamówieniu**
-Zaimplementowane — `sendBookingConfirmationEmail` wysyła e-mail do klienta po rezerwacji wizyty.
-
-- [x] **9. Powiadomienie email do właściciela o nowej rezerwacji**
-Zaimplementowane — `sendBookingNotificationToOwner` wysyła powiadomienie do właściciela po każdej nowej rezerwacji.
-
-- [ ] **10. Strona zarządzania kontem / fakturowania dla klientów**
-Klient chce sam sprawdzić fakturę, zmienić plan, zaktualizować dane. Bez tego jesteś "helpdeskiem" do każdej zmiany.
-
-- [ ] **11. Dokumentacja dla klientów (helpcenter)**
-"Jak dodać nowy wpis na blog?", "Jak zmienić godziny pracy?", "Jak zobaczyć rezerwacje?" — FAQ lub krótkie wideo walkthrough. Bez tego będziesz odpowiadał na te same pytania 5 razy dziennie.
-
-- [ ] **12. Program partnerski / reseller**
-Gdy masz 5+ klientów, zacznij szukać agencji reklamowych, grafików, freelancerów którzy mogliby sprzedawać Factory swoim klientom za prowizję (10–20% MRR).
-
-- [ ] **13. Billing / system opłat dla klientów platformy**
-Stripe jest zintegrowany dla sklepów klientów końcowych — ale jak klienci Hazelgrouse płacą za subskrypcję miesięczną? Brak systemu. Tymczasowo: przelew + faktura ręczna. Docelowo: Stripe Subscriptions lub Paddle dla SaaS.
-
-- [ ] **14. Google Business Profile dla hazelgrouse.pl**
-Hazelgrouse Studio samo musi być widoczne w Google — szczególnie jeśli targetujesz lokalny rynek. Zarejestruj i zweryfikuj GBP zanim zaczniesz outreach (klienci będą googlować Cię przed rozmową).
-
-- [ ] **15. Aktywne social media (LinkedIn, Instagram)**
-`hazelgrouse.pl` linkuje do profili GitHub, LinkedIn, Instagram, Twitter — czy te profile istnieją i są aktywne? Klient który trafia na stronę i klika LinkedIn powinien zobaczyć żywy profil, nie pustą stronę.
+| Obiekcja | Odpowiedź |
+|----------|-----------|
+| "Za drogo" | "Rozumiem. Ile kosztuje utrata jednego klienta, który szukał Pana w Google i trafił do konkurencji?" |
+| "Mam już stronę" | "Rozumiem — kiedy ostatnio ktoś przez nią do Pana trafił? Mogę sprawdzić jak wygląda w Google." |
+| "Nie potrzebujemy strony" | "Większość moich klientów myślała tak samo — dopóki nie zobaczyli ile zapytań przychodzi przez stronę w pierwszym miesiącu." |
+| "Muszę się zastanowić" | "Oczywiście. Projekt jest gotowy — proszę dać znać do piątku, a wdrożę w przyszłym tygodniu." |
+| "A co z utrzymaniem?" | "W abonamencie mam hosting, aktualizacje i wsparcie. Pan nie musi się niczym zajmować technicznie." |
 
 ---
 
-## Harmonogram — 90 dni
+## Wolumen i skalowanie
 
-### Miesiąc 1 — Fundament i pierwszy klient
+### Faza 1 — Teraz (0–5 klientów): ręcznie, ale systematycznie
 
-| Tydzień | Cel | Działanie |
-|---------|-----|-----------|
-| 1 | Gotowość operacyjna | Cennik, demo PL, pitch, model rozliczeń |
-| 2 | Lista prospektów | 50 firm z Google Maps, 20 do kontaktu |
-| 3 | Outreach | 20 zimnych kontaktów (telefon/SMS/WhatsApp) |
-| 4 | Zamknięcie | 5 demo, 1 podpisana umowa, onboarding |
+**Tygodniowy rytm:**
 
-### Miesiąc 2 — Optymalizacja i skalowanie
+| Dzień | Co robisz |
+|-------|-----------|
+| Poniedziałek | Scrapping: wygeneruj 10–15 nowych demo + personalizacja |
+| Wtorek 9:00 | Wyślij SMS-y do nowych leadów |
+| Środa 9:00 | Follow-up SMS do leadów z zeszłego tygodnia |
+| Czwartek 10:00 | Dzwoń do wszystkich, którzy dostali SMS 5+ dni temu |
+| Piątek | Rozmowy sprzedażowe z zainteresowanymi + administracja |
 
-| Tydzień | Cel | Działanie |
-|---------|-----|-----------|
-| 5–6 | Feedback i ulepszenia | Zbierz feedback od klienta #1, popraw onboarding |
-| 7 | Nisza #2 | Nowa lista prospektów (np. gabinety kosmetyczne) |
-| 8 | Polecenia + grupy FB | Poproś o polecenia, wejdź do 3 grup branżowych |
+**Tracking — prosty arkusz:**
 
-### Miesiąc 3 — Proof of concept
+| Kolumna | Przykład |
+|---------|---------|
+| Nazwa firmy | Darpol Instalacje Elektryczne |
+| Imię właściciela | Dariusz |
+| Telefon | 501 234 567 |
+| Link do demo | template-specialist.dev.hazelgrouse.pl |
+| Data SMS | 2026-05-13 |
+| Status | `wysłano` / `follow-up` / `dzwoniono` / `rozmowa` / `oferta` / `klient` / `odmowa` |
+| Notatki | Odebrał, ma zobaczyć w weekend |
 
-| Tydzień | Cel | Działanie |
-|---------|-----|-----------|
-| 9–10 | Demo PL gotowe | Uruchom polskie demo dla nowej niszy (np. kosmetyczka) |
-| 11 | Billing + dokumentacja | System opłat dla klientów + helpcenter |
-| 12 | 5 klientów | Zamknij łącznie 5 płacących klientów |
+**Śledzenie kliknięć:** dodaj UTM do linku (`?utm_source=sms&utm_campaign=demo_elektryk`) — zobaczysz w analityce kto kliknął nawet bez odpowiedzi. Tych priorytetyzuj do telefonu.
 
----
+### Faza 2 — Wzrost (5–20 klientów): częściowa automatyzacja
 
-## Metryki sukcesu
+- Automatyczne sekwencje SMS przez SMSAPI.pl + Make.com (~30 zł/mies.)
+- Dzień 0: SMS auto po wygenerowaniu strony
+- Dzień 3: Auto follow-up jeśli brak odpowiedzi
+- Dzień 7: Auto "projekt wygasa"
+- Dzień 10: Powiadomienie do Ciebie: "zadzwoń do [nazwa firmy]"
+- Dzień 14: Auto zamknięcie
+- CRM: Notion lub Airtable z widokiem Kanban po statusach
 
-| Metryka | Cel miesiąc 1 | Cel miesiąc 3 |
-|---------|---------------|---------------|
-| Klientów płacących | 1 | 5 |
-| MRR (przychód miesięczny) | 700 zł | 3 500 zł |
-| Demo przeprowadzonych | 5 | 20 |
-| Konwersja demo → klient | — | >25% |
-| Churn (rezygnacje) | 0 | 0 |
+### Faza 3 — Skala (20+ klientów): pełna automatyzacja
 
----
-
-## Największe pułapki do uniknięcia
-
-1. **"Jeszcze nie jestem gotowy"** — nie ma idealnego momentu. Demo działa, baza danych działa, system rezerwacji działa. Zacznij sprzedawać dziś.
-
-2. **Szukanie klientów wszędzie zamiast gdzie indziej** — wybierz jedną niszę i jedną metodę. Nie rozpraszaj się.
-
-3. **Za niska cena** — jeśli wyceniasz 99 zł/miesiąc, klient nie wierzy że to działa. 499–999 zł to poziom, przy którym klient traktuje Cię poważnie.
-
-4. **Budowanie zamiast sprzedawania** — każda nowa funkcja którą dodajesz zamiast dzwonić do klientów to odkładanie nieuchronnego. Sprzedaż jest pierwsza.
-
-5. **Onboarding bez szablonu** — każdy klient "na żywioł" to 3x więcej czasu. Zrób kwestionariusz onboardingowy zanim pojawi się drugi klient.
+- Dedykowany CRM (Pipedrive ~65 zł/mies. lub Livespace ~99 zł/mies.)
+- Pipeline zintegrowany ze scrapperem: scrapper → generuj demo → auto SMS → sekwencja
+- Dashboard z metrykami konwersji
 
 ---
 
-## Quick wins — co zrobić w ten weekend
+## Ile wysyłać — realistyczne liczby
 
-- [x] Uruchom polskie demo dla elektryka lub kosmetyczki (2–4h) — `elektryk-krakow` gotowy
-- [x] Napisz cennik (30 min) — `hazelgrouse.pl` ma sekcję cennik z planami
-- [ ] **Usuń fikcyjne testimoniale i "50 firm" z `hazelgrouse.pl` zanim zaczniesz outreach** (30 min)
-- [ ] **Zweryfikuj i aktywuj Google Business Profile dla Hazelgrouse Studio** (1h)
-- [ ] Przygotuj arkusz z 20 firmami do kontaktu (2h)
-- [ ] Nagraj 2-minutowe wideo z demo systemu rezerwacji (1h)
-- [ ] Zadzwoń do 3 pierwszych firm (1h)
+| Tygodniowo | SMS-ów | Telefonów | Spodziewane rozmowy | Spodziewani klienci |
+|------------|--------|-----------|---------------------|---------------------|
+| Start (teraz) | 10–15 | 10 | 2–3 | 0–1 |
+| Miesiąc 2 | 30–50 | 20 | 5–8 | 1–2 |
+| Miesiąc 3+ | 50–100 | 30 | 8–15 | 2–4 |
+
+**Konwersja SMS → odpowiedź: 3–8%** (przy dobrej personalizacji demo)
+**Konwersja rozmowa → klient: 20–30%** (przy spersonalizowanym demo)
+
+Żeby zdobyć 1 klienta potrzebujesz średnio: ~30–50 SMS-ów + 10–15 telefonów. To jest normalne.
 
 ---
 
-*Klucz do sukcesu jest prosty: rozmawiaj z klientami zanim dopiszesz kolejną linię kodu.*
+## Wybór branż i nisz
+
+**Zasada: jedna branża na raz, nie rozpraszaj się.**
+
+Zacznij od branży dla której masz gotowy szablon i klient jest łatwy do znalezienia.
+
+**Dobre nisze na start (łatwy dostęp, prosty decydent, potrzeba strony):**
+- Elektrycy / hydraulicy / glazurnicy / specjaliści budowlani
+- Fryzjerzy / salony kosmetyczne
+- Gabinety fizjoterapii / masażu
+- Mechanicy samochodowi
+- Firmy sprzątające
+
+**Dlaczego te branże:**
+- Właściciel = decydent (nie trzeba przebijać się przez menedżerów)
+- Szukani przez Google ("elektryk Garwolin", "fryzjer Otwock")
+- Prawie żaden nie ma porządnej, nowoczesnej strony
+- Przyzwyczajeni do płacenia za usługi — faktura nie jest problemem
+
+**Unikaj na start:**
+- Restauracji (zbyt wymagający klienci, ciągłe zmiany menu)
+- Kancelarii prawnych (długi cykl decyzyjny, wysoka konkurencja)
+- Lekarzy (regulacje, wymaga specjalistycznej wiedzy)
+
+---
+
+## Cennik — co mówić klientowi
+
+Nie zaczynaj od ceny. Cena pada dopiero po tym jak klient zobaczy demo i powie "podoba mi się".
+
+**Struktura oferty:**
+- Jednorazowe wdrożenie: obejmuje personalizację, domenę, uruchomienie
+- Abonament miesięczny: hosting, wsparcie, aktualizacje, panel do edycji
+
+**Zasada cenowa:** jeśli wyceniasz poniżej 1 500 zł jednorazowo — klient nie traktuje Cię poważnie. Strona za 500 zł = "pewnie jest tyle warta". Strona za 2 000–4 000 zł = "inwestycja w firmę".
+
+---
+
+## Co musisz mieć zanim zaczniesz outreach
+
+**Obowiązkowe:**
+- [ ] Demo strona działająca pod linkiem, z prawdziwą treścią
+- [ ] Cennik — choćby w głowie, ale lepiej na hazelgrouse.pl
+- [ ] Własny numer telefonu (nie bramka SMS — budzi podejrzliwość)
+- [ ] Gotowość do wystawienia faktury
+- [ ] 3-zdaniowy pitch: co to jest, dla kogo, ile kosztuje
+
+**Podnosi konwersję, ale nie blokuj się:**
+- [ ] Google Business Profile dla Hazelgrouse Studio (klienci googlują Cię przed rozmową)
+- [ ] 2–3 case studies lub portfolio na hazelgrouse.pl
+- [ ] Prosty kwestionariusz onboardingowy (jak zbierasz dane od klienta po zamknięciu)
+- [ ] Krótkie wideo z demo systemu (2 minuty, nawet nagrane telefonem)
+
+---
+
+## Metryki — co śledzić
+
+| Metryka | Co mierzy |
+|---------|-----------|
+| SMS-ów wysłanych / tydzień | Twój wysiłek (input) |
+| Kliknięcia w link demo | Zainteresowanie (mierz UTM) |
+| Telefonów wykonanych / tydzień | Twój wysiłek #2 |
+| Rozmów przeprowadzonych | Jakość leadów |
+| Ofert wysłanych | Konwersja z rozmowy |
+| Klientów zamkniętych | Rezultat |
+
+**Najważniejsza metryka na start:** liczba telefonów wykonanych w tygodniu. Nie SMS-ów, nie demo wygenerowanych — telefonów. Bo to telefon zamyka sprzedaż.
+
+---
+
+## Pułapki — czego nie robić
+
+1. **Nie czekaj na odpowiedź na SMS.** Jeśli nie dzwonisz — nie sprzedajesz. SMS to otwarcie, telefon to zamknięcie.
+
+2. **Nie wysyłaj maili zamiast SMS-ów.** Open rate maila od nieznanej osoby to 5–15%. SMS to 90%+. Nie ma porównania.
+
+3. **Nie generuj 50 demo bez wysyłania.** Generowanie stron to praca, ale nie sprzedaż. Lepiej 5 demo + 5 telefonów niż 50 demo + 0 telefonów.
+
+4. **Nie zmieniaj branży co tydzień.** Wybierz jedną, wyślij minimum 30 SMS-ów, zadzwoń do 15+ osób. Dopiero wtedy masz dane żeby ocenić czy branża działa.
+
+5. **Nie buduj nowych funkcji zamiast dzwonić.** Każda godzina kodowania zamiast sprzedawania to odkładanie nieuchronnego.
+
+6. **Nie zaniżaj ceny żeby zdobyć pierwszego klienta.** Pierwszy klient za 500 zł ustawi Twoje oczekiwania i wszystkich przyszłych klientów na niskim poziomie.
+
+---
+
+## Plan na najbliższe 2 tygodnie
+
+### Tydzień 1
+- [ ] Spersonalizuj demo dla elektryka z Garwolina (Darpol) — dodaj adres, telefon, godziny
+- [ ] Wyślij SMS we wtorek 9:00
+- [ ] Wygeneruj 10 kolejnych demo (elektrycy w okolicy — Otwock, Mińsk, Siedlce, Garwolin)
+- [ ] Wyślij SMS-y w środę 9:00
+- [ ] W czwartek 10:00 — zadzwoń do Darpol + do każdego, kto dostał SMS-a we wtorek
+
+### Tydzień 2
+- [ ] Follow-up SMS do tych, którzy nie odpowiedzieli
+- [ ] Dzwoń do wszystkich z tygodnia 1 (którzy nie odebrali lub nie odpowiedzieli)
+- [ ] Generuj kolejne 10 demo
+- [ ] Wyślij nową partię SMS-ów
+- [ ] Piątek: podsumuj metryki — ile SMS, ile telefonów, ile rozmów, ile zainteresowanych
+
+**Cel na 2 tygodnie: minimum 20 SMS-ów wysłanych + minimum 15 telefonów wykonanych.**
+
+Nie "1 klient" — to jest poza Twoją kontrolą. Kontrolujesz tylko liczbę SMS-ów i telefonów. Rób je, a klienci przyjdą.
+
+---
+
+*Klucz: generujesz demo szybciej niż ktokolwiek na rynku. Ale demo nie sprzedaje się samo. Telefon sprzedaje.*
