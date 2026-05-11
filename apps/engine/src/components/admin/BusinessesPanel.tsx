@@ -346,6 +346,8 @@ export function BusinessesPanel() {
   const columns: ColumnDef<BusinessRow, unknown>[] = [
     {
       id: "name",
+      accessorFn: (row) =>
+        `${row.businessName} ${row.city} ${row.industry ?? ""} ${row.phone} ${row.email}`,
       header: "Business",
       cell: ({ row }) => {
         const b = row.original;
@@ -484,6 +486,9 @@ export function BusinessesPanel() {
         subtitle={`${businesses.length} total`}
         data={filtered}
         columns={columns}
+        searchKey="name"
+        searchPlaceholder="Search businesses…"
+        pageSize={25}
         loading={loading}
         loadingLabel="Loading businesses…"
         error={error}
