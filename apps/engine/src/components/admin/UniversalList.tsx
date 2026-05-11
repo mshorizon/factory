@@ -171,7 +171,7 @@ export function UniversalList<T>({
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold">{title}</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
           {subtitle && (
             <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>
           )}
