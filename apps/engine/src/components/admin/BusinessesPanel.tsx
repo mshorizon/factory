@@ -568,7 +568,6 @@ export function BusinessesPanel() {
                 const count = f.value === ""
                   ? businesses.filter((b) => b.status !== "not_interested").length
                   : businesses.filter((b) => b.status === f.value).length;
-                if (f.value !== "" && count === 0) return null;
                 return (
                   <button
                     key={f.value}
@@ -576,10 +575,12 @@ export function BusinessesPanel() {
                     className={`px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors ${
                       statusFilter === f.value
                         ? "bg-foreground text-background"
-                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                        : count === 0 && f.value !== ""
+                          ? "bg-muted text-muted-foreground/35 cursor-default"
+                          : "bg-muted text-muted-foreground hover:bg-muted/80"
                     }`}
                   >
-                    {f.label} ({count})
+                    {f.label}{count > 0 ? ` (${count})` : ""}
                   </button>
                 );
               })}
@@ -610,7 +611,6 @@ export function BusinessesPanel() {
             show: (row) => !!row.subdomain,
           },
         ]}
-        wrapInCard
       />
 
       {/* Generate Site Dialog */}
