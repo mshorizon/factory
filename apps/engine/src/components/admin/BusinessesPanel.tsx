@@ -285,6 +285,17 @@ export function BusinessesPanel() {
     load();
   };
 
+  const changeStatus = async (row: BusinessRow, status: SiteStatus) => {
+    if (row.status === status) return;
+    await fetch(`/api/admin/businesses/${row.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+      credentials: "include",
+    });
+    load();
+  };
+
   // ── Generate site ─────────────────────────────────────────────────────────
 
   const openGenerate = (row: BusinessRow) => {
@@ -392,7 +403,22 @@ export function BusinessesPanel() {
         const b = row.original;
         return (
           <div className="flex flex-col gap-1">
-            <StatusBadge status={b.status} />
+            <DropdownMenu>
+              <DropdownMenuTrigger render={<button className="cursor-pointer focus:outline-none" />}>
+                <StatusBadge status={b.status} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-auto min-w-0" align="start">
+                {PIPELINE.map((stage) => (
+                  <DropdownMenuItem
+                    key={stage.status}
+                    onClick={() => changeStatus(b, stage.status)}
+                    className="p-1 cursor-pointer"
+                  >
+                    <StatusBadge status={stage.status} />
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
             {b.subdomain && (
               <a
                 href={`https://${b.subdomain}.hazelgrouse.pl`}
