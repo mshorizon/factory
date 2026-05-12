@@ -9,6 +9,7 @@ import {
   initDb,
   upsertSiteConfig,
   updateSiteStatus,
+  updateSiteTranslations,
   getSiteBySubdomain,
   getBlogBySlug,
   createBlog,
@@ -1285,11 +1286,12 @@ async function upsertBlog(
 
 async function main() {
   console.log("Saving config for henel...");
-  await upsertSiteConfig("henel", {
-    ...config,
-    translations,
-  } as any);
+  await upsertSiteConfig("henel", config as any);
   console.log("Config saved.");
+
+  console.log("Saving translations...");
+  await updateSiteTranslations("henel", translations);
+  console.log("Translations saved.");
 
   console.log("Seeding blogs...");
   const site = await getSiteBySubdomain("henel");
