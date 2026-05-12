@@ -30,8 +30,6 @@ import {
   Building2,
   ExternalLink,
   Eye,
-  Globe,
-  LayoutDashboard,
   Loader2,
   MoreHorizontal,
   RefreshCw,
@@ -375,9 +373,20 @@ export function BusinessesPanel() {
         const b = row.original;
         return (
           <div className="min-w-0">
-            <div className="font-medium text-sm truncate">{b.businessName}</div>
+            {b.subdomain ? (
+              <a
+                href={`https://${b.subdomain}.hazelgrouse.pl`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-sm hover:underline text-primary block truncate"
+              >
+                {b.subdomain}.hazelgrouse.pl
+              </a>
+            ) : (
+              <div className="font-medium text-sm truncate">{b.businessName}</div>
+            )}
             {b.subdomain && (
-              <div className="text-xs text-muted-foreground">{b.subdomain}.hazelgrouse.pl</div>
+              <div className="text-xs text-muted-foreground truncate">{b.businessName}</div>
             )}
             {b.industry && (
               <div className="text-xs text-muted-foreground/70 truncate max-w-[200px]">{b.industry} · {b.city}</div>
@@ -387,50 +396,27 @@ export function BusinessesPanel() {
       },
     },
     {
-      id: "contact",
-      header: "Contact",
-      cell: ({ row }) => (
-        <div className="min-w-0 text-sm">
-          {row.original.phone && <p className="truncate">{row.original.phone}</p>}
-          {row.original.email && <p className="text-muted-foreground truncate">{row.original.email}</p>}
-        </div>
-      ),
-    },
-    {
       id: "status",
       header: "Status",
       cell: ({ row }) => {
         const b = row.original;
         return (
-          <div className="flex flex-col gap-1">
-            <DropdownMenu>
-              <DropdownMenuTrigger render={<button className="cursor-pointer focus:outline-none" />}>
-                <StatusBadge status={b.status} />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-auto min-w-0" align="start">
-                {PIPELINE.map((stage) => (
-                  <DropdownMenuItem
-                    key={stage.status}
-                    onClick={() => changeStatus(b, stage.status)}
-                    className="p-1 cursor-pointer"
-                  >
-                    <StatusBadge status={stage.status} />
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            {b.subdomain && (
-              <a
-                href={`https://${b.subdomain}.hazelgrouse.pl`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-primary hover:underline"
-              >
-                <Globe className="h-3 w-3" />
-                {b.subdomain}
-              </a>
-            )}
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger render={<button className="cursor-pointer focus:outline-none" />}>
+              <StatusBadge status={b.status} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-auto min-w-0" align="start">
+              {PIPELINE.map((stage) => (
+                <DropdownMenuItem
+                  key={stage.status}
+                  onClick={() => changeStatus(b, stage.status)}
+                  className="p-1 cursor-pointer"
+                >
+                  <StatusBadge status={stage.status} />
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         );
       },
     },
@@ -453,11 +439,16 @@ export function BusinessesPanel() {
       },
     },
     {
-      id: "links",
-      header: "",
+      id: "__actions",
+      header: "Actions",
+      enableSorting: false,
       cell: ({ row }) => {
         const b = row.original;
         const q = encodeURIComponent(`${b.businessName} ${b.city}`);
+        const canReject =
+          b.status !== "not_interested" &&
+          b.status !== "active" &&
+          b.status !== "churned";
         return (
           <div className="flex items-center gap-1.5">
             <a
@@ -479,14 +470,23 @@ export function BusinessesPanel() {
                 href={b.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground"
-                title="Original website"
+                className="text-muted-foreground hover:text-foreground text-[10px] font-medium px-1 py-0.5 rounded bg-muted"
+                title="Client's original website"
               >
-                <ExternalLink className="h-3.5 w-3.5" />
+                orig
               </a>
             )}
             {b.subdomain && (
               <>
+                <a
+                  href={`https://${b.subdomain}.hazelgrouse.pl`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground text-[10px] font-medium px-1 py-0.5 rounded bg-muted"
+                  title="Production site"
+                >
+                  prod
+                </a>
                 <a
                   href={`https://${b.subdomain}.dev.hazelgrouse.pl`}
                   target="_blank"
@@ -500,29 +500,13 @@ export function BusinessesPanel() {
                   href={`https://${b.subdomain}.dev.hazelgrouse.pl/admin`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground text-[10px] font-medium px-1 py-0.5 rounded bg-muted"
                   title="Admin panel"
                 >
-                  <LayoutDashboard className="h-3.5 w-3.5" />
+                  admin
                 </a>
               </>
             )}
-          </div>
-        );
-      },
-    },
-    {
-      id: "__actions",
-      header: () => <span className="sr-only">Actions</span>,
-      enableSorting: false,
-      cell: ({ row }) => {
-        const b = row.original;
-        const canReject =
-          b.status !== "not_interested" &&
-          b.status !== "active" &&
-          b.status !== "churned";
-        return (
-          <div className="flex items-center justify-end gap-1">
             <Button
               size="sm"
               variant="ghost"
