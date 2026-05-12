@@ -93,6 +93,11 @@ async function validateDatabaseBusinesses(): Promise<ValidationResult[]> {
     console.log(`Found ${allSites.length} business(es) in database:\n`);
 
     for (const site of allSites) {
+      if (site.status === "not_interested") {
+        console.log(`  Skipping DB: ${site.subdomain} (not_interested)`);
+        continue;
+      }
+
       process.stdout.write(`  Validating DB: ${site.subdomain}... `);
 
       try {
