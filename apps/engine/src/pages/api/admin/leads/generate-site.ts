@@ -79,26 +79,23 @@ Steps:
 CONTENT REQUIREMENTS — all of the following are mandatory:
 
 ### Translations
-The site must have full translations in 4 languages. Polish is the main/default language.
-Use the createBlog / upsertSiteConfig translation mechanism already used by other sites in the DB.
-Required languages: pl (primary), en, de, uk (Ukrainian).
-Every user-visible string (hero headline, service names, about text, CTA labels, footer tagline, nav items, blog titles/content) must be translated into all 4 languages.
-Look at an existing multilingual site in the DB (e.g. getSiteBySubdomain("template-law")) to understand the translation data structure before writing translations.
+The site must use Polish only. Do NOT add translations for any other language (no en, de, uk or any other language variants).
+All user-visible strings (hero headline, service names, about text, CTA labels, footer tagline, nav items, blog titles/content) must be in Polish only.
+Do NOT call createBlog or upsertSiteConfig with any language other than "pl". Do NOT copy or generate content in other languages even if the source/template contains them.
 ${cloneFrom ? `
 ### Content items (services / projects / products / files)
-Copy all content items (services, projects, products, files) directly from the source business "${cloneFrom}" as-is. Do NOT generate new items — use the exact data from the source config.
+Copy all content items (services, projects, products, files) directly from the source business "${cloneFrom}" as-is (Polish content only). Do NOT generate new items — use the exact data from the source config. Skip any non-Polish language variants.
 
 ### Blog posts
-Copy all blog posts from the source business "${cloneFrom}" as-is using getAllBlogsBySubdomain("${cloneFrom}") (or equivalent). Re-create them for the new subdomain using createBlog with the same content and language variants. Do NOT write new blog posts.` : `
+Copy all blog posts from the source business "${cloneFrom}" using getAllBlogsBySubdomain("${cloneFrom}") (or equivalent). Re-create them for the new subdomain using createBlog for the "pl" language variant only. Do NOT write new blog posts. Do NOT create non-Polish language variants.` : `
 ### Content items (services / projects / products / files)
 Check what content type the base template "${template}" uses (services, projects, products, or files).
-Generate at least 5 realistic items of that type, tailored to the business type ("${business.industry}") and city ("${business.city}").
-Each item must be translated into all 4 languages (pl, en, de, uk).
+Generate at least 5 realistic items of that type, tailored to the business type ("${business.industry}") and city ("${business.city}"). Write all content in Polish only.
 
 ### Blog posts
 Create exactly 3 blog posts relevant to the business type and local market.
-Each blog post must exist in all 4 language variants (pl, en, de, uk) — use the createBlog DB function for each language variant.
-Blog posts should be practical, SEO-friendly articles (400–800 words each) that a local customer would actually search for.
+Each blog post must be created using createBlog for the "pl" language variant only — do NOT create other language variants.
+Blog posts should be practical, SEO-friendly articles in Polish (400–800 words each) that a local customer would actually search for.
 Save blogs to DB after saving the main site config.`}${additionalRequirements ? `
 
 ### Additional requirements from operator
