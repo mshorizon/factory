@@ -29,13 +29,14 @@ export async function upsertSiteConfig(
 ) {
   const db = getDb();
   const existing = await getSiteBySubdomain(subdomain);
+  const isTranslationKey = config.business.name.startsWith("t:");
 
   if (existing) {
     await db
       .update(sites)
       .set({
         config,
-        businessName: config.business.name,
+        ...(isTranslationKey ? {} : { businessName: config.business.name }),
         industry: config.business.industry ?? null,
         updatedAt: new Date(),
       })
@@ -43,7 +44,7 @@ export async function upsertSiteConfig(
   } else {
     await db.insert(sites).values({
       subdomain,
-      businessName: config.business.name,
+      businessName: isTranslationKey ? subdomain : config.business.name,
       industry: config.business.industry ?? null,
       config,
       translations: {},
