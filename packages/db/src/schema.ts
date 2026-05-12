@@ -4,6 +4,7 @@ export const SITE_STATUSES = [
   "lead",
   "site_generated",
   "after_first_sms",
+  "after_follow_up_sms",
   "after_first_call",
   "demo_scheduled",
   "after_demo",
@@ -24,7 +25,8 @@ export const BUSINESS_PIPELINE: readonly {
 }[] = [
   { status: "lead", label: "Lead", action: "Generate website", nextStatus: "site_generated", actionType: "generate_site" },
   { status: "site_generated", label: "Site Generated", action: "Send first SMS", nextStatus: "after_first_sms", actionType: "advance" },
-  { status: "after_first_sms", label: "After First SMS", action: "Make first call", nextStatus: "after_first_call", actionType: "advance" },
+  { status: "after_first_sms", label: "After First SMS", action: "Send follow-up SMS", nextStatus: "after_follow_up_sms", actionType: "advance" },
+  { status: "after_follow_up_sms", label: "After Follow-Up SMS", action: "Make first call", nextStatus: "after_first_call", actionType: "advance" },
   { status: "after_first_call", label: "After First Call", action: "Schedule demo", nextStatus: "demo_scheduled", actionType: "advance" },
   { status: "demo_scheduled", label: "Demo Scheduled", action: "Conduct demo", nextStatus: "after_demo", actionType: "advance" },
   { status: "after_demo", label: "After Demo", action: "Send offer", nextStatus: "offer_sent", actionType: "advance" },
