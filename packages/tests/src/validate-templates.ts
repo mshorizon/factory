@@ -97,6 +97,11 @@ async function validateDatabaseBusinesses(): Promise<ValidationResult[]> {
         continue;
       }
 
+      if (site.status === "not_interested") {
+        console.log(`  Skipping DB: ${site.subdomain} (not_interested)`);
+        continue;
+      }
+
       process.stdout.write(`  Validating DB: ${site.subdomain}... `);
 
       try {
