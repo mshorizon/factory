@@ -111,6 +111,7 @@ interface BusinessRow {
   source: string;
   createdAt: string;
   updatedAt: string;
+  statusChangedAt: string | null;
   lastDeployedAt: string | null;
 }
 
@@ -166,6 +167,26 @@ function StatusBadge({ status }: { status: SiteStatus }) {
   const stage = PIPELINE_MAP.get(status);
   const label = stage?.label ?? status;
   return <Badge className={`${STATUS_STYLE[status] ?? ""} text-[11px]`}>{label}</Badge>;
+}
+
+// ── Elapsed time helpers ──────────────────────────────────────────────────────
+
+function timeElapsed(dateStr: string | null | undefined): string | null {
+  if (!dateStr) return null;
+  const diffMs = Date.now() - new Date(dateStr).getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  if (diffDays >= 1) return `${diffDays}d ago`;
+  if (diffHours >= 1) return `${diffHours}h ago`;
+  return "just now";
+}
+
+function elapsedClass(dateStr: string | null | undefined): string {
+  if (!dateStr) return "text-muted-foreground";
+  const diffDays = (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24);
+  if (diffDays >= 5) return "text-destructive font-medium";
+  if (diffDays >= 3) return "text-amber-600 font-medium";
+  return "text-muted-foreground";
 }
 
 // ── Main Panel ────────────────────────────────────────────────────────────────
@@ -424,17 +445,26 @@ export function BusinessesPanel() {
       id: "suggested_action",
       header: "Suggested Action",
       cell: ({ row }) => {
-        const stage = PIPELINE_MAP.get(row.original.status);
+        const b = row.original;
+        const stage = PIPELINE_MAP.get(b.status);
         if (!stage?.action) return null;
+        const showElapsed = b.status === "after_first_sms";
+        const elapsed = showElapsed ? timeElapsed(b.statusChangedAt ?? b.updatedAt) : null;
+        const elapsedCls = showElapsed ? elapsedClass(b.statusChangedAt ?? b.updatedAt) : "";
         return (
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => handleSuggestedAction(row.original)}
-            className="text-xs whitespace-nowrap"
-          >
-            {stage.action}
-          </Button>
+          <div className="flex flex-col gap-0.5">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => handleSuggestedAction(b)}
+              className="text-xs whitespace-nowrap"
+            >
+              {stage.action}
+            </Button>
+            {elapsed && (
+              <span className={`text-[10px] ${elapsedCls}`}>{elapsed}</span>
+            )}
+          </div>
         );
       },
     },

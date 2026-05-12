@@ -51,6 +51,7 @@ export const sites = pgTable("sites", {
   email: text("email").notNull().default(""),
   website: text("website").notNull().default(""),
   source: text("source").notNull().default("manual"),
+  statusChangedAt: timestamp("status_changed_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

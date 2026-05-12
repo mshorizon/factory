@@ -783,9 +783,10 @@ export async function getSiteById(id: number) {
 
 export async function updateSiteStatus(subdomain: string, status: SiteStatus) {
   const db = getDb();
+  const now = new Date();
   const [row] = await db
     .update(sites)
-    .set({ status, updatedAt: new Date() })
+    .set({ status, statusChangedAt: now, updatedAt: now })
     .where(eq(sites.subdomain, subdomain))
     .returning();
   return row ?? null;
@@ -793,9 +794,10 @@ export async function updateSiteStatus(subdomain: string, status: SiteStatus) {
 
 export async function updateBusinessStatus(id: number, status: SiteStatus) {
   const db = getDb();
+  const now = new Date();
   const [row] = await db
     .update(sites)
-    .set({ status, updatedAt: new Date() })
+    .set({ status, statusChangedAt: now, updatedAt: now })
     .where(eq(sites.id, id))
     .returning();
   return row ?? null;
@@ -853,13 +855,15 @@ export async function getBusinessDeduplicationKeys() {
 
 export async function updateBusinessForSiteGeneration(id: number, data: { subdomain: string; config: Record<string, unknown> }) {
   const db = getDb();
+  const now = new Date();
   const [row] = await db
     .update(sites)
     .set({
       subdomain: data.subdomain,
       config: data.config as any,
       status: "site_generated" as SiteStatus,
-      updatedAt: new Date(),
+      statusChangedAt: now,
+      updatedAt: now,
     })
     .where(eq(sites.id, id))
     .returning();
