@@ -120,7 +120,8 @@ export function HeroSacrum({
                 {scheduleCards.map((card, ci) => (
                   <ScrollReveal key={ci} direction="up" delay={0.2 + ci * 0.08}>
                     <div
-                      className="bg-card border border-border/60 p-spacing-lg rounded-radius shadow-sm"
+                      className="border p-spacing-lg rounded-radius shadow-sm"
+                      style={{ backgroundColor: "#FFFFFF", borderColor: "#b38b3f33" }}
                       data-field={`scheduleCards.${ci}`}
                     >
                       <div className="flex items-center gap-spacing-md mb-spacing-md">
@@ -132,11 +133,12 @@ export function HeroSacrum({
                           {card.title}
                         </h3>
                       </div>
-                      <ul className="flex flex-col gap-1.5">
+                      <ul className="flex flex-col">
                         {(card.rows || []).map((row, ri) => (
                           <li
                             key={ri}
-                            className="flex items-baseline justify-between gap-spacing-md"
+                            className="flex items-baseline justify-between gap-spacing-md pb-1.5 mt-1.5 first:mt-0 border-b"
+                            style={{ borderColor: "#b38b3f33" }}
                           >
                             <span className="text-sm text-muted">{row.label}</span>
                             <span
