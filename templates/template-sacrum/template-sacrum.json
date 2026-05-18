@@ -35,7 +35,7 @@
         "primaryDark": "#8E6E2F",
         "surface": {
           "base": "#FCFAF8",
-          "alt": "#F2EEE5",
+          "alt": "#1A1C1E",
           "card": "#FDFBF7",
           "gradient": "#F2EEE5"
         },
@@ -132,13 +132,6 @@
     }
   },
   "navigation": {
-    "links": [
-      { "label": "Strona główna", "target": { "type": "page", "value": "home" } },
-      { "label": "Ogłoszenia", "target": { "type": "page", "value": "blog" } },
-      { "label": "Sakramenty", "target": { "type": "section", "value": "sakramenty" } },
-      { "label": "O Parafii", "target": { "type": "page", "value": "about" } },
-      { "label": "Kontakt", "target": { "type": "page", "value": "contact" } }
-    ],
     "cta": {
       "label": "Godziny Mszy Świętych",
       "target": { "type": "section", "value": "msze" }
@@ -199,7 +192,7 @@
             "subtitle": "Zapraszamy do naszej wspólnoty parafialnej — miejsca modlitwy, spotkania z Bogiem i braterskiej bliskości. Niech Święty Józef, nasz Patron, prowadzi nas na drodze wiary."
           },
           "titleAccent": "w Trąbkach",
-          "image": "https://images.unsplash.com/photo-1548625150-c2a59ec43c81?auto=format&fit=crop&w=1200&q=80",
+          "image": "https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=1200&h=1200&q=80",
           "scheduleCards": [
             {
               "title": "Godziny Mszy Świętych",
@@ -221,41 +214,34 @@
           ]
         },
         {
-          "type": "blog",
-          "variant": "default",
+          "type": "project",
+          "variant": "grid",
           "background": "light-padded",
           "header": {
             "title": "Ogłoszenia i Aktualności",
             "subtitle": "Bieżące informacje z życia naszej wspólnoty parafialnej",
             "layout": "stacked"
           },
-          "blogPosts": [
+          "projects": [
             {
               "title": "VII Niedziela Wielkanocna",
               "description": "Porządek liturgiczny na nadchodzący tydzień. Zapraszamy na adorację Najświętszego Sakramentu w czwartek o godz. 17:00.",
               "image": "https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=1200&q=80",
-              "date": "18 maja 2026",
-              "href": "/blog"
+              "date": "18 maja 2026"
             },
             {
               "title": "Uroczystość Zesłania Ducha Świętego",
               "description": "Zapraszamy na uroczystą Sumę o godz. 12:00. Po Mszy Świętej procesja wokół kościoła z pieśniami do Ducha Świętego.",
               "image": "https://images.unsplash.com/photo-1490127252417-7c393f993ee4?auto=format&fit=crop&w=1200&q=80",
-              "date": "25 maja 2026",
-              "href": "/blog"
+              "date": "25 maja 2026"
             },
             {
               "title": "Pielgrzymka parafialna do Częstochowy",
               "description": "Zapisy na parafialną pielgrzymkę do Jasnej Góry. Wyjazd o 6:00, powrót wieczorem. Koszt: 80 zł od osoby.",
               "image": "https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=1200&q=80",
-              "date": "1 czerwca 2026",
-              "href": "/blog"
+              "date": "1 czerwca 2026"
             }
-          ],
-          "cta": {
-            "label": "Zobacz wszystkie ogłoszenia",
-            "target": { "type": "page", "value": "blog" }
-          }
+          ]
         },
         {
           "type": "services",
@@ -277,7 +263,7 @@
             "title": "O Naszej Parafii",
             "layout": "none"
           },
-          "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
+          "image": "https://images.unsplash.com/photo-1605648916361-9bc12ad6a569?auto=format&fit=crop&w=1000&h=1200&q=80",
           "story": {
             "title": "O Naszej Parafii",
             "content": "Parafia pod wezwaniem Świętego Józefa w Trąbkach to wspólnota z bogatą tradycją sięgającą wielu pokoleń. Nasz kościół, będący sercem lokalnej społeczności, jest miejscem, gdzie wiara spotyka się z historią, a modlitwa łączy pokolenia.\n\nŚwięty Józef — opiekun Świętej Rodziny, patron robotników i ojców — niezmiennie czuwa nad naszą parafią. Jego pokora, wierność i oddanie są dla nas wzorem codziennego życia chrześcijańskiego.\n\nZapraszamy każdego, kto szuka duchowego ukojenia, wspólnoty i bliskości z Bogiem. W naszej parafii znajdziesz miejsce na modlitwę, sakramenty i braterskie spotkanie.\n\n„Józefie, synu Dawida, nie bój się wziąć do siebie Maryi.\"\n— Ewangelia wg św. Mateusza 1,20"
