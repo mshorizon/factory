@@ -123,6 +123,8 @@ const secondaryCta = section.secondaryCta ? {
 ) : variant === "sacrum" ? (
   <HeroSacrum
     client:load
+    badge={header.badge}
+    badgeColor={section.badgeColor}
     title={header.title || ""}
     subtitle={header.subtitle}
     image={heroImage}

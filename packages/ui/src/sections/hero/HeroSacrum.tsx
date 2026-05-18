@@ -26,6 +26,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 interface HeroSacrumProps extends HeroProps {
   titleAccent?: string;
   scheduleCards?: ScheduleCard[];
+  badgeColor?: string;
 }
 
 function CardIcon({ name }: { name?: string }) {
@@ -44,6 +45,8 @@ function CardIcon({ name }: { name?: string }) {
 export function HeroSacrum({
   title,
   subtitle,
+  badge,
+  badgeColor,
   cta,
   image,
   backgroundImage,
@@ -53,6 +56,7 @@ export function HeroSacrum({
   isHomePage = false,
 }: HeroSacrumProps) {
   const heroImage = image || backgroundImage;
+  const resolvedBadgeColor = badgeColor || "var(--primary)";
 
   return (
     <section
@@ -65,6 +69,23 @@ export function HeroSacrum({
       <div className="container mx-auto">
         <div className="grid gap-spacing-2xl lg:grid-cols-[1fr_1fr] items-start">
           <div className="flex flex-col">
+            {badge && (
+              <ScrollReveal direction="up" delay={0}>
+                <div className="flex items-center gap-spacing-sm mb-spacing-lg">
+                  <span
+                    className="w-8 h-[2px]"
+                    style={{ backgroundColor: resolvedBadgeColor }}
+                  />
+                  <span
+                    className="text-[13px] font-medium uppercase tracking-[0.18em]"
+                    style={{ color: resolvedBadgeColor }}
+                    data-field="header.badge"
+                  >
+                    {badge}
+                  </span>
+                </div>
+              </ScrollReveal>
+            )}
             <ScrollReveal direction="up" delay={0.05}>
               <h1
                 className="font-heading text-foreground tracking-tight text-[40px] sm:text-[52px] lg:text-[60px] leading-[1.05] font-light mb-spacing-lg"
