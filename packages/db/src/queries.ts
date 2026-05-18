@@ -29,13 +29,14 @@ export async function upsertSiteConfig(
 ) {
   const db = getDb();
   const existing = await getSiteBySubdomain(subdomain);
+  const isTranslationKey = config.business.name.startsWith("t:");
 
   if (existing) {
     await db
       .update(sites)
       .set({
         config,
-        businessName: config.business.name,
+        ...(isTranslationKey ? {} : { businessName: config.business.name }),
         industry: config.business.industry ?? null,
         updatedAt: new Date(),
       })
@@ -43,7 +44,7 @@ export async function upsertSiteConfig(
   } else {
     await db.insert(sites).values({
       subdomain,
-      businessName: config.business.name,
+      businessName: isTranslationKey ? subdomain : config.business.name,
       industry: config.business.industry ?? null,
       config,
       translations: {},
@@ -783,9 +784,10 @@ export async function getSiteById(id: number) {
 
 export async function updateSiteStatus(subdomain: string, status: SiteStatus) {
   const db = getDb();
+  const now = new Date();
   const [row] = await db
     .update(sites)
-    .set({ status, updatedAt: new Date() })
+    .set({ status, statusChangedAt: now, updatedAt: now })
     .where(eq(sites.subdomain, subdomain))
     .returning();
   return row ?? null;
@@ -793,9 +795,10 @@ export async function updateSiteStatus(subdomain: string, status: SiteStatus) {
 
 export async function updateBusinessStatus(id: number, status: SiteStatus) {
   const db = getDb();
+  const now = new Date();
   const [row] = await db
     .update(sites)
-    .set({ status, updatedAt: new Date() })
+    .set({ status, statusChangedAt: now, updatedAt: now })
     .where(eq(sites.id, id))
     .returning();
   return row ?? null;
@@ -853,13 +856,15 @@ export async function getBusinessDeduplicationKeys() {
 
 export async function updateBusinessForSiteGeneration(id: number, data: { subdomain: string; config: Record<string, unknown> }) {
   const db = getDb();
+  const now = new Date();
   const [row] = await db
     .update(sites)
     .set({
       subdomain: data.subdomain,
       config: data.config as any,
       status: "site_generated" as SiteStatus,
-      updatedAt: new Date(),
+      statusChangedAt: now,
+      updatedAt: now,
     })
     .where(eq(sites.id, id))
     .returning();

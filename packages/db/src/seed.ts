@@ -59,7 +59,15 @@ async function seed() {
       }
     }
 
-    const businessName = config.business?.name || config.name || subdomain;
+    let businessName = config.business?.name || config.name || subdomain;
+    if (typeof businessName === "string" && businessName.startsWith("t:")) {
+      const key = businessName.slice(2);
+      const settings = translations["_settings"] as Record<string, string> | undefined;
+      const primaryLang = settings?.primaryLanguage ?? "en";
+      const langTrans = (translations[primaryLang] ?? translations["en"] ?? {}) as Record<string, unknown>;
+      const resolved = langTrans[key];
+      businessName = typeof resolved === "string" ? resolved : subdomain;
+    }
     const industry = config.business?.industry || config.industry || null;
 
     // Upsert: update if exists, insert if not

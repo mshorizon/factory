@@ -59,6 +59,7 @@ export const GET: APIRoute = async ({ cookies, locals }) => {
           source: site.source,
           createdAt: site.createdAt.toISOString(),
           updatedAt: site.updatedAt.toISOString(),
+          statusChangedAt: site.statusChangedAt?.toISOString() ?? null,
           lastDeployedAt: site.lastDeployedAt?.toISOString() ?? null,
         };
       })

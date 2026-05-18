@@ -43,6 +43,7 @@ type SiteStatus =
   | "lead"
   | "site_generated"
   | "after_first_sms"
+  | "after_follow_up_sms"
   | "after_first_call"
   | "demo_scheduled"
   | "after_demo"
@@ -61,7 +62,8 @@ const PIPELINE: {
 }[] = [
   { status: "lead", label: "Lead", action: "Generate website", nextStatus: "site_generated", actionType: "generate_site" },
   { status: "site_generated", label: "Site Generated", action: "Send first SMS", nextStatus: "after_first_sms", actionType: "advance" },
-  { status: "after_first_sms", label: "After First SMS", action: "Make first call", nextStatus: "after_first_call", actionType: "advance" },
+  { status: "after_first_sms", label: "After First SMS", action: "Send follow-up SMS", nextStatus: "after_follow_up_sms", actionType: "advance" },
+  { status: "after_follow_up_sms", label: "After Follow-Up SMS", action: "Make first call", nextStatus: "after_first_call", actionType: "advance" },
   { status: "after_first_call", label: "After First Call", action: "Schedule demo", nextStatus: "demo_scheduled", actionType: "advance" },
   { status: "demo_scheduled", label: "Demo Scheduled", action: "Conduct demo", nextStatus: "after_demo", actionType: "advance" },
   { status: "after_demo", label: "After Demo", action: "Send offer", nextStatus: "offer_sent", actionType: "advance" },
@@ -80,10 +82,11 @@ const STATUS_FILTERS: { value: string; label: string }[] = [
 ];
 
 const STATUS_STYLE: Record<SiteStatus, string> = {
-  lead:             "bg-slate-500/10 text-slate-600 border-slate-400/40",
-  site_generated:   "bg-sky-500/10 text-sky-700 border-sky-400/40",
-  after_first_sms:  "bg-blue-500/10 text-blue-700 border-blue-400/40",
-  after_first_call: "bg-indigo-500/10 text-indigo-700 border-indigo-400/40",
+  lead:                "bg-slate-500/10 text-slate-600 border-slate-400/40",
+  site_generated:      "bg-sky-500/10 text-sky-700 border-sky-400/40",
+  after_first_sms:     "bg-blue-500/10 text-blue-700 border-blue-400/40",
+  after_follow_up_sms: "bg-cyan-500/10 text-cyan-700 border-cyan-400/40",
+  after_first_call:    "bg-indigo-500/10 text-indigo-700 border-indigo-400/40",
   demo_scheduled:   "bg-violet-500/10 text-violet-700 border-violet-400/40",
   after_demo:       "bg-purple-500/10 text-purple-700 border-purple-400/40",
   offer_sent:       "bg-amber-500/10 text-amber-700 border-amber-400/40",
@@ -111,6 +114,7 @@ interface BusinessRow {
   source: string;
   createdAt: string;
   updatedAt: string;
+  statusChangedAt: string | null;
   lastDeployedAt: string | null;
 }
 
@@ -166,6 +170,26 @@ function StatusBadge({ status }: { status: SiteStatus }) {
   const stage = PIPELINE_MAP.get(status);
   const label = stage?.label ?? status;
   return <Badge className={`${STATUS_STYLE[status] ?? ""} text-[11px]`}>{label}</Badge>;
+}
+
+// ── Elapsed time helpers ──────────────────────────────────────────────────────
+
+function timeElapsed(dateStr: string | null | undefined): string | null {
+  if (!dateStr) return null;
+  const diffMs = Date.now() - new Date(dateStr).getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  if (diffDays >= 1) return `${diffDays}d ago`;
+  if (diffHours >= 1) return `${diffHours}h ago`;
+  return "just now";
+}
+
+function elapsedClass(dateStr: string | null | undefined, warnDays = 3, dangerDays = 5): string {
+  if (!dateStr) return "text-muted-foreground";
+  const diffDays = (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24);
+  if (diffDays >= dangerDays) return "text-destructive font-medium";
+  if (diffDays >= warnDays) return "text-amber-600 font-medium";
+  return "text-muted-foreground";
 }
 
 // ── Main Panel ────────────────────────────────────────────────────────────────
@@ -424,17 +448,32 @@ export function BusinessesPanel() {
       id: "suggested_action",
       header: "Suggested Action",
       cell: ({ row }) => {
-        const stage = PIPELINE_MAP.get(row.original.status);
+        const b = row.original;
+        const stage = PIPELINE_MAP.get(b.status);
         if (!stage?.action) return null;
+        const isFollowUpSms = b.status === "after_follow_up_sms";
+        const showElapsed = b.status === "after_first_sms" || isFollowUpSms;
+        const elapsed = showElapsed ? timeElapsed(b.statusChangedAt ?? b.updatedAt) : null;
+        const elapsedCls = showElapsed
+          ? elapsedClass(b.statusChangedAt ?? b.updatedAt, isFollowUpSms ? 1 : 3, isFollowUpSms ? 2 : 5)
+          : "";
         return (
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => handleSuggestedAction(row.original)}
-            className="text-xs whitespace-nowrap"
-          >
-            {stage.action}
-          </Button>
+          <div className="flex flex-col gap-0.5">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => handleSuggestedAction(b)}
+              className="text-xs whitespace-nowrap"
+            >
+              {stage.action}
+            </Button>
+            {elapsed && (
+              <span className={`text-[10px] ${elapsedCls}`}>{elapsed}</span>
+            )}
+            {isFollowUpSms && (
+              <span className="text-[10px] text-muted-foreground">5d/1st · 2d/follow-up</span>
+            )}
+          </div>
         );
       },
     },
