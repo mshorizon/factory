@@ -108,6 +108,10 @@ export type HideBorderWhenAtTop = boolean;
  */
 export type HideCTAButton = boolean;
 /**
+ * Hide the auto-injected Blog link in the navbar
+ */
+export type HideBlogLink = boolean;
+/**
  * Show social media icons in the upper bar extension
  */
 export type ShowSocialMediaIconsInExtension = boolean;
@@ -536,6 +540,7 @@ export interface Navbar {
   hideLogoIcon?: HideLogoIcon;
   hideBorderOnTop?: HideBorderWhenAtTop;
   hideCta?: HideCTAButton;
+  hideBlog?: HideBlogLink;
   showSocials?: ShowSocialMediaIconsInExtension;
   showAvailability?: ShowAvailabilityInExtension;
   showAddress?: ShowAddressInExtension;

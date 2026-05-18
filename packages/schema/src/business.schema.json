@@ -973,6 +973,12 @@
               "description": "Hide the call-to-action button in the navbar",
               "default": false
             },
+            "hideBlog": {
+              "type": "boolean",
+              "title": "Hide Blog Link",
+              "description": "Hide the auto-injected Blog link in the navbar",
+              "default": false
+            },
             "showSocials": {
               "type": "boolean",
               "title": "Show Social Media Icons in Extension",

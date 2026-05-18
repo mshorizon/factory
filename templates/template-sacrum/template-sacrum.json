@@ -97,6 +97,7 @@
       "logoSubtext": "Trąbki",
       "hideLogoIcon": true,
       "hideBorderOnTop": true,
+      "hideBlog": true,
       "showSocials": false,
       "showAvailability": false,
       "showAddress": false
