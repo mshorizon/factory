@@ -75,7 +75,7 @@ export function HeroSacrum({
                 {titleAccent && (
                   <>
                     <br />
-                    <span className="italic" data-field="titleAccent">
+                    <span className="italic text-primary" data-field="titleAccent">
                       {titleAccent}
                     </span>
                   </>
