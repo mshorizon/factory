@@ -221,7 +221,7 @@
         {
           "type": "project",
           "variant": "grid",
-          "background": "light-padded",
+          "background": "light",
           "header": {
             "title": "Ogłoszenia i Aktualności",
             "subtitle": "Bieżące informacje z życia naszej wspólnoty parafialnej",
