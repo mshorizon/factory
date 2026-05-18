@@ -212,8 +212,9 @@ const showCta = !hideCta && !!cta;
             href={cta.href}
             class="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
           >
+            <svg class="cta-icon-clock" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             {cta.label}
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <svg class="cta-icon-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         )}
       </div>
@@ -253,8 +254,9 @@ const showCta = !hideCta && !!cta;
             href={cta.href}
             class="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
           >
+            <svg class="cta-icon-clock" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             {cta.label}
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <svg class="cta-icon-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         )}
       </div>
@@ -310,6 +312,20 @@ const showCta = !hideCta && !!cta;
     [data-nav-links-position="right"] #main-nav .nav-links-right {
       display: flex !important;
     }
+  }
+
+  /* CTA icon swap: default = arrow (right), template-law = clock (left) */
+  #main-nav .cta-icon-clock,
+  #mobile-menu .cta-icon-clock {
+    display: none;
+  }
+  [data-major-theme="template-law"] #main-nav .cta-icon-clock,
+  [data-major-theme="template-law"] #mobile-menu .cta-icon-clock {
+    display: inline-block;
+  }
+  [data-major-theme="template-law"] #main-nav .cta-icon-arrow,
+  [data-major-theme="template-law"] #mobile-menu .cta-icon-arrow {
+    display: none;
   }
 
   /* portfolio-law specific */
