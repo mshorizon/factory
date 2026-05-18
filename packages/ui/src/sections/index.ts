@@ -7,8 +7,8 @@ export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered,
 export type { FooterProps, SocialLink, Link, FooterColumn } from "./footer";
 
 // Hero variants
-export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency } from "./hero";
-export type { HeroProps, CTAButton } from "./hero";
+export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency, HeroSacrum } from "./hero";
+export type { HeroProps, CTAButton, ScheduleCard, ScheduleCardRow } from "./hero";
 
 // Services variants
 export { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating } from "./services";

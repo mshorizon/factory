@@ -1,0 +1,359 @@
+{
+  "business": {
+    "id": "template-sacrum-001",
+    "name": "Parafia Św. Józefa w Trąbkach",
+    "industry": "religious",
+    "assets": {
+      "favicon": "/assets/portfolio-law-favicon.svg",
+      "icon": "/assets/portfolio-law-favicon.svg",
+      "iconLucide": "church"
+    },
+    "contact": {
+      "address": "ul. Kościelna 1, 83-034 Trąbki Wielkie",
+      "phone": "+48 58 582 71 23",
+      "email": "parafia@trabki.pl",
+      "hours": "Kancelaria: Pon–Pt 9:00–11:00, Wt i Czw 16:00–17:00",
+      "location": {
+        "latitude": 54.1731,
+        "longitude": 18.6311,
+        "googlePlaceQuery": "Parafia Trąbki Wielkie kościół"
+      }
+    },
+    "socials": {
+      "facebook": "https://facebook.com/",
+      "youtube": "https://youtube.com/"
+    }
+  },
+  "theme": {
+    "preset": "elegant",
+    "majorTheme": "template-law",
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#B38B3F",
+        "primaryLight": "#C9A35C",
+        "primaryDark": "#8E6E2F",
+        "surface": {
+          "base": "#FCFAF8",
+          "alt": "#F2EEE5",
+          "card": "#FDFBF7",
+          "gradient": "#F2EEE5"
+        },
+        "text": {
+          "main": "#1A1C1E",
+          "muted": "#6B6760",
+          "onPrimary": "#FFFFFF"
+        }
+      },
+      "dark": {
+        "primary": "#C9A35C",
+        "primaryLight": "#DBB874",
+        "primaryDark": "#8E6E2F",
+        "surface": {
+          "base": "#1A1C1E",
+          "alt": "#232527",
+          "card": "#1F2123"
+        },
+        "text": {
+          "main": "#FCFAF8",
+          "muted": "#B5B0A6",
+          "onPrimary": "#1A1C1E"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'Inter', system-ui, -apple-system, sans-serif",
+      "secondary": "'Cormorant Garamond', 'Georgia', serif"
+    },
+    "ui": {
+      "radius": "4px",
+      "radiusSm": "2px",
+      "spacing": {
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "5rem",
+        "section": "7.5rem",
+        "container": "2.5rem"
+      }
+    },
+    "headingWeight": "300",
+    "maxFontWeight": "500",
+    "navFontSize": "14px",
+    "navLogoSize": "16px",
+    "navLogoWeight": "500",
+    "navLinksPosition": "center",
+    "badgeVariant": "text",
+    "badgeFontSize": "13px"
+  },
+  "layout": {
+    "navbar": {
+      "variant": "standard",
+      "logoText": "Parafia Św. Józefa · Trąbki",
+      "hideBorderOnTop": true,
+      "showSocials": false,
+      "showAvailability": false,
+      "showAddress": false
+    },
+    "footer": {
+      "variant": "multiColumn",
+      "name": "Parafia Św. Józefa",
+      "tagline": "Soli Deo Gloria",
+      "copyright": "© 2026 Parafia Św. Józefa w Trąbkach. Wszelkie prawa zastrzeżone.",
+      "columns": [
+        {
+          "title": "Kontakt",
+          "links": [
+            { "label": "ul. Kościelna 1", "target": { "type": "external", "value": "#" } },
+            { "label": "83-034 Trąbki Wielkie", "target": { "type": "external", "value": "#" } },
+            { "label": "+48 58 582 71 23", "target": { "type": "phone", "value": "+48585827123" } },
+            { "label": "parafia@trabki.pl", "target": { "type": "email", "value": "parafia@trabki.pl" } }
+          ]
+        },
+        {
+          "title": "Lokalizacja",
+          "links": [
+            { "label": "Otwórz w Google Maps", "target": { "type": "external", "value": "https://maps.google.com/?q=Trąbki+Wielkie+kościół" } }
+          ]
+        },
+        {
+          "title": "Przydatne Linki",
+          "links": [
+            { "label": "Archidiecezja Gdańska", "target": { "type": "external", "value": "https://diecezja.gda.pl" } },
+            { "label": "Stolica Apostolska", "target": { "type": "external", "value": "https://www.vatican.va" } },
+            { "label": "Konferencja Episkopatu Polski", "target": { "type": "external", "value": "https://episkopat.pl" } }
+          ]
+        }
+      ]
+    }
+  },
+  "navigation": {
+    "links": [
+      { "label": "Strona główna", "target": { "type": "page", "value": "home" } },
+      { "label": "Ogłoszenia", "target": { "type": "page", "value": "blog" } },
+      { "label": "Sakramenty", "target": { "type": "section", "value": "sakramenty" } },
+      { "label": "O Parafii", "target": { "type": "page", "value": "about" } },
+      { "label": "Kontakt", "target": { "type": "page", "value": "contact" } }
+    ],
+    "cta": {
+      "label": "Godziny Mszy Świętych",
+      "target": { "type": "section", "value": "msze" }
+    }
+  },
+  "data": {
+    "services": [
+      {
+        "id": "chrzest",
+        "slug": "chrzest",
+        "title": "Chrzest Święty",
+        "description": "Rozpocznij drogę wiary swojego dziecka. Chrzty odbywają się w II i IV niedzielę miesiąca.",
+        "content": "Chrzest Święty jest pierwszym i podstawowym sakramentem inicjacji chrześcijańskiej. Przez chrzest człowiek zostaje włączony do wspólnoty Kościoła, uwolniony od grzechu pierworodnego i staje się dzieckiem Bożym.\n\nChrzty udzielane są w II i IV niedzielę miesiąca, zazwyczaj po Mszy Świętej o godz. 12:00. Prosimy o wcześniejsze uzgodnienie terminu z kancelarią parafialną.",
+        "icon": "droplets",
+        "category": "Sakrament inicjacji"
+      },
+      {
+        "id": "malzenstwo",
+        "slug": "malzenstwo",
+        "title": "Sakrament Małżeństwa",
+        "description": "Przygotowanie do ślubu kościelnego. Narzeczeni zgłaszają się co najmniej 6 miesięcy przed planowaną datą.",
+        "content": "Sakrament Małżeństwa jest przymierzem, przez które mężczyzna i kobieta tworzą wspólnotę całego życia. Narzeczeni zobowiązani są do zgłoszenia się w kancelarii parafialnej co najmniej sześć miesięcy przed planowanym ślubem.\n\nWymagane dokumenty: metryka chrztu, świadectwo bierzmowania, zaświadczenie z kursu przedmałżeńskiego.",
+        "icon": "heart",
+        "category": "Sakrament w służbie wspólnoty"
+      },
+      {
+        "id": "spowiedz",
+        "slug": "spowiedz",
+        "title": "Spowiedź Święta",
+        "description": "Sakrament pojednania i pokuty. Codziennie przed wieczorną Mszą Świętą oraz w niedziele.",
+        "content": "Spowiedź Święta jest sakramentem pojednania z Bogiem i Kościołem. Możliwość spowiedzi: dni powszednie 17:30–17:55 oraz 30 minut przed każdą Mszą Świętą w niedzielę.",
+        "icon": "book-open",
+        "category": "Sakrament uzdrowienia"
+      },
+      {
+        "id": "pogrzeb",
+        "slug": "pogrzeb",
+        "title": "Pogrzeb Katolicki",
+        "description": "Towarzyszymy rodzinie w chwilach pożegnania bliskich poprzez modlitwę i sakramenty.",
+        "content": "Pogrzeb katolicki jest aktem religijnym, w którym Kościół wyraża wiarę w zmartwychwstanie i życie wieczne. Prosimy o kontakt z kancelarią parafialną w celu ustalenia terminu i przebiegu uroczystości.",
+        "icon": "flower",
+        "category": "Posługa duszpasterska"
+      }
+    ]
+  },
+  "pages": {
+    "home": {
+      "title": "Strona główna",
+      "navLabel": "Strona główna",
+      "navOrder": 1,
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "sacrum",
+          "background": "light",
+          "header": {
+            "title": "Witamy w Parafii\nśw. Józefa",
+            "subtitle": "Zapraszamy do naszej wspólnoty parafialnej — miejsca modlitwy, spotkania z Bogiem i braterskiej bliskości. Niech Święty Józef, nasz Patron, prowadzi nas na drodze wiary."
+          },
+          "titleAccent": "w Trąbkach",
+          "image": "https://images.unsplash.com/photo-1548625150-c2a59ec43c81?auto=format&fit=crop&w=1200&q=80",
+          "scheduleCards": [
+            {
+              "title": "Godziny Mszy Świętych",
+              "icon": "clock",
+              "rows": [
+                { "label": "Niedziela", "value": "7:30 · 9:00 · 10:30 · 12:00" },
+                { "label": "Dni powszednie", "value": "7:00 · 18:00" },
+                { "label": "Sobota", "value": "7:00 · 18:00" }
+              ]
+            },
+            {
+              "title": "Spowiedź Święta",
+              "icon": "heart",
+              "rows": [
+                { "label": "Dni powszednie", "value": "17:30 – 17:55" },
+                { "label": "Niedziela", "value": "30 min. przed każdą Mszą" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "blog",
+          "variant": "default",
+          "background": "light-padded",
+          "header": {
+            "title": "Ogłoszenia i Aktualności",
+            "subtitle": "Bieżące informacje z życia naszej wspólnoty parafialnej",
+            "layout": "stacked"
+          },
+          "blogPosts": [
+            {
+              "title": "VII Niedziela Wielkanocna",
+              "description": "Porządek liturgiczny na nadchodzący tydzień. Zapraszamy na adorację Najświętszego Sakramentu w czwartek o godz. 17:00.",
+              "image": "https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=1200&q=80",
+              "date": "18 maja 2026",
+              "href": "/blog"
+            },
+            {
+              "title": "Uroczystość Zesłania Ducha Świętego",
+              "description": "Zapraszamy na uroczystą Sumę o godz. 12:00. Po Mszy Świętej procesja wokół kościoła z pieśniami do Ducha Świętego.",
+              "image": "https://images.unsplash.com/photo-1490127252417-7c393f993ee4?auto=format&fit=crop&w=1200&q=80",
+              "date": "25 maja 2026",
+              "href": "/blog"
+            },
+            {
+              "title": "Pielgrzymka parafialna do Częstochowy",
+              "description": "Zapisy na parafialną pielgrzymkę do Jasnej Góry. Wyjazd o 6:00, powrót wieczorem. Koszt: 80 zł od osoby.",
+              "image": "https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=1200&q=80",
+              "date": "1 czerwca 2026",
+              "href": "/blog"
+            }
+          ],
+          "cta": {
+            "label": "Zobacz wszystkie ogłoszenia",
+            "target": { "type": "page", "value": "blog" }
+          }
+        },
+        {
+          "type": "services",
+          "variant": "grid",
+          "background": "light",
+          "header": {
+            "title": "Sakramenty Święte",
+            "subtitle": "Każdy sakrament jest spotkaniem z Chrystusem. Dowiedz się, jak przygotować się na te ważne chwile.",
+            "layout": "stacked"
+          },
+          "detailsLabel": "Dowiedz się więcej"
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "background": "light-padded",
+          "imagePosition": "left",
+          "header": {
+            "title": "O Naszej Parafii",
+            "layout": "none"
+          },
+          "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
+          "story": {
+            "title": "O Naszej Parafii",
+            "content": "Parafia pod wezwaniem Świętego Józefa w Trąbkach to wspólnota z bogatą tradycją sięgającą wielu pokoleń. Nasz kościół, będący sercem lokalnej społeczności, jest miejscem, gdzie wiara spotyka się z historią, a modlitwa łączy pokolenia.\n\nŚwięty Józef — opiekun Świętej Rodziny, patron robotników i ojców — niezmiennie czuwa nad naszą parafią. Jego pokora, wierność i oddanie są dla nas wzorem codziennego życia chrześcijańskiego.\n\nZapraszamy każdego, kto szuka duchowego ukojenia, wspólnoty i bliskości z Bogiem. W naszej parafii znajdziesz miejsce na modlitwę, sakramenty i braterskie spotkanie.\n\n„Józefie, synu Dawida, nie bój się wziąć do siebie Maryi.\"\n— Ewangelia wg św. Mateusza 1,20"
+          },
+          "cta": {
+            "label": "Poznaj pełną historię parafii",
+            "target": { "type": "page", "value": "about" }
+          }
+        }
+      ]
+    },
+    "about": {
+      "title": "O Parafii",
+      "navLabel": "O Parafii",
+      "navOrder": 2,
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "background": "light",
+          "imagePosition": "right",
+          "header": {
+            "title": "Historia Parafii Św. Józefa",
+            "subtitle": "Wielowiekowa tradycja wiary i wspólnoty"
+          },
+          "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
+          "story": {
+            "title": "Wspólnota z tradycją",
+            "content": "Parafia pod wezwaniem Świętego Józefa w Trąbkach to wspólnota z bogatą tradycją sięgającą wielu pokoleń. Nasz kościół, będący sercem lokalnej społeczności, jest miejscem, gdzie wiara spotyka się z historią, a modlitwa łączy pokolenia.\n\nŚwięty Józef — opiekun Świętej Rodziny, patron robotników i ojców — niezmiennie czuwa nad naszą parafią. Jego pokora, wierność i oddanie są dla nas wzorem codziennego życia chrześcijańskiego."
+          }
+        },
+        {
+          "type": "services",
+          "variant": "grid",
+          "background": "light-padded",
+          "header": {
+            "title": "Sakramenty Święte",
+            "subtitle": "Każdy sakrament jest spotkaniem z Chrystusem.",
+            "layout": "stacked"
+          },
+          "detailsLabel": "Dowiedz się więcej"
+        }
+      ]
+    },
+    "contact": {
+      "title": "Kontakt",
+      "navLabel": "Kontakt",
+      "navOrder": 3,
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "split",
+          "background": "light",
+          "header": {
+            "title": "Skontaktuj się z nami",
+            "subtitle": "Chętnie odpowiemy na Twoje pytania. Skontaktuj się z kancelarią parafialną — chętnie pomożemy."
+          },
+          "info": {
+            "address": "ul. Kościelna 1, 83-034 Trąbki Wielkie",
+            "phone": "+48 58 582 71 23",
+            "email": "parafia@trabki.pl",
+            "hours": "Kancelaria parafialna",
+            "hoursDetailed": [
+              "Poniedziałek – Piątek: 9:00 – 11:00",
+              "Wtorek, Czwartek: 16:00 – 17:00"
+            ]
+          },
+          "form": {
+            "namePlaceholder": "Twoje imię i nazwisko",
+            "emailPlaceholder": "Twój adres email",
+            "messagePlaceholder": "Twoja wiadomość",
+            "submitButton": "Wyślij wiadomość"
+          }
+        }
+      ]
+    }
+  },
+  "sharedSections": {}
+}

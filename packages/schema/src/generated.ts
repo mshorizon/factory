@@ -248,6 +248,19 @@ export type Testimonials = {
   quote?: string;
   image?: AvatarImageURL2;
 }[];
+/**
+ * Decorative italic phrase rendered as a secondary line under the main title (used by hero/sacrum).
+ */
+export type TitleAccent = string;
+export type CardTitle = string;
+export type LucideIconName = string;
+export type Label2 = string;
+export type Value = string;
+export type Rows = ScheduleRow[];
+/**
+ * Compact data cards (e.g. mass hours, confession hours) rendered inside the hero (used by hero/sacrum).
+ */
+export type ScheduleCards = ScheduleCard[];
 export type FeatureTags = string[];
 export type AuthorName = string;
 export type AuthorRole = string;
@@ -596,6 +609,8 @@ export interface Section {
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
+  titleAccent?: TitleAccent;
+  scheduleCards?: ScheduleCards;
   items?: Items;
   story?: {
     title?: string;
@@ -657,6 +672,15 @@ export interface Testimonial {
   title?: string;
   quote?: string;
   image?: AvatarImageURL1;
+}
+export interface ScheduleCard {
+  title?: CardTitle;
+  icon?: LucideIconName;
+  rows?: Rows;
+}
+export interface ScheduleRow {
+  label?: Label2;
+  value?: Value;
 }
 export interface ServiceItem {
   id?: string;

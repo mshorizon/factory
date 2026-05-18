@@ -207,6 +207,36 @@
             }
           }
         },
+        "titleAccent": {
+          "type": "string",
+          "title": "Title Accent",
+          "description": "Decorative italic phrase rendered as a secondary line under the main title (used by hero/sacrum)."
+        },
+        "scheduleCards": {
+          "type": "array",
+          "title": "Schedule Cards",
+          "description": "Compact data cards (e.g. mass hours, confession hours) rendered inside the hero (used by hero/sacrum).",
+          "items": {
+            "type": "object",
+            "title": "ScheduleCard",
+            "properties": {
+              "title": { "type": "string", "title": "Card Title" },
+              "icon": { "type": "string", "title": "Lucide Icon Name" },
+              "rows": {
+                "type": "array",
+                "title": "Rows",
+                "items": {
+                  "type": "object",
+                  "title": "ScheduleRow",
+                  "properties": {
+                    "label": { "type": "string", "title": "Label" },
+                    "value": { "type": "string", "title": "Value" }
+                  }
+                }
+              }
+            }
+          }
+        },
         "items": {
           "type": "array",
           "title": "Items",
