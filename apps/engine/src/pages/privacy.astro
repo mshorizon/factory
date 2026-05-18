@@ -66,8 +66,10 @@ const year = new Date().getFullYear();
 <BaseLayout title={`Polityka prywatności | ${businessName}`} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
   <Navbar
     logo={layout.navbar.logoText || businessName}
+    logoSubtext={layout.navbar.logoSubtext}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     logoIconLucide={business.business.assets?.iconLucide}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}

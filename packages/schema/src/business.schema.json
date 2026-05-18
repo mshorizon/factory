@@ -950,6 +950,17 @@
               "title": "Logo Text Override",
               "description": "Override the business name displayed in the navbar"
             },
+            "logoSubtext": {
+              "type": "string",
+              "title": "Logo Subtext",
+              "description": "Optional second line shown below the logo text (stacked column layout)"
+            },
+            "hideLogoIcon": {
+              "type": "boolean",
+              "title": "Hide Logo Icon",
+              "description": "Hide the icon next to the logo text in the navbar",
+              "default": false
+            },
             "hideBorderOnTop": {
               "type": "boolean",
               "title": "Hide Border When At Top",

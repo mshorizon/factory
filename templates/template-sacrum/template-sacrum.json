@@ -93,7 +93,9 @@
   "layout": {
     "navbar": {
       "variant": "standard",
-      "logoText": "Parafia Św. Józefa · Trąbki",
+      "logoText": "Parafia Św. Józefa",
+      "logoSubtext": "Trąbki",
+      "hideLogoIcon": true,
       "hideBorderOnTop": true,
       "showSocials": false,
       "showAvailability": false,

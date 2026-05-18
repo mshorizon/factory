@@ -92,6 +92,14 @@ export type NavbarVariant = "standard" | "centered" | "transparent";
  */
 export type LogoTextOverride = string;
 /**
+ * Optional second line shown below the logo text (stacked column layout)
+ */
+export type LogoSubtext = string;
+/**
+ * Hide the icon next to the logo text in the navbar
+ */
+export type HideLogoIcon = boolean;
+/**
  * Hide the bottom border when scroll is at the very top of the page
  */
 export type HideBorderWhenAtTop = boolean;
@@ -524,6 +532,8 @@ export interface Layout {
 export interface Navbar {
   variant?: NavbarVariant;
   logoText?: LogoTextOverride;
+  logoSubtext?: LogoSubtext;
+  hideLogoIcon?: HideLogoIcon;
   hideBorderOnTop?: HideBorderWhenAtTop;
   hideCta?: HideCTAButton;
   showSocials?: ShowSocialMediaIconsInExtension;
