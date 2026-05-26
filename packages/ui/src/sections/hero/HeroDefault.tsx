@@ -10,17 +10,11 @@ import type { HeroProps } from "./types";
 // Hero content lives above the fold and must be visible on the very first
 // paint — using ScrollReveal here would hide it behind framer-motion's
 // initial opacity:0 until React hydrates, producing a visible "pop in"
-// once the JS bundle finishes loading. CSS keyframes run immediately and
-// don't depend on hydration.
-const heroFadeKeyframes = `
-@keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }
-@keyframes hero-fade-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-`;
-
-const heroFadeStyle = (delaySeconds: number): CSSProperties => ({
-  animation: `hero-fade-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) ${delaySeconds}s forwards`,
-  opacity: 0,
-});
+// once the JS bundle finishes loading. The .hero-fade-up class (defined in
+// global.css) uses plain CSS keyframes that run as soon as CSS parses and
+// survive React's hydration pass unchanged.
+const heroFadeDelay = (s: number): CSSProperties =>
+  ({ ["--hero-fade-delay" as string]: `${s}s` } as CSSProperties);
 
 export function HeroDefault({
   title,
@@ -55,16 +49,14 @@ export function HeroDefault({
           : undefined
       }
     >
-      <style>{heroFadeKeyframes}</style>
       {backgroundImage && (
         <>
           <div
-            className="absolute inset-0 will-change-transform"
+            className="hero-bg-zoom absolute inset-0 will-change-transform"
             style={{
               backgroundImage: `url(${backgroundImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              animation: "hero-bg-zoom 10s ease-out forwards",
             }}
             data-field="backgroundImage"
           />
@@ -87,13 +79,13 @@ export function HeroDefault({
         )}
       >
         {badge && (
-          <div style={heroFadeStyle(0)}>
+          <div className="hero-fade-up" style={heroFadeDelay(0)}>
             <Badge variant="accent" className="mb-spacing-md text-sm px-spacing-md py-1" data-field="header.badge">
               {badge}
             </Badge>
           </div>
         )}
-        <div style={heroFadeStyle(0.1)}>
+        <div className="hero-fade-up" style={heroFadeDelay(0.1)}>
           <h1
             className={cn(
               "text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight",
@@ -105,7 +97,7 @@ export function HeroDefault({
           </h1>
         </div>
         {subtitle && (
-          <div style={heroFadeStyle(0.2)}>
+          <div className="hero-fade-up" style={heroFadeDelay(0.2)}>
             <p
               className={cn(
                 "text-lg md:text-xl max-w-2xl mb-spacing-2xl",
@@ -119,7 +111,7 @@ export function HeroDefault({
           </div>
         )}
         {(cta || secondaryCta) && (
-          <div style={heroFadeStyle(0.3)}>
+          <div className="hero-fade-up" style={heroFadeDelay(0.3)}>
             <div
               className={cn(
                 "flex flex-wrap gap-spacing-md",
