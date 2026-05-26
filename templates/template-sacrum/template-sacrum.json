@@ -93,8 +93,11 @@
   "layout": {
     "navbar": {
       "variant": "standard",
-      "logoText": "Parafia Św. Józefa · Trąbki",
+      "logoText": "Parafia Św. Józefa",
+      "logoSubtext": "Trąbki",
+      "hideLogoIcon": true,
       "hideBorderOnTop": true,
+      "hideBlog": true,
       "showSocials": false,
       "showAvailability": false,
       "showAddress": false
@@ -187,12 +190,14 @@
           "type": "hero",
           "variant": "sacrum",
           "background": "light",
+          "badgeColor": "#B38B3F",
           "header": {
+            "badge": "Wspólnota Parafialna",
             "title": "Witamy w Parafii\nśw. Józefa",
             "subtitle": "Zapraszamy do naszej wspólnoty parafialnej — miejsca modlitwy, spotkania z Bogiem i braterskiej bliskości. Niech Święty Józef, nasz Patron, prowadzi nas na drodze wiary."
           },
           "titleAccent": "w Trąbkach",
-          "image": "https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=1200&h=1200&q=80",
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-sacrum/hero.jpg",
           "scheduleCards": [
             {
               "title": "Godziny Mszy Świętych",
@@ -216,7 +221,7 @@
         {
           "type": "project",
           "variant": "grid",
-          "background": "light-padded",
+          "background": "light",
           "header": {
             "title": "Ogłoszenia i Aktualności",
             "subtitle": "Bieżące informacje z życia naszej wspólnoty parafialnej",

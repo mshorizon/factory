@@ -31,17 +31,21 @@ export function HeroDefault({
     <section
       className={cn(
         "relative z-0 bg-background",
+        fullHeight && "min-h-screen w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]",
         className
       )}
-      style={
-        backgroundImage
+      style={{
+        ...(backgroundImage
           ? {
               backgroundImage: `url(${backgroundImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }
-          : undefined
-      }
+          : {}),
+        ...(fullHeight
+          ? { marginTop: "calc(var(--main-nav-offset, 64px) * -1)" }
+          : {}),
+      }}
     >
       {backgroundImage && overlay && (
         <div className="absolute inset-0 bg-black/50" data-field="backgroundImage" />
@@ -49,6 +53,7 @@ export function HeroDefault({
       <div
         className={cn(
           "relative container mx-auto flex flex-col justify-center",
+          fullHeight && "min-h-screen",
           alignmentClasses[align]
         )}
       >

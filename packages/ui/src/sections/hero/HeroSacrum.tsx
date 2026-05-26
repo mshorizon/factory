@@ -26,6 +26,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 interface HeroSacrumProps extends HeroProps {
   titleAccent?: string;
   scheduleCards?: ScheduleCard[];
+  badgeColor?: string;
 }
 
 function CardIcon({ name }: { name?: string }) {
@@ -44,6 +45,8 @@ function CardIcon({ name }: { name?: string }) {
 export function HeroSacrum({
   title,
   subtitle,
+  badge,
+  badgeColor,
   cta,
   image,
   backgroundImage,
@@ -53,6 +56,7 @@ export function HeroSacrum({
   isHomePage = false,
 }: HeroSacrumProps) {
   const heroImage = image || backgroundImage;
+  const resolvedBadgeColor = badgeColor || "var(--primary)";
 
   return (
     <section
@@ -65,6 +69,23 @@ export function HeroSacrum({
       <div className="container mx-auto">
         <div className="grid gap-spacing-2xl lg:grid-cols-[1fr_1fr] items-start">
           <div className="flex flex-col">
+            {badge && (
+              <ScrollReveal direction="up" delay={0}>
+                <div className="flex items-center gap-spacing-sm mb-spacing-lg">
+                  <span
+                    className="w-8 h-[2px]"
+                    style={{ backgroundColor: resolvedBadgeColor }}
+                  />
+                  <span
+                    className="text-[13px] font-medium uppercase tracking-[0.18em]"
+                    style={{ color: resolvedBadgeColor }}
+                    data-field="header.badge"
+                  >
+                    {badge}
+                  </span>
+                </div>
+              </ScrollReveal>
+            )}
             <ScrollReveal direction="up" delay={0.05}>
               <h1
                 className="font-heading text-foreground tracking-tight text-[40px] sm:text-[52px] lg:text-[60px] leading-[1.05] font-light mb-spacing-lg"
@@ -75,7 +96,7 @@ export function HeroSacrum({
                 {titleAccent && (
                   <>
                     <br />
-                    <span className="italic" data-field="titleAccent">
+                    <span className="italic text-primary" data-field="titleAccent">
                       {titleAccent}
                     </span>
                   </>
@@ -99,7 +120,8 @@ export function HeroSacrum({
                 {scheduleCards.map((card, ci) => (
                   <ScrollReveal key={ci} direction="up" delay={0.2 + ci * 0.08}>
                     <div
-                      className="bg-card border border-border/60 p-spacing-lg rounded-radius shadow-sm"
+                      className="border p-spacing-lg rounded-radius shadow-sm"
+                      style={{ backgroundColor: "#FFFFFF", borderColor: "#b38b3f33" }}
                       data-field={`scheduleCards.${ci}`}
                     >
                       <div className="flex items-center gap-spacing-md mb-spacing-md">
@@ -111,11 +133,12 @@ export function HeroSacrum({
                           {card.title}
                         </h3>
                       </div>
-                      <ul className="flex flex-col gap-1.5">
+                      <ul className="flex flex-col">
                         {(card.rows || []).map((row, ri) => (
                           <li
                             key={ri}
-                            className="flex items-baseline justify-between gap-spacing-md"
+                            className="flex items-baseline justify-between gap-spacing-md pb-1.5 mt-1.5 first:mt-0 border-b"
+                            style={{ borderColor: "#b38b3f33" }}
                           >
                             <span className="text-sm text-muted">{row.label}</span>
                             <span

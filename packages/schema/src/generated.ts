@@ -92,6 +92,14 @@ export type NavbarVariant = "standard" | "centered" | "transparent";
  */
 export type LogoTextOverride = string;
 /**
+ * Optional second line shown below the logo text (stacked column layout)
+ */
+export type LogoSubtext = string;
+/**
+ * Hide the icon next to the logo text in the navbar
+ */
+export type HideLogoIcon = boolean;
+/**
  * Hide the bottom border when scroll is at the very top of the page
  */
 export type HideBorderWhenAtTop = boolean;
@@ -99,6 +107,10 @@ export type HideBorderWhenAtTop = boolean;
  * Hide the call-to-action button in the navbar
  */
 export type HideCTAButton = boolean;
+/**
+ * Hide the auto-injected Blog link in the navbar
+ */
+export type HideBlogLink = boolean;
 /**
  * Show social media icons in the upper bar extension
  */
@@ -524,8 +536,11 @@ export interface Layout {
 export interface Navbar {
   variant?: NavbarVariant;
   logoText?: LogoTextOverride;
+  logoSubtext?: LogoSubtext;
+  hideLogoIcon?: HideLogoIcon;
   hideBorderOnTop?: HideBorderWhenAtTop;
   hideCta?: HideCTAButton;
+  hideBlog?: HideBlogLink;
   showSocials?: ShowSocialMediaIconsInExtension;
   showAvailability?: ShowAvailabilityInExtension;
   showAddress?: ShowAddressInExtension;

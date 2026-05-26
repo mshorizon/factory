@@ -93,6 +93,8 @@ const checkoutLabels = {
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoSubtext={layout.navbar.logoSubtext}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered"}
