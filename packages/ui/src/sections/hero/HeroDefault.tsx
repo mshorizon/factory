@@ -1,11 +1,26 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Badge } from "../../atoms/Badge";
-import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { HeroProps } from "./types";
+
+// Hero content lives above the fold and must be visible on the very first
+// paint — using ScrollReveal here would hide it behind framer-motion's
+// initial opacity:0 until React hydrates, producing a visible "pop in"
+// once the JS bundle finishes loading. CSS keyframes run immediately and
+// don't depend on hydration.
+const heroFadeKeyframes = `
+@keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }
+@keyframes hero-fade-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+`;
+
+const heroFadeStyle = (delaySeconds: number): CSSProperties => ({
+  animation: `hero-fade-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) ${delaySeconds}s forwards`,
+  opacity: 0,
+});
 
 export function HeroDefault({
   title,
@@ -40,9 +55,9 @@ export function HeroDefault({
           : undefined
       }
     >
+      <style>{heroFadeKeyframes}</style>
       {backgroundImage && (
         <>
-          <style>{`@keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }`}</style>
           <div
             className="absolute inset-0 will-change-transform"
             style={{
@@ -72,13 +87,13 @@ export function HeroDefault({
         )}
       >
         {badge && (
-          <ScrollReveal delay={0} direction="up">
+          <div style={heroFadeStyle(0)}>
             <Badge variant="accent" className="mb-spacing-md text-sm px-spacing-md py-1" data-field="header.badge">
               {badge}
             </Badge>
-          </ScrollReveal>
+          </div>
         )}
-        <ScrollReveal delay={0.1} direction="up">
+        <div style={heroFadeStyle(0.1)}>
           <h1
             className={cn(
               "text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight",
@@ -88,9 +103,9 @@ export function HeroDefault({
           >
             {title}
           </h1>
-        </ScrollReveal>
+        </div>
         {subtitle && (
-          <ScrollReveal delay={0.2} direction="up">
+          <div style={heroFadeStyle(0.2)}>
             <p
               className={cn(
                 "text-lg md:text-xl max-w-2xl mb-spacing-2xl",
@@ -101,10 +116,10 @@ export function HeroDefault({
             >
               {subtitle}
             </p>
-          </ScrollReveal>
+          </div>
         )}
         {(cta || secondaryCta) && (
-          <ScrollReveal delay={0.3} direction="up">
+          <div style={heroFadeStyle(0.3)}>
             <div
               className={cn(
                 "flex flex-wrap gap-spacing-md",
@@ -141,7 +156,7 @@ export function HeroDefault({
                 </Button>
               )}
             </div>
-          </ScrollReveal>
+          </div>
         )}
         {children}
       </div>
