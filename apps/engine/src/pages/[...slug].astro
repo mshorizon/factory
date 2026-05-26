@@ -156,10 +156,9 @@ const socialLinks = business.business.socials
 
 // LCP preload: first section's hero/background image (browser preload scanner
 // can't see CSS background-image, so we emit an explicit <link rel="preload">).
-const firstSection = page.sections?.[0] as any;
 const preloadImage =
-  firstSection?.type === "hero"
-    ? firstSection.backgroundImage || firstSection.image
+  (firstSection as any)?.type === "hero"
+    ? (firstSection as any).backgroundImage || (firstSection as any).image
     : undefined;
 ---
 
