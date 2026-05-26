@@ -378,10 +378,10 @@ const showCta = !hideCta && !!cta;
     const barH = (upperBar && window.innerWidth >= 1024) ? upperBar.getBoundingClientRect().height : 0;
     const offset = navH + barH;
     document.documentElement.style.setProperty('--main-nav-offset', offset + 'px');
-    const mainEl = document.querySelector('main[data-nav-offset]');
-    if (mainEl) {
-      mainEl.style.paddingTop = offset + 'px';
-    }
+    // main's padding-top reads from var(--main-nav-offset) inline on the
+    // element itself — do NOT also set inline paddingTop here. Doing so
+    // creates a layout shift when JS first runs (going from "no padding"
+    // to "padding") which restarts CSS animations in the hero.
   }
   if (document.readyState !== 'loading') {
     requestAnimationFrame(updateMainNavOffset);
