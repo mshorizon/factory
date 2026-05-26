@@ -1,0 +1,339 @@
+{
+  "business": {
+    "id": "template-restaurant-001",
+    "name": "Restauracja Nostrano",
+    "industry": "restaurant",
+    "assets": {
+      "favicon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d1916'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Playfair Display, Georgia, serif' font-size='18' fill='%23d94a26'%3EN%3C/text%3E%3C/svg%3E",
+      "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Playfair Display, Georgia, serif' font-size='22' fill='%23d94a26'%3EN%3C/text%3E%3C/svg%3E"
+    },
+    "contact": {
+      "address": "ul. Janusza Korczaka 46, 08-400 Garwolin",
+      "phone": "+48 xxx xxx xxx",
+      "email": "kontakt@nostrano.pl",
+      "hours": "Wt-Czw 13:00-21:00 · Pt-Sb 13:00-23:00 · Nd 13:00-21:00"
+    },
+    "socials": {
+      "instagram": "https://instagram.com/nostrano.garwolin",
+      "facebook": "https://facebook.com/nostrano.garwolin"
+    }
+  },
+  "theme": {
+    "preset": "elegant",
+    "majorTheme": "template-art",
+    "mode": "dark",
+    "colors": {
+      "light": {
+        "primary": "#d94a26",
+        "surface": { "base": "#f7f5ed", "alt": "#efece1", "card": "#ffffff" },
+        "text": { "main": "#1d1916", "muted": "#7a7264", "onPrimary": "#ffffff" }
+      },
+      "dark": {
+        "primary": "#d94a26",
+        "surface": { "base": "#1d1916", "alt": "#26201c", "card": "#3b312b" },
+        "text": { "main": "#f0ebdb", "muted": "#c2baa3", "onPrimary": "#ffffff" }
+      }
+    },
+    "typography": {
+      "primary": "'Playfair Display', 'Georgia', serif",
+      "secondary": "'Inter', system-ui, sans-serif"
+    },
+    "ui": {
+      "radius": "0px",
+      "spacing": {
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "5rem",
+        "section": "7.5rem",
+        "container": "2.5rem"
+      }
+    },
+    "headingWeight": "400",
+    "navFontSize": "13px",
+    "navLinksPosition": "center",
+    "badgeVariant": "text"
+  },
+  "layout": {
+    "navbar": { "variant": "transparent" },
+    "footer": {
+      "variant": "minimal",
+      "copyright": "2026 Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
+      "tagline": "Kawałek Neapolu w sercu Garwolina.",
+      "links": [
+        { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com/nostrano.garwolin" } },
+        { "label": "Facebook", "target": { "type": "external", "value": "https://facebook.com/nostrano.garwolin" } }
+      ]
+    }
+  },
+  "navigation": {
+    "cta": { "label": "Rezerwacja", "target": { "type": "page", "value": "contact" } }
+  },
+  "data": {
+    "services": []
+  },
+  "pages": {
+    "home": {
+      "title": "Home",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "default",
+          "backgroundImage": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&h=1080&fit=crop",
+          "header": {
+            "title": "Nostrano",
+            "subtitle": "Kawałek Neapolu w sercu Garwolina"
+          },
+          "cta": { "label": "Zarezerwuj Stolik", "target": { "type": "page", "value": "contact" } }
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "badge": "Nasza historia",
+            "title": "Prawdziwy Neapol w sercu Garwolina"
+          },
+          "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop",
+          "story": {
+            "title": "Pasja, rzemiosło, prostota",
+            "content": "Nostrano to po włosku „nasze\" i „lokalne\". To nie jest kolejna sieciówka ani miejsce turystyczne. To nasz osobisty projekt, miejsce zrodzone z pasji do rzemiosła i miłości do niespiesznego celebrowania posiłków.\n\nStworzyliśmy Nostrano – bracia Piotr i Paweł Ściślak – by przenieść ułamek neapolitańskiej duszy do naszego rodzinnego miasta. Piotr, szkolony w prestiżowej Akademii Pizzaioli oraz pod czujnym okiem Arte Bianca Patryka Nowakowskiego, pilnuje, aby każdy placek wychodzący z naszego pieca był doskonały.\n\nNasza kuchnia to hołd dla prostoty. Tylko najlepsze składniki, rzemieślnicze podejście do każdego detalu i cierpliwość, której wymaga prawdziwa pizza."
+          }
+        },
+        {
+          "type": "services",
+          "variant": "list",
+          "header": {
+            "badge": "Degustazione",
+            "title": "Menu Highlights"
+          },
+          "items": [
+            { "id": "krem-pomidorowy", "title": "Krem z pomidorów pelati z mascarpone", "description": "Aksamitny krem, świeża bazylia", "price": "23 zł" },
+            { "id": "focaccia", "title": "Focaccia z rozmarynem", "description": "Wypiekana na miejscu, oliwa z oliwek", "price": "25 zł" },
+            { "id": "bruschetta", "title": "Bruschetta z pomidorami", "description": "Świeże pomidory, czosnek, bazylia, pieczywo rzemieślnicze", "price": "32 zł" },
+            { "id": "krewetki", "title": "Krewetki w sosie winno-maślanym (6 szt.)", "description": "Białe wino, czosnek, natka pietruszki", "price": "46 zł" },
+            { "id": "tatar", "title": "Tatar wołowy z podgrzybkiem i rzodkwią", "description": "Najwyższej jakości wołowina, pikle", "price": "47 zł" },
+            { "id": "burrata", "title": "Insalata burrata di bufala", "description": "Z malinami i truskawkami, krem balsamiczny", "price": "43 zł" },
+            { "id": "pizza-neapolitanska", "title": "Pizza Neapolitańska", "description": "Gwiazda naszego lokalu, dojrzewające ciasto, pomidory San Marzano", "price": "od 35 zł" },
+            { "id": "caesar", "title": "Insalata Caesar z krewetkami", "description": "Klasyczny sos, rzymska sałata, parmezan", "price": "47 zł" }
+          ],
+          "cta": { "label": "Zarezerwuj stolik", "target": { "type": "page", "value": "contact" } }
+        },
+        {
+          "type": "features",
+          "variant": "compact",
+          "header": {
+            "badge": "Filosofia",
+            "title": "Dlaczego Nostrano?"
+          },
+          "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&h=900&fit=crop",
+          "items": [
+            {
+              "icon": "flame",
+              "title": "Rzemieślnicza Pasja",
+              "description": "Ciasto na naszą pizzę dojrzewa godzinami, a proces jego wyrabiania to sztuka. Nie idziemy na kompromisy."
+            },
+            {
+              "icon": "award",
+              "title": "Certyfikowani Pizzaiolo",
+              "description": "Szkoliliśmy się w Akademii Pizzaioli pod okiem mistrzów. Wiemy, jak oddać hołd włoskiej tradycji."
+            },
+            {
+              "icon": "users",
+              "title": "Atmosfera dla Każdego",
+              "description": "Rodzinny klimat, kącik dla dzieci i uśmiech na twarzy. Miejsce, gdzie społeczność Garwolina spotyka się przy dobrym jedzeniu."
+            },
+            {
+              "icon": "calendar",
+              "title": "Lokalne Wydarzenia",
+              "description": "Warsztaty robienia pizzy dla najmłodszych, wieczory z włoskim kinem i degustacje win. Żyjemy życiem miasta."
+            }
+          ]
+        },
+        {
+          "type": "events",
+          "variant": "default",
+          "header": {
+            "badge": "Vita a Nostrano",
+            "title": "Wydarzenia"
+          },
+          "items": [
+            {
+              "title": "Pizza dla Najmłodszych",
+              "description": "Zapraszamy dzieci na warsztaty wyrabiania prawdziwego ciasta neapolitańskiego. Każdy mały pizzaiolo wychodzi z dumą i własnoręcznie zrobionym plackiem.",
+              "image": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=900&h=400&fit=crop",
+              "dateStart": "Czerwiec 2025",
+              "linkLabel": "Zapytaj o szczegóły"
+            },
+            {
+              "title": "Wieczór z Winem Włoskim",
+              "description": "Degustacja starannie wybranych win z południa Włoch w towarzystwie przystawek. Idealne dla tych, którzy chcą odkrywać włoskie regiony szklanką w ręku.",
+              "image": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=900&h=400&fit=crop",
+              "dateStart": "Co drugi piątek",
+              "linkLabel": "Zapytaj o szczegóły"
+            },
+            {
+              "title": "Wieczory z Włoskim Kinem",
+              "description": "Klimatyczne pokazy włoskich filmów z napisami. Cannes, Rzym, Neapol — przenosimy was w podróż bez wychodzenia z Garwolina.",
+              "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=900&h=400&fit=crop",
+              "dateStart": "Niebawem",
+              "linkLabel": "Zapytaj o szczegóły"
+            }
+          ]
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "imagePosition": "right",
+          "header": {
+            "badge": "I Bambini",
+            "title": "Strefa dla Najmłodszych"
+          },
+          "image": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&h=800&fit=crop",
+          "story": {
+            "title": "Kącik dla dzieci, oddech dla rodziców",
+            "content": "Wiemy, że kolacja z dziećmi bywa wyzwaniem. Dlatego stworzyliśmy specjalny kącik dla najmłodszych — z zabawkami, książkami i miejscem do rysowania — żebyś ty mógł na chwilę odetchnąć i cieszyć się posiłkiem.\n\nNostrano to nie lokal imprezowy. To miejsce, gdzie rodziny mogą spędzić wspólny wieczór przy prawdziwym jedzeniu, bez pośpiechu i bez stresu.\n\n„Jedzenie jest najpiękniejszą formą wspólnego spędzania czasu.\" — Piotr i Paweł Ściślak, właściciele"
+          },
+          "stats": [
+            { "value": "Zabawki", "label": "kącik zabaw" },
+            { "value": "Książki", "label": "dla wszystkich" },
+            { "value": "Rysunki", "label": "kredki i papier" }
+          ]
+        },
+        {
+          "type": "gallery",
+          "variant": "default",
+          "header": {
+            "badge": "La Nostra Arte",
+            "title": "Galeria"
+          },
+          "items": [
+            {
+              "title": "Pizza Neapolitańska",
+              "description": "Ciasto dojrzewa 48h",
+              "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Bruschetta",
+              "description": "Świeże pomidory, bazylia",
+              "image": "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Burrata di Bufala",
+              "description": "Maliny, truskawki, balsamico",
+              "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Aperitivo",
+              "description": "Włoskie koktajle",
+              "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Pasta",
+              "description": "Rzemieślniczy makaron",
+              "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Atmosfera",
+              "description": "Kawałek Neapolu",
+              "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=800&fit=crop"
+            }
+          ]
+        },
+        {
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "badge": "Rezerwacje",
+            "title": "Czekamy na Ciebie",
+            "subtitle": "W weekendy nasza sala szybko się zapełnia. Zalecamy wcześniejszą rezerwację stolika."
+          },
+          "info": {
+            "address": "Restauracja Nostrano, ul. Janusza Korczaka 46, 08-400 Garwolin",
+            "phone": "+48 xxx xxx xxx",
+            "email": "kontakt@nostrano.pl",
+            "hours": "Godziny otwarcia",
+            "hoursDetailed": [
+              "Poniedziałek — Zamknięte",
+              "Wtorek – Czwartek — 13:00 – 21:00",
+              "Piątek – Sobota — 13:00 – 23:00",
+              "Niedziela — 13:00 – 21:00"
+            ]
+          },
+          "form": {
+            "namePlaceholder": "Jan Kowalski",
+            "emailPlaceholder": "jan@przyklad.pl",
+            "messagePlaceholder": "Chciałbym zarezerwować stolik na...",
+            "submitButton": "Zadzwoń i zarezerwuj",
+            "nameLabel": "Imię",
+            "emailLabel": "Email",
+            "messageLabel": "Wiadomość"
+          },
+          "cta": { "label": "Zadzwoń i zarezerwuj", "target": { "type": "external", "value": "tel:+48000000000" } }
+        }
+      ]
+    },
+    "about": {
+      "title": "O nas",
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "badge": "Nasza historia",
+            "title": "Prawdziwy Neapol w sercu Garwolina"
+          },
+          "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop",
+          "story": {
+            "title": "Pasja, rzemiosło, prostota",
+            "content": "Nostrano to po włosku „nasze\" i „lokalne\". Stworzyliśmy je – bracia Piotr i Paweł Ściślak – by przenieść ułamek neapolitańskiej duszy do naszego rodzinnego miasta.\n\nPiotr, szkolony w Akademii Pizzaioli oraz pod okiem Arte Bianca Patryka Nowakowskiego, pilnuje, aby każdy placek wychodzący z pieca był doskonały. Nasza kuchnia to hołd dla prostoty: tylko najlepsze składniki, rzemieślnicze podejście do każdego detalu i cierpliwość, której wymaga prawdziwa pizza."
+          },
+          "stats": [
+            { "value": "48h", "label": "Dojrzewanie ciasta" },
+            { "value": "100%", "label": "Składniki z Włoch" },
+            { "value": "2", "label": "Bracia, jeden piec" }
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "badge": "Rezerwacje",
+            "title": "Czekamy na Ciebie",
+            "subtitle": "W weekendy nasza sala szybko się zapełnia. Zalecamy wcześniejszą rezerwację stolika."
+          },
+          "info": {
+            "address": "Restauracja Nostrano, ul. Janusza Korczaka 46, 08-400 Garwolin",
+            "phone": "+48 xxx xxx xxx",
+            "email": "kontakt@nostrano.pl",
+            "hours": "Godziny otwarcia",
+            "hoursDetailed": [
+              "Poniedziałek — Zamknięte",
+              "Wtorek – Czwartek — 13:00 – 21:00",
+              "Piątek – Sobota — 13:00 – 23:00",
+              "Niedziela — 13:00 – 21:00"
+            ]
+          },
+          "form": {
+            "namePlaceholder": "Jan Kowalski",
+            "emailPlaceholder": "jan@przyklad.pl",
+            "messagePlaceholder": "Chciałbym zarezerwować stolik na...",
+            "submitButton": "Zadzwoń i zarezerwuj",
+            "nameLabel": "Imię",
+            "emailLabel": "Email",
+            "messageLabel": "Wiadomość"
+          }
+        }
+      ]
+    }
+  },
+  "sharedSections": {}
+}
