@@ -134,26 +134,26 @@ const secondaryCta = section.secondaryCta ? {
     isHomePage={isHomePage}
   />
 ) : (
-  <section
-    class="hero-default relative z-0 bg-background overflow-hidden"
-    style={`min-height:100vh;width:100vw;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;margin-top:calc(var(--main-nav-offset,64px) * -1)`}
-  >
+  <Fragment>
+    <style is:inline set:html={`@keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }`} />
+    <section
+      class="hero-default bg-background"
+      style="position:relative;z-index:0;overflow:hidden;min-height:100vh;width:100vw;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;margin-top:calc(var(--main-nav-offset,64px) * -1)"
+    >
     {section.backgroundImage && (
       <>
         <div
-          class="hero-bg-zoom absolute inset-0 will-change-transform"
-          style={`background-image:url('${section.backgroundImage}');background-size:cover;background-position:center`}
+          style={`position:absolute;inset:0;background-image:url('${section.backgroundImage}');background-size:cover;background-position:center;animation:hero-bg-zoom 10s ease-out both;will-change:transform`}
           data-field="backgroundImage"
         />
         <div
-          class="absolute inset-0"
-          style="background-color:color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)"
+          style="position:absolute;inset:0;background-color:color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)"
         />
       </>
     )}
     <div
-      class="relative container mx-auto flex flex-col items-center justify-center text-center"
-      style="min-height:100vh"
+      class="container mx-auto"
+      style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center"
     >
       {header.badge && (
         <div class="mb-spacing-md">
@@ -200,5 +200,6 @@ const secondaryCta = section.secondaryCta ? {
         </div>
       )}
     </div>
-  </section>
+    </section>
+  </Fragment>
 )}
