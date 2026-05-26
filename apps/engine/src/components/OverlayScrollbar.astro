@@ -25,11 +25,26 @@
     }
   }
 
+  // Skip on pages with a full-viewport hero (.hero-fold). OverlayScrollbars
+  // wraps document.body and re-parents every child into a new viewport <div>;
+  // that re-parent restarts every running CSS animation in the page — the
+  // user sees the hero text/image animate, the body gets wrapped, then the
+  // animations replay from t=0. Pages without a full-viewport hero are
+  // unaffected and still get the custom scrollbars.
+  function shouldSkip() {
+    return !!document.querySelector('section.hero-fold');
+  }
+
+  function safeInit() {
+    if (shouldSkip()) return;
+    initScrollbar();
+  }
+
   // Initialize as soon as body is available
   if (document.body) {
-    initScrollbar();
+    safeInit();
   } else {
-    document.addEventListener('DOMContentLoaded', initScrollbar);
+    document.addEventListener('DOMContentLoaded', safeInit);
   }
 
   // Re-initialize on Astro page transitions
@@ -41,5 +56,5 @@
     }
   });
 
-  document.addEventListener('astro:page-load', initScrollbar);
+  document.addEventListener('astro:page-load', safeInit);
 </script>
