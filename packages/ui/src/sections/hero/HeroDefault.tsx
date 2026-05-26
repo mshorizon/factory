@@ -30,25 +30,39 @@ export function HeroDefault({
   return (
     <section
       className={cn(
-        "relative z-0 bg-background",
+        "relative z-0 bg-background overflow-hidden",
         fullHeight && "min-h-screen w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]",
         className
       )}
-      style={{
-        ...(backgroundImage
-          ? {
+      style={
+        fullHeight
+          ? { marginTop: "calc(var(--main-nav-offset, 64px) * -1)" }
+          : undefined
+      }
+    >
+      {backgroundImage && (
+        <>
+          <style>{`@keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }`}</style>
+          <div
+            className="absolute inset-0 will-change-transform"
+            style={{
               backgroundImage: `url(${backgroundImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-            }
-          : {}),
-        ...(fullHeight
-          ? { marginTop: "calc(var(--main-nav-offset, 64px) * -1)" }
-          : {}),
-      }}
-    >
-      {backgroundImage && overlay && (
-        <div className="absolute inset-0 bg-black/50" data-field="backgroundImage" />
+              animation: "hero-bg-zoom 10s ease-out forwards",
+            }}
+            data-field="backgroundImage"
+          />
+          {overlay && (
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundColor:
+                  "color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)",
+              }}
+            />
+          )}
+        </>
       )}
       <div
         className={cn(
