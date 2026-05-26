@@ -35,8 +35,8 @@
       }
     },
     "typography": {
-      "primary": "'Playfair Display', 'Georgia', serif",
-      "secondary": "'Inter', system-ui, sans-serif"
+      "primary": "'Inter', system-ui, sans-serif",
+      "secondary": "'Playfair Display', 'Georgia', serif"
     },
     "ui": {
       "radius": "0px",

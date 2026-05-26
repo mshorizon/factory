@@ -124,7 +124,7 @@ cssVars.navLogoWeight = capWeight(cssVars.navLogoWeight);
 
 // Extract Google Font names from font-family strings
 function extractGoogleFonts(...fontStrings: string[]): string[] {
-  const systemFonts = new Set(['system-ui', '-apple-system', 'sans-serif', 'serif', 'monospace', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial']);
+  const systemFonts = new Set(['system-ui', '-apple-system', 'sans-serif', 'serif', 'monospace', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Georgia', 'Times New Roman', 'Courier New']);
   const fonts = new Set<string>();
   for (const str of fontStrings) {
     for (const part of str.split(',')) {
@@ -141,7 +141,19 @@ function extractGoogleFonts(...fontStrings: string[]): string[] {
 const externalFontUrls: Record<string, string> = {};
 
 // Fonts self-hosted in /public/fonts — skip any external loading
-const selfHostedFonts = new Set(['Montserrat', 'Playfair Display', 'Lora', 'Cormorant Garamond']);
+const selfHostedFonts = new Set(['Montserrat', 'Playfair Display', 'Lora', 'Cormorant Garamond', 'Inter']);
+
+// Subset filename (without extension) used for the <link rel="preload"> tag
+// for the latin subset of each self-hosted font. Preloading the latin subset
+// before paint eliminates the FOUT for the dominant glyph set.
+const selfHostedLatinPreload: Record<string, string> = {
+  'Montserrat': 'montserrat-latin',
+  'Playfair Display': 'playfair-display-latin',
+  'Lora': 'lora-latin',
+  'Cormorant Garamond': 'cormorant-garamond-latin',
+  'Inter': 'inter-latin',
+};
+const selfHostedFontsInUse = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading).filter(f => selfHostedFonts.has(f));
 
 const allFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
 const googleFonts = allFonts.filter(f => !externalFontUrls[f] && !selfHostedFonts.has(f));
@@ -180,6 +192,9 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
     <!-- JSON-LD Structured Data -->
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <link rel="manifest" href="/api/manifest.webmanifest" />
+    {selfHostedFontsInUse.map(f => (
+      <link rel="preload" href={`/fonts/${selfHostedLatinPreload[f]}.woff2`} as="font" type="font/woff2" crossorigin />
+    ))}
     {googleFontsUrl && (
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
