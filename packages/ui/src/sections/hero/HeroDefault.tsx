@@ -1,20 +1,11 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
 import { Badge } from "../../atoms/Badge";
+import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { HeroProps } from "./types";
-
-// Hero content lives above the fold and must be visible on the very first
-// paint — using ScrollReveal here would hide it behind framer-motion's
-// initial opacity:0 until React hydrates, producing a visible "pop in"
-// once the JS bundle finishes loading. The .hero-fade-up class (defined in
-// global.css) uses plain CSS keyframes that run as soon as CSS parses and
-// survive React's hydration pass unchanged.
-const heroFadeDelay = (s: number): CSSProperties =>
-  ({ ["--hero-fade-delay" as string]: `${s}s` } as CSSProperties);
 
 export function HeroDefault({
   title,
@@ -39,53 +30,36 @@ export function HeroDefault({
   return (
     <section
       className={cn(
-        "relative z-0 bg-background overflow-hidden",
-        fullHeight && "min-h-screen w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]",
+        "relative z-0 bg-background",
         className
       )}
       style={
-        fullHeight
-          ? { marginTop: "calc(var(--main-nav-offset, 64px) * -1)" }
-          : undefined
-      }
-    >
-      {backgroundImage && (
-        <>
-          <div
-            className="hero-bg-zoom absolute inset-0 will-change-transform"
-            style={{
+        backgroundImage
+          ? {
               backgroundImage: `url(${backgroundImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-            }}
-            data-field="backgroundImage"
-          />
-          {overlay && (
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundColor:
-                  "color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)",
-              }}
-            />
-          )}
-        </>
+            }
+          : undefined
+      }
+    >
+      {backgroundImage && overlay && (
+        <div className="absolute inset-0 bg-black/50" data-field="backgroundImage" />
       )}
       <div
         className={cn(
           "relative container mx-auto flex flex-col justify-center",
-          fullHeight && "min-h-screen",
           alignmentClasses[align]
         )}
       >
         {badge && (
-          <div className="hero-fade-up" style={heroFadeDelay(0)}>
+          <ScrollReveal delay={0} direction="up">
             <Badge variant="accent" className="mb-spacing-md text-sm px-spacing-md py-1" data-field="header.badge">
               {badge}
             </Badge>
-          </div>
+          </ScrollReveal>
         )}
-        <div className="hero-fade-up" style={heroFadeDelay(0.1)}>
+        <ScrollReveal delay={0.1} direction="up">
           <h1
             className={cn(
               "text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight",
@@ -95,9 +69,9 @@ export function HeroDefault({
           >
             {title}
           </h1>
-        </div>
+        </ScrollReveal>
         {subtitle && (
-          <div className="hero-fade-up" style={heroFadeDelay(0.2)}>
+          <ScrollReveal delay={0.2} direction="up">
             <p
               className={cn(
                 "text-lg md:text-xl max-w-2xl mb-spacing-2xl",
@@ -108,10 +82,10 @@ export function HeroDefault({
             >
               {subtitle}
             </p>
-          </div>
+          </ScrollReveal>
         )}
         {(cta || secondaryCta) && (
-          <div className="hero-fade-up" style={heroFadeDelay(0.3)}>
+          <ScrollReveal delay={0.3} direction="up">
             <div
               className={cn(
                 "flex flex-wrap gap-spacing-md",
@@ -148,7 +122,7 @@ export function HeroDefault({
                 </Button>
               )}
             </div>
-          </div>
+          </ScrollReveal>
         )}
         {children}
       </div>
