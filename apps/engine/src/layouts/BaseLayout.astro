@@ -17,9 +17,10 @@ interface Props {
   ogType?: 'website' | 'article';
   siteName?: string;
   jsonLd?: object | object[];
+  preloadImage?: string;
 }
 
-const { title, theme, favicon, lang = "en", description, canonical, ogImage, ogType = 'website', siteName, jsonLd } = Astro.props;
+const { title, theme, favicon, lang = "en", description, canonical, ogImage, ogType = 'website', siteName, jsonLd, preloadImage } = Astro.props;
 
 // Umami analytics - skip in preview mode and when not configured
 const isPreview = Astro.url.searchParams.get("_preview") === "1";
@@ -192,6 +193,9 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
     <!-- JSON-LD Structured Data -->
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <link rel="manifest" href="/api/manifest.webmanifest" />
+    {preloadImage && (
+      <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />
+    )}
     {selfHostedFontsInUse.map(f => (
       <link rel="preload" href={`/fonts/${selfHostedLatinPreload[f]}.woff2`} as="font" type="font/woff2" crossorigin />
     ))}

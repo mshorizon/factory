@@ -153,9 +153,17 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
 const socialLinks = business.business.socials
   ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
   : [];
+
+// LCP preload: first section's hero/background image (browser preload scanner
+// can't see CSS background-image, so we emit an explicit <link rel="preload">).
+const firstSection = page.sections?.[0] as any;
+const preloadImage =
+  firstSection?.type === "hero"
+    ? firstSection.backgroundImage || firstSection.image
+    : undefined;
 ---
 
-<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={ogImage} siteName={business.business.name} jsonLd={jsonLd}>
+<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={ogImage} siteName={business.business.name} jsonLd={jsonLd} preloadImage={preloadImage}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
     logoSubtext={layout.navbar.logoSubtext}
