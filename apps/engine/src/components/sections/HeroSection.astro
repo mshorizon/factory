@@ -156,53 +156,47 @@ const secondaryCta = section.secondaryCta ? {
       style="min-height:100vh"
     >
       {header.badge && (
-        <div class="hero-fade-up mb-spacing-md" style="--hero-fade-delay:0s">
+        <div class="mb-spacing-md">
           <span class="inline-flex items-center text-sm font-medium tracking-wide uppercase px-spacing-md py-1 text-primary">
             {header.badge}
           </span>
         </div>
       )}
-      <div class="hero-fade-up" style="--hero-fade-delay:0.1s">
-        <h1
-          class="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight text-on-primary"
-          data-field="header.title"
-        >
-          {header.title || ""}
-        </h1>
-      </div>
+      <h1
+        class="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight text-on-primary"
+        data-field="header.title"
+      >
+        {header.title || ""}
+      </h1>
       {header.subtitle && (
-        <div class="hero-fade-up" style="--hero-fade-delay:0.2s">
-          <p
-            class="text-lg md:text-xl max-w-2xl mb-spacing-2xl text-on-primary/90 mx-auto"
-            data-field="header.subtitle"
-          >
-            {header.subtitle}
-          </p>
-        </div>
+        <p
+          class="text-lg md:text-xl max-w-2xl mb-spacing-2xl text-on-primary/90 mx-auto"
+          data-field="header.subtitle"
+        >
+          {header.subtitle}
+        </p>
       )}
       {(cta || secondaryCta) && (
-        <div class="hero-fade-up" style="--hero-fade-delay:0.3s">
-          <div class="flex flex-wrap gap-spacing-md justify-center">
-            {cta && (
-              <a
-                href={cta.href}
-                class="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
-                data-field="cta"
-              >
-                {cta.label}
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </a>
-            )}
-            {secondaryCta && (
-              <a
-                href={secondaryCta.href}
-                class="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold border border-on-primary text-on-primary hover:bg-on-primary hover:text-foreground rounded-radius transition-colors"
-                data-field="secondaryCta"
-              >
-                {secondaryCta.label}
-              </a>
-            )}
-          </div>
+        <div class="flex flex-wrap gap-spacing-md justify-center">
+          {cta && (
+            <a
+              href={cta.href}
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
+              data-field="cta"
+            >
+              {cta.label}
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          )}
+          {secondaryCta && (
+            <a
+              href={secondaryCta.href}
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold border border-on-primary text-on-primary hover:bg-on-primary hover:text-foreground rounded-radius transition-colors"
+              data-field="secondaryCta"
+            >
+              {secondaryCta.label}
+            </a>
+          )}
         </div>
       )}
     </div>
