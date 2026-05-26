@@ -135,71 +135,147 @@ const secondaryCta = section.secondaryCta ? {
   />
 ) : (
   <Fragment>
-    <style is:inline set:html={`@keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }`} />
-    <section
-      class="hero-default bg-background"
-      style="position:relative;z-index:0;overflow:hidden;min-height:100vh;width:100vw;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;margin-top:calc(var(--main-nav-offset,64px) * -1)"
-    >
-    {section.backgroundImage && (
-      <>
-        <div
-          style={`position:absolute;inset:0;background-image:url('${section.backgroundImage}');background-size:cover;background-position:center;animation:hero-bg-zoom 10s ease-out both;will-change:transform`}
-          data-field="backgroundImage"
-        />
-        <div
-          style="position:absolute;inset:0;background-color:color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)"
-        />
-      </>
-    )}
-    <div
-      class="container mx-auto"
-      style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center"
-    >
-      {header.badge && (
-        <div class="mb-spacing-md">
-          <span class="inline-flex items-center text-sm font-medium tracking-wide uppercase px-spacing-md py-1 text-primary">
-            {header.badge}
-          </span>
-        </div>
+    <style is:inline set:html={`
+      @keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }
+      @keyframes hero-fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+      .hero-fold {
+        position: relative;
+        z-index: 0;
+        overflow: hidden;
+        min-height: 100vh;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        margin-top: calc(var(--main-nav-offset, 64px) * -1);
+        background-color: var(--background, #1d1916);
+      }
+      .hero-fold__bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        animation: hero-bg-zoom 10s ease-out both;
+        will-change: transform;
+      }
+      .hero-fold__overlay {
+        position: absolute;
+        inset: 0;
+        background-color: color-mix(in oklab, hsl(24 15% 10%) 60%, transparent);
+      }
+      .hero-fold__content {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 1.5rem;
+        max-width: 80rem;
+        margin: 0 auto;
+      }
+      .hero-fold__badge {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0s forwards;
+        color: var(--primary, #d94a26);
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+        margin-bottom: 1rem;
+      }
+      .hero-fold__title {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.15s forwards;
+        font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        line-height: 1.05;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        color: var(--text-on-primary, #fff);
+        margin: 0 0 1rem 0;
+      }
+      .hero-fold__subtitle {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.3s forwards;
+        font-size: 1.125rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.85);
+        max-width: 42rem;
+        margin: 0 auto 2.5rem auto;
+      }
+      .hero-fold__ctas {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.45s forwards;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+      .hero-fold__cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-on-primary, #fff);
+        background-color: var(--primary, #d94a26);
+        border-radius: var(--radius, 0);
+        text-decoration: none;
+        box-shadow: 0 10px 25px rgba(217, 74, 38, 0.25);
+        transition: background-color 0.2s;
+      }
+      .hero-fold__cta:hover { background-color: color-mix(in oklab, var(--primary, #d94a26) 90%, black); }
+      .hero-fold__cta--secondary {
+        background-color: transparent;
+        border: 1px solid var(--text-on-primary, #fff);
+        box-shadow: none;
+      }
+      .hero-fold__cta--secondary:hover { background-color: var(--text-on-primary, #fff); color: var(--foreground, #1d1916); }
+    `} />
+    <section class="hero-fold">
+      {section.backgroundImage && (
+        <>
+          <div
+            class="hero-fold__bg"
+            style={`background-image:url('${section.backgroundImage}')`}
+            data-field="backgroundImage"
+          />
+          <div class="hero-fold__overlay" />
+        </>
       )}
-      <h1
-        class="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight text-on-primary"
-        data-field="header.title"
-      >
-        {header.title || ""}
-      </h1>
-      {header.subtitle && (
-        <p
-          class="text-lg md:text-xl max-w-2xl mb-spacing-2xl text-on-primary/90 mx-auto"
-          data-field="header.subtitle"
-        >
-          {header.subtitle}
-        </p>
-      )}
-      {(cta || secondaryCta) && (
-        <div class="flex flex-wrap gap-spacing-md justify-center">
-          {cta && (
-            <a
-              href={cta.href}
-              class="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
-              data-field="cta"
-            >
-              {cta.label}
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-          )}
-          {secondaryCta && (
-            <a
-              href={secondaryCta.href}
-              class="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold border border-on-primary text-on-primary hover:bg-on-primary hover:text-foreground rounded-radius transition-colors"
-              data-field="secondaryCta"
-            >
-              {secondaryCta.label}
-            </a>
-          )}
-        </div>
-      )}
-    </div>
+      <div class="hero-fold__content">
+        {header.badge && (
+          <div class="hero-fold__badge">{header.badge}</div>
+        )}
+        <h1 class="hero-fold__title" data-field="header.title">
+          {header.title || ""}
+        </h1>
+        {header.subtitle && (
+          <p class="hero-fold__subtitle" data-field="header.subtitle">
+            {header.subtitle}
+          </p>
+        )}
+        {(cta || secondaryCta) && (
+          <div class="hero-fold__ctas">
+            {cta && (
+              <a href={cta.href} class="hero-fold__cta" data-field="cta">
+                {cta.label}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            )}
+            {secondaryCta && (
+              <a href={secondaryCta.href} class="hero-fold__cta hero-fold__cta--secondary" data-field="secondaryCta">
+                {secondaryCta.label}
+              </a>
+            )}
+          </div>
+        )}
+      </div>
     </section>
   </Fragment>
 )}
