@@ -59,7 +59,7 @@
     "badgeVariant": "text"
   },
   "layout": {
-    "navbar": { "variant": "transparent" },
+    "navbar": { "variant": "transparent", "hideLogoIcon": true },
     "footer": {
       "variant": "minimal",
       "copyright": "2026 Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
