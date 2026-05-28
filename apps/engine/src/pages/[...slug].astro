@@ -160,9 +160,17 @@ const preloadImage =
   (firstSection as any)?.type === "hero"
     ? (firstSection as any).backgroundImage || (firstSection as any).image
     : undefined;
+
+// A hero with a backgroundImage triggers the Astro-HTML full-viewport
+// path in HeroSection.astro (animated bg-zoom, fade-in text). That path
+// is incompatible with OverlayScrollbars wrapping document.body — the
+// re-parent restarts the CSS animations. Tell BaseLayout to skip the
+// custom scrollbars on these pages.
+const heroFirstSectionHasBgImage =
+  (firstSection as any)?.type === "hero" && !!(firstSection as any).backgroundImage;
 ---
 
-<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={ogImage} siteName={business.business.name} jsonLd={jsonLd} preloadImage={preloadImage}>
+<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={ogImage} siteName={business.business.name} jsonLd={jsonLd} preloadImage={preloadImage} noCustomScrollbars={heroFirstSectionHasBgImage}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
     logoSubtext={layout.navbar.logoSubtext}

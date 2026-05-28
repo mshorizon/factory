@@ -18,9 +18,16 @@ interface Props {
   siteName?: string;
   jsonLd?: object | object[];
   preloadImage?: string;
+  /**
+   * Opt out of OverlayScrollbars on this page. The library wraps document.body
+   * and re-parents every child into a custom viewport <div>; that re-parent
+   * restarts any CSS animation running on a child. Set this to true on pages
+   * with above-the-fold animations (e.g. full-viewport hero with bg-zoom).
+   */
+  noCustomScrollbars?: boolean;
 }
 
-const { title, theme, favicon, lang = "en", description, canonical, ogImage, ogType = 'website', siteName, jsonLd, preloadImage } = Astro.props;
+const { title, theme, favicon, lang = "en", description, canonical, ogImage, ogType = 'website', siteName, jsonLd, preloadImage, noCustomScrollbars = false } = Astro.props;
 
 // Umami analytics - skip in preview mode and when not configured
 const isPreview = Astro.url.searchParams.get("_preview") === "1";
@@ -313,7 +320,7 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
       </script>
     )}
   </head>
-  <body class="flex flex-col min-h-screen" data-overlayscrollbars-initialize>
+  <body class="flex flex-col min-h-screen" data-overlayscrollbars-initialize data-no-custom-scrollbars={noCustomScrollbars ? "" : undefined}>
     <slot />
     <ScrollToTopButton />
     <OverlayScrollbar />

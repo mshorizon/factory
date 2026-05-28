@@ -25,14 +25,15 @@
     }
   }
 
-  // Skip on pages with a full-viewport hero (.hero-fold). OverlayScrollbars
-  // wraps document.body and re-parents every child into a new viewport <div>;
-  // that re-parent restarts every running CSS animation in the page — the
-  // user sees the hero text/image animate, the body gets wrapped, then the
-  // animations replay from t=0. Pages without a full-viewport hero are
-  // unaffected and still get the custom scrollbars.
+  // Opt-out signal: BaseLayout's `noCustomScrollbars` prop renders
+  // `data-no-custom-scrollbars` on <body>. OverlayScrollbars wraps
+  // document.body and re-parents every child into a new viewport <div>;
+  // that re-parent restarts every running CSS animation, which corrupts
+  // any above-the-fold reveal (e.g. the full-viewport hero's bg-zoom and
+  // text fade). Pages that haven't set the attribute still get the
+  // custom scrollbars.
   function shouldSkip() {
-    return !!document.querySelector('section.hero-fold');
+    return !!document.body && document.body.hasAttribute('data-no-custom-scrollbars');
   }
 
   function safeInit() {
