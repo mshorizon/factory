@@ -148,7 +148,7 @@ const showCta = !hideCta && !!cta;
             <span class:list={[
               "nav-logo tracking-tight group-hover:text-primary transition-colors",
               isTransparent ? "text-white" : "text-foreground"
-            ]} style={`font-size: var(--nav-logo-size, 24px); font-weight: var(--nav-logo-weight, 600);`}>
+            ]} style={`font-size: var(--nav-logo-size, 24px); font-weight: var(--nav-logo-weight, 600); font-family: var(--nav-logo-font, inherit);`}>
               {logo}
             </span>
             {logoSubtext && (
@@ -314,7 +314,7 @@ const showCta = !hideCta && !!cta;
     content: "";
     display: block;
     width: 100%;
-    height: 0.2em;
+    height: 2px;
     margin-top: 0.28em;
     background: var(--nav-logo-flag);
   }

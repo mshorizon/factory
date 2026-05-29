@@ -57,6 +57,7 @@
     "navFontSize": "13px",
     "navLogoWeight": "400",
     "navLogoUppercase": true,
+    "navLogoFont": "heading",
     "navLogoFlag": ["#008C45", "#F4F5F0", "#CD212A"],
     "navLinksPosition": "center",
     "badgeVariant": "text"
