@@ -55,6 +55,9 @@
     },
     "headingWeight": "400",
     "navFontSize": "13px",
+    "navLogoWeight": "400",
+    "navLogoUppercase": true,
+    "navLogoFlag": ["#008C45", "#F4F5F0", "#CD212A"],
     "navLinksPosition": "center",
     "badgeVariant": "text"
   },

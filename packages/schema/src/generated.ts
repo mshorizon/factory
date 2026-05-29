@@ -82,6 +82,14 @@ export type MaxFontWeight = string;
 export type NavbarFontSize = string;
 export type NavbarLogoFontSize = string;
 export type NavbarLogoFontWeight = string;
+/**
+ * Render the navbar logo text in uppercase.
+ */
+export type NavbarLogoUppercase = boolean;
+/**
+ * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
+ */
+export type NavbarLogoFlagStripes = string[];
 export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "accent-no-line" | "outlined" | "text";
@@ -476,6 +484,8 @@ export interface Theme {
   navFontSize?: NavbarFontSize;
   navLogoSize?: NavbarLogoFontSize;
   navLogoWeight?: NavbarLogoFontWeight;
+  navLogoUppercase?: NavbarLogoUppercase;
+  navLogoFlag?: NavbarLogoFlagStripes;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;

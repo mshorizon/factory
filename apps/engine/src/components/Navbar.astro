@@ -302,6 +302,23 @@ const showCta = !hideCta && !!cta;
 
 {/* ---- navbar overrides (global so they survive Astro scoping) ---- */}
 <style is:global>
+  /* Uppercase logo text (opt-in via theme.navLogoUppercase) */
+  [data-nav-logo-uppercase="1"] #main-nav .nav-logo {
+    text-transform: uppercase;
+  }
+
+  /* Flag bar beneath the logo text (opt-in via theme.navLogoFlag stripe colors).
+     The gradient is injected as --nav-logo-flag on <html> by BaseLayout. The bar
+     is a block ::after, so it sits directly under the text and matches its width. */
+  [data-nav-logo-flag="1"] #main-nav .nav-logo::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 0.2em;
+    margin-top: 0.28em;
+    background: var(--nav-logo-flag);
+  }
+
   /* Nav links position: right — hide center column, show right column.
      Global so the descendant combinator from <html data-*> reaches the
      nav link containers regardless of scoping. */

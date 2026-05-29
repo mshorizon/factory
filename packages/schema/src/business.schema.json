@@ -925,6 +925,13 @@
         "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
         "navLogoSize": { "type": "string", "title": "Navbar Logo Font Size", "default": "24px" },
         "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
+        "navLogoUppercase": { "type": "boolean", "title": "Navbar Logo Uppercase", "description": "Render the navbar logo text in uppercase.", "default": false },
+        "navLogoFlag": {
+          "type": "array",
+          "title": "Navbar Logo Flag Stripes",
+          "description": "Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: [\"#008C45\", \"#F4F5F0\", \"#CD212A\"]).",
+          "items": { "type": "string" }
+        },
         "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
         "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
         "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "accent-no-line", "outlined", "text"], "default": "accent" },
