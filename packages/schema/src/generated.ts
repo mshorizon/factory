@@ -107,6 +107,10 @@ export type HeroCTAHideIcon = boolean;
  */
 export type HeroTextUsesThemeColors = boolean;
 /**
+ * Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.
+ */
+export type HeroBottomFade = boolean;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -510,6 +514,7 @@ export interface Theme {
   navCtaHideIcon?: NavbarCTAHideIcon;
   heroCtaHideIcon?: HeroCTAHideIcon;
   heroTextThemeColors?: HeroTextUsesThemeColors;
+  heroBottomFade?: HeroBottomFade;
   navLogoFlag?: NavbarLogoFlagStripes;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;

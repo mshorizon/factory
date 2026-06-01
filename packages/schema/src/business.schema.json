@@ -931,6 +931,7 @@
         "navCtaHideIcon": { "type": "boolean", "title": "Navbar CTA Hide Icon", "description": "Hide the icon (arrow/clock) inside the navbar CTA button.", "default": false },
         "heroCtaHideIcon": { "type": "boolean", "title": "Hero CTA Hide Icon", "description": "Hide the arrow icon inside the hero section CTA button.", "default": false },
         "heroTextThemeColors": { "type": "boolean", "title": "Hero Text Uses Theme Colors", "description": "Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.", "default": false },
+        "heroBottomFade": { "type": "boolean", "title": "Hero Bottom Fade", "description": "Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.", "default": false },
         "navLogoFlag": {
           "type": "array",
           "title": "Navbar Logo Flag Stripes",

@@ -348,3 +348,20 @@ body::-webkit-scrollbar {
 [data-hero-cta-hide-icon="1"] .hero-cta-icon {
   display: none !important;
 }
+
+/* Hero text uses theme colors instead of on-image white (opt-in via
+   theme.heroTextThemeColors): title = text.main, subtitle = text.muted */
+[data-hero-theme-text="1"] .hero-title {
+  color: var(--foreground) !important;
+}
+[data-hero-theme-text="1"] .hero-subtitle {
+  color: var(--muted) !important;
+}
+
+/* Hero bottom fade into page background (opt-in via theme.heroBottomFade) */
+.hero-bottom-fade {
+  display: none;
+}
+[data-hero-bottom-fade="1"] .hero-bottom-fade {
+  display: block;
+}
