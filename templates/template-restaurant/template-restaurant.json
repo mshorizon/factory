@@ -25,11 +25,13 @@
     "colors": {
       "light": {
         "primary": "#d94a26",
+        "primaryDark": "#d94a26",
         "surface": { "base": "#f7f5ed", "alt": "#efece1", "card": "#ffffff" },
         "text": { "main": "#1d1916", "muted": "#7a7264", "onPrimary": "#f7f5ed" }
       },
       "dark": {
         "primary": "#d94a26",
+        "primaryDark": "#d94a26",
         "surface": { "base": "#1d1916", "alt": "#26201c", "card": "#3b312b" },
         "text": { "main": "#f0ebdb", "muted": "#c2baa3", "onPrimary": "#f7f5ed" }
       }
