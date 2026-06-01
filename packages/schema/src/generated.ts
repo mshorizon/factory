@@ -74,6 +74,10 @@ export type SectionSpacing = string;
 export type ContainerSpacing = string;
 export type SpacingScale = number;
 export type ButtonStyle = string;
+/**
+ * Max width of the centered content container (e.g. "1200px" or "1488px"). Defaults to 1200px when unset.
+ */
+export type ContentWidth = string;
 export type HeadingFontWeight = string;
 /**
  * Caps the maximum font-weight used anywhere on the site (e.g. "400" forces all text to weight 400 or lower).
@@ -519,6 +523,7 @@ export interface Theme {
   colors?: ColorSchemes;
   typography?: Typography;
   ui?: UISettings;
+  contentWidth?: ContentWidth;
   headingWeight?: HeadingFontWeight;
   maxFontWeight?: MaxFontWeight;
   navFontSize?: NavbarFontSize;

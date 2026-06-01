@@ -920,6 +920,7 @@
             "buttonStyle": { "type": "string", "title": "Button Style" }
           }
         },
+        "contentWidth": { "type": "string", "title": "Content Width", "description": "Max width of the centered content container (e.g. \"1200px\" or \"1488px\"). Defaults to 1200px when unset.", "default": "1200px" },
         "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
         "maxFontWeight": { "type": "string", "title": "Max Font Weight", "description": "Caps the maximum font-weight used anywhere on the site (e.g. \"400\" forces all text to weight 400 or lower).", "default": "900" },
         "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
