@@ -343,3 +343,8 @@ body::-webkit-scrollbar {
     @apply font-sans;
   }
 }
+
+/* Hide the hero CTA button arrow icon (opt-in via theme.heroCtaHideIcon) */
+[data-hero-cta-hide-icon="1"] .hero-cta-icon {
+  display: none !important;
+}

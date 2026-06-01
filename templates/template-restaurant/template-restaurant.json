@@ -59,6 +59,8 @@
     "navLogoUppercase": true,
     "navLogoFont": "heading",
     "navLogoColor": "#f0ebdb",
+    "navCtaHideIcon": true,
+    "heroCtaHideIcon": true,
     "navLogoFlag": ["#008C45", "#F4F5F0", "#CD212A"],
     "navLinksPosition": "right",
     "badgeVariant": "text"

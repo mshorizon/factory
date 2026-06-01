@@ -95,6 +95,14 @@ export type NavbarLogoFont = "body" | "heading";
  */
 export type NavbarLogoColor = string;
 /**
+ * Hide the icon (arrow/clock) inside the navbar CTA button.
+ */
+export type NavbarCTAHideIcon = boolean;
+/**
+ * Hide the arrow icon inside the hero section CTA button.
+ */
+export type HeroCTAHideIcon = boolean;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -495,6 +503,8 @@ export interface Theme {
   navLogoUppercase?: NavbarLogoUppercase;
   navLogoFont?: NavbarLogoFont;
   navLogoColor?: NavbarLogoColor;
+  navCtaHideIcon?: NavbarCTAHideIcon;
+  heroCtaHideIcon?: HeroCTAHideIcon;
   navLogoFlag?: NavbarLogoFlagStripes;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;

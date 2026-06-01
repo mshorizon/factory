@@ -928,6 +928,8 @@
         "navLogoUppercase": { "type": "boolean", "title": "Navbar Logo Uppercase", "description": "Render the navbar logo text in uppercase.", "default": false },
         "navLogoFont": { "type": "string", "title": "Navbar Logo Font", "description": "Which theme font the navbar logo text uses: \"body\" (typography.primary) or \"heading\" (typography.secondary).", "enum": ["body", "heading"], "default": "body" },
         "navLogoColor": { "type": "string", "title": "Navbar Logo Color", "description": "Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
+        "navCtaHideIcon": { "type": "boolean", "title": "Navbar CTA Hide Icon", "description": "Hide the icon (arrow/clock) inside the navbar CTA button.", "default": false },
+        "heroCtaHideIcon": { "type": "boolean", "title": "Hero CTA Hide Icon", "description": "Hide the arrow icon inside the hero section CTA button.", "default": false },
         "navLogoFlag": {
           "type": "array",
           "title": "Navbar Logo Flag Stripes",

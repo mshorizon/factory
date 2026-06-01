@@ -336,6 +336,14 @@ const showCta = !hideCta && !!cta;
     color: color-mix(in srgb, var(--nav-logo-color) 80%, white) !important;
   }
 
+  /* Hide the CTA button icon (opt-in via theme.navCtaHideIcon) */
+  [data-nav-cta-hide-icon="1"] #main-nav .cta-icon-arrow,
+  [data-nav-cta-hide-icon="1"] #main-nav .cta-icon-clock,
+  [data-nav-cta-hide-icon="1"] #mobile-menu .cta-icon-arrow,
+  [data-nav-cta-hide-icon="1"] #mobile-menu .cta-icon-clock {
+    display: none !important;
+  }
+
   /* Nav links position: right — hide center column, show right column.
      Global so the descendant combinator from <html data-*> reaches the
      nav link containers regardless of scoping. */

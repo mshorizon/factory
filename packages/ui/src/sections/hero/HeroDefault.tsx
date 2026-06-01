@@ -106,7 +106,7 @@ export function HeroDefault({
                 >
                   <a href={cta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
                     {cta.label}
-                    <ArrowRight className="ml-1 h-5 w-5" />
+                    <ArrowRight className="hero-cta-icon ml-1 h-5 w-5" />
                   </a>
                 </Button>
               )}
