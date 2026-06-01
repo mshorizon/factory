@@ -103,6 +103,10 @@ export type NavbarCTAHideIcon = boolean;
  */
 export type HeroCTAHideIcon = boolean;
 /**
+ * Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.
+ */
+export type HeroTextUsesThemeColors = boolean;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -505,6 +509,7 @@ export interface Theme {
   navLogoColor?: NavbarLogoColor;
   navCtaHideIcon?: NavbarCTAHideIcon;
   heroCtaHideIcon?: HeroCTAHideIcon;
+  heroTextThemeColors?: HeroTextUsesThemeColors;
   navLogoFlag?: NavbarLogoFlagStripes;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;

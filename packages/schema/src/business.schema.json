@@ -930,6 +930,7 @@
         "navLogoColor": { "type": "string", "title": "Navbar Logo Color", "description": "Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
         "navCtaHideIcon": { "type": "boolean", "title": "Navbar CTA Hide Icon", "description": "Hide the icon (arrow/clock) inside the navbar CTA button.", "default": false },
         "heroCtaHideIcon": { "type": "boolean", "title": "Hero CTA Hide Icon", "description": "Hide the arrow icon inside the hero section CTA button.", "default": false },
+        "heroTextThemeColors": { "type": "boolean", "title": "Hero Text Uses Theme Colors", "description": "Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.", "default": false },
         "navLogoFlag": {
           "type": "array",
           "title": "Navbar Logo Flag Stripes",
