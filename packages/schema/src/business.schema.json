@@ -926,6 +926,7 @@
         "navLogoSize": { "type": "string", "title": "Navbar Logo Font Size", "default": "24px" },
         "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
         "navLogoUppercase": { "type": "boolean", "title": "Navbar Logo Uppercase", "description": "Render the navbar logo text in uppercase.", "default": false },
+        "navLogoFont": { "type": "string", "title": "Navbar Logo Font", "description": "Which theme font the navbar logo text uses: \"body\" (typography.primary) or \"heading\" (typography.secondary).", "enum": ["body", "heading"], "default": "body" },
         "navLogoFlag": {
           "type": "array",
           "title": "Navbar Logo Flag Stripes",

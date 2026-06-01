@@ -87,6 +87,10 @@ export type NavbarLogoFontWeight = string;
  */
 export type NavbarLogoUppercase = boolean;
 /**
+ * Which theme font the navbar logo text uses: "body" (typography.primary) or "heading" (typography.secondary).
+ */
+export type NavbarLogoFont = "body" | "heading";
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -485,6 +489,7 @@ export interface Theme {
   navLogoSize?: NavbarLogoFontSize;
   navLogoWeight?: NavbarLogoFontWeight;
   navLogoUppercase?: NavbarLogoUppercase;
+  navLogoFont?: NavbarLogoFont;
   navLogoFlag?: NavbarLogoFlagStripes;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
