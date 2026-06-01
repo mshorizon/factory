@@ -317,6 +317,11 @@ const showCta = !hideCta && !!cta;
     height: 2px;
     margin-top: 0.28em;
     background: var(--nav-logo-flag);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+  [data-nav-logo-flag="1"] #main-nav .nav-logo:hover::after {
+    opacity: 1;
   }
 
   /* Nav links position: right — hide center column, show right column.
