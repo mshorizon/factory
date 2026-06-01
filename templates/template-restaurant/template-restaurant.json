@@ -58,8 +58,9 @@
     "navLogoWeight": "400",
     "navLogoUppercase": true,
     "navLogoFont": "heading",
+    "navLogoColor": "#f0ebdb",
     "navLogoFlag": ["#008C45", "#F4F5F0", "#CD212A"],
-    "navLinksPosition": "center",
+    "navLinksPosition": "right",
     "badgeVariant": "text"
   },
   "layout": {
