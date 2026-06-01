@@ -91,6 +91,10 @@ export type NavbarLogoUppercase = boolean;
  */
 export type NavbarLogoFont = "body" | "heading";
 /**
+ * Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior.
+ */
+export type NavbarLogoColor = string;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -490,6 +494,7 @@ export interface Theme {
   navLogoWeight?: NavbarLogoFontWeight;
   navLogoUppercase?: NavbarLogoUppercase;
   navLogoFont?: NavbarLogoFont;
+  navLogoColor?: NavbarLogoColor;
   navLogoFlag?: NavbarLogoFlagStripes;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;

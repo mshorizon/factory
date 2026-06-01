@@ -324,6 +324,18 @@ const showCta = !hideCta && !!cta;
     opacity: 1;
   }
 
+  /* Fixed logo text color (opt-in via theme.navLogoColor). !important so it wins
+     over the Tailwind text-* classes and the transparent→solid scroll toggle.
+     Hover lightens it slightly by mixing toward white. */
+  [data-nav-logo-color="1"] #main-nav .nav-logo {
+    color: var(--nav-logo-color) !important;
+    transition: color 0.3s ease;
+  }
+  [data-nav-logo-color="1"] #main-nav a:hover .nav-logo,
+  [data-nav-logo-color="1"] #main-nav .nav-logo:hover {
+    color: color-mix(in srgb, var(--nav-logo-color) 80%, white) !important;
+  }
+
   /* Nav links position: right — hide center column, show right column.
      Global so the descendant combinator from <html data-*> reaches the
      nav link containers regardless of scoping. */
