@@ -358,9 +358,15 @@ body::-webkit-scrollbar {
   color: var(--muted) !important;
 }
 
-/* Hero bottom fade into page background (opt-in via theme.heroBottomFade) */
+/* Hero bottom fade into page background (opt-in via theme.heroBottomFade).
+   Self-contained so both the React HeroDefault and the inline .hero-fold can
+   use it via a bare <div class="hero-bottom-fade">. Parent must be relative. */
 .hero-bottom-fade {
   display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 50%, var(--background) 100%);
 }
 [data-hero-bottom-fade="1"] .hero-bottom-fade {
   display: block;

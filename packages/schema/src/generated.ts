@@ -122,6 +122,14 @@ export type HeroSubtitleFontSize = string;
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
+/**
+ * Navbar height when scrolled to the very top (e.g. "86px"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant "transparent".
+ */
+export type NavbarHeightAtTop = string;
+/**
+ * Navbar height once the solid background appears on scroll (e.g. "70px").
+ */
+export type NavbarHeightWhenScrolled = string;
 export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "accent-no-line" | "outlined" | "text";
@@ -526,6 +534,8 @@ export interface Theme {
   heroTitleSize?: HeroTitleFontSize;
   heroSubtitleSize?: HeroSubtitleFontSize;
   navLogoFlag?: NavbarLogoFlagStripes;
+  navHeightTop?: NavbarHeightAtTop;
+  navHeightScrolled?: NavbarHeightWhenScrolled;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;

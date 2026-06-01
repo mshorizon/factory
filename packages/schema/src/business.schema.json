@@ -940,6 +940,8 @@
           "description": "Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: [\"#008C45\", \"#F4F5F0\", \"#CD212A\"]).",
           "items": { "type": "string" }
         },
+        "navHeightTop": { "type": "string", "title": "Navbar Height At Top", "description": "Navbar height when scrolled to the very top (e.g. \"86px\"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant \"transparent\"." },
+        "navHeightScrolled": { "type": "string", "title": "Navbar Height When Scrolled", "description": "Navbar height once the solid background appears on scroll (e.g. \"70px\")." },
         "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
         "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
         "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "accent-no-line", "outlined", "text"], "default": "accent" },

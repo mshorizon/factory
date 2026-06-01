@@ -46,15 +46,7 @@ export function HeroDefault({
       {backgroundImage && overlay && (
         <div className="absolute inset-0 bg-black/50" data-field="backgroundImage" />
       )}
-      {backgroundImage && (
-        <div
-          className="hero-bottom-fade absolute inset-x-0 bottom-0 top-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(to bottom, transparent 50%, var(--background) 100%)",
-          }}
-        />
-      )}
+      {backgroundImage && <div className="hero-bottom-fade" />}
       <div
         className={cn(
           "relative container mx-auto flex flex-col justify-center",
