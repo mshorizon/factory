@@ -382,3 +382,35 @@ body::-webkit-scrollbar {
 [data-hero-subtitle-size="1"] .hero-subtitle {
   font-size: var(--hero-subtitle-size) !important;
 }
+
+/* Content container max-width driven by theme.contentWidth (--content-width,
+   default 1200px). Overrides the Tailwind container's fixed 1200px cap. The
+   container only caps width once the viewport passes the 1200px breakpoint. */
+@media (min-width: 1200px) {
+  .container {
+    max-width: var(--content-width, 1200px);
+  }
+}
+
+/* Services list divider style (opt-in via theme.servicesListDivider): drop the
+   card border/shadow/radius, keep only a bottom divider = surface.card (--card)
+   at 50% opacity. Kept on hover too. */
+[data-services-list-divider="1"] .services-list-item,
+[data-services-list-divider="1"] .services-list-item:hover {
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--card) 50%, transparent) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Non-interactive service items (opt-in via theme.servicesNotClickable) */
+[data-services-not-clickable="1"] .services-list-item {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Cap services section width (opt-in via theme.servicesMaxWidth). Higher
+   specificity than the .container content-width rule, so it wins. */
+[data-services-max-width="1"] .services-section {
+  max-width: var(--services-max-width) !important;
+}

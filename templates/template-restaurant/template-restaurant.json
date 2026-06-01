@@ -56,6 +56,10 @@
       }
     },
     "headingWeight": "400",
+    "contentWidth": "1488px",
+    "servicesListDivider": true,
+    "servicesNotClickable": true,
+    "servicesMaxWidth": "848px",
     "navFontSize": "13px",
     "navLogoWeight": "400",
     "navLogoUppercase": true,
@@ -123,15 +127,20 @@
             "badge": "Degustazione",
             "title": "Menu Highlights"
           },
+          "serviceCategories": [
+            { "id": "przystawki", "label": "Przystawki" },
+            { "id": "pizza", "label": "Pizza" },
+            { "id": "salatki", "label": "Sałatki" }
+          ],
           "items": [
-            { "id": "krem-pomidorowy", "title": "Krem z pomidorów pelati z mascarpone", "description": "Aksamitny krem, świeża bazylia", "price": "23 zł" },
-            { "id": "focaccia", "title": "Focaccia z rozmarynem", "description": "Wypiekana na miejscu, oliwa z oliwek", "price": "25 zł" },
-            { "id": "bruschetta", "title": "Bruschetta z pomidorami", "description": "Świeże pomidory, czosnek, bazylia, pieczywo rzemieślnicze", "price": "32 zł" },
-            { "id": "krewetki", "title": "Krewetki w sosie winno-maślanym (6 szt.)", "description": "Białe wino, czosnek, natka pietruszki", "price": "46 zł" },
-            { "id": "tatar", "title": "Tatar wołowy z podgrzybkiem i rzodkwią", "description": "Najwyższej jakości wołowina, pikle", "price": "47 zł" },
-            { "id": "burrata", "title": "Insalata burrata di bufala", "description": "Z malinami i truskawkami, krem balsamiczny", "price": "43 zł" },
-            { "id": "pizza-neapolitanska", "title": "Pizza Neapolitańska", "description": "Gwiazda naszego lokalu, dojrzewające ciasto, pomidory San Marzano", "price": "od 35 zł" },
-            { "id": "caesar", "title": "Insalata Caesar z krewetkami", "description": "Klasyczny sos, rzymska sałata, parmezan", "price": "47 zł" }
+            { "id": "krem-pomidorowy", "category": "przystawki", "title": "Krem z pomidorów pelati z mascarpone", "description": "Aksamitny krem, świeża bazylia", "price": "23 zł" },
+            { "id": "focaccia", "category": "przystawki", "title": "Focaccia z rozmarynem", "description": "Wypiekana na miejscu, oliwa z oliwek", "price": "25 zł" },
+            { "id": "bruschetta", "category": "przystawki", "title": "Bruschetta z pomidorami", "description": "Świeże pomidory, czosnek, bazylia, pieczywo rzemieślnicze", "price": "32 zł" },
+            { "id": "krewetki", "category": "przystawki", "title": "Krewetki w sosie winno-maślanym (6 szt.)", "description": "Białe wino, czosnek, natka pietruszki", "price": "46 zł" },
+            { "id": "tatar", "category": "przystawki", "title": "Tatar wołowy z podgrzybkiem i rzodkwią", "description": "Najwyższej jakości wołowina, pikle", "price": "47 zł" },
+            { "id": "burrata", "category": "salatki", "title": "Insalata burrata di bufala", "description": "Z malinami i truskawkami, krem balsamiczny", "price": "43 zł" },
+            { "id": "pizza-neapolitanska", "category": "pizza", "title": "Pizza Neapolitańska", "description": "Gwiazda naszego lokalu, dojrzewające ciasto, pomidory San Marzano", "price": "od 35 zł" },
+            { "id": "caesar", "category": "salatki", "title": "Insalata Caesar z krewetkami", "description": "Klasyczny sos, rzymska sałata, parmezan", "price": "47 zł" }
           ],
           "cta": { "label": "Zarezerwuj stolik", "target": { "type": "page", "value": "contact" } }
         },

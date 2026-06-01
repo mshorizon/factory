@@ -263,8 +263,23 @@
               "dateStart": { "type": "string", "title": "Start Date" },
               "dateEnd": { "type": "string", "title": "End Date" },
               "href": { "type": "string", "title": "Link URL" },
-              "linkLabel": { "type": "string", "title": "Link Label" }
+              "linkLabel": { "type": "string", "title": "Link Label" },
+              "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." }
             }
+          }
+        },
+        "serviceCategories": {
+          "type": "array",
+          "title": "Service Category Tabs",
+          "description": "Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.",
+          "items": {
+            "type": "object",
+            "title": "ServiceCategory",
+            "properties": {
+              "id": { "type": "string", "title": "Category ID" },
+              "label": { "type": "string", "title": "Tab Label" }
+            },
+            "required": ["id", "label"]
           }
         },
         "story": {
@@ -921,6 +936,9 @@
           }
         },
         "contentWidth": { "type": "string", "title": "Content Width", "description": "Max width of the centered content container (e.g. \"1200px\" or \"1488px\"). Defaults to 1200px when unset.", "default": "1200px" },
+        "servicesListDivider": { "type": "boolean", "title": "Services List Divider Style", "description": "For the services \"list\" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).", "default": false },
+        "servicesNotClickable": { "type": "boolean", "title": "Services Not Clickable", "description": "Make service list/grid items non-interactive (no link navigation, no hover affordance).", "default": false },
+        "servicesMaxWidth": { "type": "string", "title": "Services Section Max Width", "description": "Cap the services section content width (e.g. \"848px\"). Centered within the page container. Unset = full container width." },
         "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
         "maxFontWeight": { "type": "string", "title": "Max Font Weight", "description": "Caps the maximum font-weight used anywhere on the site (e.g. \"400\" forces all text to weight 400 or lower).", "default": "900" },
         "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },

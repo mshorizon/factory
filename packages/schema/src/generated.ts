@@ -78,6 +78,18 @@ export type ButtonStyle = string;
  * Max width of the centered content container (e.g. "1200px" or "1488px"). Defaults to 1200px when unset.
  */
 export type ContentWidth = string;
+/**
+ * For the services "list" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).
+ */
+export type ServicesListDividerStyle = boolean;
+/**
+ * Make service list/grid items non-interactive (no link navigation, no hover affordance).
+ */
+export type ServicesNotClickable = boolean;
+/**
+ * Cap the services section content width (e.g. "848px"). Centered within the page container. Unset = full container width.
+ */
+export type ServicesSectionMaxWidth = string;
 export type HeadingFontWeight = string;
 /**
  * Caps the maximum font-weight used anywhere on the site (e.g. "400" forces all text to weight 400 or lower).
@@ -334,7 +346,17 @@ export type StartDate = string;
 export type EndDate = string;
 export type LinkURL = string;
 export type LinkLabel = string;
+/**
+ * ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown.
+ */
+export type Category = string;
 export type Items = ServiceItem[];
+export type CategoryID = string;
+export type TabLabel = string;
+/**
+ * Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.
+ */
+export type ServiceCategoryTabs = ServiceCategory[];
 export type Timeline = TimelineItem[];
 /**
  * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
@@ -524,6 +546,9 @@ export interface Theme {
   typography?: Typography;
   ui?: UISettings;
   contentWidth?: ContentWidth;
+  servicesListDivider?: ServicesListDividerStyle;
+  servicesNotClickable?: ServicesNotClickable;
+  servicesMaxWidth?: ServicesSectionMaxWidth;
   headingWeight?: HeadingFontWeight;
   maxFontWeight?: MaxFontWeight;
   navFontSize?: NavbarFontSize;
@@ -692,6 +717,7 @@ export interface Section {
   titleAccent?: TitleAccent;
   scheduleCards?: ScheduleCards;
   items?: Items;
+  serviceCategories?: ServiceCategoryTabs;
   story?: {
     title?: string;
     content?: string;
@@ -779,6 +805,11 @@ export interface ServiceItem {
   dateEnd?: EndDate;
   href?: LinkURL;
   linkLabel?: LinkLabel;
+  category?: Category;
+}
+export interface ServiceCategory {
+  id: CategoryID;
+  label: TabLabel;
 }
 export interface StatItem {
   value?: string;
