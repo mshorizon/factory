@@ -365,3 +365,14 @@ body::-webkit-scrollbar {
 [data-hero-bottom-fade="1"] .hero-bottom-fade {
   display: block;
 }
+
+/* Hero text font sizes from business JSON (opt-in via theme.heroTitleSize /
+   theme.heroSubtitleSize). When unset, the component's responsive Tailwind
+   sizing applies. */
+[data-hero-title-size="1"] .hero-title {
+  font-size: var(--hero-title-size) !important;
+  line-height: 1.05;
+}
+[data-hero-subtitle-size="1"] .hero-subtitle {
+  font-size: var(--hero-subtitle-size) !important;
+}

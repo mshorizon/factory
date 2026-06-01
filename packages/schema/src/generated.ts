@@ -111,6 +111,14 @@ export type HeroTextUsesThemeColors = boolean;
  */
 export type HeroBottomFade = boolean;
 /**
+ * Font size for the hero title. Any CSS length, e.g. "96px" or a responsive "clamp(3.5rem, 7vw, 6rem)". Overrides the default responsive sizing.
+ */
+export type HeroTitleFontSize = string;
+/**
+ * Font size for the hero subtitle/description, e.g. "24px". Overrides the default responsive sizing.
+ */
+export type HeroSubtitleFontSize = string;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -515,6 +523,8 @@ export interface Theme {
   heroCtaHideIcon?: HeroCTAHideIcon;
   heroTextThemeColors?: HeroTextUsesThemeColors;
   heroBottomFade?: HeroBottomFade;
+  heroTitleSize?: HeroTitleFontSize;
+  heroSubtitleSize?: HeroSubtitleFontSize;
   navLogoFlag?: NavbarLogoFlagStripes;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
