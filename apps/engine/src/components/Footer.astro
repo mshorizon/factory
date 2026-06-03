@@ -117,8 +117,10 @@ if (contact?.address) {
   });
 }
 const contactColumnTitle = translations["footer.columns.contact.title"] || "Contact";
+// Drop any JSON-defined contact column with the same title before appending
+// the auto-built one, so contact info isn't rendered in two columns.
 const effectiveColumns: FooterColumn[] = autoContactLinks.length > 0
-  ? [...columns, { title: contactColumnTitle, links: autoContactLinks }]
+  ? [...columns.filter((c) => c.title !== contactColumnTitle), { title: contactColumnTitle, links: autoContactLinks }]
   : columns;
 
 const languages = [
