@@ -45,7 +45,9 @@ const lucideIconSvgs: Record<string, string> = {
   scroll: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></svg>`,
 };
 
-const hasUpperBar = extensions.some((ext) => ext.type === "upper-bar");
+const upperBarExt = extensions.find((ext) => ext.type === "upper-bar");
+const hasUpperBar = !!upperBarExt;
+const upperBarNotice = upperBarExt?.notice;
 const isTransparent = variant === "transparent";
 const showCta = !hideCta && !!cta;
 ---
@@ -76,8 +78,13 @@ const showCta = !hideCta && !!cta;
           </div>
         )}
 
-        {/* Center: Availability - Absolutely centered */}
-        {showAvailability && (
+        {/* Center: Notice (priority) or Availability - Absolutely centered */}
+        {upperBarNotice ? (
+          <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 max-w-[60%] rounded-full bg-white/15 px-3 py-0.5 font-medium text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span class="truncate">{upperBarNotice}</span>
+          </div>
+        ) : showAvailability && (
           <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-white/70">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <span>Available 24/7</span>

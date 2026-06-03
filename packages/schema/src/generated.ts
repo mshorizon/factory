@@ -192,8 +192,13 @@ export type ShowAddressInExtension = boolean;
  */
 export type ShowAdditionalInfoInExtension = boolean;
 export type ExtensionType = "upper-bar";
+/**
+ * Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text.
+ */
+export type UpperBarNotice = string;
 export type NavbarExtensions = {
   type: ExtensionType;
+  notice?: UpperBarNotice;
 }[];
 export type FooterVariant =
   | "simple"
@@ -374,6 +379,10 @@ export type ReceptionLabel = string;
  * Extra contact info lines (e.g., bank account, EPUAP address).
  */
 export type AdditionalInfo1 = string[];
+/**
+ * Temporary warning/alert shown prominently above the contact info (e.g. office closure on a given day). Plain text.
+ */
+export type ContactWarning = string;
 export type ExploreLabel = string;
 export type Products = Product[];
 export type Currency = string;
@@ -831,6 +840,7 @@ export interface ContactInfo {
   receptionLabel?: ReceptionLabel;
   additionalInfo?: AdditionalInfo1;
   notice?: ContactNotice;
+  warning?: ContactWarning;
 }
 /**
  * Highlighted notice block displayed below the contact info (e.g., bank transfer instructions).

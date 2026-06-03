@@ -360,6 +360,11 @@
                 "highlight": { "type": "string" },
                 "description": { "type": "string" }
               }
+            },
+            "warning": {
+              "type": "string",
+              "title": "Contact Warning",
+              "description": "Temporary warning/alert shown prominently above the contact info (e.g. office closure on a given day). Plain text."
             }
           }
         },
@@ -1045,7 +1050,8 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["upper-bar"], "title": "Extension Type" }
+                  "type": { "type": "string", "enum": ["upper-bar"], "title": "Extension Type" },
+                  "notice": { "type": "string", "title": "Upper Bar Notice", "description": "Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text." }
                 },
                 "required": ["type"]
               }

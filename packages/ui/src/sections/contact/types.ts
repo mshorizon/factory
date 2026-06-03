@@ -32,6 +32,7 @@ export interface ContactInfo {
   receptionLabel?: string;
   additionalInfo?: string[];
   notice?: ContactNotice;
+  warning?: string;
   industry?: string;
   city?: string;
 }

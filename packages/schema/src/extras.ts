@@ -21,6 +21,8 @@ export type FooterExtension = FooterCallExtension;
 // Navbar extensions
 export interface NavbarUpperBarExtension {
   type: "upper-bar";
+  /** Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). */
+  notice?: string;
 }
 export type NavbarExtension = NavbarUpperBarExtension;
 
