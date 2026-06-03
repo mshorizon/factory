@@ -2,6 +2,7 @@
   "business.name": "",
 
   "nav.cta": "",
+  "nav.booking": "Buchung",
 
   "hero.badge": "",
   "hero.title": "",
@@ -80,6 +81,8 @@
   "about.stats.availability": "",
   "about.cta": "",
 
+  "aboutSummary.stats.satisfaction": "",
+
   "faq.badge": "",
   "faq.title": "",
   "faq.subtitle": "",
@@ -120,6 +123,7 @@
   "blog.title": "",
   "blog.subtitle": "",
   "blog.readMore": "",
+  "blog.back": "Zurück",
   "blog.posts.0.title": "",
   "blog.posts.0.description": "",
   "blog.posts.0.date": "",
@@ -133,6 +137,18 @@
   "contact.badge": "",
   "contact.title": "",
   "contact.subtitle": "",
+  "contact.page.subtitle": "",
+  "contact.info.hours": "",
+  "contact.info.hours.mon": "",
+  "contact.info.hours.tue": "",
+  "contact.info.hours.wed": "",
+  "contact.info.hours.thu": "",
+  "contact.info.hours.fri": "",
+  "contact.info.hours.sat": "",
+  "contact.info.receptionHours": "",
+  "contact.info.receptionLabel": "",
+  "contact.info.notice.title": "",
+  "contact.info.notice.description": "",
   "contact.form.nameLabel": "",
   "contact.form.namePlaceholder": "",
   "contact.form.emailLabel": "",
@@ -160,6 +176,11 @@
   "pages.services.title": "",
   "pages.contact.title": "",
   "pages.testimonials.title": "",
+  "pages.booking.title": "Buchungen",
+
+  "projectsPage.badge": "Unsere Projekte",
+  "projectsPage.title": "Projekte, auf die wir stolz sind",
+  "projectsPage.subtitle": "Eine Auswahl abgeschlossener Elektroinstallationen – von Wohn- bis hin zu Gewerbe- und Industrieobjekten.",
 
   "servicesPage.badge": "",
   "servicesPage.title": "",

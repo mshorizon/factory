@@ -180,6 +180,8 @@
         "badgeColor": { "type": "string", "title": "Badge Text Color Override" },
         "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
+        "mapPanelButtonColor": { "type": "string", "title": "Map Panel Button Color", "enum": ["primary", "primary-light"], "description": "Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'." },
+        "headerLineColor": { "type": "string", "title": "Header Decorative Line Color", "enum": ["primary", "foreground"], "description": "Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'." },
         "statsInverted": { "type": "boolean", "title": "Invert stat colors (light bg, dark text)" },
         "cta": { "$ref": "#/definitions/cta" },
         "secondaryCta": { "$ref": "#/definitions/cta" },
@@ -202,6 +204,36 @@
               "title": { "type": "string" },
               "quote": { "type": "string" },
               "image": { "type": "string", "title": "Avatar Image URL" }
+            }
+          }
+        },
+        "titleAccent": {
+          "type": "string",
+          "title": "Title Accent",
+          "description": "Decorative italic phrase rendered as a secondary line under the main title (used by hero/sacrum)."
+        },
+        "scheduleCards": {
+          "type": "array",
+          "title": "Schedule Cards",
+          "description": "Compact data cards (e.g. mass hours, confession hours) rendered inside the hero (used by hero/sacrum).",
+          "items": {
+            "type": "object",
+            "title": "ScheduleCard",
+            "properties": {
+              "title": { "type": "string", "title": "Card Title" },
+              "icon": { "type": "string", "title": "Lucide Icon Name" },
+              "rows": {
+                "type": "array",
+                "title": "Rows",
+                "items": {
+                  "type": "object",
+                  "title": "ScheduleRow",
+                  "properties": {
+                    "label": { "type": "string", "title": "Label" },
+                    "value": { "type": "string", "title": "Value" }
+                  }
+                }
+              }
             }
           }
         },
@@ -231,8 +263,23 @@
               "dateStart": { "type": "string", "title": "Start Date" },
               "dateEnd": { "type": "string", "title": "End Date" },
               "href": { "type": "string", "title": "Link URL" },
-              "linkLabel": { "type": "string", "title": "Link Label" }
+              "linkLabel": { "type": "string", "title": "Link Label" },
+              "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." }
             }
+          }
+        },
+        "serviceCategories": {
+          "type": "array",
+          "title": "Service Category Tabs",
+          "description": "Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.",
+          "items": {
+            "type": "object",
+            "title": "ServiceCategory",
+            "properties": {
+              "id": { "type": "string", "title": "Category ID" },
+              "label": { "type": "string", "title": "Tab Label" }
+            },
+            "required": ["id", "label"]
           }
         },
         "story": {
@@ -313,6 +360,11 @@
                 "highlight": { "type": "string" },
                 "description": { "type": "string" }
               }
+            },
+            "warning": {
+              "type": "string",
+              "title": "Contact Warning",
+              "description": "Temporary warning/alert shown prominently above the contact info (e.g. office closure on a given day). Plain text."
             }
           }
         },
@@ -882,16 +934,38 @@
           "title": "UI Settings",
           "properties": {
             "radius": { "type": "string", "title": "Border Radius", "default": "0.5rem" },
+            "radiusSm": { "type": "string", "title": "Small Border Radius", "default": "0.25rem" },
             "spacing": { "$ref": "#/definitions/themeSpacing" },
             "spacingScale": { "type": "number", "title": "Spacing Scale" },
             "buttonStyle": { "type": "string", "title": "Button Style" }
           }
         },
+        "contentWidth": { "type": "string", "title": "Content Width", "description": "Max width of the centered content container (e.g. \"1200px\" or \"1488px\"). Defaults to 1200px when unset.", "default": "1200px" },
+        "servicesListDivider": { "type": "boolean", "title": "Services List Divider Style", "description": "For the services \"list\" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).", "default": false },
+        "servicesNotClickable": { "type": "boolean", "title": "Services Not Clickable", "description": "Make service list/grid items non-interactive (no link navigation, no hover affordance).", "default": false },
+        "servicesMaxWidth": { "type": "string", "title": "Services Section Max Width", "description": "Cap the services section content width (e.g. \"848px\"). Centered within the page container. Unset = full container width." },
         "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
         "maxFontWeight": { "type": "string", "title": "Max Font Weight", "description": "Caps the maximum font-weight used anywhere on the site (e.g. \"400\" forces all text to weight 400 or lower).", "default": "900" },
         "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
         "navLogoSize": { "type": "string", "title": "Navbar Logo Font Size", "default": "24px" },
         "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
+        "navLogoUppercase": { "type": "boolean", "title": "Navbar Logo Uppercase", "description": "Render the navbar logo text in uppercase.", "default": false },
+        "navLogoFont": { "type": "string", "title": "Navbar Logo Font", "description": "Which theme font the navbar logo text uses: \"body\" (typography.primary) or \"heading\" (typography.secondary).", "enum": ["body", "heading"], "default": "body" },
+        "navLogoColor": { "type": "string", "title": "Navbar Logo Color", "description": "Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
+        "navCtaHideIcon": { "type": "boolean", "title": "Navbar CTA Hide Icon", "description": "Hide the icon (arrow/clock) inside the navbar CTA button.", "default": false },
+        "heroCtaHideIcon": { "type": "boolean", "title": "Hero CTA Hide Icon", "description": "Hide the arrow icon inside the hero section CTA button.", "default": false },
+        "heroTextThemeColors": { "type": "boolean", "title": "Hero Text Uses Theme Colors", "description": "Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.", "default": false },
+        "heroBottomFade": { "type": "boolean", "title": "Hero Bottom Fade", "description": "Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.", "default": false },
+        "heroTitleSize": { "type": "string", "title": "Hero Title Font Size", "description": "Font size for the hero title. Any CSS length, e.g. \"96px\" or a responsive \"clamp(3.5rem, 7vw, 6rem)\". Overrides the default responsive sizing." },
+        "heroSubtitleSize": { "type": "string", "title": "Hero Subtitle Font Size", "description": "Font size for the hero subtitle/description, e.g. \"24px\". Overrides the default responsive sizing." },
+        "navLogoFlag": {
+          "type": "array",
+          "title": "Navbar Logo Flag Stripes",
+          "description": "Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: [\"#008C45\", \"#F4F5F0\", \"#CD212A\"]).",
+          "items": { "type": "string" }
+        },
+        "navHeightTop": { "type": "string", "title": "Navbar Height At Top", "description": "Navbar height when scrolled to the very top (e.g. \"86px\"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant \"transparent\"." },
+        "navHeightScrolled": { "type": "string", "title": "Navbar Height When Scrolled", "description": "Navbar height once the solid background appears on scroll (e.g. \"70px\")." },
         "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
         "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
         "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "accent-no-line", "outlined", "text"], "default": "accent" },
@@ -917,6 +991,17 @@
               "title": "Logo Text Override",
               "description": "Override the business name displayed in the navbar"
             },
+            "logoSubtext": {
+              "type": "string",
+              "title": "Logo Subtext",
+              "description": "Optional second line shown below the logo text (stacked column layout)"
+            },
+            "hideLogoIcon": {
+              "type": "boolean",
+              "title": "Hide Logo Icon",
+              "description": "Hide the icon next to the logo text in the navbar",
+              "default": false
+            },
             "hideBorderOnTop": {
               "type": "boolean",
               "title": "Hide Border When At Top",
@@ -927,6 +1012,12 @@
               "type": "boolean",
               "title": "Hide CTA Button",
               "description": "Hide the call-to-action button in the navbar",
+              "default": false
+            },
+            "hideBlog": {
+              "type": "boolean",
+              "title": "Hide Blog Link",
+              "description": "Hide the auto-injected Blog link in the navbar",
               "default": false
             },
             "showSocials": {
@@ -959,7 +1050,8 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["upper-bar"], "title": "Extension Type" }
+                  "type": { "type": "string", "enum": ["upper-bar"], "title": "Extension Type" },
+                  "notice": { "type": "string", "title": "Upper Bar Notice", "description": "Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text." }
                 },
                 "required": ["type"]
               }
@@ -1011,6 +1103,19 @@
                 },
                 "required": ["type"]
               }
+            }
+          }
+        },
+        "blog": {
+          "type": "object",
+          "title": "Blog Settings",
+          "properties": {
+            "postVariant": {
+              "type": "string",
+              "title": "Blog Post Layout",
+              "description": "Layout variant for individual blog post pages",
+              "enum": ["default", "sidebar"],
+              "default": "default"
             }
           }
         },

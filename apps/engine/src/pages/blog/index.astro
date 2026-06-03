@@ -135,8 +135,10 @@ const socialLinks = business.business.socials
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={blogMetaDescription} canonical={canonicalUrl} siteName={business.business.name}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoSubtext={layout.navbar.logoSubtext}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     logoIconLucide={business.business.assets?.iconLucide}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
@@ -151,7 +153,7 @@ const socialLinks = business.business.socials
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1" data-nav-offset>
+  <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     <section class="py-spacing-section-sm">
       <div class="container mx-auto px-spacing-container">
         {isCards || isCardsLight ? (
@@ -201,5 +203,6 @@ const socialLinks = business.business.socials
     socialLinks={socialLinks}
     extensions={layout.footer.extensions}
     background={layout.footer.background}
+    contact={business.business.contact}
   />
 </BaseLayout>

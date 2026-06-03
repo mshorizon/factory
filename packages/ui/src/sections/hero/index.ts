@@ -6,6 +6,8 @@ export { HeroVideo } from "./HeroVideo";
 export { HeroMinimal } from "./HeroMinimal";
 export { HeroArtist } from "./HeroArtist";
 export { HeroAgency } from "./HeroAgency";
+export { HeroSacrum } from "./HeroSacrum";
+export type { ScheduleCard, ScheduleCardRow } from "./HeroSacrum";
 export type { HeroProps, CTAButton } from "./types";
 
 // Re-export default as Hero for backwards compatibility

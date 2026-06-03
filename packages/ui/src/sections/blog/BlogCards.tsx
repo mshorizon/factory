@@ -18,7 +18,7 @@ export function BlogCards({ posts, ctaLabel, className, withCard, columns = 3 }:
         <StaggerItem key={index} direction="up" distance={24}>
           <a
             href={post.href || "#"}
-            className={cn("block group h-full", withCard && "bg-card rounded-radius overflow-hidden")}
+            className={cn("block group h-full", withCard && "bg-card rounded-radius-secondary overflow-hidden")}
             data-field={`blogPosts.${index}`}
           >
             {post.image && (

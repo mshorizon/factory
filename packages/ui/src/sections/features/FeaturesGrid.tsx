@@ -75,12 +75,22 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <Card
-              className="h-full flex flex-col !rounded-radius-secondary group hover:brightness-[0.98] transition-all"
+              className={cn(
+                "h-full flex flex-col !rounded-radius-secondary group hover:brightness-[0.98] transition-all relative",
+                item.linkHref && "cursor-pointer"
+              )}
               data-field={`items.${index}`}
             >
+              {item.linkHref && (
+                <a
+                  href={item.linkHref}
+                  className="absolute inset-0 z-10"
+                  aria-label={item.title}
+                />
+              )}
               <CardHeader className="flex-1">
-                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light">
-                  <IconComponent className="h-[18px] w-[18px] text-white" />
+                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--dark-background)]">
+                  <IconComponent className="h-[18px] w-[18px] text-primary" />
                 </div>
                 <CardTitle data-field={`items.${index}.title`}>
                   {item.title}
@@ -91,14 +101,13 @@ export function FeaturesGrid({ items, className }: FeaturesGridProps) {
               </CardHeader>
               {item.linkHref && (
                 <div className="px-spacing-lg pb-6">
-                  <a
-                    href={item.linkHref}
+                  <span
                     className="inline-flex items-center gap-1.5 text-base font-semibold transition-all group-hover:gap-2"
                     style={{ color: "var(--primary-dark)" }}
                   >
                     <span>{item.linkLabel || "Learn more"}</span>
                     <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
+                  </span>
                 </div>
               )}
             </Card>

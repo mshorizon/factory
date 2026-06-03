@@ -9,9 +9,9 @@
     },
     "contact": {
       "address": "ul. Marszałkowska 115, 00-102 Warszawa",
-      "phone": "+48 504 472 002",
+      "phone": "504 472 002",
       "email": "kontakt@mastervolt.pl",
-      "hours": "Pon-Pt: 7:00-18:00, Sob: 8:00-14:00, Niedz: Tylko awarie",
+      "hours": "Godziny pracy",
       "location": {
         "latitude": 52.2297,
         "longitude": 21.0122
@@ -58,6 +58,7 @@
   "theme": {
     "preset": "bold",
     "majorTheme": "template-specialist",
+    "navLinksPosition": "right",
     "mode": "light",
     "colors": {
       "light": {
@@ -97,6 +98,7 @@
     },
     "ui": {
       "radius": "64px",
+      "radiusSm": "0.75rem",
       "spacing": {
         "xs": "0.5rem",
         "sm": "0.75rem",
@@ -114,6 +116,7 @@
   "layout": {
     "navbar": {
       "variant": "standard",
+      "showAvailability": false,
       "extensions": [
         {
           "type": "upper-bar"
@@ -147,34 +150,10 @@
           }
         }
       ],
-      "columns": [
-        {
-          "title": "t:footer.columns.contact.title",
-          "links": [
-            {
-              "label": "+1 (212) 555-0173",
-              "target": {
-                "type": "phone",
-                "value": "+12125550173"
-              }
-            },
-            {
-              "label": "info@mastervolt.com",
-              "target": {
-                "type": "email",
-                "value": "info@mastervolt.com"
-              }
-            },
-            {
-              "label": "142 W 57th St, New York",
-              "target": {
-                "type": "external",
-                "value": "https://maps.google.com"
-              }
-            }
-          ]
-        }
-      ]
+      "columns": []
+    },
+    "blog": {
+      "postVariant": "sidebar"
     }
   },
   "navigation": {
@@ -219,13 +198,41 @@
       }
     ],
     "hours": {
-      "mon": { "enabled": true, "open": "07:00", "close": "18:00" },
-      "tue": { "enabled": true, "open": "07:00", "close": "18:00" },
-      "wed": { "enabled": true, "open": "07:00", "close": "18:00" },
-      "thu": { "enabled": true, "open": "07:00", "close": "18:00" },
-      "fri": { "enabled": true, "open": "07:00", "close": "18:00" },
-      "sat": { "enabled": true, "open": "08:00", "close": "14:00" },
-      "sun": { "enabled": false, "open": "09:00", "close": "13:00" }
+      "mon": {
+        "enabled": true,
+        "open": "07:00",
+        "close": "18:00"
+      },
+      "tue": {
+        "enabled": true,
+        "open": "07:00",
+        "close": "18:00"
+      },
+      "wed": {
+        "enabled": true,
+        "open": "07:00",
+        "close": "18:00"
+      },
+      "thu": {
+        "enabled": true,
+        "open": "07:00",
+        "close": "18:00"
+      },
+      "fri": {
+        "enabled": true,
+        "open": "07:00",
+        "close": "18:00"
+      },
+      "sat": {
+        "enabled": true,
+        "open": "08:00",
+        "close": "14:00"
+      },
+      "sun": {
+        "enabled": false,
+        "open": "09:00",
+        "close": "13:00"
+      }
     },
     "slotInterval": 60,
     "leadTime": 60,
@@ -397,12 +404,12 @@
             {
               "title": "t:hero.testimonial.title",
               "quote": "t:hero.testimonial.quote",
-              "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/testimonial-1.jpg"
+              "image": "https://api.dicebear.com/7.x/lorelei/svg?seed=testimonial-1"
             },
             {
               "title": "t:hero.testimonial2.title",
               "quote": "t:hero.testimonial2.quote",
-              "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/testimonial-2.jpg"
+              "image": "https://api.dicebear.com/7.x/lorelei/svg?seed=jan"
             }
           ],
           "cta": {
@@ -436,9 +443,18 @@
             }
           }
         },
-        { "type": "ref", "sectionId": "service-area-main" },
-        { "type": "ref", "sectionId": "features-main" },
-        { "type": "ref", "sectionId": "about-summary-main" },
+        {
+          "type": "ref",
+          "sectionId": "service-area-main"
+        },
+        {
+          "type": "ref",
+          "sectionId": "features-main"
+        },
+        {
+          "type": "ref",
+          "sectionId": "about-summary-main"
+        },
         {
           "type": "faq",
           "header": {
@@ -512,17 +528,12 @@
               "description": "t:testimonials.items.2.text",
               "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
             }
-          ],
-          "cta": {
-            "label": "t:testimonials.viewAll",
-            "target": {
-              "type": "page",
-              "value": "testimonials"
-            }
-          }
+          ]
         },
         {
           "type": "blog",
+          "variant": "cards-light",
+          "badgeVariant": "accent",
           "header": {
             "badge": "t:blog.badge",
             "title": "t:blog.title",
@@ -548,6 +559,7 @@
     },
     "about": {
       "title": "t:pages.about.title",
+      "navOrder": 1,
       "sections": [
         {
           "type": "about",
@@ -587,14 +599,23 @@
           ],
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/specialist-001/mission-electrician.jpg"
         },
-        { "type": "ref", "sectionId": "about-summary-main" },
-        { "type": "ref", "sectionId": "features-main" },
-        { "type": "ref", "sectionId": "service-area-main" },
-        { "type": "ref", "sectionId": "map-google" }
+        {
+          "type": "ref",
+          "sectionId": "features-main"
+        },
+        {
+          "type": "ref",
+          "sectionId": "service-area-main"
+        },
+        {
+          "type": "ref",
+          "sectionId": "map-google"
+        }
       ]
     },
     "services": {
       "title": "t:pages.services.title",
+      "navOrder": 2,
       "sections": [
         {
           "type": "services",
@@ -604,39 +625,103 @@
             "title": "t:servicesPage.title",
             "subtitle": "t:servicesPage.subtitle"
           }
-        },
-        {
-          "type": "ctaBanner",
-          "variant": "default",
-          "background": "primary",
-          "header": {
-            "title": "t:servicesPage.cta.title",
-            "subtitle": "t:servicesPage.cta.subtitle"
-          },
-          "cta": {
-            "label": "t:servicesPage.cta.button",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
-          }
         }
       ]
     },
     "projects": {
       "title": "t:pages.projects.title",
-      "sections": []
+      "navOrder": 3,
+      "sections": [
+        {
+          "type": "project",
+          "variant": "grid",
+          "header": {
+            "badge": "t:projectsPage.badge",
+            "title": "t:projectsPage.title",
+            "subtitle": "t:projectsPage.subtitle"
+          },
+          "projects": [
+            {
+              "title": "Instalacja elektryczna – Biurowiec Centrum",
+              "description": "Kompleksowa instalacja elektryczna w nowoczesnym biurowcu klasy A w centrum Warszawy. Projekt obejmował 120 punktów elektrycznych, rozdzielnię główną, systemy awaryjnego zasilania UPS oraz energooszczędne oświetlenie LED.",
+              "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=500&fit=crop",
+              "date": "Marzec 2025",
+              "metrics": [
+                "450 m² powierzchni biurowej",
+                "120 punktów elektrycznych",
+                "3 tygodnie realizacji"
+              ]
+            },
+            {
+              "title": "Instalacja fotowoltaiki – Dom w Konstancinie",
+              "description": "Montaż instalacji fotowoltaicznej 10 kWp wraz z systemem zarządzania energią i magazynem energii 10 kWh. Projekt objął całą infrastrukturę elektryczną: inwerter hybrydowy, zabezpieczenia DC/AC oraz integrację z istniejącą instalacją domową.",
+              "image": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=500&fit=crop",
+              "date": "Kwiecień 2025",
+              "metrics": [
+                "10 kWp paneli",
+                "Magazyn 10 kWh",
+                "Oszczędność 90% rachunków"
+              ]
+            },
+            {
+              "title": "Instalacja ładowarek EV – Parking osiedlowy",
+              "description": "Zaprojektowanie i montaż 8 stacji ładowania pojazdów elektrycznych na parkingu osiedlowym. Projekt objął dedykowane linie zasilające 32A, system zarządzania mocą (load balancing), karty RFID oraz podliczniki dla każdego miejsca parkingowego.",
+              "image": "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&h=500&fit=crop",
+              "date": "Maj 2025",
+              "metrics": [
+                "8 stacji ładowania",
+                "Load balancing",
+                "Karty RFID"
+              ]
+            },
+            {
+              "title": "Rozdzielnia główna – Hala produkcyjna",
+              "description": "Budowa nowej rozdzielni głównej 630A dla hali produkcyjnej przechodzącej modernizację linii technologicznych. Projekt obejmował analizę obciążeń, dobór zabezpieczeń, szyny zbiorcze oraz system kompensacji mocy biernej z kondensatorami.",
+              "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&h=500&fit=crop",
+              "date": "Sierpień 2024",
+              "metrics": [
+                "Rozdzielnia 630A",
+                "Kompensacja mocy biernej",
+                "Zgodność z IE3"
+              ]
+            }
+          ]
+        }
+      ]
     },
     "contact": {
       "title": "t:pages.contact.title",
       "sections": [
         {
           "type": "contact",
-          "variant": "split",
+          "variant": "professional",
+          "iconColor": "primary",
+          "submitButtonColor": "primary",
+          "headerLineColor": "primary",
+          "formBackground": "dark",
           "header": {
-            "badge": "t:contact.badge",
             "title": "t:contact.title",
-            "subtitle": "t:contact.subtitle"
+            "subtitle": "t:contact.page.subtitle"
+          },
+          "info": {
+            "address": "ul. Marszałkowska 115, 00-102 Warszawa",
+            "phone": "504 472 002",
+            "email": "kontakt@mastervolt.pl",
+            "hours": "t:contact.info.hours",
+            "hoursDetailed": [
+              "t:contact.info.hours.mon",
+              "t:contact.info.hours.tue",
+              "t:contact.info.hours.wed",
+              "t:contact.info.hours.thu",
+              "t:contact.info.hours.fri",
+              "t:contact.info.hours.sat"
+            ],
+            "receptionHours": "t:contact.info.receptionHours",
+            "receptionLabel": "t:contact.info.receptionLabel",
+            "notice": {
+              "title": "t:contact.info.notice.title",
+              "description": "t:contact.info.notice.description"
+            }
           },
           "form": {
             "nameLabel": "t:contact.form.nameLabel",
@@ -648,57 +733,16 @@
             "submitButton": "t:contact.form.submitButton"
           }
         },
-        { "type": "ref", "sectionId": "map-google" }
-      ]
-    },
-    "testimonials": {
-      "title": "t:pages.testimonials.title",
-      "sections": [
         {
-          "type": "testimonials",
-          "variant": "full",
-          "header": {
-            "badge": "t:testimonials.badge",
-            "title": "t:testimonials.title",
-            "subtitle": "t:testimonials.subtitle"
-          },
-          "items": [
-            {
-              "title": "t:testimonials.items.0.author",
-              "description": "t:testimonials.items.0.text",
-              "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
-            },
-            {
-              "title": "t:testimonials.items.1.author",
-              "description": "t:testimonials.items.1.text",
-              "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
-            },
-            {
-              "title": "t:testimonials.items.2.author",
-              "description": "t:testimonials.items.2.text",
-              "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face"
-            },
-            {
-              "title": "t:testimonials.items.3.author",
-              "description": "t:testimonials.items.3.text",
-              "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face"
-            },
-            {
-              "title": "t:testimonials.items.4.author",
-              "description": "t:testimonials.items.4.text",
-              "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face"
-            },
-            {
-              "title": "t:testimonials.items.5.author",
-              "description": "t:testimonials.items.5.text",
-              "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face"
-            }
-          ]
+          "type": "ref",
+          "sectionId": "map-google"
         }
       ]
     },
     "booking": {
       "title": "t:pages.booking.title",
+      "navLabel": "t:nav.booking",
+      "navOrder": 4,
       "sections": [
         {
           "type": "booking",
@@ -794,13 +838,29 @@
       "experienceLabel": "t:aboutSummary.experienceLabel",
       "description": "t:aboutSummary.description",
       "stats": [
-        { "value": "20+", "label": "t:aboutSummary.stats.certifications" },
-        { "value": "6,000+", "label": "t:aboutSummary.stats.completedJobs" },
-        { "value": "24/7", "label": "t:aboutSummary.stats.emergency" }
+        {
+          "value": "20+",
+          "label": "t:aboutSummary.stats.certifications"
+        },
+        {
+          "value": "6,000+",
+          "label": "t:aboutSummary.stats.completedJobs"
+        },
+        {
+          "value": "24/7",
+          "label": "t:aboutSummary.stats.emergency"
+        },
+        {
+          "value": "98%",
+          "label": "t:aboutSummary.stats.satisfaction"
+        }
       ],
       "cta": {
         "label": "t:aboutSummary.cta",
-        "target": { "type": "page", "value": "about" }
+        "target": {
+          "type": "page",
+          "value": "about"
+        }
       }
     },
     "features-main": {
@@ -816,35 +876,50 @@
           "description": "t:features.items.swift.description",
           "icon": "timer",
           "linkLabel": "t:features.learnMore",
-          "linkTarget": { "type": "page", "value": "contact" }
+          "linkTarget": {
+            "type": "page",
+            "value": "contact"
+          }
         },
         {
           "title": "t:features.items.trusted.title",
           "description": "t:features.items.trusted.description",
           "icon": "badge-check",
           "linkLabel": "t:features.learnMore",
-          "linkTarget": { "type": "page", "value": "contact" }
+          "linkTarget": {
+            "type": "page",
+            "value": "contact"
+          }
         },
         {
           "title": "t:features.items.safety.title",
           "description": "t:features.items.safety.description",
           "icon": "shield-check",
           "linkLabel": "t:features.learnMore",
-          "linkTarget": { "type": "page", "value": "contact" }
+          "linkTarget": {
+            "type": "page",
+            "value": "contact"
+          }
         },
         {
           "title": "t:features.items.affordable.title",
           "description": "t:features.items.affordable.description",
           "icon": "wallet",
           "linkLabel": "t:features.learnMore",
-          "linkTarget": { "type": "page", "value": "contact" }
+          "linkTarget": {
+            "type": "page",
+            "value": "contact"
+          }
         }
       ]
     },
     "service-area-main": {
       "type": "serviceArea",
       "background": "dark",
-      "area": { "country": "polska", "region": "mazowsze" },
+      "area": {
+        "country": "polska",
+        "region": "mazowsze"
+      },
       "header": {
         "badge": "t:serviceArea.badge",
         "title": "t:serviceArea.title",
@@ -861,12 +936,19 @@
         "t:serviceArea.areas.7"
       ],
       "stats": [
-        { "value": "18", "label": "t:serviceArea.stats.states" },
-        { "value": "9000+", "label": "t:serviceArea.stats.cities" }
+        {
+          "value": "18",
+          "label": "t:serviceArea.stats.states"
+        },
+        {
+          "value": "9000+",
+          "label": "t:serviceArea.stats.cities"
+        }
       ]
     },
     "map-google": {
       "type": "map",
+      "mapPanelButtonColor": "primary",
       "header": {
         "badge": "t:map.badge",
         "title": "t:map.title",

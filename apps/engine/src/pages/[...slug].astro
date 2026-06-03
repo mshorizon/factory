@@ -153,13 +153,30 @@ const hasShopSection = Object.values(business.pages).some((p: any) =>
 const socialLinks = business.business.socials
   ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
   : [];
+
+// LCP preload: first section's hero/background image (browser preload scanner
+// can't see CSS background-image, so we emit an explicit <link rel="preload">).
+const preloadImage =
+  (firstSection as any)?.type === "hero"
+    ? (firstSection as any).backgroundImage || (firstSection as any).image
+    : undefined;
+
+// A hero with a backgroundImage triggers the Astro-HTML full-viewport
+// path in HeroSection.astro (animated bg-zoom, fade-in text). That path
+// is incompatible with OverlayScrollbars wrapping document.body — the
+// re-parent restarts the CSS animations. Tell BaseLayout to skip the
+// custom scrollbars on these pages.
+const heroFirstSectionHasBgImage =
+  (firstSection as any)?.type === "hero" && !!(firstSection as any).backgroundImage;
 ---
 
-<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={ogImage} siteName={business.business.name} jsonLd={jsonLd}>
+<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={ogImage} siteName={business.business.name} jsonLd={jsonLd} preloadImage={preloadImage} noCustomScrollbars={heroFirstSectionHasBgImage}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoSubtext={layout.navbar.logoSubtext}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     logoIconLucide={business.business.assets?.iconLucide}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
@@ -174,7 +191,7 @@ const socialLinks = business.business.socials
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1" data-nav-offset>
+  <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     <SectionDispatcher sections={page.sections} business={business} isHomePage={normalizedSlug === 'home'} />
   </main>
   <Footer
@@ -191,5 +208,6 @@ const socialLinks = business.business.socials
     socialLinks={socialLinks}
     extensions={layout.footer.extensions}
     background={layout.footer.background}
+    contact={business.business.contact}
   />
 </BaseLayout>

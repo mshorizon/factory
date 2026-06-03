@@ -195,7 +195,10 @@
         }
       ]
     },
-    "hideBreadcrumbs": true
+    "hideBreadcrumbs": true,
+    "blog": {
+      "postVariant": "sidebar"
+    }
   },
   "navigation": {
     "cta": {

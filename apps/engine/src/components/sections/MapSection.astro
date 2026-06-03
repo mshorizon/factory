@@ -25,6 +25,7 @@ const address = contact?.address;
 const openInMapsLabel = (section as any).openInMapsLabel;
 const directionsLabel = (section as any).directionsLabel;
 const googlePlaceQuery = location?.googlePlaceQuery;
+const mapPanelButtonColor = (section as any).mapPanelButtonColor ?? "primary-light";
 ---
 
 {location && (
@@ -46,6 +47,7 @@ const googlePlaceQuery = location?.googlePlaceQuery;
       openInMapsLabel={openInMapsLabel}
       directionsLabel={directionsLabel}
       googlePlaceQuery={googlePlaceQuery}
+      mapPanelButtonColor={mapPanelButtonColor}
     />
   </section>
 )}

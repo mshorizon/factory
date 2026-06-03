@@ -17,9 +17,17 @@ interface Props {
   ogType?: 'website' | 'article';
   siteName?: string;
   jsonLd?: object | object[];
+  preloadImage?: string;
+  /**
+   * Opt out of OverlayScrollbars on this page. The library wraps document.body
+   * and re-parents every child into a custom viewport <div>; that re-parent
+   * restarts any CSS animation running on a child. Set this to true on pages
+   * with above-the-fold animations (e.g. full-viewport hero with bg-zoom).
+   */
+  noCustomScrollbars?: boolean;
 }
 
-const { title, theme, favicon, lang = "en", description, canonical, ogImage, ogType = 'website', siteName, jsonLd } = Astro.props;
+const { title, theme, favicon, lang = "en", description, canonical, ogImage, ogType = 'website', siteName, jsonLd, preloadImage, noCustomScrollbars = false } = Astro.props;
 
 // Umami analytics - skip in preview mode and when not configured
 const isPreview = Astro.url.searchParams.get("_preview") === "1";
@@ -81,7 +89,7 @@ const cssVars: Record<string, string> = {
   darkForeground: darkColors.text?.main || "#FFFFFF",
   darkMuted: darkColors.text?.muted || "#9CA3AF",
   darkBorder: (darkColors.text?.muted || "#9CA3AF") + "40",
-  radiusSm: "0.25rem",
+  radiusSm: theme.ui?.radiusSm || "0.25rem",
   radius: theme.ui?.radius || "0.5rem",
   radiusSecondary: divideRadius(theme.ui?.radius || "0.5rem", 4),
   radiusLg: "1rem",
@@ -95,6 +103,7 @@ const cssVars: Record<string, string> = {
   headingLetterSpacing: theme.preset === "bold" ? "-0.02em" : "normal",
   headingWeight: (theme as any).headingWeight || "700",
   maxFontWeight: (theme as any).maxFontWeight || "900",
+  contentWidth: (theme as any).contentWidth || "1200px",
   navFontSize: (theme as any).navFontSize || "16px",
   navLogoSize: (theme as any).navLogoSize || "24px",
   navLogoWeight: (theme as any).navLogoWeight || (theme as any).maxFontWeight || "600",
@@ -122,9 +131,37 @@ const capWeight = (w: string): string => {
 cssVars.headingWeight = capWeight(cssVars.headingWeight);
 cssVars.navLogoWeight = capWeight(cssVars.navLogoWeight);
 
+// Optional flag bar beneath the navbar logo (e.g. Italian tricolore for a restaurant).
+// Stripe colors are turned into a hard-edged horizontal linear-gradient consumed by
+// the `.nav-logo` ::after in Navbar.astro. Empty/absent → no flag.
+const navLogoFlagStripes = ((theme as any).navLogoFlag as string[] | undefined)?.filter(Boolean) || [];
+const navLogoFlagGradient = navLogoFlagStripes.length
+  ? `linear-gradient(to right, ${navLogoFlagStripes
+      .map((c, i) => {
+        const start = (i / navLogoFlagStripes.length) * 100;
+        const end = ((i + 1) / navLogoFlagStripes.length) * 100;
+        return `${c} ${start}% ${end}%`;
+      })
+      .join(", ")})`
+  : "";
+const navLogoUppercase = !!(theme as any).navLogoUppercase;
+const navLogoFont = (theme as any).navLogoFont === "heading" ? "var(--font-heading)" : "";
+const navLogoColor = (theme as any).navLogoColor || "";
+const navCtaHideIcon = !!(theme as any).navCtaHideIcon;
+const heroCtaHideIcon = !!(theme as any).heroCtaHideIcon;
+const heroTextThemeColors = !!(theme as any).heroTextThemeColors;
+const heroBottomFade = !!(theme as any).heroBottomFade;
+const servicesListDivider = !!(theme as any).servicesListDivider;
+const servicesNotClickable = !!(theme as any).servicesNotClickable;
+const servicesMaxWidth = (theme as any).servicesMaxWidth || "";
+const navHeightTop = (theme as any).navHeightTop || "";
+const navHeightScrolled = (theme as any).navHeightScrolled || navHeightTop;
+const heroTitleSize = (theme as any).heroTitleSize || "";
+const heroSubtitleSize = (theme as any).heroSubtitleSize || "";
+
 // Extract Google Font names from font-family strings
 function extractGoogleFonts(...fontStrings: string[]): string[] {
-  const systemFonts = new Set(['system-ui', '-apple-system', 'sans-serif', 'serif', 'monospace', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial']);
+  const systemFonts = new Set(['system-ui', '-apple-system', 'sans-serif', 'serif', 'monospace', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Georgia', 'Times New Roman', 'Courier New']);
   const fonts = new Set<string>();
   for (const str of fontStrings) {
     for (const part of str.split(',')) {
@@ -141,7 +178,19 @@ function extractGoogleFonts(...fontStrings: string[]): string[] {
 const externalFontUrls: Record<string, string> = {};
 
 // Fonts self-hosted in /public/fonts — skip any external loading
-const selfHostedFonts = new Set(['Montserrat', 'Playfair Display', 'Lora']);
+const selfHostedFonts = new Set(['Montserrat', 'Playfair Display', 'Lora', 'Cormorant Garamond', 'Inter']);
+
+// Subset filename (without extension) used for the <link rel="preload"> tag
+// for the latin subset of each self-hosted font. Preloading the latin subset
+// before paint eliminates the FOUT for the dominant glyph set.
+const selfHostedLatinPreload: Record<string, string> = {
+  'Montserrat': 'montserrat-latin',
+  'Playfair Display': 'playfair-display-latin',
+  'Lora': 'lora-latin',
+  'Cormorant Garamond': 'cormorant-garamond-latin',
+  'Inter': 'inter-latin',
+};
+const selfHostedFontsInUse = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading).filter(f => selfHostedFonts.has(f));
 
 const allFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
 const googleFonts = allFonts.filter(f => !externalFontUrls[f] && !selfHostedFonts.has(f));
@@ -152,10 +201,10 @@ const googleFontsUrl = googleFonts.length > 0
 
 // CSS vars as inline style on <html> to win over :root in global.css (inline > stylesheet specificity).
 // Layout rules go in a separate <style> tag.
-const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primaryDark};--primary-light:${cssVars.primaryLight};--secondary:${cssVars.secondary};--accent:${cssVars.accent};--background:${cssVars.background};--card:${cssVars.card};--surface-gradient:${cssVars.surfaceGradient};--foreground:${cssVars.foreground};--muted:${cssVars.muted};--border:${cssVars.border};--text-on-primary:${cssVars.textOnPrimary};--on-primary:${cssVars.onPrimaryRgb};--page-background:${cssVars.background};--page-foreground:${cssVars.foreground};--page-muted:${cssVars.muted};--dark-background:${cssVars.darkBackground};--dark-card:${cssVars.darkCard};--dark-foreground:${cssVars.darkForeground};--dark-muted:${cssVars.darkMuted};--dark-border:${cssVars.darkBorder};--radius-sm:${cssVars.radiusSm};--radius:${cssVars.radius};--radius-secondary:${cssVars.radiusSecondary};--radius-lg:${cssVars.radiusLg};--radius-full:${cssVars.radiusFull};--shadow-sm:${cssVars.shadowSm};--shadow:${cssVars.shadow};--shadow-lg:${cssVars.shadowLg};--font-sans:${cssVars.fontSans};--font-heading:${cssVars.fontHeading};--heading-transform:${cssVars.headingTransform};--heading-letter-spacing:${cssVars.headingLetterSpacing};--spacing-xs:${cssVars.spacingXs};--spacing-sm:${cssVars.spacingSm};--spacing-md:${cssVars.spacingMd};--spacing-lg:${cssVars.spacingLg};--spacing-xl:${cssVars.spacingXl};--spacing-2xl:${cssVars.spacing2xl};--spacing-3xl:${cssVars.spacing3xl};--spacing-section-sm:${cssVars.spacingSectionSm};--spacing-section:${cssVars.spacingSection};--spacing-container:${cssVars.spacingContainer};--heading-weight:${cssVars.headingWeight};--max-font-weight:${cssVars.maxFontWeight};--fw-medium:${Math.min(500, maxFw)};--fw-semibold:${Math.min(600, maxFw)};--fw-bold:${Math.min(700, maxFw)};--fw-extrabold:${Math.min(800, maxFw)};--fw-black:${Math.min(900, maxFw)};--nav-font-size:${cssVars.navFontSize};--nav-logo-size:${cssVars.navLogoSize};--nav-logo-weight:${cssVars.navLogoWeight};--badge-font-size:${cssVars.badgeFontSize}`;
+const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primaryDark};--primary-light:${cssVars.primaryLight};--secondary:${cssVars.secondary};--accent:${cssVars.accent};--background:${cssVars.background};--card:${cssVars.card};--surface-gradient:${cssVars.surfaceGradient};--foreground:${cssVars.foreground};--muted:${cssVars.muted};--border:${cssVars.border};--text-on-primary:${cssVars.textOnPrimary};--on-primary:${cssVars.onPrimaryRgb};--page-background:${cssVars.background};--page-foreground:${cssVars.foreground};--page-muted:${cssVars.muted};--dark-background:${cssVars.darkBackground};--dark-card:${cssVars.darkCard};--dark-foreground:${cssVars.darkForeground};--dark-muted:${cssVars.darkMuted};--dark-border:${cssVars.darkBorder};--radius-sm:${cssVars.radiusSm};--radius:${cssVars.radius};--radius-secondary:${cssVars.radiusSecondary};--radius-lg:${cssVars.radiusLg};--radius-full:${cssVars.radiusFull};--shadow-sm:${cssVars.shadowSm};--shadow:${cssVars.shadow};--shadow-lg:${cssVars.shadowLg};--font-sans:${cssVars.fontSans};--font-heading:${cssVars.fontHeading};--heading-transform:${cssVars.headingTransform};--heading-letter-spacing:${cssVars.headingLetterSpacing};--spacing-xs:${cssVars.spacingXs};--spacing-sm:${cssVars.spacingSm};--spacing-md:${cssVars.spacingMd};--spacing-lg:${cssVars.spacingLg};--spacing-xl:${cssVars.spacingXl};--spacing-2xl:${cssVars.spacing2xl};--spacing-3xl:${cssVars.spacing3xl};--spacing-section-sm:${cssVars.spacingSectionSm};--spacing-section:${cssVars.spacingSection};--spacing-container:${cssVars.spacingContainer};--content-width:${cssVars.contentWidth};--heading-weight:${cssVars.headingWeight};--max-font-weight:${cssVars.maxFontWeight};--fw-medium:${Math.min(500, maxFw)};--fw-semibold:${Math.min(600, maxFw)};--fw-bold:${Math.min(700, maxFw)};--fw-extrabold:${Math.min(800, maxFw)};--fw-black:${Math.min(900, maxFw)};--nav-font-size:${cssVars.navFontSize};--nav-logo-size:${cssVars.navLogoSize};--nav-logo-weight:${cssVars.navLogoWeight};--badge-font-size:${cssVars.badgeFontSize}${navLogoFlagGradient ? `;--nav-logo-flag:${navLogoFlagGradient}` : ""}${navLogoFont ? `;--nav-logo-font:${navLogoFont}` : ""}${navLogoColor ? `;--nav-logo-color:${navLogoColor}` : ""}${heroTitleSize ? `;--hero-title-size:${heroTitleSize}` : ""}${heroSubtitleSize ? `;--hero-subtitle-size:${heroSubtitleSize}` : ""}${navHeightTop ? `;--nav-h-top:${navHeightTop};--nav-h-scrolled:${navHeightScrolled}` : ""}${servicesMaxWidth ? `;--services-max-width:${servicesMaxWidth}` : ""}`;
 ---
 
-<html lang={lang} style={htmlStyle} data-badge-variant={(theme as any).badgeVariant || "accent"} data-nav-links-position={(theme as any).navLinksPosition || "center"} data-major-theme={(theme as any).majorTheme || ""} data-max-font-weight={cssVars.maxFontWeight} class={(() => { const st = (theme as any).scrollType; return st === 'momentum' ? 'scroll-momentum' : st === 'smooth' ? 'scroll-smooth' : ''; })()}>
+<html lang={lang} style={htmlStyle} data-badge-variant={(theme as any).badgeVariant || "accent"} data-nav-links-position={(theme as any).navLinksPosition || "center"} data-major-theme={(theme as any).majorTheme || ""} data-max-font-weight={cssVars.maxFontWeight} data-nav-logo-flag={navLogoFlagGradient ? "1" : undefined} data-nav-logo-uppercase={navLogoUppercase ? "1" : undefined} data-nav-logo-color={navLogoColor ? "1" : undefined} data-nav-cta-hide-icon={navCtaHideIcon ? "1" : undefined} data-hero-cta-hide-icon={heroCtaHideIcon ? "1" : undefined} data-hero-theme-text={heroTextThemeColors ? "1" : undefined} data-hero-bottom-fade={heroBottomFade ? "1" : undefined} data-hero-title-size={heroTitleSize ? "1" : undefined} data-hero-subtitle-size={heroSubtitleSize ? "1" : undefined} data-nav-height={navHeightTop ? "1" : undefined} data-services-list-divider={servicesListDivider ? "1" : undefined} data-services-not-clickable={servicesNotClickable ? "1" : undefined} data-services-max-width={servicesMaxWidth ? "1" : undefined} class={(() => { const st = (theme as any).scrollType; return st === 'momentum' ? 'scroll-momentum' : st === 'smooth' ? 'scroll-smooth' : ''; })()}>
   <head>
     <meta charset="utf-8" />
     {favicon && <link rel="icon" href={favicon} />}
@@ -180,6 +229,12 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
     <!-- JSON-LD Structured Data -->
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <link rel="manifest" href="/api/manifest.webmanifest" />
+    {preloadImage && (
+      <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />
+    )}
+    {selfHostedFontsInUse.map(f => (
+      <link rel="preload" href={`/fonts/${selfHostedLatinPreload[f]}.woff2`} as="font" type="font/woff2" crossorigin />
+    ))}
     {googleFontsUrl && (
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -294,7 +349,7 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
       </script>
     )}
   </head>
-  <body class="flex flex-col min-h-screen" data-overlayscrollbars-initialize>
+  <body class="flex flex-col min-h-screen" data-overlayscrollbars-initialize data-no-custom-scrollbars={noCustomScrollbars ? "" : undefined}>
     <slot />
     <ScrollToTopButton />
     <OverlayScrollbar />

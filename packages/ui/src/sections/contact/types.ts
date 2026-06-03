@@ -32,6 +32,7 @@ export interface ContactInfo {
   receptionLabel?: string;
   additionalInfo?: string[];
   notice?: ContactNotice;
+  warning?: string;
   industry?: string;
   city?: string;
 }
@@ -116,5 +117,9 @@ export interface ContactProfessionalProps {
   turnstileSiteKey?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  iconColor?: "primary" | "primary-light";
+  submitButtonColor?: "primary" | "primary-light";
+  headerLineColor?: "primary" | "foreground";
+  formBackground?: "dark" | "light";
   className?: string;
 }

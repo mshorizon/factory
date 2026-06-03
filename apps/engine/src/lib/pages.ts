@@ -82,10 +82,15 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       variant: layout.navbar?.variant || "standard",
       extensions: layout.navbar?.extensions || [],
       logoText: (layout.navbar as any)?.logoText || undefined,
+      logoSubtext: (layout.navbar as any)?.logoSubtext || undefined,
+      hideLogoIcon: (layout.navbar as any)?.hideLogoIcon || false,
       hideBorderOnTop: (layout.navbar as any)?.hideBorderOnTop || false,
       hideCta: (layout.navbar as any)?.hideCta || false,
+      hideBlog: (layout.navbar as any)?.hideBlog || false,
       showSocials: (layout.navbar as any)?.showSocials !== false,
       showAvailability: (layout.navbar as any)?.showAvailability !== false,
+      showAddress: (layout.navbar as any)?.showAddress !== false,
+      showAdditionalInfo: (layout.navbar as any)?.showAdditionalInfo !== false,
     },
     footer: {
       name: layout.footer?.name,
@@ -97,6 +102,9 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       extensions: layout.footer?.extensions || [],
     },
     hideBreadcrumbs: (layout as any)?.hideBreadcrumbs || false,
+    blog: {
+      postVariant: (layout as any)?.blog?.postVariant ?? "default",
+    },
   };
 }
 
@@ -139,8 +147,10 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
     links.splice(insertAt, 0, ...extraLinks);
   }
 
-  // Always add blog link if not already present (insert before contact)
-  if (!slugs.includes("blog")) {
+  // Always add blog link if not already present (insert before contact),
+  // unless explicitly hidden via layout.navbar.hideBlog
+  const hideBlog = (businessData.layout as any)?.navbar?.hideBlog === true;
+  if (!hideBlog && !slugs.includes("blog")) {
     const contactIndex = links.findIndex((l) => l.href === "/contact");
     const blogLink = { label: "Blog", href: "/blog" };
     if (contactIndex !== -1) {

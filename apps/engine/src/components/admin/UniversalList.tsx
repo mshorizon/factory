@@ -28,6 +28,12 @@ export interface UniversalListProps<T> {
   /** Column definitions (tanstack). */
   columns: ColumnDef<T, unknown>[];
 
+  /** Enable search box on the given column id. */
+  searchKey?: string;
+  searchPlaceholder?: string;
+  /** Rows per page (default: 20). */
+  pageSize?: number;
+
   /** Toolbar heading. */
   title: string;
   /** Optional subtitle / count hint below the title. */
@@ -86,6 +92,9 @@ export function UniversalList<T>({
   error,
   getRowId,
   wrapInCard,
+  searchKey,
+  searchPlaceholder,
+  pageSize,
 }: UniversalListProps<T>) {
   const [busyRowId, setBusyRowId] = useState<string | number | null>(null);
 
@@ -171,7 +180,7 @@ export function UniversalList<T>({
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold">{title}</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
           {subtitle && (
             <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>
           )}
@@ -251,6 +260,9 @@ export function UniversalList<T>({
       columns={columnsWithActions}
       data={data}
       toolbar={toolbar}
+      searchKey={searchKey}
+      searchPlaceholder={searchPlaceholder}
+      pageSize={pageSize}
     />
   );
 

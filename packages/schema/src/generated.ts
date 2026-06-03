@@ -61,6 +61,7 @@ export type PrimaryFontFamily = string;
 export type SecondaryFontFamily = string;
 export type BaseFontSize = string;
 export type BorderRadius = string;
+export type SmallBorderRadius = string;
 export type ExtraSmallSpacing = string;
 export type SmallSpacing = string;
 export type MediumSpacing = string;
@@ -73,6 +74,22 @@ export type SectionSpacing = string;
 export type ContainerSpacing = string;
 export type SpacingScale = number;
 export type ButtonStyle = string;
+/**
+ * Max width of the centered content container (e.g. "1200px" or "1488px"). Defaults to 1200px when unset.
+ */
+export type ContentWidth = string;
+/**
+ * For the services "list" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).
+ */
+export type ServicesListDividerStyle = boolean;
+/**
+ * Make service list/grid items non-interactive (no link navigation, no hover affordance).
+ */
+export type ServicesNotClickable = boolean;
+/**
+ * Cap the services section content width (e.g. "848px"). Centered within the page container. Unset = full container width.
+ */
+export type ServicesSectionMaxWidth = string;
 export type HeadingFontWeight = string;
 /**
  * Caps the maximum font-weight used anywhere on the site (e.g. "400" forces all text to weight 400 or lower).
@@ -81,6 +98,54 @@ export type MaxFontWeight = string;
 export type NavbarFontSize = string;
 export type NavbarLogoFontSize = string;
 export type NavbarLogoFontWeight = string;
+/**
+ * Render the navbar logo text in uppercase.
+ */
+export type NavbarLogoUppercase = boolean;
+/**
+ * Which theme font the navbar logo text uses: "body" (typography.primary) or "heading" (typography.secondary).
+ */
+export type NavbarLogoFont = "body" | "heading";
+/**
+ * Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior.
+ */
+export type NavbarLogoColor = string;
+/**
+ * Hide the icon (arrow/clock) inside the navbar CTA button.
+ */
+export type NavbarCTAHideIcon = boolean;
+/**
+ * Hide the arrow icon inside the hero section CTA button.
+ */
+export type HeroCTAHideIcon = boolean;
+/**
+ * Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.
+ */
+export type HeroTextUsesThemeColors = boolean;
+/**
+ * Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.
+ */
+export type HeroBottomFade = boolean;
+/**
+ * Font size for the hero title. Any CSS length, e.g. "96px" or a responsive "clamp(3.5rem, 7vw, 6rem)". Overrides the default responsive sizing.
+ */
+export type HeroTitleFontSize = string;
+/**
+ * Font size for the hero subtitle/description, e.g. "24px". Overrides the default responsive sizing.
+ */
+export type HeroSubtitleFontSize = string;
+/**
+ * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
+ */
+export type NavbarLogoFlagStripes = string[];
+/**
+ * Navbar height when scrolled to the very top (e.g. "86px"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant "transparent".
+ */
+export type NavbarHeightAtTop = string;
+/**
+ * Navbar height once the solid background appears on scroll (e.g. "70px").
+ */
+export type NavbarHeightWhenScrolled = string;
 export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "accent-no-line" | "outlined" | "text";
@@ -91,6 +156,14 @@ export type NavbarVariant = "standard" | "centered" | "transparent";
  */
 export type LogoTextOverride = string;
 /**
+ * Optional second line shown below the logo text (stacked column layout)
+ */
+export type LogoSubtext = string;
+/**
+ * Hide the icon next to the logo text in the navbar
+ */
+export type HideLogoIcon = boolean;
+/**
  * Hide the bottom border when scroll is at the very top of the page
  */
 export type HideBorderWhenAtTop = boolean;
@@ -98,6 +171,10 @@ export type HideBorderWhenAtTop = boolean;
  * Hide the call-to-action button in the navbar
  */
 export type HideCTAButton = boolean;
+/**
+ * Hide the auto-injected Blog link in the navbar
+ */
+export type HideBlogLink = boolean;
 /**
  * Show social media icons in the upper bar extension
  */
@@ -115,8 +192,13 @@ export type ShowAddressInExtension = boolean;
  */
 export type ShowAdditionalInfoInExtension = boolean;
 export type ExtensionType = "upper-bar";
+/**
+ * Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text.
+ */
+export type UpperBarNotice = string;
 export type NavbarExtensions = {
   type: ExtensionType;
+  notice?: UpperBarNotice;
 }[];
 export type FooterVariant =
   | "simple"
@@ -154,6 +236,10 @@ export type FooterExtensions = {
   headline?: Headline;
   phone?: Phone1;
 }[];
+/**
+ * Layout variant for individual blog post pages
+ */
+export type BlogPostLayout = "default" | "sidebar";
 /**
  * Hide breadcrumb navigation on service detail pages
  */
@@ -226,6 +312,14 @@ export type SectionLevelBadgeVariantOverride = "accent" | "accent-no-line" | "ou
 export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
 export type CTATextColorOverride = string;
+/**
+ * Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'.
+ */
+export type MapPanelButtonColor = "primary" | "primary-light";
+/**
+ * Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'.
+ */
+export type HeaderDecorativeLineColor = "primary" | "foreground";
 export type InvertStatColorsLightBgDarkText = boolean;
 export type DetailsButtonLabelEGSeeDetailsLearnMore = string;
 export type AvatarImageURL1 = string;
@@ -235,6 +329,19 @@ export type Testimonials = {
   quote?: string;
   image?: AvatarImageURL2;
 }[];
+/**
+ * Decorative italic phrase rendered as a secondary line under the main title (used by hero/sacrum).
+ */
+export type TitleAccent = string;
+export type CardTitle = string;
+export type LucideIconName = string;
+export type Label2 = string;
+export type Value = string;
+export type Rows = ScheduleRow[];
+/**
+ * Compact data cards (e.g. mass hours, confession hours) rendered inside the hero (used by hero/sacrum).
+ */
+export type ScheduleCards = ScheduleCard[];
 export type FeatureTags = string[];
 export type AuthorName = string;
 export type AuthorRole = string;
@@ -244,7 +351,17 @@ export type StartDate = string;
 export type EndDate = string;
 export type LinkURL = string;
 export type LinkLabel = string;
+/**
+ * ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown.
+ */
+export type Category = string;
 export type Items = ServiceItem[];
+export type CategoryID = string;
+export type TabLabel = string;
+/**
+ * Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.
+ */
+export type ServiceCategoryTabs = ServiceCategory[];
 export type Timeline = TimelineItem[];
 /**
  * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
@@ -262,6 +379,10 @@ export type ReceptionLabel = string;
  * Extra contact info lines (e.g., bank account, EPUAP address).
  */
 export type AdditionalInfo1 = string[];
+/**
+ * Temporary warning/alert shown prominently above the contact info (e.g. office closure on a given day). Plain text.
+ */
+export type ContactWarning = string;
 export type ExploreLabel = string;
 export type Products = Product[];
 export type Currency = string;
@@ -433,11 +554,27 @@ export interface Theme {
   colors?: ColorSchemes;
   typography?: Typography;
   ui?: UISettings;
+  contentWidth?: ContentWidth;
+  servicesListDivider?: ServicesListDividerStyle;
+  servicesNotClickable?: ServicesNotClickable;
+  servicesMaxWidth?: ServicesSectionMaxWidth;
   headingWeight?: HeadingFontWeight;
   maxFontWeight?: MaxFontWeight;
   navFontSize?: NavbarFontSize;
   navLogoSize?: NavbarLogoFontSize;
   navLogoWeight?: NavbarLogoFontWeight;
+  navLogoUppercase?: NavbarLogoUppercase;
+  navLogoFont?: NavbarLogoFont;
+  navLogoColor?: NavbarLogoColor;
+  navCtaHideIcon?: NavbarCTAHideIcon;
+  heroCtaHideIcon?: HeroCTAHideIcon;
+  heroTextThemeColors?: HeroTextUsesThemeColors;
+  heroBottomFade?: HeroBottomFade;
+  heroTitleSize?: HeroTitleFontSize;
+  heroSubtitleSize?: HeroSubtitleFontSize;
+  navLogoFlag?: NavbarLogoFlagStripes;
+  navHeightTop?: NavbarHeightAtTop;
+  navHeightScrolled?: NavbarHeightWhenScrolled;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;
@@ -472,6 +609,7 @@ export interface Typography {
 }
 export interface UISettings {
   radius?: BorderRadius;
+  radiusSm?: SmallBorderRadius;
   spacing?: ThemeSpacing;
   spacingScale?: SpacingScale;
   buttonStyle?: ButtonStyle;
@@ -491,13 +629,17 @@ export interface ThemeSpacing {
 export interface Layout {
   navbar?: Navbar;
   footer?: FooterConfig;
+  blog?: BlogSettings;
   hideBreadcrumbs?: HideBreadcrumbs;
 }
 export interface Navbar {
   variant?: NavbarVariant;
   logoText?: LogoTextOverride;
+  logoSubtext?: LogoSubtext;
+  hideLogoIcon?: HideLogoIcon;
   hideBorderOnTop?: HideBorderWhenAtTop;
   hideCta?: HideCTAButton;
+  hideBlog?: HideBlogLink;
   showSocials?: ShowSocialMediaIconsInExtension;
   showAvailability?: ShowAvailabilityInExtension;
   showAddress?: ShowAddressInExtension;
@@ -531,6 +673,9 @@ export interface FooterBackground {
   padding?: ContainerPadding;
   borderRadius?: ContainerBorderRadius;
   gradient?: BackgroundGradient;
+}
+export interface BlogSettings {
+  postVariant?: BlogPostLayout;
 }
 export interface Navigation {
   links?: NavigationLinks;
@@ -570,13 +715,18 @@ export interface Section {
   badgeColor?: BadgeTextColorOverride;
   descriptionColor?: DescriptionTextColorOverride;
   ctaColor?: CTATextColorOverride;
+  mapPanelButtonColor?: MapPanelButtonColor;
+  headerLineColor?: HeaderDecorativeLineColor;
   statsInverted?: InvertStatColorsLightBgDarkText;
   cta?: Cta1;
   secondaryCta?: Cta1;
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
+  titleAccent?: TitleAccent;
+  scheduleCards?: ScheduleCards;
   items?: Items;
+  serviceCategories?: ServiceCategoryTabs;
   story?: {
     title?: string;
     content?: string;
@@ -638,6 +788,15 @@ export interface Testimonial {
   quote?: string;
   image?: AvatarImageURL1;
 }
+export interface ScheduleCard {
+  title?: CardTitle;
+  icon?: LucideIconName;
+  rows?: Rows;
+}
+export interface ScheduleRow {
+  label?: Label2;
+  value?: Value;
+}
 export interface ServiceItem {
   id?: string;
   slug?: string;
@@ -655,6 +814,11 @@ export interface ServiceItem {
   dateEnd?: EndDate;
   href?: LinkURL;
   linkLabel?: LinkLabel;
+  category?: Category;
+}
+export interface ServiceCategory {
+  id: CategoryID;
+  label: TabLabel;
 }
 export interface StatItem {
   value?: string;
@@ -676,6 +840,7 @@ export interface ContactInfo {
   receptionLabel?: ReceptionLabel;
   additionalInfo?: AdditionalInfo1;
   notice?: ContactNotice;
+  warning?: ContactWarning;
 }
 /**
  * Highlighted notice block displayed below the contact info (e.g., bank transfer instructions).

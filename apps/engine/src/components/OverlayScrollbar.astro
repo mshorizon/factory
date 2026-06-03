@@ -25,11 +25,27 @@
     }
   }
 
+  // Opt-out signal: BaseLayout's `noCustomScrollbars` prop renders
+  // `data-no-custom-scrollbars` on <body>. OverlayScrollbars wraps
+  // document.body and re-parents every child into a new viewport <div>;
+  // that re-parent restarts every running CSS animation, which corrupts
+  // any above-the-fold reveal (e.g. the full-viewport hero's bg-zoom and
+  // text fade). Pages that haven't set the attribute still get the
+  // custom scrollbars.
+  function shouldSkip() {
+    return !!document.body && document.body.hasAttribute('data-no-custom-scrollbars');
+  }
+
+  function safeInit() {
+    if (shouldSkip()) return;
+    initScrollbar();
+  }
+
   // Initialize as soon as body is available
   if (document.body) {
-    initScrollbar();
+    safeInit();
   } else {
-    document.addEventListener('DOMContentLoaded', initScrollbar);
+    document.addEventListener('DOMContentLoaded', safeInit);
   }
 
   // Re-initialize on Astro page transitions
@@ -41,5 +57,5 @@
     }
   });
 
-  document.addEventListener('astro:page-load', initScrollbar);
+  document.addEventListener('astro:page-load', safeInit);
 </script>
