@@ -149,6 +149,7 @@ if (Astro.request.method === 'POST') {
       margin-bottom: 0.5rem;
     }
 
+    input[type="text"],
     input[type="email"],
     input[type="password"] {
       width: 100%;
@@ -162,12 +163,14 @@ if (Astro.request.method === 'POST') {
       outline: none;
     }
 
+    input[type="text"]:focus,
     input[type="email"]:focus,
     input[type="password"]:focus {
       border-color: #6366f1;
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
     }
 
+    input[type="text"]::placeholder,
     input[type="email"]::placeholder,
     input[type="password"]::placeholder {
       color: #9ca3af;
@@ -287,14 +290,14 @@ if (Astro.request.method === 'POST') {
 
       <form method="POST">
         <div class="form-group">
-          <label for="email">Adres email</label>
+          <label for="email">Login</label>
           <input
-            type="email"
+            type="text"
             id="email"
             name="email"
-            placeholder="admin@example.com"
+            placeholder="admin"
             required
-            autocomplete="email"
+            autocomplete="username"
           />
         </div>
 
