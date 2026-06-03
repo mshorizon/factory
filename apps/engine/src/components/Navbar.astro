@@ -134,7 +134,7 @@ const showCta = !hideCta && !!cta;
 ]}>
   <div class="container mx-auto">
     <div class:list={[
-      "flex items-center h-14 lg:h-16",
+      "nav-inner flex items-center h-14 lg:h-16",
       variant === "centered" ? "justify-center" : "justify-between"
     ]}>
       {/* Left: Logo */}
@@ -334,6 +334,25 @@ const showCta = !hideCta && !!cta;
   [data-nav-logo-color="1"] #main-nav a:hover .nav-logo,
   [data-nav-logo-color="1"] #main-nav .nav-logo:hover {
     color: color-mix(in srgb, var(--nav-logo-color) 80%, white) !important;
+  }
+
+  /* Animated navbar height (opt-in via theme.navHeightTop / navHeightScrolled).
+     Tall at the top; shrinks once the transparent navbar gains its solid
+     background on scroll (JS toggles .bg-background on #main-nav). */
+  [data-nav-height="1"] #main-nav .nav-inner {
+    height: var(--nav-h-top, 86px) !important;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  [data-nav-height="1"] #main-nav.bg-background .nav-inner {
+    height: var(--nav-h-scrolled, 70px) !important;
+  }
+
+  /* Hide the CTA button icon (opt-in via theme.navCtaHideIcon) */
+  [data-nav-cta-hide-icon="1"] #main-nav .cta-icon-arrow,
+  [data-nav-cta-hide-icon="1"] #main-nav .cta-icon-clock,
+  [data-nav-cta-hide-icon="1"] #mobile-menu .cta-icon-arrow,
+  [data-nav-cta-hide-icon="1"] #mobile-menu .cta-icon-clock {
+    display: none !important;
   }
 
   /* Nav links position: right — hide center column, show right column.

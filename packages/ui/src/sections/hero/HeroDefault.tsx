@@ -46,6 +46,7 @@ export function HeroDefault({
       {backgroundImage && overlay && (
         <div className="absolute inset-0 bg-black/50" data-field="backgroundImage" />
       )}
+      {backgroundImage && <div className="hero-bottom-fade" />}
       <div
         className={cn(
           "relative container mx-auto flex flex-col justify-center",
@@ -62,7 +63,7 @@ export function HeroDefault({
         <ScrollReveal delay={0.1} direction="up">
           <h1
             className={cn(
-              "text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight",
+              "hero-title text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight",
               backgroundImage ? "text-on-primary" : "text-foreground"
             )}
             data-field="header.title"
@@ -74,7 +75,7 @@ export function HeroDefault({
           <ScrollReveal delay={0.2} direction="up">
             <p
               className={cn(
-                "text-lg md:text-xl max-w-2xl mb-spacing-2xl",
+                "hero-subtitle text-lg md:text-xl max-w-2xl mb-spacing-2xl",
                 backgroundImage ? "text-on-primary/90" : "text-muted",
                 align === "center" && "mx-auto"
               )}
@@ -106,7 +107,7 @@ export function HeroDefault({
                 >
                   <a href={cta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
                     {cta.label}
-                    <ArrowRight className="ml-1 h-5 w-5" />
+                    <ArrowRight className="hero-cta-icon ml-1 h-5 w-5" />
                   </a>
                 </Button>
               )}

@@ -246,17 +246,18 @@ const secondaryCta = section.secondaryCta ? {
             data-field="backgroundImage"
           />
           <div class="hero-fold__overlay" />
+          <div class="hero-bottom-fade" />
         </>
       )}
       <div class="hero-fold__content">
         {header.badge && (
           <div class="hero-fold__badge">{header.badge}</div>
         )}
-        <h1 class="hero-fold__title" data-field="header.title">
+        <h1 class="hero-fold__title hero-title" data-field="header.title">
           {header.title || ""}
         </h1>
         {header.subtitle && (
-          <p class="hero-fold__subtitle" data-field="header.subtitle">
+          <p class="hero-fold__subtitle hero-subtitle" data-field="header.subtitle">
             {header.subtitle}
           </p>
         )}
@@ -265,7 +266,7 @@ const secondaryCta = section.secondaryCta ? {
             {cta && (
               <a href={cta.href} class="hero-fold__cta" data-field="cta">
                 {cta.label}
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <svg class="hero-cta-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </a>
             )}
             {secondaryCta && (

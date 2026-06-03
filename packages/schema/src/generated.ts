@@ -74,6 +74,22 @@ export type SectionSpacing = string;
 export type ContainerSpacing = string;
 export type SpacingScale = number;
 export type ButtonStyle = string;
+/**
+ * Max width of the centered content container (e.g. "1200px" or "1488px"). Defaults to 1200px when unset.
+ */
+export type ContentWidth = string;
+/**
+ * For the services "list" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).
+ */
+export type ServicesListDividerStyle = boolean;
+/**
+ * Make service list/grid items non-interactive (no link navigation, no hover affordance).
+ */
+export type ServicesNotClickable = boolean;
+/**
+ * Cap the services section content width (e.g. "848px"). Centered within the page container. Unset = full container width.
+ */
+export type ServicesSectionMaxWidth = string;
 export type HeadingFontWeight = string;
 /**
  * Caps the maximum font-weight used anywhere on the site (e.g. "400" forces all text to weight 400 or lower).
@@ -95,9 +111,41 @@ export type NavbarLogoFont = "body" | "heading";
  */
 export type NavbarLogoColor = string;
 /**
+ * Hide the icon (arrow/clock) inside the navbar CTA button.
+ */
+export type NavbarCTAHideIcon = boolean;
+/**
+ * Hide the arrow icon inside the hero section CTA button.
+ */
+export type HeroCTAHideIcon = boolean;
+/**
+ * Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.
+ */
+export type HeroTextUsesThemeColors = boolean;
+/**
+ * Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.
+ */
+export type HeroBottomFade = boolean;
+/**
+ * Font size for the hero title. Any CSS length, e.g. "96px" or a responsive "clamp(3.5rem, 7vw, 6rem)". Overrides the default responsive sizing.
+ */
+export type HeroTitleFontSize = string;
+/**
+ * Font size for the hero subtitle/description, e.g. "24px". Overrides the default responsive sizing.
+ */
+export type HeroSubtitleFontSize = string;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
+/**
+ * Navbar height when scrolled to the very top (e.g. "86px"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant "transparent".
+ */
+export type NavbarHeightAtTop = string;
+/**
+ * Navbar height once the solid background appears on scroll (e.g. "70px").
+ */
+export type NavbarHeightWhenScrolled = string;
 export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "accent-no-line" | "outlined" | "text";
@@ -298,7 +346,17 @@ export type StartDate = string;
 export type EndDate = string;
 export type LinkURL = string;
 export type LinkLabel = string;
+/**
+ * ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown.
+ */
+export type Category = string;
 export type Items = ServiceItem[];
+export type CategoryID = string;
+export type TabLabel = string;
+/**
+ * Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.
+ */
+export type ServiceCategoryTabs = ServiceCategory[];
 export type Timeline = TimelineItem[];
 /**
  * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
@@ -487,6 +545,10 @@ export interface Theme {
   colors?: ColorSchemes;
   typography?: Typography;
   ui?: UISettings;
+  contentWidth?: ContentWidth;
+  servicesListDivider?: ServicesListDividerStyle;
+  servicesNotClickable?: ServicesNotClickable;
+  servicesMaxWidth?: ServicesSectionMaxWidth;
   headingWeight?: HeadingFontWeight;
   maxFontWeight?: MaxFontWeight;
   navFontSize?: NavbarFontSize;
@@ -495,7 +557,15 @@ export interface Theme {
   navLogoUppercase?: NavbarLogoUppercase;
   navLogoFont?: NavbarLogoFont;
   navLogoColor?: NavbarLogoColor;
+  navCtaHideIcon?: NavbarCTAHideIcon;
+  heroCtaHideIcon?: HeroCTAHideIcon;
+  heroTextThemeColors?: HeroTextUsesThemeColors;
+  heroBottomFade?: HeroBottomFade;
+  heroTitleSize?: HeroTitleFontSize;
+  heroSubtitleSize?: HeroSubtitleFontSize;
   navLogoFlag?: NavbarLogoFlagStripes;
+  navHeightTop?: NavbarHeightAtTop;
+  navHeightScrolled?: NavbarHeightWhenScrolled;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;
@@ -647,6 +717,7 @@ export interface Section {
   titleAccent?: TitleAccent;
   scheduleCards?: ScheduleCards;
   items?: Items;
+  serviceCategories?: ServiceCategoryTabs;
   story?: {
     title?: string;
     content?: string;
@@ -734,6 +805,11 @@ export interface ServiceItem {
   dateEnd?: EndDate;
   href?: LinkURL;
   linkLabel?: LinkLabel;
+  category?: Category;
+}
+export interface ServiceCategory {
+  id: CategoryID;
+  label: TabLabel;
 }
 export interface StatItem {
   value?: string;
