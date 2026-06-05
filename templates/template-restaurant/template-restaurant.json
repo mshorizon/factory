@@ -155,9 +155,9 @@
         },
         {
           "type": "features",
-          "variant": "compact",
+          "variant": "numbered-split",
           "header": {
-            "badge": "Filosofia",
+            "badge": "Filozofia",
             "title": "Dlaczego Nostrano?"
           },
           "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&h=900&fit=crop",

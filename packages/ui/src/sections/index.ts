@@ -59,8 +59,8 @@ export { FAQAccordion, FAQBordered, FAQSplit } from "./faq";
 export type { FAQAccordionProps, FAQSplitProps, FAQItem } from "./faq";
 
 // Features variants
-export { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles } from "./features";
-export type { FeaturesGridProps, FeatureItem } from "./features";
+export { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, FeaturesNumberedSplit } from "./features";
+export type { FeaturesGridProps, FeatureItem, FeaturesNumberedSplitProps } from "./features";
 
 // CTA Banner variants
 export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency } from "./ctaBanner";
