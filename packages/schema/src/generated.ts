@@ -107,6 +107,10 @@ export type NavbarLogoUppercase = boolean;
  */
 export type NavbarLogoFont = "body" | "heading";
 /**
+ * Explicit CSS font-family for the navbar logo text, e.g. "'Cormorant Garamond', serif". Overrides navLogoFont. The font is automatically loaded.
+ */
+export type NavbarLogoFontFamily = string;
+/**
  * Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior.
  */
 export type NavbarLogoColor = string;
@@ -667,6 +671,7 @@ export interface Theme {
   navLogoWeight?: NavbarLogoFontWeight;
   navLogoUppercase?: NavbarLogoUppercase;
   navLogoFont?: NavbarLogoFont;
+  navLogoFontFamily?: NavbarLogoFontFamily;
   navLogoColor?: NavbarLogoColor;
   navLinkColor?: NavbarLinkColor;
   navLinksUppercase?: NavbarLinksUppercase;

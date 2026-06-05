@@ -991,6 +991,7 @@
         "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
         "navLogoUppercase": { "type": "boolean", "title": "Navbar Logo Uppercase", "description": "Render the navbar logo text in uppercase.", "default": false },
         "navLogoFont": { "type": "string", "title": "Navbar Logo Font", "description": "Which theme font the navbar logo text uses: \"body\" (typography.primary) or \"heading\" (typography.secondary).", "enum": ["body", "heading"], "default": "body" },
+        "navLogoFontFamily": { "type": "string", "title": "Navbar Logo Font Family", "description": "Explicit CSS font-family for the navbar logo text, e.g. \"'Cormorant Garamond', serif\". Overrides navLogoFont. The font is automatically loaded." },
         "navLogoColor": { "type": "string", "title": "Navbar Logo Color", "description": "Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
         "navLinkColor": { "type": "string", "title": "Navbar Link Color", "description": "Fixed color for the navbar links (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
         "navLinksUppercase": { "type": "boolean", "title": "Navbar Links Uppercase", "description": "Render the navbar links (desktop + mobile) in uppercase.", "default": false },

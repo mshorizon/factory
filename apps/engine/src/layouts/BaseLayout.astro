@@ -145,7 +145,10 @@ const navLogoFlagGradient = navLogoFlagStripes.length
       .join(", ")})`
   : "";
 const navLogoUppercase = !!(theme as any).navLogoUppercase;
-const navLogoFont = (theme as any).navLogoFont === "heading" ? "var(--font-heading)" : "";
+const navLogoFontFamily = (theme as any).navLogoFontFamily || "";
+const navLogoFont = navLogoFontFamily
+  ? navLogoFontFamily
+  : (theme as any).navLogoFont === "heading" ? "var(--font-heading)" : "";
 const navLogoColor = (theme as any).navLogoColor || "";
 const navLinkColor = (theme as any).navLinkColor || "";
 const navLinksUppercase = !!(theme as any).navLinksUppercase;
@@ -195,9 +198,9 @@ const selfHostedLatinPreload: Record<string, string> = {
   'Cormorant Garamond': 'cormorant-garamond-latin',
   'Inter': 'inter-latin',
 };
-const selfHostedFontsInUse = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading).filter(f => selfHostedFonts.has(f));
+const selfHostedFontsInUse = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading, navLogoFontFamily).filter(f => selfHostedFonts.has(f));
 
-const allFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading);
+const allFonts = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading, navLogoFontFamily);
 const googleFonts = allFonts.filter(f => !externalFontUrls[f] && !selfHostedFonts.has(f));
 const customFontLinks = allFonts.filter(f => externalFontUrls[f] && !selfHostedFonts.has(f)).map(f => externalFontUrls[f]);
 const googleFontsUrl = googleFonts.length > 0

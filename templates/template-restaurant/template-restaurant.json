@@ -65,6 +65,7 @@
     "navLogoWeight": "400",
     "navLogoUppercase": true,
     "navLogoFont": "heading",
+    "navLogoFontFamily": "'Cormorant Garamond', serif",
     "navLogoColor": "#f0ebdb",
     "navLogoLetterSpacing": "0.05em",
     "navLinkColor": "#c2baa3",
