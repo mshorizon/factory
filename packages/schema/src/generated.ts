@@ -361,6 +361,10 @@ export type Metric = string;
 export type MetricLabel = string;
 export type StartDate = string;
 export type EndDate = string;
+/**
+ * Short note shown top-right of an event card (e.g. 'Limited seats').
+ */
+export type MetaNote = string;
 export type LinkURL = string;
 export type LinkLabel = string;
 /**
@@ -836,6 +840,7 @@ export interface ServiceItem {
   metricLabel?: MetricLabel;
   dateStart?: StartDate;
   dateEnd?: EndDate;
+  meta?: MetaNote;
   href?: LinkURL;
   linkLabel?: LinkLabel;
   category?: Category;

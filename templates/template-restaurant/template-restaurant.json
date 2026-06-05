@@ -186,7 +186,7 @@
         },
         {
           "type": "events",
-          "variant": "default",
+          "variant": "cards",
           "header": {
             "badge": "Vita a Nostrano",
             "title": "Wydarzenia"
@@ -195,21 +195,24 @@
             {
               "title": "Pizza dla Najmłodszych",
               "description": "Zapraszamy dzieci na warsztaty wyrabiania prawdziwego ciasta neapolitańskiego. Każdy mały pizzaiolo wychodzi z dumą i własnoręcznie zrobionym plackiem.",
-              "image": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=900&h=400&fit=crop",
+              "tags": ["Warsztaty"],
+              "meta": "Miejsca ograniczone",
               "dateStart": "Czerwiec 2025",
               "linkLabel": "Zapytaj o szczegóły"
             },
             {
               "title": "Wieczór z Winem Włoskim",
               "description": "Degustacja starannie wybranych win z południa Włoch w towarzystwie przystawek. Idealne dla tych, którzy chcą odkrywać włoskie regiony szklanką w ręku.",
-              "image": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=900&h=400&fit=crop",
+              "tags": ["Degustacja"],
+              "meta": "Rezerwacja wymagana",
               "dateStart": "Co drugi piątek",
               "linkLabel": "Zapytaj o szczegóły"
             },
             {
               "title": "Wieczory z Włoskim Kinem",
               "description": "Klimatyczne pokazy włoskich filmów z napisami. Cannes, Rzym, Neapol — przenosimy was w podróż bez wychodzenia z Garwolina.",
-              "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=900&h=400&fit=crop",
+              "tags": ["Kultura"],
+              "meta": "Wstęp wolny",
               "dateStart": "Niebawem",
               "linkLabel": "Zapytaj o szczegóły"
             }

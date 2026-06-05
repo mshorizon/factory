@@ -264,6 +264,7 @@
               "metricLabel": { "type": "string", "title": "Metric Label" },
               "dateStart": { "type": "string", "title": "Start Date" },
               "dateEnd": { "type": "string", "title": "End Date" },
+              "meta": { "type": "string", "title": "Meta Note", "description": "Short note shown top-right of an event card (e.g. 'Limited seats')." },
               "href": { "type": "string", "title": "Link URL" },
               "linkLabel": { "type": "string", "title": "Link Label" },
               "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." }
