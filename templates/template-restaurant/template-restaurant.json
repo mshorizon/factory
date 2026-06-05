@@ -57,6 +57,7 @@
       }
     },
     "headingWeight": "400",
+    "maxFontWeight": "400",
     "contentWidth": "1488px",
     "servicesListDivider": true,
     "servicesNotClickable": true,
