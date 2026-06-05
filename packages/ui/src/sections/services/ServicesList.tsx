@@ -13,6 +13,7 @@ export function ServicesList({
   ctaHref = "/contact",
   className,
   categories,
+  columns = 1,
 }: ServicesProps) {
   const hasTabs = !!categories && categories.length > 0;
   const [activeCategory, setActiveCategory] = useState(hasTabs ? categories![0].id : "");
@@ -21,6 +22,13 @@ export function ServicesList({
   const visiblePairs = items
     .map((item, index) => ({ item, index }))
     .filter(({ item }) => !hasTabs || item.category === activeCategory);
+
+  // Static class map so Tailwind JIT can detect the grid-cols utilities.
+  const layoutClass = columns >= 3
+    ? "grid grid-cols-1 md:grid-cols-3 gap-spacing-md"
+    : columns === 2
+      ? "grid grid-cols-1 md:grid-cols-2 gap-spacing-md"
+      : "space-y-spacing-md";
 
   return (
     <div className={className}>
@@ -49,7 +57,7 @@ export function ServicesList({
           })}
         </div>
       )}
-      <StaggerContainer key={activeCategory} className="space-y-spacing-md" staggerDelay={0.1}>
+      <StaggerContainer key={activeCategory} className={layoutClass} staggerDelay={0.1}>
         {visiblePairs.map(({ item, index }, renderIndex) => {
         // Alternate left/right for list items
         const direction = renderIndex % 2 === 0 ? "left" : "right";

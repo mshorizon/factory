@@ -326,6 +326,14 @@ export type MapPanelButtonColor = "primary" | "primary-light";
 export type HeaderDecorativeLineColor = "primary" | "foreground";
 export type InvertStatColorsLightBgDarkText = boolean;
 export type DetailsButtonLabelEGSeeDetailsLearnMore = string;
+/**
+ * Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant.
+ */
+export type ServicesColumnCount = 1 | 2 | 3;
+/**
+ * Supplementary text rendered in italic below the section content (e.g. below the services list).
+ */
+export type SectionFootnote = string;
 export type AvatarImageURL1 = string;
 export type AvatarImageURL2 = string;
 export type Testimonials = {
@@ -734,6 +742,8 @@ export interface Section {
   cta?: Cta1;
   secondaryCta?: Cta1;
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
+  columns?: ServicesColumnCount;
+  footnote?: SectionFootnote;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
   titleAccent?: TitleAccent;

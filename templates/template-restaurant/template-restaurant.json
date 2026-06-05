@@ -61,7 +61,6 @@
     "contentWidth": "1488px",
     "servicesListDivider": true,
     "servicesNotClickable": true,
-    "servicesMaxWidth": "848px",
     "navFontSize": "13px",
     "navLogoWeight": "400",
     "navLogoUppercase": true,
@@ -130,9 +129,11 @@
         {
           "type": "services",
           "variant": "list",
+          "badgeVariant": "accent-no-line",
+          "columns": 2,
           "header": {
             "badge": "Degustazione",
-            "title": "Menu Highlights"
+            "title": "Menu"
           },
           "serviceCategories": [
             { "id": "przystawki", "label": "Przystawki" },
@@ -149,6 +150,7 @@
             { "id": "pizza-neapolitanska", "category": "pizza", "title": "Pizza Neapolitańska", "description": "Gwiazda naszego lokalu, dojrzewające ciasto, pomidory San Marzano", "price": "od 35 zł" },
             { "id": "caesar", "category": "salatki", "title": "Insalata Caesar z krewetkami", "description": "Klasyczny sos, rzymska sałata, parmezan", "price": "47 zł" }
           ],
+          "footnote": "Ask the staff about the full menu and seasonal specials.",
           "cta": { "label": "Zarezerwuj stolik", "target": { "type": "page", "value": "contact" } }
         },
         {
