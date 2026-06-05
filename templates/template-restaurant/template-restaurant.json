@@ -4,8 +4,8 @@
     "name": "Nostrano",
     "industry": "restaurant",
     "assets": {
-      "favicon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d1916'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Playfair Display, Georgia, serif' font-size='18' fill='%23d94a26'%3EN%3C/text%3E%3C/svg%3E",
-      "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Playfair Display, Georgia, serif' font-size='22' fill='%23d94a26'%3EN%3C/text%3E%3C/svg%3E"
+      "favicon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d1916'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Cormorant Garamond, Georgia, serif' font-size='18' fill='%23d94a26'%3EN%3C/text%3E%3C/svg%3E",
+      "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Cormorant Garamond, Georgia, serif' font-size='22' fill='%23d94a26'%3EN%3C/text%3E%3C/svg%3E"
     },
     "contact": {
       "address": "ul. Janusza Korczaka 46, 08-400 Garwolin",
@@ -37,8 +37,8 @@
       }
     },
     "typography": {
-      "primary": "'Inter', system-ui, sans-serif",
-      "secondary": "'Playfair Display', 'Georgia', serif"
+      "primary": "'DM Sans', sans-serif",
+      "secondary": "'Cormorant Garamond', serif"
     },
     "ui": {
       "radius": "0px",
