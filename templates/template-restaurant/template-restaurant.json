@@ -42,6 +42,7 @@
     },
     "ui": {
       "radius": "0px",
+      "radiusSm": "0px",
       "spacing": {
         "xs": "0.5rem",
         "sm": "0.75rem",
