@@ -167,6 +167,14 @@ export type HeroBadgeLetterSpacing = string;
  */
 export type HeroSubtitleLetterSpacing = string;
 /**
+ * Letter spacing for the navbar links (desktop + mobile), e.g. "0.1em". Overrides the default normal spacing.
+ */
+export type NavbarLinkLetterSpacing = string;
+/**
+ * Letter spacing applied to CTA buttons (primary/default variant), ghost buttons, and the navbar CTA, e.g. "0.1em". Overrides the default normal spacing.
+ */
+export type ButtonLetterSpacing = string;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -698,6 +706,8 @@ export interface Theme {
   heroSubtitleSize?: HeroSubtitleFontSize;
   heroBadgeLetterSpacing?: HeroBadgeLetterSpacing;
   heroSubtitleLetterSpacing?: HeroSubtitleLetterSpacing;
+  navLinkLetterSpacing?: NavbarLinkLetterSpacing;
+  buttonLetterSpacing?: ButtonLetterSpacing;
   navLogoFlag?: NavbarLogoFlagStripes;
   navHeightTop?: NavbarHeightAtTop;
   navHeightScrolled?: NavbarHeightWhenScrolled;

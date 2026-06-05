@@ -371,6 +371,20 @@ const showCta = !hideCta && !!cta;
     text-transform: uppercase;
   }
 
+  /* Letter spacing for navbar links (opt-in via theme.navLinkLetterSpacing).
+     Defaults to normal so it is a no-op unless --nav-link-letter-spacing is set. */
+  #main-nav .nav-link,
+  #mobile-menu .nav-link-mobile {
+    letter-spacing: var(--nav-link-letter-spacing, normal);
+  }
+
+  /* Letter spacing for the navbar CTA (opt-in via theme.buttonLetterSpacing,
+     shared with the Button atom CTA/ghost variants). Defaults to normal. */
+  #main-nav .nav-cta,
+  #mobile-menu .nav-cta {
+    letter-spacing: var(--btn-letter-spacing, normal);
+  }
+
   /* Animated navbar height (opt-in via theme.navHeightTop / navHeightScrolled).
      Tall at the top; shrinks once the transparent navbar gains its solid
      background on scroll (JS toggles .bg-background on #main-nav). */
