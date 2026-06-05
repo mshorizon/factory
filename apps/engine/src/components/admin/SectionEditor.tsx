@@ -29,6 +29,7 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
   contact: [
     { value: "centered", label: "Centered" },
     { value: "split", label: "Split" },
+    { value: "restaurant", label: "Restaurant" },
   ],
   shop: [{ value: "grid", label: "Grid" }],
   gallery: [

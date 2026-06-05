@@ -68,6 +68,31 @@ export interface ContactSplitProps {
   className?: string;
 }
 
+export interface ContactSocialLink {
+  platform: string;
+  url: string;
+  /** Optional display text; when omitted it is derived from the platform/URL. */
+  label?: string;
+}
+
+export interface ContactRestaurantLabels {
+  contactHeading?: string;
+  socialHeading?: string;
+  showOnMap?: string;
+}
+
+export interface ContactRestaurantProps {
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+  info?: ContactInfo;
+  socials?: ContactSocialLink[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  labels?: ContactRestaurantLabels;
+  className?: string;
+}
+
 export interface ContactCTAProps {
   badge?: string;
   badgeVariant?: "accent" | "accent-no-line" | "text" | "outlined";

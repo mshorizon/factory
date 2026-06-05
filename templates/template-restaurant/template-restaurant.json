@@ -283,7 +283,7 @@
         },
         {
           "type": "contact",
-          "variant": "split",
+          "variant": "restaurant",
           "header": {
             "badge": "Rezerwacje",
             "title": "Czekamy na Ciebie",
