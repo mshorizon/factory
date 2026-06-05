@@ -383,6 +383,10 @@ export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
 export type CTATextColorOverride = string;
 /**
+ * Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
+ */
+export type HeroScrollIndicatorColorOverride = string;
+/**
  * Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'.
  */
 export type MapPanelButtonColor = "primary" | "primary-light";
@@ -844,6 +848,7 @@ export interface Section {
   badgeColor?: BadgeTextColorOverride;
   descriptionColor?: DescriptionTextColorOverride;
   ctaColor?: CTATextColorOverride;
+  scrollColor?: HeroScrollIndicatorColorOverride;
   mapPanelButtonColor?: MapPanelButtonColor;
   headerLineColor?: HeaderDecorativeLineColor;
   statsInverted?: InvertStatColorsLightBgDarkText;

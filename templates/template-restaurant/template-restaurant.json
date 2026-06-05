@@ -132,6 +132,7 @@
           "type": "hero",
           "variant": "default",
           "backgroundImage": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/hero-nostrano.jpg",
+          "scrollColor": "#f0ebdb",
           "header": {
             "badge": "restauracja",
             "title": "Nostrano",
