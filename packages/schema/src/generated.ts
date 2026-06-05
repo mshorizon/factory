@@ -90,6 +90,46 @@ export type ServicesNotClickable = boolean;
  * Cap the services section content width (e.g. "848px"). Centered within the page container. Unset = full container width.
  */
 export type ServicesSectionMaxWidth = string;
+/**
+ * For the services "list" variant: render as a restaurant-style menu — drop the price pill, right-align the price, and apply the servicesTitle/Desc/Price/Footnote font + size overrides.
+ */
+export type ServicesMenuStyle = boolean;
+/**
+ * CSS font-family for service item titles when servicesMenuStyle is on, e.g. "'Cormorant Garamond', serif". The font is automatically loaded.
+ */
+export type ServicesItemTitleFontFamily = string;
+/**
+ * Font size for service item titles when servicesMenuStyle is on, e.g. "18px".
+ */
+export type ServicesItemTitleFontSize = string;
+/**
+ * CSS font-family for service item descriptions when servicesMenuStyle is on, e.g. "'DM Sans', sans-serif". The font is automatically loaded.
+ */
+export type ServicesItemDescriptionFontFamily = string;
+/**
+ * Font size for service item descriptions when servicesMenuStyle is on, e.g. "14px".
+ */
+export type ServicesItemDescriptionFontSize = string;
+/**
+ * CSS font-family for service item prices when servicesMenuStyle is on, e.g. "'Cormorant Garamond', serif". The font is automatically loaded.
+ */
+export type ServicesItemPriceFontFamily = string;
+/**
+ * Font size for service item prices when servicesMenuStyle is on, e.g. "16px".
+ */
+export type ServicesItemPriceFontSize = string;
+/**
+ * CSS font-family for the services section footnote when servicesMenuStyle is on, e.g. "'DM Sans', sans-serif". The font is automatically loaded.
+ */
+export type ServicesFootnoteFontFamily = string;
+/**
+ * Font size for the services section footnote when servicesMenuStyle is on, e.g. "14px".
+ */
+export type ServicesFootnoteFontSize = string;
+/**
+ * Hide the arrow icon inside the services section CTA button.
+ */
+export type ServicesCTAHideIcon = boolean;
 export type HeadingFontWeight = string;
 /**
  * Caps the maximum font-weight used anywhere on the site (e.g. "400" forces all text to weight 400 or lower).
@@ -696,6 +736,16 @@ export interface Theme {
   servicesListDivider?: ServicesListDividerStyle;
   servicesNotClickable?: ServicesNotClickable;
   servicesMaxWidth?: ServicesSectionMaxWidth;
+  servicesMenuStyle?: ServicesMenuStyle;
+  servicesTitleFontFamily?: ServicesItemTitleFontFamily;
+  servicesTitleSize?: ServicesItemTitleFontSize;
+  servicesDescFontFamily?: ServicesItemDescriptionFontFamily;
+  servicesDescSize?: ServicesItemDescriptionFontSize;
+  servicesPriceFontFamily?: ServicesItemPriceFontFamily;
+  servicesPriceSize?: ServicesItemPriceFontSize;
+  servicesFootnoteFontFamily?: ServicesFootnoteFontFamily;
+  servicesFootnoteSize?: ServicesFootnoteFontSize;
+  servicesCtaHideIcon?: ServicesCTAHideIcon;
   headingWeight?: HeadingFontWeight;
   maxFontWeight?: MaxFontWeight;
   navFontSize?: NavbarFontSize;

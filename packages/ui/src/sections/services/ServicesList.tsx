@@ -83,16 +83,16 @@ export function ServicesList({
           <a href={`/services/${item.slug || item.id}`} className="services-list-item group flex flex-col md:flex-row md:items-center justify-between gap-spacing-md p-spacing-lg bg-background border border-border rounded-radius-secondary hover:shadow-lg hover:border-primary/20 transition-all block cursor-pointer" data-field={`items.${index}`}>
             <div className="flex-1">
               <div className="flex items-center gap-spacing-sm mb-spacing-xs">
-                <h3 className="text-xl font-semibold font-heading text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
+                <h3 className="services-item-title text-xl font-semibold font-heading text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
                   {item.title}
                 </h3>
                 {item.price && (
-                  <span className="px-3 py-1 text-sm font-bold text-primary bg-primary/10 rounded-full" data-field={`items.${index}.price`}>
+                  <span className="services-item-price px-3 py-1 text-sm font-bold text-primary bg-primary/10 rounded-full" data-field={`items.${index}.price`}>
                     {item.price}
                   </span>
                 )}
               </div>
-              <p className="text-muted" data-field={`items.${index}.description`}>{item.description}</p>
+              <p className="services-item-desc text-muted" data-field={`items.${index}.description`}>{item.description}</p>
             </div>
             {ctaLabel && (
               <div className="shrink-0 flex items-center gap-spacing-xs text-muted group-hover:text-primary transition-colors">

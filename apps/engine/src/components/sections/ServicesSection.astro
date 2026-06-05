@@ -61,7 +61,7 @@ const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
       <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} />
     )}
     {footnote && (
-      <p class={`mt-spacing-3xl italic text-muted ${headerAlign === "left" ? "text-left" : "text-center"}`} data-field="footnote">
+      <p class={`services-footnote mt-spacing-3xl italic text-muted ${headerAlign === "left" ? "text-left" : "text-center"}`} data-field="footnote">
         {footnote}
       </p>
     )}
@@ -73,7 +73,7 @@ const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
           data-field="cta"
         >
           {ctaLabel}
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="services-cta-icon h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
     )}

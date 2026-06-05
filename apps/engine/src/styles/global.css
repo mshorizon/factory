@@ -436,3 +436,37 @@ body::-webkit-scrollbar {
 [data-services-max-width="1"] .services-section {
   max-width: var(--services-max-width) !important;
 }
+
+/* Restaurant-style "menu" treatment for the services list (opt-in via
+   theme.servicesMenuStyle). Per-element font/size come from theme-driven CSS
+   vars; when a var is unset the declaration is dropped and the component's
+   default Tailwind styling applies. */
+[data-services-menu="1"] .services-item-title {
+  font-family: var(--services-title-font) !important;
+  font-size: var(--services-title-size) !important;
+}
+[data-services-menu="1"] .services-item-desc {
+  font-family: var(--services-desc-font) !important;
+  font-size: var(--services-desc-size) !important;
+}
+/* Price: drop the pill (bg/padding/radius/bold/primary color), push to the
+   right edge of the item, render in the menu price font using --foreground. */
+[data-services-menu="1"] .services-item-price {
+  margin-left: auto;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-weight: 400 !important;
+  color: var(--foreground) !important;
+  font-family: var(--services-price-font) !important;
+  font-size: var(--services-price-size) !important;
+}
+[data-services-menu="1"] .services-footnote {
+  font-family: var(--services-footnote-font) !important;
+  font-size: var(--services-footnote-size) !important;
+}
+
+/* Hide the services CTA button arrow icon (opt-in via theme.servicesCtaHideIcon) */
+[data-services-cta-hide-icon="1"] .services-cta-icon {
+  display: none !important;
+}
