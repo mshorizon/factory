@@ -127,7 +127,7 @@
             "title": "Nostrano",
             "subtitle": "Kawałek Neapolu w sercu Garwolina"
           },
-          "cta": { "label": "Zarezerwuj Stolik", "target": { "type": "page", "value": "contact" } },
+          "cta": { "label": "Zarezerwuj Stolik", "target": { "type": "section", "value": "contact-7" } },
           "secondaryCta": { "label": "Poznaj nas", "target": { "type": "section", "value": "about-1" } }
         },
         {
