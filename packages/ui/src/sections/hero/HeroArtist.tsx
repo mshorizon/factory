@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { HeroProps } from "./types";
@@ -15,6 +16,7 @@ export function HeroArtist({
     <section
       className={cn(
         "relative z-0 bg-background flex items-center justify-center",
+        isHomePage && "min-h-screen",
         className
       )}
     >
@@ -53,6 +55,13 @@ export function HeroArtist({
             </p>
           </ScrollReveal>
         )}
+      </div>
+
+      <div className="absolute bottom-spacing-xl left-1/2 -translate-x-1/2 flex flex-col items-center gap-spacing-xs text-muted">
+        <span className="text-xs uppercase tracking-widest leading-none">
+          Scroll
+        </span>
+        <ChevronDown className="w-4 h-4 animate-bounce" />
       </div>
     </section>
   );
