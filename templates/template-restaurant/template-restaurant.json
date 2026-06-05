@@ -220,22 +220,26 @@
         },
         {
           "type": "about",
-          "variant": "story",
-          "imagePosition": "right",
+          "variant": "quote-split",
+          "background": "dark",
           "header": {
             "badge": "I Bambini",
             "title": "Strefa dla Najmłodszych"
           },
-          "image": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&h=800&fit=crop",
           "story": {
-            "title": "Kącik dla dzieci, oddech dla rodziców",
-            "content": "Wiemy, że kolacja z dziećmi bywa wyzwaniem. Dlatego stworzyliśmy specjalny kącik dla najmłodszych — z zabawkami, książkami i miejscem do rysowania — żebyś ty mógł na chwilę odetchnąć i cieszyć się posiłkiem.\n\nNostrano to nie lokal imprezowy. To miejsce, gdzie rodziny mogą spędzić wspólny wieczór przy prawdziwym jedzeniu, bez pośpiechu i bez stresu.\n\n„Jedzenie jest najpiękniejszą formą wspólnego spędzania czasu.\" — Piotr i Paweł Ściślak, właściciele"
+            "content": "Wiemy, że kolacja z dziećmi bywa wyzwaniem. Dlatego stworzyliśmy specjalny kącik dla najmłodszych — z zabawkami, książkami i miejscem do rysowania — żebyś ty mógł na chwilę odetchnąć i cieszyć się posiłkiem.\n\nNostrano to nie lokal imprezowy. To miejsce, gdzie rodziny mogą spędzić wspólny wieczór przy prawdziwym jedzeniu, bez pośpiechu i bez stresu."
           },
           "stats": [
             { "value": "Zabawki", "label": "kącik zabaw" },
             { "value": "Książki", "label": "dla wszystkich" },
             { "value": "Rysunki", "label": "kredki i papier" }
-          ]
+          ],
+          "quote": {
+            "text": "Jedzenie jest najpiękniejszą formą wspólnego spędzania czasu.",
+            "author": "Piotr i Paweł Ściślak, właściciele",
+            "note": "Planujemy warsztaty pizzy dla dzieci — wpisz się na listę i bądź pierwszy."
+          },
+          "cta": { "label": "Zapisz dziecko", "target": { "type": "page", "value": "contact" } }
         },
         {
           "type": "gallery",

@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { AboutStory, AboutTimeline, AboutCareer, SectionHeader } from "@mshorizon/ui";
+import { AboutStory, AboutTimeline, AboutCareer, AboutQuoteSplit, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -36,6 +36,18 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
           ctaHref={ctaHref}
         />
       </>
+    ) : variant === "quote-split" ? (
+      <AboutQuoteSplit
+        client:visible
+        badge={header.badge}
+        title={header.title}
+        story={section.story}
+        stats={section.stats}
+        quote={(section as any).quote}
+        cta={ctaLabel}
+        ctaHref={ctaHref}
+        background={section.background}
+      />
     ) : variant === "career" ? (
       <AboutCareer
         client:visible

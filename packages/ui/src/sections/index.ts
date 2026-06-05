@@ -19,8 +19,8 @@ export { CategoriesCarousel, CategoriesFeatured } from "./categories";
 export type { CategoriesProps, CategoryItem } from "./categories";
 
 // About variants
-export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats, AboutCareer } from "./about";
-export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, AboutCareerProps, CareerItem, StatItem, TimelineItem, StoryContent } from "./about";
+export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats, AboutCareer, AboutQuoteSplit } from "./about";
+export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, AboutCareerProps, AboutQuoteSplitProps, QuotePanel, CareerItem, StatItem, TimelineItem, StoryContent } from "./about";
 
 // Contact variants
 export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional } from "./contact";

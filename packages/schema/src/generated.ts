@@ -386,6 +386,22 @@ export type SignatureText = string;
  * Optional. When omitted, the theme navLogoFlag gradient is used.
  */
 export type FlagImageURL = string;
+/**
+ * Rendered as an italic blockquote with curly quotes.
+ */
+export type QuoteText = string;
+/**
+ * Rendered in uppercase below the quote.
+ */
+export type Author = string;
+/**
+ * Optional. When omitted, the theme navLogoFlag gradient bar is used.
+ */
+export type FlagImageURL1 = string;
+/**
+ * Optional paragraph rendered below a divider.
+ */
+export type NoteParagraph = string;
 export type Timeline = TimelineItem[];
 /**
  * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
@@ -764,6 +780,7 @@ export interface Section {
     title?: string;
     content?: string;
   };
+  quote?: QuotePanel;
   timeline?: Timeline;
   info?: ContactInfo;
   form?: ContactForm;
@@ -859,6 +876,15 @@ export interface SignatureRow {
 export interface StatItem {
   value?: string;
   label?: string;
+}
+/**
+ * Right-side quote panel for the about "quote-split" variant: a small flag accent, an italic quote, an author line, a divider, a note paragraph and (via the section cta) a call to action.
+ */
+export interface QuotePanel {
+  text?: QuoteText;
+  author?: Author;
+  flag?: FlagImageURL1;
+  note?: NoteParagraph;
 }
 export interface TimelineItem {
   year?: string;

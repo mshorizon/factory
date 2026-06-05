@@ -319,6 +319,17 @@
             "content": { "type": "string" }
           }
         },
+        "quote": {
+          "type": "object",
+          "title": "Quote Panel",
+          "description": "Right-side quote panel for the about \"quote-split\" variant: a small flag accent, an italic quote, an author line, a divider, a note paragraph and (via the section cta) a call to action.",
+          "properties": {
+            "text": { "type": "string", "title": "Quote Text", "description": "Rendered as an italic blockquote with curly quotes." },
+            "author": { "type": "string", "title": "Author", "description": "Rendered in uppercase below the quote." },
+            "flag": { "type": "string", "title": "Flag Image URL", "description": "Optional. When omitted, the theme navLogoFlag gradient bar is used." },
+            "note": { "type": "string", "title": "Note Paragraph", "description": "Optional paragraph rendered below a divider." }
+          }
+        },
         "timeline": {
           "type": "array",
           "title": "Timeline",

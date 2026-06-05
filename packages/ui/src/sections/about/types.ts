@@ -40,6 +40,26 @@ export interface AboutStoryProps {
   ctaVariant?: "accent" | "primaryLight";
 }
 
+export interface QuotePanel {
+  text?: string;
+  author?: string;
+  /** Optional flag image URL. When omitted, the theme navLogoFlag gradient bar is used. */
+  flag?: string;
+  note?: string;
+}
+
+export interface AboutQuoteSplitProps {
+  badge?: string;
+  title?: string;
+  story?: StoryContent;
+  stats?: StatItem[];
+  quote?: QuotePanel;
+  cta?: string;
+  ctaHref?: string;
+  className?: string;
+  background?: string;
+}
+
 export interface CareerItem {
   year: string;
   title: string;
