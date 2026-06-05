@@ -278,6 +278,10 @@ export type ContainerBorderRadius = string;
  * Gradient preset e.g. primary-to-primary-dark
  */
 export type BackgroundGradient = string;
+/**
+ * Overrides the footer wrapper background with a custom CSS color value. Takes precedence over the variant's default background fill.
+ */
+export type FooterBackgroundColorOverrideCustomCSSColorEG26201C = string;
 export type ExtensionType1 = "call";
 export type Headline = string;
 export type Phone1 = string;
@@ -786,6 +790,7 @@ export interface FooterBackground {
   padding?: ContainerPadding;
   borderRadius?: ContainerBorderRadius;
   gradient?: BackgroundGradient;
+  color?: FooterBackgroundColorOverrideCustomCSSColorEG26201C;
 }
 export interface BlogSettings {
   postVariant?: BlogPostLayout;

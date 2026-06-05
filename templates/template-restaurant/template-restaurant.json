@@ -87,6 +87,7 @@
     "navbar": { "variant": "transparent", "hideLogoIcon": true },
     "footer": {
       "variant": "restaurant",
+      "background": { "color": "#26201c" },
       "name": "Nostrano",
       "copyright": "© {year} Restauracja Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
       "tagline": "Kawałek Neapolu w sercu Garwolina.\nRestauracja i pizzeria rzemieślnicza.",

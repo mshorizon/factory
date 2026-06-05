@@ -1148,7 +1148,8 @@
                 "enabled": { "type": "boolean", "title": "Enable Background Container", "default": false },
                 "padding": { "type": "string", "title": "Container Padding", "default": "16px" },
                 "borderRadius": { "type": "string", "title": "Container Border Radius", "default": "12px" },
-                "gradient": { "type": "string", "title": "Background Gradient", "description": "Gradient preset e.g. primary-to-primary-dark" }
+                "gradient": { "type": "string", "title": "Background Gradient", "description": "Gradient preset e.g. primary-to-primary-dark" },
+                "color": { "type": "string", "title": "Footer Background Color Override (custom CSS color, e.g. '#26201c')", "description": "Overrides the footer wrapper background with a custom CSS color value. Takes precedence over the variant's default background fill." }
               }
             },
             "extensions": {

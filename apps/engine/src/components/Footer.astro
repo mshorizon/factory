@@ -27,6 +27,8 @@ interface FooterBackground {
   borderRadius?: string;
   /** Optional vertical gradient — e.g. "primary-to-primary-dark". Falls back to bg-secondary when absent. */
   gradient?: "primary-to-primary-dark" | string;
+  /** Optional custom CSS color override for the footer wrapper — e.g. "#26201c". */
+  color?: string;
 }
 
 interface ContactData {
@@ -584,7 +586,10 @@ const languages = [
 )}
 
 {variant === "restaurant" && (
-  <footer class="bg-background border-t border-border/40 shrink-0">
+  <footer
+    class:list={["border-t border-border/40 shrink-0", !background?.color && "bg-background"]}
+    style={background?.color ? `background-color: ${background.color};` : undefined}
+  >
     <div class="container mx-auto py-spacing-3xl">
       <div class="grid grid-cols-1 gap-spacing-2xl lg:grid-cols-3 lg:gap-spacing-3xl">
 
