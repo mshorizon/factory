@@ -48,7 +48,10 @@ export function FeaturesNumberedSplit({
                 className="flex items-start gap-spacing-lg py-spacing-lg"
                 data-field={`items.${index}`}
               >
-                <span className="flex-shrink-0 text-sm font-semibold text-primary tabular-nums pt-0.5">
+                <span
+                  className="flex-shrink-0 text-sm font-semibold text-primary tabular-nums pt-0.5"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                >
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div className="flex flex-col gap-spacing-xs">
