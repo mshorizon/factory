@@ -49,7 +49,7 @@ export function FeaturesNumberedSplit({
                 data-field={`items.${index}`}
               >
                 <span
-                  className="flex-shrink-0 text-sm font-semibold text-primary tabular-nums pt-0.5"
+                  className="flex-shrink-0 text-3xl font-semibold text-primary tabular-nums leading-none"
                   style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                 >
                   {String(index + 1).padStart(2, "0")}
