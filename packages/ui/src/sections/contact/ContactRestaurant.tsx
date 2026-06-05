@@ -72,7 +72,13 @@ export function ContactRestaurant({
   const addressParts = (info?.address || "").split(",").map((s) => s.trim()).filter(Boolean);
   const addressName = addressParts[0] || "";
   const addressLines = addressParts.slice(1);
-  const mapQuery = addressLines.length ? addressLines.join(", ") : info?.address || "";
+  // Prefer an explicit Google place query so the embed resolves to the business
+  // listing (with reviews/opinions) rather than a plain address pin.
+  const mapQuery = info?.googlePlaceQuery
+    ? info.googlePlaceQuery
+    : addressLines.length
+      ? addressLines.join(", ")
+      : info?.address || "";
   const mapSrc = mapQuery
     ? `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=15&output=embed`
     : null;

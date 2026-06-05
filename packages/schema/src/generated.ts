@@ -458,6 +458,10 @@ export type FlagImageURL1 = string;
 export type NoteParagraph = string;
 export type Timeline = TimelineItem[];
 /**
+ * Business name/address query for the embedded contact map (e.g. 'Restauracja Nostrano, Garwolin'). When set, the map resolves to Google's native place listing showing reviews/opinions instead of a plain address pin.
+ */
+export type GooglePlaceQuery1 = string;
+/**
  * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
  */
 export type DetailedHours = string[];
@@ -967,6 +971,7 @@ export interface ContactInfo {
   phone?: string;
   email?: string;
   hours?: string;
+  googlePlaceQuery?: GooglePlaceQuery1;
   hoursDetailed?: DetailedHours;
   receptionHours?: ReceptionHours;
   receptionLabel?: ReceptionLabel;

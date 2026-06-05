@@ -27,6 +27,8 @@ export interface ContactInfo {
   phone?: string;
   email?: string;
   hours?: string;
+  /** Place query for the embedded map; resolves to Google's native listing with reviews/opinions. */
+  googlePlaceQuery?: string;
   hoursDetailed?: string[];
   receptionHours?: string;
   receptionLabel?: string;

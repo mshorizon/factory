@@ -368,6 +368,7 @@
             "phone": { "type": "string" },
             "email": { "type": "string" },
             "hours": { "type": "string" },
+            "googlePlaceQuery": { "type": "string", "title": "Google Place Query", "description": "Business name/address query for the embedded contact map (e.g. 'Restauracja Nostrano, Garwolin'). When set, the map resolves to Google's native place listing showing reviews/opinions instead of a plain address pin." },
             "hoursDetailed": {
               "type": "array",
               "title": "Detailed Hours",
