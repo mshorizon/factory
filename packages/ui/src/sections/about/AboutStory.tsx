@@ -90,7 +90,7 @@ export function AboutStory({
                 data-field="signature.flag"
               />
             )}
-            <span className="text-sm font-medium uppercase tracking-wide text-foreground" data-field="signature.text">{signature.text}</span>
+            <span className="text-sm font-medium uppercase tracking-wide text-muted" data-field="signature.text">{signature.text}</span>
           </div>
         )}
 
