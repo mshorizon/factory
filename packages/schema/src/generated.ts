@@ -111,6 +111,10 @@ export type NavbarLogoFont = "body" | "heading";
  */
 export type NavbarLogoColor = string;
 /**
+ * Fixed color for the navbar links (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior.
+ */
+export type NavbarLinkColor = string;
+/**
  * Hide the icon (arrow/clock) inside the navbar CTA button.
  */
 export type NavbarCTAHideIcon = boolean;
@@ -566,6 +570,7 @@ export interface Theme {
   navLogoUppercase?: NavbarLogoUppercase;
   navLogoFont?: NavbarLogoFont;
   navLogoColor?: NavbarLogoColor;
+  navLinkColor?: NavbarLinkColor;
   navCtaHideIcon?: NavbarCTAHideIcon;
   heroCtaHideIcon?: HeroCTAHideIcon;
   heroTextThemeColors?: HeroTextUsesThemeColors;

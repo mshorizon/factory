@@ -250,7 +250,7 @@ const showCta = !hideCta && !!cta;
           <a
             href={link.href}
             {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            class="px-4 py-3 text-[length:var(--nav-font-size,16px)] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
+            class="nav-link-mobile px-4 py-3 text-[length:var(--nav-font-size,16px)] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
           >
             {link.label}
           </a>
@@ -341,6 +341,20 @@ const showCta = !hideCta && !!cta;
   [data-nav-logo-color="1"] #main-nav a:hover .nav-logo,
   [data-nav-logo-color="1"] #main-nav .nav-logo:hover {
     color: color-mix(in srgb, var(--nav-logo-color) 80%, white) !important;
+  }
+
+  /* Fixed navbar link color (opt-in via theme.navLinkColor). !important so it wins
+     over the Tailwind text-* classes and the transparent→solid scroll toggle.
+     Hover lightens it slightly by mixing toward white. Covers desktop links and
+     the mobile menu links. */
+  [data-nav-link-color="1"] #main-nav .nav-link,
+  [data-nav-link-color="1"] #mobile-menu .nav-link-mobile {
+    color: var(--nav-link-color) !important;
+    transition: color 0.3s ease;
+  }
+  [data-nav-link-color="1"] #main-nav .nav-link:hover,
+  [data-nav-link-color="1"] #mobile-menu .nav-link-mobile:hover {
+    color: color-mix(in srgb, var(--nav-link-color) 80%, white) !important;
   }
 
   /* Animated navbar height (opt-in via theme.navHeightTop / navHeightScrolled).

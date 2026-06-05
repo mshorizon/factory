@@ -65,6 +65,7 @@
     "navLogoUppercase": true,
     "navLogoFont": "heading",
     "navLogoColor": "#f0ebdb",
+    "navLinkColor": "#c2baa3",
     "navCtaHideIcon": true,
     "heroCtaHideIcon": true,
     "heroTextThemeColors": true,
