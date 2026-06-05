@@ -379,6 +379,9 @@ body::-webkit-scrollbar {
   font-size: var(--hero-title-size) !important;
   line-height: 1.05;
 }
+[data-hero-title-font="1"] .hero-title {
+  font-family: var(--hero-title-font) !important;
+}
 [data-hero-subtitle-size="1"] .hero-subtitle {
   font-size: var(--hero-subtitle-size) !important;
 }

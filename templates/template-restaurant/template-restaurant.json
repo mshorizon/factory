@@ -78,6 +78,7 @@
     "heroTextThemeColors": true,
     "heroBottomFade": true,
     "heroTitleSize": "clamp(4.5rem, 10vw, 8rem)",
+    "heroTitleFontFamily": "'Cormorant Garamond', serif",
     "heroSubtitleSize": "24px",
     "heroBadgeLetterSpacing": "0.4em",
     "navLogoFlag": ["#008C45", "#F4F5F0", "#CD212A"],

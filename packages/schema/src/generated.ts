@@ -151,6 +151,10 @@ export type HeroBottomFade = boolean;
  */
 export type HeroTitleFontSize = string;
 /**
+ * Explicit CSS font-family for the hero title text, e.g. "'Cormorant Garamond', serif". Overrides the default heading font. The font is automatically loaded.
+ */
+export type HeroTitleFontFamily = string;
+/**
  * Font size for the hero subtitle/description, e.g. "24px". Overrides the default responsive sizing.
  */
 export type HeroSubtitleFontSize = string;
@@ -682,6 +686,7 @@ export interface Theme {
   heroTextThemeColors?: HeroTextUsesThemeColors;
   heroBottomFade?: HeroBottomFade;
   heroTitleSize?: HeroTitleFontSize;
+  heroTitleFontFamily?: HeroTitleFontFamily;
   heroSubtitleSize?: HeroSubtitleFontSize;
   heroBadgeLetterSpacing?: HeroBadgeLetterSpacing;
   navLogoFlag?: NavbarLogoFlagStripes;
