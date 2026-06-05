@@ -109,6 +109,15 @@
     }
   },
   "navigation": {
+    "links": [
+      { "label": "O nas", "target": { "type": "section", "value": "about-1" } },
+      { "label": "Menu", "target": { "type": "section", "value": "services-2" } },
+      { "label": "Dlaczego my", "target": { "type": "section", "value": "features-3" } },
+      { "label": "Wydarzenia", "target": { "type": "section", "value": "events-4" } },
+      { "label": "Dla dzieci", "target": { "type": "section", "value": "about-5" } },
+      { "label": "Galeria", "target": { "type": "section", "value": "gallery-6" } },
+      { "label": "Kontakt", "target": { "type": "section", "value": "contact-7" } }
+    ],
     "cta": { "label": "Rezerwacja", "target": { "type": "section", "value": "contact-7" } }
   },
   "data": {

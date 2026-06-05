@@ -629,4 +629,43 @@ const showCta = !hideCta && !!cta;
     closeIcon?.classList.toggle('hidden');
     requestAnimationFrame(updateMainNavOffset);
   });
+
+  // --- Smooth-scroll for in-page anchor links (single-page nav) ---
+  // Nav links / CTA pointing at "#section-id" scroll to the section, offset by
+  // the fixed navbar height so the section heading isn't hidden underneath it.
+  function scrollToHash(hash) {
+    if (!hash || hash === '#') return false;
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target) return false;
+    const navH = nav ? nav.getBoundingClientRect().height : 0;
+    if (scrollContainer === document.documentElement) {
+      const top = target.getBoundingClientRect().top + window.scrollY - navH;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    } else {
+      const top = target.getBoundingClientRect().top
+        - scrollContainer.getBoundingClientRect().top
+        + scrollContainer.scrollTop - navH;
+      scrollContainer.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
+    return true;
+  }
+
+  function closeMobileMenu() {
+    if (menu && !menu.classList.contains('hidden')) {
+      menu.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    }
+  }
+
+  document.querySelectorAll('#main-nav a[href^="#"], #mobile-menu a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const hash = a.getAttribute('href') || '';
+      if (scrollToHash(hash)) {
+        e.preventDefault();
+        history.replaceState(null, '', hash);
+        closeMobileMenu();
+      }
+    });
+  });
 </script>

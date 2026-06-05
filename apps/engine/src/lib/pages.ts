@@ -143,6 +143,7 @@ export function getNavLinks(businessData: BusinessProfile): { label: string; hre
     const target = link.target;
     if (target?.type === "external") return { label: link.label, href: target.value, external: true };
     if (target?.type === "page") return { label: link.label, href: `/${target.value}` };
+    if (target?.type === "section") return { label: link.label, href: `#${target.value}` };
     return { label: link.label, href: link.href ?? "#" };
   });
 
