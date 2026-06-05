@@ -11,13 +11,17 @@ import type { GalleryGridProps } from "./types";
  * bottom-left corner over a gradient scrim. Pattern repeats so it works for
  * any number of items and any niche.
  */
+// A 6-tile period that packs perfectly into the 4-column grid (12 cells = 3
+// full rows) with grid-flow-row-dense, so the whole grid is filled by images
+// with no empty cells: feature (2x2) + two squares fill rows 1-2 cols 3-4,
+// two tall tiles fill cols 3-4 of rows 2-3, and the wide tile closes row 3.
 const MOSAIC_PATTERN = [
   "col-span-2 row-span-2", // large feature tile
-  "col-span-2 row-span-1", // wide tile
   "col-span-1 row-span-1",
   "col-span-1 row-span-1",
   "col-span-1 md:row-span-2", // tall tile (desktop)
-  "col-span-2 row-span-1", // wide tile
+  "col-span-1 md:row-span-2", // tall tile (desktop)
+  "col-span-2 row-span-1", // wide tile closes the block
 ];
 
 export function GalleryMosaic({ items, className }: GalleryGridProps) {
