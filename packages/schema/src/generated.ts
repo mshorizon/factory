@@ -212,9 +212,39 @@ export type FooterVariant =
   | "branded"
   | "stacked"
   | "gradient"
-  | "darkColumns";
+  | "darkColumns"
+  | "restaurant";
 export type CopyrightText = string;
+/**
+ * Footer tagline. Use \n to split across multiple lines.
+ */
 export type Tagline = string;
+/**
+ * Optional list of hex colors rendered as a segmented accent bar under the logo (e.g. an Italian flag).
+ */
+export type BrandFlagColors = string[];
+/**
+ * Heading for the address/phone column (restaurant variant).
+ */
+export type FindUsColumnTitle = string;
+/**
+ * Heading for the opening-hours column (restaurant variant).
+ */
+export type OpeningHoursColumnTitle = string;
+export type DayLabel = string;
+export type HoursValue = string;
+/**
+ * Render the value in the primary accent color
+ */
+export type HighlightRow = boolean;
+/**
+ * Structured opening-hours rows (restaurant variant).
+ */
+export type OpeningHoursRows = FooterHoursRow[];
+/**
+ * Italic signature line shown on the right of the bottom bar (restaurant variant).
+ */
+export type FooterSignature = string;
 export type Label = string;
 export type TargetType = "page" | "section" | "external" | "phone" | "email";
 export type TargetValue = string;
@@ -691,11 +721,21 @@ export interface FooterConfig {
   variant?: FooterVariant;
   copyright?: CopyrightText;
   tagline?: Tagline;
+  flag?: BrandFlagColors;
+  findUsTitle?: FindUsColumnTitle;
+  hoursTitle?: OpeningHoursColumnTitle;
+  hours?: OpeningHoursRows;
+  signature?: FooterSignature;
   links?: FooterLinks;
   columns?: FooterColumns;
   name?: FooterDisplayName;
   background?: FooterBackground;
   extensions?: FooterExtensions;
+}
+export interface FooterHoursRow {
+  label: DayLabel;
+  value: HoursValue;
+  highlight?: HighlightRow;
 }
 export interface Link {
   label: Label;

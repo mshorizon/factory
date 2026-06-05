@@ -45,6 +45,16 @@
         }
       }
     },
+    "footerHoursRow": {
+      "type": "object",
+      "title": "FooterHoursRow",
+      "properties": {
+        "label": { "type": "string", "title": "Day Label" },
+        "value": { "type": "string", "title": "Hours Value" },
+        "highlight": { "type": "boolean", "title": "Highlight Row", "description": "Render the value in the primary accent color", "default": false }
+      },
+      "required": ["label", "value"]
+    },
     "sectionHeader": {
       "type": "object",
       "title": "SectionHeader",
@@ -1089,11 +1099,26 @@
             "variant": {
               "type": "string",
               "title": "Footer Variant",
-              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient", "darkColumns"],
+              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient", "darkColumns", "restaurant"],
               "default": "simple"
             },
             "copyright": { "type": "string", "title": "Copyright Text" },
-            "tagline": { "type": "string", "title": "Tagline" },
+            "tagline": { "type": "string", "title": "Tagline", "description": "Footer tagline. Use \\n to split across multiple lines." },
+            "flag": {
+              "type": "array",
+              "title": "Brand Flag Colors",
+              "description": "Optional list of hex colors rendered as a segmented accent bar under the logo (e.g. an Italian flag).",
+              "items": { "type": "string" }
+            },
+            "findUsTitle": { "type": "string", "title": "Find-Us Column Title", "description": "Heading for the address/phone column (restaurant variant)." },
+            "hoursTitle": { "type": "string", "title": "Opening-Hours Column Title", "description": "Heading for the opening-hours column (restaurant variant)." },
+            "hours": {
+              "type": "array",
+              "title": "Opening Hours Rows",
+              "description": "Structured opening-hours rows (restaurant variant).",
+              "items": { "$ref": "#/definitions/footerHoursRow" }
+            },
+            "signature": { "type": "string", "title": "Footer Signature", "description": "Italic signature line shown on the right of the bottom bar (restaurant variant)." },
             "links": {
               "type": "array",
               "title": "Footer Links",

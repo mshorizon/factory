@@ -80,9 +80,19 @@
   "layout": {
     "navbar": { "variant": "transparent", "hideLogoIcon": true },
     "footer": {
-      "variant": "minimal",
-      "copyright": "2026 Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
-      "tagline": "Kawałek Neapolu w sercu Garwolina.",
+      "variant": "restaurant",
+      "name": "Nostrano",
+      "copyright": "© {year} Restauracja Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
+      "tagline": "Kawałek Neapolu w sercu Garwolina.\nRestauracja i pizzeria rzemieślnicza.",
+      "flag": ["#008C45", "#F4F5F0", "#CD212A"],
+      "findUsTitle": "Znajdź nas",
+      "hoursTitle": "Godziny otwarcia",
+      "hours": [
+        { "label": "Poniedziałek", "value": "Zamknięte" },
+        { "label": "Wt – Czw, Niedz", "value": "13:00 – 21:00" },
+        { "label": "Piątek – Sobota", "value": "13:00 – 23:00", "highlight": true }
+      ],
+      "signature": "Fatto con amore — con cuore italiano",
       "links": [
         { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com/nostrano.garwolin" } },
         { "label": "Facebook", "target": { "type": "external", "value": "https://facebook.com/nostrano.garwolin" } }

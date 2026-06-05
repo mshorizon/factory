@@ -100,6 +100,11 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       links: layout.footer?.links || [],
       columns: layout.footer?.columns || [],
       extensions: layout.footer?.extensions || [],
+      flag: layout.footer?.flag,
+      findUsTitle: layout.footer?.findUsTitle,
+      hoursTitle: layout.footer?.hoursTitle,
+      hours: layout.footer?.hours,
+      signature: layout.footer?.signature,
     },
     hideBreadcrumbs: (layout as any)?.hideBreadcrumbs || false,
     blog: {
