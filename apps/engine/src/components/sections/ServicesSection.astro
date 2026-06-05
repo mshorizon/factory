@@ -61,7 +61,7 @@ const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
       <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} />
     )}
     {footnote && (
-      <p class={`mt-spacing-lg italic text-muted ${headerAlign === "left" ? "text-left" : "text-center"}`} data-field="footnote">
+      <p class={`mt-spacing-3xl italic text-muted ${headerAlign === "left" ? "text-left" : "text-center"}`} data-field="footnote">
         {footnote}
       </p>
     )}
