@@ -397,6 +397,14 @@ export type BadgeLayoutDirection = "row" | "column";
 export type SectionLevelBadgeVariantOverride = "accent" | "accent-no-line" | "outlined" | "text";
 export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
+/**
+ * Overrides the font-family of the section's main body/story text (the 'big text' content). Full CSS font-family value, e.g. "'DM Sans', sans-serif".
+ */
+export type BodyContentFontFamilyOverride = string;
+/**
+ * Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'.
+ */
+export type BodyContentFontSizeOverride = string;
 export type CTATextColorOverride = string;
 /**
  * Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
@@ -867,6 +875,8 @@ export interface Section {
   badgeVariant?: SectionLevelBadgeVariantOverride;
   badgeColor?: BadgeTextColorOverride;
   descriptionColor?: DescriptionTextColorOverride;
+  contentFontFamily?: BodyContentFontFamilyOverride;
+  contentFontSize?: BodyContentFontSizeOverride;
   ctaColor?: CTATextColorOverride;
   scrollColor?: HeroScrollIndicatorColorOverride;
   mapPanelButtonColor?: MapPanelButtonColor;

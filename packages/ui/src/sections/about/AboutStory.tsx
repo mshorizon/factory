@@ -27,7 +27,12 @@ export function AboutStory({
   imagePosition = "left",
   ctaVariant = "accent",
   imageRounded = true,
+  contentFontFamily,
+  contentFontSize,
 }: AboutStoryProps) {
+  const contentStyle = (contentFontFamily || contentFontSize)
+    ? { fontFamily: contentFontFamily, fontSize: contentFontSize }
+    : undefined;
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
   const ctaClass = ctaVariant === "primaryLight"
@@ -69,7 +74,7 @@ export function AboutStory({
         {story && story.content && (
           <div className="space-y-spacing-md">
             {story.content.split('\n\n').map((paragraph: string, index: number) => (
-              <p key={index} className="text-muted leading-relaxed" data-field={`story.content.${index}`}>{paragraph}</p>
+              <p key={index} className="text-muted leading-relaxed" style={contentStyle} data-field={`story.content.${index}`}>{paragraph}</p>
             ))}
           </div>
         )}

@@ -190,7 +190,7 @@ function extractGoogleFonts(...fontStrings: string[]): string[] {
 const externalFontUrls: Record<string, string> = {};
 
 // Fonts self-hosted in /public/fonts — skip any external loading
-const selfHostedFonts = new Set(['Montserrat', 'Playfair Display', 'Lora', 'Cormorant Garamond', 'Inter']);
+const selfHostedFonts = new Set(['Montserrat', 'Playfair Display', 'Lora', 'Cormorant Garamond', 'Inter', 'DM Sans']);
 
 // Subset filename (without extension) used for the <link rel="preload"> tag
 // for the latin subset of each self-hosted font. Preloading the latin subset
@@ -201,6 +201,7 @@ const selfHostedLatinPreload: Record<string, string> = {
   'Lora': 'lora-latin',
   'Cormorant Garamond': 'cormorant-garamond-latin',
   'Inter': 'inter-latin',
+  'DM Sans': 'dm-sans-latin',
 };
 const selfHostedFontsInUse = extractGoogleFonts(cssVars.fontSans, cssVars.fontHeading, navLogoFontFamily, heroTitleFontFamily).filter(f => selfHostedFonts.has(f));
 

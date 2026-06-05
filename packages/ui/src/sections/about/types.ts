@@ -40,6 +40,10 @@ export interface AboutStoryProps {
   ctaVariant?: "accent" | "primaryLight";
   /** When false, renders the image with square corners. Defaults to true (rounded). */
   imageRounded?: boolean;
+  /** Overrides the font-family of the body/story content. Full CSS font-family value. */
+  contentFontFamily?: string;
+  /** Overrides the font-size of the body/story content. Full CSS length value, e.g. "18px". */
+  contentFontSize?: string;
 }
 
 export interface QuotePanel {

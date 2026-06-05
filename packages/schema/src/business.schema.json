@@ -196,6 +196,8 @@
         "badgeVariant": { "type": "string", "title": "Section-level Badge Variant Override", "enum": ["accent", "accent-no-line", "outlined", "text"] },
         "badgeColor": { "type": "string", "title": "Badge Text Color Override" },
         "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
+        "contentFontFamily": { "type": "string", "title": "Body Content Font Family Override", "description": "Overrides the font-family of the section's main body/story text (the 'big text' content). Full CSS font-family value, e.g. \"'DM Sans', sans-serif\"." },
+        "contentFontSize": { "type": "string", "title": "Body Content Font Size Override", "description": "Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'." },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
         "scrollColor": { "type": "string", "title": "Hero Scroll Indicator Color Override", "description": "Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
         "mapPanelButtonColor": { "type": "string", "title": "Map Panel Button Color", "enum": ["primary", "primary-light"], "description": "Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'." },
