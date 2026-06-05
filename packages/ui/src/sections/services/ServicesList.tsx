@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
@@ -48,10 +49,10 @@ export function ServicesList({
                 aria-selected={active}
                 onClick={() => setActiveCategory(cat.id)}
                 className={cn(
-                  "services-tab relative -mb-px pb-spacing-md text-lg border-b-2 transition-colors whitespace-nowrap",
+                  "services-tab relative pb-spacing-md text-lg transition-colors whitespace-nowrap",
                   active
-                    ? "border-primary text-foreground font-semibold"
-                    : "border-transparent text-muted font-medium hover:text-foreground"
+                    ? "text-foreground font-semibold"
+                    : "text-muted font-medium hover:text-foreground"
                 )}
                 data-active={active ? "1" : undefined}
               >
@@ -60,6 +61,13 @@ export function ServicesList({
                   <span className={cn("ml-spacing-xs", active ? "text-primary" : undefined)}>
                     {paren}
                   </span>
+                )}
+                {active && (
+                  <motion.span
+                    layoutId="services-tab-indicator"
+                    className="absolute -bottom-px left-0 right-0 h-0.5 bg-primary"
+                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                  />
                 )}
               </button>
             );
