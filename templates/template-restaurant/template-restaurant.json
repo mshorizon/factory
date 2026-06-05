@@ -136,9 +136,9 @@
             "title": "Menu"
           },
           "serviceCategories": [
-            { "id": "przystawki", "label": "Przystawki" },
-            { "id": "pizza", "label": "Pizza" },
-            { "id": "salatki", "label": "Sałatki" }
+            { "id": "przystawki", "label": "Przystawki (Antipasti)" },
+            { "id": "pizza", "label": "Pizza (La Pizza)" },
+            { "id": "salatki", "label": "Sałatki (Insalate)" }
           ],
           "items": [
             { "id": "krem-pomidorowy", "category": "przystawki", "title": "Krem z pomidorów pelati z mascarpone", "description": "Aksamitny krem, świeża bazylia", "price": "23 zł" },

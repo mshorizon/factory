@@ -33,9 +33,13 @@ export function ServicesList({
   return (
     <div className={className}>
       {hasTabs && (
-        <div className="flex flex-wrap justify-center gap-spacing-xs mb-spacing-2xl" role="tablist">
+        <div className="flex flex-wrap justify-center gap-x-spacing-3xl gap-y-spacing-md border-b border-border mb-spacing-2xl" role="tablist">
           {categories!.map((cat) => {
             const active = cat.id === activeCategory;
+            // Split "Main (Subtitle)" so the parenthetical can be accented on the active tab.
+            const match = cat.label.match(/^(.*?)\s*(\(.*\))\s*$/);
+            const main = match ? match[1] : cat.label;
+            const paren = match ? match[2] : "";
             return (
               <button
                 key={cat.id}
@@ -44,14 +48,19 @@ export function ServicesList({
                 aria-selected={active}
                 onClick={() => setActiveCategory(cat.id)}
                 className={cn(
-                  "services-tab px-spacing-lg py-spacing-xs text-sm font-medium rounded-radius transition-colors",
+                  "services-tab relative -mb-px pb-spacing-md text-lg border-b-2 transition-colors whitespace-nowrap",
                   active
-                    ? "bg-primary text-on-primary"
-                    : "text-muted hover:text-foreground"
+                    ? "border-primary text-foreground font-semibold"
+                    : "border-transparent text-muted font-medium hover:text-foreground"
                 )}
                 data-active={active ? "1" : undefined}
               >
-                {cat.label}
+                {main}
+                {paren && (
+                  <span className={cn("ml-spacing-xs", active ? "text-primary" : undefined)}>
+                    {paren}
+                  </span>
+                )}
               </button>
             );
           })}
