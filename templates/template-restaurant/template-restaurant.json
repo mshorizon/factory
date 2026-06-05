@@ -86,7 +86,7 @@
     "badgeVariant": "text"
   },
   "layout": {
-    "navbar": { "variant": "transparent", "hideLogoIcon": true },
+    "navbar": { "variant": "transparent", "hideLogoIcon": true, "hideBlog": true },
     "footer": {
       "variant": "restaurant",
       "background": { "color": "#26201c" },
