@@ -71,8 +71,9 @@
     "heroCtaHideIcon": true,
     "heroTextThemeColors": true,
     "heroBottomFade": true,
-    "heroTitleSize": "clamp(4.5rem, 8vw, 6rem)",
+    "heroTitleSize": "clamp(4.5rem, 10vw, 8rem)",
     "heroSubtitleSize": "24px",
+    "heroBadgeLetterSpacing": "0.4em",
     "navLogoFlag": ["#008C45", "#F4F5F0", "#CD212A"],
     "navLinksPosition": "right",
     "badgeVariant": "text"
@@ -118,7 +119,8 @@
             "title": "Nostrano",
             "subtitle": "Kawałek Neapolu w sercu Garwolina"
           },
-          "cta": { "label": "Zarezerwuj Stolik", "target": { "type": "page", "value": "contact" } }
+          "cta": { "label": "Zarezerwuj Stolik", "target": { "type": "page", "value": "contact" } },
+          "secondaryCta": { "label": "Poznaj nas", "target": { "type": "section", "value": "about-1" } }
         },
         {
           "type": "about",

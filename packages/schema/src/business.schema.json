@@ -992,6 +992,7 @@
         "heroBottomFade": { "type": "boolean", "title": "Hero Bottom Fade", "description": "Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.", "default": false },
         "heroTitleSize": { "type": "string", "title": "Hero Title Font Size", "description": "Font size for the hero title. Any CSS length, e.g. \"96px\" or a responsive \"clamp(3.5rem, 7vw, 6rem)\". Overrides the default responsive sizing." },
         "heroSubtitleSize": { "type": "string", "title": "Hero Subtitle Font Size", "description": "Font size for the hero subtitle/description, e.g. \"24px\". Overrides the default responsive sizing." },
+        "heroBadgeLetterSpacing": { "type": "string", "title": "Hero Badge Letter Spacing", "description": "Letter spacing for the hero badge/eyebrow text, e.g. \"0.4em\". Overrides the default 0.05em." },
         "navLogoFlag": {
           "type": "array",
           "title": "Navbar Logo Flag Stripes",

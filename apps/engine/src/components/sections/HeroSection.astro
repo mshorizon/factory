@@ -181,8 +181,8 @@ const secondaryCta = section.secondaryCta ? {
       .hero-fold__flag { display: none; }
       [data-nav-logo-flag="1"] .hero-fold__flag {
         display: block;
-        width: 2.5rem;
-        height: 1.625rem;
+        width: 160px;
+        height: 3px;
         margin: 0 auto 0.75rem auto;
         background: var(--nav-logo-flag);
         border-radius: 4px;
@@ -196,7 +196,7 @@ const secondaryCta = section.secondaryCta ? {
         color: var(--primary, #d94a26);
         text-transform: uppercase;
         font-size: 0.875rem;
-        letter-spacing: 0.05em;
+        letter-spacing: var(--hero-badge-letter-spacing, 0.05em);
         font-weight: 500;
         margin-bottom: 1rem;
       }
@@ -207,7 +207,7 @@ const secondaryCta = section.secondaryCta ? {
         font-size: clamp(2.5rem, 6vw, 4.5rem);
         line-height: 1.05;
         font-weight: 400;
-        letter-spacing: -0.01em;
+        letter-spacing: 0.04em;
         color: var(--text-on-primary, #fff);
         margin: 0 0 1rem 0;
       }
@@ -216,6 +216,8 @@ const secondaryCta = section.secondaryCta ? {
         animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.3s forwards;
         font-size: 1.125rem;
         line-height: 1.5;
+        font-weight: 300;
+        text-transform: uppercase;
         color: rgba(255, 255, 255, 0.85);
         max-width: 42rem;
         margin: 0 auto 2.5rem auto;
@@ -236,6 +238,7 @@ const secondaryCta = section.secondaryCta ? {
         padding: 1rem 2rem;
         font-size: 1rem;
         font-weight: 600;
+        text-transform: uppercase;
         color: var(--text-on-primary, #fff);
         background-color: var(--primary, #d94a26);
         border-radius: var(--radius, 0);
@@ -293,5 +296,20 @@ const secondaryCta = section.secondaryCta ? {
         )}
       </div>
     </section>
+    <script is:inline>
+      // Smooth-scroll for in-page hero anchor CTAs (e.g. the "Poznaj nas"
+      // ghost button). Falls back to the first about section if the target
+      // id is missing, so it always lands on the about content.
+      document.querySelectorAll('.hero-fold a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+          const id = a.getAttribute('href').slice(1);
+          const el = document.getElementById(id) || document.querySelector('[data-section-type="about"]');
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    </script>
   </Fragment>
 )}
