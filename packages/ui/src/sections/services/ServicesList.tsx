@@ -28,7 +28,7 @@ export function ServicesList({
   const layoutClass = columns >= 3
     ? "grid grid-cols-1 md:grid-cols-3 gap-spacing-md"
     : columns === 2
-      ? "grid grid-cols-1 md:grid-cols-2 gap-spacing-md"
+      ? "grid grid-cols-1 md:grid-cols-2 gap-x-spacing-3xl gap-y-spacing-md"
       : "space-y-spacing-md";
 
   return (
