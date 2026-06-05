@@ -72,7 +72,10 @@ type TaskManagerProps = {
   businessPages?: BusinessPageMeta[];
 };
 
-const TEMPLATE_OPTIONS = [
+// Fallback used only if the templates API is unreachable. The live list is
+// fetched from /api/admin/templates so new templates from the repo show up
+// without editing this file.
+const FALLBACK_TEMPLATE_OPTIONS = [
   { value: "template-specialist", label: "template-specialist" },
   { value: "template-law", label: "template-law" },
   { value: "template-tech", label: "template-tech" },
@@ -188,6 +191,7 @@ export default function TaskManager({
   // Form state
   const [domain, setDomain] = useState(currentDomain);
   const [template, setTemplate] = useState(currentTemplate || "specialist");
+  const [templateOptions, setTemplateOptions] = useState(FALLBACK_TEMPLATE_OPTIONS);
   const [isAdminPanel, setIsAdminPanel] = useState(false);
   const [page, setPage] = useState<string | null>(null);
   const [section, setSection] = useState<string | null>(null);
@@ -201,6 +205,23 @@ export default function TaskManager({
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [sendingAnswer, setSendingAnswer] = useState<Record<string, boolean>>({});
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
+
+  // Load the live template list from the repo's templates/ folder
+  useEffect(() => {
+    let cancelled = false;
+    fetchWithRefresh("/api/admin/templates")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data?.templates?.length) return;
+        setTemplateOptions(
+          data.templates.map((name: string) => ({ value: name, label: name }))
+        );
+      })
+      .catch(() => {/* keep fallback list */});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // When switching between site/admin mode, reset page/section
   useEffect(() => {
@@ -378,7 +399,7 @@ export default function TaskManager({
                     <SelectValue placeholder="Select template" />
                   </SelectTrigger>
                   <SelectContent>
-                    {TEMPLATE_OPTIONS.map((t) => (
+                    {templateOptions.map((t) => (
                       <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
                     ))}
                   </SelectContent>

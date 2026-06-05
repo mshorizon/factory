@@ -111,6 +111,10 @@ export type NavbarLogoFont = "body" | "heading";
  */
 export type NavbarLogoColor = string;
 /**
+ * Fixed color for the navbar links (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior.
+ */
+export type NavbarLinkColor = string;
+/**
  * Hide the icon (arrow/clock) inside the navbar CTA button.
  */
 export type NavbarCTAHideIcon = boolean;
@@ -208,9 +212,39 @@ export type FooterVariant =
   | "branded"
   | "stacked"
   | "gradient"
-  | "darkColumns";
+  | "darkColumns"
+  | "restaurant";
 export type CopyrightText = string;
+/**
+ * Footer tagline. Use \n to split across multiple lines.
+ */
 export type Tagline = string;
+/**
+ * Optional list of hex colors rendered as a segmented accent bar under the logo (e.g. an Italian flag).
+ */
+export type BrandFlagColors = string[];
+/**
+ * Heading for the address/phone column (restaurant variant).
+ */
+export type FindUsColumnTitle = string;
+/**
+ * Heading for the opening-hours column (restaurant variant).
+ */
+export type OpeningHoursColumnTitle = string;
+export type DayLabel = string;
+export type HoursValue = string;
+/**
+ * Render the value in the primary accent color
+ */
+export type HighlightRow = boolean;
+/**
+ * Structured opening-hours rows (restaurant variant).
+ */
+export type OpeningHoursRows = FooterHoursRow[];
+/**
+ * Italic signature line shown on the right of the bottom bar (restaurant variant).
+ */
+export type FooterSignature = string;
 export type Label = string;
 export type TargetType = "page" | "section" | "external" | "phone" | "email";
 export type TargetValue = string;
@@ -322,6 +356,14 @@ export type MapPanelButtonColor = "primary" | "primary-light";
 export type HeaderDecorativeLineColor = "primary" | "foreground";
 export type InvertStatColorsLightBgDarkText = boolean;
 export type DetailsButtonLabelEGSeeDetailsLearnMore = string;
+/**
+ * Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant.
+ */
+export type ServicesColumnCount = 1 | 2 | 3;
+/**
+ * Supplementary text rendered in italic below the section content (e.g. below the services list).
+ */
+export type SectionFootnote = string;
 export type AvatarImageURL1 = string;
 export type AvatarImageURL2 = string;
 export type Testimonials = {
@@ -349,6 +391,10 @@ export type Metric = string;
 export type MetricLabel = string;
 export type StartDate = string;
 export type EndDate = string;
+/**
+ * Short note shown top-right of an event card (e.g. 'Limited seats').
+ */
+export type MetaNote = string;
 export type LinkURL = string;
 export type LinkLabel = string;
 /**
@@ -362,6 +408,30 @@ export type TabLabel = string;
  * Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.
  */
 export type ServiceCategoryTabs = ServiceCategory[];
+/**
+ * Rendered in uppercase.
+ */
+export type SignatureText = string;
+/**
+ * Optional. When omitted, the theme navLogoFlag gradient is used.
+ */
+export type FlagImageURL = string;
+/**
+ * Rendered as an italic blockquote with curly quotes.
+ */
+export type QuoteText = string;
+/**
+ * Rendered in uppercase below the quote.
+ */
+export type Author = string;
+/**
+ * Optional. When omitted, the theme navLogoFlag gradient bar is used.
+ */
+export type FlagImageURL1 = string;
+/**
+ * Optional paragraph rendered below a divider.
+ */
+export type NoteParagraph = string;
 export type Timeline = TimelineItem[];
 /**
  * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
@@ -566,6 +636,7 @@ export interface Theme {
   navLogoUppercase?: NavbarLogoUppercase;
   navLogoFont?: NavbarLogoFont;
   navLogoColor?: NavbarLogoColor;
+  navLinkColor?: NavbarLinkColor;
   navCtaHideIcon?: NavbarCTAHideIcon;
   heroCtaHideIcon?: HeroCTAHideIcon;
   heroTextThemeColors?: HeroTextUsesThemeColors;
@@ -650,11 +721,21 @@ export interface FooterConfig {
   variant?: FooterVariant;
   copyright?: CopyrightText;
   tagline?: Tagline;
+  flag?: BrandFlagColors;
+  findUsTitle?: FindUsColumnTitle;
+  hoursTitle?: OpeningHoursColumnTitle;
+  hours?: OpeningHoursRows;
+  signature?: FooterSignature;
   links?: FooterLinks;
   columns?: FooterColumns;
   name?: FooterDisplayName;
   background?: FooterBackground;
   extensions?: FooterExtensions;
+}
+export interface FooterHoursRow {
+  label: DayLabel;
+  value: HoursValue;
+  highlight?: HighlightRow;
 }
 export interface Link {
   label: Label;
@@ -721,6 +802,8 @@ export interface Section {
   cta?: Cta1;
   secondaryCta?: Cta1;
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
+  columns?: ServicesColumnCount;
+  footnote?: SectionFootnote;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
   titleAccent?: TitleAccent;
@@ -731,11 +814,13 @@ export interface Section {
     title?: string;
     content?: string;
   };
+  signature?: SignatureRow;
   stats?: StatItem[];
   commitment?: {
     title?: string;
     content?: string;
   };
+  quote?: QuotePanel;
   timeline?: Timeline;
   info?: ContactInfo;
   form?: ContactForm;
@@ -812,6 +897,7 @@ export interface ServiceItem {
   metricLabel?: MetricLabel;
   dateStart?: StartDate;
   dateEnd?: EndDate;
+  meta?: MetaNote;
   href?: LinkURL;
   linkLabel?: LinkLabel;
   category?: Category;
@@ -820,9 +906,25 @@ export interface ServiceCategory {
   id: CategoryID;
   label: TabLabel;
 }
+/**
+ * Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.
+ */
+export interface SignatureRow {
+  text?: SignatureText;
+  flag?: FlagImageURL;
+}
 export interface StatItem {
   value?: string;
   label?: string;
+}
+/**
+ * Right-side quote panel for the about "quote-split" variant: a small flag accent, an italic quote, an author line, a divider, a note paragraph and (via the section cta) a call to action.
+ */
+export interface QuotePanel {
+  text?: QuoteText;
+  author?: Author;
+  flag?: FlagImageURL1;
+  note?: NoteParagraph;
 }
 export interface TimelineItem {
   year?: string;

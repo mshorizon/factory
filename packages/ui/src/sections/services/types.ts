@@ -34,4 +34,6 @@ export interface ServicesProps {
   title?: string;
   /** Render lucide icons from item.icon in primary color above each service card's accent line. */
   showIcons?: boolean;
+  /** Number of columns for the list layout (1, 2, or 3). Defaults to 1 (single column). */
+  columns?: number;
 }

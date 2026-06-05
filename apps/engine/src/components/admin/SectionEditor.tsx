@@ -29,9 +29,14 @@ const VARIANT_OPTIONS: Record<string, { value: string; label: string }[]> = {
   contact: [
     { value: "centered", label: "Centered" },
     { value: "split", label: "Split" },
+    { value: "restaurant", label: "Restaurant" },
   ],
   shop: [{ value: "grid", label: "Grid" }],
-  gallery: [{ value: "default", label: "Default" }],
+  gallery: [
+    { value: "default", label: "Default" },
+    { value: "showcase", label: "Showcase" },
+    { value: "mosaic", label: "Mosaic" },
+  ],
   testimonials: [
     { value: "default", label: "Default" },
     { value: "gradient", label: "Gradient" },

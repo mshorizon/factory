@@ -13,6 +13,7 @@ export function ServicesList({
   ctaHref = "/contact",
   className,
   categories,
+  columns = 1,
 }: ServicesProps) {
   const hasTabs = !!categories && categories.length > 0;
   const [activeCategory, setActiveCategory] = useState(hasTabs ? categories![0].id : "");
@@ -22,12 +23,23 @@ export function ServicesList({
     .map((item, index) => ({ item, index }))
     .filter(({ item }) => !hasTabs || item.category === activeCategory);
 
+  // Static class map so Tailwind JIT can detect the grid-cols utilities.
+  const layoutClass = columns >= 3
+    ? "grid grid-cols-1 md:grid-cols-3 gap-spacing-md"
+    : columns === 2
+      ? "grid grid-cols-1 md:grid-cols-2 gap-spacing-md"
+      : "space-y-spacing-md";
+
   return (
     <div className={className}>
       {hasTabs && (
-        <div className="flex flex-wrap justify-center gap-spacing-xs mb-spacing-2xl" role="tablist">
+        <div className="flex flex-wrap justify-center gap-x-spacing-3xl gap-y-spacing-md border-b border-border mb-spacing-2xl" role="tablist">
           {categories!.map((cat) => {
             const active = cat.id === activeCategory;
+            // Split "Main (Subtitle)" so the parenthetical can be accented on the active tab.
+            const match = cat.label.match(/^(.*?)\s*(\(.*\))\s*$/);
+            const main = match ? match[1] : cat.label;
+            const paren = match ? match[2] : "";
             return (
               <button
                 key={cat.id}
@@ -36,20 +48,25 @@ export function ServicesList({
                 aria-selected={active}
                 onClick={() => setActiveCategory(cat.id)}
                 className={cn(
-                  "services-tab px-spacing-lg py-spacing-xs text-sm font-medium rounded-radius transition-colors",
+                  "services-tab relative -mb-px pb-spacing-md text-lg border-b-2 transition-colors whitespace-nowrap",
                   active
-                    ? "bg-primary text-on-primary"
-                    : "text-muted hover:text-foreground"
+                    ? "border-primary text-foreground font-semibold"
+                    : "border-transparent text-muted font-medium hover:text-foreground"
                 )}
                 data-active={active ? "1" : undefined}
               >
-                {cat.label}
+                {main}
+                {paren && (
+                  <span className={cn("ml-spacing-xs", active ? "text-primary" : undefined)}>
+                    {paren}
+                  </span>
+                )}
               </button>
             );
           })}
         </div>
       )}
-      <StaggerContainer key={activeCategory} className="space-y-spacing-md" staggerDelay={0.1}>
+      <StaggerContainer key={activeCategory} className={layoutClass} staggerDelay={0.1}>
         {visiblePairs.map(({ item, index }, renderIndex) => {
         // Alternate left/right for list items
         const direction = renderIndex % 2 === 0 ? "left" : "right";

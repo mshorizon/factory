@@ -176,9 +176,23 @@ const secondaryCta = section.secondaryCta ? {
         max-width: 80rem;
         margin: 0 auto;
       }
-      .hero-fold__badge {
+      /* Country flag above the badge, reusing the same gradient as the navbar
+         logo flag (--nav-logo-flag). Hidden unless theme.navLogoFlag is set. */
+      .hero-fold__flag { display: none; }
+      [data-nav-logo-flag="1"] .hero-fold__flag {
+        display: block;
+        width: 2.5rem;
+        height: 1.625rem;
+        margin: 0 auto 0.75rem auto;
+        background: var(--nav-logo-flag);
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         opacity: 0;
         animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0s forwards;
+      }
+      .hero-fold__badge {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.05s forwards;
         color: var(--primary, #d94a26);
         text-transform: uppercase;
         font-size: 0.875rem;
@@ -250,6 +264,7 @@ const secondaryCta = section.secondaryCta ? {
         </>
       )}
       <div class="hero-fold__content">
+        <div class="hero-fold__flag" aria-hidden="true"></div>
         {header.badge && (
           <div class="hero-fold__badge">{header.badge}</div>
         )}

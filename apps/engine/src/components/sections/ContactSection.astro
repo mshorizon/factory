@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional, SectionHeader } from "@mshorizon/ui";
+import { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional, ContactRestaurant, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -20,12 +20,36 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 // Resolve CTA href from target
 const ctaHref = section.cta?.target?.type === "phone"
   ? `tel:${section.cta.target.value || ""}`
-  : section.cta?.target?.value
-    ? (section.cta.target.value === "home" ? "/" : `/${section.cta.target.value}`)
-    : "/contact";
+  : section.cta?.target?.type === "external"
+    ? (section.cta.target.value || "#")
+    : section.cta?.target?.value
+      ? (section.cta.target.value === "home" ? "/" : `/${section.cta.target.value}`)
+      : "/contact";
+
+// Socials for the restaurant variant (derived from business.contact socials).
+const socialsObj = (business?.business?.socials ?? {}) as Record<string, string>;
+const socials = Object.entries(socialsObj)
+  .filter(([, url]) => Boolean(url))
+  .map(([platform, url]) => ({ platform, url }));
 ---
 
-{variant === "professional" ? (
+{variant === "restaurant" ? (
+  <section>
+    <div class="container mx-auto">
+      <ContactRestaurant
+        client:visible
+        badge={header.badge}
+        title={header.title}
+        subtitle={header.subtitle}
+        info={section.info}
+        socials={socials}
+        ctaLabel={section.cta?.label}
+        ctaHref={ctaHref}
+        labels={section.labels as any}
+      />
+    </div>
+  </section>
+) : variant === "professional" ? (
   <section>
     <div class="container mx-auto">
       <ContactProfessional

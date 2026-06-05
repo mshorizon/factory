@@ -1,2 +1,3 @@
 export { EventsDefault } from "./EventsDefault";
-export type { EventsDefaultProps, EventItem } from "./types";
+export { EventsCards } from "./EventsCards";
+export type { EventsDefaultProps, EventsCardsProps, EventItem } from "./types";

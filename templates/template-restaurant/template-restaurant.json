@@ -42,6 +42,7 @@
     },
     "ui": {
       "radius": "0px",
+      "radiusSm": "0px",
       "spacing": {
         "xs": "0.5rem",
         "sm": "0.75rem",
@@ -56,15 +57,16 @@
       }
     },
     "headingWeight": "400",
+    "maxFontWeight": "400",
     "contentWidth": "1488px",
     "servicesListDivider": true,
     "servicesNotClickable": true,
-    "servicesMaxWidth": "848px",
     "navFontSize": "13px",
     "navLogoWeight": "400",
     "navLogoUppercase": true,
     "navLogoFont": "heading",
     "navLogoColor": "#f0ebdb",
+    "navLinkColor": "#c2baa3",
     "navCtaHideIcon": true,
     "heroCtaHideIcon": true,
     "heroTextThemeColors": true,
@@ -78,9 +80,19 @@
   "layout": {
     "navbar": { "variant": "transparent", "hideLogoIcon": true },
     "footer": {
-      "variant": "minimal",
-      "copyright": "2026 Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
-      "tagline": "Kawałek Neapolu w sercu Garwolina.",
+      "variant": "restaurant",
+      "name": "Nostrano",
+      "copyright": "© {year} Restauracja Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
+      "tagline": "Kawałek Neapolu w sercu Garwolina.\nRestauracja i pizzeria rzemieślnicza.",
+      "flag": ["#008C45", "#F4F5F0", "#CD212A"],
+      "findUsTitle": "Znajdź nas",
+      "hoursTitle": "Godziny otwarcia",
+      "hours": [
+        { "label": "Poniedziałek", "value": "Zamknięte" },
+        { "label": "Wt – Czw, Niedz", "value": "13:00 – 21:00" },
+        { "label": "Piątek – Sobota", "value": "13:00 – 23:00", "highlight": true }
+      ],
+      "signature": "Fatto con amore — con cuore italiano",
       "links": [
         { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com/nostrano.garwolin" } },
         { "label": "Facebook", "target": { "type": "external", "value": "https://facebook.com/nostrano.garwolin" } }
@@ -102,6 +114,7 @@
           "variant": "default",
           "backgroundImage": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/hero-nostrano.jpg",
           "header": {
+            "badge": "restaurant",
             "title": "Nostrano",
             "subtitle": "Kawałek Neapolu w sercu Garwolina"
           },
@@ -118,19 +131,24 @@
           "story": {
             "title": "Pasja, rzemiosło, prostota",
             "content": "Nostrano to po włosku „nasze\" i „lokalne\". To nie jest kolejna sieciówka ani miejsce turystyczne. To nasz osobisty projekt, miejsce zrodzone z pasji do rzemiosła i miłości do niespiesznego celebrowania posiłków.\n\nStworzyliśmy Nostrano – bracia Piotr i Paweł Ściślak – by przenieść ułamek neapolitańskiej duszy do naszego rodzinnego miasta. Piotr, szkolony w prestiżowej Akademii Pizzaioli oraz pod czujnym okiem Arte Bianca Patryka Nowakowskiego, pilnuje, aby każdy placek wychodzący z naszego pieca był doskonały.\n\nNasza kuchnia to hołd dla prostoty. Tylko najlepsze składniki, rzemieślnicze podejście do każdego detalu i cierpliwość, której wymaga prawdziwa pizza."
+          },
+          "signature": {
+            "text": "Fatto con amore — con cuore italiano"
           }
         },
         {
           "type": "services",
           "variant": "list",
+          "badgeVariant": "accent-no-line",
+          "columns": 2,
           "header": {
             "badge": "Degustazione",
-            "title": "Menu Highlights"
+            "title": "Menu"
           },
           "serviceCategories": [
-            { "id": "przystawki", "label": "Przystawki" },
-            { "id": "pizza", "label": "Pizza" },
-            { "id": "salatki", "label": "Sałatki" }
+            { "id": "przystawki", "label": "Przystawki (Antipasti)" },
+            { "id": "pizza", "label": "Pizza (La Pizza)" },
+            { "id": "salatki", "label": "Sałatki (Insalate)" }
           ],
           "items": [
             { "id": "krem-pomidorowy", "category": "przystawki", "title": "Krem z pomidorów pelati z mascarpone", "description": "Aksamitny krem, świeża bazylia", "price": "23 zł" },
@@ -142,13 +160,14 @@
             { "id": "pizza-neapolitanska", "category": "pizza", "title": "Pizza Neapolitańska", "description": "Gwiazda naszego lokalu, dojrzewające ciasto, pomidory San Marzano", "price": "od 35 zł" },
             { "id": "caesar", "category": "salatki", "title": "Insalata Caesar z krewetkami", "description": "Klasyczny sos, rzymska sałata, parmezan", "price": "47 zł" }
           ],
+          "footnote": "Ask the staff about the full menu and seasonal specials.",
           "cta": { "label": "Zarezerwuj stolik", "target": { "type": "page", "value": "contact" } }
         },
         {
           "type": "features",
-          "variant": "compact",
+          "variant": "numbered-split",
           "header": {
-            "badge": "Filosofia",
+            "badge": "Filozofia",
             "title": "Dlaczego Nostrano?"
           },
           "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&h=900&fit=crop",
@@ -177,7 +196,7 @@
         },
         {
           "type": "events",
-          "variant": "default",
+          "variant": "cards",
           "header": {
             "badge": "Vita a Nostrano",
             "title": "Wydarzenia"
@@ -186,21 +205,24 @@
             {
               "title": "Pizza dla Najmłodszych",
               "description": "Zapraszamy dzieci na warsztaty wyrabiania prawdziwego ciasta neapolitańskiego. Każdy mały pizzaiolo wychodzi z dumą i własnoręcznie zrobionym plackiem.",
-              "image": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=900&h=400&fit=crop",
+              "tags": ["Warsztaty"],
+              "meta": "Miejsca ograniczone",
               "dateStart": "Czerwiec 2025",
               "linkLabel": "Zapytaj o szczegóły"
             },
             {
               "title": "Wieczór z Winem Włoskim",
               "description": "Degustacja starannie wybranych win z południa Włoch w towarzystwie przystawek. Idealne dla tych, którzy chcą odkrywać włoskie regiony szklanką w ręku.",
-              "image": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=900&h=400&fit=crop",
+              "tags": ["Degustacja"],
+              "meta": "Rezerwacja wymagana",
               "dateStart": "Co drugi piątek",
               "linkLabel": "Zapytaj o szczegóły"
             },
             {
               "title": "Wieczory z Włoskim Kinem",
               "description": "Klimatyczne pokazy włoskich filmów z napisami. Cannes, Rzym, Neapol — przenosimy was w podróż bez wychodzenia z Garwolina.",
-              "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=900&h=400&fit=crop",
+              "tags": ["Kultura"],
+              "meta": "Wstęp wolny",
               "dateStart": "Niebawem",
               "linkLabel": "Zapytaj o szczegóły"
             }
@@ -208,26 +230,30 @@
         },
         {
           "type": "about",
-          "variant": "story",
-          "imagePosition": "right",
+          "variant": "quote-split",
+          "background": "dark",
           "header": {
             "badge": "I Bambini",
             "title": "Strefa dla Najmłodszych"
           },
-          "image": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&h=800&fit=crop",
           "story": {
-            "title": "Kącik dla dzieci, oddech dla rodziców",
-            "content": "Wiemy, że kolacja z dziećmi bywa wyzwaniem. Dlatego stworzyliśmy specjalny kącik dla najmłodszych — z zabawkami, książkami i miejscem do rysowania — żebyś ty mógł na chwilę odetchnąć i cieszyć się posiłkiem.\n\nNostrano to nie lokal imprezowy. To miejsce, gdzie rodziny mogą spędzić wspólny wieczór przy prawdziwym jedzeniu, bez pośpiechu i bez stresu.\n\n„Jedzenie jest najpiękniejszą formą wspólnego spędzania czasu.\" — Piotr i Paweł Ściślak, właściciele"
+            "content": "Wiemy, że kolacja z dziećmi bywa wyzwaniem. Dlatego stworzyliśmy specjalny kącik dla najmłodszych — z zabawkami, książkami i miejscem do rysowania — żebyś ty mógł na chwilę odetchnąć i cieszyć się posiłkiem.\n\nNostrano to nie lokal imprezowy. To miejsce, gdzie rodziny mogą spędzić wspólny wieczór przy prawdziwym jedzeniu, bez pośpiechu i bez stresu."
           },
           "stats": [
             { "value": "Zabawki", "label": "kącik zabaw" },
             { "value": "Książki", "label": "dla wszystkich" },
             { "value": "Rysunki", "label": "kredki i papier" }
-          ]
+          ],
+          "quote": {
+            "text": "Jedzenie jest najpiękniejszą formą wspólnego spędzania czasu.",
+            "author": "Piotr i Paweł Ściślak, właściciele",
+            "note": "Planujemy warsztaty pizzy dla dzieci — wpisz się na listę i bądź pierwszy."
+          },
+          "cta": { "label": "Zapisz dziecko", "target": { "type": "page", "value": "contact" } }
         },
         {
           "type": "gallery",
-          "variant": "default",
+          "variant": "mosaic",
           "header": {
             "badge": "La Nostra Arte",
             "title": "Galeria"
@@ -267,7 +293,7 @@
         },
         {
           "type": "contact",
-          "variant": "split",
+          "variant": "restaurant",
           "header": {
             "badge": "Rezerwacje",
             "title": "Czekamy na Ciebie",

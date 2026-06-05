@@ -45,6 +45,16 @@
         }
       }
     },
+    "footerHoursRow": {
+      "type": "object",
+      "title": "FooterHoursRow",
+      "properties": {
+        "label": { "type": "string", "title": "Day Label" },
+        "value": { "type": "string", "title": "Hours Value" },
+        "highlight": { "type": "boolean", "title": "Highlight Row", "description": "Render the value in the primary accent color", "default": false }
+      },
+      "required": ["label", "value"]
+    },
     "sectionHeader": {
       "type": "object",
       "title": "SectionHeader",
@@ -186,6 +196,8 @@
         "cta": { "$ref": "#/definitions/cta" },
         "secondaryCta": { "$ref": "#/definitions/cta" },
         "detailsLabel": { "type": "string", "title": "Details Button Label (e.g. 'See details', 'Learn more')" },
+        "columns": { "type": "integer", "title": "Services Column Count", "enum": [1, 2, 3], "description": "Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant." },
+        "footnote": { "type": "string", "title": "Section Footnote", "description": "Supplementary text rendered in italic below the section content (e.g. below the services list)." },
         "testimonial": {
           "type": "object",
           "title": "Testimonial",
@@ -262,6 +274,7 @@
               "metricLabel": { "type": "string", "title": "Metric Label" },
               "dateStart": { "type": "string", "title": "Start Date" },
               "dateEnd": { "type": "string", "title": "End Date" },
+              "meta": { "type": "string", "title": "Meta Note", "description": "Short note shown top-right of an event card (e.g. 'Limited seats')." },
               "href": { "type": "string", "title": "Link URL" },
               "linkLabel": { "type": "string", "title": "Link Label" },
               "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." }
@@ -289,6 +302,15 @@
             "content": { "type": "string" }
           }
         },
+        "signature": {
+          "type": "object",
+          "title": "Signature Row",
+          "description": "Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.",
+          "properties": {
+            "text": { "type": "string", "title": "Signature Text", "description": "Rendered in uppercase." },
+            "flag": { "type": "string", "title": "Flag Image URL", "description": "Optional. When omitted, the theme navLogoFlag gradient is used." }
+          }
+        },
         "stats": {
           "type": "array",
           "items": {
@@ -305,6 +327,17 @@
           "properties": {
             "title": { "type": "string" },
             "content": { "type": "string" }
+          }
+        },
+        "quote": {
+          "type": "object",
+          "title": "Quote Panel",
+          "description": "Right-side quote panel for the about \"quote-split\" variant: a small flag accent, an italic quote, an author line, a divider, a note paragraph and (via the section cta) a call to action.",
+          "properties": {
+            "text": { "type": "string", "title": "Quote Text", "description": "Rendered as an italic blockquote with curly quotes." },
+            "author": { "type": "string", "title": "Author", "description": "Rendered in uppercase below the quote." },
+            "flag": { "type": "string", "title": "Flag Image URL", "description": "Optional. When omitted, the theme navLogoFlag gradient bar is used." },
+            "note": { "type": "string", "title": "Note Paragraph", "description": "Optional paragraph rendered below a divider." }
           }
         },
         "timeline": {
@@ -952,6 +985,7 @@
         "navLogoUppercase": { "type": "boolean", "title": "Navbar Logo Uppercase", "description": "Render the navbar logo text in uppercase.", "default": false },
         "navLogoFont": { "type": "string", "title": "Navbar Logo Font", "description": "Which theme font the navbar logo text uses: \"body\" (typography.primary) or \"heading\" (typography.secondary).", "enum": ["body", "heading"], "default": "body" },
         "navLogoColor": { "type": "string", "title": "Navbar Logo Color", "description": "Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
+        "navLinkColor": { "type": "string", "title": "Navbar Link Color", "description": "Fixed color for the navbar links (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
         "navCtaHideIcon": { "type": "boolean", "title": "Navbar CTA Hide Icon", "description": "Hide the icon (arrow/clock) inside the navbar CTA button.", "default": false },
         "heroCtaHideIcon": { "type": "boolean", "title": "Hero CTA Hide Icon", "description": "Hide the arrow icon inside the hero section CTA button.", "default": false },
         "heroTextThemeColors": { "type": "boolean", "title": "Hero Text Uses Theme Colors", "description": "Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.", "default": false },
@@ -1065,11 +1099,26 @@
             "variant": {
               "type": "string",
               "title": "Footer Variant",
-              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient", "darkColumns"],
+              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient", "darkColumns", "restaurant"],
               "default": "simple"
             },
             "copyright": { "type": "string", "title": "Copyright Text" },
-            "tagline": { "type": "string", "title": "Tagline" },
+            "tagline": { "type": "string", "title": "Tagline", "description": "Footer tagline. Use \\n to split across multiple lines." },
+            "flag": {
+              "type": "array",
+              "title": "Brand Flag Colors",
+              "description": "Optional list of hex colors rendered as a segmented accent bar under the logo (e.g. an Italian flag).",
+              "items": { "type": "string" }
+            },
+            "findUsTitle": { "type": "string", "title": "Find-Us Column Title", "description": "Heading for the address/phone column (restaurant variant)." },
+            "hoursTitle": { "type": "string", "title": "Opening-Hours Column Title", "description": "Heading for the opening-hours column (restaurant variant)." },
+            "hours": {
+              "type": "array",
+              "title": "Opening Hours Rows",
+              "description": "Structured opening-hours rows (restaurant variant).",
+              "items": { "$ref": "#/definitions/footerHoursRow" }
+            },
+            "signature": { "type": "string", "title": "Footer Signature", "description": "Italic signature line shown on the right of the bottom bar (restaurant variant)." },
             "links": {
               "type": "array",
               "title": "Footer Links",

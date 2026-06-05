@@ -14,10 +14,18 @@ export interface StoryContent {
   content?: string;
 }
 
+export interface SignatureRow {
+  /** Rendered in uppercase. */
+  text?: string;
+  /** Optional flag image URL. When omitted, the theme navLogoFlag gradient is used. */
+  flag?: string;
+}
+
 export interface AboutStoryProps {
   badge?: string;
   title?: string;
   story?: StoryContent;
+  signature?: SignatureRow;
   stats?: StatItem[];
   commitment?: StoryContent;
   image?: string;
@@ -30,6 +38,26 @@ export interface AboutStoryProps {
   background?: string;
   imagePosition?: "left" | "right";
   ctaVariant?: "accent" | "primaryLight";
+}
+
+export interface QuotePanel {
+  text?: string;
+  author?: string;
+  /** Optional flag image URL. When omitted, the theme navLogoFlag gradient bar is used. */
+  flag?: string;
+  note?: string;
+}
+
+export interface AboutQuoteSplitProps {
+  badge?: string;
+  title?: string;
+  story?: StoryContent;
+  stats?: StatItem[];
+  quote?: QuotePanel;
+  cta?: string;
+  ctaHref?: string;
+  className?: string;
+  background?: string;
 }
 
 export interface CareerItem {

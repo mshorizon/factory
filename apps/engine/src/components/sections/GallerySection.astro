@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { GalleryGrid, GalleryShowcase, SectionHeader } from "@mshorizon/ui";
+import { GalleryGrid, GalleryShowcase, GalleryMosaic, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -34,6 +34,8 @@ const exploreLabel = section.cta?.label || section.exploreLabel;
         exploreLabel={exploreLabel}
         exploreHref={exploreHref}
       />
+    ) : variant === "mosaic" ? (
+      <GalleryMosaic client:visible items={items} />
     ) : (
       <GalleryGrid client:visible items={items} />
     )}

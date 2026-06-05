@@ -28,6 +28,9 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 const detailsLabel = section.detailsLabel;
 const showIcons = !!(section as any).showIcons;
 const serviceCategories = (section as any).serviceCategories as { id: string; label: string }[] | undefined;
+const columns = (section as any).columns as number | undefined;
+const footnote = (section as any).footnote as string | undefined;
+const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
 ---
 
 <section>
@@ -39,12 +42,12 @@ const serviceCategories = (section as any).serviceCategories as { id: string; la
       layout={headerLayout as any}
       align={headerAlign as any}
       background={section.background}
-      badgeVariant={badgeVariant as any}
+      badgeVariant={sectionBadgeVariant as any}
       className={variant === "alternating" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
       revealDelay={0}
     />
     {variant === "list" ? (
-      <ServicesList client:visible items={items} categories={serviceCategories} />
+      <ServicesList client:visible items={items} categories={serviceCategories} columns={columns} />
     ) : variant === "imageGrid" ? (
       <ServicesImageGrid client:visible items={items} />
     ) : variant === "darkCards" ? (
@@ -55,6 +58,11 @@ const serviceCategories = (section as any).serviceCategories as { id: string; la
       <ServicesAlternating client:visible items={items} />
     ) : (
       <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} />
+    )}
+    {footnote && (
+      <p class={`mt-spacing-lg italic text-muted ${headerAlign === "left" ? "text-left" : "text-center"}`} data-field="footnote">
+        {footnote}
+      </p>
     )}
     {ctaLabel && (
       <div class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>
