@@ -116,7 +116,7 @@ export function HeroDefault({
                   asChild
                   size="xl"
                   variant={secondaryCta.variant || "outline"}
-                  className={backgroundImage ? "border-on-primary text-on-primary hover:bg-on-primary hover:text-foreground" : ""}
+                  className={backgroundImage ? "border-on-primary/70 text-on-primary hover:bg-on-primary/10 hover:border-on-primary hover:text-on-primary" : ""}
                   data-field="secondaryCta"
                 >
                   <a href={secondaryCta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero-secondary', label: secondaryCta.label })}>{secondaryCta.label}</a>
