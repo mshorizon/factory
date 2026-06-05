@@ -108,7 +108,7 @@
     }
   },
   "navigation": {
-    "cta": { "label": "Rezerwacja", "target": { "type": "page", "value": "contact" } }
+    "cta": { "label": "Rezerwacja", "target": { "type": "section", "value": "contact-7" } }
   },
   "data": {
     "services": []
