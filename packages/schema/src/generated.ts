@@ -389,6 +389,10 @@ export type BackgroundImageURL = string;
 export type ImageURL = string;
 export type HideDecorativeDots = boolean;
 export type ImagePosition = "left" | "right";
+/**
+ * When false, renders the section image with square (un-rounded) corners. Defaults to true (rounded).
+ */
+export type RoundImageCorners = boolean;
 export type BadgeLayoutDirection = "row" | "column";
 export type SectionLevelBadgeVariantOverride = "accent" | "accent-no-line" | "outlined" | "text";
 export type BadgeTextColorOverride = string;
@@ -858,6 +862,7 @@ export interface Section {
   image?: ImageURL;
   hideDots?: HideDecorativeDots;
   imagePosition?: ImagePosition;
+  imageRounded?: RoundImageCorners;
   badgeLayout?: BadgeLayoutDirection;
   badgeVariant?: SectionLevelBadgeVariantOverride;
   badgeColor?: BadgeTextColorOverride;

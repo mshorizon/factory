@@ -26,6 +26,7 @@ export function AboutStory({
   background,
   imagePosition = "left",
   ctaVariant = "accent",
+  imageRounded = true,
 }: AboutStoryProps) {
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
@@ -39,7 +40,10 @@ export function AboutStory({
         <SafeImage
           src={image}
           alt=""
-          className="w-[448px] max-w-full h-[500px] object-cover rounded-[var(--radius-lg)] shadow-lg"
+          className={cn(
+            "w-[448px] max-w-full h-[500px] object-cover shadow-lg",
+            imageRounded && "rounded-[var(--radius-lg)]"
+          )}
           data-field="image"
           loading="lazy"
           decoding="async"

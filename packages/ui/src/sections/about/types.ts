@@ -38,6 +38,8 @@ export interface AboutStoryProps {
   background?: string;
   imagePosition?: "left" | "right";
   ctaVariant?: "accent" | "primaryLight";
+  /** When false, renders the image with square corners. Defaults to true (rounded). */
+  imageRounded?: boolean;
 }
 
 export interface QuotePanel {
