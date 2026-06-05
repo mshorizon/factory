@@ -7,30 +7,25 @@
   "nav.gallery": "Galeria",
   "nav.contact": "Kontakt",
   "nav.cta": "Rezerwacja",
-
   "footer.copyright": "© {year} Restauracja Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
   "footer.tagline": "Kawałek Neapolu w sercu Garwolina.\nRestauracja i pizzeria rzemieślnicza.",
   "footer.findUs": "Znajdź nas",
   "footer.hours.mon": "Poniedziałek",
   "footer.hours.tueThuSun": "Wt – Czw, Niedz",
   "footer.hours.friSat": "Piątek – Sobota",
-
   "common.closed": "Zamknięte",
   "common.openingHours": "Godziny otwarcia",
   "common.callAndBook": "Zadzwoń i zarezerwuj",
   "common.bookTable": "Zarezerwuj stolik",
   "common.contactHours": "Wt-Czw 13:00-21:00 · Pt-Sb 13:00-23:00 · Nd 13:00-21:00",
-
   "home.hero.badge": "restauracja",
   "home.hero.subtitle": "Kawałek Neapolu w sercu Garwolina",
   "home.hero.cta": "Zarezerwuj Stolik",
   "home.hero.cta2": "Poznaj nas",
-
   "home.about.badge": "Nasza historia",
   "home.about.title": "Prawdziwy Neapol w sercu Garwolina",
   "home.about.story.title": "Pasja, rzemiosło, prostota",
   "home.about.story.content": "Nostrano to po włosku „nasze\" i „lokalne\". To nie jest kolejna sieciówka ani miejsce turystyczne. To nasz osobisty projekt, miejsce zrodzone z pasji do rzemiosła i miłości do niespiesznego celebrowania posiłków.\n\nStworzyliśmy Nostrano – bracia Piotr i Paweł Ściślak – by przenieść ułamek neapolitańskiej duszy do naszego rodzinnego miasta. Piotr, szkolony w prestiżowej Akademii Pizzaioli oraz pod czujnym okiem Arte Bianca Patryka Nowakowskiego, pilnuje, aby każdy placek wychodzący z naszego pieca był doskonały.\n\nNasza kuchnia to hołd dla prostoty. Tylko najlepsze składniki, rzemieślnicze podejście do każdego detalu i cierpliwość, której wymaga prawdziwa pizza.",
-
   "home.menu.title": "Menu",
   "home.menu.cat.antipasti": "Przystawki (Antipasti)",
   "home.menu.cat.pizza": "Pizza (La Pizza)",
@@ -51,7 +46,6 @@
   "home.menu.items.caesar.title": "Insalata Caesar z krewetkami",
   "home.menu.items.caesar.desc": "Klasyczny sos, rzymska sałata, parmezan",
   "home.menu.footnote": "Zapytaj obsługę o pełne menu i sezonowe specjały.",
-
   "home.features.badge": "Filozofia",
   "home.features.title": "Dlaczego Nostrano?",
   "home.features.items.0.title": "Rzemieślnicza Pasja",
@@ -62,7 +56,6 @@
   "home.features.items.2.desc": "Rodzinny klimat, kącik dla dzieci i uśmiech na twarzy. Miejsce, gdzie społeczność Garwolina spotyka się przy dobrym jedzeniu.",
   "home.features.items.3.title": "Lokalne Wydarzenia",
   "home.features.items.3.desc": "Warsztaty robienia pizzy dla najmłodszych, wieczory z włoskim kinem i degustacje win. Żyjemy życiem miasta.",
-
   "home.events.title": "Wydarzenia",
   "home.events.linkLabel": "Zapytaj o szczegóły",
   "home.events.items.0.title": "Pizza dla Najmłodszych",
@@ -80,7 +73,6 @@
   "home.events.items.2.tag": "Kultura",
   "home.events.items.2.meta": "Wstęp wolny",
   "home.events.items.2.dateStart": "Niebawem",
-
   "home.kids.title": "Strefa dla Najmłodszych",
   "home.kids.content": "Wiemy, że kolacja z dziećmi bywa wyzwaniem. Dlatego stworzyliśmy specjalny kącik dla najmłodszych — z zabawkami, książkami i miejscem do rysowania — żebyś ty mógł na chwilę odetchnąć i cieszyć się posiłkiem.\n\nNostrano to nie lokal imprezowy. To miejsce, gdzie rodziny mogą spędzić wspólny wieczór przy prawdziwym jedzeniu, bez pośpiechu i bez stresu.",
   "home.kids.stats.0.value": "Zabawki",
@@ -93,7 +85,6 @@
   "home.kids.quote.author": "Piotr i Paweł Ściślak, właściciele",
   "home.kids.quote.note": "Planujemy warsztaty pizzy dla dzieci — wpisz się na listę i bądź pierwszy.",
   "home.kids.cta": "Zapisz dziecko",
-
   "home.gallery.title": "Galeria",
   "home.gallery.items.0.desc": "Ciasto dojrzewa 48h",
   "home.gallery.items.1.desc": "Świeże pomidory, bazylia",
@@ -102,7 +93,6 @@
   "home.gallery.items.4.desc": "Rzemieślniczy makaron",
   "home.gallery.items.5.title": "Atmosfera",
   "home.gallery.items.5.desc": "Kawałek Neapolu",
-
   "home.contact.badge": "Rezerwacje",
   "home.contact.title": "Czekamy na Ciebie",
   "home.contact.subtitle": "W weekendy nasza sala szybko się zapełnia. Zalecamy wcześniejszą rezerwację stolika.",
@@ -111,16 +101,34 @@
   "home.contact.hoursDetailed.1": "Wtorek – Czwartek — 13:00 – 21:00",
   "home.contact.hoursDetailed.2": "Piątek – Sobota — 13:00 – 23:00",
   "home.contact.hoursDetailed.3": "Niedziela — 13:00 – 21:00",
-
   "form.namePlaceholder": "Jan Kowalski",
   "form.emailPlaceholder": "jan@przyklad.pl",
   "form.messagePlaceholder": "Chciałbym zarezerwować stolik na...",
   "form.nameLabel": "Imię",
   "form.emailLabel": "Email",
   "form.messageLabel": "Wiadomość",
-
   "about.story.content": "Nostrano to po włosku „nasze\" i „lokalne\". Stworzyliśmy je – bracia Piotr i Paweł Ściślak – by przenieść ułamek neapolitańskiej duszy do naszego rodzinnego miasta.\n\nPiotr, szkolony w Akademii Pizzaioli oraz pod okiem Arte Bianca Patryka Nowakowskiego, pilnuje, aby każdy placek wychodzący z pieca był doskonały. Nasza kuchnia to hołd dla prostoty: tylko najlepsze składniki, rzemieślnicze podejście do każdego detalu i cierpliwość, której wymaga prawdziwa pizza.",
   "about.stats.0.label": "Dojrzewanie ciasta",
   "about.stats.1.label": "Składniki z Włoch",
-  "about.stats.2.label": "Bracia, jeden piec"
+  "about.stats.2.label": "Bracia, jeden piec",
+  "home.testimonials.badge": "I NOSTRI OSPITI",
+  "home.testimonials.title": "Co mówią goście",
+  "home.testimonials.subtitle": "Opinie naszych gości są dla nas najważniejszą nagrodą.",
+  "home.testimonials.cta": "Zobacz wszystkie opinie w Google",
+  "home.testimonials.items.0.text": "\"Najlepsza pizza neapolitańska jaką jadłam poza Włochami. Ciasto jest absolutnie wyjątkowe — lekkie, z chrupiącymi brzegami. Obsługa bardzo ciepła i pomocna. Wrócimy na pewno!\"",
+  "home.testimonials.items.0.author": "Agnieszka W.",
+  "home.testimonials.items.0.role": "Pizza Margherita",
+  "home.testimonials.items.0.date": "Maj 2025",
+  "home.testimonials.items.1.text": "\"Klimat rodem z Neapolu — ciepłe światło, kamienne ściany i zapach bazylii od progu. Bruschetta i burrata były doskonałe. Jedno z lepszych miejsc w okolicach Garwolina bez dwóch zdań.\"",
+  "home.testimonials.items.1.author": "Tomasz K.",
+  "home.testimonials.items.1.role": "Bruschetta, Insalata Burrata",
+  "home.testimonials.items.1.date": "Kwiecień 2025",
+  "home.testimonials.items.2.text": "\"Byliśmy tu z całą rodziną — dzieci bawiły się w kąciku, a my spokojnie zjedliśmy kolację. Krewetki w sosie winno-maślanym to majstersztyk. Rzadko piszę opinie, ale tutaj po prostu musiałam.\"",
+  "home.testimonials.items.2.author": "Marta i Krzysztof S.",
+  "home.testimonials.items.2.role": "Krewetki, Pizza Diavola",
+  "home.testimonials.items.2.date": "Kwiecień 2025",
+  "home.testimonials.items.3.text": "\"Restauracja godna polecenia każdemu. Piotr wyraźnie wie co robi — ciasto na pizzę to poziom mistrzowski. Aperol Spritz przyszedł idealnie zbalansowany. Zarezerwujcie stolik z wyprzedzeniem na weekend!\"",
+  "home.testimonials.items.3.author": "Paweł R.",
+  "home.testimonials.items.3.role": "Pizza Quattro Formaggi",
+  "home.testimonials.items.3.date": "Marzec 2025"
 }

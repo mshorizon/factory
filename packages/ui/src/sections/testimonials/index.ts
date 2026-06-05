@@ -3,4 +3,5 @@ export { TestimonialsGradient } from "./TestimonialsGradient";
 export { TestimonialsFeatured } from "./TestimonialsFeatured";
 export { TestimonialsCentered } from "./TestimonialsCentered";
 export { TestimonialsAgency } from "./TestimonialsAgency";
-export type { TestimonialsGridProps, TestimonialItem } from "./types";
+export { TestimonialsQuotes } from "./TestimonialsQuotes";
+export type { TestimonialsGridProps, TestimonialsQuotesProps, TestimonialItem } from "./types";

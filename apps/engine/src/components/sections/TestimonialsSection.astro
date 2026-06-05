@@ -1,6 +1,6 @@
 ---
 import type { Section, BusinessProfile } from "@mshorizon/schema";
-import { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered, TestimonialsAgency, SectionHeader } from "@mshorizon/ui";
+import { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered, TestimonialsAgency, TestimonialsQuotes, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -18,6 +18,7 @@ const items = section.items || [];
 const cta = section.cta;
 const ctaHref = cta && business ? resolveTarget(cta.target, business) : undefined;
 const showHeader = section.variant !== 'full';
+const isQuotes = variant === "quotes";
 ---
 
 <section>
@@ -27,10 +28,10 @@ const showHeader = section.variant !== 'full';
         badge={header.badge}
         title={header.title}
         subtitle={header.subtitle}
-        layout={(header.layout as any) || "split"}
-        align="left"
+        layout={isQuotes ? "stacked" : ((header.layout as any) || "split")}
+        align={isQuotes ? "center" : "left"}
         background={section.background}
-        badgeVariant={badgeVariant as any}
+        badgeVariant={(isQuotes ? "accent-no-line" : badgeVariant) as any}
       />
     )}
     <div>
@@ -42,11 +43,13 @@ const showHeader = section.variant !== 'full';
         <TestimonialsFeatured client:visible items={items} sectionImage={section.image} />
       ) : variant === "centered" ? (
         <TestimonialsCentered client:visible items={items} />
+      ) : variant === "quotes" ? (
+        <TestimonialsQuotes client:visible items={items} ctaLabel={cta?.label} ctaHref={ctaHref} />
       ) : (
         <TestimonialsGrid client:visible items={items} />
       )}
     </div>
-    {cta && ctaHref && (
+    {cta && ctaHref && !isQuotes && (
       <div class="mt-[8rem]">
         <a
           href={ctaHref}

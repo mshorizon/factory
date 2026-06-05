@@ -7,30 +7,25 @@
   "nav.gallery": "Galerie",
   "nav.contact": "Kontakt",
   "nav.cta": "Reservierung",
-
   "footer.copyright": "© {year} Restaurant Nostrano Garwolin. Alle Rechte vorbehalten.",
   "footer.tagline": "Ein Stück Neapel im Herzen von Garwolin.\nHandwerkliches Restaurant und Pizzeria.",
   "footer.findUs": "Finde uns",
   "footer.hours.mon": "Montag",
   "footer.hours.tueThuSun": "Di – Do, So",
   "footer.hours.friSat": "Freitag – Samstag",
-
   "common.closed": "Geschlossen",
   "common.openingHours": "Öffnungszeiten",
   "common.callAndBook": "Anrufen und reservieren",
   "common.bookTable": "Tisch reservieren",
   "common.contactHours": "Di-Do 13:00-21:00 · Fr-Sa 13:00-23:00 · So 13:00-21:00",
-
   "home.hero.badge": "Restaurant",
   "home.hero.subtitle": "Ein Stück Neapel im Herzen von Garwolin",
   "home.hero.cta": "Tisch reservieren",
   "home.hero.cta2": "Lerne uns kennen",
-
   "home.about.badge": "Unsere Geschichte",
   "home.about.title": "Echtes Neapel im Herzen von Garwolin",
   "home.about.story.title": "Leidenschaft, Handwerk, Einfachheit",
   "home.about.story.content": "Nostrano bedeutet auf Italienisch „unser\" und „lokal\". Es ist keine weitere Kette und kein Touristenort. Es ist unser persönliches Projekt, ein Ort, geboren aus der Leidenschaft für das Handwerk und der Liebe zum uneiligen Genuss von Mahlzeiten.\n\nWir haben Nostrano geschaffen – die Brüder Piotr und Paweł Ściślak – um ein Stück neapolitanischer Seele in unsere Heimatstadt zu bringen. Piotr, ausgebildet an der renommierten Akademia Pizzaioli und unter dem wachsamen Auge von Patryk Nowakowski von Arte Bianca, sorgt dafür, dass jeder Fladen, der aus unserem Ofen kommt, perfekt ist.\n\nUnsere Küche ist eine Hommage an die Einfachheit. Nur die besten Zutaten, ein handwerklicher Umgang mit jedem Detail und die Geduld, die echte Pizza verlangt.",
-
   "home.menu.title": "Menü",
   "home.menu.cat.antipasti": "Vorspeisen (Antipasti)",
   "home.menu.cat.pizza": "Pizza (La Pizza)",
@@ -51,7 +46,6 @@
   "home.menu.items.caesar.title": "Insalata Caesar mit Garnelen",
   "home.menu.items.caesar.desc": "Klassisches Dressing, Römersalat, Parmesan",
   "home.menu.footnote": "Fragen Sie das Personal nach der vollständigen Speisekarte und den saisonalen Spezialitäten.",
-
   "home.features.badge": "Philosophie",
   "home.features.title": "Warum Nostrano?",
   "home.features.items.0.title": "Handwerkliche Leidenschaft",
@@ -62,7 +56,6 @@
   "home.features.items.2.desc": "Familiäres Ambiente, eine Ecke für Kinder und ein Lächeln im Gesicht. Ein Ort, an dem sich die Gemeinschaft von Garwolin bei gutem Essen trifft.",
   "home.features.items.3.title": "Lokale Veranstaltungen",
   "home.features.items.3.desc": "Pizza-Workshops für die Kleinsten, italienische Kinoabende und Weinverkostungen. Wir leben das Leben der Stadt.",
-
   "home.events.title": "Veranstaltungen",
   "home.events.linkLabel": "Nach Details fragen",
   "home.events.items.0.title": "Pizza für die Kleinsten",
@@ -80,7 +73,6 @@
   "home.events.items.2.tag": "Kultur",
   "home.events.items.2.meta": "Eintritt frei",
   "home.events.items.2.dateStart": "Demnächst",
-
   "home.kids.title": "Bereich für die Kleinsten",
   "home.kids.content": "Wir wissen, dass ein Abendessen mit Kindern eine Herausforderung sein kann. Deshalb haben wir eine besondere Ecke für die Kleinsten geschaffen — mit Spielzeug, Büchern und einem Platz zum Malen — damit ihr einen Moment durchatmen und euer Essen genießen könnt.\n\nNostrano ist kein Partylokal. Es ist ein Ort, an dem Familien einen Abend gemeinsam bei echtem Essen verbringen können, ohne Hast und ohne Stress.",
   "home.kids.stats.0.value": "Spielzeug",
@@ -93,7 +85,6 @@
   "home.kids.quote.author": "Piotr & Paweł Ściślak, Inhaber",
   "home.kids.quote.note": "Wir planen Pizza-Workshops für Kinder — trag dich in die Liste ein und sei der Erste.",
   "home.kids.cta": "Kind anmelden",
-
   "home.gallery.title": "Galerie",
   "home.gallery.items.0.desc": "Teig reift 48 Std.",
   "home.gallery.items.1.desc": "Frische Tomaten, Basilikum",
@@ -102,7 +93,6 @@
   "home.gallery.items.4.desc": "Handwerkliche Pasta",
   "home.gallery.items.5.title": "Atmosphäre",
   "home.gallery.items.5.desc": "Ein Stück Neapel",
-
   "home.contact.badge": "Reservierungen",
   "home.contact.title": "Wir warten auf Sie",
   "home.contact.subtitle": "An Wochenenden füllt sich unser Gastraum schnell. Wir empfehlen, einen Tisch im Voraus zu reservieren.",
@@ -111,16 +101,34 @@
   "home.contact.hoursDetailed.1": "Dienstag – Donnerstag — 13:00 – 21:00",
   "home.contact.hoursDetailed.2": "Freitag – Samstag — 13:00 – 23:00",
   "home.contact.hoursDetailed.3": "Sonntag — 13:00 – 21:00",
-
   "form.namePlaceholder": "Max Mustermann",
   "form.emailPlaceholder": "max@beispiel.de",
   "form.messagePlaceholder": "Ich möchte einen Tisch reservieren für...",
   "form.nameLabel": "Name",
   "form.emailLabel": "E-Mail",
   "form.messageLabel": "Nachricht",
-
   "about.story.content": "Nostrano bedeutet auf Italienisch „unser\" und „lokal\". Wir haben es geschaffen – die Brüder Piotr und Paweł Ściślak – um ein Stück neapolitanischer Seele in unsere Heimatstadt zu bringen.\n\nPiotr, ausgebildet an der Akademia Pizzaioli und unter dem Auge von Patryk Nowakowski von Arte Bianca, sorgt dafür, dass jeder Fladen, der aus dem Ofen kommt, perfekt ist. Unsere Küche ist eine Hommage an die Einfachheit: nur die besten Zutaten, ein handwerklicher Umgang mit jedem Detail und die Geduld, die echte Pizza verlangt.",
   "about.stats.0.label": "Teigreifung",
   "about.stats.1.label": "Zutaten aus Italien",
-  "about.stats.2.label": "Brüder, ein Ofen"
+  "about.stats.2.label": "Brüder, ein Ofen",
+  "home.testimonials.badge": "I NOSTRI OSPITI",
+  "home.testimonials.title": "Was unsere Gäste sagen",
+  "home.testimonials.subtitle": "Die Meinungen unserer Gäste sind für uns die wichtigste Belohnung.",
+  "home.testimonials.cta": "Alle Bewertungen bei Google ansehen",
+  "home.testimonials.items.0.text": "\"Die beste neapolitanische Pizza, die ich außerhalb Italiens gegessen habe. Der Teig ist absolut außergewöhnlich — leicht, mit knusprigen Rändern. Der Service war herzlich und hilfsbereit. Wir kommen bestimmt wieder!\"",
+  "home.testimonials.items.0.author": "Agnieszka W.",
+  "home.testimonials.items.0.role": "Pizza Margherita",
+  "home.testimonials.items.0.date": "Mai 2025",
+  "home.testimonials.items.1.text": "\"Eine Atmosphäre wie in Neapel — warmes Licht, Steinwände und der Duft von Basilikum schon an der Tür. Bruschetta und Burrata waren hervorragend. Ohne Zweifel einer der besten Orte rund um Garwolin.\"",
+  "home.testimonials.items.1.author": "Tomasz K.",
+  "home.testimonials.items.1.role": "Bruschetta, Insalata Burrata",
+  "home.testimonials.items.1.date": "April 2025",
+  "home.testimonials.items.2.text": "\"Wir waren mit der ganzen Familie da — die Kinder spielten in der Ecke, während wir in Ruhe zu Abend aßen. Die Garnelen in Weißwein-Butter-Sauce sind ein Meisterwerk. Ich schreibe selten Bewertungen, aber hier musste ich einfach.\"",
+  "home.testimonials.items.2.author": "Marta & Krzysztof S.",
+  "home.testimonials.items.2.role": "Garnelen, Pizza Diavola",
+  "home.testimonials.items.2.date": "April 2025",
+  "home.testimonials.items.3.text": "\"Ein Restaurant, das ich jedem empfehlen würde. Piotr weiß genau, was er tut — der Pizzateig ist meisterhaft. Der Aperol Spritz kam perfekt ausbalanciert. Reservieren Sie am Wochenende rechtzeitig einen Tisch!\"",
+  "home.testimonials.items.3.author": "Paweł R.",
+  "home.testimonials.items.3.role": "Pizza Quattro Formaggi",
+  "home.testimonials.items.3.date": "März 2025"
 }

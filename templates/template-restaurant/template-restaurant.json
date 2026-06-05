@@ -26,14 +26,30 @@
       "light": {
         "primary": "#d94a26",
         "primaryDark": "#d94a26",
-        "surface": { "base": "#f7f5ed", "alt": "#efece1", "card": "#ffffff" },
-        "text": { "main": "#1d1916", "muted": "#7a7264", "onPrimary": "#f7f5ed" }
+        "surface": {
+          "base": "#f7f5ed",
+          "alt": "#efece1",
+          "card": "#ffffff"
+        },
+        "text": {
+          "main": "#1d1916",
+          "muted": "#7a7264",
+          "onPrimary": "#f7f5ed"
+        }
       },
       "dark": {
         "primary": "#d94a26",
         "primaryDark": "#d94a26",
-        "surface": { "base": "#1d1916", "alt": "#26201c", "card": "#3b312b" },
-        "text": { "main": "#f0ebdb", "muted": "#c2baa3", "onPrimary": "#f7f5ed" }
+        "surface": {
+          "base": "#1d1916",
+          "alt": "#26201c",
+          "card": "#3b312b"
+        },
+        "text": {
+          "main": "#f0ebdb",
+          "muted": "#c2baa3",
+          "onPrimary": "#f7f5ed"
+        }
       }
     },
     "typography": {
@@ -94,44 +110,128 @@
     "heroSubtitleLetterSpacing": "0.15em",
     "navLinkLetterSpacing": "0.1em",
     "buttonLetterSpacing": "0.1em",
-    "navLogoFlag": ["#008C45", "#F4F5F0", "#CD212A"],
+    "navLogoFlag": [
+      "#008C45",
+      "#F4F5F0",
+      "#CD212A"
+    ],
     "navLinksPosition": "right",
     "badgeVariant": "text"
   },
   "layout": {
-    "navbar": { "variant": "transparent", "hideLogoIcon": true, "hideBlog": true },
+    "navbar": {
+      "variant": "transparent",
+      "hideLogoIcon": true,
+      "hideBlog": true
+    },
     "footer": {
       "variant": "restaurant",
-      "background": { "color": "#26201c" },
+      "background": {
+        "color": "#26201c"
+      },
       "name": "Nostrano",
       "copyright": "t:footer.copyright",
       "tagline": "t:footer.tagline",
-      "flag": ["#008C45", "#F4F5F0", "#CD212A"],
+      "flag": [
+        "#008C45",
+        "#F4F5F0",
+        "#CD212A"
+      ],
       "findUsTitle": "t:footer.findUs",
       "hoursTitle": "t:common.openingHours",
       "hours": [
-        { "label": "t:footer.hours.mon", "value": "t:common.closed" },
-        { "label": "t:footer.hours.tueThuSun", "value": "13:00 – 21:00" },
-        { "label": "t:footer.hours.friSat", "value": "13:00 – 23:00", "highlight": true }
+        {
+          "label": "t:footer.hours.mon",
+          "value": "t:common.closed"
+        },
+        {
+          "label": "t:footer.hours.tueThuSun",
+          "value": "13:00 – 21:00"
+        },
+        {
+          "label": "t:footer.hours.friSat",
+          "value": "13:00 – 23:00",
+          "highlight": true
+        }
       ],
       "signature": "Fatto con amore — con cuore italiano",
       "links": [
-        { "label": "Instagram", "target": { "type": "external", "value": "https://instagram.com/nostrano.garwolin" } },
-        { "label": "Facebook", "target": { "type": "external", "value": "https://facebook.com/nostrano.garwolin" } }
+        {
+          "label": "Instagram",
+          "target": {
+            "type": "external",
+            "value": "https://instagram.com/nostrano.garwolin"
+          }
+        },
+        {
+          "label": "Facebook",
+          "target": {
+            "type": "external",
+            "value": "https://facebook.com/nostrano.garwolin"
+          }
+        }
       ]
     }
   },
   "navigation": {
     "links": [
-      { "label": "t:nav.about", "target": { "type": "section", "value": "about-1" } },
-      { "label": "t:nav.menu", "target": { "type": "section", "value": "services-2" } },
-      { "label": "t:nav.why", "target": { "type": "section", "value": "features-3" } },
-      { "label": "t:nav.events", "target": { "type": "section", "value": "events-4" } },
-      { "label": "t:nav.kids", "target": { "type": "section", "value": "about-5" } },
-      { "label": "t:nav.gallery", "target": { "type": "section", "value": "gallery-6" } },
-      { "label": "t:nav.contact", "target": { "type": "section", "value": "contact-7" } }
+      {
+        "label": "t:nav.about",
+        "target": {
+          "type": "section",
+          "value": "about-1"
+        }
+      },
+      {
+        "label": "t:nav.menu",
+        "target": {
+          "type": "section",
+          "value": "services-2"
+        }
+      },
+      {
+        "label": "t:nav.why",
+        "target": {
+          "type": "section",
+          "value": "features-3"
+        }
+      },
+      {
+        "label": "t:nav.events",
+        "target": {
+          "type": "section",
+          "value": "events-4"
+        }
+      },
+      {
+        "label": "t:nav.kids",
+        "target": {
+          "type": "section",
+          "value": "about-5"
+        }
+      },
+      {
+        "label": "t:nav.gallery",
+        "target": {
+          "type": "section",
+          "value": "gallery-6"
+        }
+      },
+      {
+        "label": "t:nav.contact",
+        "target": {
+          "type": "section",
+          "value": "contact-7"
+        }
+      }
     ],
-    "cta": { "label": "t:nav.cta", "target": { "type": "section", "value": "contact-7" } }
+    "cta": {
+      "label": "t:nav.cta",
+      "target": {
+        "type": "section",
+        "value": "contact-7"
+      }
+    }
   },
   "data": {
     "services": []
@@ -151,8 +251,20 @@
             "title": "Nostrano",
             "subtitle": "t:home.hero.subtitle"
           },
-          "cta": { "label": "t:home.hero.cta", "target": { "type": "section", "value": "contact-7" } },
-          "secondaryCta": { "label": "t:home.hero.cta2", "target": { "type": "section", "value": "about-1" } }
+          "cta": {
+            "label": "t:home.hero.cta",
+            "target": {
+              "type": "section",
+              "value": "contact-7"
+            }
+          },
+          "secondaryCta": {
+            "label": "t:home.hero.cta2",
+            "target": {
+              "type": "section",
+              "value": "about-1"
+            }
+          }
         },
         {
           "type": "about",
@@ -184,22 +296,85 @@
             "flag": true
           },
           "serviceCategories": [
-            { "id": "przystawki", "label": "t:home.menu.cat.antipasti" },
-            { "id": "pizza", "label": "t:home.menu.cat.pizza" },
-            { "id": "salatki", "label": "t:home.menu.cat.insalate" }
+            {
+              "id": "przystawki",
+              "label": "t:home.menu.cat.antipasti"
+            },
+            {
+              "id": "pizza",
+              "label": "t:home.menu.cat.pizza"
+            },
+            {
+              "id": "salatki",
+              "label": "t:home.menu.cat.insalate"
+            }
           ],
           "items": [
-            { "id": "krem-pomidorowy", "category": "przystawki", "title": "t:home.menu.items.krem.title", "description": "t:home.menu.items.krem.desc", "price": "23 zł" },
-            { "id": "focaccia", "category": "przystawki", "title": "t:home.menu.items.focaccia.title", "description": "t:home.menu.items.focaccia.desc", "price": "25 zł" },
-            { "id": "bruschetta", "category": "przystawki", "title": "t:home.menu.items.bruschetta.title", "description": "t:home.menu.items.bruschetta.desc", "price": "32 zł" },
-            { "id": "krewetki", "category": "przystawki", "title": "t:home.menu.items.krewetki.title", "description": "t:home.menu.items.krewetki.desc", "price": "46 zł" },
-            { "id": "tatar", "category": "przystawki", "title": "t:home.menu.items.tatar.title", "description": "t:home.menu.items.tatar.desc", "price": "47 zł" },
-            { "id": "burrata", "category": "salatki", "title": "Insalata burrata di bufala", "description": "t:home.menu.items.burrata.desc", "price": "43 zł" },
-            { "id": "pizza-neapolitanska", "category": "pizza", "title": "t:home.menu.items.pizza.title", "description": "t:home.menu.items.pizza.desc", "price": "od 35 zł" },
-            { "id": "caesar", "category": "salatki", "title": "t:home.menu.items.caesar.title", "description": "t:home.menu.items.caesar.desc", "price": "47 zł" }
+            {
+              "id": "krem-pomidorowy",
+              "category": "przystawki",
+              "title": "t:home.menu.items.krem.title",
+              "description": "t:home.menu.items.krem.desc",
+              "price": "23 zł"
+            },
+            {
+              "id": "focaccia",
+              "category": "przystawki",
+              "title": "t:home.menu.items.focaccia.title",
+              "description": "t:home.menu.items.focaccia.desc",
+              "price": "25 zł"
+            },
+            {
+              "id": "bruschetta",
+              "category": "przystawki",
+              "title": "t:home.menu.items.bruschetta.title",
+              "description": "t:home.menu.items.bruschetta.desc",
+              "price": "32 zł"
+            },
+            {
+              "id": "krewetki",
+              "category": "przystawki",
+              "title": "t:home.menu.items.krewetki.title",
+              "description": "t:home.menu.items.krewetki.desc",
+              "price": "46 zł"
+            },
+            {
+              "id": "tatar",
+              "category": "przystawki",
+              "title": "t:home.menu.items.tatar.title",
+              "description": "t:home.menu.items.tatar.desc",
+              "price": "47 zł"
+            },
+            {
+              "id": "burrata",
+              "category": "salatki",
+              "title": "Insalata burrata di bufala",
+              "description": "t:home.menu.items.burrata.desc",
+              "price": "43 zł"
+            },
+            {
+              "id": "pizza-neapolitanska",
+              "category": "pizza",
+              "title": "t:home.menu.items.pizza.title",
+              "description": "t:home.menu.items.pizza.desc",
+              "price": "od 35 zł"
+            },
+            {
+              "id": "caesar",
+              "category": "salatki",
+              "title": "t:home.menu.items.caesar.title",
+              "description": "t:home.menu.items.caesar.desc",
+              "price": "47 zł"
+            }
           ],
           "footnote": "t:home.menu.footnote",
-          "cta": { "label": "t:common.bookTable", "target": { "type": "page", "value": "contact" } }
+          "cta": {
+            "label": "t:common.bookTable",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
         },
         {
           "type": "features",
@@ -233,6 +408,49 @@
           ]
         },
         {
+          "type": "testimonials",
+          "variant": "quotes",
+          "background": "dark",
+          "header": {
+            "badge": "t:home.testimonials.badge",
+            "title": "t:home.testimonials.title",
+            "subtitle": "t:home.testimonials.subtitle"
+          },
+          "cta": {
+            "label": "t:home.testimonials.cta",
+            "target": {
+              "type": "external",
+              "value": "https://www.google.com/maps/search/Nostrano+Garwolin"
+            }
+          },
+          "items": [
+            {
+              "description": "t:home.testimonials.items.0.text",
+              "author": "t:home.testimonials.items.0.author",
+              "role": "t:home.testimonials.items.0.role",
+              "meta": "t:home.testimonials.items.0.date"
+            },
+            {
+              "description": "t:home.testimonials.items.1.text",
+              "author": "t:home.testimonials.items.1.author",
+              "role": "t:home.testimonials.items.1.role",
+              "meta": "t:home.testimonials.items.1.date"
+            },
+            {
+              "description": "t:home.testimonials.items.2.text",
+              "author": "t:home.testimonials.items.2.author",
+              "role": "t:home.testimonials.items.2.role",
+              "meta": "t:home.testimonials.items.2.date"
+            },
+            {
+              "description": "t:home.testimonials.items.3.text",
+              "author": "t:home.testimonials.items.3.author",
+              "role": "t:home.testimonials.items.3.role",
+              "meta": "t:home.testimonials.items.3.date"
+            }
+          ]
+        },
+        {
           "type": "events",
           "variant": "cards",
           "header": {
@@ -243,7 +461,9 @@
             {
               "title": "t:home.events.items.0.title",
               "description": "t:home.events.items.0.desc",
-              "tags": ["t:home.events.items.0.tag"],
+              "tags": [
+                "t:home.events.items.0.tag"
+              ],
               "meta": "t:home.events.items.0.meta",
               "dateStart": "t:home.events.items.0.dateStart",
               "linkLabel": "t:home.events.linkLabel"
@@ -251,7 +471,9 @@
             {
               "title": "t:home.events.items.1.title",
               "description": "t:home.events.items.1.desc",
-              "tags": ["t:home.events.items.1.tag"],
+              "tags": [
+                "t:home.events.items.1.tag"
+              ],
               "meta": "t:home.events.items.1.meta",
               "dateStart": "t:home.events.items.1.dateStart",
               "linkLabel": "t:home.events.linkLabel"
@@ -259,7 +481,9 @@
             {
               "title": "t:home.events.items.2.title",
               "description": "t:home.events.items.2.desc",
-              "tags": ["t:home.events.items.2.tag"],
+              "tags": [
+                "t:home.events.items.2.tag"
+              ],
               "meta": "t:home.events.items.2.meta",
               "dateStart": "t:home.events.items.2.dateStart",
               "linkLabel": "t:home.events.linkLabel"
@@ -278,16 +502,31 @@
             "content": "t:home.kids.content"
           },
           "stats": [
-            { "value": "t:home.kids.stats.0.value", "label": "t:home.kids.stats.0.label" },
-            { "value": "t:home.kids.stats.1.value", "label": "t:home.kids.stats.1.label" },
-            { "value": "t:home.kids.stats.2.value", "label": "t:home.kids.stats.2.label" }
+            {
+              "value": "t:home.kids.stats.0.value",
+              "label": "t:home.kids.stats.0.label"
+            },
+            {
+              "value": "t:home.kids.stats.1.value",
+              "label": "t:home.kids.stats.1.label"
+            },
+            {
+              "value": "t:home.kids.stats.2.value",
+              "label": "t:home.kids.stats.2.label"
+            }
           ],
           "quote": {
             "text": "t:home.kids.quote.text",
             "author": "t:home.kids.quote.author",
             "note": "t:home.kids.quote.note"
           },
-          "cta": { "label": "t:home.kids.cta", "target": { "type": "page", "value": "contact" } }
+          "cta": {
+            "label": "t:home.kids.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
         },
         {
           "type": "gallery",
@@ -359,7 +598,13 @@
             "emailLabel": "t:form.emailLabel",
             "messageLabel": "t:form.messageLabel"
           },
-          "cta": { "label": "t:common.callAndBook", "target": { "type": "external", "value": "tel:+48000000000" } }
+          "cta": {
+            "label": "t:common.callAndBook",
+            "target": {
+              "type": "external",
+              "value": "tel:+48000000000"
+            }
+          }
         }
       ]
     },
@@ -379,9 +624,18 @@
             "content": "t:about.story.content"
           },
           "stats": [
-            { "value": "48h", "label": "t:about.stats.0.label" },
-            { "value": "100%", "label": "t:about.stats.1.label" },
-            { "value": "2", "label": "t:about.stats.2.label" }
+            {
+              "value": "48h",
+              "label": "t:about.stats.0.label"
+            },
+            {
+              "value": "100%",
+              "label": "t:about.stats.1.label"
+            },
+            {
+              "value": "2",
+              "label": "t:about.stats.2.label"
+            }
           ]
         }
       ]

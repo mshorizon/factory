@@ -51,8 +51,8 @@ export { GalleryGrid, GalleryShowcase, GalleryMosaic } from "./gallery";
 export type { GalleryGridProps, GalleryShowcaseProps, GalleryItem } from "./gallery";
 
 // Testimonials variants
-export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered, TestimonialsAgency } from "./testimonials";
-export type { TestimonialsGridProps, TestimonialItem } from "./testimonials";
+export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered, TestimonialsAgency, TestimonialsQuotes } from "./testimonials";
+export type { TestimonialsGridProps, TestimonialsQuotesProps, TestimonialItem } from "./testimonials";
 
 // FAQ variants
 export { FAQAccordion, FAQBordered, FAQSplit } from "./faq";
