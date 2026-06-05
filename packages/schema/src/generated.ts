@@ -355,6 +355,10 @@ export type BadgeText = string;
 export type Title = string;
 export type Subtitle = string;
 export type HeaderLayout = "stacked" | "split" | "most-minimalistic" | "none";
+/**
+ * Render a small country flag accent bar (144x3px, using the theme navLogoFlag stripe colors) below the title.
+ */
+export type ShowFlagBar = boolean;
 export type SectionTopPaddingOverrideEG120Px8Rem = string;
 export type SectionBottomPaddingOverrideEG120Px8Rem = string;
 export type BackgroundImageURL = string;
@@ -892,6 +896,7 @@ export interface SectionHeader {
   title?: Title;
   subtitle?: Subtitle;
   layout?: HeaderLayout;
+  flag?: ShowFlagBar;
 }
 export interface Testimonial {
   title?: string;

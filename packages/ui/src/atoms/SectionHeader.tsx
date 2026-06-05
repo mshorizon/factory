@@ -12,6 +12,8 @@ export interface SectionHeaderProps {
   background?: string;
   badgeVariant?: "accent" | "accent-no-line" | "outlined" | "text";
   revealDelay?: number;
+  /** Render a small country flag accent bar (144x3px, theme navLogoFlag colors) below the title. */
+  flag?: boolean;
 }
 
 export function SectionHeader({
@@ -24,6 +26,7 @@ export function SectionHeader({
   background,
   badgeVariant,
   revealDelay = 0,
+  flag = false,
 }: SectionHeaderProps) {
   const resolvedBadgeVariant = badgeVariant || "accent";
   const alignClass = {
@@ -53,6 +56,28 @@ export function SectionHeader({
   if (layout === "none" || (!badge && !title && !subtitle)) {
     return null;
   }
+
+  // Small country flag accent bar (144x3px) using the theme navLogoFlag gradient.
+  const renderFlag = () => {
+    if (!flag) return null;
+    return (
+      <div
+        data-reveal
+        data-reveal-delay={String(revealDelay + 150)}
+        className={cn(
+          "mt-spacing-sm flex",
+          align === "center" && "justify-center",
+          align === "right" && "justify-end"
+        )}
+      >
+        <span
+          className="block rounded-full"
+          style={{ width: "144px", height: "3px", background: "var(--nav-logo-flag, var(--primary))" }}
+          data-field="header.flag"
+        />
+      </div>
+    );
+  };
 
   const renderBadge = () => {
     if (!badge) return null;
@@ -112,6 +137,7 @@ export function SectionHeader({
             {renderTitle(title)}
           </h2>
         )}
+        {renderFlag()}
       </div>
     );
   }
@@ -122,7 +148,10 @@ export function SectionHeader({
         {renderBadge()}
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-spacing-md lg:gap-16">
           {title && (
-            <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className="text-3xl md:text-4xl lg:text-5xl text-foreground font-heading flex-shrink-0 max-w-[700px]" data-field="header.title">{renderTitle(title)}</h2>
+            <div className="flex-shrink-0">
+              <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className="text-3xl md:text-4xl lg:text-5xl text-foreground font-heading max-w-[700px]" data-field="header.title">{renderTitle(title)}</h2>
+              {renderFlag()}
+            </div>
           )}
           {subtitle && (
             <p data-reveal data-reveal-delay={String(badge ? revealDelay + 200 : revealDelay + 100)} className="text-muted max-w-lg lg:text-right" data-field="header.subtitle">
@@ -140,6 +169,7 @@ export function SectionHeader({
       {title && (
         <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className={cn("text-3xl md:text-4xl lg:text-5xl text-foreground mb-spacing-md font-heading max-w-[700px]", align === "center" && "mx-auto")} data-field="header.title">{renderTitle(title)}</h2>
       )}
+      {renderFlag()}
       {subtitle && (
         <p
           data-reveal

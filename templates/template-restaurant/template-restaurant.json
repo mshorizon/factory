@@ -152,7 +152,8 @@
           "columns": 2,
           "header": {
             "badge": "Degustazione",
-            "title": "Menu"
+            "title": "Menu",
+            "flag": true
           },
           "serviceCategories": [
             { "id": "przystawki", "label": "Przystawki (Antipasti)" },
