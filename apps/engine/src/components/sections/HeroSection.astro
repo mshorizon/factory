@@ -138,6 +138,7 @@ const secondaryCta = section.secondaryCta ? {
     <style is:inline set:html={`
       @keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }
       @keyframes hero-fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes hero-scroll-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
       .hero-fold {
         position: relative;
         z-index: 0;
@@ -253,6 +254,28 @@ const secondaryCta = section.secondaryCta ? {
         box-shadow: none;
       }
       .hero-fold__cta--secondary:hover { background-color: var(--text-on-primary, #fff); color: var(--foreground, #1d1916); }
+      .hero-fold__scroll {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 1;
+        color: var(--text-on-primary, #fff);
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.6s forwards;
+      }
+      .hero-fold__scroll-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-weight: 500;
+        line-height: 1;
+      }
+      .hero-fold__scroll-chevron { animation: hero-scroll-bounce 1.5s ease-in-out infinite; }
     `} />
     <section class="hero-fold">
       {section.backgroundImage && (
@@ -294,6 +317,10 @@ const secondaryCta = section.secondaryCta ? {
             )}
           </div>
         )}
+      </div>
+      <div class="hero-fold__scroll" aria-hidden="true">
+        <span class="hero-fold__scroll-label">Scroll</span>
+        <svg class="hero-fold__scroll-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </div>
     </section>
     <script is:inline>
