@@ -13,6 +13,7 @@ export function AboutStory({
   badge,
   title,
   story,
+  signature,
   stats,
   commitment,
   image,
@@ -66,6 +67,30 @@ export function AboutStory({
             {story.content.split('\n\n').map((paragraph: string, index: number) => (
               <p key={index} className="text-muted leading-relaxed" data-field={`story.content.${index}`}>{paragraph}</p>
             ))}
+          </div>
+        )}
+
+        {signature && signature.text && (
+          <div className="flex items-center gap-spacing-sm" data-field="signature">
+            {signature.flag ? (
+              <SafeImage
+                src={signature.flag}
+                alt=""
+                className="shrink-0 rounded-[2px] object-cover shadow-sm"
+                style={{ width: "26px", height: "24px" }}
+                data-field="signature.flag"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <span
+                className="shrink-0 rounded-[2px] shadow-sm"
+                style={{ width: "26px", height: "24px", background: "var(--nav-logo-flag)" }}
+                aria-hidden="true"
+                data-field="signature.flag"
+              />
+            )}
+            <span className="text-sm font-medium uppercase tracking-wide text-foreground" data-field="signature.text">{signature.text}</span>
           </div>
         )}
 

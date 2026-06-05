@@ -14,10 +14,18 @@ export interface StoryContent {
   content?: string;
 }
 
+export interface SignatureRow {
+  /** Rendered in uppercase. */
+  text?: string;
+  /** Optional flag image URL. When omitted, the theme navLogoFlag gradient is used. */
+  flag?: string;
+}
+
 export interface AboutStoryProps {
   badge?: string;
   title?: string;
   story?: StoryContent;
+  signature?: SignatureRow;
   stats?: StatItem[];
   commitment?: StoryContent;
   image?: string;

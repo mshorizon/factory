@@ -289,6 +289,15 @@
             "content": { "type": "string" }
           }
         },
+        "signature": {
+          "type": "object",
+          "title": "Signature Row",
+          "description": "Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.",
+          "properties": {
+            "text": { "type": "string", "title": "Signature Text", "description": "Rendered in uppercase." },
+            "flag": { "type": "string", "title": "Flag Image URL", "description": "Optional. When omitted, the theme navLogoFlag gradient is used." }
+          }
+        },
         "stats": {
           "type": "array",
           "items": {

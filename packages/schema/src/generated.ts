@@ -366,6 +366,14 @@ export type TabLabel = string;
  * Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.
  */
 export type ServiceCategoryTabs = ServiceCategory[];
+/**
+ * Rendered in uppercase.
+ */
+export type SignatureText = string;
+/**
+ * Optional. When omitted, the theme navLogoFlag gradient is used.
+ */
+export type FlagImageURL = string;
 export type Timeline = TimelineItem[];
 /**
  * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
@@ -736,6 +744,7 @@ export interface Section {
     title?: string;
     content?: string;
   };
+  signature?: SignatureRow;
   stats?: StatItem[];
   commitment?: {
     title?: string;
@@ -824,6 +833,13 @@ export interface ServiceItem {
 export interface ServiceCategory {
   id: CategoryID;
   label: TabLabel;
+}
+/**
+ * Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.
+ */
+export interface SignatureRow {
+  text?: SignatureText;
+  flag?: FlagImageURL;
 }
 export interface StatItem {
   value?: string;
