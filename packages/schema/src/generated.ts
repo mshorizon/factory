@@ -115,9 +115,21 @@ export type NavbarLogoColor = string;
  */
 export type NavbarLinkColor = string;
 /**
+ * Render the navbar links (desktop + mobile) in uppercase.
+ */
+export type NavbarLinksUppercase = boolean;
+/**
+ * Letter spacing for the navbar logo text, e.g. "0.05em". Overrides the default normal spacing.
+ */
+export type NavbarLogoLetterSpacing = string;
+/**
  * Hide the icon (arrow/clock) inside the navbar CTA button.
  */
 export type NavbarCTAHideIcon = boolean;
+/**
+ * Render the navbar CTA button text (desktop + mobile) in uppercase.
+ */
+export type NavbarCTAUppercase = boolean;
 /**
  * Hide the arrow icon inside the hero section CTA button.
  */
@@ -641,7 +653,10 @@ export interface Theme {
   navLogoFont?: NavbarLogoFont;
   navLogoColor?: NavbarLogoColor;
   navLinkColor?: NavbarLinkColor;
+  navLinksUppercase?: NavbarLinksUppercase;
+  navLogoLetterSpacing?: NavbarLogoLetterSpacing;
   navCtaHideIcon?: NavbarCTAHideIcon;
+  navCtaUppercase?: NavbarCTAUppercase;
   heroCtaHideIcon?: HeroCTAHideIcon;
   heroTextThemeColors?: HeroTextUsesThemeColors;
   heroBottomFade?: HeroBottomFade;

@@ -155,7 +155,7 @@ const showCta = !hideCta && !!cta;
             <span class:list={[
               "nav-logo tracking-tight group-hover:text-primary transition-colors",
               isTransparent ? "text-white" : "text-foreground"
-            ]} style={`font-size: var(--nav-logo-size, 24px); font-weight: var(--nav-logo-weight, 600); font-family: var(--nav-logo-font, inherit);`}>
+            ]} style={`font-size: var(--nav-logo-size, 24px); font-weight: var(--nav-logo-weight, 600); font-family: var(--nav-logo-font, inherit); letter-spacing: var(--nav-logo-letter-spacing, normal);`}>
               {logo}
             </span>
             {logoSubtext && (
@@ -217,7 +217,7 @@ const showCta = !hideCta && !!cta;
         {showCta && cta && (
           <a
             href={cta.href}
-            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
+            class="nav-cta inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
           >
             <svg class="cta-icon-clock" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             {cta.label}
@@ -259,7 +259,7 @@ const showCta = !hideCta && !!cta;
         {showCta && cta && (
           <a
             href={cta.href}
-            class="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
+            class="nav-cta mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
           >
             <svg class="cta-icon-clock" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             {cta.label}
@@ -355,6 +355,20 @@ const showCta = !hideCta && !!cta;
   [data-nav-link-color="1"] #main-nav .nav-link:hover,
   [data-nav-link-color="1"] #mobile-menu .nav-link-mobile:hover {
     color: color-mix(in srgb, var(--nav-link-color) 80%, white) !important;
+  }
+
+  /* Uppercase navbar links (opt-in via theme.navLinksUppercase). Covers desktop
+     links and the mobile menu links. */
+  [data-nav-links-uppercase="1"] #main-nav .nav-link,
+  [data-nav-links-uppercase="1"] #mobile-menu .nav-link-mobile {
+    text-transform: uppercase;
+  }
+
+  /* Uppercase navbar CTA button text (opt-in via theme.navCtaUppercase).
+     Covers the desktop and mobile CTA buttons. */
+  [data-nav-cta-uppercase="1"] #main-nav .nav-cta,
+  [data-nav-cta-uppercase="1"] #mobile-menu .nav-cta {
+    text-transform: uppercase;
   }
 
   /* Animated navbar height (opt-in via theme.navHeightTop / navHeightScrolled).
