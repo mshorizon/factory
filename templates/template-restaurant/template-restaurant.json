@@ -61,7 +61,7 @@
     "contentWidth": "1488px",
     "servicesListDivider": true,
     "servicesNotClickable": true,
-    "navFontSize": "13px",
+    "navFontSize": "12px",
     "navLogoWeight": "400",
     "navLogoUppercase": true,
     "navLogoFont": "heading",
