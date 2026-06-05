@@ -11,7 +11,7 @@
       "address": "ul. Janusza Korczaka 46, 08-400 Garwolin",
       "phone": "+48 xxx xxx xxx",
       "email": "kontakt@nostrano.pl",
-      "hours": "Wt-Czw 13:00-21:00 · Pt-Sb 13:00-23:00 · Nd 13:00-21:00"
+      "hours": "t:common.contactHours"
     },
     "socials": {
       "instagram": "https://instagram.com/nostrano.garwolin",
@@ -104,15 +104,15 @@
       "variant": "restaurant",
       "background": { "color": "#26201c" },
       "name": "Nostrano",
-      "copyright": "© {year} Restauracja Nostrano Garwolin. Wszelkie prawa zastrzeżone.",
-      "tagline": "Kawałek Neapolu w sercu Garwolina.\nRestauracja i pizzeria rzemieślnicza.",
+      "copyright": "t:footer.copyright",
+      "tagline": "t:footer.tagline",
       "flag": ["#008C45", "#F4F5F0", "#CD212A"],
-      "findUsTitle": "Znajdź nas",
-      "hoursTitle": "Godziny otwarcia",
+      "findUsTitle": "t:footer.findUs",
+      "hoursTitle": "t:common.openingHours",
       "hours": [
-        { "label": "Poniedziałek", "value": "Zamknięte" },
-        { "label": "Wt – Czw, Niedz", "value": "13:00 – 21:00" },
-        { "label": "Piątek – Sobota", "value": "13:00 – 23:00", "highlight": true }
+        { "label": "t:footer.hours.mon", "value": "t:common.closed" },
+        { "label": "t:footer.hours.tueThuSun", "value": "13:00 – 21:00" },
+        { "label": "t:footer.hours.friSat", "value": "13:00 – 23:00", "highlight": true }
       ],
       "signature": "Fatto con amore — con cuore italiano",
       "links": [
@@ -123,15 +123,15 @@
   },
   "navigation": {
     "links": [
-      { "label": "O nas", "target": { "type": "section", "value": "about-1" } },
-      { "label": "Menu", "target": { "type": "section", "value": "services-2" } },
-      { "label": "Dlaczego my", "target": { "type": "section", "value": "features-3" } },
-      { "label": "Wydarzenia", "target": { "type": "section", "value": "events-4" } },
-      { "label": "Dla dzieci", "target": { "type": "section", "value": "about-5" } },
-      { "label": "Galeria", "target": { "type": "section", "value": "gallery-6" } },
-      { "label": "Kontakt", "target": { "type": "section", "value": "contact-7" } }
+      { "label": "t:nav.about", "target": { "type": "section", "value": "about-1" } },
+      { "label": "t:nav.menu", "target": { "type": "section", "value": "services-2" } },
+      { "label": "t:nav.why", "target": { "type": "section", "value": "features-3" } },
+      { "label": "t:nav.events", "target": { "type": "section", "value": "events-4" } },
+      { "label": "t:nav.kids", "target": { "type": "section", "value": "about-5" } },
+      { "label": "t:nav.gallery", "target": { "type": "section", "value": "gallery-6" } },
+      { "label": "t:nav.contact", "target": { "type": "section", "value": "contact-7" } }
     ],
-    "cta": { "label": "Rezerwacja", "target": { "type": "section", "value": "contact-7" } }
+    "cta": { "label": "t:nav.cta", "target": { "type": "section", "value": "contact-7" } }
   },
   "data": {
     "services": []
@@ -147,27 +147,27 @@
           "backgroundImage": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/hero-nostrano.jpg",
           "scrollColor": "#f0ebdb",
           "header": {
-            "badge": "restauracja",
+            "badge": "t:home.hero.badge",
             "title": "Nostrano",
-            "subtitle": "Kawałek Neapolu w sercu Garwolina"
+            "subtitle": "t:home.hero.subtitle"
           },
-          "cta": { "label": "Zarezerwuj Stolik", "target": { "type": "section", "value": "contact-7" } },
-          "secondaryCta": { "label": "Poznaj nas", "target": { "type": "section", "value": "about-1" } }
+          "cta": { "label": "t:home.hero.cta", "target": { "type": "section", "value": "contact-7" } },
+          "secondaryCta": { "label": "t:home.hero.cta2", "target": { "type": "section", "value": "about-1" } }
         },
         {
           "type": "about",
           "variant": "story",
           "header": {
-            "badge": "Nasza historia",
-            "title": "Prawdziwy Neapol w sercu Garwolina"
+            "badge": "t:home.about.badge",
+            "title": "t:home.about.title"
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-nostrano.jpeg",
           "imageRounded": false,
           "contentFontFamily": "'DM Sans', sans-serif",
           "contentFontSize": "18px",
           "story": {
-            "title": "Pasja, rzemiosło, prostota",
-            "content": "Nostrano to po włosku „nasze\" i „lokalne\". To nie jest kolejna sieciówka ani miejsce turystyczne. To nasz osobisty projekt, miejsce zrodzone z pasji do rzemiosła i miłości do niespiesznego celebrowania posiłków.\n\nStworzyliśmy Nostrano – bracia Piotr i Paweł Ściślak – by przenieść ułamek neapolitańskiej duszy do naszego rodzinnego miasta. Piotr, szkolony w prestiżowej Akademii Pizzaioli oraz pod czujnym okiem Arte Bianca Patryka Nowakowskiego, pilnuje, aby każdy placek wychodzący z naszego pieca był doskonały.\n\nNasza kuchnia to hołd dla prostoty. Tylko najlepsze składniki, rzemieślnicze podejście do każdego detalu i cierpliwość, której wymaga prawdziwa pizza."
+            "title": "t:home.about.story.title",
+            "content": "t:home.about.story.content"
           },
           "signature": {
             "text": "Fatto con amore — con cuore italiano"
@@ -180,55 +180,55 @@
           "columns": 2,
           "header": {
             "badge": "Degustazione",
-            "title": "Menu",
+            "title": "t:home.menu.title",
             "flag": true
           },
           "serviceCategories": [
-            { "id": "przystawki", "label": "Przystawki (Antipasti)" },
-            { "id": "pizza", "label": "Pizza (La Pizza)" },
-            { "id": "salatki", "label": "Sałatki (Insalate)" }
+            { "id": "przystawki", "label": "t:home.menu.cat.antipasti" },
+            { "id": "pizza", "label": "t:home.menu.cat.pizza" },
+            { "id": "salatki", "label": "t:home.menu.cat.insalate" }
           ],
           "items": [
-            { "id": "krem-pomidorowy", "category": "przystawki", "title": "Krem z pomidorów pelati z mascarpone", "description": "Aksamitny krem, świeża bazylia", "price": "23 zł" },
-            { "id": "focaccia", "category": "przystawki", "title": "Focaccia z rozmarynem", "description": "Wypiekana na miejscu, oliwa z oliwek", "price": "25 zł" },
-            { "id": "bruschetta", "category": "przystawki", "title": "Bruschetta z pomidorami", "description": "Świeże pomidory, czosnek, bazylia, pieczywo rzemieślnicze", "price": "32 zł" },
-            { "id": "krewetki", "category": "przystawki", "title": "Krewetki w sosie winno-maślanym (6 szt.)", "description": "Białe wino, czosnek, natka pietruszki", "price": "46 zł" },
-            { "id": "tatar", "category": "przystawki", "title": "Tatar wołowy z podgrzybkiem i rzodkwią", "description": "Najwyższej jakości wołowina, pikle", "price": "47 zł" },
-            { "id": "burrata", "category": "salatki", "title": "Insalata burrata di bufala", "description": "Z malinami i truskawkami, krem balsamiczny", "price": "43 zł" },
-            { "id": "pizza-neapolitanska", "category": "pizza", "title": "Pizza Neapolitańska", "description": "Gwiazda naszego lokalu, dojrzewające ciasto, pomidory San Marzano", "price": "od 35 zł" },
-            { "id": "caesar", "category": "salatki", "title": "Insalata Caesar z krewetkami", "description": "Klasyczny sos, rzymska sałata, parmezan", "price": "47 zł" }
+            { "id": "krem-pomidorowy", "category": "przystawki", "title": "t:home.menu.items.krem.title", "description": "t:home.menu.items.krem.desc", "price": "23 zł" },
+            { "id": "focaccia", "category": "przystawki", "title": "t:home.menu.items.focaccia.title", "description": "t:home.menu.items.focaccia.desc", "price": "25 zł" },
+            { "id": "bruschetta", "category": "przystawki", "title": "t:home.menu.items.bruschetta.title", "description": "t:home.menu.items.bruschetta.desc", "price": "32 zł" },
+            { "id": "krewetki", "category": "przystawki", "title": "t:home.menu.items.krewetki.title", "description": "t:home.menu.items.krewetki.desc", "price": "46 zł" },
+            { "id": "tatar", "category": "przystawki", "title": "t:home.menu.items.tatar.title", "description": "t:home.menu.items.tatar.desc", "price": "47 zł" },
+            { "id": "burrata", "category": "salatki", "title": "Insalata burrata di bufala", "description": "t:home.menu.items.burrata.desc", "price": "43 zł" },
+            { "id": "pizza-neapolitanska", "category": "pizza", "title": "t:home.menu.items.pizza.title", "description": "t:home.menu.items.pizza.desc", "price": "od 35 zł" },
+            { "id": "caesar", "category": "salatki", "title": "t:home.menu.items.caesar.title", "description": "t:home.menu.items.caesar.desc", "price": "47 zł" }
           ],
-          "footnote": "Ask the staff about the full menu and seasonal specials.",
-          "cta": { "label": "Zarezerwuj stolik", "target": { "type": "page", "value": "contact" } }
+          "footnote": "t:home.menu.footnote",
+          "cta": { "label": "t:common.bookTable", "target": { "type": "page", "value": "contact" } }
         },
         {
           "type": "features",
           "variant": "numbered-split",
           "header": {
-            "badge": "Filozofia",
-            "title": "Dlaczego Nostrano?"
+            "badge": "t:home.features.badge",
+            "title": "t:home.features.title"
           },
           "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&h=900&fit=crop",
           "items": [
             {
               "icon": "flame",
-              "title": "Rzemieślnicza Pasja",
-              "description": "Ciasto na naszą pizzę dojrzewa godzinami, a proces jego wyrabiania to sztuka. Nie idziemy na kompromisy."
+              "title": "t:home.features.items.0.title",
+              "description": "t:home.features.items.0.desc"
             },
             {
               "icon": "award",
-              "title": "Certyfikowani Pizzaiolo",
-              "description": "Szkoliliśmy się w Akademii Pizzaioli pod okiem mistrzów. Wiemy, jak oddać hołd włoskiej tradycji."
+              "title": "t:home.features.items.1.title",
+              "description": "t:home.features.items.1.desc"
             },
             {
               "icon": "users",
-              "title": "Atmosfera dla Każdego",
-              "description": "Rodzinny klimat, kącik dla dzieci i uśmiech na twarzy. Miejsce, gdzie społeczność Garwolina spotyka się przy dobrym jedzeniu."
+              "title": "t:home.features.items.2.title",
+              "description": "t:home.features.items.2.desc"
             },
             {
               "icon": "calendar",
-              "title": "Lokalne Wydarzenia",
-              "description": "Warsztaty robienia pizzy dla najmłodszych, wieczory z włoskim kinem i degustacje win. Żyjemy życiem miasta."
+              "title": "t:home.features.items.3.title",
+              "description": "t:home.features.items.3.desc"
             }
           ]
         },
@@ -237,32 +237,32 @@
           "variant": "cards",
           "header": {
             "badge": "Vita a Nostrano",
-            "title": "Wydarzenia"
+            "title": "t:home.events.title"
           },
           "items": [
             {
-              "title": "Pizza dla Najmłodszych",
-              "description": "Zapraszamy dzieci na warsztaty wyrabiania prawdziwego ciasta neapolitańskiego. Każdy mały pizzaiolo wychodzi z dumą i własnoręcznie zrobionym plackiem.",
-              "tags": ["Warsztaty"],
-              "meta": "Miejsca ograniczone",
-              "dateStart": "Czerwiec 2025",
-              "linkLabel": "Zapytaj o szczegóły"
+              "title": "t:home.events.items.0.title",
+              "description": "t:home.events.items.0.desc",
+              "tags": ["t:home.events.items.0.tag"],
+              "meta": "t:home.events.items.0.meta",
+              "dateStart": "t:home.events.items.0.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
             },
             {
-              "title": "Wieczór z Winem Włoskim",
-              "description": "Degustacja starannie wybranych win z południa Włoch w towarzystwie przystawek. Idealne dla tych, którzy chcą odkrywać włoskie regiony szklanką w ręku.",
-              "tags": ["Degustacja"],
-              "meta": "Rezerwacja wymagana",
-              "dateStart": "Co drugi piątek",
-              "linkLabel": "Zapytaj o szczegóły"
+              "title": "t:home.events.items.1.title",
+              "description": "t:home.events.items.1.desc",
+              "tags": ["t:home.events.items.1.tag"],
+              "meta": "t:home.events.items.1.meta",
+              "dateStart": "t:home.events.items.1.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
             },
             {
-              "title": "Wieczory z Włoskim Kinem",
-              "description": "Klimatyczne pokazy włoskich filmów z napisami. Cannes, Rzym, Neapol — przenosimy was w podróż bez wychodzenia z Garwolina.",
-              "tags": ["Kultura"],
-              "meta": "Wstęp wolny",
-              "dateStart": "Niebawem",
-              "linkLabel": "Zapytaj o szczegóły"
+              "title": "t:home.events.items.2.title",
+              "description": "t:home.events.items.2.desc",
+              "tags": ["t:home.events.items.2.tag"],
+              "meta": "t:home.events.items.2.meta",
+              "dateStart": "t:home.events.items.2.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
             }
           ]
         },
@@ -272,59 +272,59 @@
           "background": "dark",
           "header": {
             "badge": "I Bambini",
-            "title": "Strefa dla Najmłodszych"
+            "title": "t:home.kids.title"
           },
           "story": {
-            "content": "Wiemy, że kolacja z dziećmi bywa wyzwaniem. Dlatego stworzyliśmy specjalny kącik dla najmłodszych — z zabawkami, książkami i miejscem do rysowania — żebyś ty mógł na chwilę odetchnąć i cieszyć się posiłkiem.\n\nNostrano to nie lokal imprezowy. To miejsce, gdzie rodziny mogą spędzić wspólny wieczór przy prawdziwym jedzeniu, bez pośpiechu i bez stresu."
+            "content": "t:home.kids.content"
           },
           "stats": [
-            { "value": "Zabawki", "label": "kącik zabaw" },
-            { "value": "Książki", "label": "dla wszystkich" },
-            { "value": "Rysunki", "label": "kredki i papier" }
+            { "value": "t:home.kids.stats.0.value", "label": "t:home.kids.stats.0.label" },
+            { "value": "t:home.kids.stats.1.value", "label": "t:home.kids.stats.1.label" },
+            { "value": "t:home.kids.stats.2.value", "label": "t:home.kids.stats.2.label" }
           ],
           "quote": {
-            "text": "Jedzenie jest najpiękniejszą formą wspólnego spędzania czasu.",
-            "author": "Piotr i Paweł Ściślak, właściciele",
-            "note": "Planujemy warsztaty pizzy dla dzieci — wpisz się na listę i bądź pierwszy."
+            "text": "t:home.kids.quote.text",
+            "author": "t:home.kids.quote.author",
+            "note": "t:home.kids.quote.note"
           },
-          "cta": { "label": "Zapisz dziecko", "target": { "type": "page", "value": "contact" } }
+          "cta": { "label": "t:home.kids.cta", "target": { "type": "page", "value": "contact" } }
         },
         {
           "type": "gallery",
           "variant": "mosaic",
           "header": {
             "badge": "La Nostra Arte",
-            "title": "Galeria"
+            "title": "t:home.gallery.title"
           },
           "items": [
             {
-              "title": "Pizza Neapolitańska",
-              "description": "Ciasto dojrzewa 48h",
+              "title": "t:home.menu.items.pizza.title",
+              "description": "t:home.gallery.items.0.desc",
               "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop"
             },
             {
               "title": "Bruschetta",
-              "description": "Świeże pomidory, bazylia",
+              "description": "t:home.gallery.items.1.desc",
               "image": "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=800&h=800&fit=crop"
             },
             {
               "title": "Burrata di Bufala",
-              "description": "Maliny, truskawki, balsamico",
+              "description": "t:home.gallery.items.2.desc",
               "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800&h=800&fit=crop"
             },
             {
               "title": "Aperitivo",
-              "description": "Włoskie koktajle",
+              "description": "t:home.gallery.items.3.desc",
               "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&h=800&fit=crop"
             },
             {
               "title": "Pasta",
-              "description": "Rzemieślniczy makaron",
+              "description": "t:home.gallery.items.4.desc",
               "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=800&h=800&fit=crop"
             },
             {
-              "title": "Atmosfera",
-              "description": "Kawałek Neapolu",
+              "title": "t:home.gallery.items.5.title",
+              "description": "t:home.gallery.items.5.desc",
               "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=800&fit=crop"
             }
           ]
@@ -333,90 +333,90 @@
           "type": "contact",
           "variant": "restaurant",
           "header": {
-            "badge": "Rezerwacje",
-            "title": "Czekamy na Ciebie",
-            "subtitle": "W weekendy nasza sala szybko się zapełnia. Zalecamy wcześniejszą rezerwację stolika."
+            "badge": "t:home.contact.badge",
+            "title": "t:home.contact.title",
+            "subtitle": "t:home.contact.subtitle"
           },
           "info": {
-            "address": "Restauracja Nostrano, ul. Janusza Korczaka 46, 08-400 Garwolin",
+            "address": "t:home.contact.address",
             "googlePlaceQuery": "Restauracja Nostrano, ul. Janusza Korczaka 46, 08-400 Garwolin",
             "phone": "+48 xxx xxx xxx",
             "email": "kontakt@nostrano.pl",
-            "hours": "Godziny otwarcia",
+            "hours": "t:common.openingHours",
             "hoursDetailed": [
-              "Poniedziałek — Zamknięte",
-              "Wtorek – Czwartek — 13:00 – 21:00",
-              "Piątek – Sobota — 13:00 – 23:00",
-              "Niedziela — 13:00 – 21:00"
+              "t:home.contact.hoursDetailed.0",
+              "t:home.contact.hoursDetailed.1",
+              "t:home.contact.hoursDetailed.2",
+              "t:home.contact.hoursDetailed.3"
             ]
           },
           "form": {
-            "namePlaceholder": "Jan Kowalski",
-            "emailPlaceholder": "jan@przyklad.pl",
-            "messagePlaceholder": "Chciałbym zarezerwować stolik na...",
-            "submitButton": "Zadzwoń i zarezerwuj",
-            "nameLabel": "Imię",
-            "emailLabel": "Email",
-            "messageLabel": "Wiadomość"
+            "namePlaceholder": "t:form.namePlaceholder",
+            "emailPlaceholder": "t:form.emailPlaceholder",
+            "messagePlaceholder": "t:form.messagePlaceholder",
+            "submitButton": "t:common.callAndBook",
+            "nameLabel": "t:form.nameLabel",
+            "emailLabel": "t:form.emailLabel",
+            "messageLabel": "t:form.messageLabel"
           },
-          "cta": { "label": "Zadzwoń i zarezerwuj", "target": { "type": "external", "value": "tel:+48000000000" } }
+          "cta": { "label": "t:common.callAndBook", "target": { "type": "external", "value": "tel:+48000000000" } }
         }
       ]
     },
     "about": {
-      "title": "O nas",
+      "title": "t:nav.about",
       "sections": [
         {
           "type": "about",
           "variant": "story",
           "header": {
-            "badge": "Nasza historia",
-            "title": "Prawdziwy Neapol w sercu Garwolina"
+            "badge": "t:home.about.badge",
+            "title": "t:home.about.title"
           },
           "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop",
           "story": {
-            "title": "Pasja, rzemiosło, prostota",
-            "content": "Nostrano to po włosku „nasze\" i „lokalne\". Stworzyliśmy je – bracia Piotr i Paweł Ściślak – by przenieść ułamek neapolitańskiej duszy do naszego rodzinnego miasta.\n\nPiotr, szkolony w Akademii Pizzaioli oraz pod okiem Arte Bianca Patryka Nowakowskiego, pilnuje, aby każdy placek wychodzący z pieca był doskonały. Nasza kuchnia to hołd dla prostoty: tylko najlepsze składniki, rzemieślnicze podejście do każdego detalu i cierpliwość, której wymaga prawdziwa pizza."
+            "title": "t:home.about.story.title",
+            "content": "t:about.story.content"
           },
           "stats": [
-            { "value": "48h", "label": "Dojrzewanie ciasta" },
-            { "value": "100%", "label": "Składniki z Włoch" },
-            { "value": "2", "label": "Bracia, jeden piec" }
+            { "value": "48h", "label": "t:about.stats.0.label" },
+            { "value": "100%", "label": "t:about.stats.1.label" },
+            { "value": "2", "label": "t:about.stats.2.label" }
           ]
         }
       ]
     },
     "contact": {
-      "title": "Kontakt",
+      "title": "t:nav.contact",
       "sections": [
         {
           "type": "contact",
           "variant": "split",
           "header": {
-            "badge": "Rezerwacje",
-            "title": "Czekamy na Ciebie",
-            "subtitle": "W weekendy nasza sala szybko się zapełnia. Zalecamy wcześniejszą rezerwację stolika."
+            "badge": "t:home.contact.badge",
+            "title": "t:home.contact.title",
+            "subtitle": "t:home.contact.subtitle"
           },
           "info": {
-            "address": "Restauracja Nostrano, ul. Janusza Korczaka 46, 08-400 Garwolin",
+            "address": "t:home.contact.address",
             "phone": "+48 xxx xxx xxx",
             "email": "kontakt@nostrano.pl",
-            "hours": "Godziny otwarcia",
+            "hours": "t:common.openingHours",
             "hoursDetailed": [
-              "Poniedziałek — Zamknięte",
-              "Wtorek – Czwartek — 13:00 – 21:00",
-              "Piątek – Sobota — 13:00 – 23:00",
-              "Niedziela — 13:00 – 21:00"
+              "t:home.contact.hoursDetailed.0",
+              "t:home.contact.hoursDetailed.1",
+              "t:home.contact.hoursDetailed.2",
+              "t:home.contact.hoursDetailed.3"
             ]
           },
           "form": {
-            "namePlaceholder": "Jan Kowalski",
-            "emailPlaceholder": "jan@przyklad.pl",
-            "messagePlaceholder": "Chciałbym zarezerwować stolik na...",
-            "submitButton": "Zadzwoń i zarezerwuj",
-            "nameLabel": "Imię",
-            "emailLabel": "Email",
-            "messageLabel": "Wiadomość"
+            "namePlaceholder": "t:form.namePlaceholder",
+            "emailPlaceholder": "t:form.emailPlaceholder",
+            "messagePlaceholder": "t:form.messagePlaceholder",
+            "submitButton": "t:common.callAndBook",
+            "nameLabel": "t:form.nameLabel",
+            "emailLabel": "t:form.emailLabel",
+            "messageLabel": "t:form.messageLabel"
           }
         }
       ]
