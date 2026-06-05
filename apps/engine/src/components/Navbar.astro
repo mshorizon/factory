@@ -468,6 +468,19 @@ const showCta = !hideCta && !!cta;
     -webkit-backdrop-filter: blur(16px);
     box-shadow: none !important;
   }
+
+  /* template-art (restaurant): wider gap between nav links for a more
+     spacious, editorial feel. Overrides the default gap-1/lg:gap-2. */
+  [data-major-theme="template-art"] #main-nav .nav-links-center,
+  [data-major-theme="template-art"] #main-nav .nav-links-right {
+    gap: var(--spacing-md);
+  }
+  @media (min-width: 1024px) {
+    [data-major-theme="template-art"] #main-nav .nav-links-center,
+    [data-major-theme="template-art"] #main-nav .nav-links-right {
+      gap: var(--spacing-lg);
+    }
+  }
 </style>
 
 <script define:vars={{ hasUpperBar, isTransparent, hideBorderOnTop }}>
