@@ -163,6 +163,10 @@ export type HeroSubtitleFontSize = string;
  */
 export type HeroBadgeLetterSpacing = string;
 /**
+ * Letter spacing for the hero subtitle/description text, e.g. "0.15em". Overrides the default 0.05em.
+ */
+export type HeroSubtitleLetterSpacing = string;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -693,6 +697,7 @@ export interface Theme {
   heroTitleFontFamily?: HeroTitleFontFamily;
   heroSubtitleSize?: HeroSubtitleFontSize;
   heroBadgeLetterSpacing?: HeroBadgeLetterSpacing;
+  heroSubtitleLetterSpacing?: HeroSubtitleLetterSpacing;
   navLogoFlag?: NavbarLogoFlagStripes;
   navHeightTop?: NavbarHeightAtTop;
   navHeightScrolled?: NavbarHeightWhenScrolled;

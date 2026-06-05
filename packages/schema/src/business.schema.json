@@ -1006,6 +1006,7 @@
         "heroTitleFontFamily": { "type": "string", "title": "Hero Title Font Family", "description": "Explicit CSS font-family for the hero title text, e.g. \"'Cormorant Garamond', serif\". Overrides the default heading font. The font is automatically loaded." },
         "heroSubtitleSize": { "type": "string", "title": "Hero Subtitle Font Size", "description": "Font size for the hero subtitle/description, e.g. \"24px\". Overrides the default responsive sizing." },
         "heroBadgeLetterSpacing": { "type": "string", "title": "Hero Badge Letter Spacing", "description": "Letter spacing for the hero badge/eyebrow text, e.g. \"0.4em\". Overrides the default 0.05em." },
+        "heroSubtitleLetterSpacing": { "type": "string", "title": "Hero Subtitle Letter Spacing", "description": "Letter spacing for the hero subtitle/description text, e.g. \"0.15em\". Overrides the default 0.05em." },
         "navLogoFlag": {
           "type": "array",
           "title": "Navbar Logo Flag Stripes",
