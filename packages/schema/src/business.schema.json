@@ -178,6 +178,11 @@
           "title": "Section Background",
           "enum": ["light", "dark", "dark-padded", "light-padded", "primary", "gradient", "transparent"]
         },
+        "backgroundColor": {
+          "type": "string",
+          "title": "Section Background Color Override (custom CSS color, e.g. '#26201c')",
+          "description": "Overrides the section wrapper background color with a custom CSS color value. Takes precedence over the 'background' enum for the background fill."
+        },
         "header": { "$ref": "#/definitions/sectionHeader" },
         "paddingTop": { "type": "string", "title": "Section Top Padding Override (e.g. '120px', '8rem')" },
         "paddingBottom": { "type": "string", "title": "Section Bottom Padding Override (e.g. '120px', '8rem')" },

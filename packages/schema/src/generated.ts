@@ -347,6 +347,10 @@ export type SectionBackground =
   | "primary"
   | "gradient"
   | "transparent";
+/**
+ * Overrides the section wrapper background color with a custom CSS color value. Takes precedence over the 'background' enum for the background fill.
+ */
+export type SectionBackgroundColorOverrideCustomCSSColorEG26201C = string;
 export type BadgeText = string;
 export type Title = string;
 export type Subtitle = string;
@@ -804,6 +808,7 @@ export interface Section {
   sidebarContact?: SidebarContactCard;
   variant?: Variant;
   background?: SectionBackground;
+  backgroundColor?: SectionBackgroundColorOverrideCustomCSSColorEG26201C;
   header?: SectionHeader;
   paddingTop?: SectionTopPaddingOverrideEG120Px8Rem;
   paddingBottom?: SectionBottomPaddingOverrideEG120Px8Rem;
