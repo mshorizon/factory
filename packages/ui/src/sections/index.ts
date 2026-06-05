@@ -47,7 +47,7 @@ export { GalleryBA } from "./galleryBA";
 export type { GalleryBAProps, BeforeAfterPair } from "./galleryBA";
 
 // Gallery variants
-export { GalleryGrid, GalleryShowcase } from "./gallery";
+export { GalleryGrid, GalleryShowcase, GalleryMosaic } from "./gallery";
 export type { GalleryGridProps, GalleryShowcaseProps, GalleryItem } from "./gallery";
 
 // Testimonials variants
