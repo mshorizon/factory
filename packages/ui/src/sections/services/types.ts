@@ -26,6 +26,8 @@ export interface ServicesProps {
   className?: string;
   /** Optional category tabs rendered above the list; selecting one filters items by item.category. */
   categories?: ServiceCategory[];
+  /** Optional id of the category tab selected by default. Falls back to the first tab. */
+  defaultCategory?: string;
   /** Minimal variant — portfolio-law-style cards (borderless, primaryLight accent line, larger details link). */
   minimal?: boolean;
   /** Label for the per-card details link (translatable). */

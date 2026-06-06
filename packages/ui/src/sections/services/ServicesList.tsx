@@ -14,10 +14,15 @@ export function ServicesList({
   ctaHref = "/contact",
   className,
   categories,
+  defaultCategory,
   columns = 1,
 }: ServicesProps) {
   const hasTabs = !!categories && categories.length > 0;
-  const [activeCategory, setActiveCategory] = useState(hasTabs ? categories![0].id : "");
+  // Default to the configured category when it matches a tab, otherwise the first tab.
+  const initialCategory = hasTabs
+    ? (categories!.some((c) => c.id === defaultCategory) ? defaultCategory! : categories![0].id)
+    : "";
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
 
   // Keep each item's original index so data-field mapping stays correct when filtered.
   const visiblePairs = items

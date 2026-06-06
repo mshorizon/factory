@@ -322,6 +322,7 @@
               "label": "t:home.menu.cat.aperitivo"
             }
           ],
+          "defaultCategory": "pizza",
           "items": [
             {
               "id": "zuppa-pomidorowa",

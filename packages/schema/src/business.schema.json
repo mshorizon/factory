@@ -308,6 +308,11 @@
             "required": ["id", "label"]
           }
         },
+        "defaultCategory": {
+          "type": "string",
+          "title": "Default Category Tab",
+          "description": "Optional id of the serviceCategories tab selected by default when the page loads. When omitted, the first tab is selected."
+        },
         "story": {
           "type": "object",
           "properties": {

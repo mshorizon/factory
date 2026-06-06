@@ -28,6 +28,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 const detailsLabel = section.detailsLabel;
 const showIcons = !!(section as any).showIcons;
 const serviceCategories = (section as any).serviceCategories as { id: string; label: string }[] | undefined;
+const defaultCategory = (section as any).defaultCategory as string | undefined;
 const columns = (section as any).columns as number | undefined;
 const footnote = (section as any).footnote as string | undefined;
 const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
@@ -48,7 +49,7 @@ const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
       revealDelay={0}
     />
     {variant === "list" ? (
-      <ServicesList client:visible items={items} categories={serviceCategories} columns={columns} />
+      <ServicesList client:visible items={items} categories={serviceCategories} defaultCategory={defaultCategory} columns={columns} />
     ) : variant === "imageGrid" ? (
       <ServicesImageGrid client:visible items={items} />
     ) : variant === "darkCards" ? (

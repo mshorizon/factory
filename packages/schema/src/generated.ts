@@ -529,6 +529,10 @@ export type TabLabel = string;
  */
 export type ServiceCategoryTabs = ServiceCategory[];
 /**
+ * Optional id of the serviceCategories tab selected by default when the page loads. When omitted, the first tab is selected.
+ */
+export type DefaultCategoryTab = string;
+/**
  * Rendered in uppercase.
  */
 export type SignatureText = string;
@@ -963,6 +967,7 @@ export interface Section {
   scheduleCards?: ScheduleCards;
   items?: Items;
   serviceCategories?: ServiceCategoryTabs;
+  defaultCategory?: DefaultCategoryTab;
   story?: {
     title?: string;
     content?: string;
