@@ -325,13 +325,16 @@ const secondaryCta = section.secondaryCta ? {
       </div>
     </section>
     <script is:inline>
-      // Smooth-scroll for in-page hero anchor CTAs (e.g. the "Poznaj nas"
-      // ghost button). Falls back to the first about section if the target
-      // id is missing, so it always lands on the about content.
+      // Smooth-scroll for in-page hero anchor CTAs (e.g. the "Rezerwuj stolik"
+      // button targeting "#contact-8", or the "Poznaj nas" ghost button).
+      // If the exact indexed id is missing, fall back to the first section of
+      // the same type (e.g. "contact-8" -> [data-section-type="contact"]) so
+      // the CTA always lands on the intended section even if the index shifts.
       document.querySelectorAll('.hero-fold a[href^="#"]').forEach((a) => {
         a.addEventListener('click', (e) => {
           const id = a.getAttribute('href').slice(1);
-          const el = document.getElementById(id) || document.querySelector('[data-section-type="about"]');
+          const type = id.replace(/-\d+$/, '');
+          const el = document.getElementById(id) || document.querySelector('[data-section-type="' + type + '"]');
           if (el) {
             e.preventDefault();
             el.scrollIntoView({ behavior: 'smooth' });
