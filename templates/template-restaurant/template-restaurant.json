@@ -200,28 +200,28 @@
         "label": "t:nav.events",
         "target": {
           "type": "section",
-          "value": "events-4"
+          "value": "events-5"
         }
       },
       {
         "label": "t:nav.kids",
         "target": {
           "type": "section",
-          "value": "about-5"
+          "value": "about-6"
         }
       },
       {
         "label": "t:nav.gallery",
         "target": {
           "type": "section",
-          "value": "gallery-6"
+          "value": "gallery-7"
         }
       },
       {
         "label": "t:nav.contact",
         "target": {
           "type": "section",
-          "value": "contact-7"
+          "value": "contact-8"
         }
       }
     ],
@@ -229,7 +229,7 @@
       "label": "t:nav.cta",
       "target": {
         "type": "section",
-        "value": "contact-7"
+        "value": "contact-8"
       }
     }
   },
@@ -255,7 +255,7 @@
             "label": "t:home.hero.cta",
             "target": {
               "type": "section",
-              "value": "contact-7"
+              "value": "contact-8"
             }
           },
           "secondaryCta": {
@@ -610,6 +610,7 @@
     },
     "about": {
       "title": "t:nav.about",
+      "hideFromNav": true,
       "sections": [
         {
           "type": "about",
@@ -642,6 +643,7 @@
     },
     "contact": {
       "title": "t:nav.contact",
+      "hideFromNav": true,
       "sections": [
         {
           "type": "contact",
