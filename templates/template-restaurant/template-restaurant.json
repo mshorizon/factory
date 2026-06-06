@@ -277,6 +277,8 @@
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-nostrano.jpeg",
           "imageRounded": true,
+          "imageWidth": "560px",
+          "imageHeight": "620px",
           "contentFontFamily": "'DM Sans', sans-serif",
           "contentFontSize": "18px",
           "story": {

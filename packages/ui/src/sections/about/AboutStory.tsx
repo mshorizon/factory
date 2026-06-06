@@ -29,9 +29,14 @@ export function AboutStory({
   imageRounded = true,
   contentFontFamily,
   contentFontSize,
+  imageWidth,
+  imageHeight,
 }: AboutStoryProps) {
   const contentStyle = (contentFontFamily || contentFontSize)
     ? { fontFamily: contentFontFamily, fontSize: contentFontSize }
+    : undefined;
+  const imageSizeStyle = (imageWidth || imageHeight)
+    ? { width: imageWidth, height: imageHeight }
     : undefined;
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
@@ -46,9 +51,12 @@ export function AboutStory({
           src={image}
           alt=""
           className={cn(
-            "w-[448px] max-w-full h-[500px] object-cover shadow-lg",
+            "max-w-full object-cover shadow-lg",
+            !imageWidth && "w-[448px]",
+            !imageHeight && "h-[500px]",
             imageRounded && "rounded-[var(--radius-lg)]"
           )}
+          style={imageSizeStyle}
           data-field="image"
           loading="lazy"
           decoding="async"

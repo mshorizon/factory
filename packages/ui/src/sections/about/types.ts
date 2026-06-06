@@ -44,6 +44,10 @@ export interface AboutStoryProps {
   contentFontFamily?: string;
   /** Overrides the font-size of the body/story content. Full CSS length value, e.g. "18px". */
   contentFontSize?: string;
+  /** Overrides the image width. Full CSS length value, e.g. "560px". Defaults to 448px. */
+  imageWidth?: string;
+  /** Overrides the image height. Full CSS length value, e.g. "620px". Defaults to 500px. */
+  imageHeight?: string;
 }
 
 export interface QuotePanel {

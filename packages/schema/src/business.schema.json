@@ -198,6 +198,8 @@
         "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
         "contentFontFamily": { "type": "string", "title": "Body Content Font Family Override", "description": "Overrides the font-family of the section's main body/story text (the 'big text' content). Full CSS font-family value, e.g. \"'DM Sans', sans-serif\"." },
         "contentFontSize": { "type": "string", "title": "Body Content Font Size Override", "description": "Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'." },
+        "imageWidth": { "type": "string", "title": "Section Image Width Override", "description": "Overrides the about-section image width. Full CSS length value, e.g. '560px'. Defaults to 448px." },
+        "imageHeight": { "type": "string", "title": "Section Image Height Override", "description": "Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px." },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
         "scrollColor": { "type": "string", "title": "Hero Scroll Indicator Color Override", "description": "Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
         "textColor": { "type": "string", "title": "Hero Text Color Override", "description": "Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },

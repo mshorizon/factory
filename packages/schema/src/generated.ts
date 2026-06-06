@@ -449,6 +449,14 @@ export type BodyContentFontFamilyOverride = string;
  * Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'.
  */
 export type BodyContentFontSizeOverride = string;
+/**
+ * Overrides the about-section image width. Full CSS length value, e.g. '560px'. Defaults to 448px.
+ */
+export type SectionImageWidthOverride = string;
+/**
+ * Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px.
+ */
+export type SectionImageHeightOverride = string;
 export type CTATextColorOverride = string;
 /**
  * Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
@@ -936,6 +944,8 @@ export interface Section {
   descriptionColor?: DescriptionTextColorOverride;
   contentFontFamily?: BodyContentFontFamilyOverride;
   contentFontSize?: BodyContentFontSizeOverride;
+  imageWidth?: SectionImageWidthOverride;
+  imageHeight?: SectionImageHeightOverride;
   ctaColor?: CTATextColorOverride;
   scrollColor?: HeroScrollIndicatorColorOverride;
   textColor?: HeroTextColorOverride;
