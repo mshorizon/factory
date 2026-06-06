@@ -184,6 +184,11 @@
           "title": "Section Background Color Override (custom CSS color, e.g. '#26201c')",
           "description": "Overrides the section wrapper background color with a custom CSS color value. Takes precedence over the 'background' enum for the background fill."
         },
+        "cardBackgroundColor": {
+          "type": "string",
+          "title": "Card Background Color Override (custom CSS color, e.g. '#26201c')",
+          "description": "Overrides the background color of the section's inner card/panel (e.g. the quote panel in the about 'quote-split' variant). Full CSS color value."
+        },
         "header": { "$ref": "#/definitions/sectionHeader" },
         "paddingTop": { "type": "string", "title": "Section Top Padding Override (e.g. '120px', '8rem')" },
         "paddingBottom": { "type": "string", "title": "Section Bottom Padding Override (e.g. '120px', '8rem')" },

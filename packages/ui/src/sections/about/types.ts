@@ -68,6 +68,8 @@ export interface AboutQuoteSplitProps {
   ctaHref?: string;
   className?: string;
   background?: string;
+  /** Overrides the background color of the right-hand quote panel/card. Full CSS color value. */
+  cardBackgroundColor?: string;
 }
 
 export interface CareerItem {

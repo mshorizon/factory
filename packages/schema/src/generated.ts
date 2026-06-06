@@ -419,6 +419,10 @@ export type SectionBackground =
  * Overrides the section wrapper background color with a custom CSS color value. Takes precedence over the 'background' enum for the background fill.
  */
 export type SectionBackgroundColorOverrideCustomCSSColorEG26201C = string;
+/**
+ * Overrides the background color of the section's inner card/panel (e.g. the quote panel in the about 'quote-split' variant). Full CSS color value.
+ */
+export type CardBackgroundColorOverrideCustomCSSColorEG26201C = string;
 export type BadgeText = string;
 export type Title = string;
 export type Subtitle = string;
@@ -934,6 +938,7 @@ export interface Section {
   variant?: Variant;
   background?: SectionBackground;
   backgroundColor?: SectionBackgroundColorOverrideCustomCSSColorEG26201C;
+  cardBackgroundColor?: CardBackgroundColorOverrideCustomCSSColorEG26201C;
   header?: SectionHeader;
   paddingTop?: SectionTopPaddingOverrideEG120Px8Rem;
   paddingBottom?: SectionBottomPaddingOverrideEG120Px8Rem;

@@ -47,6 +47,7 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
         cta={ctaLabel}
         ctaHref={ctaHref}
         background={section.background}
+        cardBackgroundColor={(section as any).cardBackgroundColor}
       />
     ) : variant === "career" ? (
       <AboutCareer

@@ -550,6 +550,8 @@
           "type": "about",
           "variant": "quote-split",
           "background": "dark",
+          "backgroundColor": "#26201c",
+          "cardBackgroundColor": "#26201c",
           "header": {
             "badge": "I Bambini",
             "title": "t:home.kids.title"

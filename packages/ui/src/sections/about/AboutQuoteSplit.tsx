@@ -18,6 +18,7 @@ export function AboutQuoteSplit({
   ctaHref = "/contact",
   className,
   background,
+  cardBackgroundColor,
 }: AboutQuoteSplitProps) {
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
 
@@ -70,6 +71,7 @@ export function AboutQuoteSplit({
         <ScrollReveal delay={0.2} direction="left" distance={30}>
           <div
             className="bg-card rounded-radius p-spacing-2xl flex flex-col justify-center gap-spacing-lg h-full"
+            style={cardBackgroundColor ? { backgroundColor: cardBackgroundColor } : undefined}
             data-field="quote"
           >
             {quote.flag ? (
