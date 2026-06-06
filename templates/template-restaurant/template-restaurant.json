@@ -125,7 +125,7 @@
       "hideBlog": true
     },
     "footer": {
-      "variant": "restaurant",
+      "variant": "multiColumn",
       "background": {
         "color": "#26201c"
       },
