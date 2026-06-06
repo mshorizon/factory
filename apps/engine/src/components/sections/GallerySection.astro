@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { GalleryGrid, GalleryShowcase, GalleryMosaic, SectionHeader } from "@mshorizon/ui";
+import { GalleryGrid, GalleryShowcase, GalleryMosaic, SectionHeader, buttonVariants } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -16,6 +16,13 @@ const header = getSectionHeader(section);
 const items = section.items || [];
 const exploreHref = section.cta?.target ? resolveTarget(section.cta.target) : undefined;
 const exploreLabel = section.cta?.label || section.exploreLabel;
+
+// Optional ghost button below the gallery. The full text is shown uppercase;
+// the `highlight` substring within it (e.g. a social handle) is colored.
+const socialCta = section.socialCta;
+const socialParts = socialCta?.text && socialCta.highlight
+  ? socialCta.text.split(socialCta.highlight)
+  : undefined;
 ---
 
 <section>
@@ -38,6 +45,28 @@ const exploreLabel = section.cta?.label || section.exploreLabel;
       <GalleryMosaic client:visible items={items} />
     ) : (
       <GalleryGrid client:visible items={items} />
+    )}
+    {socialCta?.text && (
+      <div class="mt-spacing-2xl flex justify-center">
+        <a
+          href={socialCta.href || "#"}
+          target={socialCta.href?.startsWith("http") ? "_blank" : undefined}
+          rel={socialCta.href?.startsWith("http") ? "noopener noreferrer" : undefined}
+          class={`${buttonVariants({ variant: "ghost", size: "lg" })} uppercase tracking-wide`}
+        >
+          {socialParts ? (
+            <span>
+              {socialParts[0]}
+              <span style={socialCta.highlightColor ? `color:${socialCta.highlightColor}` : undefined}>
+                {socialCta.highlight}
+              </span>
+              {socialParts.slice(1).join(socialCta.highlight)}
+            </span>
+          ) : (
+            <span>{socialCta.text}</span>
+          )}
+        </a>
+      </div>
     )}
   </div>
 </section>

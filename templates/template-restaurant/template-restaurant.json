@@ -626,7 +626,13 @@
               "description": "t:home.gallery.items.5.desc",
               "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=800&fit=crop"
             }
-          ]
+          ],
+          "socialCta": {
+            "text": "t:home.gallery.social.cta",
+            "highlight": "@nostrano.garwolin",
+            "highlightColor": "#d94a26",
+            "href": "https://instagram.com/nostrano.garwolin"
+          }
         },
         {
           "type": "contact",

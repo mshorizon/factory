@@ -479,6 +479,13 @@ export type MapPanelButtonColor = "primary" | "primary-light";
  */
 export type HeaderDecorativeLineColor = "primary" | "foreground";
 export type InvertStatColorsLightBgDarkText = boolean;
+export type Text = string;
+/**
+ * A substring of 'text' rendered in the highlight color (e.g. a social handle).
+ */
+export type HighlightSubstring = string;
+export type HighlightColorCustomCSSColorEGD94A26 = string;
+export type LinkURL = string;
 export type DetailsButtonLabelEGSeeDetailsLearnMore = string;
 /**
  * Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant.
@@ -519,7 +526,7 @@ export type EndDate = string;
  * Short note shown top-right of an event card (e.g. 'Limited seats').
  */
 export type MetaNote = string;
-export type LinkURL = string;
+export type LinkURL1 = string;
 export type LinkLabel = string;
 /**
  * ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown.
@@ -963,6 +970,7 @@ export interface Section {
   statsInverted?: InvertStatColorsLightBgDarkText;
   cta?: Cta1;
   secondaryCta?: Cta1;
+  socialCta?: SocialCTAGhostButton;
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
   columns?: ServicesColumnCount;
   footnote?: SectionFootnote;
@@ -1032,6 +1040,15 @@ export interface SectionHeader {
   layout?: HeaderLayout;
   flag?: ShowFlagBar;
 }
+/**
+ * A ghost-style link rendered below the gallery grid (e.g. 'FOLLOW US on instagram @handle'). The full text is shown uppercase; the 'highlight' substring within it is rendered in 'highlightColor'.
+ */
+export interface SocialCTAGhostButton {
+  text: Text;
+  highlight?: HighlightSubstring;
+  highlightColor?: HighlightColorCustomCSSColorEGD94A26;
+  href?: LinkURL;
+}
 export interface Testimonial {
   title?: string;
   quote?: string;
@@ -1062,7 +1079,7 @@ export interface ServiceItem {
   dateStart?: StartDate;
   dateEnd?: EndDate;
   meta?: MetaNote;
-  href?: LinkURL;
+  href?: LinkURL1;
   linkLabel?: LinkLabel;
   category?: Category;
 }
