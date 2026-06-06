@@ -61,7 +61,7 @@ export function AboutStory({
     <ScrollReveal delay={0.1} direction={imageRight ? "left" : "right"} distance={30}>
       <div className="space-y-spacing-lg flex flex-col justify-center">
         {(badge || title) && (
-          <div className="flex items-center gap-spacing-sm">
+          <div className="flex flex-col items-start gap-spacing-sm">
             <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
             {badge && (
               <Badge variant="accent" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
