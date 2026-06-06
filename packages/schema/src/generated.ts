@@ -451,6 +451,10 @@ export type CTATextColorOverride = string;
  */
 export type HeroScrollIndicatorColorOverride = string;
 /**
+ * Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
+ */
+export type HeroTextColorOverride = string;
+/**
  * Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'.
  */
 export type MapPanelButtonColor = "primary" | "primary-light";
@@ -929,6 +933,7 @@ export interface Section {
   contentFontSize?: BodyContentFontSizeOverride;
   ctaColor?: CTATextColorOverride;
   scrollColor?: HeroScrollIndicatorColorOverride;
+  textColor?: HeroTextColorOverride;
   mapPanelButtonColor?: MapPanelButtonColor;
   headerLineColor?: HeaderDecorativeLineColor;
   statsInverted?: InvertStatColorsLightBgDarkText;
