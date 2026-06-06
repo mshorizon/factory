@@ -105,7 +105,7 @@
     "heroBottomFade": true,
     "heroTitleSize": "clamp(4.5rem, 10vw, 8rem)",
     "heroTitleFontFamily": "'Cormorant Garamond', serif",
-    "heroSubtitleSize": "24px",
+    "heroSubtitleSize": "20px",
     "heroBadgeLetterSpacing": "0.4em",
     "heroSubtitleLetterSpacing": "0.15em",
     "navLinkLetterSpacing": "0.1em",
@@ -298,19 +298,41 @@
           },
           "serviceCategories": [
             {
+              "id": "zupy",
+              "label": "t:home.menu.cat.zuppe"
+            },
+            {
               "id": "przystawki",
               "label": "t:home.menu.cat.antipasti"
+            },
+            {
+              "id": "salatki",
+              "label": "t:home.menu.cat.insalate"
             },
             {
               "id": "pizza",
               "label": "t:home.menu.cat.pizza"
             },
             {
-              "id": "salatki",
-              "label": "t:home.menu.cat.insalate"
+              "id": "koktajle",
+              "label": "t:home.menu.cat.aperitivo"
             }
           ],
           "items": [
+            {
+              "id": "zuppa-pomidorowa",
+              "category": "zupy",
+              "title": "t:home.menu.items.zuppa.title",
+              "description": "t:home.menu.items.zuppa.desc",
+              "price": "24 zł"
+            },
+            {
+              "id": "minestrone",
+              "category": "zupy",
+              "title": "t:home.menu.items.minestrone.title",
+              "description": "t:home.menu.items.minestrone.desc",
+              "price": "26 zł"
+            },
             {
               "id": "krem-pomidorowy",
               "category": "przystawki",
@@ -366,6 +388,34 @@
               "title": "t:home.menu.items.caesar.title",
               "description": "t:home.menu.items.caesar.desc",
               "price": "47 zł"
+            },
+            {
+              "id": "caprese",
+              "category": "salatki",
+              "title": "t:home.menu.items.caprese.title",
+              "description": "t:home.menu.items.caprese.desc",
+              "price": "41 zł"
+            },
+            {
+              "id": "aperol-spritz",
+              "category": "koktajle",
+              "title": "t:home.menu.items.aperol.title",
+              "description": "t:home.menu.items.aperol.desc",
+              "price": "29 zł"
+            },
+            {
+              "id": "limoncello-spritz",
+              "category": "koktajle",
+              "title": "t:home.menu.items.limoncello.title",
+              "description": "t:home.menu.items.limoncello.desc",
+              "price": "29 zł"
+            },
+            {
+              "id": "limonata",
+              "category": "koktajle",
+              "title": "t:home.menu.items.limonata.title",
+              "description": "t:home.menu.items.limonata.desc",
+              "price": "14 zł"
             }
           ],
           "footnote": "t:home.menu.footnote",
