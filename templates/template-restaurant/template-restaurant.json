@@ -292,6 +292,7 @@
         {
           "type": "services",
           "variant": "list",
+          "backgroundColor": "#26201c",
           "badgeVariant": "accent-no-line",
           "columns": 2,
           "header": {
