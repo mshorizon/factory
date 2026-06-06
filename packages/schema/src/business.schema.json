@@ -1021,6 +1021,7 @@
         "heroSubtitleSize": { "type": "string", "title": "Hero Subtitle Font Size", "description": "Font size for the hero subtitle/description, e.g. \"24px\". Overrides the default responsive sizing." },
         "heroBadgeLetterSpacing": { "type": "string", "title": "Hero Badge Letter Spacing", "description": "Letter spacing for the hero badge/eyebrow text, e.g. \"0.4em\". Overrides the default 0.05em." },
         "heroSubtitleLetterSpacing": { "type": "string", "title": "Hero Subtitle Letter Spacing", "description": "Letter spacing for the hero subtitle/description text, e.g. \"0.15em\". Overrides the default 0.05em." },
+        "heroTitleLetterSpacing": { "type": "string", "title": "Hero Title Letter Spacing", "description": "Letter spacing for the hero title text, e.g. \"0.01em\" or \"-0.02em\". Overrides the default 0.04em." },
         "navLinkLetterSpacing": { "type": "string", "title": "Navbar Link Letter Spacing", "description": "Letter spacing for the navbar links (desktop + mobile), e.g. \"0.1em\". Overrides the default normal spacing." },
         "buttonLetterSpacing": { "type": "string", "title": "Button Letter Spacing", "description": "Letter spacing applied to CTA buttons (primary/default variant), ghost buttons, and the navbar CTA, e.g. \"0.1em\". Overrides the default normal spacing." },
         "navLogoFlag": {

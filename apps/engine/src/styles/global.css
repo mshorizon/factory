@@ -401,6 +401,9 @@ body::-webkit-scrollbar {
 [data-hero-title-font="1"] .hero-title {
   font-family: var(--hero-title-font) !important;
 }
+[data-hero-title-letter-spacing="1"] .hero-title {
+  letter-spacing: var(--hero-title-letter-spacing) !important;
+}
 [data-hero-subtitle-size="1"] .hero-subtitle {
   font-size: var(--hero-subtitle-size) !important;
 }

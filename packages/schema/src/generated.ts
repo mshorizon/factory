@@ -207,6 +207,10 @@ export type HeroBadgeLetterSpacing = string;
  */
 export type HeroSubtitleLetterSpacing = string;
 /**
+ * Letter spacing for the hero title text, e.g. "0.01em" or "-0.02em". Overrides the default 0.04em.
+ */
+export type HeroTitleLetterSpacing = string;
+/**
  * Letter spacing for the navbar links (desktop + mobile), e.g. "0.1em". Overrides the default normal spacing.
  */
 export type NavbarLinkLetterSpacing = string;
@@ -772,6 +776,7 @@ export interface Theme {
   heroSubtitleSize?: HeroSubtitleFontSize;
   heroBadgeLetterSpacing?: HeroBadgeLetterSpacing;
   heroSubtitleLetterSpacing?: HeroSubtitleLetterSpacing;
+  heroTitleLetterSpacing?: HeroTitleLetterSpacing;
   navLinkLetterSpacing?: NavbarLinkLetterSpacing;
   buttonLetterSpacing?: ButtonLetterSpacing;
   navLogoFlag?: NavbarLogoFlagStripes;

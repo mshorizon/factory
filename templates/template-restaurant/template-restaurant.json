@@ -108,6 +108,7 @@
     "heroSubtitleSize": "20px",
     "heroBadgeLetterSpacing": "0.4em",
     "heroSubtitleLetterSpacing": "0.15em",
+    "heroTitleLetterSpacing": "0.01em",
     "navLinkLetterSpacing": "0.1em",
     "buttonLetterSpacing": "0.1em",
     "navLogoFlag": [
