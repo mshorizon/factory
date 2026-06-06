@@ -80,7 +80,7 @@ export function AboutStory({
         )}
 
         {signature && signature.text && (
-          <div className="flex items-center gap-spacing-sm" data-field="signature">
+          <div className="mt-spacing-xl flex items-center gap-spacing-sm" data-field="signature">
             {signature.flag ? (
               <SafeImage
                 src={signature.flag}
