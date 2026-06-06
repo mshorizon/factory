@@ -115,7 +115,7 @@ export function AboutQuoteSplit({
               <a
                 href={ctaHref}
                 onClick={() => (window as any).umami?.track("cta-click", { section: "about", label: cta })}
-                className="inline-flex items-center gap-spacing-xs text-sm font-semibold uppercase tracking-wide text-accent hover:opacity-80 transition-opacity w-fit"
+                className="inline-flex items-center gap-spacing-xs text-sm font-semibold uppercase [letter-spacing:var(--btn-letter-spacing,0.025em)] text-accent hover:opacity-80 transition-opacity w-fit"
                 data-field="cta"
               >
                 {cta}

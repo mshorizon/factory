@@ -238,7 +238,7 @@ export function ContactRestaurant({
             )}
 
             {ctaLabel && ctaHref && (
-              <Button asChild size="lg" className="w-full uppercase tracking-wide">
+              <Button asChild size="lg" className="w-full uppercase [letter-spacing:var(--btn-letter-spacing,0.025em)]">
                 <a href={ctaHref}>{ctaLabel}</a>
               </Button>
             )}
