@@ -9,7 +9,7 @@
     },
     "contact": {
       "address": "ul. Janusza Korczaka 46, 08-400 Garwolin",
-      "phone": "+48 xxx xxx xxx",
+      "phone": "+48 881 455 855",
       "email": "kontakt@nostrano.pl",
       "hours": "t:common.contactHours"
     },
@@ -645,7 +645,7 @@
           "info": {
             "address": "t:home.contact.address",
             "googlePlaceQuery": "Restauracja Nostrano, ul. Janusza Korczaka 46, 08-400 Garwolin",
-            "phone": "+48 xxx xxx xxx",
+            "phone": "+48 881 455 855",
             "email": "kontakt@nostrano.pl",
             "hours": "t:common.openingHours",
             "hoursDetailed": [
@@ -721,7 +721,7 @@
           },
           "info": {
             "address": "t:home.contact.address",
-            "phone": "+48 xxx xxx xxx",
+            "phone": "+48 881 455 855",
             "email": "kontakt@nostrano.pl",
             "hours": "t:common.openingHours",
             "hoursDetailed": [
