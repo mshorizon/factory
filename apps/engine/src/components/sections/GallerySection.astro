@@ -53,7 +53,7 @@ const socialParts = socialCta?.text && socialCta.highlight
           href={socialCta.href || "#"}
           target={socialCta.href?.startsWith("http") ? "_blank" : undefined}
           rel={socialCta.href?.startsWith("http") ? "noopener noreferrer" : undefined}
-          class={`${buttonVariants({ variant: "ghost", size: "lg" })} uppercase tracking-wide`}
+          class={`${buttonVariants({ variant: "outline", size: "lg" })} uppercase tracking-wide h-auto min-h-12 w-full max-w-full whitespace-normal py-spacing-sm text-center sm:w-auto`}
         >
           {socialParts ? (
             <span>
