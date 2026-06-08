@@ -507,6 +507,7 @@
           "type": "testimonials",
           "variant": "quotes",
           "background": "dark",
+          "backgroundColor": "#26201c",
           "header": {
             "badge": "t:home.testimonials.badge",
             "title": "t:home.testimonials.title",
