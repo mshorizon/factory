@@ -464,6 +464,46 @@
           ]
         },
         {
+          "type": "events",
+          "variant": "cards",
+          "header": {
+            "badge": "Vita a Nostrano",
+            "title": "t:home.events.title"
+          },
+          "items": [
+            {
+              "title": "t:home.events.items.0.title",
+              "description": "t:home.events.items.0.desc",
+              "tags": [
+                "t:home.events.items.0.tag"
+              ],
+              "meta": "t:home.events.items.0.meta",
+              "dateStart": "t:home.events.items.0.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
+            },
+            {
+              "title": "t:home.events.items.1.title",
+              "description": "t:home.events.items.1.desc",
+              "tags": [
+                "t:home.events.items.1.tag"
+              ],
+              "meta": "t:home.events.items.1.meta",
+              "dateStart": "t:home.events.items.1.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
+            },
+            {
+              "title": "t:home.events.items.2.title",
+              "description": "t:home.events.items.2.desc",
+              "tags": [
+                "t:home.events.items.2.tag"
+              ],
+              "meta": "t:home.events.items.2.meta",
+              "dateStart": "t:home.events.items.2.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
+            }
+          ]
+        },
+        {
           "type": "testimonials",
           "variant": "quotes",
           "background": "dark",
@@ -503,46 +543,6 @@
               "author": "t:home.testimonials.items.3.author",
               "role": "t:home.testimonials.items.3.role",
               "meta": "t:home.testimonials.items.3.date"
-            }
-          ]
-        },
-        {
-          "type": "events",
-          "variant": "cards",
-          "header": {
-            "badge": "Vita a Nostrano",
-            "title": "t:home.events.title"
-          },
-          "items": [
-            {
-              "title": "t:home.events.items.0.title",
-              "description": "t:home.events.items.0.desc",
-              "tags": [
-                "t:home.events.items.0.tag"
-              ],
-              "meta": "t:home.events.items.0.meta",
-              "dateStart": "t:home.events.items.0.dateStart",
-              "linkLabel": "t:home.events.linkLabel"
-            },
-            {
-              "title": "t:home.events.items.1.title",
-              "description": "t:home.events.items.1.desc",
-              "tags": [
-                "t:home.events.items.1.tag"
-              ],
-              "meta": "t:home.events.items.1.meta",
-              "dateStart": "t:home.events.items.1.dateStart",
-              "linkLabel": "t:home.events.linkLabel"
-            },
-            {
-              "title": "t:home.events.items.2.title",
-              "description": "t:home.events.items.2.desc",
-              "tags": [
-                "t:home.events.items.2.tag"
-              ],
-              "meta": "t:home.events.items.2.meta",
-              "dateStart": "t:home.events.items.2.dateStart",
-              "linkLabel": "t:home.events.linkLabel"
             }
           ]
         },
