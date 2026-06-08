@@ -45,10 +45,19 @@ export function AboutStory({
     : undefined;
   // Feathering the edges integrates the photo into the page; a softer ambient shadow
   // grounds it. Both blend modes drop the punchy `shadow-lg` floating-card look.
+  // A radial vignette only softens the corners, so the photo keeps hard rectangular
+  // edges and still reads as a floating card. Feather every side instead by crossing
+  // two linear-gradient mask layers (intersected) — all four edges dissolve into the
+  // page so the image melts into the background rather than sitting on top of it.
+  const edgeFeather =
+    "linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%), " +
+    "linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%)";
   const featherStyle = imageBlend === "feather"
     ? {
-        WebkitMaskImage: "radial-gradient(115% 115% at 50% 50%, #000 62%, transparent 100%)",
-        maskImage: "radial-gradient(115% 115% at 50% 50%, #000 62%, transparent 100%)",
+        WebkitMaskImage: edgeFeather,
+        WebkitMaskComposite: "source-in",
+        maskImage: edgeFeather,
+        maskComposite: "intersect",
       }
     : undefined;
   const softShadowStyle = imageBlend === "soft"
