@@ -28,7 +28,7 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
               className={index >= 2 ? "hidden md:block" : undefined}
             >
               <div
-                className="h-full flex flex-col border border-border/15 rounded-radius p-spacing-xl"
+                className="h-full flex flex-col border border-border/15 rounded-radius p-spacing-xl transition-colors duration-300 hover:border-primary"
                 data-field={`items.${index}`}
               >
                 {/* Rating */}

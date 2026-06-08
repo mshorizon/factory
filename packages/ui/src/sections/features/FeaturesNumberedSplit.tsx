@@ -64,7 +64,7 @@ export function FeaturesNumberedSplit({
           {items.map((item, index) => (
             <StaggerItem key={index} direction="up" distance={20}>
               <div
-                className="flex items-start gap-spacing-lg py-spacing-lg"
+                className="flex items-start gap-spacing-lg py-spacing-lg px-spacing-md -mx-spacing-md rounded-radius border border-transparent transition-colors duration-300 hover:border-primary"
                 data-field={`items.${index}`}
               >
                 <span
