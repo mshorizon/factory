@@ -495,6 +495,10 @@ export type ServicesColumnCount = 1 | 2 | 3;
  * Supplementary text rendered in italic below the section content (e.g. below the services list).
  */
 export type SectionFootnote = string;
+/**
+ * Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths.
+ */
+export type SectionMaxWidthOverride = string;
 export type AvatarImageURL1 = string;
 export type AvatarImageURL2 = string;
 export type Testimonials = {
@@ -974,6 +978,7 @@ export interface Section {
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
   columns?: ServicesColumnCount;
   footnote?: SectionFootnote;
+  maxWidth?: SectionMaxWidthOverride;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
   titleAccent?: TitleAccent;

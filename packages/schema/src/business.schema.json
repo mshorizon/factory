@@ -228,6 +228,7 @@
         "detailsLabel": { "type": "string", "title": "Details Button Label (e.g. 'See details', 'Learn more')" },
         "columns": { "type": "integer", "title": "Services Column Count", "enum": [1, 2, 3], "description": "Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant." },
         "footnote": { "type": "string", "title": "Section Footnote", "description": "Supplementary text rendered in italic below the section content (e.g. below the services list)." },
+        "maxWidth": { "type": "string", "title": "Section Max Width Override", "description": "Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths." },
         "testimonial": {
           "type": "object",
           "title": "Testimonial",

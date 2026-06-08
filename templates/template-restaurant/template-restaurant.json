@@ -292,6 +292,7 @@
           "type": "services",
           "variant": "list",
           "backgroundColor": "#26201c",
+          "maxWidth": "976px",
           "badgeVariant": "accent-no-line",
           "columns": 2,
           "header": {

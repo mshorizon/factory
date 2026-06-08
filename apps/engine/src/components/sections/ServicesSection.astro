@@ -32,10 +32,11 @@ const defaultCategory = (section as any).defaultCategory as string | undefined;
 const columns = (section as any).columns as number | undefined;
 const footnote = (section as any).footnote as string | undefined;
 const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
+const maxWidth = (section as any).maxWidth as string | undefined;
 ---
 
 <section>
-  <div class="container mx-auto services-section">
+  <div class="container mx-auto services-section" style={maxWidth ? `max-width: ${maxWidth};` : undefined}>
     <SectionHeader
       badge={header.badge}
       title={minimal ? undefined : header.title}
