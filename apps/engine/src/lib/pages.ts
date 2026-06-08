@@ -95,6 +95,7 @@ export function getLayoutConfig(businessData: BusinessProfile) {
     footer: {
       name: layout.footer?.name,
       variant: layout.footer?.variant || "simple",
+      background: layout.footer?.background,
       copyright: layout.footer?.copyright,
       tagline: layout.footer?.tagline,
       links: layout.footer?.links || [],
