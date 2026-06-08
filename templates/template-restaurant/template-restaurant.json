@@ -278,6 +278,7 @@
           "imageRounded": true,
           "imageWidth": "560px",
           "imageHeight": "620px",
+          "imageBlend": "feather",
           "contentFontFamily": "'DM Sans', sans-serif",
           "contentFontSize": "18px",
           "story": {

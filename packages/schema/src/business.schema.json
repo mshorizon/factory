@@ -205,6 +205,7 @@
         "contentFontSize": { "type": "string", "title": "Body Content Font Size Override", "description": "Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'." },
         "imageWidth": { "type": "string", "title": "Section Image Width Override", "description": "Overrides the about-section image width. Full CSS length value, e.g. '560px'. Defaults to 448px." },
         "imageHeight": { "type": "string", "title": "Section Image Height Override", "description": "Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px." },
+        "imageBlend": { "type": "string", "title": "Image Blend Effect", "enum": ["feather", "soft"], "description": "Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look." },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
         "scrollColor": { "type": "string", "title": "Hero Scroll Indicator Color Override", "description": "Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
         "textColor": { "type": "string", "title": "Hero Text Color Override", "description": "Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },

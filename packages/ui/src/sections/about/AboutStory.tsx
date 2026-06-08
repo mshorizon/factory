@@ -31,12 +31,24 @@ export function AboutStory({
   contentFontSize,
   imageWidth,
   imageHeight,
+  imageBlend,
 }: AboutStoryProps) {
   const contentStyle = (contentFontFamily || contentFontSize)
     ? { fontFamily: contentFontFamily, fontSize: contentFontSize }
     : undefined;
-  const imageSizeStyle = (imageWidth || imageHeight)
-    ? { width: imageWidth, height: imageHeight }
+  // Feathering the edges integrates the photo into the page; a softer ambient shadow
+  // grounds it. Both blend modes drop the punchy `shadow-lg` floating-card look.
+  const featherStyle = imageBlend === "feather"
+    ? {
+        WebkitMaskImage: "radial-gradient(115% 115% at 50% 50%, #000 62%, transparent 100%)",
+        maskImage: "radial-gradient(115% 115% at 50% 50%, #000 62%, transparent 100%)",
+      }
+    : undefined;
+  const softShadowStyle = imageBlend === "soft"
+    ? { boxShadow: "0 30px 60px -25px rgba(0, 0, 0, 0.45)" }
+    : undefined;
+  const imageSizeStyle = (imageWidth || imageHeight || featherStyle || softShadowStyle)
+    ? { width: imageWidth, height: imageHeight, ...featherStyle, ...softShadowStyle }
     : undefined;
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
@@ -51,10 +63,11 @@ export function AboutStory({
           src={image}
           alt=""
           className={cn(
-            "max-w-full object-cover shadow-lg",
+            "max-w-full object-cover",
+            !imageBlend && "shadow-lg",
             !imageWidth && "w-[448px]",
             !imageHeight && "h-[500px]",
-            imageRounded && "rounded-[var(--radius-lg)]"
+            imageRounded && imageBlend !== "feather" && "rounded-[var(--radius-lg)]"
           )}
           style={imageSizeStyle}
           data-field="image"
