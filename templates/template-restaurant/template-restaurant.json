@@ -105,7 +105,7 @@
     "heroBottomFade": true,
     "heroTitleSize": "clamp(4.5rem, 10vw, 8rem)",
     "heroTitleFontFamily": "'Cormorant Garamond', serif",
-    "heroSubtitleSize": "20px",
+    "heroSubtitleSize": "1.25em",
     "heroBadgeLetterSpacing": "0.4em",
     "heroSubtitleLetterSpacing": "0.15em",
     "heroTitleLetterSpacing": "0.01em",
