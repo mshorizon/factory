@@ -19,6 +19,7 @@ export function AboutQuoteSplit({
   className,
   background,
   cardBackgroundColor,
+  badgeVariant = "accent",
 }: AboutQuoteSplitProps) {
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
 
@@ -29,7 +30,9 @@ export function AboutQuoteSplit({
         <div className="space-y-spacing-lg flex flex-col justify-center h-full">
           {(badge || title) && (
             <div className="flex items-center gap-spacing-sm">
-              <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+              {badgeVariant !== "accent-no-line" && (
+                <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+              )}
               {badge && (
                 <Badge variant="accent" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
               )}

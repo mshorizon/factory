@@ -89,6 +89,8 @@ export interface AboutQuoteSplitProps {
   background?: string;
   /** Overrides the background color of the right-hand quote panel/card. Full CSS color value. */
   cardBackgroundColor?: string;
+  /** Badge style. "accent" (default) shows a short leading line; "accent-no-line" omits it. */
+  badgeVariant?: "accent" | "accent-no-line";
 }
 
 export interface CareerItem {

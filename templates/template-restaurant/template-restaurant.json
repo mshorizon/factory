@@ -827,6 +827,7 @@
           "background": "dark",
           "backgroundColor": "#26201c",
           "cardBackgroundColor": "#1d1916",
+          "badgeVariant": "accent-no-line",
           "header": {
             "badge": "I Bambini",
             "title": "t:home.kids.title"
