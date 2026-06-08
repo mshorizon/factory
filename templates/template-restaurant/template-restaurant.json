@@ -757,6 +757,7 @@
             "title": "t:home.features.title"
           },
           "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&h=900&fit=crop",
+          "imageBlend": "feather",
           "items": [
             {
               "icon": "flame",

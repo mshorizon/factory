@@ -10,8 +10,27 @@ export function FeaturesNumberedSplit({
   badge,
   title,
   image,
+  imageBlend,
   className,
 }: FeaturesNumberedSplitProps) {
+  // Mirror the about-section blend modes. "feather" crosses two linear-gradient
+  // mask layers (intersected) so all four edges dissolve into the page rather
+  // than sitting on top of it as a hard-cropped card; "soft" swaps the crop for
+  // a large low-opacity ambient shadow.
+  const edgeFeather =
+    "linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%), " +
+    "linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%)";
+  const imageStyle =
+    imageBlend === "feather"
+      ? {
+          WebkitMaskImage: edgeFeather,
+          WebkitMaskComposite: "source-in",
+          maskImage: edgeFeather,
+          maskComposite: "intersect" as const,
+        }
+      : imageBlend === "soft"
+        ? { boxShadow: "0 30px 60px -25px rgba(0, 0, 0, 0.45)" }
+        : undefined;
   return (
     <div
       className={cn(
@@ -79,12 +98,18 @@ export function FeaturesNumberedSplit({
         <div
           data-reveal
           data-reveal-delay="150"
-          className="relative h-full min-h-[320px] lg:min-h-full overflow-hidden rounded-radius"
+          className={cn(
+            "relative h-full min-h-[320px] lg:min-h-full overflow-hidden",
+            // A feathered image has no hard edge, so a corner radius is moot —
+            // drop it to match the about-section feather look.
+            imageBlend !== "feather" && "rounded-radius"
+          )}
         >
           <img
             src={image}
             alt={title || ""}
             className="absolute inset-0 h-full w-full object-cover"
+            style={imageStyle}
             loading="lazy"
           />
         </div>
