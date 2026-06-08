@@ -56,6 +56,11 @@ export interface AboutStoryProps {
    * Defaults to the legacy shadowed-card look when omitted.
    */
   imageBlend?: "feather" | "soft";
+  /**
+   * Label for the mobile-only "Read more" link. On narrow screens the story is
+   * collapsed to its first paragraph and the rest is revealed on tap. Defaults to "Read more".
+   */
+  readMoreLabel?: string;
 }
 
 export interface QuotePanel {

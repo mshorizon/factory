@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "../../atoms/Badge";
@@ -32,7 +33,13 @@ export function AboutStory({
   imageWidth,
   imageHeight,
   imageBlend,
+  readMoreLabel = "Read more",
 }: AboutStoryProps) {
+  // On mobile the story is collapsed to its first paragraph; the rest is revealed
+  // on tap. On md+ everything is always visible regardless of this state.
+  const [expanded, setExpanded] = useState(false);
+  const paragraphs = story?.content ? story.content.split('\n\n') : [];
+  const hasMore = paragraphs.length > 1;
   const contentStyle = (contentFontFamily || contentFontSize)
     ? { fontFamily: contentFontFamily, fontSize: contentFontSize }
     : undefined;
@@ -109,11 +116,30 @@ export function AboutStory({
         {title && (
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading leading-tight" data-field="header.title">{title}</h2>
         )}
-        {story && story.content && (
+        {paragraphs.length > 0 && (
           <div className="space-y-spacing-md">
-            {story.content.split('\n\n').map((paragraph: string, index: number) => (
-              <p key={index} className="text-muted leading-relaxed" style={contentStyle} data-field={`story.content.${index}`}>{paragraph}</p>
+            {paragraphs.map((paragraph: string, index: number) => (
+              <p
+                key={index}
+                className={cn(
+                  "text-muted leading-relaxed",
+                  // Mobile: keep only the first paragraph until expanded; md+ shows all.
+                  index > 0 && !expanded && "hidden md:block"
+                )}
+                style={contentStyle}
+                data-field={`story.content.${index}`}
+              >{paragraph}</p>
             ))}
+            {hasMore && !expanded && (
+              <button
+                type="button"
+                onClick={() => setExpanded(true)}
+                className="md:hidden inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4"
+              >
+                {readMoreLabel}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            )}
           </div>
         )}
 
