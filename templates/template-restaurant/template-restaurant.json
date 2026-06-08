@@ -272,7 +272,6 @@
           "type": "about",
           "variant": "story",
           "header": {
-            "badge": "t:home.about.badge",
             "title": "t:home.about.title"
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-nostrano.jpeg",
