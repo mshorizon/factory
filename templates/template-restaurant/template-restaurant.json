@@ -824,6 +824,46 @@
           ]
         },
         {
+          "type": "about",
+          "variant": "quote-split",
+          "background": "dark",
+          "backgroundColor": "#26201c",
+          "cardBackgroundColor": "#1d1916",
+          "header": {
+            "badge": "I Bambini",
+            "title": "t:home.kids.title"
+          },
+          "story": {
+            "content": "t:home.kids.content"
+          },
+          "stats": [
+            {
+              "value": "t:home.kids.stats.0.value",
+              "label": "t:home.kids.stats.0.label"
+            },
+            {
+              "value": "t:home.kids.stats.1.value",
+              "label": "t:home.kids.stats.1.label"
+            },
+            {
+              "value": "t:home.kids.stats.2.value",
+              "label": "t:home.kids.stats.2.label"
+            }
+          ],
+          "quote": {
+            "text": "t:home.kids.quote.text",
+            "author": "t:home.kids.quote.author",
+            "note": "t:home.kids.quote.note"
+          },
+          "cta": {
+            "label": "t:home.kids.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        },
+        {
           "type": "testimonials",
           "variant": "quotes",
           "background": "dark",
@@ -913,46 +953,6 @@
             "highlight": "@nostrano.garwolin",
             "highlightColor": "#d94a26",
             "href": "https://instagram.com/nostrano.garwolin"
-          }
-        },
-        {
-          "type": "about",
-          "variant": "quote-split",
-          "background": "dark",
-          "backgroundColor": "#26201c",
-          "cardBackgroundColor": "#1d1916",
-          "header": {
-            "badge": "I Bambini",
-            "title": "t:home.kids.title"
-          },
-          "story": {
-            "content": "t:home.kids.content"
-          },
-          "stats": [
-            {
-              "value": "t:home.kids.stats.0.value",
-              "label": "t:home.kids.stats.0.label"
-            },
-            {
-              "value": "t:home.kids.stats.1.value",
-              "label": "t:home.kids.stats.1.label"
-            },
-            {
-              "value": "t:home.kids.stats.2.value",
-              "label": "t:home.kids.stats.2.label"
-            }
-          ],
-          "quote": {
-            "text": "t:home.kids.quote.text",
-            "author": "t:home.kids.quote.author",
-            "note": "t:home.kids.quote.note"
-          },
-          "cta": {
-            "label": "t:home.kids.cta",
-            "target": {
-              "type": "page",
-              "value": "contact"
-            }
           }
         },
         {
