@@ -192,7 +192,7 @@ const showCta = !hideCta && !!cta;
 
       {/* Right: Nav Links (right position) + Cart & CTA */}
       <div class:list={[
-        "hidden lg:flex items-center gap-4",
+        "hidden xl:flex items-center gap-4",
         variant === "centered" && "absolute right-10"
       ]}>
         {/* Desktop Navigation — right position */}
@@ -227,7 +227,7 @@ const showCta = !hideCta && !!cta;
       </div>
 
       {/* Mobile Cart & Menu Button */}
-      <div class="lg:hidden flex items-center gap-2 ml-auto">
+      <div class="xl:hidden flex items-center gap-2 ml-auto">
         {showCart && <CartButton client:load />}
         <button
           id="mobile-menu-btn"
@@ -244,7 +244,7 @@ const showCta = !hideCta && !!cta;
     </div>
 
     {/* Mobile Menu */}
-    <div id="mobile-menu" class="lg:hidden hidden pb-6">
+    <div id="mobile-menu" class="xl:hidden hidden pb-6">
       <div class="flex flex-col gap-1 pt-4 border-t border-border">
         {links.map((link) => (
           <a
@@ -288,7 +288,7 @@ const showCta = !hideCta && !!cta;
     display: none;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     /* Nav links position: center (default) */
     :global([data-nav-links-position="center"]) .nav-links-center {
       display: flex;
@@ -407,7 +407,7 @@ const showCta = !hideCta && !!cta;
   /* Nav links position: right — hide center column, show right column.
      Global so the descendant combinator from <html data-*> reaches the
      nav link containers regardless of scoping. */
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     [data-nav-links-position="right"] #main-nav .nav-links-center {
       display: none !important;
     }
