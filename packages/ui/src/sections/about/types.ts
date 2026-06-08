@@ -36,6 +36,12 @@ export interface AboutStoryProps {
   experienceBadgeLabel?: string;
   className?: string;
   background?: string;
+  /**
+   * Controls the badge treatment above the title. Defaults to "accent" (a short
+   * accent line stacked above the badge text). Use "accent-no-line" to drop the
+   * line so the badge sits flush at the left edge with no extra spacing.
+   */
+  badgeVariant?: "accent" | "accent-no-line" | "text";
   imagePosition?: "left" | "right";
   ctaVariant?: "accent" | "primaryLight";
   /** When false, renders the image with square corners. Defaults to true (rounded). */

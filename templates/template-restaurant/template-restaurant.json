@@ -272,6 +272,7 @@
         {
           "type": "about",
           "variant": "story",
+          "badgeVariant": "accent-no-line",
           "header": {
             "badge": "Nasza Historia",
             "title": "t:home.about.title"

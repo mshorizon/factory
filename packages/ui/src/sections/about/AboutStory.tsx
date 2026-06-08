@@ -25,6 +25,7 @@ export function AboutStory({
   experienceBadgeLabel,
   className,
   background,
+  badgeVariant = "accent",
   imagePosition = "left",
   ctaVariant = "accent",
   imageRounded = true,
@@ -116,9 +117,11 @@ export function AboutStory({
       <div className="space-y-spacing-lg flex flex-col justify-center">
         {(badge || title) && (
           <div className="flex flex-col items-start gap-spacing-sm">
-            <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+            {badgeVariant === "accent" && (
+              <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
+            )}
             {badge && (
-              <Badge variant="accent" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
+              <Badge variant={badgeVariant === "text" ? "text" : "accent"} style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
             )}
           </div>
         )}
