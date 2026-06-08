@@ -141,8 +141,8 @@ export function ContactRestaurant({
 
             {/* Address */}
             {info?.address && (
-              <div className="flex items-start mb-spacing-lg">
-                <span className="flex shrink-0 text-primary">
+              <div className="flex items-start gap-spacing-sm mb-spacing-lg">
+                <span className="flex shrink-0 mt-0.5 text-primary">
                   <MapPin className="h-5 w-5" />
                 </span>
                 <div className="flex flex-col">
@@ -166,7 +166,7 @@ export function ContactRestaurant({
 
             {/* Phone */}
             {info?.phone && (
-              <div className="flex items-center mb-spacing-2xl">
+              <div className="flex items-center gap-spacing-sm mb-spacing-2xl">
                 <span className="flex shrink-0 text-primary">
                   <Phone className="h-5 w-5" />
                 </span>
