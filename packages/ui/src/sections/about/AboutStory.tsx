@@ -93,11 +93,11 @@ export function AboutStory({
             !imageBlend && "shadow-lg",
             hasCustomSize
               ? cn(
-                  // Mobile: a lot smaller, natural aspect ratio.
+                  // Mobile only: a lot smaller, natural aspect ratio.
                   "w-[220px] h-auto",
-                  // From lg up: honor the configured custom dimensions.
-                  imageWidth && "lg:w-[var(--about-img-w)]",
-                  imageHeight && "lg:h-[var(--about-img-h)]"
+                  // From md up (tablet + desktop): honor the configured custom dimensions.
+                  imageWidth && "md:w-[var(--about-img-w)]",
+                  imageHeight && "md:h-[var(--about-img-h)]"
                 )
               : "w-[448px] h-[500px]",
             imageRounded && imageBlend !== "feather" && "rounded-[var(--radius-lg)]"
