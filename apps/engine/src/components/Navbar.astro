@@ -483,15 +483,12 @@ const showCta = !hideCta && !!cta;
   }
 
   /* template-art (restaurant): when the mobile menu is expanded it should sit on
-     a darker, slightly translucent panel so the links stay readable over the
-     transparent navbar / hero imagery. Derived from --background (no hardcoded
-     colors): tinted with the theme background at ~75% opacity and a blurred,
-     darkened backdrop. The inner border-t is dropped since the panel now has its
-     own surface. */
+     a solid dark panel (#1d1916) so the light nav links stay readable over the
+     transparent navbar / hero imagery. Uses the theme's dark surface base token
+     (--dark-background = colors.dark.surface.base) — no hardcoded colors. The
+     inner border-t is dropped since the panel now has its own surface. */
   [data-major-theme="template-art"] #mobile-menu {
-    background-color: color-mix(in srgb, var(--background) 75%, transparent);
-    backdrop-filter: blur(12px) brightness(0.6);
-    -webkit-backdrop-filter: blur(12px) brightness(0.6);
+    background-color: var(--dark-background);
   }
   [data-major-theme="template-art"] #mobile-menu > div {
     border-top-color: transparent;
