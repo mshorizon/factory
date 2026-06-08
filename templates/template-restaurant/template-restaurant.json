@@ -321,10 +321,6 @@
               "label": "t:home.menu.cat.pizza"
             },
             {
-              "id": "pizza-special",
-              "label": "t:home.menu.cat.pizza-special"
-            },
-            {
               "id": "dodatki",
               "label": "t:home.menu.cat.dodatki"
             },
@@ -500,21 +496,21 @@
             },
             {
               "id": "margherita-burrata",
-              "category": "pizza-special",
+              "category": "pizza",
               "title": "t:home.menu.items.margherita-burrata.title",
               "description": "t:home.menu.items.margherita-burrata.desc",
               "price": "47 zł"
             },
             {
               "id": "affumicata",
-              "category": "pizza-special",
+              "category": "pizza",
               "title": "t:home.menu.items.affumicata.title",
               "description": "t:home.menu.items.affumicata.desc",
               "price": "49 zł"
             },
             {
               "id": "cotto-tartufo",
-              "category": "pizza-special",
+              "category": "pizza",
               "title": "t:home.menu.items.cotto-tartufo.title",
               "description": "t:home.menu.items.cotto-tartufo.desc",
               "price": "52 zł"
