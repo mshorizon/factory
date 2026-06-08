@@ -3,6 +3,7 @@ import type { Section } from "@mshorizon/schema";
 import { AboutStory, AboutTimeline, AboutCareer, AboutQuoteSplit, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
+import { t } from "../../lib/i18n";
 
 interface Props {
   isHomePage?: boolean;
@@ -16,6 +17,9 @@ const header = getSectionHeader(section);
 
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/contact";
+
+const { t: translations } = Astro.locals;
+const readMoreLabel = t(translations, "about.readMore", "Read more");
 ---
 
 <section class="overflow-hidden">
@@ -82,6 +86,8 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
         contentFontSize={(section as any).contentFontSize}
         imageWidth={(section as any).imageWidth}
         imageHeight={(section as any).imageHeight}
+        imageBlend={(section as any).imageBlend}
+        readMoreLabel={readMoreLabel}
       />
     )}
   </div>

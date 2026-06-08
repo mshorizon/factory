@@ -48,6 +48,19 @@ export interface AboutStoryProps {
   imageWidth?: string;
   /** Overrides the image height. Full CSS length value, e.g. "620px". Defaults to 500px. */
   imageHeight?: string;
+  /**
+   * Visual treatment that integrates the image with the surrounding page instead of
+   * letting it float as a shadowed card.
+   * - "feather": softly fades the image edges into the background (no hard border / drop shadow).
+   * - "soft": replaces the hard drop shadow with a large, low-opacity ambient shadow that grounds the photo.
+   * Defaults to the legacy shadowed-card look when omitted.
+   */
+  imageBlend?: "feather" | "soft";
+  /**
+   * Label for the mobile-only "Read more" link. On narrow screens the story is
+   * collapsed to its first paragraph and the rest is revealed on tap. Defaults to "Read more".
+   */
+  readMoreLabel?: string;
 }
 
 export interface QuotePanel {

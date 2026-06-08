@@ -70,7 +70,7 @@ export function AboutQuoteSplit({
       {quote && (
         <ScrollReveal delay={0.2} direction="left" distance={30}>
           <div
-            className="bg-card rounded-radius p-spacing-2xl flex flex-col justify-center gap-spacing-lg h-full"
+            className="bg-card border border-border rounded-radius p-spacing-2xl flex flex-col justify-center gap-spacing-lg h-full"
             style={cardBackgroundColor ? { backgroundColor: cardBackgroundColor } : undefined}
             data-field="quote"
           >
@@ -79,7 +79,7 @@ export function AboutQuoteSplit({
                 src={quote.flag}
                 alt=""
                 className="rounded-[2px] object-cover shadow-sm"
-                style={{ width: "56px", height: "8px" }}
+                style={{ width: "56px", height: "4px" }}
                 data-field="quote.flag"
                 loading="lazy"
                 decoding="async"
@@ -87,7 +87,7 @@ export function AboutQuoteSplit({
             ) : (
               <span
                 className="rounded-[2px] shadow-sm"
-                style={{ width: "56px", height: "8px", background: "var(--nav-logo-flag)" }}
+                style={{ width: "56px", height: "4px", background: "var(--nav-logo-flag)" }}
                 aria-hidden="true"
                 data-field="quote.flag"
               />

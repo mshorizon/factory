@@ -461,6 +461,10 @@ export type SectionImageWidthOverride = string;
  * Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px.
  */
 export type SectionImageHeightOverride = string;
+/**
+ * Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look.
+ */
+export type ImageBlendEffect = "feather" | "soft";
 export type CTATextColorOverride = string;
 /**
  * Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
@@ -495,6 +499,10 @@ export type ServicesColumnCount = 1 | 2 | 3;
  * Supplementary text rendered in italic below the section content (e.g. below the services list).
  */
 export type SectionFootnote = string;
+/**
+ * Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths.
+ */
+export type SectionMaxWidthOverride = string;
 export type AvatarImageURL1 = string;
 export type AvatarImageURL2 = string;
 export type Testimonials = {
@@ -962,6 +970,7 @@ export interface Section {
   contentFontSize?: BodyContentFontSizeOverride;
   imageWidth?: SectionImageWidthOverride;
   imageHeight?: SectionImageHeightOverride;
+  imageBlend?: ImageBlendEffect;
   ctaColor?: CTATextColorOverride;
   scrollColor?: HeroScrollIndicatorColorOverride;
   textColor?: HeroTextColorOverride;
@@ -974,6 +983,7 @@ export interface Section {
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
   columns?: ServicesColumnCount;
   footnote?: SectionFootnote;
+  maxWidth?: SectionMaxWidthOverride;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
   titleAccent?: TitleAccent;

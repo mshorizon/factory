@@ -21,7 +21,12 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
         {items.map((item, index) => {
           const name = item.author || item.title;
           return (
-            <StaggerItem key={index} direction="up" distance={24}>
+            <StaggerItem
+              key={index}
+              direction="up"
+              distance={24}
+              className={index >= 2 ? "hidden md:block" : undefined}
+            >
               <div
                 className="h-full flex flex-col border border-border/15 rounded-radius p-spacing-xl"
                 data-field={`items.${index}`}

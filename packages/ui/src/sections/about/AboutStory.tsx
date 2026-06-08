@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "../../atoms/Badge";
@@ -31,12 +32,40 @@ export function AboutStory({
   contentFontSize,
   imageWidth,
   imageHeight,
+  imageBlend,
+  readMoreLabel = "Read more",
 }: AboutStoryProps) {
+  // On mobile the story is collapsed to its first paragraph; the rest is revealed
+  // on tap. On md+ everything is always visible regardless of this state.
+  const [expanded, setExpanded] = useState(false);
+  const paragraphs = story?.content ? story.content.split('\n\n') : [];
+  const hasMore = paragraphs.length > 1;
   const contentStyle = (contentFontFamily || contentFontSize)
     ? { fontFamily: contentFontFamily, fontSize: contentFontSize }
     : undefined;
-  const imageSizeStyle = (imageWidth || imageHeight)
-    ? { width: imageWidth, height: imageHeight }
+  // Feathering the edges integrates the photo into the page; a softer ambient shadow
+  // grounds it. Both blend modes drop the punchy `shadow-lg` floating-card look.
+  const featherStyle = imageBlend === "feather"
+    ? {
+        WebkitMaskImage: "radial-gradient(115% 115% at 50% 50%, #000 62%, transparent 100%)",
+        maskImage: "radial-gradient(115% 115% at 50% 50%, #000 62%, transparent 100%)",
+      }
+    : undefined;
+  const softShadowStyle = imageBlend === "soft"
+    ? { boxShadow: "0 30px 60px -25px rgba(0, 0, 0, 0.45)" }
+    : undefined;
+  // Custom dimensions are exposed as CSS variables (instead of inline width/height)
+  // so the size can stay responsive: a much smaller image on mobile, the full
+  // custom size only from `lg` up. Inline width/height would override every
+  // breakpoint and blow the photo up on phones.
+  const hasCustomSize = Boolean(imageWidth || imageHeight);
+  const imageSizeStyle = (hasCustomSize || featherStyle || softShadowStyle)
+    ? {
+        ...(imageWidth ? { ["--about-img-w" as any]: imageWidth } : {}),
+        ...(imageHeight ? { ["--about-img-h" as any]: imageHeight } : {}),
+        ...featherStyle,
+        ...softShadowStyle,
+      }
     : undefined;
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
@@ -51,10 +80,18 @@ export function AboutStory({
           src={image}
           alt=""
           className={cn(
-            "max-w-full object-cover shadow-lg",
-            !imageWidth && "w-[448px]",
-            !imageHeight && "h-[500px]",
-            imageRounded && "rounded-[var(--radius-lg)]"
+            "max-w-full object-cover",
+            !imageBlend && "shadow-lg",
+            hasCustomSize
+              ? cn(
+                  // Mobile: a lot smaller, natural aspect ratio.
+                  "w-[220px] h-auto",
+                  // From lg up: honor the configured custom dimensions.
+                  imageWidth && "lg:w-[var(--about-img-w)]",
+                  imageHeight && "lg:h-[var(--about-img-h)]"
+                )
+              : "w-[448px] h-[500px]",
+            imageRounded && imageBlend !== "feather" && "rounded-[var(--radius-lg)]"
           )}
           style={imageSizeStyle}
           data-field="image"
@@ -79,11 +116,30 @@ export function AboutStory({
         {title && (
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-heading leading-tight" data-field="header.title">{title}</h2>
         )}
-        {story && story.content && (
+        {paragraphs.length > 0 && (
           <div className="space-y-spacing-md">
-            {story.content.split('\n\n').map((paragraph: string, index: number) => (
-              <p key={index} className="text-muted leading-relaxed" style={contentStyle} data-field={`story.content.${index}`}>{paragraph}</p>
+            {paragraphs.map((paragraph: string, index: number) => (
+              <p
+                key={index}
+                className={cn(
+                  "text-muted leading-relaxed",
+                  // Mobile: keep only the first paragraph until expanded; md+ shows all.
+                  index > 0 && !expanded && "hidden md:block"
+                )}
+                style={contentStyle}
+                data-field={`story.content.${index}`}
+              >{paragraph}</p>
             ))}
+            {hasMore && !expanded && (
+              <button
+                type="button"
+                onClick={() => setExpanded(true)}
+                className="md:hidden inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4"
+              >
+                {readMoreLabel}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            )}
           </div>
         )}
 

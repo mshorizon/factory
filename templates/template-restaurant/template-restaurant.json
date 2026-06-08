@@ -105,7 +105,7 @@
     "heroBottomFade": true,
     "heroTitleSize": "clamp(4.5rem, 10vw, 8rem)",
     "heroTitleFontFamily": "'Cormorant Garamond', serif",
-    "heroSubtitleSize": "20px",
+    "heroSubtitleSize": "1.25em",
     "heroBadgeLetterSpacing": "0.4em",
     "heroSubtitleLetterSpacing": "0.15em",
     "heroTitleLetterSpacing": "0.01em",
@@ -273,13 +273,13 @@
           "type": "about",
           "variant": "story",
           "header": {
-            "badge": "t:home.about.badge",
             "title": "t:home.about.title"
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-nostrano.jpeg",
           "imageRounded": true,
           "imageWidth": "560px",
           "imageHeight": "620px",
+          "imageBlend": "feather",
           "contentFontFamily": "'DM Sans', sans-serif",
           "contentFontSize": "18px",
           "story": {
@@ -294,6 +294,7 @@
           "type": "services",
           "variant": "list",
           "backgroundColor": "#26201c",
+          "maxWidth": "976px",
           "badgeVariant": "accent-no-line",
           "columns": 2,
           "header": {
@@ -465,49 +466,6 @@
           ]
         },
         {
-          "type": "testimonials",
-          "variant": "quotes",
-          "background": "dark",
-          "header": {
-            "badge": "t:home.testimonials.badge",
-            "title": "t:home.testimonials.title",
-            "subtitle": "t:home.testimonials.subtitle"
-          },
-          "cta": {
-            "label": "t:home.testimonials.cta",
-            "target": {
-              "type": "external",
-              "value": "https://www.google.com/maps/search/Nostrano+Garwolin"
-            }
-          },
-          "items": [
-            {
-              "description": "t:home.testimonials.items.0.text",
-              "author": "t:home.testimonials.items.0.author",
-              "role": "t:home.testimonials.items.0.role",
-              "meta": "t:home.testimonials.items.0.date"
-            },
-            {
-              "description": "t:home.testimonials.items.1.text",
-              "author": "t:home.testimonials.items.1.author",
-              "role": "t:home.testimonials.items.1.role",
-              "meta": "t:home.testimonials.items.1.date"
-            },
-            {
-              "description": "t:home.testimonials.items.2.text",
-              "author": "t:home.testimonials.items.2.author",
-              "role": "t:home.testimonials.items.2.role",
-              "meta": "t:home.testimonials.items.2.date"
-            },
-            {
-              "description": "t:home.testimonials.items.3.text",
-              "author": "t:home.testimonials.items.3.author",
-              "role": "t:home.testimonials.items.3.role",
-              "meta": "t:home.testimonials.items.3.date"
-            }
-          ]
-        },
-        {
           "type": "events",
           "variant": "cards",
           "header": {
@@ -548,44 +506,48 @@
           ]
         },
         {
-          "type": "about",
-          "variant": "quote-split",
+          "type": "testimonials",
+          "variant": "quotes",
           "background": "dark",
           "backgroundColor": "#26201c",
-          "cardBackgroundColor": "#26201c",
           "header": {
-            "badge": "I Bambini",
-            "title": "t:home.kids.title"
-          },
-          "story": {
-            "content": "t:home.kids.content"
-          },
-          "stats": [
-            {
-              "value": "t:home.kids.stats.0.value",
-              "label": "t:home.kids.stats.0.label"
-            },
-            {
-              "value": "t:home.kids.stats.1.value",
-              "label": "t:home.kids.stats.1.label"
-            },
-            {
-              "value": "t:home.kids.stats.2.value",
-              "label": "t:home.kids.stats.2.label"
-            }
-          ],
-          "quote": {
-            "text": "t:home.kids.quote.text",
-            "author": "t:home.kids.quote.author",
-            "note": "t:home.kids.quote.note"
+            "badge": "t:home.testimonials.badge",
+            "title": "t:home.testimonials.title",
+            "subtitle": "t:home.testimonials.subtitle"
           },
           "cta": {
-            "label": "t:home.kids.cta",
+            "label": "t:home.testimonials.cta",
             "target": {
-              "type": "page",
-              "value": "contact"
+              "type": "external",
+              "value": "https://www.google.com/maps/search/Nostrano+Garwolin"
             }
-          }
+          },
+          "items": [
+            {
+              "description": "t:home.testimonials.items.0.text",
+              "author": "t:home.testimonials.items.0.author",
+              "role": "t:home.testimonials.items.0.role",
+              "meta": "t:home.testimonials.items.0.date"
+            },
+            {
+              "description": "t:home.testimonials.items.1.text",
+              "author": "t:home.testimonials.items.1.author",
+              "role": "t:home.testimonials.items.1.role",
+              "meta": "t:home.testimonials.items.1.date"
+            },
+            {
+              "description": "t:home.testimonials.items.2.text",
+              "author": "t:home.testimonials.items.2.author",
+              "role": "t:home.testimonials.items.2.role",
+              "meta": "t:home.testimonials.items.2.date"
+            },
+            {
+              "description": "t:home.testimonials.items.3.text",
+              "author": "t:home.testimonials.items.3.author",
+              "role": "t:home.testimonials.items.3.role",
+              "meta": "t:home.testimonials.items.3.date"
+            }
+          ]
         },
         {
           "type": "gallery",
@@ -633,6 +595,46 @@
             "highlight": "@nostrano.garwolin",
             "highlightColor": "#d94a26",
             "href": "https://instagram.com/nostrano.garwolin"
+          }
+        },
+        {
+          "type": "about",
+          "variant": "quote-split",
+          "background": "dark",
+          "backgroundColor": "#26201c",
+          "cardBackgroundColor": "#1d1916",
+          "header": {
+            "badge": "I Bambini",
+            "title": "t:home.kids.title"
+          },
+          "story": {
+            "content": "t:home.kids.content"
+          },
+          "stats": [
+            {
+              "value": "t:home.kids.stats.0.value",
+              "label": "t:home.kids.stats.0.label"
+            },
+            {
+              "value": "t:home.kids.stats.1.value",
+              "label": "t:home.kids.stats.1.label"
+            },
+            {
+              "value": "t:home.kids.stats.2.value",
+              "label": "t:home.kids.stats.2.label"
+            }
+          ],
+          "quote": {
+            "text": "t:home.kids.quote.text",
+            "author": "t:home.kids.quote.author",
+            "note": "t:home.kids.quote.note"
+          },
+          "cta": {
+            "label": "t:home.kids.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
           }
         },
         {

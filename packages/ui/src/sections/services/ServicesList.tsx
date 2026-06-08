@@ -85,7 +85,7 @@ export function ServicesList({
         const direction = renderIndex % 2 === 0 ? "left" : "right";
         return (
         <StaggerItem key={index} direction={direction} distance={20}>
-          <a href={`/services/${item.slug || item.id}`} className="services-list-item group flex flex-col md:flex-row md:items-center justify-between gap-spacing-md p-spacing-lg bg-background border border-border rounded-radius-secondary hover:shadow-lg hover:border-primary/20 transition-all block cursor-pointer" data-field={`items.${index}`}>
+          <a href={`/services/${item.slug || item.id}`} className="services-list-item group flex flex-col md:flex-row md:items-center justify-between gap-spacing-md p-spacing-lg border border-border rounded-radius-secondary hover:shadow-lg hover:border-primary/20 transition-all block cursor-pointer" data-field={`items.${index}`}>
             <div className="flex-1">
               <div className="flex items-center gap-spacing-sm mb-spacing-xs">
                 <h3 className="services-item-title text-xl font-semibold font-heading text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
