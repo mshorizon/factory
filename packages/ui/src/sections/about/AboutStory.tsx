@@ -47,8 +47,18 @@ export function AboutStory({
   const softShadowStyle = imageBlend === "soft"
     ? { boxShadow: "0 30px 60px -25px rgba(0, 0, 0, 0.45)" }
     : undefined;
-  const imageSizeStyle = (imageWidth || imageHeight || featherStyle || softShadowStyle)
-    ? { width: imageWidth, height: imageHeight, ...featherStyle, ...softShadowStyle }
+  // Custom dimensions are exposed as CSS variables (instead of inline width/height)
+  // so the size can stay responsive: a much smaller image on mobile, the full
+  // custom size only from `lg` up. Inline width/height would override every
+  // breakpoint and blow the photo up on phones.
+  const hasCustomSize = Boolean(imageWidth || imageHeight);
+  const imageSizeStyle = (hasCustomSize || featherStyle || softShadowStyle)
+    ? {
+        ...(imageWidth ? { ["--about-img-w" as any]: imageWidth } : {}),
+        ...(imageHeight ? { ["--about-img-h" as any]: imageHeight } : {}),
+        ...featherStyle,
+        ...softShadowStyle,
+      }
     : undefined;
   const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
@@ -65,8 +75,15 @@ export function AboutStory({
           className={cn(
             "max-w-full object-cover",
             !imageBlend && "shadow-lg",
-            !imageWidth && "w-[448px]",
-            !imageHeight && "h-[500px]",
+            hasCustomSize
+              ? cn(
+                  // Mobile: a lot smaller, natural aspect ratio.
+                  "w-[220px] h-auto",
+                  // From lg up: honor the configured custom dimensions.
+                  imageWidth && "lg:w-[var(--about-img-w)]",
+                  imageHeight && "lg:h-[var(--about-img-h)]"
+                )
+              : "w-[448px] h-[500px]",
             imageRounded && imageBlend !== "feather" && "rounded-[var(--radius-lg)]"
           )}
           style={imageSizeStyle}
