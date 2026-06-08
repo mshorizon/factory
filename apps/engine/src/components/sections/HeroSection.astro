@@ -140,6 +140,11 @@ const secondaryCta = section.secondaryCta ? {
     <style is:inline set:html={`
       @keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }
       @keyframes hero-fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+      /* Dedicated keyframe for the scroll indicator: it is centered via
+         translateX(-50%), so its fade-up animation must preserve that X offset.
+         Using the generic hero-fade-up here would end on transform:translateY(0),
+         clobbering translateX(-50%) and shifting the block ~half its width right. */
+      @keyframes hero-scroll-fade-up { from { opacity: 0; transform: translateX(-50%) translateY(24px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
       @keyframes hero-scroll-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
       .hero-fold {
         position: relative;
@@ -270,7 +275,7 @@ const secondaryCta = section.secondaryCta ? {
         z-index: 1;
         color: var(--text-on-primary, #fff);
         opacity: 0;
-        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.6s forwards;
+        animation: hero-scroll-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.6s forwards;
       }
       .hero-fold__scroll-label {
         font-size: 12px;
