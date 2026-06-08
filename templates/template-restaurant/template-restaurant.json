@@ -201,14 +201,14 @@
         "label": "t:nav.events",
         "target": {
           "type": "section",
-          "value": "events-5"
+          "value": "events-4"
         }
       },
       {
         "label": "t:nav.kids",
         "target": {
           "type": "section",
-          "value": "about-6"
+          "value": "about-5"
         }
       },
       {
