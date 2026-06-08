@@ -39,7 +39,7 @@ export function ServicesList({
   return (
     <div className={className}>
       {hasTabs && (
-        <div className="flex flex-wrap justify-center gap-x-spacing-3xl gap-y-spacing-md border-b border-border mb-spacing-2xl" role="tablist">
+        <div className="flex flex-wrap lg:flex-nowrap justify-center gap-x-spacing-lg gap-y-spacing-md border-b border-border mb-spacing-2xl" role="tablist">
           {categories!.map((cat) => {
             const active = cat.id === activeCategory;
             // Split "Main (Subtitle)" so the parenthetical can be accented on the active tab.
