@@ -294,7 +294,7 @@ const secondaryCta = section.secondaryCta ? {
       <div class="hero-fold__content">
         <div class="hero-fold__flag" aria-hidden="true"></div>
         {header.badge && (
-          <div class="hero-fold__badge">{header.badge}</div>
+          <div class="hero-fold__badge" style={(section as any).badgeColor ? `color:${(section as any).badgeColor}` : undefined}>{header.badge}</div>
         )}
         <h1 class="hero-fold__title hero-title" data-field="header.title" style={(section as any).textColor ? `color:${(section as any).textColor}` : undefined}>
           {header.title || ""}
