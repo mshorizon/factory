@@ -44,7 +44,8 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                 <div className="flex items-center justify-between gap-spacing-md mb-spacing-lg">
                   {tag ? (
                     <span
-                      className="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary"
+                      className="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary"
+                      style={{ backgroundColor: "color-mix(in srgb, var(--primary) 10%, transparent)" }}
                       data-field={`items.${index}.tags`}
                     >
                       {tag}
