@@ -285,6 +285,9 @@ const secondaryCta = section.secondaryCta ? {
         line-height: 1;
       }
       .hero-fold__scroll-chevron { animation: hero-scroll-bounce 1.5s ease-in-out infinite; }
+      @media (max-width: 767px) {
+        .hero-fold__scroll { display: none; }
+      }
     `} />
     <section class="hero-fold">
       {section.backgroundImage && (
