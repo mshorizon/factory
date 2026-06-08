@@ -10,6 +10,8 @@ interface Props {
 }
 
 const { section, isHomePage = false } = Astro.props;
+const translations = (Astro.locals as any).t || {};
+const scrollLabel = translations["home.hero.scroll"] || "Scroll";
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const heroImage = section.image || section.backgroundImage;
@@ -321,7 +323,7 @@ const secondaryCta = section.secondaryCta ? {
         )}
       </div>
       <div class="hero-fold__scroll" aria-hidden="true" style={(section as any).scrollColor ? `color:${(section as any).scrollColor}` : undefined}>
-        <span class="hero-fold__scroll-label">Scroll</span>
+        <span class="hero-fold__scroll-label">{scrollLabel}</span>
         <svg class="hero-fold__scroll-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </div>
     </section>
