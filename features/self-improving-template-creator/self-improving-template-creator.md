@@ -44,7 +44,7 @@ even for a different website and a different template — starts smarter and con
 
 | Decision | Choice | Consequence |
 | :--- | :--- | :--- |
-| **Compute** | **No Claude API.** Workers are `claude -p` (headless Claude Code) processes. | A plain orchestrator script spawns/observes them; the whole process is watchable live in a terminal or via logs. |
+| **Compute** | **No Claude API.** Workers are `claude -p` (headless Claude Code) processes. | A plain orchestrator script spawns them and reads their structured verdicts. (Live watchability is a **non-goal** — progress is observed via the admin view / DB, not by attaching to workers.) |
 | **Mutation scope** | **Business JSON _and_ component code** (`packages/ui` + engine dispatch). | The loop can invent new variants when existing ones can't match the target. |
 | **Backward compatibility** | New variants are **strictly additive** (new variant names / new optional fields). | Existing templates must never change behavior. Adding new variant keys to a template's business JSON is expected and fine. |
 | **Scoring** | **Hybrid: VLM (Claude vision) + pixel diff.** | VLM gives semantic per-section scores + critique; pixel/SSIM gives an objective regression guard. Combined into one score. |
@@ -102,7 +102,6 @@ Three cooperating layers, plus the existing engine they target.
 ```
 
 ### 4.1 Why `claude -p` workers instead of one long Claude session
-- **Watchability:** each worker is a discrete, inspectable invocation with its own log; you can tail any one.
 - **Bounded blast radius:** a worker gets exactly one section + one strategy, so a bad generation can't
   corrupt the whole template.
 - **Determinism of control:** the *loop* logic (selection, budget, stop conditions) lives in plain code in
