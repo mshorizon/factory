@@ -8,7 +8,9 @@
 
 ## 4. Architecture
 
-Three cooperating layers, plus the existing engine they target.
+Three cooperating layers, plus the existing engine they target. Two cross-cutting pieces are detailed below
+and omitted from the diagram for clarity: the **section-isolation render harness** (§4.4) that the Scorer
+renders through, and the **shared core library** (§4.5) that both this loop and `clone-template` build on.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -37,9 +39,9 @@ Three cooperating layers, plus the existing engine they target.
 │   target screenshot"   │                          ▲
 │  → edits JSON/code     │            ┌──────────────┴─────────────────────┐
 │  → returns JSON verdict│            │  SCORER                            │
-└───────────────────────┘            │  • Playwright: screenshot our render│
+└───────────────────────┘            │  • isolation-harness render (§4.4)  │
         │ edits                       │  • pixel/SSIM diff vs target        │
-        ▼                             │  • VLM (claude -p vision) critique  │
+        ▼                             │  • VLM A/B + critique (§7.2/§7.2a)  │
 ┌───────────────────────────────┐    │  → {score, breakdown, critique}     │
 │  THE ENGINE (target of edits)  │    └────────────────────────────────────┘
 │  templates/<name>/<name>.json  │
@@ -70,7 +72,16 @@ The worker prompt is templated and always includes:
 - the **current scorer critique** (what's wrong, from the VLM),
 - the **allowed mutation strategy** for this attempt (see §6),
 - the **hard rules** (additive-only variants, semantic tokens only, no hardcoded colors/spacing — per CLAUDE.md),
-- the **relevant lessons** retrieved from the lessons store (see §9).
+- the **relevant lessons** retrieved from the lessons store (see §9),
+- a precomputed **section authoring kit** (see below).
+
+**Warm start — the section authoring kit.** A cold `claude -p` would re-explore the repo every spawn
+(re-read CLAUDE.md, rediscover the dispatch pattern, hunt for sibling variants) — wasteful across thousands
+of invocations. Instead the orchestrator precomputes and injects a compact kit per work unit: the source of
+the relevant existing variant(s) for that section type, the `{Type}Section.astro` dispatch pattern, the
+schema slice for that section, and the **locked theme + atom tokens** (§5.1). The worker authors instead of
+explores. Keep the static portion of the prompt **prompt-cacheable** so repeated spawns reuse it. The kit is
+assembled by the shared core library (§4.5).
 
 The worker **must** return a structured verdict (so the orchestrator can act without parsing prose):
 
@@ -119,9 +130,50 @@ failure mode. Each run declares which viewports are **scored** and which are mer
   challenger that improves desktop but tanks mobile below a floor is rejected.
 - Promotable later to scoring both breakpoints with weighted scores.
 
+### 4.4 Section-isolation render harness (how RENDER actually works)
+
+The naive render path — edit → HMR the whole Astro site → screenshot the page → crop the band — is slow,
+stateful, and **couples sections**: a sticky navbar, scroll-driven effects, or shared layout context bleed
+across the page, so a change to section A can move section B's screenshot. That quietly breaks the
+per-section monotonicity the whole loop rests on (§5.2).
+
+Instead, render sections **in isolation** (Storybook/Histoire-style): a harness mounts *one* section
+component with its props + the locked theme/atom tokens (§5.1) onto a standalone page and screenshots just
+that node. Benefits:
+- **5–10× faster** — no full-site build/HMR cycle per attempt.
+- **True parallelism with zero cross-contamination** — isolated renders can't affect each other, so the
+  concurrency cap (§5.4) is bounded by CPU, not by shared-state races.
+- **Monotonicity becomes real** — a section's score depends only on that section.
+
+**Tradeoff & mitigation:** a section can look right alone but wrong *in page flow* (vertical rhythm between
+sections, sticky-header overlap). So isolation rendering is the **inner-loop** scorer; a **full-page render**
+is still used for (a) the global theme/atom passes (§5.1), (b) manual checkpoints, and (c) the final
+acceptance shot. The orchestrator picks harness-vs-full-page per the work unit.
+
+### 4.5 Shared core library (unify with `clone-template`, don't parallel it)
+
+A worker is essentially a *scoped, single-section `clone-template` invocation*. The two features share page
+analysis, section mapping, component authoring, validation, and seeding — maintained twice, they **will
+drift**. Extract those phases into one library (e.g. `packages/sitc-core`) with composable steps:
+`analyzeTarget · segment · mapSection · authorVariant · assembleAuthoringKit · validate · seedRunDb · render`.
+- the existing **`clone-template` skill** = "run all steps once, full page" (iteration 0 / Phase 0, §5.0);
+- **this loop** = "call the per-section steps repeatedly, scored and selected."
+One source of truth for *how we turn a design into our components*; the loop and the one-shot skill can never
+disagree.
+
 ---
 
 ## 5. The loop (per iteration)
+
+The optimizer works at **three locked tiers of granularity**, coarse → fine, each frozen before the next so
+lower tiers are a stable substrate (this is what makes per-section scoring independent):
+
+```
+Phase 0   seed from clone-template (§5.0)
+Phase A   GLOBAL THEME    palette · typography · radius · spacing scale   → lock theme.*   (§5.1)
+Phase A.5 SHARED ATOMS    button · card · input · badge variants          → lock atoms     (§5.1b)
+Phase B   PER-SECTION     layout · variant · content slots                 (the main loop)  (§5.2)
+```
 
 ### 5.0 Phase 0 — cold start (seed from `clone-template`)
 
@@ -140,7 +192,19 @@ loop**, then **frozen**:
 - **lock `theme`** — per-section workers below may NOT touch global tokens, only section-local structure,
   variant choice, and content slots.
 
-Sections are only truly independent (the premise of §5.2) **after** the theme is locked.
+Sections are only truly independent (the premise of §5.2) **after** the theme *and* shared atoms are locked.
+
+### 5.1b Phase A.5 — shared-atom pass (run after theme, before sections)
+
+Between global tokens and whole sections sits a tier the brief explicitly called out: **atoms**. A target's
+distinctive button shape/fill, card elevation/border, input style, or badge treatment is **shared by every
+section**. If each per-section worker re-derived it, the buttons across sections would diverge and no section
+could "lock" cleanly.
+
+So after the theme is locked, a short pass tunes the **shared atom variants** (`packages/ui/src/atoms/*`)
+against representative target crops, scores globally, and **locks** them. Per-section workers below consume
+the locked atoms as-is (they may *choose* which atom variant a section uses, but may not redefine the atom).
+Same additive rule: new atom variants are new names, never edits to existing ones.
 
 ### 5.2 Phase B — per-section refinement loop
 
@@ -149,39 +213,49 @@ One **iteration** = one full sweep across the sections still in play.
 ```
 for each section S not yet "locked" (score ≥ threshold) and not "frozen" (plateaued):
     1. SNAPSHOT  — commit current JSON + component code on the run branch (the champion)
-    2. MUTATE    — spawn a worker to improve S using the chosen strategy (§6)
-    3. RENDER    — HMR-render S (NO full dev restart — see below) → screenshot S at scored breakpoint(s)
-    4. SCORE     — Scorer returns absolute hybrid score for tracking (§7)
-    5. SELECT    — PAIRWISE A/B judge: show champion + challenger + target to the VLM, "which is closer?"
-                   challenger wins (and absolute score did not regress mobile guard) → promote
+    2. MUTATE    — spawn a worker (warm authoring kit) to improve S using the chosen strategy (§6)
+    3. SANITY    — fast build + type-check + schema validate of the challenger (§5.2a)
+                   FAILS → instant REVERT, record failure, feed the error back as next-attempt critique;
+                           skip RENDER/SCORE (don't waste a screenshot + VLM call on broken code)
+    4. RENDER    — isolation-harness render of S (§4.4) → screenshot at scored breakpoint(s)
+    5. SCORE     — Scorer returns absolute hybrid score for tracking (§7)
+    6. SELECT    — PAIRWISE A/B judge (§7.2): champion + challenger + target → VLM, "which is closer?"
+                   challenger wins (and did not drop the mobile guard) → promote
                    else → REVERT S to the snapshot commit (keep the old champion)
-    6. RECORD    — write iteration row + section_score row to DB
+    7. RECORD    — write iteration row + section_score row to DB
 after the sweep:
     • check stop conditions (§8)
     • if a manual checkpoint is due → set run state = "awaiting_approval", wait for admin command
-    • else → next iteration (possibly escalating strategy on frozen sections)
+    • else → next iteration (scheduler picks the next work units — §5.6)
 ```
 
 **Why per-section snapshot/revert is the whole point:** global regeneration can trade a better hero for a
 worse footer. By snapshotting and scoring each section independently and only promoting improvements, the
 template's quality is **monotonically non-decreasing** — it can only get better or stay the same, never
-regress. That's what makes "run it for hours" safe and worthwhile. The monotonicity is only as trustworthy
-as the SELECT comparison — which is why promotion uses a **pairwise A/B judgment**, not two independently
-generated absolute scores (see §7.2).
+regress. That's what makes "run it for hours" safe and worthwhile. Two things make the monotonicity *real*
+rather than aspirational: (a) **isolation rendering** (§4.4) so a section's score can't be moved by its
+neighbors, and (b) the **pairwise A/B** SELECT (§7.2) so scoring noise can't promote a worse render.
 
-### 5.3 RENDER without restarting the dev server (throughput)
-A naive `pm2 restart astro-dev` per section per iteration means hundreds–thousands of multi-second restarts —
-it dominates wall-clock and can turn a 2-hour run into a 12-hour one. Instead:
-- JSON-only changes (`tune-json`) → update the row in the run DB; Astro HMR picks it up, no restart.
-- code changes (`new-variant`/`extend-variant`) → rely on Vite/Astro HMR; restart only if HMR fails.
-- screenshot just the section's DOM node / y-band, not the full page, when possible.
-Define this concretely in Phase 2 — it is the single biggest lever on run duration.
+### 5.2a SANITY gate — build/typecheck/validate before scoring
+A worker can emit code that doesn't compile or JSON that doesn't validate. Scoring it would waste a render +
+a VLM A/B call before discovering the breakage, and the delivery regression gate (§7.3) runs far too late to
+help the inner loop. So immediately after MUTATE, run a **fast challenger gate**: `tsc`/build the changed
+files (incremental) + `pnpm test:validate` for JSON. On failure → instant revert, record a failed attempt,
+and hand the compiler/validator error back to the worker as its next-attempt critique. Cheap insurance that
+keeps broken candidates out of the expensive scoring path.
+
+### 5.3 RENDER throughput
+Render uses the **section-isolation harness** (§4.4), not a full-site `pm2 restart` — that's the single
+biggest lever on run duration (a full restart per attempt can turn a 2-hour run into a 12-hour one). The
+harness mounts one section with the locked tokens and screenshots just that node; full-page renders are
+reserved for the theme/atom passes, checkpoints, and final acceptance. `pm2 restart astro-dev` survives only
+as the fallback when the harness can't represent something (rare).
 
 ### 5.4 Concurrency
-After the theme is locked (§5.1), sections are largely independent, so multiple workers can run in parallel
-(bounded pool, **default 3**, via `SITC_MAX_WORKERS` / admin UI — §13.6) — **except** when two challengers
-touch shared code/tokens. The orchestrator serializes any iteration whose `changedFiles` would overlap, and
-re-renders once per merge to avoid cross-contamination of scores.
+With isolation rendering (§4.4) sections can't contaminate each other, so after theme + atoms are locked
+multiple workers run in parallel bounded only by CPU (pool **default 3**, via `SITC_MAX_WORKERS` / admin UI —
+§13.6). The one remaining serialization: two challengers whose `changedFiles` overlap (same shared file) are
+ordered, and their merge is re-rendered once.
 
 ### 5.5 Escaping local optima (beam, optional)
 Strict accept-only-better with a single champion is pure hill-climbing and can stall in a local optimum that
@@ -189,13 +263,25 @@ isn't the true best. When a section plateaus *before* reaching threshold and str
 exhausted, optionally widen to a small **beam**: keep the top-K (e.g. K=2–3) candidate snapshots per section
 and branch mutations from each, pruning back to top-K after scoring. Off by default (cost); enabled per run.
 
+### 5.6 Work-unit scheduling (cost-aware, not round-robin)
+"Run for hours" only pays off if the budget flows where it helps. A flat round-robin sweep spends as much on
+a section already at 0.95 as on one stuck at 0.40. The orchestrator instead keeps a **priority queue** and
+picks the next work unit by **expected score-gain per token** — a lightweight multi-armed-bandit:
+- prioritize sections far below threshold, on strategies that have historically paid off **for this design's
+  traits** (this is exactly where the lessons store, §9, earns its keep);
+- decay the priority of a section after repeated low-yield attempts (feeds plateau/freeze, §8);
+- never starve a cheap near-threshold section that one `tune-json` would lock.
+This turns the budget cap (§8) from a guillotine into an optimizer: spend stops mattering as a hard wall and
+starts mattering as allocation.
+
 ---
 
 ## 6. Mutation strategies (escalation ladder)
 
-These are the **Phase B** (per-section) strategies, applied *after* the global theme is locked (§5.1). A
-per-section worker may change section-local structure, variant choice, and content slots — **never** global
-`theme.*` tokens. The orchestrator picks a strategy per section, escalating as a section plateaus:
+These are the **Phase B** (per-section) strategies, applied *after* the global theme (§5.1) **and** shared
+atoms (§5.1b) are locked. A per-section worker may change section-local structure, variant choice, and
+content slots, and may *choose* which locked atom variant a section uses — but **never** redefine global
+`theme.*` tokens or shared atoms. The orchestrator picks a strategy per section, escalating as it plateaus:
 
 1. **`tune-json`** — adjust only the business JSON for that section: swap variant, choose spacing tokens,
    pick content/image slots, set section-local options. Cheapest, safest, tried first. (Global palette/type
@@ -247,11 +333,25 @@ calibrated to *this* design-system rubric.
 
 Absolute VLM scores jitter run-to-run; comparing a freshly-scored challenger against a freshly-scored
 champion lets scoring *noise* promote a worse render (and revert real work). So the **SELECT decision**
-(§5 step 5) is a **pairwise judgment**: the VLM is shown *champion screenshot + challenger screenshot +
+(§5.2 step 6) is a **pairwise judgment**: the VLM is shown *champion screenshot + challenger screenshot +
 target* and asked "which is closer to the target, and why?" Pairwise A/B is far more stable than absolute
 scoring. The absolute hybrid score (§7) is still recorded — for the threshold check, plateau detection, and
 dashboards — but it does **not** decide promotion. Guard: a challenger that wins desktop A/B but drops the
 mobile guard below its floor (§4.3) is rejected.
+
+### 7.2a Judge reliability (the judge is a subsystem, not an oracle)
+
+The *entire* correctness of the loop rests on the pairwise judge being right, and LLM pairwise judging has a
+known **positional bias** — it tends to favor whichever image is shown first. Untreated, the loop can
+confidently converge on the wrong design. Three guards:
+- **Order-symmetric voting.** Run each A/B in *both* orders (champion-first and challenger-first); promote
+  only if the verdict agrees both ways. Disagreement = "too close to call" → no promotion (keep champion).
+  Optionally best-of-3 with majority for high-stakes promotions (e.g. accepting a `new-variant`).
+- **Calibration set.** Maintain a small human-labeled set of (champion, challenger, target, correct-answer)
+  triples. Periodically replay it through the judge and surface agreement-with-human in the admin UI (§11);
+  a drop flags prompt/model drift before it corrupts runs.
+- **Tie-break by objective signal.** When the VLM is undecided, fall back to the pixel/SSIM delta (§7) rather
+  than coin-flipping.
 
 ### 7.3 Backward-compat regression gate (delivery prerequisite)
 
@@ -344,7 +444,8 @@ Net effect: the 5th template run reaches threshold in fewer iterations than the 
 
 - **`sitc_runs`** — `id, template_name, target_url, status (idle|running|awaiting_approval|paused|done|needs_review|aborted), budget_*, weights, max_workers, scored_breakpoints, theme_locked (bool), branch (sitc/run-<id>), run_db_url (isolated render DB), target_manifest (segmentation + alignment + traits), locked_by (owner host — VPS|local), started_at, finished_at, best_overall_score`
 - **`sitc_iterations`** — `id, run_id, iteration_no, started_at, finished_at, notes`
-- **`sitc_section_scores`** — `id, iteration_id, section_id, strategy, vlm_score, pixel_score, score, is_champion, critique, screenshot_ours, screenshot_target`
+- **`sitc_section_scores`** — `id, iteration_id, section_id, strategy, outcome (promoted|reverted|sanity_failed), vlm_score, pixel_score, score, ab_verdict, is_champion, critique, screenshot_ours, screenshot_target`
+- **`sitc_judge_calibration`** — `id, champion_img, challenger_img, target_img, human_answer, judge_answer, agreed (bool), checked_at` — the human-labeled set replayed to detect judge drift (§7.2a)
 - **`sitc_champions`** — current best per `(run_id, section_id)`: `score, snapshot_commit (sha on the run branch), variant_name`
 - **`sitc_commands`** — control channel the admin UI writes and the orchestrator polls: `run_id, type (pause|resume|abort|approve|approve_merge|set_max_workers), payload, created_at, consumed_at`
 - **`sitc_lessons`** — `id, scope, design_traits[], trigger, lesson, embedding vector, evidence_run_id, score_delta, confidence, uses, wins, created_at, archived` (pgvector index on `embedding`; see §9)
@@ -368,6 +469,8 @@ isolated styles.
   runs that introduced shared code — §6/§13.4) (these write `sitc_commands`).
 - **History:** past runs, final scores, diffs applied, delivery outcome (auto-merged vs `needs_review`).
 - **Lessons browser:** read/curate the `sitc_lessons` table (archive bad lessons, pin good ones).
+- **Judge health:** current judge-vs-human agreement on the calibration set (§7.2a) — a drop warns of model/
+  prompt drift before it corrupts runs.
 
 ---
 
@@ -381,7 +484,10 @@ Pulled from `CLAUDE.md` — the loop and every worker prompt must enforce these,
 - **Additive only.** Never change an existing variant's behavior; new variant names + new optional fields
   only. Enforced at delivery by the §7.3 gate (structural additive-by-construction checks + SSIM ≥ 0.99 on
   existing templates — not pixel-identity).
-- **Global tokens are Phase-A only.** Per-section workers must never edit `theme.*` (palette, type, radius,
-  spacing scale); those are set once in the global theme pass and locked (§5.1).
+- **Respect the locked tiers.** Per-section workers must never edit `theme.*` (palette, type, radius, spacing
+  scale — locked in Phase A, §5.1) or **shared atoms** (button/card/input/badge — locked in Phase A.5,
+  §5.1b). They consume both as-is; they may only choose which locked variant a section uses.
+- **Sanity before scoring.** Every challenger must pass build + type-check + `pnpm test:validate` *before* it
+  is rendered/scored (§5.2a); broken candidates revert immediately, never reach the VLM.
 - **Validate + seed flow.** `pnpm test:validate` must pass. Render path is template JSON → run DB → HMR
   (NOT a full `pm2 restart` per iteration — §5.3); a full restart is only the fallback when HMR fails.

@@ -52,7 +52,12 @@ even for a different website and a different template — starts smarter and con
 | **Compute** | **No Claude API.** Workers are `claude -p` (headless Claude Code) processes. | A plain orchestrator script spawns them and reads their structured verdicts. (Live watchability is a **non-goal** — progress is observed via the admin view / DB, not by attaching to workers.) |
 | **Mutation scope** | **Business JSON _and_ component code** (`packages/ui` + engine dispatch). | The loop can invent new variants when existing ones can't match the target. |
 | **Backward compatibility** | New variants are **strictly additive** (new variant names / new optional fields). | Existing templates must never change behavior. Adding new variant keys to a template's business JSON is expected and fine. |
-| **Scoring** | **Hybrid: VLM (Claude vision) + pixel diff;** promotion by **pairwise A/B**. | VLM gives semantic per-section scores + critique; pixel/SSIM is a regression guard; pairwise A/B decides promotion (DESIGN §7). |
+| **Scoring** | **Hybrid: VLM (Claude vision) + pixel diff;** promotion by **pairwise A/B** with order-symmetric voting + calibration. | VLM gives semantic scores + critique; pixel/SSIM is a regression guard; the judge is a hardened subsystem, not an oracle (DESIGN §7, §7.2a). |
+| **Rendering** | **Section-isolation harness** (Storybook-style), not full-site dev-server renders. | 5–10× faster, true parallelism, and per-section monotonicity becomes *real* (DESIGN §4.4). |
+| **Granularity** | **Three locked tiers:** global theme → shared atoms → per-section. | Each tier frozen before the next, so lower tiers are a stable substrate and sections are genuinely independent (DESIGN §5). |
+| **Code reuse** | **Shared core library** with `clone-template` — the worker is a scoped clone-template call. | One source of truth for design→component; the loop and the one-shot skill can't drift (DESIGN §4.5). |
+| **Inner-loop safety** | **Sanity gate** (build/typecheck/validate) before every score. | Broken challengers revert instantly; the expensive render+VLM path only sees compiling code (DESIGN §5.2a). |
+| **Scheduling** | **Cost-aware** (bandit) work-unit selection, not round-robin. | Budget flows to highest expected score-gain-per-token; the cap becomes an optimizer (DESIGN §5.6). |
 | **Stop conditions** | Score threshold **AND** plateau detection **AND** budget cap **AND** manual checkpoint. | Whichever fires first wins; see DESIGN §8. |
 | **Control plane** | **Pause / resume**, persisted in **PostgreSQL**, driven from a new **Admin Panel** page. | A run survives restarts; a human can pause, inspect, approve, or abort at any checkpoint. |
 | **Learning** | **Semantic (embedding-based) lessons store** read at the start of every run, written at the end. | Cross-run, cross-template compounding improvement (pgvector retrieval — see DESIGN §9). |
@@ -119,21 +124,28 @@ even for a different website and a different template — starts smarter and con
 
 ## 14. Build order (suggested phases)
 
-1. **DB + state machine + isolated render env** — `sitc_*` tables (with pgvector), run/pause/resume +
-   `needs_review`, `locked_by` single-owner guard, run-scoped DB provisioning + teardown (§13.2), per-run git
-   branch (§13.3). No AI yet (orchestrator drives a stub worker).
-2. **Target ingestion + Scorer** — frozen de-noised capture, VLM segmentation + alignment map, breakpoint
-   policy (DESIGN §4.3); pixel/SSIM diff + VLM critique + **pairwise A/B** judge (DESIGN §7.2), validated
-   against hand-scored examples. Establish the **HMR-render path** here (DESIGN §5.3) — it gates run duration.
-3. **Phase 0 + Phase A** — seed iteration 0 from a `clone-template` pass (DESIGN §5.0); global theme pass that
-   locks `theme.*` before any per-section work (DESIGN §5.1).
-4. **Single-section loop** — `claude -p` worker for `tune-json` on one section, commit-snapshot/revert +
-   pairwise champion selection. Make it portable (VPS + local via env) here (§13.1).
-5. **Full sweep + strategy escalation** — all sections, default 3 workers, `extend-variant`/`new-variant`/
-   `new-section`; optional beam for stuck sections (DESIGN §5.5).
+0. **Shared core extraction** — refactor `clone-template`'s phases into `packages/sitc-core`
+   (`analyzeTarget · segment · mapSection · authorVariant · assembleAuthoringKit · validate · seedRunDb ·
+   render`) so the one-shot skill and the loop share one engine (DESIGN §4.5). Do this first — everything
+   else consumes it.
+1. **DB + state machine + isolated render env** — `sitc_*` tables (with pgvector + `sitc_judge_calibration`),
+   run/pause/resume + `needs_review`, `locked_by` single-owner guard, run-scoped DB provisioning + teardown
+   (§13.2), per-run git branch (§13.3). No AI yet (orchestrator drives a stub worker).
+2. **Render harness + Scorer** — the **section-isolation render harness** (DESIGN §4.4); frozen de-noised
+   capture, VLM segmentation + alignment map, breakpoint policy (DESIGN §4.3); pixel/SSIM diff + VLM critique
+   + **pairwise A/B with order-symmetric voting + calibration** (DESIGN §7.2/§7.2a), validated against
+   hand-scored examples. The harness gates run duration — get it right here.
+3. **Phase 0 → A → A.5** — seed iteration 0 from a `clone-template` pass (DESIGN §5.0); lock global theme
+   (DESIGN §5.1); lock shared atoms (DESIGN §5.1b) before any per-section work.
+4. **Single-section loop** — `claude -p` worker (warm authoring kit, DESIGN §4.2) for `tune-json` on one
+   section, with the **sanity gate** (DESIGN §5.2a), commit-snapshot/revert + pairwise selection. Portable
+   (VPS + local via env) here (§13.1).
+5. **Full sweep + strategy escalation + scheduler** — all sections, default 3 workers, `extend-variant`/
+   `new-variant`/`new-section`; **cost-aware scheduler** (DESIGN §5.6); optional beam for stuck sections
+   (DESIGN §5.5).
 6. **Learning store (semantic)** — `sitc_lessons` + embeddings + retrieval injected into prompts +
-   end-of-run distillation + `LESSONS.md` digest (DESIGN §9).
-7. **Admin Panel UI** — start/monitor/control/history/lessons browser (DESIGN §11).
+   end-of-run distillation + `LESSONS.md` digest (DESIGN §9). Wire lesson signals into the scheduler (step 5).
+7. **Admin Panel UI** — start/monitor/control/history/lessons browser/judge-health (DESIGN §11).
 8. **Hardening + delivery** — budget caps, the DESIGN §7.3 regression gate, validate/type-check/build gates,
    then strategy-routed delivery (DESIGN §6 / §13.4): auto-merge clean tuning runs; `new-variant`/`new-section`
    → `needs_review`.
