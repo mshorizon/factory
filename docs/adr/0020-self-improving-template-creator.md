@@ -1,7 +1,10 @@
 # ADR-0020: Self-Improving Template Creator (iterative design-convergence loop)
 
-**Status:** pending  
-**Date:** 2026-06-15
+**Status:** accepted  
+**Date:** 2026-06-15  
+**Validation:** Phase −1 spike (2026-06-15) confirmed the two load-bearing bets — isolation-render fidelity
+(decision 4) and pairwise-judge reliability (decision 5). See
+`features/self-improving-template-creator/SPIKE-FINDINGS.md`.
 
 ## Context
 The `clone-template` skill (ADR-0013 variant system, ADR-0005 template→DB sync) takes a reference website

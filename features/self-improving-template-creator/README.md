@@ -1,9 +1,9 @@
 # Self-Improving Template Creator
 
-> **Status:** 🧊 **Spec FROZEN — v1** (design complete; not yet implemented). Treat README + DESIGN as
-> stable. The next action is **not more spec** — it's the **Phase −1 spike** (§14): prove isolation-render
-> fidelity and pairwise-judge reliability. Reopen the spec only if a spike result invalidates a load-bearing
-> decision (then bump to v1.1 and note what changed and why).
+> **Status:** 🧊 **Spec FROZEN — v1** (design complete). ✅ **Phase −1 spike PASSED** (2026-06-15) — both
+> load-bearing bets (isolation-render fidelity §4.4, pairwise-judge reliability §7.2a) hold; see
+> [`SPIKE-FINDINGS.md`](./SPIKE-FINDINGS.md). Next action: **build** at §14 Phase 0. Reopen the spec only if
+> later evidence invalidates a load-bearing decision (then bump to v1.1 and note what changed and why).
 > **Owner:** msadlo
 > **ADR:** [`docs/adr/0020-self-improving-template-creator.md`](../../docs/adr/0020-self-improving-template-creator.md) (architecture decisions of record)
 > **Related:** `.claude/skills/clone-template/SKILL.md` (single-pass cloning — this feature is the looping evolution of it)
