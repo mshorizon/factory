@@ -49,6 +49,8 @@ export interface FullRunResult {
   profile: BusinessProfile;
   thresholdReached: boolean;
   strategiesUsed: MutationStrategy[];
+  /** Final champion render per section (the image that won each section). */
+  championImg?: Record<string, string | null>;
   delivery?: DeliveryRouting;
   merged?: { develop: string };
   finalStatus: "done" | "needs_review" | "paused" | "aborted" | "lease-denied";
@@ -97,11 +99,11 @@ async function drive(input: FullRunInput): Promise<FullRunResult> {
   // pause/abort short-circuit delivery (§16) — best-so-far is kept on the branch
   if (sweep.stoppedBy === "aborted") {
     await input.store.updateRun(input.runId, { status: "aborted" });
-    return { profile: tiers.profile, thresholdReached: false, strategiesUsed: [], finalStatus: "aborted" };
+    return { profile: tiers.profile, thresholdReached: false, strategiesUsed: [], championImg: sweep.championImg, finalStatus: "aborted" };
   }
   if (sweep.stoppedBy === "paused") {
     await input.store.updateRun(input.runId, { status: "paused" });
-    return { profile: tiers.profile, thresholdReached: false, strategiesUsed: [], finalStatus: "paused" };
+    return { profile: tiers.profile, thresholdReached: false, strategiesUsed: [], championImg: sweep.championImg, finalStatus: "paused" };
   }
 
   const thresholdReached = allSettled(sweep.states) && sweep.states.every((s) => s.locked);
@@ -129,5 +131,5 @@ async function drive(input: FullRunInput): Promise<FullRunResult> {
   const finalStatus: "done" | "needs_review" = delivery.decision === "auto-merge" ? "done" : "needs_review";
   await input.store.updateRun(input.runId, { status: finalStatus });
 
-  return { profile: tiers.profile, thresholdReached, strategiesUsed, delivery, merged, finalStatus };
+  return { profile: tiers.profile, thresholdReached, strategiesUsed, championImg: sweep.championImg, delivery, merged, finalStatus };
 }

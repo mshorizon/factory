@@ -36,11 +36,24 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
       Edit/Write — an autonomous agent loop the harness gates. The operator runs the real loop (via the local
       runner / VPS orchestrator), not the assistant. Wiring `createClaudeWorker` into the runner = Step 3/7.
 
-## Step 3 — Render integration: run-scoped DB ↔ engine 🖥️ (so there's something to open)
-- [ ] Implement `seedRunDb` for real (currently a stub that throws) — provision + seed the working profile.
-- [ ] Make `renderSection` render the run's **evolving profile** (from run DB or a working file), not a
-      pre-seeded `?business=`.
-- [ ] Per-section **champion-image tracking** wired into the loop (champion render vs challenger render).
+## Step 3 — Render integration: run-scoped DB ↔ engine 🖥️ (so there's something to open) ✅
+- [x] `renderSection` renders the run's **evolving profile from a working file** (`profilePath` option →
+      `?profilePath=` on the harness). The engine harness route loads the worktree's template JSON directly
+      (dev/`SITC_HARNESS_FS=1`-gated, path-constrained to `templates/` + `.json`); middleware skips DB business
+      resolution for that case so no seeded site is needed in the inner loop.
+- [x] `seedRunDb` is real (was a throwing stub): validates the profile, then delegates to an injected
+      `RunDbSeedFn` (keeps sitc-core driver-free). Prod adapter `seedRunProfile` + `createSqlExec` added to
+      `@mshorizon/db` (dedicated run-DB client, never the dev singleton) for the run-scoped DB / final preview.
+- [x] Per-section **champion-image tracking**: `runSweep` persists each promotion via `store.setChampion`
+      (score + snapshot commit) and returns the final `championImg` map; `runFull` surfaces it in `FullRunResult`.
+- [x] **Verified end-to-end (real, not fakes):** booted the engine, hit the harness with a real template
+      `profilePath` → **HTTP 200** with the section node; edited the working file → the change rendered live;
+      `renderSection` captured a real 1440×912 screenshot (`screenshots/sitc-step3-hero.png`) with correct theme +
+      variant. Path guards reject `/etc/passwd` and non-json (**400**). Plus 12/12 unit checks (render URL,
+      seedRunDb validate/delegate, champion persistence). **This is the "open a render & compare to target" milestone.**
+- Note: a throwaway working copy with no `translations/` dir shows raw `t:` keys for translated fields; a real
+  run's worktree carries the translations dir (the harness loads it). Layout/design fidelity (what the scorer
+  judges) is unaffected.
 
 ## Step 4 — Target segmentation + alignment 🔬 (riskiest unknown)
 - [ ] Real `segmentTarget` (split target into section bands) + band↔our-section alignment map (DESIGN §4.3).

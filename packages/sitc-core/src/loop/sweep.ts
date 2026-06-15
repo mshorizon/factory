@@ -38,6 +38,8 @@ export interface SweepResult {
   states: SectionState[];
   rounds: number;
   promotions: number;
+  /** Final champion render per section (the image that won each section). */
+  championImg: Record<string, string | null>;
   /** Why the sweep stopped. */
   stoppedBy: "settled" | "maxRounds" | "budget" | "paused" | "aborted";
 }
@@ -105,6 +107,15 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
           champ[pick.sectionId] = res.ourImg ?? champ[pick.sectionId];
           st.attempts = 0;
           if (st.score >= st.threshold) st.locked = true;
+          // persist the new champion (DESIGN §10) — best-effort, non-blocking on failure
+          if (input.store) {
+            await input.store
+              .setChampion(input.runId, pick.sectionId, {
+                score: st.score,
+                snapshotCommit: res.newChampionCommit ?? res.challengerSha ?? undefined,
+              })
+              .catch(() => undefined);
+          }
         } else {
           // reverted / sanity_failed / no-op → low yield
           st.attempts++;
@@ -121,5 +132,5 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
     );
   }
 
-  return { states: [...states.values()], rounds, promotions, stoppedBy };
+  return { states: [...states.values()], rounds, promotions, championImg: champ, stoppedBy };
 }

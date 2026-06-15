@@ -35,9 +35,9 @@ export type { MapDecision } from "./steps/map-section.js";
 export { authorVariant } from "./steps/author-variant.js";
 export type { AuthorVariantInput } from "./steps/author-variant.js";
 
-// phase-1 seam
+// run-scoped DB seed (DESIGN §13.2)
 export { seedRunDb } from "./steps/seed-run-db.js";
-export type { SeedRunDbOptions } from "./steps/seed-run-db.js";
+export type { SeedRunDbOptions, RunDbSeedFn } from "./steps/seed-run-db.js";
 
 // ─── orchestrator (Phase 1) ──────────────────────────────────────────────────
 export {
