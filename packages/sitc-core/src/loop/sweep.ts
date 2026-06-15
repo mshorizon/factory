@@ -10,6 +10,7 @@ import { pickNext, allSettled, type SectionState } from "./scheduler.js";
 import { nextStrategy, ladderExhausted } from "./strategy.js";
 import { runSectionIteration, createMutex, type SectionCollaborators, type SectionIterationResult } from "./section-iteration.js";
 import type { WorktreeManager } from "../orchestrator/worktree.js";
+import type { RunStore } from "../orchestrator/store.js";
 import { budgetExceeded, type BudgetCaps } from "../delivery/budget.js";
 
 export interface SweepInput {
@@ -25,6 +26,8 @@ export interface SweepInput {
   maxRounds?: number;
   /** Hard budget caps (§8) — stop when any is hit, returning best-so-far. */
   budget?: BudgetCaps;
+  /** Poll this store's command queue between rounds for pause/abort (§16). */
+  store?: RunStore;
   nowMs?: () => number;
   /** Consecutive low-yield attempts before escalating strategy. */
   plateauAfter?: number;
@@ -36,7 +39,7 @@ export interface SweepResult {
   rounds: number;
   promotions: number;
   /** Why the sweep stopped. */
-  stoppedBy: "settled" | "maxRounds" | "budget";
+  stoppedBy: "settled" | "maxRounds" | "budget" | "paused" | "aborted";
 }
 
 export async function runSweep(input: SweepInput): Promise<SweepResult> {
@@ -54,6 +57,15 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
   let stoppedBy: SweepResult["stoppedBy"] = "settled";
 
   while (!allSettled([...states.values()])) {
+    // admin commands (pause/abort) take effect between rounds (§16)
+    if (input.store) {
+      const cmd = await input.store.nextCommand(input.runId);
+      if (cmd) {
+        await input.store.consumeCommand(cmd.id);
+        if (cmd.type === "abort") { stoppedBy = "aborted"; break; }
+        if (cmd.type === "pause") { stoppedBy = "paused"; break; }
+      }
+    }
     if (rounds >= maxRounds) {
       stoppedBy = "maxRounds";
       break;

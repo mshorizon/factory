@@ -102,6 +102,8 @@ export { lockSharedAtoms } from "./pipeline/atom-pass.js";
 export type { LockSharedAtomsInput, LockSharedAtomsResult, ProposedAtoms } from "./pipeline/atom-pass.js";
 export { lockTiers } from "./pipeline/lock-tiers.js";
 export type { LockTiersInput, LockTiersResult } from "./pipeline/lock-tiers.js";
+export { runFull } from "./pipeline/run.js";
+export type { FullRunInput, FullRunResult } from "./pipeline/run.js";
 
 // ─── loop: per-section sweep (Phase 4) ───────────────────────────────────────
 export { checkAllowlist } from "./loop/allowlist.js";
