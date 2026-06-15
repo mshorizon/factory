@@ -182,10 +182,16 @@ even for a different website and a different template — starts smarter and con
    (resume re-runs the in-flight iteration, no skip/dup), lease guard, pause, orphan GC. Schema + Drizzle store
    are type-checked but **not yet pushed/run against production Postgres** (gated — needs `drizzle-kit push` to
    the control DB after review). Live in `packages/sitc-core/src/orchestrator/` + `packages/db/src/sitc-*.ts`.
-2. **Render harness + Scorer** — the **section-isolation render harness** (DESIGN §4.4); frozen de-noised
-   capture, VLM segmentation + alignment map, breakpoint policy (DESIGN §4.3); pixel/SSIM diff + VLM critique
-   + **pairwise A/B with order-symmetric voting + calibration** (DESIGN §7.2/§7.2a), validated against
-   hand-scored examples. The harness gates run duration — get it right here.
+2. ✅ **Render harness + Scorer (core DONE)** — `packages/sitc-core/src/scorer/`: `renderSection` (isolation
+   harness, Phase 0) + `captureTarget` (frozen de-noised, banners dismissed — live-verified) + `pixelScore`
+   (offset-tolerant) + `vlmScore` (design-system rubric, monotonic: identical 1.0 vs different 0.24) +
+   `scoreSection` (hybrid) + `pairwiseJudge` (order-symmetric voting) + `runCalibration`. Productionized judge
+   **reproduces the spike: 100% agreement (10/10), 92% order-stability** — the one non-stable case is an
+   *ambiguous* triple correctly resolved to `tie` (§7.2a guard working). Type-checks + builds.
+   **Still open (spike caveat #1):** VLM **segmentation + alignment map** (§4.3) remain v0 scaffolds; and the
+   calibration set so far uses *gross* cross-template deltas — before autonomous runs, grow
+   `sitc_judge_calibration` with **subtle** champion-vs-challenger deltas (only producible once Phase 4 mints
+   variants) and re-validate.
 3. **Phase 0 → A → A.5** — seed iteration 0 from a `clone-template` pass (DESIGN §5.0); lock global theme
    (DESIGN §5.1); lock shared atoms (DESIGN §5.1b) before any per-section work.
 4. **Single-section loop + sandbox** — `claude -p` worker (warm authoring kit, DESIGN §4.2) for `tune-json` on
