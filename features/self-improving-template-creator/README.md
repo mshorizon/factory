@@ -3,10 +3,12 @@
 > **Status:** 🧊 **Spec FROZEN — v1**. ✅ **Spike PASSED** + **Phases 0–8 BUILT & VERIFIED** (deterministically,
 > via fakes/temp-repo/screenshot — see each §14 phase). The engine (`@mshorizon/sitc-core`), its DB layer
 > (`@mshorizon/db` `sitc_*`), and the admin UI all exist and type-check.
-> **Before a first autonomous run** (the standing gates): (1) push `sitc_*` to the control DB + provision a
-> run-scoped DB (§13.2); (2) grow `sitc_judge_calibration` with **subtle** deltas + re-validate (spike caveat #1);
-> (3) wire the real collaborators (`authorVariant` claude-in-worktree, `renderSection`, `scoreSection`/
-> `pairwiseJudge`, gate toolchain, `SITC_EMBED_CMD`) into a live run. See [`SPIKE-FINDINGS.md`](./SPIKE-FINDINGS.md).
+> **Before a first autonomous run** (the standing gates): (1) ✅ **`sitc_*` schema PUSHED to the control DB**
+> (2026-06-15, additive-only, pgvector confirmed) — run-scoped render DB is provisioned per-run at runtime
+> (§13.2, code in `run-db.ts`); (2) grow `sitc_judge_calibration` with **subtle** deltas + re-validate
+> (spike caveat #1); (3) wire the real collaborators (`authorVariant` claude-in-worktree, `renderSection`,
+> `scoreSection`/`pairwiseJudge`, gate toolchain, `SITC_EMBED_CMD`) into a live run. See
+> [`SPIKE-FINDINGS.md`](./SPIKE-FINDINGS.md).
 > **Owner:** msadlo
 > **ADR:** [`docs/adr/0020-self-improving-template-creator.md`](../../docs/adr/0020-self-improving-template-creator.md) (architecture decisions of record)
 > **Related:** `.claude/skills/clone-template/SKILL.md` (single-pass cloning — this feature is the looping evolution of it)
