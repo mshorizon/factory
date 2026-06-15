@@ -124,6 +124,22 @@ even for a different website and a different template — starts smarter and con
 
 ## 14. Build order (suggested phases)
 
+> ### ⚠️ Phase −1 — SPIKE FIRST (validate the two load-bearing bets before committing the roadmap)
+> Phases 0 and 2 are real upfront engineering, and the whole loop's value rests on two unproven assumptions.
+> Prove them in throwaway spikes *before* building the rest:
+>
+> 1. **Isolation-render fidelity (DESIGN §4.4).** Mount ONE existing section (e.g. a `hero` variant) in the
+>    isolation harness with real theme tokens, and compare its screenshot to the same section rendered
+>    in-page by the live engine. **Question: is the isolated render close enough (SSIM and by eye) that a
+>    score computed on it is trustworthy?** If isolated ≉ in-page, the per-section premise is shaky — fall
+>    back to full-page render + crop, or invest in making the harness faithful, before anything else.
+> 2. **Pairwise-judge reliability (DESIGN §7.2a).** Hand-label ~20 (champion, challenger, target) triples,
+>    then run the order-symmetric pairwise judge over them. **Question: does it agree with you ≥~90% and is
+>    it order-stable?** If not, the loop will confidently converge on the wrong design — fix the rubric/
+>    voting (or reconsider VLM-as-judge) before building the loop around it.
+>
+> Cost: ~1–2 days. If either spike fails, the architecture changes — far cheaper to learn now than in Phase 5.
+
 0. **Shared core extraction** — refactor `clone-template`'s phases into `packages/sitc-core`
    (`analyzeTarget · segment · mapSection · authorVariant · assembleAuthoringKit · validate · seedRunDb ·
    render`) so the one-shot skill and the loop share one engine (DESIGN §4.5). Do this first — everything
