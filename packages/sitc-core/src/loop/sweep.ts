@@ -10,6 +10,7 @@ import { pickNext, allSettled, type SectionState } from "./scheduler.js";
 import { nextStrategy, ladderExhausted } from "./strategy.js";
 import { runSectionIteration, createMutex, type SectionCollaborators, type SectionIterationResult } from "./section-iteration.js";
 import type { WorktreeManager } from "../orchestrator/worktree.js";
+import { budgetExceeded, type BudgetCaps } from "../delivery/budget.js";
 
 export interface SweepInput {
   worktree: WorktreeManager;
@@ -22,6 +23,9 @@ export interface SweepInput {
   championImg?: Record<string, string | null>;
   maxWorkers?: number;
   maxRounds?: number;
+  /** Hard budget caps (§8) — stop when any is hit, returning best-so-far. */
+  budget?: BudgetCaps;
+  nowMs?: () => number;
   /** Consecutive low-yield attempts before escalating strategy. */
   plateauAfter?: number;
   onIteration?: (sectionId: string, r: SectionIterationResult) => void;
@@ -31,6 +35,8 @@ export interface SweepResult {
   states: SectionState[];
   rounds: number;
   promotions: number;
+  /** Why the sweep stopped. */
+  stoppedBy: "settled" | "maxRounds" | "budget";
 }
 
 export async function runSweep(input: SweepInput): Promise<SweepResult> {
@@ -40,13 +46,30 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
   const maxWorkers = input.maxWorkers ?? 3;
   const maxRounds = input.maxRounds ?? 50;
   const plateauAfter = input.plateauAfter ?? 2;
+  const now = input.nowMs ?? (() => Date.now());
+  const startMs = now();
   let rounds = 0;
   let promotions = 0;
+  let workerInvocations = 0;
+  let stoppedBy: SweepResult["stoppedBy"] = "settled";
 
-  while (!allSettled([...states.values()]) && rounds < maxRounds) {
+  while (!allSettled([...states.values()])) {
+    if (rounds >= maxRounds) {
+      stoppedBy = "maxRounds";
+      break;
+    }
+    if (
+      input.budget &&
+      budgetExceeded({ iterations: workerInvocations, workerInvocations, elapsedMs: now() - startMs }, input.budget)
+        .exceeded
+    ) {
+      stoppedBy = "budget";
+      break;
+    }
     rounds++;
     const picked = pickNext([...states.values()], maxWorkers);
     if (!picked.length) break;
+    workerInvocations += picked.length;
 
     await Promise.all(
       picked.map(async (pick) => {
@@ -86,5 +109,5 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
     );
   }
 
-  return { states: [...states.values()], rounds, promotions };
+  return { states: [...states.values()], rounds, promotions, stoppedBy };
 }

@@ -1,9 +1,12 @@
 # Self-Improving Template Creator
 
-> **Status:** 🧊 **Spec FROZEN — v1** (design complete). ✅ **Phase −1 spike PASSED** (2026-06-15) — both
-> load-bearing bets (isolation-render fidelity §4.4, pairwise-judge reliability §7.2a) hold; see
-> [`SPIKE-FINDINGS.md`](./SPIKE-FINDINGS.md). Next action: **build** at §14 Phase 0. Reopen the spec only if
-> later evidence invalidates a load-bearing decision (then bump to v1.1 and note what changed and why).
+> **Status:** 🧊 **Spec FROZEN — v1**. ✅ **Spike PASSED** + **Phases 0–8 BUILT & VERIFIED** (deterministically,
+> via fakes/temp-repo/screenshot — see each §14 phase). The engine (`@mshorizon/sitc-core`), its DB layer
+> (`@mshorizon/db` `sitc_*`), and the admin UI all exist and type-check.
+> **Before a first autonomous run** (the standing gates): (1) push `sitc_*` to the control DB + provision a
+> run-scoped DB (§13.2); (2) grow `sitc_judge_calibration` with **subtle** deltas + re-validate (spike caveat #1);
+> (3) wire the real collaborators (`authorVariant` claude-in-worktree, `renderSection`, `scoreSection`/
+> `pairwiseJudge`, gate toolchain, `SITC_EMBED_CMD`) into a live run. See [`SPIKE-FINDINGS.md`](./SPIKE-FINDINGS.md).
 > **Owner:** msadlo
 > **ADR:** [`docs/adr/0020-self-improving-template-creator.md`](../../docs/adr/0020-self-improving-template-creator.md) (architecture decisions of record)
 > **Related:** `.claude/skills/clone-template/SKILL.md` (single-pass cloning — this feature is the looping evolution of it)
@@ -230,9 +233,13 @@ even for a different website and a different template — starts smarter and con
    My files are `tsc`-clean (the engine's pre-existing strict-type noise is unrelated). Variant-curation tab
    deferred (needs §17 usage data). `estimateRunCost` in sitc-core; UI mirrors the formula client-side (sitc-core
    is node-only).
-8. **Hardening + delivery** — budget caps, the DESIGN §7.3 regression gate + **§7.4 acceptance gate**
-   (perf/a11y/responsive/hygiene), validate/type-check/build gates, then strategy-routed delivery
-   (DESIGN §6 / §13.4): auto-merge clean tuning runs; `new-variant`/`new-section` → `needs_review`.
+8. ✅ **Hardening + delivery (core DONE)** — `packages/sitc-core/src/delivery/`: `budgetExceeded` (§8, wired into
+   the sweep → `stoppedBy:"budget"`), `isAdditiveSchemaChange` (§7.3 — enum/optional additions ok; removals/
+   required-additions/type-changes fail), `regressionGate` (additive + injected build/validate/**SSIM≥0.99**),
+   `acceptanceGate` (§7.4 perf/a11y/responsive/hygiene), `decideDelivery` (§13.4 routing) + `mergeRunToDevelop`
+   (git no-ff merge). **21/21 checks pass** incl. the merge on a temp repo (never the real `develop`): clean
+   tuning runs → **auto-merge**; `new-variant`/`new-section`, failed gate, or non-converged → **`needs_review`**.
+   The gate checks (build/render-SSIM/Lighthouse/axe) are injected seams — prod wires the real toolchain.
 9. **Steady-state curation** (ongoing, not one-off) — periodic variant near-duplicate/retirement pass
    (DESIGN §17) and feature-success telemetry: iterations-to-threshold trend + post-delivery human edits
    (DESIGN §18-G).

@@ -140,3 +140,13 @@ export type { DigestOptions } from "./learning/digest.js";
 // ─── cost estimate (Phase 7 / §18-H) ─────────────────────────────────────────
 export { estimateRunCost, DEFAULT_COST_MODEL } from "./cost.js";
 export type { CostModel, EstimateInput, CostEstimate } from "./cost.js";
+
+// ─── delivery: budget + gates + routing (Phase 8) ────────────────────────────
+export { budgetExceeded } from "./delivery/budget.js";
+export type { BudgetCaps, BudgetSpent, BudgetCheck } from "./delivery/budget.js";
+export { isAdditiveSchemaChange } from "./delivery/schema-additive.js";
+export type { AdditiveResult } from "./delivery/schema-additive.js";
+export { regressionGate, acceptanceGate } from "./delivery/gates.js";
+export type { GateResult, RegressionChecks, RegressionInput, AcceptanceChecks } from "./delivery/gates.js";
+export { decideDelivery, mergeRunToDevelop } from "./delivery/delivery.js";
+export type { DeliveryDecision, DeliveryInput, DeliveryRouting, MergeOptions } from "./delivery/delivery.js";
