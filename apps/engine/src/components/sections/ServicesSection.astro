@@ -28,6 +28,7 @@ const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 const detailsLabel = section.detailsLabel;
 const showIcons = !!(section as any).showIcons;
 const serviceCategories = (section as any).serviceCategories as { id: string; label: string }[] | undefined;
+const categoryGroups = (section as any).categoryGroups as { id: string; label: string; categories: string[]; showSubTabs?: boolean }[] | undefined;
 const defaultCategory = (section as any).defaultCategory as string | undefined;
 const columns = (section as any).columns as number | undefined;
 const footnote = (section as any).footnote as string | undefined;
@@ -50,7 +51,7 @@ const maxWidth = (section as any).maxWidth as string | undefined;
       revealDelay={0}
     />
     {variant === "list" ? (
-      <ServicesList client:visible items={items} categories={serviceCategories} defaultCategory={defaultCategory} columns={columns} />
+      <ServicesList client:visible items={items} categories={serviceCategories} categoryGroups={categoryGroups} defaultCategory={defaultCategory} columns={columns} />
     ) : variant === "imageGrid" ? (
       <ServicesImageGrid client:visible items={items} />
     ) : variant === "darkCards" ? (

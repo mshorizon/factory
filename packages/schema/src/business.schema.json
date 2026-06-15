@@ -327,10 +327,34 @@
             "required": ["id", "label"]
           }
         },
+        "categoryGroups": {
+          "type": "array",
+          "title": "Category Groups",
+          "description": "Optional groups that aggregate multiple serviceCategories into a single top-level tab. A group with showSubTabs:true renders a second tab row for its constituent categories; without it, items from all constituent categories are shown merged.",
+          "items": {
+            "type": "object",
+            "title": "CategoryGroup",
+            "properties": {
+              "id": { "type": "string", "title": "Group ID" },
+              "label": { "type": "string", "title": "Group Tab Label" },
+              "categories": {
+                "type": "array",
+                "title": "Constituent Category IDs",
+                "items": { "type": "string" }
+              },
+              "showSubTabs": {
+                "type": "boolean",
+                "title": "Show Sub-Tabs",
+                "description": "When true, selecting this group tab reveals a second row of sub-tabs for each constituent category."
+              }
+            },
+            "required": ["id", "label", "categories"]
+          }
+        },
         "defaultCategory": {
           "type": "string",
           "title": "Default Category Tab",
-          "description": "Optional id of the serviceCategories tab selected by default when the page loads. When omitted, the first tab is selected."
+          "description": "Optional id of the serviceCategories tab (or categoryGroups group) selected by default when the page loads. When omitted, the first tab is selected."
         },
         "story": {
           "type": "object",
