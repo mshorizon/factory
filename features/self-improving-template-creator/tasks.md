@@ -20,12 +20,21 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
       verified for auto-merge / needs_review / failed-gate / lease-denied / pause / abort. Next blocker for a
       *real* result is Step 2 (the generative worker) + Step 3 (render the evolving profile).
 
-## Step 2 — Real `authorVariant` worker 🧠 (the generative core)
-- [ ] Replace the v0 scaffold with a real `claude -p` worker that edits the section's JSON / component code in
-      the worktree toward the target and returns a verdict (DESIGN §4.2/§6/§15).
-- [ ] Prompt engineering for `tune-json` first (cheapest), then `extend-variant`/`new-variant`.
-- ⚠️ **Governance:** spawning headless `claude -p` with Edit/Write is an autonomous agent loop — the harness
-      may gate this. Likely needs the operator to run it (not the assistant) or an approved permission rule.
+## Step 2 — Real `authorVariant` worker 🧠 (the generative core) ✅ (code done)
+- [x] Replaced the v0 scaffold (`steps/author-variant.ts`) with a real generative worker: surfaces the warm
+      authoring kit (existing variant sources, dispatch wiring, schema slice, locked tokens — truncated) directly
+      in the prompt, injects critique + advisory lessons, and authors via `Read/Edit/Write` in the worktree.
+- [x] Strategy-specific prompts, cheapest-first: `tune-json` (JSON only) → `extend-variant` → `new-variant` →
+      `new-section`. Each states the exact write boundary mirroring `loop/allowlist.ts`, so the worker stays
+      in-bounds and the SANITY gate re-enforces it on the git diff (verdict is steering signal, not a boundary).
+- [x] Defensive verdict normalization (malformed/out-of-range output → safe defaults).
+- [x] `createMutateCollaborator` (`loop/mutate-collaborator.ts`) wires `assembleAuthoringKit` + `authorVariant`
+      into the sweep's `mutate` seam — the bridge that makes the generative core usable by `runFull`.
+- [x] Verified with a fake `WorkerRunner` (no model spawned): 26/26 — strategy prompts/boundaries, kit + token
+      surfacing, truncation, critique/lessons injection, tool authorization, verdict normalization, collaborator.
+- ⚠️ **Governance (execution, not code):** the code is ready, but RUNNING it spawns headless `claude -p` with
+      Edit/Write — an autonomous agent loop the harness gates. The operator runs the real loop (via the local
+      runner / VPS orchestrator), not the assistant. Wiring `createClaudeWorker` into the runner = Step 3/7.
 
 ## Step 3 — Render integration: run-scoped DB ↔ engine 🖥️ (so there's something to open)
 - [ ] Implement `seedRunDb` for real (currently a stub that throws) — provision + seed the working profile.

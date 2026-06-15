@@ -123,6 +123,8 @@ export type {
 } from "./loop/section-iteration.js";
 export { runSweep } from "./loop/sweep.js";
 export type { SweepInput, SweepResult } from "./loop/sweep.js";
+export { createMutateCollaborator } from "./loop/mutate-collaborator.js";
+export type { MutateCollaboratorOptions } from "./loop/mutate-collaborator.js";
 
 // ─── learning: semantic lessons store (Phase 6) ──────────────────────────────
 export { SITC_EMBED_DIM } from "./learning/dims.js";
