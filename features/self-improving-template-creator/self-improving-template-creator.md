@@ -50,7 +50,12 @@ even for a different website and a different template — starts smarter and con
 | **Scoring** | **Hybrid: VLM (Claude vision) + pixel diff.** | VLM gives semantic per-section scores + critique; pixel/SSIM gives an objective regression guard. Combined into one score. |
 | **Stop conditions** | Score threshold **AND** plateau detection **AND** budget cap **AND** manual checkpoint. | Whichever fires first wins; see §8. |
 | **Control plane** | **Pause / resume**, persisted in **PostgreSQL**, driven from a new **Admin Panel** page. | A run survives restarts; a human can pause, inspect, approve, or abort at any checkpoint. |
-| **Learning** | A persistent **lessons store** read at the start of every run, written at the end. | Cross-run, cross-template compounding improvement. |
+| **Learning** | **Semantic (embedding-based) lessons store** read at the start of every run, written at the end. | Cross-run, cross-template compounding improvement (pgvector retrieval — see §9). |
+| **Where it runs** | **Portable:** VPS (PM2) by default, **local optional** (to use a stronger local model). | Stateless orchestrator + `claude -p` workers ⇒ only env (`DATABASE_URL`, worker cmd, model) differs. One owner per run via DB lock. |
+| **Render env** | **Isolated, run-scoped DB** — never the shared dev site. | Experiments can't destabilize `*.dev.hazelgrouse.pl` (which shares the prod environment). Torn down at run end. |
+| **Snapshot/revert** | **Per-run git branch** `sitc/run-<id>`; champion = commit, revert = targeted checkout. | Clean diffs, trivial per-section revert, reviewable final delta. |
+| **Delivery** | **Auto-merge into `develop`** — gated on regression + validate + type-check + additive checks. | No manual PR. Any failed gate ⇒ run ends in `needs_review`, branch left intact. |
+| **Concurrency** | **Default 3** parallel section workers, raisable via `SITC_MAX_WORKERS` / admin UI. | Bounds render thrash; can scale up once proven. |
 
 ---
 
@@ -162,9 +167,10 @@ improvements, the template's quality is **monotonically non-decreasing** — it 
 stay the same, never regress. That's what makes "run it for hours" safe and worthwhile.
 
 ### 5.1 Concurrency
-Sections are largely independent, so multiple workers can run in parallel (bounded pool, e.g. 3–4) —
-**except** when two challengers touch shared code/tokens. The orchestrator serializes any iteration whose
-`changedFiles` would overlap, and re-renders once per merge to avoid cross-contamination of scores.
+Sections are largely independent, so multiple workers can run in parallel (bounded pool, **default 3**, via
+`SITC_MAX_WORKERS` / admin UI — §13.6) — **except** when two challengers touch shared code/tokens. The
+orchestrator serializes any iteration whose `changedFiles` would overlap, and re-renders once per merge to
+avoid cross-contamination of scores.
 
 ---
 
@@ -205,6 +211,13 @@ score = w_vlm * vlm_score + w_pixel * pixel_score
 > The VLM critique is as valuable as the number: it's the steering signal handed to the next worker
 > ("headline weight too light; CTA should be filled not outline; bg gradient angle wrong").
 
+### 7.1 Backward-compat regression gate (delivery prerequisite)
+
+Because mutations can touch shared component code, before a run can auto-merge to `develop` (§13.4) it must
+prove it broke nothing: render **every pre-existing template** off the run branch and assert each is
+**pixel-identical** to its baseline render off `develop`. Any non-additive drift → the gate fails, no merge,
+run ends in `needs_review`. This is what makes "edit component code" + "auto-merge" safe to combine.
+
 ---
 
 ## 8. Stop conditions (any one ends/pauses the run)
@@ -222,26 +235,48 @@ fully persisted so a VPS restart resumes cleanly.
 
 ---
 
-## 9. The learning element (cross-run memory)
+## 9. The learning element (cross-run memory) — **target / semantic version**
 
-The differentiator. Two stores:
+The differentiator, built to its full form from the start (no tag-match stopgap). Lessons are retrieved by
+**semantic similarity** to the *current situation*, not just by matching tags.
 
-1. **Structured `lessons` table** — tagged, queryable rows:
-   - `{ scope: "hero|color|typography|spacing|general", trigger: "...", lesson: "...", evidence_run_id, score_delta }`
-   - e.g. *"When target uses a dark hero with a centered headline, starting from the `gradient` hero variant
-     beats `default` by ~0.2 on first iteration."*
+### 9.1 Stores
+1. **`sitc_lessons` table with embeddings (pgvector).** Each row:
+   - `{ scope, design_traits[], trigger, lesson, embedding vector, evidence_run_id, score_delta, confidence, uses, wins, created_at, archived }`
+   - `scope`: `hero | color | typography | spacing | layout | general | …`
+   - `design_traits`: detected traits the lesson applies to (`dark`, `centered-hero`, `editorial`, `saas`, …)
+   - `embedding`: vector of `trigger + lesson + traits`, used for similarity search.
+   - `confidence` / `score_delta` / `uses` / `wins`: track how reliable the lesson has proven across runs.
+   - e.g. *"Target = dark hero, centered headline → seed from the `gradient` hero variant; beats `default`
+     by ~0.2 on iter 1."*
 2. **Human-readable digest** — `features/self-improving-template-creator/LESSONS.md`, auto-regenerated from
-   the table, so the knowledge is reviewable/editable in Git and can seed worker prompts directly.
+   the table (top lessons by confidence), reviewable/editable in Git.
 
-**Lifecycle:**
-- **Run start:** orchestrator retrieves the most relevant lessons (by section type, by detected design
-  traits of the target — dark/light, layout family, industry) and injects them into worker prompts.
-- **During the run:** every promotion/revert is a data point (which strategy, from which starting variant,
-  what score delta).
-- **Run end:** a distillation worker (`claude -p`) reads the run's iteration history and proposes new/updated
-  lessons (deduped against existing ones), which are written back to the table + digest.
+### 9.2 Retrieval (the "target" part)
+At each worker spawn, the orchestrator builds a **query** from:
+the target's detected design traits + the current section type + the live VLM critique of what's still wrong.
+Retrieval = **tag pre-filter** (`scope`, overlapping `design_traits`) **then vector similarity** over
+`embedding`, ranked by `similarity × confidence`. The top-K lessons are injected into the worker prompt.
+This surfaces situationally-relevant guidance ("this specific kind of gap, on this kind of design") rather
+than generic tag buckets.
 
-Net effect: the 5th template run should reach threshold in fewer iterations than the 1st.
+### 9.3 Embeddings without the Claude API
+Embeddings are produced **locally** — either a small local embedding model (e.g. a sentence-transformer via
+a tiny sidecar) or a short `claude -p` step that emits a vector — preserving the **no-Claude-API** constraint.
+Pluggable via `SITC_EMBED_CMD`.
+
+### 9.4 Lifecycle
+- **Run start:** detect target design traits → preload globally-relevant lessons.
+- **Per worker:** situational retrieval (§9.2) → inject top-K.
+- **During the run:** every promotion/revert is a data point; on use, bump the cited lesson's `uses`, and on
+  a winning iteration bump `wins` → recompute `confidence`.
+- **Run end:** a distillation worker (`claude -p`) reads the iteration history, proposes new/updated lessons,
+  **dedupes against existing rows by embedding similarity** (merge instead of duplicate), embeds the new
+  ones, writes back, and regenerates the digest.
+- **Decay:** lessons whose `confidence` falls below a floor (repeatedly cited but not winning) are archived.
+
+Net effect: the 5th template run reaches threshold in fewer iterations than the 1st — and the knowledge is
+*situational*, so it transfers across different websites and templates rather than only within one niche.
 
 ---
 
@@ -249,14 +284,16 @@ Net effect: the 5th template run should reach threshold in fewer iterations than
 
 > Lives in `packages/db`. Names indicative.
 
-- **`sitc_runs`** — `id, template_name, target_url, status, budget_*, weights, started_at, finished_at, best_overall_score`
+- **`sitc_runs`** — `id, template_name, target_url, status, budget_*, weights, max_workers, branch (sitc/run-<id>), run_db_url (isolated render DB), locked_by (owner host — VPS|local), started_at, finished_at, best_overall_score`
 - **`sitc_iterations`** — `id, run_id, iteration_no, started_at, finished_at, notes`
 - **`sitc_section_scores`** — `id, iteration_id, section_id, strategy, vlm_score, pixel_score, score, is_champion, critique, screenshot_ours, screenshot_target`
-- **`sitc_champions`** — current best per `(run_id, section_id)`: `score, snapshot_ref (git sha / stash id), variant_name`
-- **`sitc_commands`** — control channel the admin UI writes and the orchestrator polls: `run_id, type (pause|resume|abort|approve), created_at, consumed_at`
-- **`sitc_lessons`** — `id, scope, trigger, lesson, evidence_run_id, score_delta, created_at, archived`
+- **`sitc_champions`** — current best per `(run_id, section_id)`: `score, snapshot_commit (sha on the run branch), variant_name`
+- **`sitc_commands`** — control channel the admin UI writes and the orchestrator polls: `run_id, type (pause|resume|abort|approve|set_max_workers), payload, created_at, consumed_at`
+- **`sitc_lessons`** — `id, scope, design_traits[], trigger, lesson, embedding vector, evidence_run_id, score_delta, confidence, uses, wins, created_at, archived` (pgvector index on `embedding`; see §9)
 
 (`sitc` = self-improving template creator. Rename if a cleaner prefix is preferred.)
+Requires the **pgvector** extension on the control DB. `locked_by` enforces single-owner so a VPS run and a
+local run can't drive the same `run_id` (§13.1). `run_db_url` points at the isolated render DB (§13.2).
 
 ---
 
@@ -289,31 +326,66 @@ Pulled from `CLAUDE.md` — the loop and every worker prompt must enforce these,
 
 ---
 
-## 13. Open decisions (to confirm before building)
+## 13. Resolved decisions
 
-1. **Where does the orchestrator run?** Proposed: on the VPS under PM2 (it must live for hours and survive
-   SSH disconnects). Confirm vs. running locally.
-2. **Render target during a run:** seed to the **shared dev DB** (visible at `*.dev.hazelgrouse.pl`) vs. a
-   throwaway/branch DB so in-progress experiments don't disturb the live dev site. Recommend an isolated
-   run-scoped DB/schema.
-3. **Snapshot mechanism for revert (§5 step 1/5):** git commits/stash on a dedicated run branch vs. copying
-   JSON+files to a run workdir. Recommend a per-run git branch (clean diff + easy final PR).
-4. **Final delivery:** does a successful run open a PR with the new template + new variants, or auto-merge?
-   Recommend PR for human review (especially for `new-variant`/`new-section`).
-5. **Lesson relevance retrieval:** simple tag match (scope + design traits) to start; embeddings later if the
-   lesson store grows large.
-6. **Concurrency cap** for parallel section workers (suggest 3–4 to bound dev-server thrash).
+1. **Where the orchestrator runs — portable (VPS default, local optional).** Primary home is the VPS under
+   PM2 (lives for hours, survives SSH disconnect). But it must run **locally too**, because a stronger model
+   may be available there. This is achievable for free given the design: the orchestrator is stateless (all
+   state in PostgreSQL) and workers are `claude -p`, so the *only* environment differences are
+   `DATABASE_URL`, the worker command, and which model `claude` resolves to. Implications:
+   - Everything configurable via env (`SITC_DB_URL`, `SITC_WORKER_CMD`, `SITC_MODEL`, render base URL).
+   - Exactly **one** orchestrator may own a given `run_id` at a time → a DB advisory lock / `runs.locked_by`
+     guard prevents a VPS run and a local run from both driving the same run.
+   - A run started on the VPS can be paused, then resumed locally (it just re-reads DB state) — handy for
+     "let the better local model take the hard sections".
+
+2. **Render target during a run — isolated, run-scoped DB (NOT the shared dev DB).** The live dev site can
+   be unstable (prod shares the environment), and in-progress experiments must not disturb it. Each run gets
+   its own **isolated Postgres schema/database** seeded only with the template under evolution; the engine is
+   pointed at it via a run-scoped base URL/`DATABASE_URL` for screenshotting. The `*.dev.hazelgrouse.pl` site
+   is never touched by a run. The isolated DB is torn down (or archived) when the run finishes.
+
+3. **Snapshot/revert — per-run git branch (as recommended).** Each run works on a dedicated branch
+   `sitc/run-<id>`. A champion snapshot is a commit; a section revert is a targeted checkout/reset of that
+   section's files to the champion commit. Gives clean diffs, trivial revert, and a reviewable final delta.
+
+4. **Final delivery — auto-merge into `develop`.** A run that reaches threshold (and passes the
+   backward-compat regression gate in §7.1/§12) **auto-merges** its `sitc/run-<id>` branch into `develop`.
+   No manual PR step. Safety rails that make auto-merge acceptable:
+   - The regression gate **must** pass: every pre-existing template renders pixel-identical before/after.
+   - `pnpm test:validate` + `pnpm type-check` + build must pass.
+   - Additive-only invariant enforced (no existing variant behavior changed).
+   - If any gate fails → the run does **not** merge; it ends in `needs_review` with the branch left intact.
+
+5. **Lesson retrieval — target (semantic) version from day one.** Lessons are first-class, so we build the
+   full retrieval, not a tag-match stopgap:
+   - Each lesson is **embedded** (vector) on write; retrieval is semantic similarity over a query built from
+     the target's detected design traits + the current section + the live VLM critique — so the most
+     *situationally* relevant lessons surface, not just tag matches.
+   - Stored via **pgvector** in PostgreSQL (`sitc_lessons.embedding`), with tag columns kept as a cheap
+     pre-filter (scope, design family) before the vector search.
+   - Lessons carry a **confidence/score-delta weight** and a decay/archival path so disproven lessons fade.
+   - Embeddings are produced by a local embedding model or a small `claude -p` step (no Claude API), keeping
+     the "no API" constraint. See §9 for the full lifecycle.
+
+6. **Concurrency cap — default 3, configurable upward.** Parallel section workers default to **3** (bounds
+   dev-server/render thrash on the isolated env). Exposed as `SITC_MAX_WORKERS` (env) and editable per-run
+   from the admin UI, so it can be raised later as the render path proves it can take more load.
 
 ---
 
 ## 14. Build order (suggested phases)
 
-1. **DB + state machine** — tables, run/pause/resume, no AI yet (orchestrator can drive a stub worker).
-2. **Scorer** — Playwright screenshots + pixel diff + VLM critique, validated against hand-scored examples.
+1. **DB + state machine + isolated render env** — `sitc_*` tables (with pgvector), run/pause/resume,
+   `locked_by` single-owner guard, run-scoped DB provisioning + teardown (§13.2), per-run git branch (§13.3).
+   No AI yet (orchestrator drives a stub worker).
+2. **Scorer** — Playwright screenshots + pixel/SSIM diff + VLM (`claude -p`) critique, validated against
+   hand-scored examples.
 3. **Single-section loop** — orchestrator + real `claude -p` worker for `tune-json` on one section, with
-   snapshot/revert + champion selection.
-4. **Full sweep + strategy escalation** — all sections, `extend-variant`/`new-variant`/`new-section`.
-5. **Learning store** — lessons read at start, distilled at end, digest regenerated.
-6. **Admin Panel UI** — start/monitor/control/history/lessons.
-7. **Hardening** — budget caps, backward-compat regression check (render all existing templates, assert
-   pixel-identical before/after a run), PR delivery.
+   commit-snapshot/revert + champion selection. Make it portable (VPS + local via env) here (§13.1).
+4. **Full sweep + strategy escalation** — all sections, default 3 workers, `extend-variant`/`new-variant`/`new-section`.
+5. **Learning store (semantic)** — `sitc_lessons` + embeddings + retrieval injected into prompts +
+   end-of-run distillation + `LESSONS.md` digest (§9).
+6. **Admin Panel UI** — start/monitor/control/history/lessons browser (§11).
+7. **Hardening + delivery** — budget caps, the §7.1 backward-compat regression gate, validate/type-check/build
+   gates, then **auto-merge to `develop`** (§13.4); failures → `needs_review`.
