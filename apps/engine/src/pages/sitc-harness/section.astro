@@ -1,0 +1,42 @@
+---
+// SITC isolation render harness (DESIGN §4.4 spike).
+// Renders ONE section through the REAL BaseLayout + SectionDispatcher (so theme
+// CSS-var injection + variant resolution + wrapper bg/spacing are byte-identical
+// to the in-page render), with no navbar/footer/sibling sections.
+//
+// Usage: /_sitc/section?business=<id>&page=<slug>&index=<n>
+// Dev/spike only.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionDispatcher from "../../components/SectionDispatcher.astro";
+import { findPageBySlug } from "../../lib/pages";
+import { deepTranslate } from "../../lib/i18n";
+import { deepResolveImages } from "../../lib/images";
+import type { BusinessProfile } from "@mshorizon/schema";
+
+const { businessId, businessData, theme, currentLang, t: translations } = Astro.locals;
+
+const translatedData = deepTranslate(translations, businessData) as BusinessProfile;
+const business = deepResolveImages(translatedData, businessId);
+
+const pageSlug = Astro.url.searchParams.get("page") || "home";
+const index = parseInt(Astro.url.searchParams.get("index") || "0", 10);
+
+const page = findPageBySlug(business, pageSlug);
+if (!page) return new Response(null, { status: 404, statusText: "page not found" });
+
+const section = page.sections?.[index];
+if (!section) return new Response(null, { status: 404, statusText: "section index out of range" });
+
+const isHomePage = pageSlug === "home";
+---
+
+<BaseLayout
+  title={`sitc-harness ${pageSlug}#${index}`}
+  theme={theme}
+  lang={currentLang}
+  noCustomScrollbars={true}
+>
+  <main data-sitc-harness data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
+    <SectionDispatcher sections={[section]} business={business} isHomePage={isHomePage} />
+  </main>
+</BaseLayout>
