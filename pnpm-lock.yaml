@@ -210,6 +210,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@mshorizon/sitc-core':
+        specifier: workspace:*
+        version: link:../sitc-core
       '@types/bcryptjs':
         specifier: ^3.0.0
         version: 3.0.0

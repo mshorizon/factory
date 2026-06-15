@@ -173,11 +173,15 @@ even for a different website and a different template — starts smarter and con
    `segmentTarget`, `mapSection`, `authorVariant` (prompts to refine + calibrate in Phase 2). **Phase-1 seam:**
    `seedRunDb`. Type-checks, builds, smoke-tested against the real repo. The one-shot skill and the loop both
    consume this — nothing else duplicates design→component logic.
-1. **DB + state machine + isolated render env + lifecycle** — `sitc_*` tables (with pgvector +
-   `sitc_judge_calibration`), run/pause/resume + `needs_review`, `locked_by` + heartbeat lease, run-scoped DB
-   provisioning + teardown (§13.2), per-run git branch + **per-worker worktrees** (§13.3 / DESIGN §5.4), and
-   the **orphan-GC sweep** (DESIGN §16). No AI yet (orchestrator drives a stub worker) — but crash-recovery is
-   exercised here.
+1. ✅ **DB + state machine + isolated render env + lifecycle (DONE)** — `sitc_*` Drizzle schema (7 tables incl.
+   pgvector `sitc_lessons` + `sitc_judge_calibration`) in `@mshorizon/db`; pure **run state machine**
+   (run/pause/resume + `needs_review`); **WorktreeManager** (per-run branch + per-worker detached worktrees +
+   single-writer integrate — fixes the spike's git-concurrency bug); **RunStore** (interface + in-memory +
+   Drizzle adapter) with `locked_by` + heartbeat **lease**; **run-DB provisioning** + **orphan-GC sweep**;
+   **Orchestrator** skeleton driving a **stub worker**. 16/16 integration checks pass incl. **crash-recovery**
+   (resume re-runs the in-flight iteration, no skip/dup), lease guard, pause, orphan GC. Schema + Drizzle store
+   are type-checked but **not yet pushed/run against production Postgres** (gated — needs `drizzle-kit push` to
+   the control DB after review). Live in `packages/sitc-core/src/orchestrator/` + `packages/db/src/sitc-*.ts`.
 2. **Render harness + Scorer** — the **section-isolation render harness** (DESIGN §4.4); frozen de-noised
    capture, VLM segmentation + alignment map, breakpoint policy (DESIGN §4.3); pixel/SSIM diff + VLM critique
    + **pairwise A/B with order-symmetric voting + calibration** (DESIGN §7.2/§7.2a), validated against
