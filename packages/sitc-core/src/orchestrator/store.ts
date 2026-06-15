@@ -16,6 +16,8 @@ export interface RunRecord {
   branch: string | null;
   maxWorkers: number;
   budgetIterations: number | null;
+  themeLocked: boolean;
+  atomsLocked: boolean;
   lockedBy: string | null;
   leaseExpiresAt: Date | null;
   cleanedUp: boolean;
@@ -109,6 +111,8 @@ export class InMemoryRunStore implements RunStore {
       branch: null,
       maxWorkers: input.maxWorkers ?? 3,
       budgetIterations: input.budgetIterations ?? null,
+      themeLocked: false,
+      atomsLocked: false,
       lockedBy: null,
       leaseExpiresAt: null,
       cleanedUp: false,

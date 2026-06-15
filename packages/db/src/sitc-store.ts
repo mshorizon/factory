@@ -35,6 +35,8 @@ function toRecord(r: SitcRun): RunRecord {
     branch: r.branch ?? null,
     maxWorkers: r.maxWorkers,
     budgetIterations: r.budgetIterations ?? null,
+    themeLocked: r.themeLocked,
+    atomsLocked: r.atomsLocked,
     lockedBy: r.lockedBy ?? null,
     leaseExpiresAt: r.leaseExpiresAt ?? null,
     cleanedUp: r.cleanedUp,

@@ -92,3 +92,13 @@ export { captureTarget } from "./scorer/capture.js";
 export type { CaptureTargetOptions, CaptureResult } from "./scorer/capture.js";
 export { runCalibration } from "./scorer/calibration.js";
 export type { CalibrationTriple, CalibrationReport, CalibrationItemResult } from "./scorer/calibration.js";
+
+// ─── pipeline: cold start + tier locking (Phase 3) ───────────────────────────
+export { seedIteration0 } from "./pipeline/cold-start.js";
+export type { SeedOptions } from "./pipeline/cold-start.js";
+export { lockGlobalTheme } from "./pipeline/theme-pass.js";
+export type { LockGlobalThemeInput, LockGlobalThemeResult, ProposedTheme } from "./pipeline/theme-pass.js";
+export { lockSharedAtoms } from "./pipeline/atom-pass.js";
+export type { LockSharedAtomsInput, LockSharedAtomsResult, ProposedAtoms } from "./pipeline/atom-pass.js";
+export { lockTiers } from "./pipeline/lock-tiers.js";
+export type { LockTiersInput, LockTiersResult } from "./pipeline/lock-tiers.js";
