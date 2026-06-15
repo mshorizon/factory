@@ -192,8 +192,14 @@ even for a different website and a different template — starts smarter and con
    calibration set so far uses *gross* cross-template deltas — before autonomous runs, grow
    `sitc_judge_calibration` with **subtle** champion-vs-challenger deltas (only producible once Phase 4 mints
    variants) and re-validate.
-3. **Phase 0 → A → A.5** — seed iteration 0 from a `clone-template` pass (DESIGN §5.0); lock global theme
-   (DESIGN §5.1); lock shared atoms (DESIGN §5.1b) before any per-section work.
+3. ✅ **Phase 0 → A → A.5 (DONE)** — `packages/sitc-core/src/pipeline/`: `seedIteration0` (§5.0, seed from
+   template / clone-template seam), `lockGlobalTheme` (§5.1 — analyze traits → propose `theme.*` palette/type/
+   radius → apply, schema-guarded), `lockSharedAtoms` (§5.1b — schema-valid `ui.radiusSm`; richer atom guidance
+   flows to the authoring kit; codegen-atoms deferred), `lockTiers` (orchestrates 0→A→A.5, flips
+   `themeLocked`/`atomsLocked` on the run). **Verified live** against the captured target: correctly produced a
+   dark purple theme (`#7c3aed`, near-black surface, Inter, 16px) + pill-CTA atoms; locked profile stays
+   schema-valid; both run flags flip. The validation guard caught (and safely reverted) an over-eager atom
+   write — now fixed to the schema-valid subset.
 4. **Single-section loop + sandbox** — `claude -p` worker (warm authoring kit, DESIGN §4.2) for `tune-json` on
    one section, with the **sanity gate incl. write-allowlist** (DESIGN §5.2a / §15), worktree-isolated
    commit/revert + pairwise selection. Portable (VPS + local via env) here (§13.1).

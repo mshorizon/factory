@@ -41,13 +41,16 @@ Output NOTHING except one JSON object:
   return runner.runJson<ProposedAtoms>(prompt, { images: screenshots, allowedTools: ["Read"], model });
 }
 
+/**
+ * Apply only SCHEMA-VALID atom tokens to the profile (`ui.radiusSm`). The
+ * richer atom decisions (buttonFill, cardElevation, badgeVariant) are NOT forced
+ * into the profile schema — they flow to per-section workers via the authoring
+ * kit (returned in `atoms`), so the locked profile stays valid.
+ */
 function applyAtoms(profile: BusinessProfile, a: ProposedAtoms): BusinessProfile {
   const next = structuredClone(profile) as any;
   const theme = (next.theme = next.theme ?? {});
   theme.ui = { ...(theme.ui ?? {}), radiusSm: a.controlRadius };
-  theme.badgeVariant = a.badgeVariant;
-  // record the non-token atom decisions for the per-section workers' authoring kit
-  theme.atomTokens = { buttonFill: a.buttonFill, cardElevation: a.cardElevation };
   return next as BusinessProfile;
 }
 
