@@ -13,6 +13,21 @@ Tylko ogólne, wielokrotnego użytku blueprinty trafiają do `templates/`. Konkr
 
 ---
 
+## 🔗 Powiązanie: Self-Improving Template Creator
+
+Ten skill to **pojedyncze przejście** (one-shot). Jest zarazem **iteracją 0 / Fazą 0** dla planowanej funkcji
+**Self-Improving Template Creator** (pętla iteracyjna dopracowująca template do designu wzoru) — patrz
+`features/self-improving-template-creator/README.md` i `DESIGN.md`.
+
+Plan docelowy (DESIGN §4.5): fazy tego skilla (analiza strony → mapowanie sekcji → tworzenie wariantów →
+walidacja → seed) zostaną wyekstrahowane do współdzielonej biblioteki `packages/sitc-core`, z której będą
+korzystać **oba** byty: ten skill ("uruchom wszystkie fazy raz") oraz pętla ("wywołuj fazy per-sekcja,
+oceniaj, selekcjonuj"). **Do czasu tej ekstrakcji** logika żyje tutaj — przy edycji tego skilla miej na
+uwadze, że stanie się on cienkim wrapperem nad `sitc-core`, więc nowe kroki pisz tak, by dały się wydzielić
+jako czyste, samodzielne funkcje.
+
+---
+
 ## Cel
 
 Stwórz nowy **reużywalny** template biznesowy na podstawie strony internetowej. Użytkownik podaje:

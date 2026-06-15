@@ -2,6 +2,7 @@
 
 > **Status:** Design / spec (not yet implemented)
 > **Owner:** msadlo
+> **ADR:** [`docs/adr/0020-self-improving-template-creator.md`](../../docs/adr/0020-self-improving-template-creator.md) (architecture decisions of record)
 > **Related:** `.claude/skills/clone-template/SKILL.md` (single-pass cloning — this feature is the looping evolution of it)
 > **Detailed mechanics:** see [`DESIGN.md`](./DESIGN.md). Section numbers are shared across both files
 > (this README owns §1–3, §13–14; DESIGN owns §4–12), so every `§x.y` cross-reference is unambiguous.
