@@ -121,3 +121,18 @@ export type {
 } from "./loop/section-iteration.js";
 export { runSweep } from "./loop/sweep.js";
 export type { SweepInput, SweepResult } from "./loop/sweep.js";
+
+// ─── learning: semantic lessons store (Phase 6) ──────────────────────────────
+export { SITC_EMBED_DIM } from "./learning/dims.js";
+export { cosineSimilarity, hashingEmbedder, commandEmbedder, defaultEmbedder } from "./learning/embed.js";
+export type { EmbedFn } from "./learning/embed.js";
+export { computeConfidence, shouldArchive, CONFIDENCE_FLOOR } from "./learning/confidence.js";
+export type { ConfidenceInput } from "./learning/confidence.js";
+export { InMemoryLessonStore } from "./learning/lesson-store.js";
+export type { LessonStore, LessonRecord, NewLesson } from "./learning/lesson-store.js";
+export { retrieveLessons, lessonsToPromptBlock } from "./learning/retrieval.js";
+export type { RetrievalQuery, RetrievedLesson } from "./learning/retrieval.js";
+export { distillLessons, dedupeLessons } from "./learning/distill.js";
+export type { IterationDatum, DistilledLesson, DistillInput, DedupeResult } from "./learning/distill.js";
+export { renderLessonsDigest } from "./learning/digest.js";
+export type { DigestOptions } from "./learning/digest.js";

@@ -212,8 +212,15 @@ even for a different website and a different template — starts smarter and con
    scheduler skips locked/frozen, sweep settles+locks. **Integration seam (not yet live):** the fakes stand in
    for the real `authorVariant` (claude in worktree) + `renderSection` (engine) + `scoreSection`/`pairwiseJudge`
    — wiring those into a real run needs the run-DB provisioned (gated). Optional beam (§5.5) deferred.
-6. **Learning store (semantic)** — `sitc_lessons` + embeddings + retrieval injected into prompts +
-   end-of-run distillation + `LESSONS.md` digest (DESIGN §9). Wire lesson signals into the scheduler (step 5).
+6. ✅ **Learning store (semantic) (core DONE)** — `packages/sitc-core/src/learning/`: pluggable `EmbedFn`
+   (`SITC_EMBED_CMD` provider + dependency-free `hashingEmbedder` fallback, **no Claude API**), `cosineSimilarity`,
+   `computeConfidence` (win-rate × usage-damping + decay), `LessonStore` (interface + in-memory + Drizzle/pgvector
+   adapter), `retrieveLessons` (tag pre-filter → similarity×confidence, §9.2), `lessonsToPromptBlock` (worker
+   injection), `distillLessons` + `dedupeLessons` (§9.4), `renderLessonsDigest` (LESSONS.md). **15/15 checks pass**
+   (deterministic core via the fallback embedder). **Notes:** `distillLessons` is claude-backed (structure +
+   dedup verified, not live-run); retrieval feeds the **worker prompt** (primary §9 path) — a scheduler priority
+   nudge from lesson confidence is left as a light future hook (scheduler kept pure); production swaps in a real
+   embedding model via `SITC_EMBED_CMD`.
 7. **Admin Panel UI** — start/monitor/control/history/lessons/variant-curation/judge-health/ops (DESIGN §11);
    pre-launch cost estimate (DESIGN §18-H).
 8. **Hardening + delivery** — budget caps, the DESIGN §7.3 regression gate + **§7.4 acceptance gate**
