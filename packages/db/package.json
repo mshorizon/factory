@@ -23,7 +23,8 @@
     "@types/bcryptjs": "^3.0.0",
     "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.38.0",
-    "postgres": "^3.4.5"
+    "postgres": "^3.4.5",
+    "@mshorizon/sitc-core": "workspace:*"
   },
   "devDependencies": {
     "@mshorizon/schema": "workspace:*",

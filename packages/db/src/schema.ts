@@ -405,3 +405,6 @@ export const strategicSuggestions = pgTable("strategic_suggestions", {
 export type StrategicSuggestion = typeof strategicSuggestions.$inferSelect;
 export type NewStrategicSuggestion = typeof strategicSuggestions.$inferInsert;
 
+
+// Self-Improving Template Creator control-plane tables (DESIGN §10)
+export * from "./sitc-schema";

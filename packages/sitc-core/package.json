@@ -1,0 +1,31 @@
+{
+  "name": "@mshorizon/sitc-core",
+  "version": "0.1.0",
+  "description": "Self-Improving Template Creator — shared core engine. The composable steps (analyze/segment/map/author/assembleKit/validate/seed/render) that both the clone-template skill (one-shot) and the convergence loop build on. See features/self-improving-template-creator/.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.0",
+  "dependencies": {
+    "@mshorizon/schema": "workspace:*",
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.58.2",
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/pngjs": "^6.0.5",
+    "typescript": "^5.9.3"
+  }
+}

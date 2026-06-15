@@ -121,7 +121,7 @@ export function AboutStory({
               <span className="w-12 h-[2px]" style={{ backgroundColor: badgeColor }} />
             )}
             {badge && (
-              <Badge variant={badgeVariant === "text" ? "text" : "accent"} style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
+              <Badge variant={badgeVariant === "text" ? "text" : "accent"} className="px-0 py-0 text-[14px] tracking-[.05rem] uppercase font-medium" style={{ color: badgeColor }} data-field="header.badge">{badge}</Badge>
             )}
           </div>
         )}

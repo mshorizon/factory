@@ -154,3 +154,9 @@ export {
   updateTask,
   deleteTask,
 } from "./tasks.js";
+
+export * from "./sitc-schema.js";
+
+export { DrizzleRunStore } from "./sitc-store.js";
+
+export { DrizzleLessonStore } from "./sitc-lesson-store.js";
