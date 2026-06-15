@@ -27,6 +27,9 @@ sections that got better, and re-roll the ones that got worse. This is an evolut
 A second goal is **compounding quality**: every run writes back lessons learned, so the *next* run —
 even for a different website and a different template — starts smarter and converges faster.
 
+**This feature does not start from zero.** Iteration 0 is the existing `clone-template` single pass (the
+~70% first cut). This loop is the *refinement engine* bolted onto that output — see §5 (Phase 0) and §14.
+
 ---
 
 ## 2. Why it exists
@@ -139,21 +142,76 @@ The worker **must** return a structured verdict (so the orchestrator can act wit
 }
 ```
 
+### 4.3 Target ingestion (capture · segmentation · alignment · breakpoints)
+
+Before the loop can score anything it must turn a live, messy URL into a **stable, segmented goal**. This
+runs **once** at run start and its output is immutable for the rest of the run.
+
+**Frozen capture (de-noised).** The target is a moving thing — animations, lazy-load, carousels, cookie
+banners, A/B tests. Capture deterministically:
+- dismiss cookie/consent banners, wait for `networkidle`, disable CSS animations/transitions, freeze
+  carousels to their first slide, scroll to trigger lazy-load then return to top,
+- fixed viewport(s) (see breakpoints below),
+- store the resulting screenshots as the **immutable goal**; the loop never re-fetches the URL.
+
+**Segmentation.** A VLM pass (`claude -p`) splits the full-page target into ordered, labeled **section
+bands** (`hero`, `services`, `testimonials`, …) with pixel y-ranges, plus the detected global design traits
+(dark/light, layout family, type feel) used to seed lesson retrieval (§9). This is stored as the run's
+**target manifest**.
+
+**Alignment (target band ↔ our section).** Our render has its own section list, which may not be 1:1 with
+the target (target has 8 bands, we render 6). The orchestrator builds a correspondence map:
+- match by **order + section type** first; resolve ambiguity with the VLM ("which of our sections best
+  corresponds to target band 4?"),
+- **unmatched target band** → candidate for a `new-section`/`new-variant` (something the target has that we
+  don't render yet),
+- **unmatched our section** → flagged for possible removal or repurposing.
+The alignment map is what makes "score per section" well-defined; without it the per-section comparison is
+meaningless. It is recomputed only when the section list structurally changes (e.g. after a `new-section`).
+
+**Breakpoints.** The engine renders responsive sites, so matching desktop while breaking mobile is a real
+failure mode. Each run declares which viewports are **scored** and which are merely **regression-guarded**:
+- **v1 default:** desktop (e.g. 1440px) is the *optimization* target; mobile (e.g. 390px) is a *guard* — a
+  challenger that improves desktop but tanks mobile below a floor is rejected.
+- Promotable later to scoring both breakpoints with weighted scores.
+
 ---
 
 ## 5. The loop (per iteration)
+
+### 5.0 Phase 0 — cold start (seed from `clone-template`)
+
+The loop never begins on a blank template. Run start = **one `clone-template` pass** producing the initial
+business JSON + any obvious variant choices (~70% match). That output, seeded into the isolated run DB, is
+**iteration 0 / the first champion** for every section. The loop's job is the last 30%.
+
+### 5.1 Phase A — global theme pass (run before per-section work)
+
+Color palette, typography, border-radius, and the spacing scale are **global** `theme.*` tokens shared by
+every section. If a per-section worker changed `theme.colors.primary` to match the hero, it would move every
+other section's score and break per-section independence. So the theme is resolved **first, as its own short
+loop**, then **frozen**:
+- a worker proposes `theme` tokens from the target manifest (palette, type pairing, radius, spacing scale),
+- score globally (whole-page VLM + pixel) over a few iterations until stable,
+- **lock `theme`** — per-section workers below may NOT touch global tokens, only section-local structure,
+  variant choice, and content slots.
+
+Sections are only truly independent (the premise of §5.2) **after** the theme is locked.
+
+### 5.2 Phase B — per-section refinement loop
 
 One **iteration** = one full sweep across the sections still in play.
 
 ```
 for each section S not yet "locked" (score ≥ threshold) and not "frozen" (plateaued):
-    1. SNAPSHOT  — git-stash-like checkpoint of current JSON + component code (the champion)
+    1. SNAPSHOT  — commit current JSON + component code on the run branch (the champion)
     2. MUTATE    — spawn a worker to improve S using the chosen strategy (§6)
-    3. RENDER    — seed DB (or render template directly) + restart dev → screenshot S
-    4. SCORE     — Scorer returns hybrid score for S (§7)
-    5. SELECT    — if new score > champion score by ≥ epsilon → promote challenger to champion
-                   else → REVERT S to the snapshot (keep the old champion)
-    6. RECORD    — write iteration row + section_score row to DB; update live admin view
+    3. RENDER    — HMR-render S (NO full dev restart — see below) → screenshot S at scored breakpoint(s)
+    4. SCORE     — Scorer returns absolute hybrid score for tracking (§7)
+    5. SELECT    — PAIRWISE A/B judge: show champion + challenger + target to the VLM, "which is closer?"
+                   challenger wins (and absolute score did not regress mobile guard) → promote
+                   else → REVERT S to the snapshot commit (keep the old champion)
+    6. RECORD    — write iteration row + section_score row to DB
 after the sweep:
     • check stop conditions (§8)
     • if a manual checkpoint is due → set run state = "awaiting_approval", wait for admin command
@@ -161,33 +219,58 @@ after the sweep:
 ```
 
 **Why per-section snapshot/revert is the whole point:** global regeneration can trade a better hero for a
-worse footer. By snapshotting and scoring each section independently and only promoting strict
-improvements, the template's quality is **monotonically non-decreasing** — it can only get better or
-stay the same, never regress. That's what makes "run it for hours" safe and worthwhile.
+worse footer. By snapshotting and scoring each section independently and only promoting improvements, the
+template's quality is **monotonically non-decreasing** — it can only get better or stay the same, never
+regress. That's what makes "run it for hours" safe and worthwhile. The monotonicity is only as trustworthy
+as the SELECT comparison — which is why promotion uses a **pairwise A/B judgment**, not two independently
+generated absolute scores (see §7.2).
 
-### 5.1 Concurrency
-Sections are largely independent, so multiple workers can run in parallel (bounded pool, **default 3**, via
-`SITC_MAX_WORKERS` / admin UI — §13.6) — **except** when two challengers touch shared code/tokens. The
-orchestrator serializes any iteration whose `changedFiles` would overlap, and re-renders once per merge to
-avoid cross-contamination of scores.
+### 5.3 RENDER without restarting the dev server (throughput)
+A naive `pm2 restart astro-dev` per section per iteration means hundreds–thousands of multi-second restarts —
+it dominates wall-clock and can turn a 2-hour run into a 12-hour one. Instead:
+- JSON-only changes (`tune-json`) → update the row in the run DB; Astro HMR picks it up, no restart.
+- code changes (`new-variant`/`extend-variant`) → rely on Vite/Astro HMR; restart only if HMR fails.
+- screenshot just the section's DOM node / y-band, not the full page, when possible.
+Define this concretely in Phase 2 — it is the single biggest lever on run duration.
+
+### 5.4 Concurrency
+After the theme is locked (§5.1), sections are largely independent, so multiple workers can run in parallel
+(bounded pool, **default 3**, via `SITC_MAX_WORKERS` / admin UI — §13.6) — **except** when two challengers
+touch shared code/tokens. The orchestrator serializes any iteration whose `changedFiles` would overlap, and
+re-renders once per merge to avoid cross-contamination of scores.
+
+### 5.5 Escaping local optima (beam, optional)
+Strict accept-only-better with a single champion is pure hill-climbing and can stall in a local optimum that
+isn't the true best. When a section plateaus *before* reaching threshold and strategy escalation (§6) is
+exhausted, optionally widen to a small **beam**: keep the top-K (e.g. K=2–3) candidate snapshots per section
+and branch mutations from each, pruning back to top-K after scoring. Off by default (cost); enabled per run.
 
 ---
 
 ## 6. Mutation strategies (escalation ladder)
 
-The orchestrator picks a strategy per section, escalating as a section plateaus:
+These are the **Phase B** (per-section) strategies, applied *after* the global theme is locked (§5.1). A
+per-section worker may change section-local structure, variant choice, and content slots — **never** global
+`theme.*` tokens. The orchestrator picks a strategy per section, escalating as a section plateaus:
 
-1. **`tune-json`** — adjust only the business JSON for that section: swap variant, tweak colors→tokens,
-   spacing tokens, typography, content, image slots. Cheapest, safest, tried first.
+1. **`tune-json`** — adjust only the business JSON for that section: swap variant, choose spacing tokens,
+   pick content/image slots, set section-local options. Cheapest, safest, tried first. (Global palette/type
+   live in Phase A, not here.)
 2. **`extend-variant`** — add optional fields to an existing variant and bind them (additive schema change).
 3. **`new-variant`** — author a brand-new variant `.tsx` for the section type, wire it into
    `{Type}Section.astro` + `packages/ui/src/sections/index.ts`, reference it by a new variant name.
-4. **`new-section`** — only when the target section maps to no existing type: new schema enum value +
-   new component + dispatcher registration (full path from clone-template FAZA 3).
+4. **`new-section`** — only when a target band maps to no existing type (§4.3 alignment): new schema enum
+   value + new component + dispatcher registration (full path from clone-template FAZA 3).
 
 Escalation rule of thumb: try `tune-json` until plateau, then `extend-variant`, then `new-variant`.
 `new-section` is reserved for genuinely novel layouts. Every step above `tune-json` **must remain additive**
 so other templates are untouched.
+
+**Delivery risk by strategy.** Schema-touching strategies are the riskiest paired with auto-merge: a one-off
+target's oddball band becoming a global `sectionType` enum value affects *every* business. Therefore:
+- a run that used only `tune-json` / `extend-variant` may **auto-merge** to `develop` (§13.4);
+- a run that introduced any **`new-variant` or `new-section`** ends in **`needs_review`** — a human approves
+  the new shared code before merge. (Configurable, but this is the safe default.)
 
 ---
 
@@ -202,20 +285,49 @@ score = w_vlm * vlm_score + w_pixel * pixel_score
 
 - **VLM score (`claude -p` with the two screenshots):** semantic rubric — layout/composition, color
   fidelity, typography, spacing rhythm, imagery, overall "vibe match". Returns 0–100 + a critique listing
-  the top concrete gaps. Forgiving of acceptable differences (placeholder copy, stock images).
+  the top concrete gaps.
 - **Pixel score (Playwright + SSIM/pixelmatch):** objective structural similarity of the section
-  screenshot vs the target crop. Acts as a **regression guard** and a cheap tiebreaker.
+  screenshot vs the aligned target band. Acts as a **regression guard** and a cheap tiebreaker.
 - Default weights `w_vlm ≈ 0.7`, `w_pixel ≈ 0.3` (tunable per run; pixel is noisy when copy/images differ).
+
+**The rubric scores the design system, not the literal content.** Placeholder copy and stock images will
+never match the target's actual words/photos, so a content-sensitive score never reaches threshold and every
+run just exhausts budget. Scoring therefore targets **layout, color, typography, spacing, radius, imagery
+*treatment*** — explicitly discounting literal text and specific photos. The 0.90 threshold (§8) is
+calibrated to *this* design-system rubric.
 
 > The VLM critique is as valuable as the number: it's the steering signal handed to the next worker
 > ("headline weight too light; CTA should be filled not outline; bg gradient angle wrong").
 
-### 7.1 Backward-compat regression gate (delivery prerequisite)
+### 7.2 Promotion = pairwise A/B (not absolute-score comparison)
 
-Because mutations can touch shared component code, before a run can auto-merge to `develop` (§13.4) it must
-prove it broke nothing: render **every pre-existing template** off the run branch and assert each is
-**pixel-identical** to its baseline render off `develop`. Any non-additive drift → the gate fails, no merge,
-run ends in `needs_review`. This is what makes "edit component code" + "auto-merge" safe to combine.
+Absolute VLM scores jitter run-to-run; comparing a freshly-scored challenger against a freshly-scored
+champion lets scoring *noise* promote a worse render (and revert real work). So the **SELECT decision**
+(§5 step 5) is a **pairwise judgment**: the VLM is shown *champion screenshot + challenger screenshot +
+target* and asked "which is closer to the target, and why?" Pairwise A/B is far more stable than absolute
+scoring. The absolute hybrid score (§7) is still recorded — for the threshold check, plateau detection, and
+dashboards — but it does **not** decide promotion. Guard: a challenger that wins desktop A/B but drops the
+mobile guard below its floor (§4.3) is rejected.
+
+### 7.3 Backward-compat regression gate (delivery prerequisite)
+
+Mutations can touch *shared* component code, so before merge a run must prove it didn't change any existing
+template. Two layers:
+
+1. **Additive-by-construction (primary, structural).** Existing templates never reference the new variant
+   names, and new code is gated behind those names (`} else if (variant === "newName")`), so by construction
+   their render is unaffected. Verify it structurally — cheap and deterministic:
+   - every pre-existing template's **resolved JSON is unchanged** and its **selected variant names are
+     unchanged**;
+   - all schema changes are **additive only** (new enum values / new optional fields — no removals, no
+     required-field additions, no type changes);
+   - `pnpm test:validate` + `pnpm type-check` + build pass.
+2. **Visual diff with a threshold (secondary, sanity).** Re-render a sample of existing templates off the run
+   branch and compare to their `develop` baseline with **SSIM ≥ 0.99** (NOT pixel-identity — screenshots are
+   not byte-deterministic across renders: antialiasing, font hinting, Tailwind JIT class ordering all
+   produce tiny diffs with zero real change). A drop below threshold fails the gate.
+
+Any failure → no merge, run ends in `needs_review` with the branch intact.
 
 ---
 
@@ -223,14 +335,17 @@ run ends in `needs_review`. This is what makes "edit component code" + "auto-mer
 
 | Condition | Definition | Action |
 | :--- | :--- | :--- |
-| **Threshold** | Every in-play section ≥ target score (e.g. 0.90). | Run completes → success. |
-| **Plateau** | A section shows < epsilon improvement for N consecutive iterations. | That section is **frozen** (stops consuming budget); run continues for others. If all frozen → run ends. |
+| **Threshold** | Every in-play section ≥ target **design-system** score (e.g. 0.90 on the §7 rubric — not content). | Run completes → delivery gate (§7.3). |
+| **Plateau** | A section shows < epsilon improvement for N consecutive iterations *after* strategy escalation is exhausted. | That section is **frozen** (stops consuming budget); run continues for others. If all frozen → run ends. |
 | **Budget cap** | Wall-clock, iteration count, **and/or** worker-invocation count exceeded. | Run ends → "best so far" is the result. |
 | **Manual checkpoint** | Every K iterations, or on demand from admin. | Run pauses → `awaiting_approval`; human reviews and resumes/aborts. |
 
+On run end, delivery is gated (§7.3) and routed by strategy (§6): clean `tune-json`/`extend-variant` runs
+**auto-merge** to `develop`; any `new-variant`/`new-section` run stops in **`needs_review`**.
+
 Pause/resume is first-class: the run state machine is
-`idle → running → (awaiting_approval ⇄ running) → (paused ⇄ running) → done | aborted`,
-fully persisted so a VPS restart resumes cleanly.
+`idle → running → (awaiting_approval ⇄ running) → (paused ⇄ running) → (done | needs_review | aborted)`,
+fully persisted so a VPS restart resumes cleanly. `needs_review` keeps the run branch intact for a human.
 
 ---
 
@@ -283,11 +398,11 @@ Net effect: the 5th template run reaches threshold in fewer iterations than the 
 
 > Lives in `packages/db`. Names indicative.
 
-- **`sitc_runs`** — `id, template_name, target_url, status, budget_*, weights, max_workers, branch (sitc/run-<id>), run_db_url (isolated render DB), locked_by (owner host — VPS|local), started_at, finished_at, best_overall_score`
+- **`sitc_runs`** — `id, template_name, target_url, status (idle|running|awaiting_approval|paused|done|needs_review|aborted), budget_*, weights, max_workers, scored_breakpoints, theme_locked (bool), branch (sitc/run-<id>), run_db_url (isolated render DB), target_manifest (segmentation + alignment + traits), locked_by (owner host — VPS|local), started_at, finished_at, best_overall_score`
 - **`sitc_iterations`** — `id, run_id, iteration_no, started_at, finished_at, notes`
 - **`sitc_section_scores`** — `id, iteration_id, section_id, strategy, vlm_score, pixel_score, score, is_champion, critique, screenshot_ours, screenshot_target`
 - **`sitc_champions`** — current best per `(run_id, section_id)`: `score, snapshot_commit (sha on the run branch), variant_name`
-- **`sitc_commands`** — control channel the admin UI writes and the orchestrator polls: `run_id, type (pause|resume|abort|approve|set_max_workers), payload, created_at, consumed_at`
+- **`sitc_commands`** — control channel the admin UI writes and the orchestrator polls: `run_id, type (pause|resume|abort|approve|approve_merge|set_max_workers), payload, created_at, consumed_at`
 - **`sitc_lessons`** — `id, scope, design_traits[], trigger, lesson, embedding vector, evidence_run_id, score_delta, confidence, uses, wins, created_at, archived` (pgvector index on `embedding`; see §9)
 
 (`sitc` = self-improving template creator. Rename if a cleaner prefix is preferred.)
@@ -305,8 +420,9 @@ isolated styles.
   budget + weights + threshold.
 - **Live run view:** per-section cards showing `target screenshot | our screenshot | score trend sparkline |
   current strategy`. Overall progress + budget burndown.
-- **Controls:** Pause · Resume · Abort · "Approve checkpoint" (these write `sitc_commands`).
-- **History:** past runs, final scores, diffs applied.
+- **Controls:** Pause · Resume · Abort · "Approve checkpoint" · **"Approve & merge"** (for `needs_review`
+  runs that introduced shared code — §6/§13.4) (these write `sitc_commands`).
+- **History:** past runs, final scores, diffs applied, delivery outcome (auto-merged vs `needs_review`).
 - **Lessons browser:** read/curate the `sitc_lessons` table (archive bad lessons, pin good ones).
 
 ---
@@ -318,10 +434,13 @@ Pulled from `CLAUDE.md` — the loop and every worker prompt must enforce these,
 - **Industry-agnostic components.** New variants must work for any niche, not just this target.
 - **Schema-first.** Any new data field → update `packages/schema/src/business.schema.json` → `pnpm generate` →
   validate → only then UI.
-- **Additive only.** Never change an existing variant's behavior; other templates must render identically
-  before and after a run. New variant names + new optional fields only.
-- **Validate + seed flow.** `pnpm test:validate` must pass; render path is template JSON → `db:seed` →
-  `pm2 restart astro-dev` → screenshot (per the Template→Database workflow).
+- **Additive only.** Never change an existing variant's behavior; new variant names + new optional fields
+  only. Enforced at delivery by the §7.3 gate (structural additive-by-construction checks + SSIM ≥ 0.99 on
+  existing templates — not pixel-identity).
+- **Global tokens are Phase-A only.** Per-section workers must never edit `theme.*` (palette, type, radius,
+  spacing scale); those are set once in the global theme pass and locked (§5.1).
+- **Validate + seed flow.** `pnpm test:validate` must pass. Render path is template JSON → run DB → HMR
+  (NOT a full `pm2 restart` per iteration — §5.3); a full restart is only the fallback when HMR fails.
 
 ---
 
@@ -348,13 +467,18 @@ Pulled from `CLAUDE.md` — the loop and every worker prompt must enforce these,
    `sitc/run-<id>`. A champion snapshot is a commit; a section revert is a targeted checkout/reset of that
    section's files to the champion commit. Gives clean diffs, trivial revert, and a reviewable final delta.
 
-4. **Final delivery — auto-merge into `develop`.** A run that reaches threshold (and passes the
-   backward-compat regression gate in §7.1/§12) **auto-merges** its `sitc/run-<id>` branch into `develop`.
-   No manual PR step. Safety rails that make auto-merge acceptable:
-   - The regression gate **must** pass: every pre-existing template renders pixel-identical before/after.
+4. **Final delivery — auto-merge into `develop`, routed by mutation risk.** A run that reaches threshold and
+   passes the backward-compat regression gate (§7.3) auto-merges its `sitc/run-<id>` branch into `develop` —
+   **but only if it touched no shared code.** Routing (§6):
+   - clean `tune-json` / `extend-variant` run → **auto-merge**, no manual step;
+   - any `new-variant` / `new-section` run (new *shared* component code or schema enum) → stops in
+     **`needs_review`** for a human to approve before merge.
+   Safety rails on auto-merge:
+   - The regression gate (§7.3) **must** pass: additive-by-construction structural checks + SSIM ≥ 0.99 on a
+     sample of existing templates (not pixel-identity — that's unachievable and the wrong check).
    - `pnpm test:validate` + `pnpm type-check` + build must pass.
    - Additive-only invariant enforced (no existing variant behavior changed).
-   - If any gate fails → the run does **not** merge; it ends in `needs_review` with the branch left intact.
+   - If any gate fails → no merge; run ends in `needs_review` with the branch left intact.
 
 5. **Lesson retrieval — target (semantic) version from day one.** Lessons are first-class, so we build the
    full retrieval, not a tag-match stopgap:
@@ -375,16 +499,21 @@ Pulled from `CLAUDE.md` — the loop and every worker prompt must enforce these,
 
 ## 14. Build order (suggested phases)
 
-1. **DB + state machine + isolated render env** — `sitc_*` tables (with pgvector), run/pause/resume,
-   `locked_by` single-owner guard, run-scoped DB provisioning + teardown (§13.2), per-run git branch (§13.3).
-   No AI yet (orchestrator drives a stub worker).
-2. **Scorer** — Playwright screenshots + pixel/SSIM diff + VLM (`claude -p`) critique, validated against
-   hand-scored examples.
-3. **Single-section loop** — orchestrator + real `claude -p` worker for `tune-json` on one section, with
-   commit-snapshot/revert + champion selection. Make it portable (VPS + local via env) here (§13.1).
-4. **Full sweep + strategy escalation** — all sections, default 3 workers, `extend-variant`/`new-variant`/`new-section`.
-5. **Learning store (semantic)** — `sitc_lessons` + embeddings + retrieval injected into prompts +
+1. **DB + state machine + isolated render env** — `sitc_*` tables (with pgvector), run/pause/resume +
+   `needs_review`, `locked_by` single-owner guard, run-scoped DB provisioning + teardown (§13.2), per-run git
+   branch (§13.3). No AI yet (orchestrator drives a stub worker).
+2. **Target ingestion + Scorer** — frozen de-noised capture, VLM segmentation + alignment map, breakpoint
+   policy (§4.3); pixel/SSIM diff + VLM critique + **pairwise A/B** judge (§7.2), validated against
+   hand-scored examples. Establish the **HMR-render path** here (§5.3) — it gates run duration.
+3. **Phase 0 + Phase A** — seed iteration 0 from a `clone-template` pass (§5.0); global theme pass that
+   locks `theme.*` before any per-section work (§5.1).
+4. **Single-section loop** — `claude -p` worker for `tune-json` on one section, commit-snapshot/revert +
+   pairwise champion selection. Make it portable (VPS + local via env) here (§13.1).
+5. **Full sweep + strategy escalation** — all sections, default 3 workers, `extend-variant`/`new-variant`/
+   `new-section`; optional beam for stuck sections (§5.5).
+6. **Learning store (semantic)** — `sitc_lessons` + embeddings + retrieval injected into prompts +
    end-of-run distillation + `LESSONS.md` digest (§9).
-6. **Admin Panel UI** — start/monitor/control/history/lessons browser (§11).
-7. **Hardening + delivery** — budget caps, the §7.1 backward-compat regression gate, validate/type-check/build
-   gates, then **auto-merge to `develop`** (§13.4); failures → `needs_review`.
+7. **Admin Panel UI** — start/monitor/control/history/lessons browser (§11).
+8. **Hardening + delivery** — budget caps, the §7.3 regression gate, validate/type-check/build gates, then
+   strategy-routed delivery (§6/§13.4): auto-merge clean tuning runs; `new-variant`/`new-section` →
+   `needs_review`.
