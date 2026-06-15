@@ -1,6 +1,9 @@
 # Self-Improving Template Creator
 
-> **Status:** Design / spec (not yet implemented)
+> **Status:** 🧊 **Spec FROZEN — v1** (design complete; not yet implemented). Treat README + DESIGN as
+> stable. The next action is **not more spec** — it's the **Phase −1 spike** (§14): prove isolation-render
+> fidelity and pairwise-judge reliability. Reopen the spec only if a spike result invalidates a load-bearing
+> decision (then bump to v1.1 and note what changed and why).
 > **Owner:** msadlo
 > **ADR:** [`docs/adr/0020-self-improving-template-creator.md`](../../docs/adr/0020-self-improving-template-creator.md) (architecture decisions of record)
 > **Related:** `.claude/skills/clone-template/SKILL.md` (single-pass cloning — this feature is the looping evolution of it)
@@ -32,6 +35,22 @@ even for a different website and a different template — starts smarter and con
 
 **This feature does not start from zero.** Iteration 0 is the existing `clone-template` single pass (the
 ~70% first cut). This loop is the *refinement engine* bolted onto that output — see DESIGN §5 (Phase 0) and §14.
+
+### 1.1 Scope & assumptions (v1)
+
+- **Home/landing page only.** The input URL is "most often a landing page", and the landing page carries the
+  design signal. v1 converges the **home page**; other pages (about/services/contact) **inherit** the locked
+  theme + atoms (DESIGN §5.1/§5.1b) and **reuse the converged section variants**, but are not independently
+  optimized. Per-page convergence is future work (DESIGN §18).
+- **Visual design system only.** The loop optimizes layout, theme, atoms, and section structure/variants — it
+  does **not** judge or rewrite copy quality, SEO/meta, navigation information architecture, or business
+  logic. Copy and imagery stay generic-by-design for a reusable template (DESIGN §7, §18-F).
+- **Design inspiration, not asset copying (IP/ToS).** Like `clone-template` today, this reproduces a target's
+  *visual design language* using our own components, generic copy, and our own/licensed assets — it does not
+  copy the target's text, images, or code. Ensuring a given clone doesn't infringe is the operator's call;
+  this is a conscious, inherited posture, not an oversight.
+- **Reproducibility.** Each run pins the worker **model + prompt version** (DESIGN §10), so a run can be
+  understood, compared, and replayed.
 
 ---
 

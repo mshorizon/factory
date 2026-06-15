@@ -1,5 +1,6 @@
 # Self-Improving Template Creator — Design (mechanics)
 
+> 🧊 **Spec FROZEN — v1.** Stable; reopen only if a Phase −1 spike (§14) invalidates a load-bearing decision.
 > Detailed mechanics for the feature introduced in [`README.md`](./README.md). Section numbers are shared
 > across both files (README owns §1–3 and §13–14; this file owns §4–12 and §15–18), so every `§x.y`
 > cross-reference is unambiguous regardless of which file it lives in.
@@ -100,7 +101,9 @@ The worker **must** return a structured verdict (so the orchestrator can act wit
 ### 4.3 Target ingestion (capture · segmentation · alignment · breakpoints)
 
 Before the loop can score anything it must turn a live, messy URL into a **stable, segmented goal**. This
-runs **once** at run start and its output is immutable for the rest of the run.
+runs **once** at run start and its output is immutable for the rest of the run. **v1 scope:** the ingested
+goal is the **home/landing page** (README §1.1); other pages inherit the locked theme/atoms and reuse the
+converged variants rather than being independently optimized.
 
 **Frozen capture (de-noised).** The target is a moving thing — animations, lazy-load, carousels, cookie
 banners, A/B tests. Capture deterministically:
@@ -467,7 +470,7 @@ Net effect: the 5th template run reaches threshold in fewer iterations than the 
 
 > Lives in `packages/db`. Names indicative.
 
-- **`sitc_runs`** — `id, template_name, target_url, status (idle|running|awaiting_approval|paused|done|needs_review|aborted), budget_*, weights, max_workers, scored_breakpoints, theme_locked (bool), atoms_locked (bool), branch (sitc/run-<id>), run_db_url (isolated render DB), target_manifest (segmentation + alignment + traits), acceptance_report (§7.4 results), locked_by (owner host — VPS|local), lease_expires_at (heartbeat lease for crash detection — §16), cleaned_up (bool), started_at, finished_at, best_overall_score`
+- **`sitc_runs`** — `id, template_name, target_url, status (idle|running|awaiting_approval|paused|done|needs_review|aborted), model_version, prompt_version (pinned per run for reproducibility — README §1.1), budget_*, weights, max_workers, scored_breakpoints, theme_locked (bool), atoms_locked (bool), branch (sitc/run-<id>), run_db_url (isolated render DB), target_manifest (segmentation + alignment + traits), acceptance_report (§7.4 results), locked_by (owner host — VPS|local), lease_expires_at (heartbeat lease for crash detection — §16), cleaned_up (bool), started_at, finished_at, best_overall_score`
 - **`sitc_iterations`** — `id, run_id, iteration_no, started_at, finished_at, notes`
 - **`sitc_section_scores`** — `id, iteration_id, section_id, strategy, outcome (promoted|reverted|sanity_failed), vlm_score, pixel_score, score, ab_verdict, is_champion, critique, screenshot_ours, screenshot_target`
 - **`sitc_judge_calibration`** — `id, champion_img, challenger_img, target_img, human_answer, judge_answer, agreed (bool), checked_at` — the human-labeled set replayed to detect judge drift (§7.2a)
@@ -606,6 +609,9 @@ This keeps the variant library a curated design system, not an append-only dump.
 
 Not blocking the first build, but tracked so they aren't forgotten:
 
+- **Per-page convergence.** v1 optimizes the home page only and lets other pages inherit (README §1.1). A
+  later version ingests, segments, and independently scores about/services/contact pages, with a shared
+  theme/atom lock across the whole site.
 - **(F) Asset & imagery strategy.** Placeholder vs. real images during a run, sourcing via Unsplash/R2
   (ADR-0011), and how image **aspect ratios** affect layout scoring (a hero with a 16:9 image scores
   differently than 1:1 even with identical structure). For *templates* (reusable blueprints) copy/images stay
