@@ -167,10 +167,12 @@ even for a different website and a different template — starts smarter and con
 >
 > Cost: ~1–2 days. If either spike fails, the architecture changes — far cheaper to learn now than in Phase 5.
 
-0. **Shared core extraction** — refactor `clone-template`'s phases into `packages/sitc-core`
-   (`analyzeTarget · segment · mapSection · authorVariant · assembleAuthoringKit · validate · seedRunDb ·
-   render`) so the one-shot skill and the loop share one engine (DESIGN §4.5). Do this first — everything
-   else consumes it.
+0. ✅ **Shared core extraction (DONE)** — `packages/sitc-core` created (DESIGN §4.5): typed step contract +
+   `createClaudeWorker` runner. **Implemented:** `validateProfile`, `renderSection` (isolation harness,
+   promoted from the spike), `assembleAuthoringKit`. **v0 AI scaffolds** over the runner: `analyzeTarget`,
+   `segmentTarget`, `mapSection`, `authorVariant` (prompts to refine + calibrate in Phase 2). **Phase-1 seam:**
+   `seedRunDb`. Type-checks, builds, smoke-tested against the real repo. The one-shot skill and the loop both
+   consume this — nothing else duplicates design→component logic.
 1. **DB + state machine + isolated render env + lifecycle** — `sitc_*` tables (with pgvector +
    `sitc_judge_calibration`), run/pause/resume + `needs_review`, `locked_by` + heartbeat lease, run-scoped DB
    provisioning + teardown (§13.2), per-run git branch + **per-worker worktrees** (§13.3 / DESIGN §5.4), and
