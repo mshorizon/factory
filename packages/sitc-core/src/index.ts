@@ -78,3 +78,17 @@ export type { SqlExec } from "./orchestrator/run-db.js";
 
 export { sweepOrphans } from "./orchestrator/orphan-gc.js";
 export type { SweepOptions, SweepReport } from "./orchestrator/orphan-gc.js";
+
+// ─── scorer (Phase 2) ────────────────────────────────────────────────────────
+export { pairwiseJudge } from "./scorer/pairwise.js";
+export type { PairwiseResult, PairwiseInput, PairwiseWinner } from "./scorer/pairwise.js";
+export { vlmScore } from "./scorer/vlm.js";
+export type { VlmScore } from "./scorer/vlm.js";
+export { pixelScore } from "./scorer/pixel.js";
+export type { PixelScore } from "./scorer/pixel.js";
+export { scoreSection } from "./scorer/score.js";
+export type { HybridScore, ScoreSectionInput } from "./scorer/score.js";
+export { captureTarget } from "./scorer/capture.js";
+export type { CaptureTargetOptions, CaptureResult } from "./scorer/capture.js";
+export { runCalibration } from "./scorer/calibration.js";
+export type { CalibrationTriple, CalibrationReport, CalibrationItemResult } from "./scorer/calibration.js";
