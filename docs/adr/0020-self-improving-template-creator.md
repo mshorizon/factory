@@ -68,6 +68,21 @@ state in PostgreSQL. The architecture rests on these decisions:
     token (bandit, not round-robin). It runs on the VPS (PM2) by default but is portable to local (stronger
     model) via env, with a DB single-owner lock per run.
 
+11. **Hard write-allowlist sandbox.** Workers may write only to additive, dependency-free, design-system
+    paths (`packages/ui/src/{sections,atoms}`, `templates/`, additive `packages/schema`) — never
+    `apps/engine` business logic, config, secrets, or new dependencies. Enforced at the sanity gate before
+    any render. This is what makes auto-merging *unreviewed* generated code (decision 6) defensible.
+
+12. **Per-worker git worktrees + single-writer commit queue.** Concurrent workers (decision 10) cannot share
+    one working tree; each gets its own worktree, and promotions integrate onto the run branch through a
+    serialized queue owned by the orchestrator.
+
+13. **Delivery gates on non-visual acceptance too** (perf/a11y/responsive/hygiene), not just the visual
+    score — a pretty-but-broken template must not ship.
+
+14. **Variant-library curation.** Reuse-before-create is enforced and a periodic dedup/retirement pass keeps
+    the variant library and `sectionType` enum from rotting into near-duplicate noise over many runs.
+
 **Validate-first:** decisions (4) and (5) are unproven bets; the build order gates them behind a 1–2 day
 spike (isolation-render fidelity; pairwise-judge reliability) before the rest is built.
 
@@ -82,11 +97,16 @@ spike (isolation-render fidelity; pairwise-judge reliability) before the rest is
 **Negative / costs:**
 - Significant upfront engineering before the loop produces anything: the render harness (4) and the
   `sitc-core` extraction (9) are on the critical path and (9) touches a working skill.
-- New infra surface: orchestrator process, run-scoped DB lifecycle, pgvector, a calibration set to maintain,
-  and a new admin page — more to operate and monitor.
+- New infra surface: orchestrator process, run-scoped DB lifecycle + **orphan garbage collection**, pgvector,
+  per-worker git worktrees + a commit queue (12), a calibration set to maintain, and a new admin page — more
+  to operate and monitor.
 - Correctness hinges on the VLM judge; calibration drift is an ongoing operational concern.
 - The three-tier lock order is a hard constraint workers must respect; a bug that lets a per-section worker
   mutate global tokens would silently break the per-section independence guarantee.
+- **Autonomous codegen is only as safe as the allowlist (11).** A gap in the sandbox or a non-additive change
+  slipping past the gates would let unreviewed code reach `develop`; the gates (allowlist + build/validate +
+  §7.3 regression + §7.4 acceptance) must be treated as security-critical, not best-effort.
+- Variant-library curation (14) is recurring work; skipping it lets the library and schema enum bloat.
 
 ## Alternatives considered
 - **Keep one-shot `clone-template` + manual polish** — simplest; but it's the exact bottleneck we're removing

@@ -1,8 +1,8 @@
 # Self-Improving Template Creator — Design (mechanics)
 
 > Detailed mechanics for the feature introduced in [`README.md`](./README.md). Section numbers are shared
-> across both files (README owns §1–3, §13–14; this file owns §4–12), so every `§x.y` cross-reference is
-> unambiguous regardless of which file it lives in.
+> across both files (README owns §1–3 and §13–14; this file owns §4–12 and §15–18), so every `§x.y`
+> cross-reference is unambiguous regardless of which file it lives in.
 
 ---
 
@@ -236,13 +236,17 @@ regress. That's what makes "run it for hours" safe and worthwhile. Two things ma
 rather than aspirational: (a) **isolation rendering** (§4.4) so a section's score can't be moved by its
 neighbors, and (b) the **pairwise A/B** SELECT (§7.2) so scoring noise can't promote a worse render.
 
-### 5.2a SANITY gate — build/typecheck/validate before scoring
-A worker can emit code that doesn't compile or JSON that doesn't validate. Scoring it would waste a render +
-a VLM A/B call before discovering the breakage, and the delivery regression gate (§7.3) runs far too late to
-help the inner loop. So immediately after MUTATE, run a **fast challenger gate**: `tsc`/build the changed
-files (incremental) + `pnpm test:validate` for JSON. On failure → instant revert, record a failed attempt,
-and hand the compiler/validator error back to the worker as its next-attempt critique. Cheap insurance that
-keeps broken candidates out of the expensive scoring path.
+### 5.2a SANITY gate — allowlist + build/typecheck/validate before scoring
+A worker can emit code that doesn't compile, JSON that doesn't validate, or files it should never touch.
+Scoring such a challenger would waste a render + a VLM A/B call, and the delivery regression gate (§7.3) runs
+far too late to help the inner loop. So immediately after MUTATE, run a **fast challenger gate**:
+1. **Write-allowlist check (§15)** — reject any diff that touches a path outside the allowlist, adds a
+   dependency, or matches a forbidden pattern. This runs *first* and is non-negotiable.
+2. **Build/typecheck** — incremental `tsc`/build of the changed files.
+3. **Validate** — `pnpm test:validate` for JSON/schema.
+On any failure → instant revert, record a failed attempt, and hand the specific error (allowlist violation /
+compiler / validator message) back to the worker as its next-attempt critique. Cheap insurance that keeps
+broken or out-of-bounds candidates out of the expensive scoring path *and* out of the run branch.
 
 ### 5.3 RENDER throughput
 Render uses the **section-isolation harness** (§4.4), not a full-site `pm2 restart` — that's the single
@@ -251,11 +255,19 @@ harness mounts one section with the locked tokens and screenshots just that node
 reserved for the theme/atom passes, checkpoints, and final acceptance. `pm2 restart astro-dev` survives only
 as the fallback when the harness can't represent something (rare).
 
-### 5.4 Concurrency
+### 5.4 Concurrency (and the git model)
 With isolation rendering (§4.4) sections can't contaminate each other, so after theme + atoms are locked
 multiple workers run in parallel bounded only by CPU (pool **default 3**, via `SITC_MAX_WORKERS` / admin UI —
-§13.6). The one remaining serialization: two challengers whose `changedFiles` overlap (same shared file) are
-ordered, and their merge is re-rendered once.
+§13.6).
+
+**Git correctness — one worktree per worker.** Multiple workers cannot commit to a single working tree of the
+`sitc/run-<id>` branch concurrently (git index races). Each parallel worker therefore gets its **own git
+worktree** checked out at the current champion commit; it mutates + sanity-gates + renders there in isolation.
+A promoted challenger is integrated back onto the run branch through a **single-writer commit queue** owned by
+the orchestrator (cherry-pick / fast-forward, one at a time). Two challengers whose `changedFiles` overlap
+(same shared file — possible for `extend-variant`/`new-variant`) are additionally serialized at the queue and
+their merged result is re-rendered once before the second is scored, so no promotion is based on a stale
+render. Worktrees are torn down with the run (§16).
 
 ### 5.5 Escaping local optima (beam, optional)
 Strict accept-only-better with a single champion is pure hill-climbing and can stall in a local optimum that
@@ -373,6 +385,19 @@ template. Two layers:
 
 Any failure → no merge, run ends in `needs_review` with the branch intact.
 
+### 7.4 Acceptance criteria beyond the visual score (delivery prerequisite)
+
+A high design-system score is necessary but not sufficient: a template can look 0.92 and still be slow,
+inaccessible, or broken on mobile. So delivery (auto-merge or `needs_review` approval) also gates on a
+**non-visual acceptance checklist**, run once on the full assembled template at the end:
+- **Performance** — production build within budget (bundle size; Lighthouse performance ≥ target — the
+  factory's perf posture, ADR-0002 / CLAUDE.md).
+- **Accessibility** — automated a11y pass (axe): no critical violations; color-contrast on the chosen palette.
+- **Responsive integrity** — renders without overflow/overlap at the guarded breakpoint (§4.3), navbar
+  overlap rule respected (CLAUDE.md).
+- **Hygiene** — no console errors, no broken internal links/images, all referenced assets resolve.
+A failure here blocks auto-merge and routes to `needs_review` with the specific failures listed.
+
 ---
 
 ## 8. Stop conditions (any one ends/pauses the run)
@@ -442,7 +467,7 @@ Net effect: the 5th template run reaches threshold in fewer iterations than the 
 
 > Lives in `packages/db`. Names indicative.
 
-- **`sitc_runs`** — `id, template_name, target_url, status (idle|running|awaiting_approval|paused|done|needs_review|aborted), budget_*, weights, max_workers, scored_breakpoints, theme_locked (bool), branch (sitc/run-<id>), run_db_url (isolated render DB), target_manifest (segmentation + alignment + traits), locked_by (owner host — VPS|local), started_at, finished_at, best_overall_score`
+- **`sitc_runs`** — `id, template_name, target_url, status (idle|running|awaiting_approval|paused|done|needs_review|aborted), budget_*, weights, max_workers, scored_breakpoints, theme_locked (bool), atoms_locked (bool), branch (sitc/run-<id>), run_db_url (isolated render DB), target_manifest (segmentation + alignment + traits), acceptance_report (§7.4 results), locked_by (owner host — VPS|local), lease_expires_at (heartbeat lease for crash detection — §16), cleaned_up (bool), started_at, finished_at, best_overall_score`
 - **`sitc_iterations`** — `id, run_id, iteration_no, started_at, finished_at, notes`
 - **`sitc_section_scores`** — `id, iteration_id, section_id, strategy, outcome (promoted|reverted|sanity_failed), vlm_score, pixel_score, score, ab_verdict, is_champion, critique, screenshot_ours, screenshot_target`
 - **`sitc_judge_calibration`** — `id, champion_img, challenger_img, target_img, human_answer, judge_answer, agreed (bool), checked_at` — the human-labeled set replayed to detect judge drift (§7.2a)
@@ -467,10 +492,14 @@ isolated styles.
   current strategy`. Overall progress + budget burndown.
 - **Controls:** Pause · Resume · Abort · "Approve checkpoint" · **"Approve & merge"** (for `needs_review`
   runs that introduced shared code — §6/§13.4) (these write `sitc_commands`).
-- **History:** past runs, final scores, diffs applied, delivery outcome (auto-merged vs `needs_review`).
+- **History:** past runs, final scores, diffs applied, delivery outcome (auto-merged vs `needs_review`),
+  acceptance report (§7.4: perf/a11y/responsive/hygiene).
 - **Lessons browser:** read/curate the `sitc_lessons` table (archive bad lessons, pin good ones).
+- **Variant curation (§17):** variant usage counts across templates, near-duplicate clusters, retirement
+  proposals.
 - **Judge health:** current judge-vs-human agreement on the calibration set (§7.2a) — a drop warns of model/
   prompt drift before it corrupts runs.
+- **Ops:** orphans reclaimed (§16), per-run cost/duration vs. the pre-launch estimate (§18-H).
 
 ---
 
@@ -487,7 +516,103 @@ Pulled from `CLAUDE.md` — the loop and every worker prompt must enforce these,
 - **Respect the locked tiers.** Per-section workers must never edit `theme.*` (palette, type, radius, spacing
   scale — locked in Phase A, §5.1) or **shared atoms** (button/card/input/badge — locked in Phase A.5,
   §5.1b). They consume both as-is; they may only choose which locked variant a section uses.
-- **Sanity before scoring.** Every challenger must pass build + type-check + `pnpm test:validate` *before* it
-  is rendered/scored (§5.2a); broken candidates revert immediately, never reach the VLM.
+- **Sanity before scoring.** Every challenger must pass the allowlist + build + type-check + `pnpm
+  test:validate` *before* it is rendered/scored (§5.2a); broken or out-of-bounds candidates revert
+  immediately, never reach the VLM or the run branch.
+- **Stay inside the sandbox.** Workers may only write to allowlisted paths, may not add dependencies, and may
+  never import `apps/engine` (workspace boundary, CLAUDE.md). Enforced by the gate (§15).
 - **Validate + seed flow.** `pnpm test:validate` must pass. Render path is template JSON → run DB → HMR
   (NOT a full `pm2 restart` per iteration — §5.3); a full restart is only the fallback when HMR fails.
+
+---
+
+## 15. Worker sandbox & write-allowlist
+
+Workers generate code that can ultimately **auto-merge to `develop`** (§13.4) — so what a worker may touch is
+a hard security boundary, not a style preference. The orchestrator enforces it at the SANITY gate (§5.2a) by
+inspecting the challenger's diff; a violation is an instant revert, same as a build failure.
+
+**Allowed writes (per strategy):**
+- `tune-json` → only the run's `templates/<name>/<name>.json` (the section's slice).
+- `extend-variant` / `new-variant` → `packages/ui/src/{sections,atoms}/**` and the matching
+  `apps/engine/src/components/sections/{Type}Section.astro` dispatch branch, `packages/ui/src/sections/index.ts`.
+- `new-section` → additionally `packages/schema/src/business.schema.json` (additive enum/field only) +
+  `SectionDispatcher.astro` registration + `apps/engine/src/lib/pages.ts` `DEFAULT_VARIANTS`.
+
+**Forbidden, always:**
+- any path outside the allowlist (CI, config, secrets, scripts, `apps/engine` business logic, other packages);
+- **`packages/ui` importing from `apps/engine`** (ADR workspace boundary);
+- **adding/upgrading dependencies** — no new `package.json` entries, no new imports of uninstalled packages
+  (a worker that "needs" a library fails the gate and must solve it within the existing toolset, or escalate);
+- network calls, filesystem access outside the repo, env/secret reads, shelling out;
+- editing existing variant behavior or locked theme/atom tokens (additive-only + tier lock, §6/§5.1).
+
+The allowlist is data-driven (a per-strategy path glob set), so it can tighten without code changes. This is
+what makes "auto-merge unreviewed generated code" defensible: the only code that can land is additive,
+dependency-free, inside the design-system packages, and already passed build + validate + the §7.3 gate.
+
+---
+
+## 16. Failure modes & recovery (runbook)
+
+"Runs for hours, unattended, resumable" is only true if every failure has a defined recovery. State lives in
+PostgreSQL and on the `sitc/run-<id>` branch; workers are stateless and disposable.
+
+| Failure | Detection | Recovery |
+| :--- | :--- | :--- |
+| **Worker hangs** | per-worker wall-clock timeout | kill, record a failed attempt, revert its worktree, free the slot; the work unit returns to the scheduler (§5.6) with one retry budget consumed. |
+| **Worker crashes / returns malformed JSON** | non-zero exit or schema-invalid verdict | same as hang; after N consecutive failures on a unit, mark it `frozen` (§8) and move on. |
+| **Worker writes out of bounds / broken code** | SANITY gate (§5.2a / §15) | instant revert; error fed back as next-attempt critique. |
+| **Orchestrator dies mid-iteration** | heartbeat / `locked_by` lease expiry | on restart, the orchestrator reconciles: any uncommitted worktree is discarded (the champion commit on the branch is the source of truth — an un-promoted challenger is simply lost, which is safe). It resumes from the last recorded iteration row. |
+| **Render harness / dev server wedged** | render timeout | recycle the harness; fall back to full-page render once; if still failing, pause the run to `needs_review`. |
+| **Run aborted / completed** | terminal state | **cleanup job** drops the run-scoped DB, removes all worker worktrees, and (unless merged) leaves the `sitc/run-<id>` branch for inspection. |
+
+**Orphan garbage collection.** A periodic sweep reclaims leaked resources from runs that died without
+cleanup: run-scoped DBs/schemas with no live `locked_by` lease, `sitc/run-*` worktrees with no active run, and
+branches older than a retention window whose run ended in `aborted`. Without this, dead runs accumulate
+databases and disk indefinitely. Surfaced in the admin UI as "orphans reclaimed".
+
+**Idempotency & resumability.** Every iteration writes its row *before* acting and marks it done *after*, so a
+crash leaves at most one in-flight unit to re-run. Combined with "champion commit = source of truth", a run is
+always resumable to a consistent state — on the VPS or, after pause, locally (§13.1).
+
+---
+
+## 17. Variant-library curation & entropy
+
+The library of section/atom variants is the asset that makes the factory fast — and an unattended loop that
+mints new variants will, over dozens of runs, **bloat it** with near-duplicate `hero`s and a swelling
+`sectionType` enum. Left unmanaged, the thing that makes us fast rots into noise (and slows every future
+worker's authoring kit and the dispatcher).
+
+Countermeasures:
+- **Reuse-before-create, enforced.** The worker prompt and the escalation ladder (§6) require *searching
+  existing variants first* (the authoring kit, §4.2, ships the candidate variants for the section type); a
+  `new-variant` verdict must justify why no existing variant + `extend-variant` sufficed. The scheduler (§5.6)
+  also biases toward cheaper reuse strategies.
+- **Near-duplicate detection.** New variants are embedded (visual + prop-shape signature) and checked against
+  existing ones; a high-similarity hit is flagged for merge rather than added — mirroring the lesson-dedup
+  in §9.4.
+- **Periodic curation pass** (offline, human-in-the-loop, like the lessons browser §11): report variant usage
+  counts across all templates, cluster near-duplicates, and propose retirements/merges. A variant used by zero
+  live templates after a retention window is a retirement candidate. Retiring is itself an additive-safe op
+  (mark deprecated, stop offering it to workers; only physically remove once no template references it).
+
+This keeps the variant library a curated design system, not an append-only dump.
+
+---
+
+## 18. Open questions / future work
+
+Not blocking the first build, but tracked so they aren't forgotten:
+
+- **(F) Asset & imagery strategy.** Placeholder vs. real images during a run, sourcing via Unsplash/R2
+  (ADR-0011), and how image **aspect ratios** affect layout scoring (a hero with a 16:9 image scores
+  differently than 1:1 even with identical structure). For *templates* (reusable blueprints) copy/images stay
+  generic by design; the loop optimizes treatment, not literal assets (§7).
+- **(G) Feature-level success metric.** Actually measure the compounding claim: track **iterations-to-threshold
+  per run over time** and **human edits required after delivery**; expose the trend so we can prove (or
+  disprove) that the lessons store is working, rather than asserting it.
+- **(H) Cost & duration model.** A rough budgeting formula — `sections × iterations × (mutate + score) tokens`
+  + render wall-clock — surfaced in the admin "Start run" screen as an *estimate before launch*, so a run's
+  likely cost/time is known up front and the budget cap (§8) can be set sensibly.

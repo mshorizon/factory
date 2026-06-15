@@ -5,7 +5,7 @@
 > **ADR:** [`docs/adr/0020-self-improving-template-creator.md`](../../docs/adr/0020-self-improving-template-creator.md) (architecture decisions of record)
 > **Related:** `.claude/skills/clone-template/SKILL.md` (single-pass cloning — this feature is the looping evolution of it)
 > **Detailed mechanics:** see [`DESIGN.md`](./DESIGN.md). Section numbers are shared across both files
-> (this README owns §1–3, §13–14; DESIGN owns §4–12), so every `§x.y` cross-reference is unambiguous.
+> (this README owns §1–3 and §13–14; DESIGN owns §4–12 and §15–18), so every `§x.y` cross-reference is unambiguous.
 
 ---
 
@@ -57,8 +57,12 @@ even for a different website and a different template — starts smarter and con
 | **Rendering** | **Section-isolation harness** (Storybook-style), not full-site dev-server renders. | 5–10× faster, true parallelism, and per-section monotonicity becomes *real* (DESIGN §4.4). |
 | **Granularity** | **Three locked tiers:** global theme → shared atoms → per-section. | Each tier frozen before the next, so lower tiers are a stable substrate and sections are genuinely independent (DESIGN §5). |
 | **Code reuse** | **Shared core library** with `clone-template` — the worker is a scoped clone-template call. | One source of truth for design→component; the loop and the one-shot skill can't drift (DESIGN §4.5). |
-| **Inner-loop safety** | **Sanity gate** (build/typecheck/validate) before every score. | Broken challengers revert instantly; the expensive render+VLM path only sees compiling code (DESIGN §5.2a). |
+| **Inner-loop safety** | **Sanity gate** (allowlist + build/typecheck/validate) before every score. | Broken or out-of-bounds challengers revert instantly; the expensive render+VLM path only sees valid code (DESIGN §5.2a). |
+| **Codegen sandbox** | **Write-allowlist:** additive, dependency-free, design-system packages only; never `apps/engine`. | Makes auto-merging unreviewed generated code defensible (DESIGN §15). |
+| **Delivery acceptance** | Visual score **plus** a non-visual gate: perf/a11y/responsive/hygiene. | A pretty-but-slow-or-broken template can't ship (DESIGN §7.4). |
 | **Scheduling** | **Cost-aware** (bandit) work-unit selection, not round-robin. | Budget flows to highest expected score-gain-per-token; the cap becomes an optimizer (DESIGN §5.6). |
+| **Library health** | **Reuse-before-create + periodic variant curation.** | Prevents the variant library / schema enum from rotting into near-duplicate noise over many runs (DESIGN §17). |
+| **Resilience** | Defined failure-recovery + orphan GC; champion-commit = source of truth. | Multi-hour unattended runs are crash-resumable and don't leak run DBs/worktrees (DESIGN §16). |
 | **Stop conditions** | Score threshold **AND** plateau detection **AND** budget cap **AND** manual checkpoint. | Whichever fires first wins; see DESIGN §8. |
 | **Control plane** | **Pause / resume**, persisted in **PostgreSQL**, driven from a new **Admin Panel** page. | A run survives restarts; a human can pause, inspect, approve, or abort at any checkpoint. |
 | **Learning** | **Semantic (embedding-based) lessons store** read at the start of every run, written at the end. | Cross-run, cross-template compounding improvement (pgvector retrieval — see DESIGN §9). |
@@ -89,9 +93,12 @@ even for a different website and a different template — starts smarter and con
    pointed at it via a run-scoped base URL/`DATABASE_URL` for screenshotting. The `*.dev.hazelgrouse.pl` site
    is never touched by a run. The isolated DB is torn down (or archived) when the run finishes.
 
-3. **Snapshot/revert — per-run git branch (as recommended).** Each run works on a dedicated branch
-   `sitc/run-<id>`. A champion snapshot is a commit; a section revert is a targeted checkout/reset of that
-   section's files to the champion commit. Gives clean diffs, trivial revert, and a reviewable final delta.
+3. **Snapshot/revert — per-run git branch + per-worker worktrees.** Each run works on a dedicated branch
+   `sitc/run-<id>`. A champion snapshot is a commit; a section revert is a targeted checkout/reset to the
+   champion commit. Because workers run concurrently, **each parallel worker gets its own git worktree**
+   (git can't take concurrent commits to one working tree); promoted challengers are integrated back via a
+   single-writer commit queue owned by the orchestrator (DESIGN §5.4). Clean diffs, trivial revert,
+   reviewable final delta, and no index races.
 
 4. **Final delivery — auto-merge into `develop`, routed by mutation risk.** A run that reaches threshold and
    passes the backward-compat regression gate (DESIGN §7.3) auto-merges its `sitc/run-<id>` branch into
@@ -145,24 +152,30 @@ even for a different website and a different template — starts smarter and con
    (`analyzeTarget · segment · mapSection · authorVariant · assembleAuthoringKit · validate · seedRunDb ·
    render`) so the one-shot skill and the loop share one engine (DESIGN §4.5). Do this first — everything
    else consumes it.
-1. **DB + state machine + isolated render env** — `sitc_*` tables (with pgvector + `sitc_judge_calibration`),
-   run/pause/resume + `needs_review`, `locked_by` single-owner guard, run-scoped DB provisioning + teardown
-   (§13.2), per-run git branch (§13.3). No AI yet (orchestrator drives a stub worker).
+1. **DB + state machine + isolated render env + lifecycle** — `sitc_*` tables (with pgvector +
+   `sitc_judge_calibration`), run/pause/resume + `needs_review`, `locked_by` + heartbeat lease, run-scoped DB
+   provisioning + teardown (§13.2), per-run git branch + **per-worker worktrees** (§13.3 / DESIGN §5.4), and
+   the **orphan-GC sweep** (DESIGN §16). No AI yet (orchestrator drives a stub worker) — but crash-recovery is
+   exercised here.
 2. **Render harness + Scorer** — the **section-isolation render harness** (DESIGN §4.4); frozen de-noised
    capture, VLM segmentation + alignment map, breakpoint policy (DESIGN §4.3); pixel/SSIM diff + VLM critique
    + **pairwise A/B with order-symmetric voting + calibration** (DESIGN §7.2/§7.2a), validated against
    hand-scored examples. The harness gates run duration — get it right here.
 3. **Phase 0 → A → A.5** — seed iteration 0 from a `clone-template` pass (DESIGN §5.0); lock global theme
    (DESIGN §5.1); lock shared atoms (DESIGN §5.1b) before any per-section work.
-4. **Single-section loop** — `claude -p` worker (warm authoring kit, DESIGN §4.2) for `tune-json` on one
-   section, with the **sanity gate** (DESIGN §5.2a), commit-snapshot/revert + pairwise selection. Portable
-   (VPS + local via env) here (§13.1).
+4. **Single-section loop + sandbox** — `claude -p` worker (warm authoring kit, DESIGN §4.2) for `tune-json` on
+   one section, with the **sanity gate incl. write-allowlist** (DESIGN §5.2a / §15), worktree-isolated
+   commit/revert + pairwise selection. Portable (VPS + local via env) here (§13.1).
 5. **Full sweep + strategy escalation + scheduler** — all sections, default 3 workers, `extend-variant`/
-   `new-variant`/`new-section`; **cost-aware scheduler** (DESIGN §5.6); optional beam for stuck sections
-   (DESIGN §5.5).
+   `new-variant`/`new-section`; **cost-aware scheduler** (DESIGN §5.6); reuse-before-create enforcement
+   (DESIGN §17); optional beam for stuck sections (DESIGN §5.5); per-unit timeout/retry recovery (DESIGN §16).
 6. **Learning store (semantic)** — `sitc_lessons` + embeddings + retrieval injected into prompts +
    end-of-run distillation + `LESSONS.md` digest (DESIGN §9). Wire lesson signals into the scheduler (step 5).
-7. **Admin Panel UI** — start/monitor/control/history/lessons browser/judge-health (DESIGN §11).
-8. **Hardening + delivery** — budget caps, the DESIGN §7.3 regression gate, validate/type-check/build gates,
-   then strategy-routed delivery (DESIGN §6 / §13.4): auto-merge clean tuning runs; `new-variant`/`new-section`
-   → `needs_review`.
+7. **Admin Panel UI** — start/monitor/control/history/lessons/variant-curation/judge-health/ops (DESIGN §11);
+   pre-launch cost estimate (DESIGN §18-H).
+8. **Hardening + delivery** — budget caps, the DESIGN §7.3 regression gate + **§7.4 acceptance gate**
+   (perf/a11y/responsive/hygiene), validate/type-check/build gates, then strategy-routed delivery
+   (DESIGN §6 / §13.4): auto-merge clean tuning runs; `new-variant`/`new-section` → `needs_review`.
+9. **Steady-state curation** (ongoing, not one-off) — periodic variant near-duplicate/retirement pass
+   (DESIGN §17) and feature-success telemetry: iterations-to-threshold trend + post-delivery human edits
+   (DESIGN §18-G).
