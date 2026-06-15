@@ -102,3 +102,22 @@ export { lockSharedAtoms } from "./pipeline/atom-pass.js";
 export type { LockSharedAtomsInput, LockSharedAtomsResult, ProposedAtoms } from "./pipeline/atom-pass.js";
 export { lockTiers } from "./pipeline/lock-tiers.js";
 export type { LockTiersInput, LockTiersResult } from "./pipeline/lock-tiers.js";
+
+// ─── loop: per-section sweep (Phase 4) ───────────────────────────────────────
+export { checkAllowlist } from "./loop/allowlist.js";
+export type { AllowlistResult } from "./loop/allowlist.js";
+export { sanityGate } from "./loop/sanity.js";
+export type { SanityCheck, SanityInput, SanityResult } from "./loop/sanity.js";
+export { STRATEGY_LADDER, STRATEGY_COST, forcesReview, nextStrategy, ladderExhausted } from "./loop/strategy.js";
+export { pickNext, gap, inPlay, allSettled } from "./loop/scheduler.js";
+export type { SectionState } from "./loop/scheduler.js";
+export { runSectionIteration, createMutex } from "./loop/section-iteration.js";
+export type {
+  SectionCollaborators,
+  SectionIterationInput,
+  SectionIterationResult,
+  SectionOutcome,
+  Mutex,
+} from "./loop/section-iteration.js";
+export { runSweep } from "./loop/sweep.js";
+export type { SweepInput, SweepResult } from "./loop/sweep.js";

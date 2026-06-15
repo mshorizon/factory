@@ -203,9 +203,15 @@ even for a different website and a different template — starts smarter and con
 4. **Single-section loop + sandbox** — `claude -p` worker (warm authoring kit, DESIGN §4.2) for `tune-json` on
    one section, with the **sanity gate incl. write-allowlist** (DESIGN §5.2a / §15), worktree-isolated
    commit/revert + pairwise selection. Portable (VPS + local via env) here (§13.1).
-5. **Full sweep + strategy escalation + scheduler** — all sections, default 3 workers, `extend-variant`/
-   `new-variant`/`new-section`; **cost-aware scheduler** (DESIGN §5.6); reuse-before-create enforcement
-   (DESIGN §17); optional beam for stuck sections (DESIGN §5.5); per-unit timeout/retry recovery (DESIGN §16).
+5. ✅ **Full sweep + strategy escalation + scheduler (core DONE)** — `packages/sitc-core/src/loop/`:
+   `checkAllowlist` (§15, security-critical write boundary), `sanityGate` (§5.2a — allowlist→import-boundary→
+   build→validate), `nextStrategy`/`STRATEGY_LADDER` (§6), `pickNext` cost-aware scheduler (§5.6),
+   `runSectionIteration` (SNAPSHOT→MUTATE→SANITY→RENDER→SCORE→SELECT→integrate|discard, single-writer mutex),
+   `runSweep` (bounded concurrency + escalate→freeze). **25/25 checks pass** on a real temp repo with fake
+   collaborators: monotonic promote/revert (champion unchanged on loss), allowlist blocks out-of-bounds writes,
+   scheduler skips locked/frozen, sweep settles+locks. **Integration seam (not yet live):** the fakes stand in
+   for the real `authorVariant` (claude in worktree) + `renderSection` (engine) + `scoreSection`/`pairwiseJudge`
+   — wiring those into a real run needs the run-DB provisioned (gated). Optional beam (§5.5) deferred.
 6. **Learning store (semantic)** — `sitc_lessons` + embeddings + retrieval injected into prompts +
    end-of-run distillation + `LESSONS.md` digest (DESIGN §9). Wire lesson signals into the scheduler (step 5).
 7. **Admin Panel UI** — start/monitor/control/history/lessons/variant-curation/judge-health/ops (DESIGN §11);
