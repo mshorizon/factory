@@ -221,8 +221,15 @@ even for a different website and a different template — starts smarter and con
    dedup verified, not live-run); retrieval feeds the **worker prompt** (primary §9 path) — a scheduler priority
    nudge from lesson confidence is left as a light future hook (scheduler kept pure); production swaps in a real
    embedding model via `SITC_EMBED_CMD`.
-7. **Admin Panel UI** — start/monitor/control/history/lessons/variant-curation/judge-health/ops (DESIGN §11);
-   pre-launch cost estimate (DESIGN §18-H).
+7. ✅ **Admin Panel UI (core DONE)** — `apps/engine/src/pages/admin/template-creator.astro` (auth-gated like
+   other admin pages) + `components/admin/TemplateCreator.tsx` (shadcn): **New Run** form with **live cost
+   estimate** (§18-H), **Runs** table + controls (pause/resume/abort/approve-merge), **Lessons** browser,
+   **Judge/Ops** panel (DESIGN §11). API `pages/api/admin/template-creator.ts` (GET runs/lessons/judge-health,
+   POST start/command) wired to the `sitc_*` tables with **graceful degradation** when not yet pushed.
+   **Render-verified** (screenshot): UI hydrates, cost estimate works, "schema not deployed" notice shows.
+   My files are `tsc`-clean (the engine's pre-existing strict-type noise is unrelated). Variant-curation tab
+   deferred (needs §17 usage data). `estimateRunCost` in sitc-core; UI mirrors the formula client-side (sitc-core
+   is node-only).
 8. **Hardening + delivery** — budget caps, the DESIGN §7.3 regression gate + **§7.4 acceptance gate**
    (perf/a11y/responsive/hygiene), validate/type-check/build gates, then strategy-routed delivery
    (DESIGN §6 / §13.4): auto-merge clean tuning runs; `new-variant`/`new-section` → `needs_review`.

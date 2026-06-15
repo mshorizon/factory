@@ -136,3 +136,7 @@ export { distillLessons, dedupeLessons } from "./learning/distill.js";
 export type { IterationDatum, DistilledLesson, DistillInput, DedupeResult } from "./learning/distill.js";
 export { renderLessonsDigest } from "./learning/digest.js";
 export type { DigestOptions } from "./learning/digest.js";
+
+// ─── cost estimate (Phase 7 / §18-H) ─────────────────────────────────────────
+export { estimateRunCost, DEFAULT_COST_MODEL } from "./cost.js";
+export type { CostModel, EstimateInput, CostEstimate } from "./cost.js";
