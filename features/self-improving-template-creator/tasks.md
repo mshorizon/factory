@@ -113,9 +113,27 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
   ephemeral local image paths; durable rows need artifact storage (R2), which the orchestrator wires. The generator
   + harness IS the mechanism to (re)populate it.
 
-## Step 7 — Deploy for real runs 🚀
-- [ ] Orchestrator as a PM2 process on the VPS, pointed at the run-scoped DB (§13.1).
-- [ ] Run-DB lifecycle (provision → teardown → orphan-GC) exercised against the real server.
+## Step 7 — Deploy for real runs 🚀 ⏳ (scaffolding built; live bring-up is operator-driven)
+- [x] **Orchestrator entrypoint** `scripts/sitc-runner.mts`: wires the full real run via `runFull` — target
+      ingestion (capture→segment→crop→align→targetImageMap) → `lockTiers` → per-section sweep with REAL
+      collaborators (claude-p mutate, isolation render from worktree working file, hybrid scorer, pairwise judge,
+      sanity+regression+acceptance gate toolchain) → strategy-routed delivery. **Autonomous `claude -p` Edit/Write
+      is gated behind `SITC_ENABLE_WORKER=1`**; without it the runner does ingestion + prints the PLAN and exits
+      (no edits, no merge).
+- [x] **Run-DB lifecycle CLI** `scripts/sitc-run-db.mts`: `provision` / `seed` / `teardown` / `gc`. Every prod-DDL
+      action is **dry-run by default**, executes only with `--yes`. `seed` validates the profile first; `gc` wraps
+      `sweepOrphans`.
+- [x] **PM2** `ecosystem.sitc.config.cjs`: `sitc-gc` (safe orphan-GC cron, every 15 min) + `sitc-orchestrator`
+      (autorestart off, worker OFF by default — operator enables per run).
+- [x] **DEPLOY.md** runbook (create run → provision/seed → plan-only dry run → live run → PM2 → teardown) + the
+      known gaps to close before unattended auto-merge.
+- [x] **Verified**: both scripts type-check clean; run-DB CLI dry-runs gate prod DDL correctly (usage/provision/gc);
+      runner load-test resolves the full import graph and fails fast on missing `DATABASE_URL`; PM2 config loads
+      (worker confirmed UNSET/plan-only by default). npm scripts `sitc:runner` / `sitc:run-db` added.
+- ⚠️ **NOT executed live** (by design — autonomous worker + prod DDL are operator actions). Open before trusting
+      unattended auto-merge (see DEPLOY.md §"Known gaps"): (1) wire real existing-template SSIM (currently a stub
+      `()=>[]` → SSIM 1); (2) point acceptance gate at a PROD-built preview, not `astro dev`; (3) durable calibration
+      artifacts in R2; (4) supervised first live `runFull` against a real target.
 
 ## Step 8 — Optional / degrades gracefully
 - [ ] Real embedding model via `SITC_EMBED_CMD` (lessons work crudely on the hashing fallback without it).

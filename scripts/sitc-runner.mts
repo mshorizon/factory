@@ -1,0 +1,147 @@
+#!/usr/bin/env tsx
+/**
+ * SITC orchestrator entrypoint — the REAL long-running consumer (DESIGN §4–§8).
+ *
+ * Assembles the full pipeline (target ingestion → lockTiers → per-section sweep →
+ * gates → strategy-routed delivery) via `runFull`, wiring the real collaborators:
+ * claude -p worker, isolation render, hybrid scorer, pairwise judge, gate
+ * toolchain. SCAFFOLDING for operator review — see DEPLOY.md.
+ *
+ * ⚠️ GOVERNANCE: the per-section MUTATE step spawns headless `claude -p` with
+ * Edit/Write (an autonomous agent loop). That is gated behind SITC_ENABLE_WORKER=1.
+ * Without it, the runner performs target ingestion + prints the execution PLAN and
+ * exits — NO autonomous edits, NO branch merge. The first live run is an explicit
+ * operator action, never automatic.
+ *
+ * Usage (on the VPS):
+ *   DATABASE_URL=…/hazelgrouse-db SITC_ENGINE_URL=http://localhost:4321 \
+ *     pnpm tsx scripts/sitc-runner.ts --run <id> --owner vps          # safe: plan only
+ *   SITC_ENABLE_WORKER=1 … pnpm tsx scripts/sitc-runner.ts --run <id> # LIVE autonomous run
+ */
+import path from "node:path";
+import { promises as fs } from "node:fs";
+import { initDb } from "../packages/db/src/client.js";
+import { DrizzleRunStore } from "../packages/db/src/sitc-store.js";
+import { WorktreeManager } from "../packages/sitc-core/src/orchestrator/worktree.js";
+import { createClaudeWorker } from "../packages/sitc-core/src/claude-worker.js";
+import { captureTarget } from "../packages/sitc-core/src/scorer/capture.js";
+import { segmentTarget } from "../packages/sitc-core/src/steps/segment.js";
+import { cropBands } from "../packages/sitc-core/src/steps/crop-bands.js";
+import { alignSections, targetImageMap } from "../packages/sitc-core/src/steps/align-sections.js";
+import { renderSection } from "../packages/sitc-core/src/steps/render.js";
+import { scoreSection } from "../packages/sitc-core/src/scorer/score.js";
+import { pairwiseJudge } from "../packages/sitc-core/src/scorer/pairwise.js";
+import { sanityGate } from "../packages/sitc-core/src/loop/sanity.js";
+import { createMutateCollaborator } from "../packages/sitc-core/src/loop/mutate-collaborator.js";
+import { createSanityChecks, createRegressionChecks, createAcceptanceChecks } from "../packages/sitc-core/src/delivery/checks.js";
+import { runFull } from "../packages/sitc-core/src/pipeline/run.js";
+
+const REPO_ROOT = path.resolve(import.meta.dirname, "..");
+const arg = (n: string) => { const i = process.argv.indexOf(`--${n}`); return i >= 0 ? process.argv[i + 1] : undefined; };
+
+async function main() {
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) throw new Error("DATABASE_URL required (control DB)");
+  const engineUrl = process.env.SITC_ENGINE_URL ?? "http://localhost:4321";
+  const model = process.env.SITC_MODEL ?? "sonnet";
+  const workerEnabled = process.env.SITC_ENABLE_WORKER === "1";
+  const owner = arg("owner") ?? "vps";
+  const runId = Number(arg("run"));
+  if (!runId) throw new Error("--run <id> required");
+
+  initDb(dbUrl);
+  const store = new DrizzleRunStore();
+  const run = await store.getRun(runId);
+  if (!run) throw new Error(`run ${runId} not found`);
+  const template = run.templateName;
+  const targetUrl = run.targetUrl;
+  const templatePath = path.join(REPO_ROOT, "templates", template, `${template}.json`);
+  const profile = JSON.parse(await fs.readFile(templatePath, "utf8"));
+  const homeSections: Array<{ type: string }> = profile?.pages?.home?.sections ?? [];
+
+  const artifactsDir = path.join(REPO_ROOT, ".sitc", "runs", String(runId));
+  await fs.mkdir(artifactsDir, { recursive: true });
+
+  console.log(`▶ run #${runId}  template=${template}  target=${targetUrl}  owner=${owner}  worker=${workerEnabled ? "LIVE" : "disabled (plan only)"}`);
+
+  // ── target ingestion (DESIGN §4.3) ─────────────────────────────────────────
+  console.log("• capturing target …");
+  const cap = await captureTarget({ url: targetUrl, outDir: path.join(artifactsDir, "target") });
+  const desktopShot = cap.screenshots.desktop;
+  const readRunner = createClaudeWorker({ model });
+  console.log("• segmenting target …");
+  // raw bands; cropBands re-normalizes against the true decoded image height.
+  const bands = await segmentTarget(readRunner, desktopShot, { model });
+  const crops = await cropBands({ screenshotPath: desktopShot, bands, outDir: path.join(artifactsDir, "crops") });
+  const cropPaths = Object.fromEntries(crops.map((c) => [c.band.index, c.path]));
+  // align against the SAME normalized bands that were cropped.
+  const alignment = alignSections(crops.map((c) => c.band), homeSections);
+  const sectionIds = homeSections.map((s, i) => `${s.type}#${i}`);
+  const targetFor = targetImageMap(alignment, sectionIds, cropPaths);
+
+  const matched = alignment.filter((e) => e.status === "matched" && e.ourSectionIndex != null);
+  console.log(`• alignment: ${matched.length} matched / ${alignment.filter((e) => e.status === "target-only").length} target-only / ${alignment.filter((e) => e.status === "ours-only").length} ours-only`);
+
+  // sections we will evolve = matched ones that have a target crop
+  const evolve = matched
+    .map((e) => ({ idx: e.ourSectionIndex as number, id: sectionIds[e.ourSectionIndex as number] }))
+    .filter((s) => targetFor[s.id]);
+
+  if (!workerEnabled) {
+    console.log("\n── PLAN (worker disabled) ─────────────────────────────────");
+    for (const s of evolve) console.log(`  evolve ${s.id.padEnd(18)} → target crop ${path.basename(targetFor[s.id])}`);
+    console.log("\nSet SITC_ENABLE_WORKER=1 to run the autonomous loop (operator action). No edits made.");
+    process.exit(0);
+  }
+
+  // ── LIVE: real collaborators + runFull ──────────────────────────────────────
+  const worktree = new WorktreeManager({ repoRoot: REPO_ROOT });
+  await worktree.createRunBranch(runId);
+  const indexById = Object.fromEntries(evolve.map((s) => [s.id, s.idx]));
+
+  const collab = {
+    mutate: createMutateCollaborator({
+      repoRoot: REPO_ROOT,
+      runner: createClaudeWorker({ model }), // Edit/Write authorized inside authorVariant
+      targetImageFor: (id: string) => targetFor[id],
+      model,
+    }),
+    sanity: (ctx: { worktreePath: string; changedFiles: string[]; strategy: any }) =>
+      sanityGate({ worktreePath: ctx.worktreePath, changedFiles: ctx.changedFiles, strategy: ctx.strategy, checks: createSanityChecks({}) }),
+    render: async (ctx: { worktreePath: string; sectionId: string }) => {
+      const wtTemplate = path.join(ctx.worktreePath, "templates", template, `${template}.json`);
+      const r = await renderSection({ baseUrl: engineUrl, business: template, index: indexById[ctx.sectionId], profilePath: wtTemplate });
+      const out = path.join(artifactsDir, "renders", `${ctx.sectionId}-${Date.now()}.png`);
+      await fs.mkdir(path.dirname(out), { recursive: true });
+      await fs.writeFile(out, r.png);
+      return { ourImg: out };
+    },
+    score: (ctx: { ourImg: string; targetImg: string }) => scoreSection(readRunner, { ourImg: ctx.ourImg, targetImg: ctx.targetImg, model }),
+    judge: (ctx: { champion: string; challenger: string; target: string }) => pairwiseJudge(readRunner, ctx, { model }),
+  };
+
+  const initialStates = evolve.map((s) => ({ sectionId: s.id, strategy: "tune-json" as const, score: 0, threshold: 0.85, attempts: 0, locked: false, frozen: false }));
+
+  const result = await runFull({
+    runId, store, worktree, runner: createClaudeWorker({ model }), owner,
+    seed: { templatePath },
+    targetScreenshots: Object.values(cap.screenshots),
+    targetImgFor: (id) => targetFor[id],
+    collab,
+    initialStates,
+    gates: {
+      // build/validate are real; existing-template SSIM is a documented stub to wire
+      // (render every existing template on the run branch vs develop, diff). See DEPLOY.md.
+      regression: createRegressionChecks({ repoRoot: REPO_ROOT, ssimPairs: async () => [] }),
+      acceptance: createAcceptanceChecks({ url: `${engineUrl}/?business=${template}` }),
+    },
+    budget: run.budgetIterations ? { maxIterations: run.budgetIterations } : undefined,
+    model,
+  });
+
+  console.log(`\n✔ run #${runId} finished: status=${result.finalStatus}  thresholdReached=${result.thresholdReached}  strategies=[${result.strategiesUsed.join(",")}]`);
+  if (result.merged) console.log(`  merged onto develop: ${result.merged.develop}`);
+  process.exit(0);
+}
+
+main().catch((e) => { console.error("sitc-runner failed:", e); process.exit(1); });
