@@ -10,6 +10,15 @@ gaps to close before trusting unattended auto-merge) see [DEPLOY.md](./DEPLOY.md
 > must share one filesystem (the harness renders sections from a worktree file via an
 > absolute `profilePath`). The VPS is also the intended single-lease owner (§13.1) and
 > is always-on.
+>
+> **⚠️ The autonomous edit loop CANNOT run via a local Claude Code session.** The
+> per-section worker spawns `claude -p … --permission-mode acceptEdits` to apply edits
+> headlessly (the runner adds this automatically — `--allowedTools` alone makes a
+> node-spawned claude silently no-op). A Claude Code session's auto-mode classifier
+> **blocks** spawning claude with that permission mode, so the worker can't persist
+> edits there. A plain shell / PM2 process on the VPS has no such classifier — that's
+> the supported way to run the live loop. (Verified empirically: edits succeed in a
+> plain process, are silently dropped when launched through a Claude Code sandbox.)
 
 ---
 

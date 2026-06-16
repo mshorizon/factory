@@ -48,6 +48,13 @@ function buildArgs(prompt: string, opts: WorkerRunOptions): string[] {
   if (opts.model) args.push("--model", opts.model);
   const tools = opts.allowedTools ?? (opts.images?.length ? ["Read"] : undefined);
   if (tools?.length) args.push("--allowedTools", tools.join(","));
+  // A headless, node-spawned `claude -p` with Edit/Write needs an explicit
+  // permission mode — `--allowedTools` alone does NOT auto-apply edits in a
+  // non-interactive nested context, so the worker silently no-ops. acceptEdits
+  // auto-accepts file edits (read/search tools are non-destructive). Read-only
+  // calls (segment/judge) skip this. NOTE: a Claude Code auto-mode classifier
+  // may block spawning with this flag — real runs go on the VPS (plain process).
+  if (tools?.some((t) => t === "Edit" || t === "Write")) args.push("--permission-mode", "acceptEdits");
   return args;
 }
 

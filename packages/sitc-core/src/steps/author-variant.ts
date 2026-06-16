@@ -148,7 +148,10 @@ export async function authorVariant(
 
   const raw = await runner.runJson<unknown>(prompt, {
     images: [input.targetImage, ...(input.currentImage ? [input.currentImage] : [])],
-    allowedTools: ["Read", "Edit", "Write"],
+    // Grep/Glob let the worker locate EXACT strings in large template/component
+    // files before editing — without them, Edit's old_string never matches a
+    // 100KB+ JSON and the worker silently narrates edits it can't apply.
+    allowedTools: ["Read", "Edit", "Write", "Grep", "Glob"],
     workdir: input.workdir,
     model: input.model,
   });
