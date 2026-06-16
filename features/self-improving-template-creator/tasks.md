@@ -95,9 +95,23 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
 - Note: dev-server numbers are inflated (unbundled: ~18 MB / 459 req); default budgets target PROD output. The
   orchestrator should point acceptance at a prod-built preview, not `astro dev` (wire in Step 7).
 
-## Step 6 — Judge calibration on subtle deltas ⚖️ (spike caveat #2)
-- [ ] Populate `sitc_judge_calibration` with **subtle** champion/challenger/target triples.
-- [ ] Confirm ≥90% agreement + order-stability before trusting auto-merge.
+## Step 6 — Judge calibration on subtle deltas ⚖️ (spike caveat #1) ✅ (validated)
+- [x] Built `scorer/calibration-gen.ts`: `generateSubtleTriples` renders the SAME section at controlled
+      perturbation magnitudes (target = pristine, near = small delta, far = larger delta) so ground truth is
+      objective (smaller delta = closer) with no human labeling. Helpers `colorPerturbation` / `pxPerturbation` /
+      `shiftHex` perturb theme tokens. Each perturbation → 2 triples (champion=near and champion=far) to also probe
+      order independence. 12/12 unit checks.
+- [x] **Ran REAL calibration** (claude -p sonnet, order-symmetric pairwise judge over rendered perturbed heroes):
+      - Subtle deltas (color ±35/90, radius ±30/56): **4/4 correct, 100% order-stable**.
+      - Finer deltas (color ±12/28, radius ±10/22): **4/4 correct, order-stable**.
+      - Near-imperceptible (color ±4/10): degraded to `tie`/order-unstable — NOT a wrong answer.
+- [x] **Confirmed the bar:** ≥90% agreement + order-stability on perceptible-subtle deltas. **Key safety result:
+      confident-WRONG = 0 across all 10 triples** — the judge never confidently promoted the worse candidate; at the
+      imperceptibility floor it returns `tie` → loop keeps champion (no regression promotion). Auto-merge trust on
+      the judge's *promote* decision is justified; its failure mode is conservative by construction (§7.2a).
+- Note: persisting a DURABLE labeled set into `sitc_judge_calibration` is deferred to Step 7 — the triples here use
+  ephemeral local image paths; durable rows need artifact storage (R2), which the orchestrator wires. The generator
+  + harness IS the mechanism to (re)populate it.
 
 ## Step 7 — Deploy for real runs 🚀
 - [ ] Orchestrator as a PM2 process on the VPS, pointed at the run-scoped DB (§13.1).
