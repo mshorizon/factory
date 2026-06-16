@@ -99,6 +99,8 @@ export { captureTarget } from "./scorer/capture.js";
 export type { CaptureTargetOptions, CaptureResult } from "./scorer/capture.js";
 export { runCalibration } from "./scorer/calibration.js";
 export type { CalibrationTriple, CalibrationReport, CalibrationItemResult } from "./scorer/calibration.js";
+export { generateSubtleTriples, shiftHex, colorPerturbation, pxPerturbation } from "./scorer/calibration-gen.js";
+export type { PerturbationSpec, GenerateTriplesOptions } from "./scorer/calibration-gen.js";
 
 // ─── pipeline: cold start + tier locking (Phase 3) ───────────────────────────
 export { seedIteration0 } from "./pipeline/cold-start.js";
