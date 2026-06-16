@@ -55,10 +55,26 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
   run's worktree carries the translations dir (the harness loads it). Layout/design fidelity (what the scorer
   judges) is unaffected.
 
-## Step 4 — Target segmentation + alignment 🔬 (riskiest unknown)
-- [ ] Real `segmentTarget` (split target into section bands) + band↔our-section alignment map (DESIGN §4.3).
-- [ ] Validate it works — the spike did NOT prove this (tested fidelity + judge on *gross* differences only).
-      May reshape the loop if weak.
+## Step 4 — Target segmentation + alignment 🔬 (riskiest unknown) ✅ (validated)
+- [x] Hardened `segmentTarget`: better prompt (full-bleed bands, contiguous coverage, height hint) + a
+      deterministic `normalizeBands` pass that turns noisy model y-ranges into a clean gapless, non-overlapping,
+      reindexed top-to-bottom partition. New deterministic `cropBands` (pngjs row-slice → per-section target crops)
+      and `alignSections` (band↔our-section map) + `targetImageMap` / `newSectionCandidates` helpers.
+- [x] **Validated for real** (not just fakes): captured a real 1440×8575 full-page render of `template-specialist`
+      and ran **real `claude -p` (sonnet, Read-only)** segmentation. Result: clean gapless partition, correct
+      top-to-bottom order, hero first, and it nailed the distinctive bands (hero, services, the 120px `ctaBanner`
+      marquee, testimonials). 6/6 structural checks pass + 27/27 deterministic unit checks + 12/12 alignment.
+- [x] **Honest finding → fix:** the VLM labels bands by *appearance*, so our internal types drift
+      (`ref` shared-sections read as `about/features/serviceArea`, `blog` read as `footer`). Pure type-equality
+      alignment would orphan every drifted section. Added an **order-preserving positional second pass**
+      (`fillPositional`, default on): after type-matching, leftover bands↔sections pair by document order. On the
+      REAL segmentation output (8 bands vs 9 ground-truth sections) this yields **8 matched, 0 orphaned, 1 ours-only**
+      — the loop gets a sane target crop per section despite label noise.
+- ⚠️ **Loop did NOT need reshaping**, but two refinements noted (not blocking): (a) positional fill can cross a
+      type-pinned match (valid 1:1 assignment, not strictly order-consistent — make it gap-aware later); (b) full-page
+      capture includes the layout footer as a band with no page-section equivalent → surfaces as a new-section
+      candidate; curation/operator handles it. Optionally feed our section vocabulary+count to `segmentTarget` as a
+      labeling hint to cut drift at the source.
 
 ## Step 5 — Real gate toolchain 🚦
 - [ ] `regressionGate` checks: real `tsc`/build/`test:validate` + render existing templates + SSIM-diff vs

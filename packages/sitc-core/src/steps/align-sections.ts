@@ -17,8 +17,25 @@ export interface OurSection {
   type: string;
 }
 
-export function alignSections(bands: SectionBand[], ourSections: OurSection[]): AlignmentMap {
+export interface AlignOptions {
+  /**
+   * After type-matching, pair leftover bands ↔ leftover sections POSITIONALLY
+   * (both are in document order). Default true. This is load-bearing: the VLM
+   * labels bands by appearance, so our internal types (`ref`, `blog`, …) often
+   * don't match its guess — without positional fill, a mere label mismatch
+   * orphans an otherwise-corresponding section. Set false for strict type-only.
+   */
+  fillPositional?: boolean;
+}
+
+export function alignSections(
+  bands: SectionBand[],
+  ourSections: OurSection[],
+  opts: AlignOptions = {},
+): AlignmentMap {
+  const fillPositional = opts.fillPositional !== false;
   const consumed = new Array<boolean>(ourSections.length).fill(false);
+  const usedBand = new Set<number>();
   const entries: AlignmentEntry[] = [];
 
   let cursor = 0; // sections before this are settled (matched or passed over)
@@ -31,23 +48,34 @@ export function alignSections(bands: SectionBand[], ourSections: OurSection[]): 
       }
     }
     if (matchIdx >= 0) {
-      // sections in [cursor, matchIdx) were skipped → ours-only (nothing in target)
-      for (let i = cursor; i < matchIdx; i++) {
-        if (!consumed[i]) {
-          entries.push({ targetBandIndex: null, ourSectionIndex: i, status: "ours-only" });
-          consumed[i] = true;
-        }
-      }
       entries.push({ targetBandIndex: band.index, ourSectionIndex: matchIdx, status: "matched" });
       consumed[matchIdx] = true;
+      usedBand.add(band.index);
       cursor = matchIdx + 1;
-    } else {
-      // no section of this type ahead → a band the target has and we don't
-      entries.push({ targetBandIndex: band.index, ourSectionIndex: null, status: "target-only" });
+    }
+    // unmatched bands are left for the positional pass (or become target-only)
+  }
+
+  // ── positional second pass: pair leftovers in document order ───────────────
+  // Recovers label-drift cases (e.g. a `ref` section the VLM called `about`):
+  // both the band and the section are unmatched and in order, so pair them.
+  if (fillPositional) {
+    const leftoverBands = bands.filter((b) => !usedBand.has(b.index));
+    const leftoverSecs: number[] = [];
+    for (let i = 0; i < ourSections.length; i++) if (!consumed[i]) leftoverSecs.push(i);
+    const n = Math.min(leftoverBands.length, leftoverSecs.length);
+    for (let k = 0; k < n; k++) {
+      entries.push({ targetBandIndex: leftoverBands[k].index, ourSectionIndex: leftoverSecs[k], status: "matched" });
+      consumed[leftoverSecs[k]] = true;
+      usedBand.add(leftoverBands[k].index);
     }
   }
 
-  // any sections never consumed → ours-only
+  // remaining unmatched bands → target-only (candidate new sections)
+  for (const band of bands) {
+    if (!usedBand.has(band.index)) entries.push({ targetBandIndex: band.index, ourSectionIndex: null, status: "target-only" });
+  }
+  // remaining unmatched sections → ours-only
   for (let i = 0; i < ourSections.length; i++) {
     if (!consumed[i]) entries.push({ targetBandIndex: null, ourSectionIndex: i, status: "ours-only" });
   }
