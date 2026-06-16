@@ -138,7 +138,11 @@ export async function authorVariant(
     "",
     HARD_RULES,
     "",
-    `Make the edits directly in the working tree (use Read/Edit/Write). When done, output NOTHING except ONE JSON object on the last line:`,
+    `Do the work NOW, in this order:`,
+    `1. Read the target screenshot${input.currentImage ? " and the current render" : ""} with the Read tool.`,
+    `2. ACTUALLY EDIT the files with the Edit/Write tools to move the "${kit.sectionType}" section toward the target. You MUST make real on-disk edits — describing or planning changes without writing them is a FAILURE. Apply at least one concrete change unless the section already matches the target, in which case make no edits.`,
+    `3. ONLY after the edits are written, output your final line: ONE JSON object and nothing after it.`,
+    `The JSON (its changedFiles will be cross-checked against the actual git diff — a claim with no matching edit is treated as no-op):`,
     `{"sectionId":"${kit.sectionType}","strategy":"${strategy}","changedFiles":["relative/path",...],"newVariantNames":[...],"summary":"<one line>","selfAssessment":0.0,"risks":[...]}`,
   ].join("\n");
 
