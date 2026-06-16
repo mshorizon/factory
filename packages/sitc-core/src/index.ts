@@ -29,11 +29,18 @@ export type { AssembleKitOptions } from "./steps/authoring-kit.js";
 
 // AI-driven steps (v0 scaffolds)
 export { analyzeTarget } from "./steps/analyze-target.js";
-export { segmentTarget } from "./steps/segment.js";
+export { segmentTarget, normalizeBands } from "./steps/segment.js";
+export type { SegmentOptions } from "./steps/segment.js";
 export { mapSection } from "./steps/map-section.js";
 export type { MapDecision } from "./steps/map-section.js";
 export { authorVariant } from "./steps/author-variant.js";
 export type { AuthorVariantInput } from "./steps/author-variant.js";
+
+// target ingestion: crop bands + align to our sections (DESIGN §4.3)
+export { cropBands } from "./steps/crop-bands.js";
+export type { CroppedBand, CropBandsOptions } from "./steps/crop-bands.js";
+export { alignSections, targetImageMap, newSectionCandidates } from "./steps/align-sections.js";
+export type { OurSection } from "./steps/align-sections.js";
 
 // run-scoped DB seed (DESIGN §13.2)
 export { seedRunDb } from "./steps/seed-run-db.js";
