@@ -31,6 +31,12 @@ export interface MutateCollaboratorOptions {
   currentImageFor?: (sectionId: string) => string | null;
   /** Build an advisory lessons block for this section+critique (DESIGN §9.2). */
   lessonsFor?: (ctx: { sectionId: string; strategy: MutationStrategy; critique?: string }) => Promise<string> | string;
+  /**
+   * Map a (possibly unique) sectionId to the bare engine section TYPE used to
+   * locate component sources, e.g. "hero#0" → "hero". Defaults to identity —
+   * set it when sectionIds are disambiguated with a suffix.
+   */
+  sectionTypeFor?: (sectionId: string) => string;
   model?: string;
   maxSourceChars?: number;
 }
@@ -41,9 +47,10 @@ export interface MutateCollaboratorOptions {
  */
 export function createMutateCollaborator(opts: MutateCollaboratorOptions): SectionCollaborators["mutate"] {
   return async (ctx) => {
+    const sectionType = opts.sectionTypeFor ? opts.sectionTypeFor(ctx.sectionId) : ctx.sectionId;
     const kit = await assembleAuthoringKit({
       repoRoot: ctx.worktreePath,
-      sectionType: ctx.sectionId,
+      sectionType,
       lockedTokens: opts.lockedTokens,
     });
 

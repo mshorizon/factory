@@ -125,6 +125,7 @@ async function main() {
       repoRoot: REPO_ROOT,
       runner: createClaudeWorker({ model }), // Edit/Write authorized inside authorVariant
       targetImageFor: (id: string) => targetFor[id],
+      sectionTypeFor: (id: string) => id.split("#")[0], // "hero#0" → "hero"
       lessonsFor,
       model,
     }),
@@ -151,6 +152,7 @@ async function main() {
     targetImgFor: (id) => targetFor[id],
     collab,
     initialStates,
+    maxWorkers: run.maxWorkers,
     gates: {
       // build/validate are real; existing-template SSIM is a documented stub to wire
       // (render every existing template on the run branch vs develop, diff). See DEPLOY.md.
