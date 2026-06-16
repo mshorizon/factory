@@ -29,15 +29,22 @@ export type { AssembleKitOptions } from "./steps/authoring-kit.js";
 
 // AI-driven steps (v0 scaffolds)
 export { analyzeTarget } from "./steps/analyze-target.js";
-export { segmentTarget } from "./steps/segment.js";
+export { segmentTarget, normalizeBands } from "./steps/segment.js";
+export type { SegmentOptions } from "./steps/segment.js";
 export { mapSection } from "./steps/map-section.js";
 export type { MapDecision } from "./steps/map-section.js";
 export { authorVariant } from "./steps/author-variant.js";
 export type { AuthorVariantInput } from "./steps/author-variant.js";
 
-// phase-1 seam
+// target ingestion: crop bands + align to our sections (DESIGN §4.3)
+export { cropBands } from "./steps/crop-bands.js";
+export type { CroppedBand, CropBandsOptions } from "./steps/crop-bands.js";
+export { alignSections, targetImageMap, newSectionCandidates } from "./steps/align-sections.js";
+export type { OurSection } from "./steps/align-sections.js";
+
+// run-scoped DB seed (DESIGN §13.2)
 export { seedRunDb } from "./steps/seed-run-db.js";
-export type { SeedRunDbOptions } from "./steps/seed-run-db.js";
+export type { SeedRunDbOptions, RunDbSeedFn } from "./steps/seed-run-db.js";
 
 // ─── orchestrator (Phase 1) ──────────────────────────────────────────────────
 export {
@@ -92,6 +99,8 @@ export { captureTarget } from "./scorer/capture.js";
 export type { CaptureTargetOptions, CaptureResult } from "./scorer/capture.js";
 export { runCalibration } from "./scorer/calibration.js";
 export type { CalibrationTriple, CalibrationReport, CalibrationItemResult } from "./scorer/calibration.js";
+export { generateSubtleTriples, shiftHex, colorPerturbation, pxPerturbation } from "./scorer/calibration-gen.js";
+export type { PerturbationSpec, GenerateTriplesOptions } from "./scorer/calibration-gen.js";
 
 // ─── pipeline: cold start + tier locking (Phase 3) ───────────────────────────
 export { seedIteration0 } from "./pipeline/cold-start.js";
@@ -102,6 +111,8 @@ export { lockSharedAtoms } from "./pipeline/atom-pass.js";
 export type { LockSharedAtomsInput, LockSharedAtomsResult, ProposedAtoms } from "./pipeline/atom-pass.js";
 export { lockTiers } from "./pipeline/lock-tiers.js";
 export type { LockTiersInput, LockTiersResult } from "./pipeline/lock-tiers.js";
+export { runFull } from "./pipeline/run.js";
+export type { FullRunInput, FullRunResult } from "./pipeline/run.js";
 
 // ─── loop: per-section sweep (Phase 4) ───────────────────────────────────────
 export { checkAllowlist } from "./loop/allowlist.js";
@@ -121,11 +132,13 @@ export type {
 } from "./loop/section-iteration.js";
 export { runSweep } from "./loop/sweep.js";
 export type { SweepInput, SweepResult } from "./loop/sweep.js";
+export { createMutateCollaborator } from "./loop/mutate-collaborator.js";
+export type { MutateCollaboratorOptions } from "./loop/mutate-collaborator.js";
 
 // ─── learning: semantic lessons store (Phase 6) ──────────────────────────────
 export { SITC_EMBED_DIM } from "./learning/dims.js";
-export { cosineSimilarity, hashingEmbedder, commandEmbedder, defaultEmbedder } from "./learning/embed.js";
-export type { EmbedFn } from "./learning/embed.js";
+export { cosineSimilarity, hashingEmbedder, commandEmbedder, defaultEmbedder, probeEmbedder } from "./learning/embed.js";
+export type { EmbedFn, CommandEmbedderOptions, EmbedProbe } from "./learning/embed.js";
 export { computeConfidence, shouldArchive, CONFIDENCE_FLOOR } from "./learning/confidence.js";
 export type { ConfidenceInput } from "./learning/confidence.js";
 export { InMemoryLessonStore } from "./learning/lesson-store.js";
@@ -148,5 +161,13 @@ export { isAdditiveSchemaChange } from "./delivery/schema-additive.js";
 export type { AdditiveResult } from "./delivery/schema-additive.js";
 export { regressionGate, acceptanceGate } from "./delivery/gates.js";
 export type { GateResult, RegressionChecks, RegressionInput, AcceptanceChecks } from "./delivery/gates.js";
+export { createSanityChecks, createRegressionChecks, createAcceptanceChecks } from "./delivery/checks.js";
+export type {
+  CmdResult,
+  SanityToolchainOptions,
+  RegressionToolchainOptions,
+  AcceptanceToolchainOptions,
+  PerfBudgets,
+} from "./delivery/checks.js";
 export { decideDelivery, mergeRunToDevelop } from "./delivery/delivery.js";
 export type { DeliveryDecision, DeliveryInput, DeliveryRouting, MergeOptions } from "./delivery/delivery.js";

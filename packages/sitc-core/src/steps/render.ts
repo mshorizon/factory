@@ -24,6 +24,14 @@ export interface RenderSectionOptions {
   breakpoint?: Breakpoint;
   /** Settle time (ms) for scroll-reveal entrance after forcing animations to 0. */
   settleMs?: number;
+  /**
+   * Render the run's EVOLVING profile from a working file instead of the DB
+   * (DESIGN §13.2 "working file" path). Absolute path to a template JSON inside
+   * the worktree the worker just edited. The dev-only harness reads it directly,
+   * so the inner loop needs no DB round-trip. `business` is still used to resolve
+   * image refs. Ignored unless the engine harness has filesystem mode enabled.
+   */
+  profilePath?: string;
 }
 
 const FREEZE_CSS =
@@ -33,7 +41,8 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
   const bp = opts.breakpoint ?? DESKTOP_SCORE;
   const page = opts.page ?? "home";
   const index = opts.index ?? 0;
-  const url = `${opts.baseUrl}${HARNESS_ROUTE}?business=${encodeURIComponent(opts.business)}&page=${encodeURIComponent(page)}&index=${index}`;
+  const profileQ = opts.profilePath ? `&profilePath=${encodeURIComponent(opts.profilePath)}` : "";
+  const url = `${opts.baseUrl}${HARNESS_ROUTE}?business=${encodeURIComponent(opts.business)}&page=${encodeURIComponent(page)}&index=${index}${profileQ}`;
 
   const browser = await chromium.launch();
   try {

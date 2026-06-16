@@ -19,6 +19,7 @@
   "packageManager": "pnpm@10.28.0",
   "dependencies": {
     "@mshorizon/schema": "workspace:*",
+    "axe-core": "^4.12.1",
     "pixelmatch": "^7.2.0",
     "playwright": "^1.58.2",
     "pngjs": "^7.0.0"
