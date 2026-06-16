@@ -19,6 +19,13 @@ export interface ServiceCategory {
   label: string;
 }
 
+export interface CategoryGroup {
+  id: string;
+  label: string;
+  categories: string[];
+  showSubTabs?: boolean;
+}
+
 export interface ServicesProps {
   items: ServiceItem[];
   ctaLabel?: string;
@@ -26,7 +33,9 @@ export interface ServicesProps {
   className?: string;
   /** Optional category tabs rendered above the list; selecting one filters items by item.category. */
   categories?: ServiceCategory[];
-  /** Optional id of the category tab selected by default. Falls back to the first tab. */
+  /** Optional groups that aggregate multiple categories into one top-level tab. */
+  categoryGroups?: CategoryGroup[];
+  /** Optional id of the category tab (or group) selected by default. Falls back to the first tab. */
   defaultCategory?: string;
   /** Minimal variant — portfolio-law-style cards (borderless, primaryLight accent line, larger details link). */
   minimal?: boolean;

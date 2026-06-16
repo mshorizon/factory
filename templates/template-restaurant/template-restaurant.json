@@ -346,7 +346,20 @@
               "label": "t:home.menu.cat.desery"
             }
           ],
-          "defaultCategory": "pizza",
+          "categoryGroups": [
+            {
+              "id": "pizza-group",
+              "label": "t:home.menu.cat.pizza-group",
+              "categories": ["pizza", "dodatki"]
+            },
+            {
+              "id": "napoje-group",
+              "label": "t:home.menu.cat.napoje-group",
+              "categories": ["napoje", "lemoniady", "gorace", "koktajle"],
+              "showSubTabs": true
+            }
+          ],
+          "defaultCategory": "pizza-group",
           "items": [
             {
               "id": "crema-pomodoro",

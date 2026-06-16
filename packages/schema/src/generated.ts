@@ -547,8 +547,19 @@ export type TabLabel = string;
  * Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.
  */
 export type ServiceCategoryTabs = ServiceCategory[];
+export type GroupID = string;
+export type GroupTabLabel = string;
+export type ConstituentCategoryIDs = string[];
 /**
- * Optional id of the serviceCategories tab selected by default when the page loads. When omitted, the first tab is selected.
+ * When true, selecting this group tab reveals a second row of sub-tabs for each constituent category.
+ */
+export type ShowSubTabs = boolean;
+/**
+ * Optional groups that aggregate multiple serviceCategories into a single top-level tab. A group with showSubTabs:true renders a second tab row for its constituent categories; without it, items from all constituent categories are shown merged.
+ */
+export type CategoryGroups = CategoryGroup[];
+/**
+ * Optional id of the serviceCategories tab (or categoryGroups group) selected by default when the page loads. When omitted, the first tab is selected.
  */
 export type DefaultCategoryTab = string;
 /**
@@ -990,6 +1001,7 @@ export interface Section {
   scheduleCards?: ScheduleCards;
   items?: Items;
   serviceCategories?: ServiceCategoryTabs;
+  categoryGroups?: CategoryGroups;
   defaultCategory?: DefaultCategoryTab;
   story?: {
     title?: string;
@@ -1096,6 +1108,12 @@ export interface ServiceItem {
 export interface ServiceCategory {
   id: CategoryID;
   label: TabLabel;
+}
+export interface CategoryGroup {
+  id: GroupID;
+  label: GroupTabLabel;
+  categories: ConstituentCategoryIDs;
+  showSubTabs?: ShowSubTabs;
 }
 /**
  * Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.
