@@ -62,6 +62,17 @@ SITC_ENABLE_WORKER=1 pm2 start ecosystem.sitc.config.cjs --only sitc-orchestrato
 pm2 logs sitc-orchestrator
 ```
 
+## 5b. Embeddings (optional — lessons retrieval, DESIGN §9.3)
+The learning system degrades gracefully: with no `SITC_EMBED_CMD` it uses the dependency-free hashing embedder
+(1536-dim) — retrieval still works, just less semantic. To use a real model, set a command that reads text on
+stdin and prints a 1536-dim JSON vector (must match the pgvector column):
+```bash
+export SITC_EMBED_CMD="python3 -c \"import sys,json,openai; print(json.dumps(openai.embeddings.create(model='text-embedding-3-small', input=sys.stdin.read()).data[0].embedding))\""
+```
+The runner runs an **embedder preflight** at startup (`probeEmbedder`) and logs source / dim / latency — a wrong
+dimension or a hung command fails loudly there, before any run work. Output is validated (finite, correct dim) and
+L2-normalized on every call.
+
 ## 6. Teardown
 ```bash
 pnpm sitc:run-db teardown --run <id> --drop-db --delete-branch --yes

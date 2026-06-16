@@ -137,8 +137,8 @@ export type { MutateCollaboratorOptions } from "./loop/mutate-collaborator.js";
 
 // ─── learning: semantic lessons store (Phase 6) ──────────────────────────────
 export { SITC_EMBED_DIM } from "./learning/dims.js";
-export { cosineSimilarity, hashingEmbedder, commandEmbedder, defaultEmbedder } from "./learning/embed.js";
-export type { EmbedFn } from "./learning/embed.js";
+export { cosineSimilarity, hashingEmbedder, commandEmbedder, defaultEmbedder, probeEmbedder } from "./learning/embed.js";
+export type { EmbedFn, CommandEmbedderOptions, EmbedProbe } from "./learning/embed.js";
 export { computeConfidence, shouldArchive, CONFIDENCE_FLOOR } from "./learning/confidence.js";
 export type { ConfidenceInput } from "./learning/confidence.js";
 export { InMemoryLessonStore } from "./learning/lesson-store.js";

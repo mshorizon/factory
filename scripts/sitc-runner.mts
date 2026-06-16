@@ -22,7 +22,10 @@ import path from "node:path";
 import { promises as fs } from "node:fs";
 import { initDb } from "../packages/db/src/client.js";
 import { DrizzleRunStore } from "../packages/db/src/sitc-store.js";
+import { DrizzleLessonStore } from "../packages/db/src/sitc-lesson-store.js";
 import { WorktreeManager } from "../packages/sitc-core/src/orchestrator/worktree.js";
+import { defaultEmbedder, probeEmbedder } from "../packages/sitc-core/src/learning/embed.js";
+import { retrieveLessons, lessonsToPromptBlock } from "../packages/sitc-core/src/learning/retrieval.js";
 import { createClaudeWorker } from "../packages/sitc-core/src/claude-worker.js";
 import { captureTarget } from "../packages/sitc-core/src/scorer/capture.js";
 import { segmentTarget } from "../packages/sitc-core/src/steps/segment.js";
@@ -64,6 +67,11 @@ async function main() {
 
   console.log(`▶ run #${runId}  template=${template}  target=${targetUrl}  owner=${owner}  worker=${workerEnabled ? "LIVE" : "disabled (plan only)"}`);
 
+  // embedder preflight (DESIGN §9.3) — confirms SITC_EMBED_CMD wiring + dim before the run
+  const embed = defaultEmbedder();
+  const probe = await probeEmbedder(embed);
+  console.log(`• embedder: ${probe.source}  dim=${probe.dim}  ${probe.ok ? `ok (${probe.latencyMs}ms)` : `DEGRADED: ${probe.error}`}`);
+
   // ── target ingestion (DESIGN §4.3) ─────────────────────────────────────────
   console.log("• capturing target …");
   const cap = await captureTarget({ url: targetUrl, outDir: path.join(artifactsDir, "target") });
@@ -99,11 +107,25 @@ async function main() {
   await worktree.createRunBranch(runId);
   const indexById = Object.fromEntries(evolve.map((s) => [s.id, s.idx]));
 
+  // lessons retrieval (DESIGN §9.2) — advisory hints into the worker prompt; degrades
+  // to empty (no lessons) if the store is empty or pgvector is unavailable.
+  const lessonStore = new DrizzleLessonStore();
+  const lessonsFor = async (ctx: { sectionId: string; strategy: string; critique?: string }) => {
+    try {
+      const text = `${ctx.sectionId} ${ctx.strategy} ${ctx.critique ?? ""}`.trim();
+      const hits = await retrieveLessons(lessonStore, embed, { scope: ctx.sectionId.split("#")[0], text });
+      return lessonsToPromptBlock(hits);
+    } catch {
+      return "";
+    }
+  };
+
   const collab = {
     mutate: createMutateCollaborator({
       repoRoot: REPO_ROOT,
       runner: createClaudeWorker({ model }), // Edit/Write authorized inside authorVariant
       targetImageFor: (id: string) => targetFor[id],
+      lessonsFor,
       model,
     }),
     sanity: (ctx: { worktreePath: string; changedFiles: string[]; strategy: any }) =>

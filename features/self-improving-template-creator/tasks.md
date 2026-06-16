@@ -135,8 +135,20 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
       `()=>[]` → SSIM 1); (2) point acceptance gate at a PROD-built preview, not `astro dev`; (3) durable calibration
       artifacts in R2; (4) supervised first live `runFull` against a real target.
 
-## Step 8 — Optional / degrades gracefully
-- [ ] Real embedding model via `SITC_EMBED_CMD` (lessons work crudely on the hashing fallback without it).
+## Step 8 — Optional / degrades gracefully ✅
+- [x] Hardened `commandEmbedder` (`learning/embed.ts`): validates output is a non-empty finite numeric array of the
+      **expected dimension** (default `SITC_EMBED_DIM`=1536, = the pgvector column — a mismatch is rejected loudly
+      instead of silently poisoning retrieval / breaking inserts), L2-normalizes, and **times out** a hung command
+      (default 20s). `expectedDim:0` opts out of the dim check.
+- [x] Added `probeEmbedder`: runs the configured embedder on a sample and reports source / dim / latency / error —
+      lets the operator verify `SITC_EMBED_CMD` (and that the model dim matches the DB) before a run.
+- [x] Wired into `sitc-runner.mts`: an embedder **preflight** logs status at startup, and the mutate collaborator's
+      `lessonsFor` now retrieves advisory lessons (`retrieveLessons` + `DrizzleLessonStore` + `defaultEmbedder`) into
+      the worker prompt — degrades to empty if the store is empty or pgvector is unavailable. Example `SITC_EMBED_CMD`
+      (OpenAI text-embedding-3-small) documented in DEPLOY.md §5b.
+- [x] **Verified with real external commands** (11/11): happy path → 1536-dim normalized; wrong dim (768) rejected
+      loudly; `expectedDim:0` accepts any length; non-finite output rejected; hung command times out fast; probe
+      reports ok / flags wrong dim / works on the hashing fallback; cosine geometry sanity (identical→~1, different→lower).
 
 ---
 
