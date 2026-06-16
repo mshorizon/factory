@@ -76,10 +76,24 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
       candidate; curation/operator handles it. Optionally feed our section vocabulary+count to `segmentTarget` as a
       labeling hint to cut drift at the source.
 
-## Step 5 — Real gate toolchain 🚦
-- [ ] `regressionGate` checks: real `tsc`/build/`test:validate` + render existing templates + SSIM-diff vs
-      `develop` baseline (§7.3 backward-compat proof).
-- [ ] `acceptanceGate` checks: real Lighthouse (perf) + axe (a11y) + responsive + hygiene (§7.4).
+## Step 5 — Real gate toolchain 🚦 ✅
+- [x] `delivery/checks.ts`: real implementations of the injected `RegressionChecks`/`AcceptanceChecks`/`SanityCheck`.
+- [x] **Regression (§7.3):** `build`/`validate` spawn the actual repo scripts (`pnpm type-check`, `pnpm test:validate`)
+      in the worktree via execFile (exit-code → ok/fail, stderr tail captured); `existingTemplatesMinSsim` uses the
+      offset-tolerant pixel scorer over injected render/baseline image pairs; import-boundary greps changed
+      `packages/ui` files for forbidden `apps/engine` imports.
+- [x] **Acceptance (§7.4):** real **axe-core** ruleset injected into the page (`axeFailOn` impact filter); perf via
+      Playwright **Core-Web-Vitals** (LCP/CLS) + transfer/request **budgets** — deliberately NOT Lighthouse
+      (its single score is too flaky for a gate; CWV+budgets are reproducible); responsive = no horizontal overflow
+      at mobile+desktop; hygiene = title/lang/img-alt/leaked-`t:`-keys/console-errors.
+- [x] **Verified with real tools** (live engine): 14/14 — real `build()` passes on a clean pkg & detects non-zero
+      exits (captures stderr); SSIM ~1 on identical / <0.9 on different images; `regressionGate` passes clean and
+      fails on an SSIM regression; `perf`/`a11y`/`responsive`/`hygiene` all ran against the rendered site (real axe
+      run, real CWV); tight budget correctly fails perf; empty `axeFailOn` passes a11y (threshold filter works).
+- Decision: chose **axe-core (tiny pure-JS dep) + Playwright CWV** over Lighthouse for a more reproducible gate
+  ("better results"). New dep: `axe-core@4.12.1` in sitc-core.
+- Note: dev-server numbers are inflated (unbundled: ~18 MB / 459 req); default budgets target PROD output. The
+  orchestrator should point acceptance at a prod-built preview, not `astro dev` (wire in Step 7).
 
 ## Step 6 — Judge calibration on subtle deltas ⚖️ (spike caveat #2)
 - [ ] Populate `sitc_judge_calibration` with **subtle** champion/challenger/target triples.

@@ -159,5 +159,13 @@ export { isAdditiveSchemaChange } from "./delivery/schema-additive.js";
 export type { AdditiveResult } from "./delivery/schema-additive.js";
 export { regressionGate, acceptanceGate } from "./delivery/gates.js";
 export type { GateResult, RegressionChecks, RegressionInput, AcceptanceChecks } from "./delivery/gates.js";
+export { createSanityChecks, createRegressionChecks, createAcceptanceChecks } from "./delivery/checks.js";
+export type {
+  CmdResult,
+  SanityToolchainOptions,
+  RegressionToolchainOptions,
+  AcceptanceToolchainOptions,
+  PerfBudgets,
+} from "./delivery/checks.js";
 export { decideDelivery, mergeRunToDevelop } from "./delivery/delivery.js";
 export type { DeliveryDecision, DeliveryInput, DeliveryRouting, MergeOptions } from "./delivery/delivery.js";
