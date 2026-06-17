@@ -148,10 +148,13 @@ export async function authorVariant(
 
   const raw = await runner.runJson<unknown>(prompt, {
     images: [input.targetImage, ...(input.currentImage ? [input.currentImage] : [])],
-    // Grep/Glob let the worker locate EXACT strings in large template/component
-    // files before editing — without them, Edit's old_string never matches a
-    // 100KB+ JSON and the worker silently narrates edits it can't apply.
-    allowedTools: ["Read", "Edit", "Write", "Grep", "Glob"],
+    // Bash (+Grep/Glob) lets the worker locate EXACT strings in large
+    // template/component files before editing — without a search tool, Edit's
+    // old_string never matches a 100KB+ JSON and the worker silently narrates
+    // edits it can't apply. Bash is the proven-effective one. The worker runs in
+    // a disposable isolated worktree and only allowlisted diffs are integrated
+    // (DESIGN §15), so the blast radius stays bounded.
+    allowedTools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob"],
     workdir: input.workdir,
     model: input.model,
   });
