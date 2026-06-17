@@ -200,16 +200,20 @@ export async function authorVariant(
   }
 
   // ── Phase 2: APPLY the plan ─────────────────────────────────────────────────
+  // Purely MECHANICAL — no design framing/hard-rules here (the plan already
+  // respected them; the sanity gate re-enforces on the diff). Re-introducing
+  // analysis here makes the model re-deliberate and skip the edits, so this is
+  // an imperative "execute these exact edits now" prompt, mirroring the proven
+  // direct-edit invocation.
   const applyPrompt = [
-    `Apply the following edit plan to the working tree EXACTLY. Make the real on-disk edits NOW — do not just describe them.`,
-    `Use Grep/Read to locate the exact current strings, then Edit/Write to change them. ${guide.writeBoundary}`,
-    HARD_RULES,
+    `You are a code editor executing a fixed edit list. Do NOT re-evaluate whether the edits are good — just apply them exactly.`,
+    `For EACH edit below: use Grep to find the exact current string in the named file, then use the Edit tool to change it. Make every edit on disk now. Do not skip any.`,
     "",
-    `EDIT PLAN:`,
-    ...plan.edits.map((e, i) => `${i + 1}. [${e.file}] ${e.instruction}`),
-    plan.newVariantNames?.length ? `New variant(s) to add: ${plan.newVariantNames.join(", ")}` : "",
+    `EDITS:`,
+    ...plan.edits.map((e, i) => `${i + 1}. File: ${e.file}\n   Change: ${e.instruction}`),
+    plan.newVariantNames?.length ? `\nAlso create new variant component(s): ${plan.newVariantNames.join(", ")} (new file under packages/ui/src/sections/${kit.sectionType}/, wired into the dispatch).` : "",
     "",
-    `Make every edit above. When finished, briefly state what you changed (free text — no specific format required).`,
+    `When done, list the files you actually edited.`,
   ].filter(Boolean).join("\n");
 
   try {
