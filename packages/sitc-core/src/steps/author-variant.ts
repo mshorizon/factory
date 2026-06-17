@@ -116,6 +116,43 @@ function normalizeVerdict(raw: unknown, kit: AuthoringKit, strategy: MutationStr
   };
 }
 
+/** Phase-1 output: a concrete, groundable edit plan (DESIGN §5.2). */
+interface EditPlan {
+  /** False iff the section already matches OR this strategy genuinely can't help. */
+  feasible: boolean;
+  summary: string;
+  /** Concrete edits — each names a file and a precise, exact-string-level instruction. */
+  edits: { file: string; instruction: string }[];
+  newVariantNames?: string[];
+  risks?: string[];
+}
+
+function normalizePlan(raw: unknown): EditPlan {
+  const v = (raw ?? {}) as Partial<EditPlan>;
+  const edits = Array.isArray(v.edits)
+    ? v.edits.filter((e): e is { file: string; instruction: string } => !!e && typeof e.file === "string" && typeof e.instruction === "string")
+    : [];
+  return {
+    feasible: v.feasible !== false && edits.length > 0,
+    summary: typeof v.summary === "string" ? v.summary : "",
+    edits,
+    newVariantNames: Array.isArray(v.newVariantNames) ? v.newVariantNames.filter((s): s is string => typeof s === "string") : [],
+    risks: Array.isArray(v.risks) ? v.risks.filter((s): s is string => typeof s === "string") : [],
+  };
+}
+
+/**
+ * Two-phase worker (DESIGN §5.2):
+ *   1. ANALYZE — read the target (+ current render) and the kit, produce a
+ *      concrete, file-grounded edit PLAN. Read-only, vision — what the model is
+ *      reliably good at. feasible:false ⇒ no actionable change (the loop escalates).
+ *   2. APPLY — a directive "make exactly these edits" pass with Edit/Bash/Grep —
+ *      the mechanical mode that reliably lands on-disk edits.
+ * Decoupling "decide" from "do" fixes the failure where a single open-ended
+ * prompt analyzes the target then narrates instead of editing. The loop reads
+ * the AUTHORITATIVE changedFiles from the git diff, so the returned verdict is
+ * advisory and a parse failure in either phase degrades to a safe no-op.
+ */
 export async function authorVariant(
   runner: WorkerRunner,
   input: AuthorVariantInput,
@@ -123,51 +160,75 @@ export async function authorVariant(
   const { kit, strategy } = input;
   const guide = STRATEGY_GUIDE[strategy];
   const maxChars = input.maxSourceChars ?? 6000;
+  const images = [input.targetImage, ...(input.currentImage ? [input.currentImage] : [])];
 
-  const prompt = [
-    `You are improving the "${kit.sectionType}" section of a website so it matches a TARGET design as closely as possible.`,
+  // ── Phase 1: ANALYZE → plan ────────────────────────────────────────────────
+  const planPrompt = [
+    `You are planning how to improve the "${kit.sectionType}" section of a website toward a TARGET design.`,
     `Strategy for THIS attempt: ${strategy}.`,
     `Intent: ${guide.intent}`,
     `Write boundary: ${guide.writeBoundary}`,
     "",
-    `You have the TARGET screenshot${input.currentImage ? " and the CURRENT render of our section" : ""} (read them with the Read tool first). Make our section converge toward the target.`,
-    input.critique ? `\nScorer critique to address this attempt:\n${input.critique}` : "",
+    `Read the TARGET screenshot${input.currentImage ? " and the CURRENT render" : ""} (Read tool), and use Grep/Read to ground your plan in the ACTUAL file contents (find the exact current values you'd change).`,
+    input.critique ? `\nScorer critique to address:\n${input.critique}` : "",
     input.lessons ? `\n${input.lessons}` : "",
     "",
     renderKit(kit, maxChars),
     "",
     HARD_RULES,
     "",
-    `Do the work NOW, in this order:`,
-    `1. Read the target screenshot${input.currentImage ? " and the current render" : ""} with the Read tool.`,
-    `2. ACTUALLY EDIT the files with the Edit/Write tools to move the "${kit.sectionType}" section toward the target. You MUST make real on-disk edits — describing or planning changes without writing them is a FAILURE. Apply at least one concrete change unless the section already matches the target, in which case make no edits.`,
-    `3. ONLY after the edits are written, output your final line: ONE JSON object and nothing after it.`,
-    `The JSON (its changedFiles will be cross-checked against the actual git diff — a claim with no matching edit is treated as no-op):`,
-    `{"sectionId":"${kit.sectionType}","strategy":"${strategy}","changedFiles":["relative/path",...],"newVariantNames":[...],"summary":"<one line>","selfAssessment":0.0,"risks":[...]}`,
+    `Produce the SMALLEST set of concrete edits that move our section toward the target under this strategy. Each edit must name a file and an EXACT, unambiguous instruction (the precise current value/string and what to change it to). Prefer one or two high-impact edits.`,
+    `Set feasible:false ONLY if our section already essentially matches the target, OR this strategy genuinely cannot help (a higher strategy will then be tried). Otherwise propose at least one concrete edit.`,
+    `Output NOTHING except ONE JSON object on the last line:`,
+    `{"feasible":true,"summary":"<one line>","edits":[{"file":"templates/.../x.json","instruction":"in the home services section, change \\"variant\\":\\"grid\\" to \\"ServicesDarkCards\\""}],"newVariantNames":[],"risks":[]}`,
   ].join("\n");
 
-  // Tolerate non-JSON output: a worker that decides "no change needed" often
-  // narrates prose instead of the JSON verdict. That must NOT crash the run —
-  // the loop derives the AUTHORITATIVE changedFiles from the git diff, so a
-  // missing/garbled verdict just becomes a no-op (empty changedFiles) and the
-  // section either commits whatever was actually edited or escalates strategy.
-  let raw: unknown = {};
+  let plan: EditPlan;
   try {
-    raw = await runner.runJson<unknown>(prompt, {
-      images: [input.targetImage, ...(input.currentImage ? [input.currentImage] : [])],
-      // Bash (+Grep/Glob) lets the worker locate EXACT strings in large
-      // template/component files before editing — without a search tool, Edit's
-      // old_string never matches a 100KB+ JSON and the worker silently narrates
-      // edits it can't apply. The worker runs in a disposable isolated worktree
-      // and only allowlisted diffs are integrated (DESIGN §15), so blast radius
-      // stays bounded.
+    plan = normalizePlan(await runner.runJson<unknown>(planPrompt, {
+      images,
+      allowedTools: ["Read", "Grep", "Glob"],
+      workdir: input.workdir,
+      model: input.model,
+    }));
+  } catch (e) {
+    return normalizeVerdict({ summary: `plan phase produced no JSON (no-op): ${String(e).slice(0, 90)}` }, kit, strategy);
+  }
+
+  if (!plan.feasible || !plan.edits.length) {
+    return normalizeVerdict({ summary: plan.summary || "no actionable change under this strategy", risks: plan.risks }, kit, strategy);
+  }
+
+  // ── Phase 2: APPLY the plan ─────────────────────────────────────────────────
+  const applyPrompt = [
+    `Apply the following edit plan to the working tree EXACTLY. Make the real on-disk edits NOW — do not just describe them.`,
+    `Use Grep/Read to locate the exact current strings, then Edit/Write to change them. ${guide.writeBoundary}`,
+    HARD_RULES,
+    "",
+    `EDIT PLAN:`,
+    ...plan.edits.map((e, i) => `${i + 1}. [${e.file}] ${e.instruction}`),
+    plan.newVariantNames?.length ? `New variant(s) to add: ${plan.newVariantNames.join(", ")}` : "",
+    "",
+    `Make every edit above. When finished, briefly state what you changed (free text — no specific format required).`,
+  ].filter(Boolean).join("\n");
+
+  try {
+    await runner.run(applyPrompt, {
       allowedTools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob"],
       workdir: input.workdir,
       model: input.model,
     });
   } catch (e) {
-    raw = { summary: `worker output was not valid JSON (treated as no-op): ${String(e).slice(0, 100)}` };
+    // Apply errored — the loop's git diff still captures any partial edits; just
+    // record it. Not fatal.
+    return normalizeVerdict({ summary: `apply phase error (git diff is authoritative): ${String(e).slice(0, 90)}`, risks: plan.risks }, kit, strategy);
   }
 
-  return normalizeVerdict(raw, kit, strategy);
+  return normalizeVerdict({
+    summary: plan.summary,
+    changedFiles: plan.edits.map((e) => e.file),
+    newVariantNames: plan.newVariantNames,
+    risks: plan.risks,
+    selfAssessment: 0.6,
+  }, kit, strategy);
 }
