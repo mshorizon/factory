@@ -82,7 +82,9 @@ export async function runSectionIteration(input: SectionIterationInput): Promise
     // MUTATE
     const m = await collab.mutate({ worktreePath: wt.path, sectionId, strategy, critique: input.critique });
     const sha = await worktree.commitInWorktree(wt.path, `sitc(${sectionId}/${strategy}): ${m.summary ?? "edit"}`);
-    if (!sha) return { outcome: "no-op", challengerSha: null, changedFiles: [] };
+    // Surface the worker's reasoning on a no-op so we can see WHY nothing changed
+    // (plan judged infeasible / already-matches / plan didn't parse, etc.).
+    if (!sha) return { outcome: "no-op", challengerSha: null, changedFiles: [], critique: m.summary };
     const changedFiles = await worktree.changedFiles(wt.path, sha);
 
     // SANITY — allowlist + build + validate, before any render/score
