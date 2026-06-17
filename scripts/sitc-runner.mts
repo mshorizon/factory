@@ -153,6 +153,12 @@ async function main() {
     collab,
     initialStates,
     maxWorkers: run.maxWorkers,
+    onIteration: (sectionId, r) => {
+      const score = r.score ? ` score=${r.score.score.toFixed(3)}` : "";
+      const reason = r.critique ? ` — ${r.critique.slice(0, 120)}` : "";
+      const files = r.changedFiles.length ? ` files=${r.changedFiles.length}` : "";
+      console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${score}${files}${reason}`);
+    },
     gates: {
       // build/validate are real; existing-template SSIM is a documented stub to wire
       // (render every existing template on the run branch vs develop, diff). See DEPLOY.md.

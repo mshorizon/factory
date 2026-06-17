@@ -12,7 +12,7 @@ import type { RunStore } from "../orchestrator/store.js";
 import type { WorktreeManager } from "../orchestrator/worktree.js";
 import { lockTiers } from "./lock-tiers.js";
 import type { SeedOptions } from "./cold-start.js";
-import { runSweep } from "../loop/sweep.js";
+import { runSweep, type SweepInput } from "../loop/sweep.js";
 import type { SectionCollaborators } from "../loop/section-iteration.js";
 import type { SectionState } from "../loop/scheduler.js";
 import { allSettled } from "../loop/scheduler.js";
@@ -43,6 +43,8 @@ export interface FullRunInput {
   maxWorkers?: number;
   budget?: BudgetCaps;
   model?: string;
+  /** Per-iteration observability (outcome/score/reason) for logging. */
+  onIteration?: SweepInput["onIteration"];
 }
 
 export interface FullRunResult {
@@ -94,6 +96,7 @@ async function drive(input: FullRunInput): Promise<FullRunResult> {
     maxWorkers: input.maxWorkers,
     budget: input.budget,
     store: input.store,
+    onIteration: input.onIteration,
   });
 
   // pause/abort short-circuit delivery (§16) — best-so-far is kept on the branch

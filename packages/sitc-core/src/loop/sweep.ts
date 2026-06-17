@@ -88,17 +88,25 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
     await Promise.all(
       picked.map(async (pick) => {
         const st = states.get(pick.sectionId)!;
-        const res = await runSectionIteration({
-          worktree: input.worktree,
-          runId: input.runId,
-          workerId: `r${rounds}-${pick.sectionId}`,
-          sectionId: pick.sectionId,
-          strategy: st.strategy,
-          targetImg: input.targetImgFor(pick.sectionId),
-          championImg: champ[pick.sectionId] ?? null,
-          collab: input.collab,
-          integrateLock: lock,
-        });
+        // Isolate per-section failures: an error in one iteration (worker crash,
+        // render/score throw) degrades to a low-yield no-op for THAT section, it
+        // never aborts the whole sweep.
+        let res: SectionIterationResult;
+        try {
+          res = await runSectionIteration({
+            worktree: input.worktree,
+            runId: input.runId,
+            workerId: `r${rounds}-${pick.sectionId}`,
+            sectionId: pick.sectionId,
+            strategy: st.strategy,
+            targetImg: input.targetImgFor(pick.sectionId),
+            championImg: champ[pick.sectionId] ?? null,
+            collab: input.collab,
+            integrateLock: lock,
+          });
+        } catch (err) {
+          res = { outcome: "no-op", challengerSha: null, changedFiles: [], critique: `iteration error: ${String(err).slice(0, 160)}` };
+        }
         input.onIteration?.(pick.sectionId, res);
 
         if (res.outcome === "promoted") {

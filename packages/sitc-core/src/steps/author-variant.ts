@@ -146,18 +146,28 @@ export async function authorVariant(
     `{"sectionId":"${kit.sectionType}","strategy":"${strategy}","changedFiles":["relative/path",...],"newVariantNames":[...],"summary":"<one line>","selfAssessment":0.0,"risks":[...]}`,
   ].join("\n");
 
-  const raw = await runner.runJson<unknown>(prompt, {
-    images: [input.targetImage, ...(input.currentImage ? [input.currentImage] : [])],
-    // Bash (+Grep/Glob) lets the worker locate EXACT strings in large
-    // template/component files before editing — without a search tool, Edit's
-    // old_string never matches a 100KB+ JSON and the worker silently narrates
-    // edits it can't apply. Bash is the proven-effective one. The worker runs in
-    // a disposable isolated worktree and only allowlisted diffs are integrated
-    // (DESIGN §15), so the blast radius stays bounded.
-    allowedTools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob"],
-    workdir: input.workdir,
-    model: input.model,
-  });
+  // Tolerate non-JSON output: a worker that decides "no change needed" often
+  // narrates prose instead of the JSON verdict. That must NOT crash the run —
+  // the loop derives the AUTHORITATIVE changedFiles from the git diff, so a
+  // missing/garbled verdict just becomes a no-op (empty changedFiles) and the
+  // section either commits whatever was actually edited or escalates strategy.
+  let raw: unknown = {};
+  try {
+    raw = await runner.runJson<unknown>(prompt, {
+      images: [input.targetImage, ...(input.currentImage ? [input.currentImage] : [])],
+      // Bash (+Grep/Glob) lets the worker locate EXACT strings in large
+      // template/component files before editing — without a search tool, Edit's
+      // old_string never matches a 100KB+ JSON and the worker silently narrates
+      // edits it can't apply. The worker runs in a disposable isolated worktree
+      // and only allowlisted diffs are integrated (DESIGN §15), so blast radius
+      // stays bounded.
+      allowedTools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob"],
+      workdir: input.workdir,
+      model: input.model,
+    });
+  } catch (e) {
+    raw = { summary: `worker output was not valid JSON (treated as no-op): ${String(e).slice(0, 100)}` };
+  }
 
   return normalizeVerdict(raw, kit, strategy);
 }
