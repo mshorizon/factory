@@ -153,17 +153,33 @@ function normalizePlan(raw: unknown): EditPlan {
  * the AUTHORITATIVE changedFiles from the git diff, so the returned verdict is
  * advisory and a parse failure in either phase degrades to a safe no-op.
  */
-export async function authorVariant(
+/** Phase 1 in isolation (read-only) — returns the normalized plan + the raw model output (for diagnostics). */
+export async function planEdits(
   runner: WorkerRunner,
   input: AuthorVariantInput,
-): Promise<WorkerVerdict> {
+): Promise<{ plan: EditPlan; raw: unknown }> {
   const { kit, strategy } = input;
   const guide = STRATEGY_GUIDE[strategy];
   const maxChars = input.maxSourceChars ?? 6000;
   const images = [input.targetImage, ...(input.currentImage ? [input.currentImage] : [])];
+  const planPrompt = buildPlanPrompt(kit, strategy, guide, maxChars, input);
+  const raw = await runner.runJson<unknown>(planPrompt, {
+    images,
+    allowedTools: ["Read", "Grep", "Glob"],
+    workdir: input.workdir,
+    model: input.model,
+  });
+  return { plan: normalizePlan(raw), raw };
+}
 
-  // ── Phase 1: ANALYZE → plan ────────────────────────────────────────────────
-  const planPrompt = [
+function buildPlanPrompt(
+  kit: AuthoringKit,
+  strategy: MutationStrategy,
+  guide: { intent: string; writeBoundary: string },
+  maxChars: number,
+  input: AuthorVariantInput,
+): string {
+  return [
     `You are planning how to improve the "${kit.sectionType}" section of a website toward a TARGET design.`,
     `Strategy for THIS attempt: ${strategy}.`,
     `Intent: ${guide.intent}`,
@@ -182,15 +198,18 @@ export async function authorVariant(
     `Output NOTHING except ONE JSON object on the last line:`,
     `{"feasible":true,"summary":"<one line>","edits":[{"file":"templates/.../x.json","instruction":"in the home services section, change \\"variant\\":\\"grid\\" to \\"ServicesDarkCards\\""}],"newVariantNames":[],"risks":[]}`,
   ].join("\n");
+}
 
+export async function authorVariant(
+  runner: WorkerRunner,
+  input: AuthorVariantInput,
+): Promise<WorkerVerdict> {
+  const { kit, strategy } = input;
+
+  // ── Phase 1: ANALYZE → plan (read-only) ────────────────────────────────────
   let plan: EditPlan;
   try {
-    plan = normalizePlan(await runner.runJson<unknown>(planPrompt, {
-      images,
-      allowedTools: ["Read", "Grep", "Glob"],
-      workdir: input.workdir,
-      model: input.model,
-    }));
+    ({ plan } = await planEdits(runner, input));
   } catch (e) {
     return normalizeVerdict({ summary: `plan phase produced no JSON (no-op): ${String(e).slice(0, 90)}` }, kit, strategy);
   }
