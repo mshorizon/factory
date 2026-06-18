@@ -103,7 +103,9 @@ async function main() {
   }
 
   // ── LIVE: real collaborators + runFull ──────────────────────────────────────
-  const worktree = new WorktreeManager({ repoRoot: REPO_ROOT });
+  // Worktrees can live outside the repo (SITC_WORKTREE_ROOT) — required when the
+  // runner's filesystem copy-on-write would otherwise discard in-repo writes.
+  const worktree = new WorktreeManager({ repoRoot: REPO_ROOT, worktreeRoot: process.env.SITC_WORKTREE_ROOT });
   await worktree.createRunBranch(runId);
   const indexById = Object.fromEntries(evolve.map((s) => [s.id, s.idx]));
 
