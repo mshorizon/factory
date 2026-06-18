@@ -63,6 +63,17 @@ export class WorktreeManager {
     return { path: wt, base };
   }
 
+  /**
+   * Soft-reset the worktree to `ref`, keeping working-tree changes. Normalizes
+   * the case where the WORKER committed its own edits (it has Bash): without
+   * this, `commitInWorktree` sees a clean tree and returns null → the loop drops
+   * the work as a no-op. After this, all the worker's changes are uncommitted
+   * again and get captured as one clean integrate commit.
+   */
+  async resetSoftTo(worktreePath: string, ref: string): Promise<void> {
+    await git(["reset", "--soft", ref], worktreePath);
+  }
+
   /** Stage everything and commit in a worktree. Returns the sha, or null if nothing changed. */
   async commitInWorktree(worktreePath: string, message: string): Promise<string | null> {
     await git(["add", "-A"], worktreePath);

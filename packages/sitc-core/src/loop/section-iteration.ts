@@ -81,6 +81,10 @@ export async function runSectionIteration(input: SectionIterationInput): Promise
   try {
     // MUTATE
     const m = await collab.mutate({ worktreePath: wt.path, sectionId, strategy, critique: input.critique });
+    // The worker may have committed its own edits (it has Bash). Soft-reset to the
+    // base so those changes are uncommitted again and get captured below as one
+    // integrate commit — otherwise commitInWorktree sees a clean tree → false no-op.
+    await worktree.resetSoftTo(wt.path, wt.base);
     const sha = await worktree.commitInWorktree(wt.path, `sitc(${sectionId}/${strategy}): ${m.summary ?? "edit"}`);
     // Surface the worker's reasoning on a no-op so we can see WHY nothing changed
     // (plan judged infeasible / already-matches / plan didn't parse, etc.).
