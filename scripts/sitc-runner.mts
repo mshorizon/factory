@@ -155,7 +155,7 @@ async function main() {
     maxWorkers: run.maxWorkers,
     onIteration: (sectionId, r) => {
       const score = r.score ? ` score=${r.score.score.toFixed(3)}` : "";
-      const reason = r.critique ? ` — ${r.critique.slice(0, 120)}` : "";
+      const reason = r.critique ? ` — ${r.critique.slice(0, 240).replace(/\s+/g, " ")}` : "";
       const files = r.changedFiles.length ? ` files=${r.changedFiles.length}` : "";
       console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${score}${files}${reason}`);
     },

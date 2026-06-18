@@ -47,6 +47,7 @@ export interface SweepResult {
 export async function runSweep(input: SweepInput): Promise<SweepResult> {
   const states = new Map(input.initialStates.map((s) => [s.sectionId, { ...s }]));
   const champ: Record<string, string | null> = { ...(input.championImg ?? {}) };
+  const critiques: Record<string, string | undefined> = {};
   const lock = createMutex();
   const maxWorkers = input.maxWorkers ?? 3;
   const maxRounds = input.maxRounds ?? 50;
@@ -101,6 +102,10 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
             strategy: st.strategy,
             targetImg: input.targetImgFor(pick.sectionId),
             championImg: champ[pick.sectionId] ?? null,
+            // Feed the prior attempt's failure (sanity error / scorer critique)
+            // back so the worker FIXES it next time (e.g. a type error from a
+            // rejected edit) instead of the loop escalating away blindly.
+            critique: critiques[pick.sectionId],
             collab: input.collab,
             integrateLock: lock,
           });
@@ -108,6 +113,8 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
           res = { outcome: "no-op", challengerSha: null, changedFiles: [], critique: `iteration error: ${String(err).slice(0, 160)}` };
         }
         input.onIteration?.(pick.sectionId, res);
+        // remember the critique for the section's next attempt (cleared on promote)
+        critiques[pick.sectionId] = res.outcome === "promoted" ? "" : res.critique ?? critiques[pick.sectionId];
 
         if (res.outcome === "promoted") {
           promotions++;
