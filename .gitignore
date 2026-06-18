@@ -160,3 +160,5 @@ screenshots/
 !.claude/skills/
 !.claude/CLAUDE.md
 .mcp.json
+# SITC run artifacts (target captures, crops, renders, worktrees)
+.sitc/
