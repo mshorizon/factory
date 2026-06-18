@@ -94,6 +94,17 @@ export class WorktreeManager {
         /* no node_modules to link here — skip */
       }
     }
+    // The repo's .gitignore uses `node_modules/` (dir-only), which does NOT match
+    // the symlinks we just made, so `git add -A` would stage them and trip the
+    // write-allowlist. Add a name-only pattern to this worktree's git exclude so
+    // git ignores the symlinks entirely (keeps status/diff clean).
+    try {
+      const excludeRel = (await git(["rev-parse", "--git-path", "info/exclude"], worktreePath)).trim();
+      const excludePath = path.isAbsolute(excludeRel) ? excludeRel : path.join(worktreePath, excludeRel);
+      await fs.appendFile(excludePath, "\nnode_modules\n**/node_modules\n");
+    } catch {
+      /* exclude not writable — fall back relies on commit-time filtering */
+    }
   }
 
   /**
