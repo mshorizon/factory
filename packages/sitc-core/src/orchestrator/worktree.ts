@@ -60,7 +60,40 @@ export class WorktreeManager {
     const wt = path.join(this.worktreeRoot, `run-${runId}`, workerId);
     await fs.mkdir(path.dirname(wt), { recursive: true });
     await git(["worktree", "add", "--detach", wt, base], this.repoRoot);
+    await this.linkNodeModules(wt);
     return { path: wt, base };
+  }
+
+  /**
+   * Symlink `node_modules` from the main repo into the worktree (root + every
+   * workspace package). Git worktrees don't carry node_modules (gitignored), so
+   * without this the sanity build's `tsc`/turbo fails with "command not found"
+   * and reverts otherwise-valid edits. Symlinks are cheap and point at absolute
+   * paths in the main repo, so they resolve from any worktree location.
+   */
+  async linkNodeModules(worktreePath: string): Promise<void> {
+    const relDirs = new Set<string>([""]);
+    for (const group of ["apps", "packages"]) {
+      try {
+        for (const name of await fs.readdir(path.join(this.repoRoot, group))) {
+          relDirs.add(path.join(group, name));
+        }
+      } catch {
+        /* group missing — skip */
+      }
+    }
+    for (const rel of relDirs) {
+      const src = path.join(this.repoRoot, rel, "node_modules");
+      const dst = path.join(worktreePath, rel, "node_modules");
+      try {
+        await fs.access(src); // only link where the main repo actually has deps
+        await fs.rm(dst, { recursive: true, force: true }).catch(() => {});
+        await fs.mkdir(path.dirname(dst), { recursive: true });
+        await fs.symlink(src, dst, "dir");
+      } catch {
+        /* no node_modules to link here — skip */
+      }
+    }
   }
 
   /**
