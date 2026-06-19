@@ -32,7 +32,7 @@ import { captureTarget } from "../packages/sitc-core/src/scorer/capture.js";
 import { segmentTarget } from "../packages/sitc-core/src/steps/segment.js";
 import { cropBands } from "../packages/sitc-core/src/steps/crop-bands.js";
 import { alignSections, targetImageMap } from "../packages/sitc-core/src/steps/align-sections.js";
-import { renderSection } from "../packages/sitc-core/src/steps/render.js";
+import { renderSection, harnessUrl } from "../packages/sitc-core/src/steps/render.js";
 import { scoreSection } from "../packages/sitc-core/src/scorer/score.js";
 import { pairwiseJudge } from "../packages/sitc-core/src/scorer/pairwise.js";
 import { sanityGate } from "../packages/sitc-core/src/loop/sanity.js";
@@ -147,9 +147,13 @@ async function main() {
       sanityGate({ worktreePath: ctx.worktreePath, changedFiles: ctx.changedFiles, strategy: ctx.strategy, checks: createSanityChecks({}), templateName: template }),
     render: async (ctx: { worktreePath: string; sectionId: string }) => {
       // Render against THIS worktree's engine so the worker's component edits show.
-      const baseUrl = await engines.ensure(ctx.worktreePath);
       const wtTemplate = path.join(ctx.worktreePath, "templates", template, `${template}.json`);
-      const r = await renderSection({ baseUrl, business: template, index: indexById[ctx.sectionId], profilePath: wtTemplate });
+      const index = indexById[ctx.sectionId];
+      // Warm-up compiles the EXACT section page (serialized across engines) so the
+      // screenshot below doesn't race a cold Vite compile under worker concurrency.
+      const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: wtTemplate });
+      const baseUrl = await engines.ensure(ctx.worktreePath, { warmupUrl });
+      const r = await renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: 90000 });
       const out = path.join(artifactsDir, "renders", `${ctx.sectionId}-${Date.now()}.png`);
       await fs.mkdir(path.dirname(out), { recursive: true });
       await fs.writeFile(out, r.png);

@@ -32,6 +32,16 @@ export interface RenderSectionOptions {
    * image refs. Ignored unless the engine harness has filesystem mode enabled.
    */
   profilePath?: string;
+  /** Max wait for the section node to be visible (ms). Default 30s; raise for cold engines. */
+  waitForMs?: number;
+}
+
+/** Build the harness URL for a section — shared by render + engine warm-up so they hit the SAME route. */
+export function harnessUrl(opts: { baseUrl: string; business: string; page?: string; index?: number; profilePath?: string }): string {
+  const page = opts.page ?? "home";
+  const index = opts.index ?? 0;
+  const profileQ = opts.profilePath ? `&profilePath=${encodeURIComponent(opts.profilePath)}` : "";
+  return `${opts.baseUrl}${HARNESS_ROUTE}?business=${encodeURIComponent(opts.business)}&page=${encodeURIComponent(page)}&index=${index}${profileQ}`;
 }
 
 const FREEZE_CSS =
@@ -41,8 +51,7 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
   const bp = opts.breakpoint ?? DESKTOP_SCORE;
   const page = opts.page ?? "home";
   const index = opts.index ?? 0;
-  const profileQ = opts.profilePath ? `&profilePath=${encodeURIComponent(opts.profilePath)}` : "";
-  const url = `${opts.baseUrl}${HARNESS_ROUTE}?business=${encodeURIComponent(opts.business)}&page=${encodeURIComponent(page)}&index=${index}${profileQ}`;
+  const url = harnessUrl(opts);
 
   const browser = await chromium.launch();
   try {
@@ -55,7 +64,7 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
     await pg.goto(url, { waitUntil: "networkidle", timeout: 60000 });
     await pg.evaluate(() => (document as Document).fonts?.ready);
     const el = pg.locator(`[data-section-index="0"]`).first();
-    await el.waitFor({ state: "visible", timeout: 30000 });
+    await el.waitFor({ state: "visible", timeout: opts.waitForMs ?? 30000 });
     await el.scrollIntoViewIfNeeded();
     await pg.addStyleTag({ content: FREEZE_CSS });
     await pg.waitForTimeout(opts.settleMs ?? 700);

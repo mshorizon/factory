@@ -59,15 +59,21 @@ export class EngineManager {
     this.log = opts.log ?? (() => {});
   }
 
-  /** Get (or start) the render engine for a worktree; returns its base URL. */
-  async ensure(worktreePath: string): Promise<string> {
+  /**
+   * Get (or start) the render engine for a worktree; returns its base URL.
+   * `warmupUrl` (the exact section page that will be screenshotted) is compiled
+   * before returning — SERIALIZED with startup, so only one cold Vite compile
+   * runs at a time. Without this, N workers cold-compile concurrently and every
+   * screenshot's visibility-wait times out (the run-#22 failure mode).
+   */
+  async ensure(worktreePath: string, opts: { warmupUrl?: string } = {}): Promise<string> {
     const existing = this.engines.get(worktreePath);
     if (existing) {
       existing.lastUsed = ++this.clock;
       return existing.baseUrl;
     }
-    // Serialize startup to avoid two engines racing for the same port.
-    const result = this.startChain.then(() => this.start(worktreePath));
+    // Serialize startup + warm-up to avoid port races AND concurrent cold compiles.
+    const result = this.startChain.then(() => this.start(worktreePath, opts.warmupUrl));
     this.startChain = result.then(
       () => undefined,
       () => undefined,
@@ -81,7 +87,7 @@ export class EngineManager {
     throw new Error("EngineManager: no free port in range");
   }
 
-  private async start(worktreePath: string): Promise<string> {
+  private async start(worktreePath: string, warmupUrl?: string): Promise<string> {
     // Evict the least-recently-used engine if at capacity.
     if (this.engines.size >= this.maxEngines) {
       const lru = [...this.engines.values()].sort((a, b) => a.lastUsed - b.lastUsed)[0];
@@ -118,7 +124,32 @@ export class EngineManager {
 
     this.log(`engine ↑ port ${port} (${path.basename(path.dirname(worktreePath))}/${path.basename(worktreePath)})`);
     await this.waitReady(baseUrl, () => exited);
+    // Compile the actual section page now (serialized) so the screenshot pass is warm.
+    if (warmupUrl) {
+      const wu = warmupUrl.replace(/^https?:\/\/[^/]+/, baseUrl); // retarget to this engine's port
+      await this.warmup(wu, () => exited);
+    }
     return baseUrl;
+  }
+
+  /** Poll the real section page until it compiles + emits the section node (or times out). */
+  private async warmup(url: string, exited: () => string | null): Promise<void> {
+    const deadline = Date.now() + this.readyTimeoutMs;
+    while (Date.now() < deadline) {
+      if (exited()) return; // engine died — let the render surface the error
+      try {
+        const res = await fetch(url, { signal: AbortSignal.timeout(30_000) });
+        if (res.status === 200) {
+          const html = await res.text();
+          if (html.includes('data-section-index="0"')) return; // compiled + section present
+        } else {
+          await res.text().catch(() => {});
+        }
+      } catch {
+        /* still compiling */
+      }
+      await new Promise((r) => setTimeout(r, 700));
+    }
   }
 
   /** Astro reads .env from its project dir; worktrees don't carry it (gitignored). */
