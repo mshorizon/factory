@@ -39,6 +39,16 @@ export default defineConfig({
     resolve: {
       alias: {
         '@mshorizon/db': resolve(__dirname, '../../packages/db/src/index.ts'),
+        // SITC render engine only (gated): force @mshorizon/ui to resolve to THIS
+        // tree's source so a per-worktree engine renders the worker's edited
+        // components instead of the main repo's. __dirname is the worktree's
+        // apps/engine when the engine is launched from inside a worktree, so the
+        // relative path lands on the worktree's packages/ui. Dir target (not a
+        // single index file) so bare AND subpath imports (@mshorizon/ui/sections/…)
+        // both resolve. No-op for the normal dev/prod engine.
+        ...(process.env.SITC_RENDER_ENGINE === '1'
+          ? { '@mshorizon/ui': resolve(__dirname, '../../packages/ui/src') }
+          : {}),
       },
     },
     ssr: {

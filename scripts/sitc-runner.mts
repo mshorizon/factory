@@ -24,6 +24,7 @@ import { initDb } from "../packages/db/src/client.js";
 import { DrizzleRunStore } from "../packages/db/src/sitc-store.js";
 import { DrizzleLessonStore } from "../packages/db/src/sitc-lesson-store.js";
 import { WorktreeManager } from "../packages/sitc-core/src/orchestrator/worktree.js";
+import { EngineManager } from "../packages/sitc-core/src/orchestrator/engine-manager.js";
 import { defaultEmbedder, probeEmbedder } from "../packages/sitc-core/src/learning/embed.js";
 import { retrieveLessons, lessonsToPromptBlock } from "../packages/sitc-core/src/learning/retrieval.js";
 import { createClaudeWorker } from "../packages/sitc-core/src/claude-worker.js";
@@ -107,6 +108,17 @@ async function main() {
   // runner's filesystem copy-on-write would otherwise discard in-repo writes.
   const worktree = new WorktreeManager({ repoRoot: REPO_ROOT, worktreeRoot: process.env.SITC_WORKTREE_ROOT });
   await worktree.createRunBranch(runId);
+
+  // Per-worktree render engine (DESIGN §4.4 fidelity fix): each challenger is
+  // screenshotted through an engine launched FROM its own worktree, so edits to
+  // packages/ui (extend-variant / new-variant / new-section) are actually
+  // rendered. Without this the scorer judged the unchanged base. LRU-capped to
+  // the worker count so we never run more engines than concurrent iterations.
+  const engines = new EngineManager({
+    repoRoot: REPO_ROOT,
+    maxEngines: (run.maxWorkers ?? 3) + 1,
+    log: (m) => console.log(`  ⚙ ${m}`),
+  });
   const indexById = Object.fromEntries(evolve.map((s) => [s.id, s.idx]));
 
   // lessons retrieval (DESIGN §9.2) — advisory hints into the worker prompt; degrades
@@ -134,8 +146,10 @@ async function main() {
     sanity: (ctx: { worktreePath: string; changedFiles: string[]; strategy: any }) =>
       sanityGate({ worktreePath: ctx.worktreePath, changedFiles: ctx.changedFiles, strategy: ctx.strategy, checks: createSanityChecks({}), templateName: template }),
     render: async (ctx: { worktreePath: string; sectionId: string }) => {
+      // Render against THIS worktree's engine so the worker's component edits show.
+      const baseUrl = await engines.ensure(ctx.worktreePath);
       const wtTemplate = path.join(ctx.worktreePath, "templates", template, `${template}.json`);
-      const r = await renderSection({ baseUrl: engineUrl, business: template, index: indexById[ctx.sectionId], profilePath: wtTemplate });
+      const r = await renderSection({ baseUrl, business: template, index: indexById[ctx.sectionId], profilePath: wtTemplate });
       const out = path.join(artifactsDir, "renders", `${ctx.sectionId}-${Date.now()}.png`);
       await fs.mkdir(path.dirname(out), { recursive: true });
       await fs.writeFile(out, r.png);
@@ -171,6 +185,7 @@ async function main() {
     model,
   });
 
+  await engines.stopAll();
   console.log(`\n✔ run #${runId} finished: status=${result.finalStatus}  thresholdReached=${result.thresholdReached}  strategies=[${result.strategiesUsed.join(",")}]`);
   if (result.merged) console.log(`  merged onto develop: ${result.merged.develop}`);
   process.exit(0);
