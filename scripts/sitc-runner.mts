@@ -47,7 +47,7 @@ async function main() {
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) throw new Error("DATABASE_URL required (control DB)");
   const engineUrl = process.env.SITC_ENGINE_URL ?? "http://localhost:4321";
-  const model = process.env.SITC_MODEL ?? "opus";
+  const model = process.env.SITC_MODEL ?? "sonnet";
   const workerEnabled = process.env.SITC_ENABLE_WORKER === "1";
   const owner = arg("owner") ?? "vps";
   const runId = Number(arg("run"));
@@ -119,6 +119,20 @@ async function main() {
     maxEngines: (run.maxWorkers ?? 3) + 1,
     log: (m) => console.log(`  ⚙ ${m}`),
   });
+
+  // Reliable teardown — without this a crash/Ctrl-C leaks per-worktree astro dev
+  // engines (+ their vite/esbuild children), which compounded across runs until
+  // the machine saturated (load 24) and every render timed out.
+  let cleanedUp = false;
+  const cleanup = async () => {
+    if (cleanedUp) return;
+    cleanedUp = true;
+    await engines.stopAll().catch(() => {});
+    await worktree.teardown(runId, {}).catch(() => {});
+  };
+  for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"] as const) {
+    process.once(sig, () => void cleanup().finally(() => process.exit(130)));
+  }
   const indexById = Object.fromEntries(evolve.map((s) => [s.id, s.idx]));
 
   // lessons retrieval (DESIGN §9.2) — advisory hints into the worker prompt; degrades
@@ -153,7 +167,7 @@ async function main() {
       // screenshot below doesn't race a cold Vite compile under worker concurrency.
       const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: wtTemplate });
       const baseUrl = await engines.ensure(ctx.worktreePath, { warmupUrl });
-      const r = await renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: 90000 });
+      const r = await renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: 240000 });
       const out = path.join(artifactsDir, "renders", `${ctx.sectionId}-${Date.now()}.png`);
       await fs.mkdir(path.dirname(out), { recursive: true });
       await fs.writeFile(out, r.png);
@@ -165,7 +179,9 @@ async function main() {
 
   const initialStates = evolve.map((s) => ({ sectionId: s.id, strategy: "tune-json" as const, score: 0, threshold: 0.85, attempts: 0, locked: false, frozen: false }));
 
-  const result = await runFull({
+  let result;
+  try {
+    result = await runFull({
     runId, store, worktree, runner: createClaudeWorker({ model }), owner,
     seed: { templatePath },
     targetScreenshots: Object.values(cap.screenshots),
@@ -187,9 +203,13 @@ async function main() {
     },
     budget: run.budgetIterations ? { maxIterations: run.budgetIterations } : undefined,
     model,
-  });
+    });
+  } catch (e) {
+    await cleanup();
+    throw e;
+  }
 
-  await engines.stopAll();
+  await cleanup();
   console.log(`\n✔ run #${runId} finished: status=${result.finalStatus}  thresholdReached=${result.thresholdReached}  strategies=[${result.strategiesUsed.join(",")}]`);
   if (result.merged) console.log(`  merged onto develop: ${result.merged.develop}`);
   process.exit(0);

@@ -26,7 +26,8 @@ export interface EngineManagerOptions {
   basePort?: number;
   /** Max concurrently-running engines before the least-recently-used is stopped. Default 5. */
   maxEngines?: number;
-  /** Readiness/health probe timeout per engine (ms). Default 90s (cold Vite compile). */
+  /** Readiness/health + warm-up timeout per engine (ms). Default 240s — cold Vite
+   * compile can be slow on a contended machine (antivirus scan, other dev daemons). */
   readyTimeoutMs?: number;
   /** Optional sink for engine lifecycle logs. */
   log?: (msg: string) => void;
@@ -55,7 +56,7 @@ export class EngineManager {
     this.repoRoot = opts.repoRoot;
     this.basePort = opts.basePort ?? 4400;
     this.maxEngines = opts.maxEngines ?? 5;
-    this.readyTimeoutMs = opts.readyTimeoutMs ?? 90_000;
+    this.readyTimeoutMs = opts.readyTimeoutMs ?? 240_000;
     this.log = opts.log ?? (() => {});
   }
 
@@ -108,6 +109,9 @@ export class EngineManager {
         BROWSER: "none",
       },
       stdio: ["ignore", "pipe", "pipe"],
+      // Own process group so stop() can kill astro + its vite/esbuild children
+      // together — orphaned children were what saturated the machine across runs.
+      detached: true,
     });
     proc.stdout?.on("data", () => {});
     proc.stderr?.on("data", () => {});
@@ -185,13 +189,23 @@ export class EngineManager {
     if (!e) return;
     this.engines.delete(worktreePath);
     this.log(`engine ↓ port ${e.port}`);
+    const kill = (sig: NodeJS.Signals) => {
+      // Negative pid → signal the whole process group (astro + vite + esbuild).
+      try {
+        if (e.proc.pid) process.kill(-e.proc.pid, sig);
+      } catch {
+        try {
+          e.proc.kill(sig);
+        } catch {
+          /* already gone */
+        }
+      }
+    };
     await new Promise<void>((resolve) => {
-      const done = () => resolve();
-      e.proc.once("exit", done);
-      e.proc.kill("SIGTERM");
-      // Hard-kill if it doesn't die promptly.
+      e.proc.once("exit", () => resolve());
+      kill("SIGTERM");
       setTimeout(() => {
-        e.proc.kill("SIGKILL");
+        kill("SIGKILL");
         resolve();
       }, 4000);
     });
