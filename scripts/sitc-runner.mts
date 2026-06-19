@@ -46,7 +46,7 @@ async function main() {
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) throw new Error("DATABASE_URL required (control DB)");
   const engineUrl = process.env.SITC_ENGINE_URL ?? "http://localhost:4321";
-  const model = process.env.SITC_MODEL ?? "sonnet";
+  const model = process.env.SITC_MODEL ?? "opus";
   const workerEnabled = process.env.SITC_ENABLE_WORKER === "1";
   const owner = arg("owner") ?? "vps";
   const runId = Number(arg("run"));
