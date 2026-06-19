@@ -82,6 +82,9 @@ export function createClaudeWorker(config: ClaudeWorkerConfig = {}): WorkerRunne
         return map(extractResult(await exec(args, merged.workdir ?? merged.cwd)));
       } catch (e) {
         lastErr = e;
+        // Back off before retrying — transient API/rate-limit blips under worker
+        // concurrency otherwise burn all attempts instantly (the run-#23 failure).
+        if (i < retries) await new Promise((r) => setTimeout(r, 3000 * (i + 1) + Math.floor(Math.random() * 1500)));
       }
     }
     throw new Error(`claudeWorker gave up after ${retries + 1} attempts: ${String(lastErr).slice(0, 200)}`);
