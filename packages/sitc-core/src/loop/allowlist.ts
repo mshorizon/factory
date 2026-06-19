@@ -22,7 +22,19 @@ function isForbidden(f: string): boolean {
   );
 }
 
-const isTemplateJson = (f: string) => /^templates\/[^/]+\/[^/]+\.json$/.test(f);
+/**
+ * Template-JSON matcher, SCOPED to the run's own template when `templateName` is
+ * given — a worker must NEVER edit another business's template (it would corrupt
+ * an unrelated live site). With no name, falls back to "any template" (used by
+ * the one-shot clone skill / tests).
+ */
+function templateJsonMatcher(templateName?: string): (f: string) => boolean {
+  if (templateName) {
+    const prefix = `templates/${templateName}/`;
+    return (f) => f.startsWith(prefix) && f.endsWith(".json");
+  }
+  return (f) => /^templates\/[^/]+\/[^/]+\.json$/.test(f);
+}
 const isUiSectionOrAtom = (f: string) => /^packages\/ui\/src\/(sections|atoms)\//.test(f);
 const isDispatchBranch = (f: string) =>
   /^apps\/engine\/src\/components\/sections\/[A-Za-z]+Section\.astro$/.test(f);
@@ -30,7 +42,8 @@ const isSchema = (f: string) => f === "packages/schema/src/business.schema.json"
 const isDispatcherRegistry = (f: string) => f === "apps/engine/src/components/SectionDispatcher.astro";
 const isPagesDefaults = (f: string) => f === "apps/engine/src/lib/pages.ts";
 
-function allowFor(strategy: MutationStrategy): (f: string) => boolean {
+function allowFor(strategy: MutationStrategy, templateName?: string): (f: string) => boolean {
+  const isTemplateJson = templateJsonMatcher(templateName);
   switch (strategy) {
     case "tune-json":
       return isTemplateJson;
@@ -53,9 +66,18 @@ export interface AllowlistResult {
   violations: string[];
 }
 
+export interface AllowlistOptions {
+  /** Scope template-JSON writes to ONLY this template's dir (the run's template). */
+  templateName?: string;
+}
+
 /** Check a challenger's changed files against the allowlist for its strategy. */
-export function checkAllowlist(changedFiles: string[], strategy: MutationStrategy): AllowlistResult {
-  const allow = allowFor(strategy);
+export function checkAllowlist(
+  changedFiles: string[],
+  strategy: MutationStrategy,
+  opts: AllowlistOptions = {},
+): AllowlistResult {
+  const allow = allowFor(strategy, opts.templateName);
   const violations = changedFiles.filter((f) => isForbidden(f) || !allow(f));
   return { allowed: violations.length === 0, violations };
 }

@@ -26,6 +26,8 @@ export interface SanityInput {
   changedFiles: string[];
   strategy: MutationStrategy;
   checks: SanityCheck;
+  /** Scope template-JSON writes to the run's own template (other templates → violation). */
+  templateName?: string;
 }
 
 export interface SanityResult {
@@ -36,7 +38,7 @@ export interface SanityResult {
 
 export async function sanityGate(input: SanityInput): Promise<SanityResult> {
   // 1. allowlist (first, non-negotiable)
-  const allow = checkAllowlist(input.changedFiles, input.strategy);
+  const allow = checkAllowlist(input.changedFiles, input.strategy, { templateName: input.templateName });
   if (!allow.allowed) {
     return { ok: false, stage: "allowlist", reason: `write-allowlist violation: ${allow.violations.join(", ")}` };
   }

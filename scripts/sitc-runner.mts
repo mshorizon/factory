@@ -132,7 +132,7 @@ async function main() {
       model,
     }),
     sanity: (ctx: { worktreePath: string; changedFiles: string[]; strategy: any }) =>
-      sanityGate({ worktreePath: ctx.worktreePath, changedFiles: ctx.changedFiles, strategy: ctx.strategy, checks: createSanityChecks({}) }),
+      sanityGate({ worktreePath: ctx.worktreePath, changedFiles: ctx.changedFiles, strategy: ctx.strategy, checks: createSanityChecks({}), templateName: template }),
     render: async (ctx: { worktreePath: string; sectionId: string }) => {
       const wtTemplate = path.join(ctx.worktreePath, "templates", template, `${template}.json`);
       const r = await renderSection({ baseUrl: engineUrl, business: template, index: indexById[ctx.sectionId], profilePath: wtTemplate });
