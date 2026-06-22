@@ -105,8 +105,11 @@ export class EngineManager {
       cwd: engineDir,
       env: {
         ...process.env,
-        SITC_RENDER_ENGINE: "1", // unlocks the worktree @mshorizon/ui alias
+        SITC_RENDER_ENGINE: "1", // unlocks the worktree @mshorizon/ui + @/ aliases
         SITC_HARNESS_FS: "1", // allow profilePath reads even if DEV is somehow unset
+        // Isolated vite cache per engine — never share the main repo's (symlinked)
+        // node_modules/.vite, which causes config-change re-optimize + resolution failures.
+        SITC_VITE_CACHE_DIR: path.join("/tmp/sitc-vite-cache", `${port}`),
         PORT: String(port),
         BROWSER: "none",
       },

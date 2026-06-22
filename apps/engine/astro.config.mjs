@@ -36,6 +36,13 @@ export default defineConfig({
   },
 
   vite: {
+    // SITC render engines symlink node_modules from the main repo, so they'd share
+    // its node_modules/.vite cache — which, with the render-engine's different config,
+    // forces a "config changed" re-optimize that poisons/conflicts. Give each render
+    // engine its own cache dir (set per-worktree by EngineManager).
+    ...(process.env.SITC_RENDER_ENGINE === '1' && process.env.SITC_VITE_CACHE_DIR
+      ? { cacheDir: process.env.SITC_VITE_CACHE_DIR }
+      : {}),
     resolve: {
       alias: {
         '@mshorizon/db': resolve(__dirname, '../../packages/db/src/index.ts'),
@@ -47,7 +54,15 @@ export default defineConfig({
         // single index file) so bare AND subpath imports (@mshorizon/ui/sections/…)
         // both resolve. No-op for the normal dev/prod engine.
         ...(process.env.SITC_RENDER_ENGINE === '1'
-          ? { '@mshorizon/ui': resolve(__dirname, '../../packages/ui/src') }
+          ? {
+              '@mshorizon/ui': resolve(__dirname, '../../packages/ui/src'),
+              // The SITC_RENDER_ENGINE config change forces Vite to re-optimize
+              // deps, which re-scans the WHOLE app (incl. the admin panel). That
+              // scan doesn't honor the tsconfig "@/*" path alias, so it fails to
+              // resolve the admin/shadcn imports → FailedToLoadModuleSSR on every
+              // page. Make "@/" an explicit alias so the scan resolves it.
+              '@/': resolve(__dirname, 'src') + '/',
+            }
           : {}),
       },
     },

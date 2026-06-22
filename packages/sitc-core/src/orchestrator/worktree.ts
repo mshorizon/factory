@@ -57,7 +57,10 @@ export class WorktreeManager {
    */
   async addWorkerWorktree(runId: string | number, workerId: string): Promise<{ path: string; base: string }> {
     const base = await this.champion(runId);
-    const wt = path.join(this.worktreeRoot, `run-${runId}`, workerId);
+    // Sanitize the dir name — "#" (from section ids like "hero#0") trips Vite,
+    // which treats it as a URL-fragment delimiter in module paths.
+    const safeId = String(workerId).replace(/[^A-Za-z0-9._-]/g, "-");
+    const wt = path.join(this.worktreeRoot, `run-${runId}`, safeId);
     await fs.mkdir(path.dirname(wt), { recursive: true });
     await git(["worktree", "add", "--detach", wt, base], this.repoRoot);
     await this.linkNodeModules(wt);
