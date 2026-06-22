@@ -116,6 +116,8 @@ export async function runSectionIteration(input: SectionIterationInput): Promise
     }
     return { outcome: "reverted", challengerSha: sha, changedFiles, score, ourImg, critique: score.vlm.critique };
   } finally {
-    await worktree.removeWorktree(wt.path);
+    // Debug: keep the worktree so a failed edit can be inspected alongside the
+    // engine log (set SITC_KEEP_FAILED_WORKTREE=1). Off by default.
+    if (process.env.SITC_KEEP_FAILED_WORKTREE !== "1") await worktree.removeWorktree(wt.path);
   }
 }

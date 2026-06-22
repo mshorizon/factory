@@ -27,6 +27,7 @@ interface HeroSacrumProps extends HeroProps {
   titleAccent?: string;
   scheduleCards?: ScheduleCard[];
   badgeColor?: string;
+  badgeLineOnly?: boolean;
 }
 
 function CardIcon({ name }: { name?: string }) {
@@ -52,6 +53,7 @@ export function HeroSacrum({
   backgroundImage,
   titleAccent,
   scheduleCards = [],
+  badgeLineOnly = false,
   className,
   isHomePage = false,
 }: HeroSacrumProps) {
@@ -69,20 +71,22 @@ export function HeroSacrum({
       <div className="container mx-auto">
         <div className="grid gap-spacing-2xl lg:grid-cols-[1fr_1fr] items-start">
           <div className="flex flex-col">
-            {badge && (
+            {(badge || badgeLineOnly) && (
               <ScrollReveal direction="up" delay={0}>
                 <div className="flex items-center gap-spacing-sm mb-spacing-lg">
                   <span
                     className="w-8 h-[2px]"
                     style={{ backgroundColor: resolvedBadgeColor }}
                   />
-                  <span
-                    className="text-[13px] font-medium uppercase tracking-[0.18em]"
-                    style={{ color: resolvedBadgeColor }}
-                    data-field="header.badge"
-                  >
-                    {badge}
-                  </span>
+                  {badge && !badgeLineOnly && (
+                    <span
+                      className="text-[13px] font-medium uppercase tracking-[0.18em]"
+                      style={{ color: resolvedBadgeColor }}
+                      data-field="header.badge"
+                    >
+                      {badge}
+                    </span>
+                  )}
                 </div>
               </ScrollReveal>
             )}

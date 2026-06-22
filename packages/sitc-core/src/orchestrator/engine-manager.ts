@@ -47,6 +47,7 @@ export class EngineManager {
   private readonly maxEngines: number;
   private readonly readyTimeoutMs: number;
   private readonly log: (msg: string) => void;
+  private readonly logDir: string;
   private readonly engines = new Map<string, Engine>();
   /** Serialize start() so concurrent callers don't grab the same port. */
   private startChain: Promise<unknown> = Promise.resolve();
@@ -58,6 +59,7 @@ export class EngineManager {
     this.maxEngines = opts.maxEngines ?? 5;
     this.readyTimeoutMs = opts.readyTimeoutMs ?? 240_000;
     this.log = opts.log ?? (() => {});
+    this.logDir = process.env.SITC_ENGINE_LOG_DIR ?? "/tmp/sitc-engine-logs";
   }
 
   /**
@@ -113,8 +115,15 @@ export class EngineManager {
       // together — orphaned children were what saturated the machine across runs.
       detached: true,
     });
-    proc.stdout?.on("data", () => {});
-    proc.stderr?.on("data", () => {});
+    // Capture engine output to a per-port log so SSR errors (FailedToLoadModuleSSR
+    // etc.) are diagnosable — the HTTP 500 body is uselessly terse.
+    const tag = `${path.basename(path.dirname(worktreePath))}-${path.basename(worktreePath)}`;
+    const logPath = path.join(this.logDir, `engine-${tag}.log`);
+    await fs.mkdir(this.logDir, { recursive: true }).catch(() => {});
+    await fs.writeFile(logPath, `# ${worktreePath}\n`).catch(() => {});
+    const append = (b: Buffer) => void fs.appendFile(logPath, b).catch(() => {});
+    proc.stdout?.on("data", append);
+    proc.stderr?.on("data", append);
 
     const baseUrl = `http://127.0.0.1:${port}`;
     const engine: Engine = { worktreePath, port, baseUrl, proc, lastUsed: ++this.clock };
