@@ -93,6 +93,18 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
     await el.waitFor({ state: "visible", timeout: opts.waitForMs ?? 30000 });
     await el.scrollIntoViewIfNeeded();
     await pg.addStyleTag({ content: FREEZE_CSS });
+    // Force scroll-reveal / entrance content to its FINAL visible state. Sections
+    // use framer-motion (initial opacity:0 + translate, often staggered); CSS
+    // freezing doesn't touch those JS-set inline styles, so content stays invisible
+    // in the screenshot and the scorer judges a blank section. Reveal it.
+    await pg.evaluate(() => {
+      for (const n of Array.from(document.querySelectorAll<HTMLElement>("[data-section-index] *"))) {
+        const s = n.style;
+        if (s.opacity && parseFloat(s.opacity) < 1) s.opacity = "1";
+        if (s.transform && s.transform !== "none") s.transform = "none";
+        if (s.visibility === "hidden") s.visibility = "visible";
+      }
+    });
     await pg.waitForTimeout(opts.settleMs ?? 700);
     // Strip fixed/sticky chrome (out of flow → does not shift the section).
     await pg.evaluate(() => {
