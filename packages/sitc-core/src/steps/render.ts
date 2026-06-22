@@ -61,8 +61,34 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
       reducedMotion: "reduce",
     });
     const pg = await ctx.newPage();
-    await pg.goto(url, { waitUntil: "networkidle", timeout: 60000 });
+    const resp = await pg.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+    // FAIL FAST on a broken edit: a runtime error in the worker's component makes
+    // Astro SSR return 500. Surface it immediately (→ revert + feeds the worker's
+    // next critique) instead of hanging until the visibility timeout.
+    if (resp && resp.status() >= 400) {
+      // Raw SSR body carries Astro's error message + stack (the rendered DOM is
+      // empty at domcontentloaded). Strip tags to a readable snippet for the critique.
+      const raw = await resp.text().catch(() => "");
+      const text = raw.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      throw new Error(`render HTTP ${resp.status()} (index ${index}): ${text.slice(0, 400)}`);
+    }
     await pg.evaluate(() => (document as Document).fonts?.ready);
+    // Wait for the section node OR a Vite/Astro error overlay — whichever appears first.
+    const outcome = await pg
+      .waitForFunction(
+        () =>
+          document.querySelector('[data-section-index="0"]')
+            ? "ok"
+            : document.querySelector("vite-error-overlay")
+              ? "error"
+              : false,
+        { timeout: opts.waitForMs ?? 30000 },
+      )
+      .then((h) => h.jsonValue() as Promise<string>);
+    if (outcome === "error") {
+      const msg = await pg.evaluate(() => document.querySelector("vite-error-overlay")?.shadowRoot?.textContent ?? "").catch(() => "");
+      throw new Error(`render error overlay (index ${index}): ${String(msg).replace(/\s+/g, " ").trim().slice(0, 300)}`);
+    }
     const el = pg.locator(`[data-section-index="0"]`).first();
     await el.waitFor({ state: "visible", timeout: opts.waitForMs ?? 30000 });
     await el.scrollIntoViewIfNeeded();

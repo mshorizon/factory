@@ -139,6 +139,7 @@ export class EngineManager {
   /** Poll the real section page until it compiles + emits the section node (or times out). */
   private async warmup(url: string, exited: () => string | null): Promise<void> {
     const deadline = Date.now() + this.readyTimeoutMs;
+    let serverErrors = 0;
     while (Date.now() < deadline) {
       if (exited()) return; // engine died — let the render surface the error
       try {
@@ -146,11 +147,20 @@ export class EngineManager {
         if (res.status === 200) {
           const html = await res.text();
           if (html.includes('data-section-index="0"')) return; // compiled + section present
+          serverErrors = 0;
+        } else if (res.status >= 500) {
+          // Compiled but the page throws (e.g. a broken worker edit). Cold compile
+          // yields connection-refused/hangs, NOT 500s — so a couple of consecutive
+          // 500s mean a real render error: stop polling and let render surface it
+          // fast (→ revert) instead of burning the full readyTimeout.
+          await res.text().catch(() => {});
+          if (++serverErrors >= 2) return;
         } else {
           await res.text().catch(() => {});
+          serverErrors = 0;
         }
       } catch {
-        /* still compiling */
+        serverErrors = 0; // connection refused / abort = still compiling
       }
       await new Promise((r) => setTimeout(r, 700));
     }
