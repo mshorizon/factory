@@ -79,8 +79,15 @@ async function main() {
   const desktopShot = cap.screenshots.desktop;
   const readRunner = createClaudeWorker({ model });
   console.log("• segmenting target …");
+  // Prefer DOM-measured section boundaries (accurate + complete) over VLM pixel
+  // guesses (which under-segment a multi-section page and mis-align everything).
+  // Fall back to VLM segmentation only if DOM extraction found < 2 sections.
   // raw bands; cropBands re-normalizes against the true decoded image height.
-  const bands = await segmentTarget(readRunner, desktopShot, { model });
+  const bands =
+    cap.domBands.length >= 2
+      ? cap.domBands.map((b, i) => ({ index: i, type: "unknown", yStart: b.yStart, yEnd: b.yEnd }))
+      : await segmentTarget(readRunner, desktopShot, { model });
+  console.log(`  segmentation: ${cap.domBands.length >= 2 ? `DOM (${cap.domBands.length} sections)` : "VLM fallback"}`);
   const crops = await cropBands({ screenshotPath: desktopShot, bands, outDir: path.join(artifactsDir, "crops") });
   const cropPaths = Object.fromEntries(crops.map((c) => [c.band.index, c.path]));
   // align against the SAME normalized bands that were cropped.

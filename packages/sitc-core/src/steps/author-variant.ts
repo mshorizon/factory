@@ -66,7 +66,7 @@ const STRATEGY_GUIDE: Record<MutationStrategy, { intent: string; writeBoundary: 
   },
   "new-variant": {
     intent:
-      "Author a NEW variant component (new file) alongside the existing ones, wire it into the <Type>Section.astro dispatch, and select it from the template JSON. Follow the dispatch wiring pattern shown below exactly. Do not modify existing variants.",
+      "Author a NEW variant component (new file) alongside the existing ones, wire it into the <Type>Section.astro dispatch, and select it from the template JSON. Follow the dispatch wiring pattern shown below exactly. Do not modify existing variants. You are here because cheaper strategies were exhausted — COMMIT to building the new variant; do not decline because it's a big change.",
     writeBoundary:
       "You may edit ONLY: templates/<name>/<name>.json, packages/ui/src/{sections,atoms}/** (new files preferred), and the matching apps/engine/src/components/sections/<Type>Section.astro dispatch.",
   },
@@ -206,7 +206,7 @@ function buildPlanPrompt(
     HARD_RULES,
     "",
     `Produce the SMALLEST set of concrete edits that move our section toward the target under this strategy. Each edit must name a file and an EXACT, unambiguous instruction (the precise current value/string and what to change it to). Prefer one or two high-impact edits.`,
-    `Set feasible:false ONLY if our section already essentially matches the target, OR this strategy genuinely cannot help (a higher strategy will then be tried). Otherwise propose at least one concrete edit.`,
+    `Set feasible:false ONLY if our section ALREADY essentially matches the target. Do NOT set feasible:false merely because the change is large, structural, or requires new component code — at ${strategy}, authoring that code IS the job (cheaper strategies were already tried and exhausted). "Needs a component change" is a reason to MAKE the edit here, not to decline.`,
     `Output NOTHING except ONE JSON object on the last line:`,
     `{"feasible":true,"summary":"<one line>","edits":[{"file":"templates/${input.templateName}/${input.templateName}.json","instruction":"in the home services section, change \\"variant\\":\\"grid\\" to \\"ServicesDarkCards\\""}],"newVariantNames":[],"risks":[]}`,
   ].join("\n");
