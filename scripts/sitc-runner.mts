@@ -154,6 +154,7 @@ async function main() {
       runner: createClaudeWorker({ model }), // Edit/Write authorized inside authorVariant
       targetImageFor: (id: string) => targetFor[id],
       sectionTypeFor: (id: string) => id.split("#")[0], // "hero#0" → "hero"
+      templateName: template, // worker may edit ONLY this template's JSON
       lessonsFor,
       model,
     }),

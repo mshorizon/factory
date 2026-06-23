@@ -37,6 +37,8 @@ export interface MutateCollaboratorOptions {
    * set it when sectionIds are disambiguated with a suffix.
    */
   sectionTypeFor?: (sectionId: string) => string;
+  /** The run's template (e.g. "template-sacrum") — scopes the worker to its own JSON. */
+  templateName: string;
   model?: string;
   maxSourceChars?: number;
 }
@@ -66,6 +68,7 @@ export function createMutateCollaborator(opts: MutateCollaboratorOptions): Secti
       critique: ctx.critique,
       lessons: lessons || undefined,
       workdir: ctx.worktreePath,
+      templateName: opts.templateName,
       model: opts.model,
       maxSourceChars: opts.maxSourceChars,
     });

@@ -33,6 +33,9 @@ export interface AuthorVariantInput {
   lessons?: string;
   /** Isolated git worktree the worker may write in (DESIGN §5.4). */
   workdir: string;
+  /** The run's template (e.g. "template-sacrum"). The worker may edit ONLY this
+   *  template's JSON — editing another template fails the sanity gate (wasted attempt). */
+  templateName: string;
   model?: string;
   /** Max chars of a single source file to inline before truncating. */
   maxSourceChars?: number;
@@ -127,10 +130,17 @@ interface EditPlan {
   risks?: string[];
 }
 
-function normalizePlan(raw: unknown): EditPlan {
+function normalizePlan(raw: unknown, templateName?: string): EditPlan {
   const v = (raw ?? {}) as Partial<EditPlan>;
+  // Foreign-template edits (templates/<other>/…) always fail the sanity gate, so
+  // drop them from the plan — don't waste the apply+render on a doomed attempt.
+  const foreignTemplate = (f: string) =>
+    !!templateName && /^templates\//.test(f) && !f.startsWith(`templates/${templateName}/`);
   const edits = Array.isArray(v.edits)
-    ? v.edits.filter((e): e is { file: string; instruction: string } => !!e && typeof e.file === "string" && typeof e.instruction === "string")
+    ? v.edits.filter(
+        (e): e is { file: string; instruction: string } =>
+          !!e && typeof e.file === "string" && typeof e.instruction === "string" && !foreignTemplate(e.file),
+      )
     : [];
   return {
     feasible: v.feasible !== false && edits.length > 0,
@@ -162,14 +172,15 @@ export async function planEdits(
   const guide = STRATEGY_GUIDE[strategy];
   const maxChars = input.maxSourceChars ?? 6000;
   const images = [input.targetImage, ...(input.currentImage ? [input.currentImage] : [])];
-  const planPrompt = buildPlanPrompt(kit, strategy, guide, maxChars, input);
+  const scopedGuide = { ...guide, writeBoundary: guide.writeBoundary.replace(/<name>/g, input.templateName) };
+  const planPrompt = buildPlanPrompt(kit, strategy, scopedGuide, maxChars, input);
   const raw = await runner.runJson<unknown>(planPrompt, {
     images,
     allowedTools: ["Read", "Grep", "Glob"],
     workdir: input.workdir,
     model: input.model,
   });
-  return { plan: normalizePlan(raw), raw };
+  return { plan: normalizePlan(raw, input.templateName), raw };
 }
 
 function buildPlanPrompt(
@@ -181,6 +192,7 @@ function buildPlanPrompt(
 ): string {
   return [
     `You are planning how to improve the "${kit.sectionType}" section of a website toward a TARGET design.`,
+    `This run's template is "${input.templateName}". You may edit ONLY templates/${input.templateName}/${input.templateName}.json — NEVER any other template (e.g. template-specialist, template-restaurant). Editing a foreign template FAILS the sanity gate and wastes the attempt. Every JSON edit path you propose MUST start with "templates/${input.templateName}/".`,
     `Strategy for THIS attempt: ${strategy}.`,
     `Intent: ${guide.intent}`,
     `Write boundary: ${guide.writeBoundary}`,
@@ -196,7 +208,7 @@ function buildPlanPrompt(
     `Produce the SMALLEST set of concrete edits that move our section toward the target under this strategy. Each edit must name a file and an EXACT, unambiguous instruction (the precise current value/string and what to change it to). Prefer one or two high-impact edits.`,
     `Set feasible:false ONLY if our section already essentially matches the target, OR this strategy genuinely cannot help (a higher strategy will then be tried). Otherwise propose at least one concrete edit.`,
     `Output NOTHING except ONE JSON object on the last line:`,
-    `{"feasible":true,"summary":"<one line>","edits":[{"file":"templates/.../x.json","instruction":"in the home services section, change \\"variant\\":\\"grid\\" to \\"ServicesDarkCards\\""}],"newVariantNames":[],"risks":[]}`,
+    `{"feasible":true,"summary":"<one line>","edits":[{"file":"templates/${input.templateName}/${input.templateName}.json","instruction":"in the home services section, change \\"variant\\":\\"grid\\" to \\"ServicesDarkCards\\""}],"newVariantNames":[],"risks":[]}`,
   ].join("\n");
 }
 
@@ -226,6 +238,7 @@ export async function authorVariant(
   // direct-edit invocation.
   const applyPrompt = [
     `You are a code editor executing a fixed edit list. Do NOT re-evaluate whether the edits are good — just apply them exactly.`,
+    `This run's template is "${input.templateName}". The ONLY template JSON you may touch is templates/${input.templateName}/${input.templateName}.json — never any other template.`,
     `For EACH edit below: use Grep to find the exact current string in the named file, then use the Edit tool to change it. Make every edit on disk now. Do not skip any.`,
     "",
     `EDITS:`,
