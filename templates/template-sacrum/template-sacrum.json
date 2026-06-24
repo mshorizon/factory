@@ -116,12 +116,10 @@
         {
           "title": "Kontakt",
           "links": [
-            { "label": "Parafia Św. Józefa", "target": { "type": "external", "value": "#" } },
-            { "label": "ul. Kościelna 1", "target": { "type": "external", "value": "#" } },
-            { "label": "83-034 Trąbki Wielkie", "target": { "type": "external", "value": "#" } },
+            { "label": "Parafia Św. Józefa\nul. Kościelna 1\n83-034 Trąbki Wielkie", "target": { "type": "external", "value": "geo:54.21,18.51?q=Parafia Św. Józefa, Trąbki Wielkie" } },
             { "label": "+48 58 582 71 23", "target": { "type": "phone", "value": "+48585827123" } },
             { "label": "parafia@trabki.pl", "target": { "type": "email", "value": "parafia@trabki.pl" } },
-            { "label": "Kancelaria parafialna: Pon–Pt: 9:00–11:00, Wt, Czw: 16:00–17:00", "target": { "type": "external", "value": "#" } }
+            { "label": "Kancelaria parafialna:\nPon–Pt: 9:00 – 11:00\nWt, Czw: 16:00 – 17:00", "target": { "type": "external", "value": "#hours" } }
           ]
         },
         {

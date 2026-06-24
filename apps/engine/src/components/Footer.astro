@@ -101,6 +101,7 @@ const contactIcons: Record<string, string> = {
   phone: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>',
   mail: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>',
   mapPin: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>',
+  clock: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>',
 };
 
 // Larger, outlined (stroke-based) contact icons for the restaurant footer variant
@@ -112,6 +113,8 @@ const restaurantContactIcons: Record<string, string> = {
 function getContactIcon(href: string): string | null {
   if (href.startsWith('tel:')) return contactIcons.phone;
   if (href.startsWith('mailto:')) return contactIcons.mail;
+  if (href.startsWith('geo:')) return contactIcons.mapPin;
+  if (href.startsWith('#hours')) return contactIcons.clock;
   if (href.includes('maps') || href.includes('google.com/maps')) return contactIcons.mapPin;
   return null;
 }
@@ -439,7 +442,7 @@ const languages = [
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-spacing-2xl lg:gap-spacing-3xl">
           {effectiveColumns.map((column, colIndex) => (
             <div>
-              <h3 class:list={["text-on-primary mb-spacing-md", columnHeadingVariant === "serif" ? "font-heading text-2xl tracking-tight" : "text-xs font-medium uppercase tracking-widest"]}>{column.title}</h3>
+              <h3 class:list={["text-on-primary mb-spacing-md", (columnHeadingVariant === "serif" || !!findUsTitle) ? "font-heading text-2xl tracking-tight" : "text-xs font-medium uppercase tracking-widest"]}>{column.title}</h3>
               <ul class="space-y-spacing-sm">
                 {column.links.map((link, linkIndex) => {
                   const isIBAN = /^[A-Z]{2}\s?\d{2}[\s\d]{15,}/.test(link.label);
@@ -482,11 +485,11 @@ const languages = [
                       {icon ? (
                         <a href={link.href} class="flex items-start gap-spacing-sm text-on-primary/75 hover:text-on-primary text-sm transition-colors">
                           <span class="shrink-0 mt-0.5 text-primary" set:html={icon} />
-                          {link.label}
+                          {link.label.includes("\n") ? link.label.split("\n").map((line) => <span class="block">{line}</span>) : link.label}
                         </a>
                       ) : (
                         <a href={link.href} class="text-on-primary/75 hover:text-on-primary text-sm transition-colors">
-                          {link.label}
+                          {link.label.includes("\n") ? link.label.split("\n").map((line) => <span class="block">{line}</span>) : link.label}
                         </a>
                       )}
                     </li>
