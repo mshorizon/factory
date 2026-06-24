@@ -38,6 +38,9 @@ function templateJsonMatcher(templateName?: string): (f: string) => boolean {
 const isUiSectionOrAtom = (f: string) => /^packages\/ui\/src\/(sections|atoms)\//.test(f);
 const isDispatchBranch = (f: string) =>
   /^apps\/engine\/src\/components\/sections\/[A-Za-z]+Section\.astro$/.test(f);
+/** Global-chrome dispatch (navbar/footer evolve units edit these, not a *Section.astro). */
+const isChromeDispatch = (f: string) =>
+  f === "apps/engine/src/components/Navbar.astro" || f === "apps/engine/src/components/Footer.astro";
 const isSchema = (f: string) => f === "packages/schema/src/business.schema.json";
 const isDispatcherRegistry = (f: string) => f === "apps/engine/src/components/SectionDispatcher.astro";
 const isPagesDefaults = (f: string) => f === "apps/engine/src/lib/pages.ts";
@@ -49,12 +52,13 @@ function allowFor(strategy: MutationStrategy, templateName?: string): (f: string
       return isTemplateJson;
     case "extend-variant":
     case "new-variant":
-      return (f) => isTemplateJson(f) || isUiSectionOrAtom(f) || isDispatchBranch(f);
+      return (f) => isTemplateJson(f) || isUiSectionOrAtom(f) || isDispatchBranch(f) || isChromeDispatch(f);
     case "new-section":
       return (f) =>
         isTemplateJson(f) ||
         isUiSectionOrAtom(f) ||
         isDispatchBranch(f) ||
+        isChromeDispatch(f) ||
         isSchema(f) ||
         isDispatcherRegistry(f) ||
         isPagesDefaults(f);

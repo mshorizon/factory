@@ -34,14 +34,17 @@ export interface RenderSectionOptions {
   profilePath?: string;
   /** Max wait for the section node to be visible (ms). Default 30s; raise for cold engines. */
   waitForMs?: number;
+  /** Render a global-chrome unit (navbar/footer) in isolation instead of a page section. */
+  chrome?: "navbar" | "footer";
 }
 
 /** Build the harness URL for a section — shared by render + engine warm-up so they hit the SAME route. */
-export function harnessUrl(opts: { baseUrl: string; business: string; page?: string; index?: number; profilePath?: string }): string {
+export function harnessUrl(opts: { baseUrl: string; business: string; page?: string; index?: number; profilePath?: string; chrome?: "navbar" | "footer" }): string {
   const page = opts.page ?? "home";
   const index = opts.index ?? 0;
   const profileQ = opts.profilePath ? `&profilePath=${encodeURIComponent(opts.profilePath)}` : "";
-  return `${opts.baseUrl}${HARNESS_ROUTE}?business=${encodeURIComponent(opts.business)}&page=${encodeURIComponent(page)}&index=${index}${profileQ}`;
+  const chromeQ = opts.chrome ? `&chrome=${opts.chrome}` : "";
+  return `${opts.baseUrl}${HARNESS_ROUTE}?business=${encodeURIComponent(opts.business)}&page=${encodeURIComponent(page)}&index=${index}${profileQ}${chromeQ}`;
 }
 
 const FREEZE_CSS =
@@ -106,13 +109,24 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
       }
     });
     await pg.waitForTimeout(opts.settleMs ?? 700);
-    // Strip fixed/sticky chrome (out of flow → does not shift the section).
-    await pg.evaluate(() => {
-      for (const n of Array.from(document.querySelectorAll<HTMLElement>("body *"))) {
-        const pos = getComputedStyle(n).position;
-        if (pos === "fixed" || pos === "sticky") n.style.display = "none";
-      }
-    });
+    if (opts.chrome) {
+      // Chrome mode: the navbar IS fixed/sticky — convert it to static so it's
+      // in-flow and the wrapper has real height to screenshot (don't hide it).
+      await pg.evaluate(() => {
+        for (const n of Array.from(document.querySelectorAll<HTMLElement>("[data-sitc-chrome] *"))) {
+          const pos = getComputedStyle(n).position;
+          if (pos === "fixed" || pos === "sticky") n.style.position = "static";
+        }
+      });
+    } else {
+      // Strip fixed/sticky chrome (out of flow → does not shift the section).
+      await pg.evaluate(() => {
+        for (const n of Array.from(document.querySelectorAll<HTMLElement>("body *"))) {
+          const pos = getComputedStyle(n).position;
+          if (pos === "fixed" || pos === "sticky") n.style.display = "none";
+        }
+      });
+    }
     await pg.waitForTimeout(120);
     const box = await el.boundingBox();
     const png = await el.screenshot({ animations: "disabled" });

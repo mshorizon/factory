@@ -54,14 +54,18 @@ export interface AssembleKitOptions {
   lockedTokens?: Partial<Theme> & Record<string, unknown>;
 }
 
+/** Global-chrome units dispatch from a different path than page sections. */
+const CHROME_DISPATCH: Record<string, string> = {
+  navbar: "apps/engine/src/components/Navbar.astro",
+  footer: "apps/engine/src/components/Footer.astro",
+};
+
 export async function assembleAuthoringKit(opts: AssembleKitOptions): Promise<AuthoringKit> {
   const { repoRoot, sectionType } = opts;
   const sectionDir = path.join(repoRoot, "packages/ui/src/sections", sectionType);
-  const dispatchPath = path.join(
-    repoRoot,
-    "apps/engine/src/components/sections",
-    `${pascalCase(sectionType)}Section.astro`,
-  );
+  const dispatchPath = CHROME_DISPATCH[sectionType]
+    ? path.join(repoRoot, CHROME_DISPATCH[sectionType])
+    : path.join(repoRoot, "apps/engine/src/components/sections", `${pascalCase(sectionType)}Section.astro`);
 
   const existingVariants: Record<string, string> = {};
   let entries: string[] = [];

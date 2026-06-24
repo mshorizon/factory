@@ -16,8 +16,11 @@ import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionDispatcher from "../../components/SectionDispatcher.astro";
-import { findPageBySlug } from "../../lib/pages";
-import { deepTranslate } from "../../lib/i18n";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { findPageBySlug, getLayoutConfig, getNavLinks } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
+import { deepTranslate, t } from "../../lib/i18n";
 import { deepResolveImages } from "../../lib/images";
 import { resolveTheme } from "@mshorizon/ui";
 import type { BusinessProfile } from "@mshorizon/schema";
@@ -25,6 +28,9 @@ import type { BusinessProfile } from "@mshorizon/schema";
 const pageSlug = Astro.url.searchParams.get("page") || "home";
 const index = parseInt(Astro.url.searchParams.get("index") || "0", 10);
 const profilePath = Astro.url.searchParams.get("profilePath");
+// Global-chrome render mode: "navbar" | "footer" (DESIGN §4.4 — chrome tier).
+// These aren't page sections; render the layout's Navbar/Footer in isolation.
+const chrome = Astro.url.searchParams.get("chrome");
 
 // Filesystem mode is dev/flag-only — never expose arbitrary reads in prod.
 const fsAllowed = import.meta.env.DEV || import.meta.env.SITC_HARNESS_FS === "1";
@@ -70,22 +76,103 @@ if (profilePath && fsAllowed) {
 const translatedData = deepTranslate(translations, businessData) as BusinessProfile;
 const business = deepResolveImages(translatedData, businessId);
 
-const page = findPageBySlug(business, pageSlug);
-if (!page) return new Response(null, { status: 404, statusText: "page not found" });
+// ── CHROME mode: render the global navbar/footer in isolation ────────────────
+// Mirrors the navbar/footer prop assembly in [...slug].astro so the harness
+// render matches the in-page chrome. The fixed navbar is forced static (below)
+// so the screenshotted wrapper has real height.
+let chromeProps: any = null;
+if (chrome === "navbar" || chrome === "footer") {
+  const layout = getLayoutConfig(business) as any;
+  const navLinks = getNavLinks(business).map((l: any) => ({
+    label: l.label,
+    href: l.href || resolveTarget(l.target, business),
+    ...(l.external ? { external: true } : {}),
+  }));
+  const navCta = business.navigation?.cta
+    ? { label: business.navigation.cta.label, href: resolveTarget(business.navigation.cta.target, business) }
+    : undefined;
+  const footerLinks = (layout.footer?.links || []).map((l: any) => ({ label: l.label, href: l.href || resolveTarget(l.target, business) }));
+  const pagesColumn = { title: t(translations, "footer.columns.pages.title", "Strony"), links: [...navLinks, ...footerLinks] };
+  const footerColumns = [
+    pagesColumn,
+    ...(layout.footer?.columns || [])
+      .filter((c: any) => c.title !== pagesColumn.title)
+      .map((c: any) => ({ title: c.title, links: (c.links || []).map((l: any) => ({ label: l.label, href: l.href || resolveTarget(l.target, business) })) })),
+  ];
+  const socialLinks = business.business.socials ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url })) : [];
+  const hasShopSection = Object.values(business.pages).some((p: any) => p.sections?.some((s: any) => s.type === "shop"));
+  chromeProps = { layout, navLinks, navCta, footerLinks, footerColumns, socialLinks, hasShopSection };
+}
 
-const section = page.sections?.[index];
-if (!section) return new Response(null, { status: 404, statusText: "section index out of range" });
-
-const isHomePage = pageSlug === "home";
+let section: any = null;
+let isHomePage = true;
+if (!chrome) {
+  const page = findPageBySlug(business, pageSlug);
+  if (!page) return new Response(null, { status: 404, statusText: "page not found" });
+  section = page.sections?.[index];
+  if (!section) return new Response(null, { status: 404, statusText: "section index out of range" });
+  isHomePage = pageSlug === "home";
+}
+const L = chromeProps?.layout;
 ---
 
 <BaseLayout
-  title={`sitc-harness ${pageSlug}#${index}`}
+  title={`sitc-harness ${chrome ?? `${pageSlug}#${index}`}`}
   theme={theme}
   lang={currentLang}
   noCustomScrollbars={true}
 >
-  <main data-sitc-harness data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
-    <SectionDispatcher sections={[section]} business={business} isHomePage={isHomePage} />
-  </main>
+  {chrome === "navbar" && chromeProps ? (
+    <div data-section-index="0" data-sitc-chrome style="width:100%">
+      <Navbar
+        logo={L.navbar.logoText || business.business.name}
+        logoSubtext={L.navbar.logoSubtext}
+        logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+        logoIconLucide={business.business.assets?.iconLucide}
+        hideLogoIcon={L.navbar.hideLogoIcon}
+        links={chromeProps.navLinks}
+        cta={chromeProps.navCta}
+        variant={L.navbar.variant}
+        showCart={chromeProps.hasShopSection}
+        extensions={L.navbar.extensions}
+        contact={business.business.contact}
+        socials={business.business.socials}
+        hideBorderOnTop={L.navbar.hideBorderOnTop}
+        hideCta={L.navbar.hideCta}
+        showSocials={L.navbar.showSocials}
+        showAvailability={L.navbar.showAvailability}
+        showAddress={L.navbar.showAddress}
+        showAdditionalInfo={L.navbar.showAdditionalInfo}
+      />
+    </div>
+    <style is:inline>{`[data-sitc-chrome] :is(header,nav){position:static!important;top:auto!important}`}</style>
+  ) : chrome === "footer" && chromeProps ? (
+    <div data-section-index="0" data-sitc-chrome style="width:100%">
+      <Footer
+        businessName={business.business.name}
+        footerName={L.footer.name}
+        logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+        footerLogoIcon={business.business.assets?.footerIcon}
+        links={chromeProps.footerLinks}
+        columns={chromeProps.footerColumns}
+        copyright={L.footer.copyright}
+        tagline={L.footer.tagline}
+        flag={L.footer.flag}
+        findUsTitle={L.footer.findUsTitle}
+        hoursTitle={L.footer.hoursTitle}
+        hours={L.footer.hours}
+        signature={L.footer.signature}
+        currentLanguage={currentLang}
+        variant={L.footer.variant}
+        socialLinks={chromeProps.socialLinks}
+        extensions={L.footer.extensions}
+        background={L.footer.background}
+        contact={business.business.contact}
+      />
+    </div>
+  ) : (
+    <main data-sitc-harness data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
+      <SectionDispatcher sections={[section]} business={business} isHomePage={isHomePage} />
+    </main>
+  )}
 </BaseLayout>

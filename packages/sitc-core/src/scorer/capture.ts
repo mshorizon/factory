@@ -86,6 +86,8 @@ export interface CaptureResult {
   domBands: { yStart: number; yEnd: number; style: StyleProfile }[];
   /** Whole-page ground-truth style (feeds the global theme pass). */
   globalStyle: StyleProfile | null;
+  /** Navbar y-range (the fixed/sticky top header, excluded from domBands) + its style. */
+  navbarBand: { yStart: number; yEnd: number; style: StyleProfile } | null;
 }
 
 /**
@@ -96,7 +98,11 @@ export interface CaptureResult {
  */
 async function extractDomBands(
   page: Page,
-): Promise<{ bands: { yStart: number; yEnd: number; style: StyleProfile }[]; global: StyleProfile | null }> {
+): Promise<{
+  bands: { yStart: number; yEnd: number; style: StyleProfile }[];
+  global: StyleProfile | null;
+  navbar: { yStart: number; yEnd: number; style: StyleProfile } | null;
+}> {
   return page.evaluate(() => {
     (globalThis as unknown as { __name?: (f: unknown) => unknown }).__name ??= (f) => f;
     const vw = window.innerWidth;
@@ -206,7 +212,23 @@ async function extractDomBands(
       })
       .filter((b) => b.yEnd - b.yStart >= 80)
       .sort((a, b) => a.yStart - b.yStart);
-    return { bands, global: styleOf(document.body) };
+
+    // Navbar = the fixed/sticky (or <header>/<nav>) chrome anchored at the top,
+    // which is excluded from the section bands. Union the top-anchored chrome.
+    let navTop: Element | null = null;
+    let navBottom = 0;
+    for (const el of Array.from(document.querySelectorAll("header, nav, [class*='nav' i], [class*='header' i]"))) {
+      const cs = getComputedStyle(el);
+      const r = el.getBoundingClientRect();
+      const anchored = (cs.position === "fixed" || cs.position === "sticky") && r.top <= 6;
+      if ((anchored || el.tagName === "HEADER" || el.tagName === "NAV") && r.width >= vw * 0.6 && r.height >= 24 && r.top <= 80) {
+        navTop = navTop ?? el;
+        navBottom = Math.max(navBottom, Math.round(r.bottom));
+      }
+    }
+    const navbar = navTop && navBottom > 0 ? { yStart: 0, yEnd: navBottom, style: styleOf(navTop) } : null;
+
+    return { bands, global: styleOf(document.body), navbar };
   });
 }
 
@@ -217,6 +239,7 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
   const screenshots: Record<string, string> = {};
   let domBands: { yStart: number; yEnd: number; style: StyleProfile }[] = [];
   let globalStyle: StyleProfile | null = null;
+  let navbarBand: { yStart: number; yEnd: number; style: StyleProfile } | null = null;
   try {
     for (const bp of bps) {
       const ctx = await browser.newContext({
@@ -234,9 +257,10 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
       // DOM section boundaries + ground-truth style at the SCORING breakpoint only.
       if (bp.role === "score") {
         await pg.evaluate(() => window.scrollTo(0, 0));
-        const ext = await extractDomBands(pg).catch(() => ({ bands: [], global: null }));
+        const ext = await extractDomBands(pg).catch(() => ({ bands: [], global: null, navbar: null }));
         domBands = ext.bands;
         globalStyle = ext.global;
+        navbarBand = ext.navbar;
       }
       const file = path.join(opts.outDir, `target-${bp.label}.png`);
       await pg.screenshot({ path: file, fullPage: true, animations: "disabled" });
@@ -246,5 +270,5 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
   } finally {
     await browser.close();
   }
-  return { url: opts.url, screenshots, domBands, globalStyle };
+  return { url: opts.url, screenshots, domBands, globalStyle, navbarBand };
 }

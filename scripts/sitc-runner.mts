@@ -128,6 +128,28 @@ async function main() {
   const matched = alignment.filter((e) => e.status === "matched" && e.ourSectionIndex != null);
   console.log(`• alignment: ${matched.length} matched / ${alignment.filter((e) => e.status === "target-only").length} target-only / ${alignment.filter((e) => e.status === "ours-only").length} ours-only`);
 
+  // ── GLOBAL CHROME units (navbar + footer) — evolved alongside sections ──────
+  // They're not page sections: navbar = the captured top header crop; footer =
+  // the last target-only band crop. Both render via the harness chrome mode.
+  const chromeIds: string[] = [];
+  if (cap.navbarBand) {
+    const navCrop = await cropBands({
+      screenshotPath: desktopShot,
+      bands: [{ index: 0, type: "navbar", yStart: cap.navbarBand.yStart, yEnd: cap.navbarBand.yEnd }],
+      outDir: path.join(artifactsDir, "crops-chrome", "navbar"),
+      normalize: false,
+    });
+    if (navCrop[0]) { targetFor["navbar"] = navCrop[0].path; styleFor["navbar"] = fmtStyle(cap.navbarBand.style); chromeIds.push("navbar"); }
+  }
+  const targetOnly = alignment.filter((e) => e.status === "target-only" && e.targetBandIndex != null).map((e) => e.targetBandIndex as number);
+  const footerBandIdx = targetOnly.length ? targetOnly[targetOnly.length - 1] : null;
+  if (footerBandIdx != null && cropPaths[footerBandIdx]) {
+    targetFor["footer"] = cropPaths[footerBandIdx];
+    if (styleByBand[footerBandIdx]) styleFor["footer"] = styleByBand[footerBandIdx];
+    chromeIds.push("footer");
+  }
+  console.log(`• chrome units: ${chromeIds.length ? chromeIds.join(", ") : "none"}`);
+
   // sections we will evolve = matched ones that have a target crop
   const evolve = matched
     .map((e) => ({ idx: e.ourSectionIndex as number, id: sectionIds[e.ourSectionIndex as number] }))
@@ -136,6 +158,7 @@ async function main() {
   if (!workerEnabled) {
     console.log("\n── PLAN (worker disabled) ─────────────────────────────────");
     for (const s of evolve) console.log(`  evolve ${s.id.padEnd(18)} → target crop ${path.basename(targetFor[s.id])}`);
+    for (const id of chromeIds) console.log(`  evolve ${id.padEnd(18)} → target crop ${path.basename(targetFor[id])}`);
     console.log("\nSet SITC_ENABLE_WORKER=1 to run the autonomous loop (operator action). No edits made.");
     process.exit(0);
   }
@@ -201,12 +224,13 @@ async function main() {
     render: async (ctx: { worktreePath: string; sectionId: string }) => {
       // Render against THIS worktree's engine so the worker's component edits show.
       const wtTemplate = path.join(ctx.worktreePath, "templates", template, `${template}.json`);
-      const index = indexById[ctx.sectionId];
-      // Warm-up compiles the EXACT section page (serialized across engines) so the
+      const chrome = ctx.sectionId === "navbar" || ctx.sectionId === "footer" ? (ctx.sectionId as "navbar" | "footer") : undefined;
+      const index = chrome ? 0 : indexById[ctx.sectionId];
+      // Warm-up compiles the EXACT page (serialized across engines) so the
       // screenshot below doesn't race a cold Vite compile under worker concurrency.
-      const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: wtTemplate });
+      const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: wtTemplate, chrome });
       const baseUrl = await engines.ensure(ctx.worktreePath, { warmupUrl });
-      const r = await renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: 240000 });
+      const r = await renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: 240000, chrome });
       const out = path.join(artifactsDir, "renders", `${ctx.sectionId}-${Date.now()}.png`);
       await fs.mkdir(path.dirname(out), { recursive: true });
       await fs.writeFile(out, r.png);
@@ -216,7 +240,15 @@ async function main() {
     judge: (ctx: { champion: string; challenger: string; target: string }) => pairwiseJudge(readRunner, ctx, { model }),
   };
 
-  const initialStates = evolve.map((s) => ({ sectionId: s.id, strategy: "tune-json" as const, score: 0, threshold: 0.85, attempts: 0, locked: false, frozen: false }));
+  const initialStates = [...evolve.map((s) => s.id), ...chromeIds].map((id) => ({
+    sectionId: id,
+    strategy: "tune-json" as const,
+    score: 0,
+    threshold: 0.85,
+    attempts: 0,
+    locked: false,
+    frozen: false,
+  }));
 
   let result;
   try {
