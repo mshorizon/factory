@@ -231,21 +231,29 @@
             "subtitle": "Bieżące informacje z życia naszej wspólnoty parafialnej",
             "layout": "stacked"
           },
+          "gridColumns": 3,
+          "footerCta": { "label": "Zobacz wszystkie ogłoszenia", "href": "#" },
           "projects": [
             {
               "title": "VII Niedziela Wielkanocna",
               "description": "Porządek liturgiczny na nadchodzący tydzień. Zapraszamy na adorację Najświętszego Sakramentu w czwartek o godz. 17:00.",
-              "date": "18 maja 2026"
+              "date": "18 maja 2026",
+              "category": "Ogłoszenia",
+              "readMore": { "label": "Czytaj więcej", "href": "#" }
             },
             {
               "title": "Uroczystość Zesłania Ducha Świętego",
               "description": "Zapraszamy na uroczystą Sumę o godz. 12:00. Po Mszy Świętej procesja wokół kościoła z pieśniami do Ducha Świętego.",
-              "date": "25 maja 2026"
+              "date": "25 maja 2026",
+              "category": "Uroczystość",
+              "readMore": { "label": "Czytaj więcej", "href": "#" }
             },
             {
               "title": "Pielgrzymka parafialna do Częstochowy",
               "description": "Zapisy na parafialną pielgrzymkę do Jasnej Góry. Wyjazd o 6:00, powrót wieczorem. Koszt: 80 zł od osoby.",
-              "date": "1 czerwca 2026"
+              "date": "1 czerwca 2026",
+              "category": "Wydarzenie",
+              "readMore": { "label": "Czytaj więcej", "href": "#" }
             }
           ]
         },

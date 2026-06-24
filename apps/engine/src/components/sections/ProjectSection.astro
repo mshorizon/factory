@@ -34,7 +34,7 @@ const projects = (section.projects || []).map((p: any) => ({
     ) : variant === "horizontal" ? (
       <ProjectHorizontal client:visible projects={projects} />
     ) : (
-      <ProjectGrid client:visible projects={projects} />
+      <ProjectGrid client:visible projects={projects} columns={(section as any).gridColumns} footerCta={(section as any).footerCta} />
     )}
   </div>
 </section>
