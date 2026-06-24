@@ -277,7 +277,7 @@
         },
         {
           "type": "services",
-          "variant": "grid",
+          "variant": "framedGrid",
           "background": "light",
           "badgeVariant": "accent",
           "header": {

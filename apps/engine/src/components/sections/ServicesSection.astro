@@ -1,6 +1,6 @@
 ---
 import type { Section, BusinessProfile } from "@mshorizon/schema";
-import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating, SectionHeader, Button } from "@mshorizon/ui";
+import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating, ServicesFramedGrid, SectionHeader, Button } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -62,6 +62,8 @@ const maxWidth = (section as any).maxWidth as string | undefined;
       <ServicesFeatured client:visible items={items} />
     ) : variant === "alternating" ? (
       <ServicesAlternating client:visible items={items} />
+    ) : variant === "framedGrid" ? (
+      <ServicesFramedGrid client:visible items={items} requirementsLabel={requirementsLabel} />
     ) : (
       <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} centered={centered} requirementsLabel={requirementsLabel} />
     )}
