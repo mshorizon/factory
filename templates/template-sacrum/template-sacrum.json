@@ -107,6 +107,8 @@
     "footer": {
       "variant": "darkColumns",
       "columnHeadingVariant": "serif",
+      "mapStyle": "placeholder",
+      "accountLabel": "NUMER KONTA",
       "background": { "color": "var(--secondary)" },
       "findUsTitle": "ZNAJDŹ NAS",
       "name": "Parafia Św. Józefa",

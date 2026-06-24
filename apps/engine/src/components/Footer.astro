@@ -67,6 +67,10 @@ interface Props {
   signature?: string;
   /** darkColumns: column title style — 'label' (default, tiny uppercase) or 'serif' (large font-heading headings) */
   columnHeadingVariant?: "label" | "serif";
+  /** darkColumns: 'embed' (default, live Google Maps iframe) or 'placeholder' (flat neutral panel) */
+  mapStyle?: "embed" | "placeholder";
+  /** darkColumns: optional uppercase label rendered above the IBAN account number (e.g. "NUMER KONTA") */
+  accountLabel?: string;
 }
 
 const {
@@ -90,6 +94,8 @@ const {
   hours = [],
   signature,
   columnHeadingVariant = "label",
+  mapStyle = "embed",
+  accountLabel,
 } = Astro.props;
 
 const displayName = footerName || businessName;
@@ -454,7 +460,8 @@ const languages = [
                     const nextLink = column.links[linkIndex + 1];
                     return (
                       <div class="mt-spacing-md border border-on-primary/20 rounded p-spacing-md">
-                        <span class="font-mono text-sm text-primary">{link.label}</span>
+                        {accountLabel && <p class="text-[11px] uppercase tracking-widest text-on-primary/50 mb-spacing-xs">{accountLabel}</p>}
+                        <span class:list={[accountLabel ? "font-heading italic text-base text-primary" : "font-mono text-sm text-primary"]}>{link.label}</span>
                         {nextLink && <p class="text-on-primary/60 text-xs mt-spacing-xs">{nextLink.label}</p>}
                       </div>
                     );
@@ -470,7 +477,9 @@ const languages = [
                       : rawHref.replace('https://maps.google.com/?', 'https://maps.google.com/maps?') + '&output=embed';
                     return (
                       <li>
-                        <iframe src={embedSrc} class="w-full mb-spacing-sm rounded" style="height:150px; border:0;" loading="lazy" />
+                        {mapStyle === "placeholder"
+                          ? <div class="w-full mb-spacing-sm rounded bg-on-primary/10" style="height:200px;" aria-hidden="true" />
+                          : <iframe src={embedSrc} class="w-full mb-spacing-sm rounded" style="height:150px; border:0;" loading="lazy" />}
                         <a href={rawHref} class="flex items-start gap-spacing-sm text-on-primary/75 hover:text-on-primary text-sm transition-colors">
                           <span class="shrink-0 mt-0.5 text-primary" set:html={icon} />
                           {link.label}
