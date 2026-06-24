@@ -209,9 +209,7 @@
           "type": "hero",
           "variant": "sacrum",
           "background": "light",
-          "badgeColor": "var(--primary)",
           "header": {
-            "badge": "Wspólnota Parafialna",
             "title": "Witamy w Parafii\nśw. Józefa",
             "subtitle": "Zapraszamy do naszej wspólnoty parafialnej — miejsca modlitwy, spotkania z Bogiem i braterskiej bliskości. Niech Święty Józef, nasz Patron, prowadzi nas na drodze wiary."
           },
