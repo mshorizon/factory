@@ -37,6 +37,7 @@ export function AboutStory({
   readMoreLabel = "Read more",
   ctaShape = "pill",
   quote,
+  imageFill = false,
 }: AboutStoryProps) {
   // On mobile the story is collapsed to its first paragraph; the rest is revealed
   // on tap. On md+ everything is always visible regardless of this state.
@@ -83,35 +84,48 @@ export function AboutStory({
   const imageRight = imagePosition === "right";
   const ctaClass = ctaVariant === "primaryLight"
     ? "bg-primary-light hover:bg-primary-light/90 text-on-primary"
+    : ctaVariant === "primary"
+    ? "bg-primary hover:bg-primary/90 text-on-primary"
     : "bg-accent text-on-primary hover:opacity-90";
 
   const imageBlock = image ? (
-    <ScrollReveal delay={0} direction={imageRight ? "right" : "left"} distance={30}>
-      <div className="relative flex items-center justify-center lg:justify-start">
+    imageFill ? (
+      <div className="relative min-h-[450px] lg:min-h-0 h-full">
         <SafeImage
           src={image}
           alt=""
-          className={cn(
-            "max-w-full object-cover",
-            !imageBlend && "shadow-lg",
-            hasCustomSize
-              ? cn(
-                  // Mobile only: a lot smaller, natural aspect ratio.
-                  "w-[220px] h-auto",
-                  // From md up (tablet + desktop): honor the configured custom dimensions.
-                  imageWidth && "md:w-[var(--about-img-w)]",
-                  imageHeight && "md:h-[var(--about-img-h)]"
-                )
-              : "w-[448px] h-[500px]",
-            imageRounded && imageBlend !== "feather" && "rounded-[var(--radius-lg)]"
-          )}
-          style={imageSizeStyle}
+          className="absolute inset-0 w-full h-full object-cover"
           data-field="image"
           loading="lazy"
           decoding="async"
         />
       </div>
-    </ScrollReveal>
+    ) : (
+      <ScrollReveal delay={0} direction={imageRight ? "right" : "left"} distance={30}>
+        <div className="relative flex items-center justify-center lg:justify-start">
+          <SafeImage
+            src={image}
+            alt=""
+            className={cn(
+              "max-w-full object-cover",
+              !imageBlend && "shadow-lg",
+              hasCustomSize
+                ? cn(
+                    "w-[220px] h-auto",
+                    imageWidth && "md:w-[var(--about-img-w)]",
+                    imageHeight && "md:h-[var(--about-img-h)]"
+                  )
+                : "w-[448px] h-[500px]",
+              imageRounded && imageBlend !== "feather" && "rounded-[var(--radius-lg)]"
+            )}
+            style={imageSizeStyle}
+            data-field="image"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </ScrollReveal>
+    )
   ) : null;
 
   const textBlock = (
@@ -213,8 +227,10 @@ export function AboutStory({
     <div className={cn("space-y-spacing-3xl", className)}>
       {/* Split layout */}
       <div className={cn(
-        "grid gap-spacing-section-sm items-stretch",
-        image ? (imageRight ? "lg:grid-cols-[1fr_auto]" : "lg:grid-cols-[auto_1fr]") : "grid-cols-1"
+        "grid items-stretch",
+        imageFill
+          ? cn(imageRight ? "lg:grid-cols-[1fr_45%]" : "lg:grid-cols-[45%_1fr]", "gap-spacing-xl")
+          : cn("gap-spacing-section-sm", image ? (imageRight ? "lg:grid-cols-[1fr_auto]" : "lg:grid-cols-[auto_1fr]") : "grid-cols-1")
       )}>
         {imageRight ? (
           <>

@@ -43,7 +43,7 @@ export interface AboutStoryProps {
    */
   badgeVariant?: "accent" | "accent-no-line" | "text";
   imagePosition?: "left" | "right";
-  ctaVariant?: "accent" | "primaryLight";
+  ctaVariant?: "accent" | "primaryLight" | "primary";
   /** When false, renders the image with square corners. Defaults to true (rounded). */
   imageRounded?: boolean;
   /** Overrides the font-family of the body/story content. Full CSS font-family value. */
@@ -71,6 +71,8 @@ export interface AboutStoryProps {
   quote?: QuotePanel;
   /** CTA button corner shape. 'pill' (default) = fully rounded; 'rect' = 4px radius with uppercase tracked label, matching a formal gold rectangular button. */
   ctaShape?: "pill" | "rect";
+  /** When true, the image fills its grid column via absolute positioning — no shadow, no rounding, flush to column edges. Grid becomes a fixed 45/55 split. */
+  imageFill?: boolean;
 }
 
 export interface QuotePanel {
