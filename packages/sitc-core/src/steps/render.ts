@@ -92,6 +92,17 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
       const msg = await pg.evaluate(() => document.querySelector("vite-error-overlay")?.shadowRoot?.textContent ?? "").catch(() => "");
       throw new Error(`render error overlay (index ${index}): ${String(msg).replace(/\s+/g, " ").trim().slice(0, 300)}`);
     }
+    if (opts.chrome) {
+      // Chrome mode: the navbar IS fixed/sticky — convert it to static FIRST (before
+      // the visibility wait) so the wrapper has real in-flow height; otherwise the
+      // 0-height wrapper never becomes "visible" and the wait times out.
+      await pg.evaluate(() => {
+        for (const n of Array.from(document.querySelectorAll<HTMLElement>("[data-sitc-chrome] *"))) {
+          const pos = getComputedStyle(n).position;
+          if (pos === "fixed" || pos === "sticky") n.style.position = "static";
+        }
+      });
+    }
     const el = pg.locator(`[data-section-index="0"]`).first();
     await el.waitFor({ state: "visible", timeout: opts.waitForMs ?? 30000 });
     await el.scrollIntoViewIfNeeded();
@@ -109,16 +120,7 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
       }
     });
     await pg.waitForTimeout(opts.settleMs ?? 700);
-    if (opts.chrome) {
-      // Chrome mode: the navbar IS fixed/sticky — convert it to static so it's
-      // in-flow and the wrapper has real height to screenshot (don't hide it).
-      await pg.evaluate(() => {
-        for (const n of Array.from(document.querySelectorAll<HTMLElement>("[data-sitc-chrome] *"))) {
-          const pos = getComputedStyle(n).position;
-          if (pos === "fixed" || pos === "sticky") n.style.position = "static";
-        }
-      });
-    } else {
+    if (!opts.chrome) {
       // Strip fixed/sticky chrome (out of flow → does not shift the section).
       await pg.evaluate(() => {
         for (const n of Array.from(document.querySelectorAll<HTMLElement>("body *"))) {
