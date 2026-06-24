@@ -87,6 +87,8 @@
     "navLogoSize": "16px",
     "navLogoWeight": "500",
     "navLinksPosition": "center",
+    "navLinkLetterSpacing": "0.1em",
+    "buttonLetterSpacing": "0.08em",
     "badgeVariant": "text",
     "badgeFontSize": "13px"
   },
