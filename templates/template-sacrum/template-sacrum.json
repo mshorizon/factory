@@ -262,7 +262,9 @@
           "type": "services",
           "variant": "grid",
           "background": "light",
+          "badgeVariant": "accent",
           "header": {
+            "badge": "",
             "title": "Sakramenty Święte",
             "subtitle": "Każdy sakrament jest spotkaniem z Chrystusem. Dowiedz się, jak przygotować się na te ważne chwile.",
             "layout": "stacked"
