@@ -295,6 +295,7 @@
           "imagePosition": "left",
           "imageHeight": "600px",
           "imageFill": true,
+          "imageFrame": true,
           "ctaShape": "rect",
           "ctaVariant": "primary",
           "badgeVariant": "accent",

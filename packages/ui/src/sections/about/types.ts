@@ -73,6 +73,8 @@ export interface AboutStoryProps {
   ctaShape?: "pill" | "rect";
   /** When true, the image fills its grid column via absolute positioning — no shadow, no rounding, flush to column edges. Grid becomes a fixed 45/55 split. */
   imageFill?: boolean;
+  /** When true (only meaningful with imageFill), wraps the fill image in a thin primary-colored border with a small inset mat, giving a framed-photo look. Defaults to false (flush, no frame). */
+  imageFrame?: boolean;
 }
 
 export interface QuotePanel {

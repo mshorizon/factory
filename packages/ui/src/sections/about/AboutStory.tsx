@@ -38,6 +38,7 @@ export function AboutStory({
   ctaShape = "pill",
   quote,
   imageFill = false,
+  imageFrame = false,
 }: AboutStoryProps) {
   // On mobile the story is collapsed to its first paragraph; the rest is revealed
   // on tap. On md+ everything is always visible regardless of this state.
@@ -90,15 +91,17 @@ export function AboutStory({
 
   const imageBlock = image ? (
     imageFill ? (
-      <div className="relative min-h-[450px] lg:min-h-0 h-full">
-        <SafeImage
-          src={image}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          data-field="image"
-          loading="lazy"
-          decoding="async"
-        />
+      <div className={cn("relative min-h-[450px] lg:min-h-0 h-full", imageFrame && "border border-primary p-spacing-sm")}>
+        <div className="relative w-full h-full">
+          <SafeImage
+            src={image}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            data-field="image"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
       </div>
     ) : (
       <ScrollReveal delay={0} direction={imageRight ? "right" : "left"} distance={30}>
