@@ -85,7 +85,7 @@ async function main() {
   // raw bands; cropBands re-normalizes against the true decoded image height.
   const bands =
     cap.domBands.length >= 2
-      ? cap.domBands.map((b, i) => ({ index: i, type: "unknown", yStart: b.yStart, yEnd: b.yEnd }))
+      ? cap.domBands.map((b, i) => ({ index: i, type: "unknown", yStart: b.yStart, yEnd: b.yEnd, style: b.style }))
       : await segmentTarget(readRunner, desktopShot, { model });
   console.log(`  segmentation: ${cap.domBands.length >= 2 ? `DOM (${cap.domBands.length} sections)` : "VLM fallback"}`);
   const crops = await cropBands({ screenshotPath: desktopShot, bands, outDir: path.join(artifactsDir, "crops") });
@@ -94,6 +94,36 @@ async function main() {
   const alignment = alignSections(crops.map((c) => c.band), homeSections);
   const sectionIds = homeSections.map((s, i) => `${s.type}#${i}`);
   const targetFor = targetImageMap(alignment, sectionIds, cropPaths);
+
+  // Ground-truth styling per section (measured CSS; normalizeBands preserves the
+  // spread `style` field through cropping). Maps band index → our section via the
+  // same alignment used for crops.
+  const fmtStyle = (s: any): string =>
+    [
+      `page/section background ${s.bg}`,
+      `body text ${s.text}`,
+      `brand/accent color ${s.accent}`,
+      `heading font "${s.headingFont}"`,
+      `body font "${s.bodyFont}"`,
+      `corner radius ${s.radius}`,
+      s.card ? `cards: background ${s.card.bg}, border ${s.card.border}` : "",
+      s.button ? `buttons: background ${s.button.bg}, text ${s.button.text}` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+  const styleByBand: Record<number, string> = {};
+  for (const c of crops) {
+    const st = (c.band as any).style;
+    if (st) styleByBand[c.band.index] = fmtStyle(st);
+  }
+  const styleFor: Record<string, string> = {};
+  for (const e of alignment) {
+    if (e.status === "matched" && e.ourSectionIndex != null && e.targetBandIndex != null) {
+      const id = sectionIds[e.ourSectionIndex];
+      const s = styleByBand[e.targetBandIndex];
+      if (id && s) styleFor[id] = s;
+    }
+  }
 
   const matched = alignment.filter((e) => e.status === "matched" && e.ourSectionIndex != null);
   console.log(`• alignment: ${matched.length} matched / ${alignment.filter((e) => e.status === "target-only").length} target-only / ${alignment.filter((e) => e.status === "ours-only").length} ours-only`);
@@ -161,6 +191,7 @@ async function main() {
       runner: createClaudeWorker({ model }), // Edit/Write authorized inside authorVariant
       targetImageFor: (id: string) => targetFor[id],
       sectionTypeFor: (id: string) => id.split("#")[0], // "hero#0" → "hero"
+      targetStyleFor: (id: string) => styleFor[id], // measured ground-truth CSS
       templateName: template, // worker may edit ONLY this template's JSON
       lessonsFor,
       model,
@@ -193,6 +224,7 @@ async function main() {
     runId, store, worktree, runner: createClaudeWorker({ model }), owner,
     seed: { templatePath },
     targetScreenshots: Object.values(cap.screenshots),
+    groundTruthStyle: cap.globalStyle, // exact measured palette/fonts/radius for the theme pass
     targetImgFor: (id) => targetFor[id],
     collab,
     initialStates,

@@ -12,6 +12,7 @@
  * supports score-driven iteration via the injected scorer.
  */
 import type { BusinessProfile, DesignTraits, WorkerRunner } from "../types.js";
+import type { StyleProfile } from "../scorer/capture.js";
 import { analyzeTarget } from "../steps/analyze-target.js";
 import { validateProfile } from "../steps/validate.js";
 
@@ -39,6 +40,8 @@ export interface LockGlobalThemeInput {
   /** Frozen target screenshot paths (the goal). */
   targetScreenshots: string[];
   traits?: DesignTraits;
+  /** Measured ground-truth CSS from the target (exact palette/fonts/radius). */
+  groundTruth?: StyleProfile | null;
   model?: string;
 }
 
@@ -53,9 +56,20 @@ async function proposeTheme(
   screenshots: string[],
   traits: DesignTraits,
   model?: string,
+  groundTruth?: StyleProfile | null,
 ): Promise<ProposedTheme> {
+  const gt = groundTruth
+    ? `\nMEASURED ground-truth from the target's computed CSS (EXACT — prefer these over what you infer from the image):
+- light surface.base (page background): ${groundTruth.bg}
+- light text.main (body text): ${groundTruth.text}
+- light primary (brand/accent): ${groundTruth.accent}
+- surface.card: ${groundTruth.card?.bg ?? groundTruth.bg}
+- typography.primary (headings): "${groundTruth.headingFont}", typography.secondary (body): "${groundTruth.bodyFont}"
+- radius: ${groundTruth.radius}
+Use these exact values for the light palette/fonts/radius; derive the dark palette to match.`
+    : "";
   const prompt = `From the website screenshot(s), propose the global THEME tokens for our rendering engine.
-Detected traits: ${JSON.stringify(traits)}.
+Detected traits: ${JSON.stringify(traits)}.${gt}
 Fill BOTH light and dark palettes (hex), font stacks, and the card/button corner radius.
 Output NOTHING except one JSON object:
 {"mode":"light"|"dark",
@@ -81,7 +95,7 @@ export async function lockGlobalTheme(
   input: LockGlobalThemeInput & { maxIterations?: number },
 ): Promise<LockGlobalThemeResult> {
   const traits = input.traits ?? (await analyzeTarget(input.runner, input.targetScreenshots, { model: input.model }));
-  const theme = await proposeTheme(input.runner, input.targetScreenshots, traits, input.model);
+  const theme = await proposeTheme(input.runner, input.targetScreenshots, traits, input.model, input.groundTruth);
   const candidate = applyTheme(input.profile, theme);
 
   // Keep the lock schema-valid: only adopt if it doesn't break validation.

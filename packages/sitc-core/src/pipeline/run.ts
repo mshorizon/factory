@@ -32,6 +32,8 @@ export interface FullRunInput {
   seed: SeedOptions;
   /** Frozen target screenshot paths (from captureTarget). */
   targetScreenshots: string[];
+  /** Measured ground-truth CSS from the target — feeds the global theme pass. */
+  groundTruthStyle?: import("../scorer/capture.js").StyleProfile | null;
   /** Target image per section id (aligned crop) for the sweep's scorer/judge. */
   targetImgFor: (sectionId: string) => string;
   /** Per-section worker bundle (mutate/sanity/render/score/judge). */
@@ -82,6 +84,7 @@ async function drive(input: FullRunInput): Promise<FullRunResult> {
     runId: input.runId,
     seed: input.seed,
     targetScreenshots: input.targetScreenshots,
+    groundTruth: input.groundTruthStyle,
     model: input.model,
   });
 

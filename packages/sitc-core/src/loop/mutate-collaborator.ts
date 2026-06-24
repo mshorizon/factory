@@ -37,6 +37,8 @@ export interface MutateCollaboratorOptions {
    * set it when sectionIds are disambiguated with a suffix.
    */
   sectionTypeFor?: (sectionId: string) => string;
+  /** Ground-truth styling string for a section's matched target band (measured CSS). */
+  targetStyleFor?: (sectionId: string) => string | undefined;
   /** The run's template (e.g. "template-sacrum") — scopes the worker to its own JSON. */
   templateName: string;
   model?: string;
@@ -67,6 +69,7 @@ export function createMutateCollaborator(opts: MutateCollaboratorOptions): Secti
       currentImage: opts.currentImageFor?.(ctx.sectionId) ?? undefined,
       critique: ctx.critique,
       lessons: lessons || undefined,
+      targetStyle: opts.targetStyleFor?.(ctx.sectionId),
       workdir: ctx.worktreePath,
       templateName: opts.templateName,
       model: opts.model,

@@ -18,6 +18,8 @@ export interface LockTiersInput {
   seed: SeedOptions;
   /** Frozen target screenshot paths (from captureTarget). */
   targetScreenshots: string[];
+  /** Measured ground-truth CSS from the target (exact palette/fonts/radius). */
+  groundTruth?: import("../scorer/capture.js").StyleProfile | null;
   model?: string;
 }
 
@@ -36,6 +38,7 @@ export async function lockTiers(input: LockTiersInput): Promise<LockTiersResult>
     runner: input.runner,
     profile: seeded,
     targetScreenshots: input.targetScreenshots,
+    groundTruth: input.groundTruth,
     model: input.model,
   });
   await input.store.updateRun(input.runId, { themeLocked: true });

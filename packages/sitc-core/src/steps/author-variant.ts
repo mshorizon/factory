@@ -31,6 +31,9 @@ export interface AuthorVariantInput {
   critique?: string;
   /** Retrieved lessons block (DESIGN §9.2) — advisory hints, not rules. */
   lessons?: string;
+  /** Ground-truth styling measured from the target's computed CSS for THIS section
+   *  (exact colors/fonts/radius) — helps the worker pick the right semantic token. */
+  targetStyle?: string;
   /** Isolated git worktree the worker may write in (DESIGN §5.4). */
   workdir: string;
   /** The run's template (e.g. "template-sacrum"). The worker may edit ONLY this
@@ -199,6 +202,9 @@ function buildPlanPrompt(
     "",
     `Read the TARGET screenshot${input.currentImage ? " and the CURRENT render" : ""} (Read tool), and use Grep/Read to ground your plan in the ACTUAL file contents (find the exact current values you'd change).`,
     input.critique ? `\nScorer critique to address:\n${input.critique}` : "",
+    input.targetStyle
+      ? `\nGROUND-TRUTH target styling (MEASURED from the target's computed CSS — exact, not guessed):\n${input.targetStyle}\nThe theme is already locked to the target's palette, so DON'T hardcode these hex values — instead choose the SEMANTIC TOKEN that matches each (brand/gold → primary, page bg → background, cards → card/muted, etc.). Use this to fix color/font/radius mismatches precisely (e.g. an icon badge that should be a light tinted circle vs a dark fill).`
+      : "",
     input.lessons ? `\n${input.lessons}` : "",
     "",
     renderKit(kit, maxChars),

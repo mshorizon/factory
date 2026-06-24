@@ -57,40 +57,52 @@ export interface CaptureTargetOptions {
   breakpoints?: Breakpoint[];
 }
 
+/**
+ * Ground-truth styling measured from the target's computed CSS (not VLM-guessed).
+ * Used to set exact theme token VALUES and to tell the worker the right token
+ * CHOICE per section (the "dark vs light icon badge" class of precision miss).
+ */
+export interface StyleProfile {
+  bg: string; // dominant section/background color
+  text: string; // dominant body text color
+  accent: string; // dominant non-gray color (brand/gold) from text/border/icon/bg
+  headingFont: string;
+  bodyFont: string;
+  radius: string; // common non-zero border-radius (cards/buttons)
+  card?: { bg: string; border: string };
+  button?: { bg: string; text: string };
+}
+
 export interface CaptureResult {
   url: string;
   /** breakpoint label → screenshot path (the immutable goal). */
   screenshots: Record<string, string>;
   /**
    * Target section boundaries read from the DOM at desktop width (px, document
-   * coords matching the full-page screenshot). FAR more accurate than VLM pixel
-   * guesses — the VLM under-segments a multi-section page into a few coarse
-   * bands whose y-ranges straddle real section boundaries, mis-aligning every
-   * section. Empty if extraction found nothing usable (caller falls back to VLM
-   * segmentation). DESIGN §4.3.
+   * coords matching the full-page screenshot), each with measured ground-truth
+   * style. FAR more accurate than VLM pixel/color guesses. Empty if extraction
+   * found nothing usable (caller falls back to VLM segmentation). DESIGN §4.3.
    */
-  domBands: { yStart: number; yEnd: number }[];
+  domBands: { yStart: number; yEnd: number; style: StyleProfile }[];
+  /** Whole-page ground-truth style (feeds the global theme pass). */
+  globalStyle: StyleProfile | null;
 }
 
 /**
- * Read the page's top-level section blocks as y-ranges. Descends through
- * single-child / wrapper elements to the real section list, then takes
- * full-width, tall, in-flow children. Pure DOM measurement, no labels
- * (alignment is positional anyway).
+ * Read the page's section blocks (y-ranges) AND their measured computed styles.
+ * Pure DOM measurement. No nested named functions are used in page.evaluate —
+ * tsx/esbuild instruments them with a `__name` helper absent in the browser
+ * (we shim it to identity as a belt-and-suspenders).
  */
-async function extractDomBands(page: Page): Promise<{ yStart: number; yEnd: number }[]> {
-  // NOTE: no nested named functions inside page.evaluate — tsx/esbuild instruments
-  // them with a `__name` helper that doesn't exist in the browser context (throws
-  // "__name is not defined"). Everything below is inlined / a flat queue.
+async function extractDomBands(
+  page: Page,
+): Promise<{ bands: { yStart: number; yEnd: number; style: StyleProfile }[]; global: StyleProfile | null }> {
   return page.evaluate(() => {
-    // esbuild (via tsx) instruments named functions with a `__name(fn,name)` call;
-    // that helper isn't defined in the browser eval context, so shim it to identity.
     (globalThis as unknown as { __name?: (f: unknown) => unknown }).__name ??= (f) => f;
     const vw = window.innerWidth;
     const pageH = document.documentElement.scrollHeight;
     const MIN_H = 160;
 
-    // full-width, in-flow, tall children of `el` (inlined; used in the loop below)
     const secsOf = (el: Element): Element[] => {
       const out: Element[] = [];
       for (const c of Array.from(el.children)) {
@@ -102,6 +114,71 @@ async function extractDomBands(page: Page): Promise<{ yStart: number; yEnd: numb
       return out;
     };
 
+    // ── color helpers ──────────────────────────────────────────────────────
+    const parse = (s: string): [number, number, number, number] | null => {
+      const m = s && s.match(/rgba?\(([^)]+)\)/);
+      if (!m) return null;
+      const p = m[1].split(",").map((x) => parseFloat(x));
+      return [p[0], p[1], p[2], p[3] == null ? 1 : p[3]];
+    };
+    const isGray = (c: [number, number, number, number]) => Math.max(c[0], c[1], c[2]) - Math.min(c[0], c[1], c[2]) < 18;
+    const top = (m: Map<string, number>): string => {
+      let best = "",
+        bestV = -1;
+      for (const [k, v] of m) if (v > bestV) (best = k), (bestV = v);
+      return best;
+    };
+
+    // ── measure a subtree's style profile ──────────────────────────────────
+    const styleOf = (rootEl: Element) => {
+      const nodes = Array.from(rootEl.querySelectorAll("*")).slice(0, 800);
+      const bg = new Map<string, number>(),
+        textC = new Map<string, number>(),
+        accent = new Map<string, number>(),
+        radius = new Map<string, number>(),
+        hFont = new Map<string, number>(),
+        bFont = new Map<string, number>();
+      let card: { bg: string; border: string } | undefined;
+      let button: { bg: string; text: string } | undefined;
+      const add = (m: Map<string, number>, k: string, w = 1) => k && m.set(k, (m.get(k) ?? 0) + w);
+      for (const el of nodes) {
+        const cs = getComputedStyle(el);
+        const r = el.getBoundingClientRect();
+        if (r.width < 2 || r.height < 2) continue;
+        const area = r.width * r.height;
+        const bgc = parse(cs.backgroundColor);
+        if (bgc && bgc[3] > 0.05) add(bg, `rgb(${bgc[0]}, ${bgc[1]}, ${bgc[2]})`, area);
+        const tc = parse(cs.color);
+        const txtLen = (el.textContent || "").trim().length;
+        if (tc && txtLen > 0 && el.children.length === 0) add(textC, `rgb(${tc[0]}, ${tc[1]}, ${tc[2]})`, txtLen);
+        // accent = any non-gray color appearing on text/border/bg/svg
+        for (const src of [cs.color, cs.borderTopColor, cs.backgroundColor, cs.fill, cs.stroke]) {
+          const c = parse(src);
+          if (c && c[3] > 0.1 && !isGray(c)) add(accent, `rgb(${c[0]}, ${c[1]}, ${c[2]})`, 1);
+        }
+        if (cs.borderRadius && cs.borderRadius !== "0px") add(radius, cs.borderRadius.split(" ")[0]);
+        const tag = el.tagName.toLowerCase();
+        if (/^h[1-6]$/.test(tag)) add(hFont, cs.fontFamily, txtLen || 1);
+        if (tag === "p") add(bFont, cs.fontFamily, txtLen || 1);
+        if (!card && bgc && bgc[3] > 0.05 && cs.borderRadius !== "0px" && r.height > 80 && r.width < vw * 0.6) {
+          card = { bg: `rgb(${bgc[0]}, ${bgc[1]}, ${bgc[2]})`, border: cs.borderTopColor };
+        }
+        if (!button && (tag === "button" || tag === "a") && bgc && bgc[3] > 0.1 && tc) {
+          button = { bg: `rgb(${bgc[0]}, ${bgc[1]}, ${bgc[2]})`, text: `rgb(${tc[0]}, ${tc[1]}, ${tc[2]})` };
+        }
+      }
+      return {
+        bg: top(bg) || "rgb(255, 255, 255)",
+        text: top(textC) || "rgb(0, 0, 0)",
+        accent: top(accent) || top(textC) || "rgb(0, 0, 0)",
+        headingFont: (top(hFont) || "").split(",")[0].replace(/['"]/g, "").trim(),
+        bodyFont: (top(bFont) || "").split(",")[0].replace(/['"]/g, "").trim(),
+        radius: top(radius) || "0px",
+        card,
+        button,
+      };
+    };
+
     // 1. descend through single dominant wrappers to the first level with ≥2 sections
     let root: Element = document.body;
     for (let d = 0; d < 8; d++) {
@@ -109,10 +186,8 @@ async function extractDomBands(page: Page): Promise<{ yStart: number; yEnd: numb
       if (s.length === 1) root = s[0];
       else break;
     }
-
-    // 2. iterative explode: a node that is a dominant wrapper (>45% page height with
-    //    ≥2 section children) is replaced by its children; everything else is a final
-    //    band. FIFO queue, no recursion. Normal sections (<45% page) are kept whole.
+    // 2. iterative explode: a dominant wrapper (>45% page, ≥2 section children) is
+    //    replaced by its children; everything else is a final band.
     const finals: Element[] = [];
     const queue: Element[] = secsOf(root).length >= 2 ? [...secsOf(root)] : [];
     let guard = 0;
@@ -124,13 +199,14 @@ async function extractDomBands(page: Page): Promise<{ yStart: number; yEnd: numb
       } else finals.push(el);
     }
 
-    return finals
+    const bands = finals
       .map((el) => {
         const r = el.getBoundingClientRect();
-        return { yStart: Math.round(r.top + window.scrollY), yEnd: Math.round(r.bottom + window.scrollY) };
+        return { yStart: Math.round(r.top + window.scrollY), yEnd: Math.round(r.bottom + window.scrollY), style: styleOf(el) };
       })
       .filter((b) => b.yEnd - b.yStart >= 80)
       .sort((a, b) => a.yStart - b.yStart);
+    return { bands, global: styleOf(document.body) };
   });
 }
 
@@ -139,7 +215,8 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
   await fs.mkdir(opts.outDir, { recursive: true });
   const browser = await chromium.launch();
   const screenshots: Record<string, string> = {};
-  let domBands: { yStart: number; yEnd: number }[] = [];
+  let domBands: { yStart: number; yEnd: number; style: StyleProfile }[] = [];
+  let globalStyle: StyleProfile | null = null;
   try {
     for (const bp of bps) {
       const ctx = await browser.newContext({
@@ -154,10 +231,12 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
       await pg.evaluate(() => (document as Document).fonts?.ready);
       await autoScroll(pg);
       await pg.waitForTimeout(500);
-      // DOM section boundaries at the SCORING breakpoint only (scroll reset to 0).
+      // DOM section boundaries + ground-truth style at the SCORING breakpoint only.
       if (bp.role === "score") {
         await pg.evaluate(() => window.scrollTo(0, 0));
-        domBands = await extractDomBands(pg).catch(() => []);
+        const ext = await extractDomBands(pg).catch(() => ({ bands: [], global: null }));
+        domBands = ext.bands;
+        globalStyle = ext.global;
       }
       const file = path.join(opts.outDir, `target-${bp.label}.png`);
       await pg.screenshot({ path: file, fullPage: true, animations: "disabled" });
@@ -167,5 +246,5 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
   } finally {
     await browser.close();
   }
-  return { url: opts.url, screenshots, domBands };
+  return { url: opts.url, screenshots, domBands, globalStyle };
 }
