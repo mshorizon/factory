@@ -67,6 +67,8 @@ export interface AboutStoryProps {
    * collapsed to its first paragraph and the rest is revealed on tap. Defaults to "Read more".
    */
   readMoreLabel?: string;
+  /** Optional pull-quote rendered as an italic blockquote with a gold left divider, between the story paragraphs and the CTA. Reuses the QuotePanel shape (text + author). When omitted, nothing renders. */
+  quote?: QuotePanel;
 }
 
 export interface QuotePanel {

@@ -35,6 +35,7 @@ export function AboutStory({
   imageHeight,
   imageBlend,
   readMoreLabel = "Read more",
+  quote,
 }: AboutStoryProps) {
   // On mobile the story is collapsed to its first paragraph; the rest is revealed
   // on tap. On md+ everything is always visible regardless of this state.
@@ -153,6 +154,14 @@ export function AboutStory({
               </button>
             )}
           </div>
+        )}
+        {quote && quote.text && (
+          <figure className="border-l-2 border-primary pl-spacing-md" data-field="quote">
+            <blockquote className="text-lg md:text-xl italic font-heading text-foreground leading-snug" data-field="quote.text">{quote.text}</blockquote>
+            {quote.author && (
+              <figcaption className="mt-spacing-xs text-sm text-muted" data-field="quote.author">{quote.author}</figcaption>
+            )}
+          </figure>
         )}
 
         {signature && signature.text && (

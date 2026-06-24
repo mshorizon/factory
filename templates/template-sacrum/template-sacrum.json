@@ -282,8 +282,9 @@
           "image": "https://images.unsplash.com/photo-1605648916361-9bc12ad6a569?auto=format&fit=crop&w=1000&h=1200&q=80",
           "story": {
             "title": "O Naszej Parafii",
-            "content": "Parafia pod wezwaniem Świętego Józefa w Trąbkach to wspólnota z bogatą tradycją sięgającą wielu pokoleń. Nasz kościół, będący sercem lokalnej społeczności, jest miejscem, gdzie wiara spotyka się z historią, a modlitwa łączy pokolenia.\n\nŚwięty Józef — opiekun Świętej Rodziny, patron robotników i ojców — niezmiennie czuwa nad naszą parafią. Jego pokora, wierność i oddanie są dla nas wzorem codziennego życia chrześcijańskiego.\n\nZapraszamy każdego, kto szuka duchowego ukojenia, wspólnoty i bliskości z Bogiem. W naszej parafii znajdziesz miejsce na modlitwę, sakramenty i braterskie spotkanie.\n\n„Józefie, synu Dawida, nie bój się wziąć do siebie Maryi.\"\n— Ewangelia wg św. Mateusza 1,20"
+            "content": "Parafia pod wezwaniem Świętego Józefa w Trąbkach to wspólnota z bogatą tradycją sięgającą wielu pokoleń. Nasz kościół, będący sercem lokalnej społeczności, jest miejscem, gdzie wiara spotyka się z historią, a modlitwa łączy pokolenia.\n\nŚwięty Józef — opiekun Świętej Rodziny, patron robotników i ojców — niezmiennie czuwa nad naszą parafią. Jego pokora, wierność i oddanie są dla nas wzorem codziennego życia chrześcijańskiego.\n\nZapraszamy każdego, kto szuka duchowego ukojenia, wspólnoty i bliskości z Bogiem. W naszej parafii znajdziesz miejsce na modlitwę, sakramenty i braterskie spotkanie."
           },
+          "quote": { "text": "„Józefie, synu Dawida, nie bój się wziąć do siebie Maryi.\"", "author": "— Ewangelia wg św. Mateusza 1,20" },
           "cta": {
             "label": "Poznaj pełną historię parafii",
             "target": { "type": "page", "value": "about" }
