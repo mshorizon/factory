@@ -193,8 +193,7 @@
           "type": "hero",
           "variant": "sacrum",
           "background": "light",
-          "badgeColor": "#B38B3F",
-          "badgeLineOnly": true,
+          "badgeColor": "var(--primary)",
           "header": {
             "badge": "Wspólnota Parafialna",
             "title": "Witamy w Parafii\nśw. Józefa",
