@@ -94,7 +94,7 @@
     "navbar": {
       "variant": "standard",
       "logoText": "Parafia Św. Józefa",
-      "logoSubtext": "Trąbki",
+      "logoSubtext": "TRĄBKI",
       "hideLogoIcon": true,
       "hideBorderOnTop": true,
       "hideBlog": true,
@@ -136,7 +136,7 @@
   },
   "navigation": {
     "cta": {
-      "label": "Godziny Mszy Świętych",
+      "label": "GODZINY MSZY ŚWIĘTYCH",
       "target": { "type": "section", "value": "msze" }
     }
   },
@@ -186,7 +186,7 @@
   "pages": {
     "home": {
       "title": "Strona główna",
-      "navLabel": "Strona główna",
+      "navLabel": "STRONA GŁÓWNA",
       "navOrder": 1,
       "sections": [
         {
@@ -300,7 +300,7 @@
     },
     "about": {
       "title": "O Parafii",
-      "navLabel": "O Parafii",
+      "navLabel": "O PARAFII",
       "navOrder": 2,
       "sections": [
         {
@@ -335,7 +335,7 @@
     },
     "contact": {
       "title": "Kontakt",
-      "navLabel": "Kontakt",
+      "navLabel": "KONTAKT",
       "navOrder": 3,
       "sections": [
         {
