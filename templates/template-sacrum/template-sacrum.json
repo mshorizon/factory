@@ -103,7 +103,9 @@
       "showAddress": false
     },
     "footer": {
-      "variant": "multiColumn",
+      "variant": "darkColumns",
+      "background": { "color": "var(--secondary)" },
+      "findUsTitle": "ZNAJDŹ NAS",
       "name": "Parafia Św. Józefa",
       "tagline": "Soli Deo Gloria",
       "copyright": "© 2026 Parafia Św. Józefa w Trąbkach. Wszelkie prawa zastrzeżone.",
