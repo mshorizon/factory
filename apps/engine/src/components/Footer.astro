@@ -65,6 +65,8 @@ interface Props {
   hoursTitle?: string;
   hours?: HoursRow[];
   signature?: string;
+  /** darkColumns: column title style — 'label' (default, tiny uppercase) or 'serif' (large font-heading headings) */
+  columnHeadingVariant?: "label" | "serif";
 }
 
 const {
@@ -87,6 +89,7 @@ const {
   hoursTitle,
   hours = [],
   signature,
+  columnHeadingVariant = "label",
 } = Astro.props;
 
 const displayName = footerName || businessName;
@@ -436,7 +439,7 @@ const languages = [
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-spacing-2xl lg:gap-spacing-3xl">
           {effectiveColumns.map((column, colIndex) => (
             <div>
-              <h3 class="text-xs font-medium uppercase tracking-widest text-on-primary mb-spacing-md">{column.title}</h3>
+              <h3 class:list={["text-on-primary mb-spacing-md", columnHeadingVariant === "serif" ? "font-heading text-2xl tracking-tight" : "text-xs font-medium uppercase tracking-widest"]}>{column.title}</h3>
               <ul class="space-y-spacing-sm">
                 {column.links.map((link, linkIndex) => {
                   const isIBAN = /^[A-Z]{2}\s?\d{2}[\s\d]{15,}/.test(link.label);

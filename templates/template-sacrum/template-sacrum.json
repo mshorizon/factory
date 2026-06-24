@@ -104,6 +104,7 @@
     },
     "footer": {
       "variant": "darkColumns",
+      "columnHeadingVariant": "serif",
       "background": { "color": "var(--secondary)" },
       "findUsTitle": "ZNAJDŹ NAS",
       "name": "Parafia Św. Józefa",
