@@ -35,6 +35,7 @@ export function AboutStory({
   imageHeight,
   imageBlend,
   readMoreLabel = "Read more",
+  ctaShape = "pill",
   quote,
 }: AboutStoryProps) {
   // On mobile the story is collapsed to its first paragraph; the rest is revealed
@@ -194,7 +195,8 @@ export function AboutStory({
               href={ctaHref}
               onClick={() => (window as any).umami?.track('cta-click', { section: 'about', label: cta })}
               className={cn(
-                "inline-flex items-center gap-2 px-6 py-3 font-medium rounded-full transition-opacity w-fit",
+                "inline-flex items-center gap-2 px-6 py-3 font-medium transition-opacity w-fit",
+                ctaShape === "rect" ? "rounded-radius uppercase [letter-spacing:var(--btn-letter-spacing,0.05em)]" : "rounded-full",
                 ctaClass
               )}
             >

@@ -275,6 +275,7 @@
           "variant": "story",
           "background": "light-padded",
           "imagePosition": "left",
+          "ctaShape": "rect",
           "header": {
             "title": "O Naszej Parafii",
             "layout": "none"
