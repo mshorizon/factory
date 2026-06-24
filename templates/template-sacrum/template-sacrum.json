@@ -294,6 +294,7 @@
           "variant": "story",
           "background": "light-padded",
           "imagePosition": "left",
+          "imageHeight": "600px",
           "ctaShape": "rect",
           "badgeVariant": "accent",
           "header": {
