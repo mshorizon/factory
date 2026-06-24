@@ -149,7 +149,8 @@
         "description": "Rozpocznij drogę wiary swojego dziecka. Chrzty odbywają się w II i IV niedzielę miesiąca.",
         "content": "Chrzest Święty jest pierwszym i podstawowym sakramentem inicjacji chrześcijańskiej. Przez chrzest człowiek zostaje włączony do wspólnoty Kościoła, uwolniony od grzechu pierworodnego i staje się dzieckiem Bożym.\n\nChrzty udzielane są w II i IV niedzielę miesiąca, zazwyczaj po Mszy Świętej o godz. 12:00. Prosimy o wcześniejsze uzgodnienie terminu z kancelarią parafialną.",
         "icon": "droplets",
-        "category": "Sakrament inicjacji"
+        "category": "Sakrament inicjacji",
+        "requirements": "akt urodzenia dziecka, świadectwo ślubu kościelnego rodziców, dane chrzestnych"
       },
       {
         "id": "malzenstwo",
@@ -158,7 +159,8 @@
         "description": "Przygotowanie do ślubu kościelnego. Narzeczeni zgłaszają się co najmniej 6 miesięcy przed planowaną datą.",
         "content": "Sakrament Małżeństwa jest przymierzem, przez które mężczyzna i kobieta tworzą wspólnotę całego życia. Narzeczeni zobowiązani są do zgłoszenia się w kancelarii parafialnej co najmniej sześć miesięcy przed planowanym ślubem.\n\nWymagane dokumenty: metryka chrztu, świadectwo bierzmowania, zaświadczenie z kursu przedmałżeńskiego.",
         "icon": "heart",
-        "category": "Sakrament w służbie wspólnoty"
+        "category": "Sakrament w służbie wspólnoty",
+        "requirements": "metryka chrztu, świadectwo bierzmowania, zaświadczenie z kursu przedmałżeńskiego"
       },
       {
         "id": "spowiedz",
@@ -176,7 +178,8 @@
         "description": "Towarzyszymy rodzinie w chwilach pożegnania bliskich poprzez modlitwę i sakramenty.",
         "content": "Pogrzeb katolicki jest aktem religijnym, w którym Kościół wyraża wiarę w zmartwychwstanie i życie wieczne. Prosimy o kontakt z kancelarią parafialną w celu ustalenia terminu i przebiegu uroczystości.",
         "icon": "flower",
-        "category": "Posługa duszpasterska"
+        "category": "Posługa duszpasterska",
+        "requirements": "akt zgonu, zaświadczenie o udzieleniu sakramentu chorych"
       }
     ]
   },
@@ -258,7 +261,9 @@
             "subtitle": "Każdy sakrament jest spotkaniem z Chrystusem. Dowiedz się, jak przygotować się na te ważne chwile.",
             "layout": "stacked"
           },
-          "detailsLabel": "Dowiedz się więcej"
+          "detailsLabel": "Dowiedz się więcej",
+          "centered": true,
+          "requirementsLabel": "Wymagane:"
         },
         {
           "type": "about",
@@ -310,7 +315,9 @@
             "subtitle": "Każdy sakrament jest spotkaniem z Chrystusem.",
             "layout": "stacked"
           },
-          "detailsLabel": "Dowiedz się więcej"
+          "detailsLabel": "Dowiedz się więcej",
+          "centered": true,
+          "requirementsLabel": "Wymagane:"
         }
       ]
     },

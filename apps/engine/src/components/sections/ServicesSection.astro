@@ -27,6 +27,8 @@ const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 const detailsLabel = section.detailsLabel;
 const showIcons = !!(section as any).showIcons;
+const centered = !!(section as any).centered;
+const requirementsLabel = (section as any).requirementsLabel as string | undefined;
 const serviceCategories = (section as any).serviceCategories as { id: string; label: string }[] | undefined;
 const categoryGroups = (section as any).categoryGroups as { id: string; label: string; categories: string[]; showSubTabs?: boolean }[] | undefined;
 const defaultCategory = (section as any).defaultCategory as string | undefined;
@@ -61,7 +63,7 @@ const maxWidth = (section as any).maxWidth as string | undefined;
     ) : variant === "alternating" ? (
       <ServicesAlternating client:visible items={items} />
     ) : (
-      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} />
+      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} centered={centered} requirementsLabel={requirementsLabel} />
     )}
     {footnote && (
       <p class={`services-footnote mt-spacing-3xl italic text-muted ${headerAlign === "left" ? "text-left" : "text-center"}`} data-field="footnote">

@@ -12,6 +12,7 @@ export interface ServiceItem {
   href?: string;
   linkLabel?: string;
   category?: string;
+  requirements?: string;
 }
 
 export interface ServiceCategory {
@@ -45,6 +46,10 @@ export interface ServicesProps {
   title?: string;
   /** Render lucide icons from item.icon in primary color above each service card's accent line. */
   showIcons?: boolean;
+  /** Centered icon-badge grid: 4-col, centered content, circular tinted icon badge, no accent line/details link. */
+  centered?: boolean;
+  /** Bold label prefixing each card's item.requirements note (e.g. 'Wymagane:'). */
+  requirementsLabel?: string;
   /** Number of columns for the list layout (1, 2, or 3). Defaults to 1 (single column). */
   columns?: number;
 }
