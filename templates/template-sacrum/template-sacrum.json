@@ -158,7 +158,11 @@
     "cta": {
       "label": "GODZINY MSZY ŚWIĘTYCH",
       "target": { "type": "section", "value": "msze" }
-    }
+    },
+    "links": [
+      { "label": "OGŁOSZENIA", "target": { "type": "section", "value": "project-1" } },
+      { "label": "SAKRAMENTY", "target": { "type": "section", "value": "services-2" } }
+    ]
   },
   "data": {
     "services": [
@@ -307,7 +311,7 @@
             "title": "O Naszej Parafii",
             "layout": "none"
           },
-          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-sacrum/about.jpg",
+          "image": "https://images.unsplash.com/photo-1473177104440-ffee2f376098?auto=format&fit=crop&w=1000&q=80",
           "story": {
             "title": "O Naszej Parafii",
             "content": "Parafia pod wezwaniem Świętego Józefa w Trąbkach to wspólnota z bogatą tradycją sięgającą wielu pokoleń. Nasz kościół, będący sercem lokalnej społeczności, jest miejscem, gdzie wiara spotyka się z historią, a modlitwa łączy pokolenia.\n\nŚwięty Józef — opiekun Świętej Rodziny, patron robotników i ojców — niezmiennie czuwa nad naszą parafią. Jego pokora, wierność i oddanie są dla nas wzorem codziennego życia chrześcijańskiego.\n\nZapraszamy każdego, kto szuka duchowego ukojenia, wspólnoty i bliskości z Bogiem. W naszej parafii znajdziesz miejsce na modlitwę, sakramenty i braterskie spotkanie."
