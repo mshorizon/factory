@@ -39,6 +39,7 @@ import { sanityGate } from "../packages/sitc-core/src/loop/sanity.js";
 import { createMutateCollaborator } from "../packages/sitc-core/src/loop/mutate-collaborator.js";
 import { createSanityChecks, createRegressionChecks, createAcceptanceChecks } from "../packages/sitc-core/src/delivery/checks.js";
 import { runFull } from "../packages/sitc-core/src/pipeline/run.js";
+import { summarizeConvergence, renderConvergenceReport, type UnitConvergence } from "../packages/sitc-core/src/loop/convergence.js";
 
 const REPO_ROOT = path.resolve(import.meta.dirname, "..");
 const arg = (n: string) => { const i = process.argv.indexOf(`--${n}`); return i >= 0 ? process.argv[i + 1] : undefined; };
@@ -250,6 +251,10 @@ async function main() {
     frozen: false,
   }));
 
+  // Per-unit convergence tracking — drives the "loop done → manual fixes" handoff.
+  const unitStats: Record<string, UnitConvergence> = {};
+  for (const s of initialStates) unitStats[s.sectionId] = { sectionId: s.sectionId, promotions: 0, threshold: s.threshold };
+
   let result;
   try {
     result = await runFull({
@@ -266,6 +271,13 @@ async function main() {
       const reason = r.critique ? ` — ${r.critique.slice(0, 240).replace(/\s+/g, " ")}` : "";
       const files = r.changedFiles.length ? ` files=${r.changedFiles.length}` : "";
       console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${score}${files}${reason}`);
+      // Track convergence: promotions + best score + the latest unclosed-gap critique.
+      const u = unitStats[sectionId];
+      if (u) {
+        if (r.outcome === "promoted") u.promotions++;
+        if (r.score) u.bestScore = Math.max(u.bestScore ?? 0, r.score.score);
+        if (r.outcome !== "promoted" && r.critique) u.lastCritique = r.critique;
+      }
     },
     gates: {
       // build/validate are real; existing-template SSIM is a documented stub to wire
@@ -284,6 +296,21 @@ async function main() {
   await cleanup();
   console.log(`\n✔ run #${runId} finished: status=${result.finalStatus}  thresholdReached=${result.thresholdReached}  strategies=[${result.strategiesUsed.join(",")}]`);
   if (result.merged) console.log(`  merged onto develop: ${result.merged.develop}`);
+
+  // Convergence handoff (DESIGN §8.1): if the run added nothing, the loop is done —
+  // surface the residual gaps as a manual-fix backlog instead of running again.
+  const report = summarizeConvergence(Object.values(unitStats));
+  const reportMd = renderConvergenceReport(runId, report);
+  const reportPath = path.join(artifactsDir, "manual-followups.md");
+  await fs.writeFile(reportPath, reportMd).catch(() => {});
+  if (report.converged) {
+    console.log(`\n── CONVERGED — 0 promotions; the loop has nothing left to add. ──`);
+    console.log(`   Next step: MANUAL fixes for the residual gaps (the loop's strategies can't reach them).`);
+    for (const f of report.followUps) console.log(`   • ${f.sectionId}${f.needsCode ? " [needs code]" : ""}: ${f.gap.slice(0, 160)}`);
+    console.log(`   Full backlog: ${reportPath}`);
+  } else {
+    console.log(`\n  ${report.promotions} promotion(s) — still improving; commit + run again before switching to manual fixes. Backlog: ${reportPath}`);
+  }
   process.exit(0);
 }
 

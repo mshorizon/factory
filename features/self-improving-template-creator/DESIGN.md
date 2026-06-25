@@ -415,6 +415,26 @@ A failure here blocks auto-merge and routes to `needs_review` with the specific 
 On run end, delivery is gated (§7.3) and routed by strategy (§6): clean `tune-json`/`extend-variant` runs
 **auto-merge** to `develop`; any `new-variant`/`new-section` run stops in **`needs_review`**.
 
+### §8.1 Convergence → manual-fix handoff
+
+The strategy ladder eventually plateaus: a run lands **0 promotions** because every unit either already
+matches the target or its remaining gap is **unreachable by the loop's strategies** — it needs component
+code the worker declined, a real asset/image, or a layout primitive that no JSON/variant edit can produce.
+At that point further runs only no-op and burn tokens.
+
+So a converged run is treated as a **signal, not a dead end**. `summarizeConvergence`
+(`packages/sitc-core/src/loop/convergence.ts`) inspects the per-unit outcomes:
+
+- **converged** = 0 promotions this run (the loop added nothing).
+- **followUps** = each un-locked unit's *latest worker critique* — the worker's own description of the gap
+  it couldn't close — flagged `needsCode` when the critique says it needs out-of-loop work.
+
+The runner writes this to `.sitc/runs/<id>/manual-followups.md` and, on convergence, prints
+`── CONVERGED — next step: MANUAL fixes ──` with the backlog. **This is the intended end of the automated
+loop**: once it converges, stop iterating and hand the residual gaps to a human for targeted manual fixes
+(e.g. the footer's auto-injected "Strony" column, a navbar CTA icon, a broken image) — exactly the class of
+fix the loop correctly diagnoses but cannot perform.
+
 Pause/resume is first-class: the run state machine is
 `idle → running → (awaiting_approval ⇄ running) → (paused ⇄ running) → (done | needs_review | aborted)`,
 fully persisted so a VPS restart resumes cleanly. `needs_review` keeps the run branch intact for a human.
