@@ -296,6 +296,10 @@ export type FooterVariant =
   | "restaurant";
 export type CopyrightText = string;
 /**
+ * Suppress the auto-generated 'Strony'/Pages column (nav + footer links) that is otherwise prepended to the footer columns.
+ */
+export type HideAutoPagesColumn = boolean;
+/**
  * Footer tagline. Use \n to split across multiple lines.
  */
 export type Tagline = string;
@@ -898,6 +902,7 @@ export interface Navbar {
 export interface FooterConfig {
   variant?: FooterVariant;
   copyright?: CopyrightText;
+  hidePagesColumn?: HideAutoPagesColumn;
   tagline?: Tagline;
   flag?: BrandFlagColors;
   findUsTitle?: FindUsColumnTitle;

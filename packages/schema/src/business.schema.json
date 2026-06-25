@@ -1185,6 +1185,7 @@
               "default": "simple"
             },
             "copyright": { "type": "string", "title": "Copyright Text" },
+            "hidePagesColumn": { "type": "boolean", "title": "Hide Auto Pages Column", "description": "Suppress the auto-generated 'Strony'/Pages column (nav + footer links) that is otherwise prepended to the footer columns." },
             "tagline": { "type": "string", "title": "Tagline", "description": "Footer tagline. Use \\n to split across multiple lines." },
             "flag": {
               "type": "array",

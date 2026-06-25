@@ -94,7 +94,7 @@ if (chrome === "navbar" || chrome === "footer") {
   const footerLinks = (layout.footer?.links || []).map((l: any) => ({ label: l.label, href: l.href || resolveTarget(l.target, business) }));
   const pagesColumn = { title: t(translations, "footer.columns.pages.title", "Strony"), links: [...navLinks, ...footerLinks] };
   const footerColumns = [
-    pagesColumn,
+    ...(layout.footer?.hidePagesColumn ? [] : [pagesColumn]),
     ...(layout.footer?.columns || [])
       .filter((c: any) => c.title !== pagesColumn.title)
       .map((c: any) => ({ title: c.title, links: (c.links || []).map((l: any) => ({ label: l.label, href: l.href || resolveTarget(l.target, business) })) })),

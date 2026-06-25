@@ -96,6 +96,7 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       name: layout.footer?.name,
       variant: layout.footer?.variant || "simple",
       background: layout.footer?.background,
+      hidePagesColumn: (layout.footer as any)?.hidePagesColumn || false,
       copyright: layout.footer?.copyright,
       tagline: layout.footer?.tagline,
       links: layout.footer?.links || [],
