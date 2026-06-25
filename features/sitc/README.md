@@ -14,6 +14,9 @@
 > **Related:** `.claude/skills/clone-template/SKILL.md` (single-pass cloning — this feature is the looping evolution of it)
 > **Detailed mechanics:** see [`DESIGN.md`](./DESIGN.md). Section numbers are shared across both files
 > (this README owns §1–3 and §13–14; DESIGN owns §4–12 and §15–18), so every `§x.y` cross-reference is unambiguous.
+> **Live-run learnings & improvement roadmap:** [`CONCLUSIONS.md`](./CONCLUSIONS.md) — written after the first
+> sustained live runs (the loop evolved `template-sacrum` end-to-end, converged, then handed off residual gaps
+> for manual fixing). Read this before extending the feature.
 
 ---
 

@@ -7,7 +7,7 @@
  * an injected WorkerRunner with v0 prompts (refine + calibrate in Phase 2);
  * seedRunDb is a Phase-1 seam.
  *
- * See features/self-improving-template-creator/{README,DESIGN}.md and ADR-0020.
+ * See features/sitc/{README,DESIGN}.md and ADR-0020.
  */
 export * from "./types.js";
 

@@ -1,6 +1,6 @@
 /**
  * PM2 ecosystem for the SITC (Self-Improving Template Creator) control plane.
- * SCAFFOLDING — see features/self-improving-template-creator/DEPLOY.md.
+ * SCAFFOLDING — see features/sitc/DEPLOY.md.
  *
  * Two processes:
  *  - sitc-gc            SAFE daemon. Sweeps orphaned (expired-lease) runs every

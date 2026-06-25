@@ -455,7 +455,7 @@ The differentiator, built to its full form from the start (no tag-match stopgap)
    - `confidence` / `score_delta` / `uses` / `wins`: track how reliable the lesson has proven across runs.
    - e.g. *"Target = dark hero, centered headline → seed from the `gradient` hero variant; beats `default`
      by ~0.2 on iter 1."*
-2. **Human-readable digest** — `features/self-improving-template-creator/LESSONS.md`, auto-regenerated from
+2. **Human-readable digest** — `features/sitc/LESSONS.md`, auto-regenerated from
    the table (top lessons by confidence), reviewable/editable in Git.
 
 ### 9.2 Retrieval (the "target" part)

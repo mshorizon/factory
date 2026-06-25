@@ -17,7 +17,7 @@ Tylko ogólne, wielokrotnego użytku blueprinty trafiają do `templates/`. Konkr
 
 Ten skill to **pojedyncze przejście** (one-shot). Jest zarazem **iteracją 0 / Fazą 0** dla planowanej funkcji
 **Self-Improving Template Creator** (pętla iteracyjna dopracowująca template do designu wzoru) — patrz
-`features/self-improving-template-creator/README.md` i `DESIGN.md`.
+`features/sitc/README.md` i `DESIGN.md`.
 
 Plan docelowy (DESIGN §4.5): fazy tego skilla (analiza strony → mapowanie sekcji → tworzenie wariantów →
 walidacja → seed) zostaną wyekstrahowane do współdzielonej biblioteki `packages/sitc-core`, z której będą

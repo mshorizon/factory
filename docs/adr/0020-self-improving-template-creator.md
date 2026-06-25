@@ -4,7 +4,7 @@
 **Date:** 2026-06-15  
 **Validation:** Phase −1 spike (2026-06-15) confirmed the two load-bearing bets — isolation-render fidelity
 (decision 4) and pairwise-judge reliability (decision 5). See
-`features/self-improving-template-creator/SPIKE-FINDINGS.md`.
+`features/sitc/SPIKE-FINDINGS.md`.
 
 ## Context
 The `clone-template` skill (ADR-0013 variant system, ADR-0005 template→DB sync) takes a reference website
@@ -15,7 +15,7 @@ businesses, and every clone job throws away its reasoning, so we never get faste
 We want a mechanism that, given a reference URL, **iteratively** evolves a template until its rendered output
 converges on the reference design — running unattended for hours if needed — and that **gets better over
 time** by remembering what worked across runs. The full design lives in
-`features/self-improving-template-creator/` (`README.md` + `DESIGN.md`); this ADR records the load-bearing
+`features/sitc/` (`README.md` + `DESIGN.md`); this ADR records the load-bearing
 architectural decisions so they aren't re-litigated.
 
 The hard parts: a single regeneration improves some sections and degrades others (so global accept/reject is

@@ -3,7 +3,7 @@
  *
  * Human-readable, Git-reviewable view of the top lessons by confidence, grouped
  * by scope. Auto-regenerated at run end; the orchestrator writes the returned
- * string to `features/self-improving-template-creator/LESSONS.md`.
+ * string to `features/sitc/LESSONS.md`.
  */
 import type { LessonRecord } from "./lesson-store.js";
 
