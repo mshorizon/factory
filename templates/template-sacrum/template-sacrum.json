@@ -219,7 +219,8 @@
           "background": "light",
           "header": {
             "title": "Witamy w Parafii\nśw. Józefa",
-            "subtitle": "Zapraszamy do naszej wspólnoty parafialnej — miejsca modlitwy, spotkania z Bogiem i braterskiej bliskości. Niech Święty Józef, nasz Patron, prowadzi nas na drodze wiary."
+            "subtitle": "Zapraszamy do naszej wspólnoty parafialnej — miejsca modlitwy, spotkania z Bogiem i braterskiej bliskości. Niech Święty Józef, nasz Patron, prowadzi nas na drodze wiary.",
+            "badge": "PARAFIA"
           },
           "titleAccent": "w Trąbkach",
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-sacrum/hero.jpg",
