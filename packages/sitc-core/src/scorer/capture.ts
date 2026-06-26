@@ -73,6 +73,34 @@ export interface StyleProfile {
   button?: { bg: string; text: string };
 }
 
+/**
+ * Reference imagery a target section uses (tasks I11; §18-F). We record the SHAPE
+ * and ROLE — aspect ratio, dimensions, foreground-vs-background, alt — NOT the bytes:
+ * the loop reproduces a design LANGUAGE with our own/licensed assets, it doesn't copy
+ * the target's photos (README §1.1 IP posture). The worker uses this to pick a
+ * closer-shaped placeholder/R2/Unsplash asset (a 16:9 hero vs a 1:1 thumbnail scores
+ * very differently even with identical structure), closing the "broken/placeholder
+ * image" manual gap (CONCLUSIONS #4).
+ */
+export interface BandImage {
+  kind: "img" | "background";
+  /** Source URL — kept for the operator/manifest, NOT used to copy bytes. */
+  src: string;
+  width: number;
+  height: number;
+  /** width / height, 2dp. */
+  aspectRatio: number;
+  alt: string;
+}
+
+interface BandBase {
+  yStart: number;
+  yEnd: number;
+  style: StyleProfile;
+  /** Prominent imagery in this band (area-ranked, top few). I11. */
+  images: BandImage[];
+}
+
 export interface CaptureResult {
   url: string;
   /** breakpoint label → screenshot path (the immutable goal). */
@@ -83,11 +111,32 @@ export interface CaptureResult {
    * style. FAR more accurate than VLM pixel/color guesses. Empty if extraction
    * found nothing usable (caller falls back to VLM segmentation). DESIGN §4.3.
    */
-  domBands: { yStart: number; yEnd: number; style: StyleProfile }[];
+  domBands: BandBase[];
   /** Whole-page ground-truth style (feeds the global theme pass). */
   globalStyle: StyleProfile | null;
   /** Navbar y-range (the fixed/sticky top header, excluded from domBands) + its style. */
-  navbarBand: { yStart: number; yEnd: number; style: StyleProfile } | null;
+  navbarBand: BandBase | null;
+}
+
+/**
+ * Summarize a band's reference imagery into a worker hint (I11). Buckets by aspect
+ * ratio + flags a full-bleed background, so the worker can choose a matching-shape
+ * asset. Pure.
+ */
+export function summarizeBandImages(images: BandImage[]): string {
+  if (!images.length) return "no prominent imagery";
+  const bucket = (ar: number) => (ar >= 1.7 ? "wide ~16:9" : ar >= 1.2 ? "landscape ~4:3" : ar >= 0.85 ? "square ~1:1" : "portrait ~3:4");
+  const bg = images.find((i) => i.kind === "background");
+  const fg = images.filter((i) => i.kind === "img");
+  const counts = new Map<string, number>();
+  for (const im of fg) {
+    const k = bucket(im.aspectRatio);
+    counts.set(k, (counts.get(k) ?? 0) + 1);
+  }
+  const parts: string[] = [];
+  if (bg) parts.push(`full-bleed background image (${bucket(bg.aspectRatio)})`);
+  for (const [k, n] of counts) parts.push(`${n} ${k} image${n > 1 ? "s" : ""}`);
+  return parts.length ? parts.join("; ") : "no prominent imagery";
 }
 
 /**
@@ -99,9 +148,9 @@ export interface CaptureResult {
 async function extractDomBands(
   page: Page,
 ): Promise<{
-  bands: { yStart: number; yEnd: number; style: StyleProfile }[];
+  bands: BandBase[];
   global: StyleProfile | null;
-  navbar: { yStart: number; yEnd: number; style: StyleProfile } | null;
+  navbar: BandBase | null;
 }> {
   return page.evaluate(() => {
     (globalThis as unknown as { __name?: (f: unknown) => unknown }).__name ??= (f) => f;
@@ -185,6 +234,30 @@ async function extractDomBands(
       };
     };
 
+    // ── reference imagery in a subtree (shape/role only — I11) ───────────────
+    const imagesOf = (rootEl: Element) => {
+      const out: Array<{ kind: "img" | "background"; src: string; width: number; height: number; aspectRatio: number; alt: string; area: number }> = [];
+      for (const im of Array.from(rootEl.querySelectorAll("img"))) {
+        const node = im as HTMLImageElement;
+        const r = node.getBoundingClientRect();
+        if (r.width < 24 || r.height < 24) continue;
+        const w = node.naturalWidth || r.width;
+        const h = node.naturalHeight || r.height;
+        if (w <= 0 || h <= 0) continue;
+        out.push({ kind: "img", src: node.currentSrc || node.src || "", width: Math.round(w), height: Math.round(h), aspectRatio: Math.round((w / h) * 100) / 100, alt: node.getAttribute("alt") || "", area: r.width * r.height });
+      }
+      for (const el of Array.from(rootEl.querySelectorAll("*")).slice(0, 400)) {
+        const bi = getComputedStyle(el).backgroundImage;
+        if (!bi || bi === "none" || !/url\(/.test(bi)) continue;
+        const r = el.getBoundingClientRect();
+        if (r.width < 48 || r.height < 48) continue;
+        const m = bi.match(/url\(["']?([^"')]+)["']?\)/);
+        out.push({ kind: "background", src: m ? m[1] : "", width: Math.round(r.width), height: Math.round(r.height), aspectRatio: Math.round((r.width / r.height) * 100) / 100, alt: "", area: r.width * r.height });
+      }
+      out.sort((a, b) => b.area - a.area);
+      return out.slice(0, 4).map(({ area, ...rest }) => rest);
+    };
+
     // 1. descend through single dominant wrappers to the first level with ≥2 sections
     let root: Element = document.body;
     for (let d = 0; d < 8; d++) {
@@ -208,7 +281,7 @@ async function extractDomBands(
     const bands = finals
       .map((el) => {
         const r = el.getBoundingClientRect();
-        return { yStart: Math.round(r.top + window.scrollY), yEnd: Math.round(r.bottom + window.scrollY), style: styleOf(el) };
+        return { yStart: Math.round(r.top + window.scrollY), yEnd: Math.round(r.bottom + window.scrollY), style: styleOf(el), images: imagesOf(el) };
       })
       .filter((b) => b.yEnd - b.yStart >= 80)
       .sort((a, b) => a.yStart - b.yStart);
@@ -226,7 +299,7 @@ async function extractDomBands(
         navBottom = Math.max(navBottom, Math.round(r.bottom));
       }
     }
-    const navbar = navTop && navBottom > 0 ? { yStart: 0, yEnd: navBottom, style: styleOf(navTop) } : null;
+    const navbar = navTop && navBottom > 0 ? { yStart: 0, yEnd: navBottom, style: styleOf(navTop), images: imagesOf(navTop) } : null;
 
     return { bands, global: styleOf(document.body), navbar };
   });
@@ -237,9 +310,9 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
   await fs.mkdir(opts.outDir, { recursive: true });
   const browser = await chromium.launch();
   const screenshots: Record<string, string> = {};
-  let domBands: { yStart: number; yEnd: number; style: StyleProfile }[] = [];
+  let domBands: BandBase[] = [];
   let globalStyle: StyleProfile | null = null;
-  let navbarBand: { yStart: number; yEnd: number; style: StyleProfile } | null = null;
+  let navbarBand: BandBase | null = null;
   try {
     for (const bp of bps) {
       const ctx = await browser.newContext({

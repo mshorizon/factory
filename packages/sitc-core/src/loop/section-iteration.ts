@@ -44,9 +44,32 @@ export interface SectionCollaborators {
     critique?: string;
   }): Promise<{ changedFiles?: string[]; summary?: string }>;
   sanity(ctx: { worktreePath: string; changedFiles: string[]; strategy: MutationStrategy }): Promise<SanityResult>;
-  render(ctx: { worktreePath: string; sectionId: string }): Promise<{ ourImg: string }>;
+  /**
+   * Render the section. `strategy` + `base` let the renderer pick a fast path:
+   * a JSON-only `tune-json` change leaves component code identical to the
+   * iteration's `base` champion, so it can render through a shared, already-warm
+   * per-champion engine (reading the worker's edited JSON via profilePath) instead
+   * of cold-compiling a fresh per-worktree engine (tasks I2). Code-changing
+   * strategies must still render from their own worktree (their edits live there).
+   */
+  render(ctx: { worktreePath: string; sectionId: string; strategy: MutationStrategy; base: string }): Promise<{ ourImg: string }>;
+  /**
+   * Optional cross-breakpoint guard (I12, DESIGN §5.2 step 6). Called only when a
+   * challenger has WON the desktop pairwise AND there's an existing champion to fall
+   * back to. Returns `ok:false` to REJECT the promotion (e.g. the challenger breaks
+   * mobile layout) — the champion is kept and the reason feeds the next critique.
+   * Absent → no guard (current behavior).
+   */
+  guard?(ctx: { worktreePath: string; sectionId: string; strategy: MutationStrategy; base: string; ourImg: string }): Promise<{ ok: boolean; reason?: string }>;
   score(ctx: { ourImg: string; targetImg: string }): Promise<HybridScore>;
   judge(ctx: { champion: string; challenger: string; target: string }): Promise<PairwiseResult>;
+}
+
+/** A leased worktree (tasks I3) — same shape `addWorkerWorktree` yields, plus release. */
+export interface WorktreeLease {
+  path: string;
+  base: string;
+  release(): Promise<void>;
 }
 
 export interface SectionIterationInput {
@@ -61,6 +84,13 @@ export interface SectionIterationInput {
   critique?: string;
   collab: SectionCollaborators;
   integrateLock?: Mutex;
+  /**
+   * Lease a PERSISTENT pooled worktree (I3) instead of creating a fresh one per
+   * iteration. When provided, its `release()` returns the slot to the pool (kept
+   * warm); when absent, the iteration falls back to `addWorkerWorktree` +
+   * `removeWorktree` (the original per-iteration behavior).
+   */
+  lease?: () => Promise<WorktreeLease>;
 }
 
 export type SectionOutcome = "promoted" | "reverted" | "sanity_failed" | "no-op";
@@ -77,7 +107,20 @@ export interface SectionIterationResult {
 
 export async function runSectionIteration(input: SectionIterationInput): Promise<SectionIterationResult> {
   const { worktree, runId, workerId, sectionId, strategy, collab } = input;
-  const wt = await worktree.addWorkerWorktree(runId, workerId);
+  // Pooled worktree (I3) if a lease is provided, else a fresh per-iteration one.
+  const leased: WorktreeLease = input.lease
+    ? await input.lease()
+    : await (async () => {
+        const w = await worktree.addWorkerWorktree(runId, workerId);
+        return {
+          path: w.path,
+          base: w.base,
+          release: async () => {
+            if (process.env.SITC_KEEP_FAILED_WORKTREE !== "1") await worktree.removeWorktree(w.path);
+          },
+        };
+      })();
+  const wt = { path: leased.path, base: leased.base };
   try {
     // MUTATE
     const m = await collab.mutate({ worktreePath: wt.path, sectionId, strategy, critique: input.critique });
@@ -98,7 +141,7 @@ export async function runSectionIteration(input: SectionIterationInput): Promise
     }
 
     // RENDER + SCORE
-    const { ourImg } = await collab.render({ worktreePath: wt.path, sectionId });
+    const { ourImg } = await collab.render({ worktreePath: wt.path, sectionId, strategy, base: wt.base });
     const score = await collab.score({ ourImg, targetImg: input.targetImg });
 
     // SELECT — first challenger auto-promotes; otherwise pairwise A/B decides
@@ -106,6 +149,15 @@ export async function runSectionIteration(input: SectionIterationInput): Promise
     if (!promote) {
       const pw = await collab.judge({ champion: input.championImg as string, challenger: ourImg, target: input.targetImg });
       promote = pw.winner === "challenger";
+    }
+
+    // GUARD (I12) — a desktop win must not regress another breakpoint (e.g. mobile).
+    // Only when there's a champion to keep; the first challenger has no fallback.
+    if (promote && input.championImg != null && collab.guard) {
+      const g = await collab.guard({ worktreePath: wt.path, sectionId, strategy, base: wt.base, ourImg });
+      if (!g.ok) {
+        return { outcome: "reverted", challengerSha: sha, changedFiles, score, ourImg, critique: g.reason ?? "rejected by breakpoint guard" };
+      }
     }
 
     if (promote) {
@@ -116,8 +168,8 @@ export async function runSectionIteration(input: SectionIterationInput): Promise
     }
     return { outcome: "reverted", challengerSha: sha, changedFiles, score, ourImg, critique: score.vlm.critique };
   } finally {
-    // Debug: keep the worktree so a failed edit can be inspected alongside the
-    // engine log (set SITC_KEEP_FAILED_WORKTREE=1). Off by default.
-    if (process.env.SITC_KEEP_FAILED_WORKTREE !== "1") await worktree.removeWorktree(wt.path);
+    // Release the worktree: pooled → returns the slot (kept warm, I3); fresh →
+    // removes it (unless SITC_KEEP_FAILED_WORKTREE=1, honored in the fallback above).
+    await leased.release();
   }
 }

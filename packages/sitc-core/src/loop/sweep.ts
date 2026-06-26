@@ -10,6 +10,7 @@ import { pickNext, allSettled, type SectionState } from "./scheduler.js";
 import { nextStrategy, ladderExhausted } from "./strategy.js";
 import { runSectionIteration, createMutex, type SectionCollaborators, type SectionIterationResult } from "./section-iteration.js";
 import type { WorktreeManager } from "../orchestrator/worktree.js";
+import type { WorktreePool } from "../orchestrator/worktree-pool.js";
 import type { RunStore } from "../orchestrator/store.js";
 import { budgetExceeded, type BudgetCaps } from "../delivery/budget.js";
 
@@ -28,6 +29,8 @@ export interface SweepInput {
   budget?: BudgetCaps;
   /** Poll this store's command queue between rounds for pause/abort (§16). */
   store?: RunStore;
+  /** Persistent worktree pool (I3) — keeps render engines warm across iterations. */
+  worktreePool?: WorktreePool;
   nowMs?: () => number;
   /** Consecutive low-yield attempts before escalating strategy. */
   plateauAfter?: number;
@@ -38,6 +41,14 @@ export interface SweepResult {
   states: SectionState[];
   rounds: number;
   promotions: number;
+  /** Total worker invocations dispatched (cost proxy for the §18-G / I1 metric). */
+  workerInvocations: number;
+  /**
+   * Round at which each section FIRST reached its threshold (locked). The headline
+   * compounding metric (DESIGN §18-G / tasks I1): "iterations-to-threshold". A
+   * section that never locked is absent from the map (treat as null = unreached).
+   */
+  iterationsToLock: Record<string, number>;
   /** Final champion render per section (the image that won each section). */
   championImg: Record<string, string | null>;
   /** Why the sweep stopped. */
@@ -57,6 +68,7 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
   let rounds = 0;
   let promotions = 0;
   let workerInvocations = 0;
+  const iterationsToLock: Record<string, number> = {};
   let stoppedBy: SweepResult["stoppedBy"] = "settled";
 
   while (!allSettled([...states.values()])) {
@@ -108,6 +120,7 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
             critique: critiques[pick.sectionId],
             collab: input.collab,
             integrateLock: lock,
+            lease: input.worktreePool ? () => input.worktreePool!.acquire() : undefined,
           });
         } catch (err) {
           res = { outcome: "no-op", challengerSha: null, changedFiles: [], critique: `iteration error: ${String(err).slice(0, 160)}` };
@@ -121,7 +134,11 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
           st.score = res.score?.score ?? st.score;
           champ[pick.sectionId] = res.ourImg ?? champ[pick.sectionId];
           st.attempts = 0;
-          if (st.score >= st.threshold) st.locked = true;
+          if (st.score >= st.threshold && !st.locked) {
+            st.locked = true;
+            // record the round it first crossed threshold (iterations-to-threshold, I1)
+            iterationsToLock[pick.sectionId] = rounds;
+          }
           // persist the new champion (DESIGN §10) — best-effort, non-blocking on failure
           if (input.store) {
             await input.store
@@ -147,5 +164,5 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
     );
   }
 
-  return { states: [...states.values()], rounds, promotions, championImg: champ, stoppedBy };
+  return { states: [...states.values()], rounds, promotions, workerInvocations, iterationsToLock, championImg: champ, stoppedBy };
 }

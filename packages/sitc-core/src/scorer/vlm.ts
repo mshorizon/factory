@@ -9,16 +9,22 @@
  * NOT for promotion (promotion = pairwise, §7.2a).
  */
 import type { WorkerRunner } from "../types.js";
+import { normalizeFindings, renderCritique, type Finding } from "./rubric.js";
 
 export interface VlmScore {
   score: number; // 0..1
   breakdown: Record<string, number>; // 0..1 per dimension
+  /** Per-dimension must-fix checklist (I8) — the structured steering signal. */
+  findings: Finding[];
+  /** Steering text for the next worker — rendered from `findings` + `breakdown`. */
   critique: string;
 }
 
 interface RawVlm {
   score: number; // 0..100
   breakdown?: Record<string, number>;
+  findings?: unknown;
+  /** Fallback prose critique if the model emits no structured findings. */
   critique?: string;
 }
 
@@ -32,7 +38,9 @@ export async function vlmScore(
 OUR:    ${ourImg}
 TARGET: ${targetImg}
 Score 0-100 on: layout/composition, color system, typography, spacing rhythm, border-radius, imagery TREATMENT (not the literal photo). IGNORE exact copy text and specific photo content.
-Output NOTHING except one JSON object: {"score":0-100,"breakdown":{"layout":0-100,"color":0-100,"typography":0-100,"spacing":0-100,"imagery":0-100},"critique":"<the top concrete gaps to fix next>"}`;
+Also list the concrete gaps as a structured checklist — each with the dimension it belongs to, a severity ("must-fix" = blocks a good match, "minor" = polish), the gap, and a concrete fix (prefer semantic tokens / variant choices).
+Output NOTHING except one JSON object:
+{"score":0-100,"breakdown":{"layout":0-100,"color":0-100,"typography":0-100,"spacing":0-100,"imagery":0-100},"findings":[{"dimension":"layout|color|typography|spacing|imagery","severity":"must-fix|minor","gap":"<what's wrong>","fix":"<concrete fix>"}]}`;
   const r = await runner.runJson<RawVlm>(prompt, {
     images: [ourImg, targetImg],
     allowedTools: ["Read"],
@@ -41,5 +49,8 @@ Output NOTHING except one JSON object: {"score":0-100,"breakdown":{"layout":0-10
   const norm = (n: number) => Math.max(0, Math.min(1, (Number(n) || 0) / 100));
   const breakdown: Record<string, number> = {};
   for (const [k, v] of Object.entries(r.breakdown ?? {})) breakdown[k] = norm(v as number);
-  return { score: norm(r.score), breakdown, critique: r.critique ?? "" };
+  const findings = normalizeFindings(r.findings);
+  // Prefer the structured checklist as steering text; fall back to any prose critique.
+  const critique = findings.length ? renderCritique(findings, breakdown) : (r.critique ?? "");
+  return { score: norm(r.score), breakdown, findings, critique };
 }

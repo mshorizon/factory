@@ -142,3 +142,35 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
     await browser.close();
   }
 }
+
+/**
+ * Measure horizontal overflow (px) of the section at a given breakpoint — the cheap
+ * signal behind the mobile guard (I12). Loads the harness page at the viewport and
+ * returns `scrollWidth − clientWidth` (clamped ≥ 0); a positive value means the
+ * section spills sideways (broken responsive layout). Defaults to mobile.
+ */
+export async function measureHorizontalOverflow(opts: {
+  baseUrl: string;
+  business: string;
+  page?: string;
+  index?: number;
+  profilePath?: string;
+  chrome?: "navbar" | "footer";
+  breakpoint?: Breakpoint;
+  waitForMs?: number;
+}): Promise<number> {
+  const bp = opts.breakpoint ?? MOBILE_GUARD;
+  const url = harnessUrl(opts);
+  const browser = await chromium.launch();
+  try {
+    const ctx = await browser.newContext({ viewport: { width: bp.width, height: bp.height }, deviceScaleFactor: 1, reducedMotion: "reduce" });
+    const pg = await ctx.newPage();
+    const resp = await pg.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+    if (resp && resp.status() >= 400) throw new Error(`overflow probe HTTP ${resp.status()}`);
+    await pg.locator(`[data-section-index="0"]`).first().waitFor({ state: "attached", timeout: opts.waitForMs ?? 30000 });
+    const overflow = await pg.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    return Math.max(0, overflow);
+  } finally {
+    await browser.close();
+  }
+}

@@ -156,3 +156,255 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
 A single-section, single-iteration **real** cycle (slice of Steps 2+3): real `authorVariant` edits one section
 → `renderSection` renders it from a working file → `scoreSection` + `pairwiseJudge` vs the captured target crop.
 First point where you can **open a rendered section and compare it to the target**.
+
+---
+
+## Improvement roadmap — next wave (post-live-run analysis, 2026-06-25)
+
+> Ranked by leverage. Tiers mirror the analysis: T0 = existential (does the premise hold?), T1 = bottleneck +
+> flywheel, T2 = gaps blocking *trusted* unattended runs, T3 = sharpening, T4 = scope expansion. Items flagged
+> **[amplifies]** extend a CONCLUSIONS.md roadmap item; **[new]** is a fresh angle.
+
+### Tier 0 — prove the core premise
+- [x] **I1 — Measure whether the learning store actually compounds. [new framing of §18-G]** ✅ *mechanism built
+      & verified (17/17); live A/B is an operator action.*
+      The whole reason this exists over `clone-template` is "run 5 converges faster than run 1," yet lessons have
+      only ever run with the hashing-fallback embedder in tests and iterations-to-threshold is unmeasured. Built:
+      - (a) **iterations-to-threshold telemetry** — `runSweep` now records `iterationsToLock` (round each section
+        first crossed threshold) + `workerInvocations`; surfaced through `FullRunResult.metrics` (`RunMetrics`).
+        (`loop/sweep.ts`, `pipeline/run.ts`)
+      - (b) **lessons-on vs lessons-off A/B toggle** — `SITC_DISABLE_LESSONS=1` makes the runner inject no lessons
+        into the worker prompt (the OFF arm); each run writes `.sitc/runs/<id>/metrics.json` tagged with its arm.
+        (`scripts/sitc-runner.mts`)
+      - (c) **one-command comparison report** — `pnpm sitc:lessons-ab --on <run> --off <run>` →
+        `compareLessonsAb` + `renderAbReport`: per-section rounds-saved, net extra locked, invocations saved,
+        score-delta guard, and a conservative verdict (`lessons-help`/`hurt`/`inconclusive`).
+        (`packages/sitc-core/src/experiment/lessons-ab.ts`, `scripts/sitc-lessons-ab.mts`)
+      - **Verified deterministically:** `packages/tests/sitc-lessons-ab.check.mts` — 17/17 (verdict logic incl.
+        regression guard + only-on/off advantage, report rendering, and a fake-collaborator sweep proving
+        `iterationsToLock` lands at the correct round). sitc-core type-checks clean; runner import graph resolves.
+      - **Operator step (the actual experiment):** on the VPS, run the same target twice — once normally, once
+        with `SITC_DISABLE_LESSONS=1` (needs a non-empty `sitc_lessons` store + a real `SITC_EMBED_CMD` for a fair
+        ON arm) — then `pnpm sitc:lessons-ab`. Cheap falsification: if lessons don't move the number, delete a
+        large subsystem (pgvector/distill/dedup/decay) and simplify.
+
+### Tier 1 — bottleneck & flywheel
+- [x] **I2 — Split the render path by strategy: `tune-json` must never compile. [new]** ✅ *built & verified
+      (11/11); live perf win is operator-observed.* JSON-only changes don't touch component code, so the most
+      common/cheapest strategy now renders through a **shared, already-warm engine pinned at the iteration's
+      `base` champion** (the worker's edited JSON supplied via `?profilePath=`), instead of cold-compiling a
+      fresh per-worktree engine. Code-changing strategies (`extend-variant`/`new-variant`/`new-section`) keep
+      their own per-worktree engine (their edits live there and must compile). Design notes:
+      - **Per-champion base worktree, not per-iteration.** `WorktreeManager.ensureBaseWorktree(runId, baseSha)`
+        creates ONE immutable detached worktree per champion generation, reused by every `tune-json` iteration
+        at that champion → one cold compile per generation (~handful/run) instead of one per iteration (~dozens).
+        Immutable ⇒ no reset/rewarm/mutex needed; concurrent renders at the same champion are trivially safe.
+        (`orchestrator/worktree.ts`)
+      - **Routing seam.** `SectionCollaborators.render` ctx gained `strategy` + `base`; the runner branches on
+        `strategy === "tune-json"`. (`loop/section-iteration.ts`, `scripts/sitc-runner.mts`)
+      - **Correctness:** the harness path-constraint already allows a persistent engine to read a *different*
+        worktree's JSON (only requires `templates/` segment + `.json` + exists), so the shared engine renders the
+        edited JSON against the correct champion components. EngineManager `maxEngines` bumped to
+        `maxWorkers + 2` so the warm champion engine survives a full round of code-strategy engines.
+      - **Observability:** runner logs `N warm / M cold` renders at run end (also feeds I9).
+      - **Verified deterministically:** `packages/tests/sitc-render-routing.check.mts` — 11/11 (real temp-git repo:
+        base worktree pinned at the right sha, idempotent, concurrent-create dedupe, distinct path per
+        generation; + fake-collab proof that `runSectionIteration` threads `strategy`/`base` into `render`).
+        sitc-core type-checks clean; I1 check still green; runner import graph resolves.
+- [x] **I3 — Persistent per-worker worktrees + engine pool. [amplifies CONCLUSIONS #1]** ✅ *built & verified
+      (17/17); live speedup operator-observed.* I2 covered `tune-json`; I3 covers the code-changing strategies
+      (`extend-variant`/`new-variant`/`new-section`), which still cold-compiled a fresh worktree per iteration.
+      - **Pool of N = maxWorkers persistent slot worktrees** (`WorktreePool` + `WorktreeManager.acquireSlot`):
+        each iteration leases a free slot, reset `--hard` to the current champion + `clean -fdq` on acquire (cheap;
+        node_modules symlinks are git-excluded so they survive). The slot's render engine stays warm across
+        iterations → Vite HMR recompiles only the worker's edits instead of cold-starting.
+      - **Additive seam:** `runSectionIteration` gained an optional `lease` — when present it acquires/releases a
+        pooled slot; when absent it falls back to the original `addWorkerWorktree`/`removeWorktree`. Threaded
+        through `runSweep` → `runFull` → the runner (`new WorktreePool(worktree, runId, maxWorkers)`).
+      - **Pool semantics:** bounded, blocks-then-unblocks on release, reuses freed slots, idempotent release,
+        returns the slot if `acquireSlot` throws (no deadlock). EngineManager headroom (`maxWorkers + 2`, set in
+        I2) keeps the slot engines + the tune-json base engine warm together.
+      - **Verified deterministically:** `packages/tests/sitc-worktree-pool.check.mts` — 17/17 (pool bounding/
+        blocking/reuse/idempotency/failure-return; real temp-git `acquireSlot` create-then-reset-to-advanced-
+        champion + untracked cleanup; `runSectionIteration` lease lifecycle incl. release-on-sanity-failure and
+        the no-lease fallback). sitc-core type-checks clean; all six check suites green (81 checks); runner loads.
+      - CONCLUSIONS #1 (the named "single biggest reliability/speed win") marked addressed (with I2).
+- [x] **I4 — Close the auto-merge loop so the flywheel turns. [amplifies CONCLUSIONS #2 + #7]** ✅ *built &
+      verified (17/17); live push/PR is operator-gated.* The compounding claim's second leg: each clean run lands
+      on `develop` automatically so the next run seeds improved — no hand cherry-picks. Built `landDelivery`
+      (`delivery/delivery.ts`), wired into `runFull` (`pipeline/run.ts`) + the runner:
+      - **auto-merge** (clean `tune-json`/`extend-variant`, threshold + gates pass) → no-ff merge into `develop`.
+        Local merge alone accumulates on the VPS so the next clone-template seed starts improved (CONCLUSIONS #7).
+      - **safe downgrade** — a dirty tree / conflict no longer crashes the run mid-flight (the old inline
+        `mergeRunToDevelop` threw): it downgrades to `needs_review` with the branch intact and a reason note.
+      - **opt-in push** — `SITC_DELIVERY_PUSH=1` pushes `develop` (outward-facing → prod deploy; off by default).
+      - **auto-PR** — `SITC_DELIVERY_PR=1` pushes the run branch + opens a `gh` PR for `needs_review` runs instead
+        of leaving them for cherry-pick (`SITC_GIT_REMOTE` overrides remote). PR opener is injectable (testable).
+      - Outcome logged + written to `.sitc/runs/<id>/delivery.json`; `FullRunResult` gained `pushed`/`prUrl`.
+      - **Verified deterministically:** `packages/tests/sitc-delivery-landing.check.mts` — 17/17 on real temp git
+        repos + a bare remote (auto-merge advances develop; push reaches the remote; dirty tree → safe downgrade,
+        branch intact; needs_review → branch pushed + injected PR opener called). sitc-core type-checks clean;
+        I1/I2 checks still green; runner import graph resolves. DEPLOY.md §4 documents the flags.
+      - **Still gated on the gates being trustworthy:** auto-merge is only as safe as I5 (acceptance on a PROD
+        build) + I6 (real existing-template SSIM). Until those land, run with `SITC_DELIVERY_PUSH` off (local
+        accumulation only) or `SITC_DELIVERY_PR=1` for a human gate.
+
+### Tier 2 — gaps blocking trusted unattended runs (DEPLOY.md §Known gaps)
+- [x] **I5 — Point the acceptance gate at a PROD build, not `astro dev`.** ✅ *built & verified (7/7); live build
+      on first run.* Dev numbers (~18MB/459 req) made perf/transfer budgets meaningless. Fix has two parts:
+      - **Don't enforce perf against dev.** `createAcceptanceChecks({ enforcePerf })` — when false, `perf()` is
+        skipped (passes with a note, no browser) so inflated dev numbers can't *falsely fail OR falsely reassure*;
+        a11y/responsive/hygiene still run. (`delivery/checks.ts`)
+      - **Provide a real prod target.** `resolveAcceptanceTarget` precedence: `SITC_ACCEPTANCE_URL` (operator prod
+        preview) → `SITC_ACCEPTANCE_BUILD=1` (`buildAndServePreview` does `pnpm --filter @mshorizon/engine build`
+        on the champion worktree + serves the `@astrojs/node` standalone server) → dev fallback (perf off + loud
+        note). (`delivery/preview-server.ts`)
+      - **Lazy URL.** The build-mode preview URL only exists post-sweep (built from the champion), so
+        `createAcceptanceChecks` now accepts a memoized URL thunk resolved once at gate time across all checks.
+      - **Verified deterministically:** `packages/tests/sitc-acceptance-target.check.mts` — 7/7 (resolver
+        precedence + perf-authoritative flags; `perf()` skip passes without launching a browser or resolving the
+        URL when `enforcePerf=false`). sitc-core type-checks clean; I1/I2/I4/I6 checks still green; runner loads.
+        DEPLOY.md gap #2 closed.
+      - **Note:** evolved-template *content* under a prod build needs the run DB seeded with the champion
+        (`SITC_PREVIEW_DATABASE_URL`, gap #3 / Step 3); perf/bundle characteristics are meaningful regardless.
+- [x] **I6 — Wire real existing-template SSIM (currently `() => []` → SSIM=1).** ✅ *built & verified (12/12);
+      live render pass on first supervised run.* The backward-compat visual regression gate was effectively OFF —
+      scariest gap for a system that auto-merges unreviewed additive code. Built `createRealExistingSsim`
+      (`delivery/existing-ssim.ts`), wired into the runner's `createRegressionChecks`:
+      - **Mechanism:** pin two immutable worktrees via I2's `ensureBaseWorktree` — baseline @ `develop`, challenger
+        @ run-branch champion — then render every existing template (≠ the run's own) section-by-section through
+        BOTH and pair `[challenger, baseline]`. The template JSON is identical on both branches, so the diff
+        isolates exactly shared-`packages/ui` regressions. `existingTemplatesMinSsim` < 0.99 → gate fails → no
+        auto-merge.
+      - **Bounded + observable:** `SITC_REGRESSION_MAX_TEMPLATES` caps the sample (logged, no silent truncation);
+        no-ops when the run branch == develop (no shared-code delta); pairs written to `.sitc/runs/<id>/regression/`.
+      - **Testable design:** pure dependency-injected orchestration (`createExistingTemplatesSsim`) + real wiring
+        (`createRealExistingSsim`). Discovery (`listExistingTemplates`) is real-FS.
+      - **Verified deterministically:** `packages/tests/sitc-existing-ssim.check.mts` — 12/12 (real-FS discovery
+        excludes the run template / counts sections / skips non-JSON dirs; orchestration pairs challenger@champion
+        vs baseline@develop, honors both caps, no-ops on run==develop). sitc-core type-checks clean; I1/I2/I4
+        checks still green; runner import graph resolves. DEPLOY.md gap #1 closed.
+- [x] **I7 — Live judge-drift detection in prod. [amplifies §7.2a + Step 6]** ✅ *built & verified (16/16);
+      triple-seeding + R2 is the operator infra step.* The loop's whole correctness rests on the pairwise judge;
+      it can drift between runs and (post-I4) a drifting judge could auto-merge the wrong design. Now gated:
+      - **Gate** (`scorer/judge-health.ts`): `judgeHealthGate` fails the run on agreement < 0.90, order-stability
+        < 0.90, or < 4 confident triples (**fail-closed** — an unvalidated judge isn't trusted). `checkJudgeHealth`
+        loads durable triples → replays via `runCalibration` → gates → maps persistence rows; skips gracefully on
+        an empty set.
+      - **Durable store**: `DrizzleJudgeCalibrationStore` (`@mshorizon/db`) loads triples from
+        `sitc_judge_calibration` + appends replay verdicts as an audit log (feeds the admin Judge-health panel).
+      - **Run-start gate**: `SITC_JUDGE_GATE=1` runs the check before any engine/worktree setup; a failure
+        `process.exit(3)` refuses the run (drift risk) before spending tokens.
+      - **Verified deterministically:** `packages/tests/sitc-judge-health.check.mts` — 16/16 (gate thresholds + 
+        fail-closed on too-few triples; `checkJudgeHealth` healthy-pass + empty-skip + **biased-judge → 0
+        agreement/stability → gate fails**; row mapping). Both packages type-check (sitc-core rebuilt so db sees
+        the new types); all 10 suites green (143 checks); runner loads. DEPLOY gap #3 closed (seeding+R2 = infra).
+
+### Tier 3 — sharpening quality & observability
+- [x] **I8 — Per-dimension structured scoring. [amplifies CONCLUSIONS #5]** ✅ *built & verified (20/20).* The
+      scorer already computed a per-dimension `breakdown` but discarded it — the worker only saw a prose critique.
+      - **Structured rubric** (`scorer/rubric.ts`): `Finding{dimension,severity,gap,fix}` +
+        `normalizeFindings` (defensive: drops unknown dimensions/empty items, defaults severity, clamps lengths,
+        caps count, sorts must-fix first), `weakestDimension`, `renderCritique` (checklist that leads with the
+        weakest dimension + must-fix items, with per-dim scores).
+      - **VLM scorer** (`scorer/vlm.ts`): prompt now elicits the structured checklist; `VlmScore` gains
+        `findings`, and `critique` is DERIVED from them (falls back to prose if the model emits none). Since the
+        sweep already feeds `vlm.critique` to the next worker, the sharper steering flows through with no
+        control-flow change — low risk.
+      - **New angle — strategy hint** (`suggestStrategy`): maps the dominant gap → a strategy (token gaps
+        color/typography/spacing → `tune-json`; structural must-fix layout/imagery → `new-variant`; never
+        `new-section`). Advisory only — the runner logs it per iteration (`↳ hint: …`); the orchestrator's
+        plateau ladder still governs control flow (kept the verified loop intact).
+      - **Verified deterministically:** `packages/tests/sitc-rubric.check.mts` — 20/20 (normalize edge cases,
+        weakest/checklist ordering, strategy mapping incl. minor-structural-doesn't-escalate, and `vlmScore`
+        over a fake runner parsing findings + deriving/ falling-back the critique). sitc-core type-checks clean;
+        all seven suites green (101 checks); runner loads. CONCLUSIONS #5 marked done.
+- [x] **I9 — Live cost/ROI telemetry during a run. [new]** ✅ *built & verified (19/19).* `claude -p
+      --output-format json` reports `total_cost_usd` + token usage per call — previously discarded. Now captured
+      and surfaced:
+      - **Usage capture:** `claude-worker` gained an `onUsage` sink + `parseClaudeUsage` (defensive: missing/non-
+        numeric → 0; pulls cost, in/out tokens, `cache_read_input_tokens`, duration).
+      - **`CostMeter`** (`cost-meter.ts`): accumulates totals and attributes cost **by call-type** (mutate/score/
+        judge/other) via `AsyncLocalStorage` — correct even under concurrent workers. `snapshot()` + compact
+        `line()` for live logging.
+      - **Runner wiring:** one meter; all `claude -p` workers route through it (`mkWorker`); collab calls scoped
+        by type. Live burn appended to each iteration log `[$… · …k tok · N calls]`; end-of-run summary +
+        per-call-type breakdown + **ROI** (`runCostRoi`: $/promotion, $/locked-section, cache-read share) written
+        to `.sitc/runs/<id>/cost.json`. Gives real numbers to set budget defaults on (CONCLUSIONS #7), vs the
+        pre-launch `estimateRunCost` guess.
+      - **Bonus:** the captured `cache_read_input_tokens` share is exactly the signal **I10** needs (is the warm
+        authoring kit being prompt-cached across spawns?) — I10 is now mostly a measurement/analysis task.
+      - **Verified deterministically:** `packages/tests/sitc-cost-meter.check.mts` — 19/19 (envelope parsing incl.
+        missing/junk fields; meter accumulation + concurrent ALS attribution with no cross-talk + unscoped→other;
+        ROI incl. div-by-zero guards). sitc-core type-checks clean; all eight suites green (120 checks); runner loads.
+- [x] **I10 — Verify the authoring kit is actually prompt-cached across `claude -p` spawns. [new]** ✅ *built &
+      verified (7/7); live answer is operator-run.* §4.2 assumes the warm kit is cacheable but it was never
+      measured. I9 already captures `cache_read_input_tokens`; I10 turns it into a direct verdict:
+      - **Per-call-type cache telemetry:** `CostMeter` now tracks input + cache-read tokens per label;
+        `cacheReadShareByLabel` = cacheRead/(input+cacheRead). The runner logs it at run end with a verdict on
+        the `mutate` label (which carries the big static kit): GOOD ≥50% / PARTIAL / NONE, written to `cost.json`.
+      - **Direct cross-spawn probe:** `scripts/sitc-cache-probe.mts` (`pnpm sitc:cache-probe`) sends an identical
+        large stable prefix across N sequential `claude -p` spawns and reads `cache_read_input_tokens` — spawn 1
+        primes, spawns 2+ reveal whether a *separate process* reuses the cache. Prints ✅/➖/❌ + the fix
+        (front-load the stable prefix / keep a session) if NONE.
+      - **Verified deterministically:** `packages/tests/sitc-cache-share.check.mts` — 7/7 (per-label input/cache
+        accumulation, share math, zero-token → 0 not NaN). sitc-core type-checks clean; all nine suites green
+        (127 checks); runner + probe load.
+      - **The fix is now conditional + measured, not speculative:** if a live run shows `mutate` cache ≈0% (or the
+        probe says NONE), front-load the static kit as an identical prefix in `steps/author-variant.ts`. Deferred
+        until the measurement says it's needed — no speculative prompt churn.
+
+### Tier 4 — scope expansion
+- [x] **I11 — Target asset capture. [amplifies CONCLUSIONS #4 / §18-F]** ✅ *built & verified (10/10); live DOM
+      extraction exercised on a real capture run.* The loop couldn't fix a broken/placeholder image because it had
+      no notion of what imagery a section should carry.
+      - **Reference metadata, not bytes** (IP posture, README §1.1): `captureTarget` now records per-band
+        `BandImage[]` — `kind` (img/background), dimensions, **aspect ratio**, alt — area-ranked top few, from the
+        same DOM pass that reads bands/style. (`scorer/capture.ts`)
+      - **Worker hint:** `summarizeBandImages` buckets them ("full-bleed background ~16:9; 3 square ~1:1 images")
+        and the runner appends it to each section's `targetStyle` string (existing seam → worker prompt), so the
+        worker chooses a closer-aspect placeholder/R2/Unsplash asset. Aspect ratio is exactly the §18-F gap (a
+        16:9 hero scores differently than 1:1 with identical structure).
+      - **Verified deterministically:** `packages/tests/sitc-asset-capture.check.mts` — 10/10 (aspect bucketing,
+        full-bleed-first ordering, fg counts + pluralization, empty/background-only). sitc-core type-checks clean;
+        all 12 suites green (167 checks); runner loads. CONCLUSIONS #4 updated.
+      - **Out of scope (deliberate):** downloading the target's actual image bytes — design inspiration, not asset
+        copying. The worker sources its own licensed/generic assets matching the captured shape.
+- [x] **I12 — Multi-breakpoint scoring. [amplifies CONCLUSIONS #8]** ✅ *built & verified (14/14).* Finding: the
+      "mobile guard" §5.2 step 6 describes was **never actually wired** — mobile was captured at ingestion but the
+      loop only rendered/scored/judged desktop, so a desktop-good/mobile-broken challenger got promoted (caught
+      only maybe at the acceptance gate).
+      - **Mobile guard, now real:** additive optional `guard` collaborator (same low-risk seam as I3's lease) —
+        fires only when a challenger WINS desktop AND a champion exists; `ok:false` reverts (champion kept), reason
+        feeds the next critique. (`loop/section-iteration.ts`)
+      - **Overflow signal:** `measureHorizontalOverflow` (`steps/render.ts`) → `scrollWidth−clientWidth` at a
+        breakpoint; `mobileGuardVerdict` (`scorer/breakpoints.ts`) rejects a challenger that introduces/worsens
+        mobile overflow vs the champion (equal-or-better passes — never blocks a pre-existing problem). No mobile
+        target crop needed (self-regression guard).
+      - **Runner opt-in** `SITC_SCORE_MOBILE=1`: renders challenger (its worktree) + champion (its I2 base
+        worktree) at mobile, applies the verdict, logs rejections.
+      - **Pure primitive for full scoring:** `combineBreakpointScores` (weighted, guards excluded) is ready for
+        true both-breakpoint *scoring* once ingestion produces aligned mobile target crops (needs mobile DOM
+        segmentation — deferred).
+      - **Verified deterministically:** `packages/tests/sitc-breakpoints.check.mts` — 14/14 (combine weighting +
+        guard-exclusion; verdict introduce/worsen/improve/sub-floor; guard seam fail→revert / pass→promote /
+        first-attempt-skip / absent→unchanged). sitc-core type-checks clean; all 11 suites green (157 checks);
+        runner loads. CONCLUSIONS #8 updated.
+- [x] **I13 — Smarter convergence handoff. [new]** ✅ *built & verified (20/20); escalated sweep is operator-run.*
+      §8.1 dumped every un-closable gap into one "manual" bucket — but some are component-code the worker merely
+      *declined*, which a stronger model could finish.
+      - **Gap classification** (`loop/convergence.ts`): `classifyGap` → `asset` / `layout-primitive` /
+        `component-code` / `other` (asset & layout-primitive take precedence over a stray "component" mention).
+        `planEscalation` splits residual gaps into **escalatable** (component-code) vs **manual** (asset/layout-
+        primitive); `other` is low-signal → neither. A unit that already exhausted escalation is forced to manual.
+      - **Report**: `renderConvergenceReport` now leads with a "Try escalation first" section + the exact command,
+        then "Manual follow-ups (out of the loop's reach)".
+      - **Escalated pass** (runner, opt-in `SITC_ESCALATE=1`): on convergence with escalatable units, runs ONE
+        sweep over just those units at `SITC_ESCALATION_MODEL` (e.g. opus) with strategy forced to `new-variant`
+        (explicit component authoring), reusing the warm engines/pool before cleanup; updates the convergence
+        state so a real gain continues the loop and a no-gain falls through to manual.
+      - **Verified deterministically:** `packages/tests/sitc-convergence.check.mts` — 20/20 (classification +
+        precedence; converged/locked/categories; plan split incl. exhausted→manual and other→neither; report
+        sectioning + command). sitc-core + db type-check; **all 13 suites green (187 checks)**; runner loads.
+      pass (stronger model / explicit "you may write the component"). Reserve true handoff for asset/layout
+      primitives the loop genuinely can't touch.

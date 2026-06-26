@@ -8,8 +8,26 @@
  */
 import { execFile } from "node:child_process";
 import type { WorkerRunner, WorkerRunOptions } from "./types.js";
+import type { CallUsage } from "./cost-meter.js";
 
 const DEFAULT_MAX_BUFFER = 1024 * 1024 * 32;
+
+/**
+ * Pull cost + token usage out of a `claude -p --output-format json` envelope (I9).
+ * Defensive: any missing field → 0. `total_cost_usd`, `usage.*`, `duration_ms`
+ * are the documented fields; cache reads expose prompt-cache reuse (I10).
+ */
+export function parseClaudeUsage(env: any): CallUsage {
+  const u = env?.usage ?? {};
+  const n = (x: unknown) => (Number.isFinite(Number(x)) ? Number(x) : 0);
+  return {
+    costUsd: n(env?.total_cost_usd ?? env?.cost_usd),
+    inputTokens: n(u.input_tokens),
+    outputTokens: n(u.output_tokens),
+    cacheReadTokens: n(u.cache_read_input_tokens ?? u.cache_read_tokens),
+    durationMs: n(env?.duration_ms),
+  };
+}
 
 function exec(args: string[], cwd?: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -25,9 +43,8 @@ function exec(args: string[], cwd?: string): Promise<string> {
   });
 }
 
-/** Pull the assistant's final text out of `--output-format json`. */
-function extractResult(stdout: string): string {
-  const env = JSON.parse(stdout);
+/** Pull the assistant's final text out of a parsed `--output-format json` envelope. */
+function extractResultFromEnv(env: any): string {
   const r = env?.result ?? env;
   return typeof r === "string" ? r : JSON.stringify(r);
 }
@@ -62,6 +79,8 @@ export interface ClaudeWorkerConfig {
   model?: string;
   /** Default retry count on error / unparseable output. */
   retries?: number;
+  /** Cost/usage sink — fired once per successful `claude -p` call (I9). */
+  onUsage?: (usage: CallUsage) => void;
 }
 
 export function createClaudeWorker(config: ClaudeWorkerConfig = {}): WorkerRunner {
@@ -79,7 +98,11 @@ export function createClaudeWorker(config: ClaudeWorkerConfig = {}): WorkerRunne
     let lastErr: unknown;
     for (let i = 0; i <= retries; i++) {
       try {
-        return map(extractResult(await exec(args, merged.workdir ?? merged.cwd)));
+        const stdout = await exec(args, merged.workdir ?? merged.cwd);
+        const env = JSON.parse(stdout);
+        // Cost is incurred whether or not `map` parses — record before mapping (I9).
+        if (config.onUsage) config.onUsage(parseClaudeUsage(env));
+        return map(extractResultFromEnv(env));
       } catch (e) {
         lastErr = e;
         // Back off before retrying — transient API/rate-limit blips under worker

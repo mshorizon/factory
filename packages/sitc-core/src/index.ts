@@ -12,7 +12,7 @@
 export * from "./types.js";
 
 // runner substrate
-export { createClaudeWorker } from "./claude-worker.js";
+export { createClaudeWorker, parseClaudeUsage } from "./claude-worker.js";
 export type { ClaudeWorkerConfig } from "./claude-worker.js";
 
 // deterministic steps
@@ -95,12 +95,18 @@ export { pixelScore } from "./scorer/pixel.js";
 export type { PixelScore } from "./scorer/pixel.js";
 export { scoreSection } from "./scorer/score.js";
 export type { HybridScore, ScoreSectionInput } from "./scorer/score.js";
-export { captureTarget } from "./scorer/capture.js";
-export type { CaptureTargetOptions, CaptureResult } from "./scorer/capture.js";
+export { DIMENSIONS, normalizeFindings, weakestDimension, renderCritique, suggestStrategy } from "./scorer/rubric.js";
+export type { Dimension, Severity, Finding, StrategySuggestion } from "./scorer/rubric.js";
+export { MOBILE_SCORE, combineBreakpointScores, mobileGuardVerdict } from "./scorer/breakpoints.js";
+export type { BreakpointScore, MobileGuardInput, GuardVerdict } from "./scorer/breakpoints.js";
+export { captureTarget, summarizeBandImages } from "./scorer/capture.js";
+export type { CaptureTargetOptions, CaptureResult, BandImage, StyleProfile } from "./scorer/capture.js";
 export { runCalibration } from "./scorer/calibration.js";
 export type { CalibrationTriple, CalibrationReport, CalibrationItemResult } from "./scorer/calibration.js";
 export { generateSubtleTriples, shiftHex, colorPerturbation, pxPerturbation } from "./scorer/calibration-gen.js";
 export type { PerturbationSpec, GenerateTriplesOptions } from "./scorer/calibration-gen.js";
+export { judgeHealthGate, checkJudgeHealth, calibrationRowsFromReport, InMemoryJudgeCalibrationStore, DEFAULT_JUDGE_HEALTH } from "./scorer/judge-health.js";
+export type { JudgeHealthThresholds, JudgeHealthResult, JudgeCalibrationStore, CalibrationRow, JudgeHealthCheck } from "./scorer/judge-health.js";
 
 // ─── pipeline: cold start + tier locking (Phase 3) ───────────────────────────
 export { seedIteration0 } from "./pipeline/cold-start.js";
@@ -112,7 +118,7 @@ export type { LockSharedAtomsInput, LockSharedAtomsResult, ProposedAtoms } from 
 export { lockTiers } from "./pipeline/lock-tiers.js";
 export type { LockTiersInput, LockTiersResult } from "./pipeline/lock-tiers.js";
 export { runFull } from "./pipeline/run.js";
-export type { FullRunInput, FullRunResult } from "./pipeline/run.js";
+export type { FullRunInput, FullRunResult, RunMetrics } from "./pipeline/run.js";
 
 // ─── loop: per-section sweep (Phase 4) ───────────────────────────────────────
 export { checkAllowlist } from "./loop/allowlist.js";
@@ -132,6 +138,8 @@ export type {
 } from "./loop/section-iteration.js";
 export { runSweep } from "./loop/sweep.js";
 export type { SweepInput, SweepResult } from "./loop/sweep.js";
+export { WorktreePool } from "./orchestrator/worktree-pool.js";
+export type { WorktreeLease } from "./orchestrator/worktree-pool.js";
 export { createMutateCollaborator } from "./loop/mutate-collaborator.js";
 export type { MutateCollaboratorOptions } from "./loop/mutate-collaborator.js";
 
@@ -150,9 +158,15 @@ export type { IterationDatum, DistilledLesson, DistillInput, DedupeResult } from
 export { renderLessonsDigest } from "./learning/digest.js";
 export type { DigestOptions } from "./learning/digest.js";
 
+// ─── experiment: lessons-on vs lessons-off A/B (tasks I1 / §18-G) ────────────
+export { compareLessonsAb, renderAbReport, toArmMetrics } from "./experiment/lessons-ab.js";
+export type { Arm, ArmMetrics, SectionDelta, Verdict, AbComparison, CompareOptions } from "./experiment/lessons-ab.js";
+
 // ─── cost estimate (Phase 7 / §18-H) ─────────────────────────────────────────
 export { estimateRunCost, DEFAULT_COST_MODEL } from "./cost.js";
 export type { CostModel, EstimateInput, CostEstimate } from "./cost.js";
+export { CostMeter, runCostRoi, cacheReadShareByLabel } from "./cost-meter.js";
+export type { CallUsage, CostSnapshot, RunCostRoi } from "./cost-meter.js";
 
 // ─── delivery: budget + gates + routing (Phase 8) ────────────────────────────
 export { budgetExceeded } from "./delivery/budget.js";
@@ -169,5 +183,9 @@ export type {
   AcceptanceToolchainOptions,
   PerfBudgets,
 } from "./delivery/checks.js";
-export { decideDelivery, mergeRunToDevelop } from "./delivery/delivery.js";
-export type { DeliveryDecision, DeliveryInput, DeliveryRouting, MergeOptions } from "./delivery/delivery.js";
+export { decideDelivery, mergeRunToDevelop, landDelivery, ghOpenPr } from "./delivery/delivery.js";
+export type { DeliveryDecision, DeliveryInput, DeliveryRouting, MergeOptions, LandingOptions, LandingResult } from "./delivery/delivery.js";
+export { listExistingTemplates, createExistingTemplatesSsim, createRealExistingSsim } from "./delivery/existing-ssim.js";
+export type { ExistingTemplate, ExistingSsimDeps, ExistingSsimOptions, RealExistingSsimOptions } from "./delivery/existing-ssim.js";
+export { resolveAcceptanceTarget, buildAndServePreview } from "./delivery/preview-server.js";
+export type { AcceptanceTarget, AcceptanceTargetEnv, PreviewServer, PreviewServerOptions } from "./delivery/preview-server.js";

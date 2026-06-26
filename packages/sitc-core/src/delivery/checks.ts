@@ -118,15 +118,26 @@ export interface PerfBudgets {
 }
 
 export interface AcceptanceToolchainOptions {
-  /** Assembled run preview URL (desktop). */
-  url: string;
-  /** Mobile URL for the responsive check (defaults to `url`). */
+  /**
+   * Assembled run preview URL (desktop). May be a thunk resolved lazily at gate
+   * time + memoized — needed for the I5 "build a prod preview" mode, where the URL
+   * only exists after the champion worktree is built (post-sweep).
+   */
+  url: string | (() => Promise<string>);
+  /** Mobile URL for the responsive check (defaults to the resolved `url`). */
   mobileUrl?: string;
   budgets?: PerfBudgets;
   /** axe impact levels that fail the gate. Default ["critical","serious"]. */
   axeFailOn?: Array<"minor" | "moderate" | "serious" | "critical">;
   desktop?: { width: number; height: number };
   mobile?: { width: number; height: number };
+  /**
+   * Enforce perf/transfer budgets (I5). Only meaningful against a PROD build —
+   * `astro dev` ships unbundled (~18MB / hundreds of requests), so budgets there
+   * are noise that would BOTH falsely fail and falsely reassure. When false, perf()
+   * is skipped (passes with a note) and a11y/responsive/hygiene still run. Default true.
+   */
+  enforcePerf?: boolean;
 }
 
 async function withBrowser<T>(fn: (page: Page, ctx: import("playwright").BrowserContext, browser: import("playwright").Browser) => Promise<T>, viewport: { width: number; height: number }): Promise<T> {
@@ -145,9 +156,19 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
   const mobile = opts.mobile ?? { width: 390, height: 844 };
   const budgets = opts.budgets ?? { lcpMs: 4000, cls: 0.1, transferBytes: 5_000_000, requests: 120 };
   const failOn = opts.axeFailOn ?? ["critical", "serious"];
+  const enforcePerf = opts.enforcePerf ?? true;
+  // Resolve (and build, in I5 build-mode) the preview URL once, shared by all checks.
+  let urlCache: Promise<string> | undefined;
+  const resolveUrl = () => (urlCache ??= Promise.resolve(typeof opts.url === "function" ? opts.url() : opts.url));
 
   return {
     async perf() {
+      // I5 — never enforce perf/transfer budgets against a dev server: unbundled
+      // numbers are inflated, so a real failure can't be distinguished from dev noise.
+      if (!enforcePerf) {
+        return { ok: true, detail: "perf skipped — dev target (build a prod preview: SITC_ACCEPTANCE_URL / SITC_ACCEPTANCE_BUILD=1)" };
+      }
+      const url = await resolveUrl();
       return withBrowser(async (page) => {
         let transfer = 0;
         let requests = 0;
@@ -156,7 +177,7 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
           const len = Number(r.headers()["content-length"] ?? 0);
           if (Number.isFinite(len)) transfer += len;
         });
-        await page.goto(opts.url, { waitUntil: "networkidle", timeout: 60_000 });
+        await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
         // Core Web Vitals via PerformanceObserver (settle briefly for LCP/CLS).
         await page.waitForTimeout(1200);
         const vitals = await page.evaluate(() => {
@@ -175,8 +196,9 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
     },
 
     async a11y() {
+      const url = await resolveUrl();
       return withBrowser(async (page) => {
-        await page.goto(opts.url, { waitUntil: "networkidle", timeout: 60_000 });
+        await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
         await page.addScriptTag({ content: axeCore.source });
         const results = await page.evaluate(async () => {
           const axe = (window as unknown as { axe: { run: (d: Document, o: unknown) => Promise<{ violations: unknown[] }> } }).axe;
@@ -189,14 +211,15 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
     },
 
     async responsive() {
-      const check = (vp: { width: number; height: number }, url: string) =>
+      const url = await resolveUrl();
+      const check = (vp: { width: number; height: number }, u: string) =>
         withBrowser(async (page) => {
-          await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
+          await page.goto(u, { waitUntil: "networkidle", timeout: 60_000 });
           const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
           return overflow;
         }, vp);
-      const mob = await check(mobile, opts.mobileUrl ?? opts.url);
-      const desk = await check(desktop, opts.url);
+      const mob = await check(mobile, opts.mobileUrl ?? url);
+      const desk = await check(desktop, url);
       const fails: string[] = [];
       if (mob > 2) fails.push(`mobile h-overflow ${mob}px`);
       if (desk > 2) fails.push(`desktop h-overflow ${desk}px`);
@@ -204,10 +227,11 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
     },
 
     async hygiene() {
+      const url = await resolveUrl();
       return withBrowser(async (page) => {
         const consoleErrors: string[] = [];
         page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 120)); });
-        await page.goto(opts.url, { waitUntil: "networkidle", timeout: 60_000 });
+        await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
         const probe = await page.evaluate(() => {
           const imgsNoAlt = Array.from(document.querySelectorAll("img")).filter((i) => !i.hasAttribute("alt")).length;
           const title = document.title?.trim() ?? "";

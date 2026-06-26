@@ -55,10 +55,11 @@ for manual fixing. That full arc — evolve → converge → manual handoff — 
 
 ## Improvement roadmap (highest leverage first)
 
-1. **Render-engine performance.** Cold Vite compile per render (~9s idle, minutes under load) is the main
-   cost + fragility. Options: a per-worker engine *pool* reused across iterations (worktrees are currently
-   fresh per iteration → no reuse), and/or an isolated-but-warm shared vite cache. This is the single biggest
-   reliability/speed win.
+1. ~~**Render-engine performance.**~~ ✅ **Addressed (I2 + I3).** Cold Vite compile per render was the main cost.
+   Two fixes landed: **I2** routes `tune-json` (the dominant, JSON-only strategy) through a shared per-champion
+   base engine — never compiles; **I3** gives the code-changing strategies a **pool of persistent slot worktrees**
+   reused across iterations (reset to champion on acquire) so their engines stay warm + HMR is incremental,
+   instead of a fresh cold worktree each time. See `tasks.md` I2/I3.
 
 2. **Automate the delivery → develop merge.** Clean `tune-json`/`extend-variant` runs are designed to
    auto-merge (§8); in practice we cherry-picked run branches by hand. Wire the routing so converged, gate-
@@ -69,13 +70,16 @@ for manual fixing. That full arc — evolve → converge → manual handoff — 
    harness. Extract a shared `buildFooterColumns`/`buildNavbarProps` helper so a fix applies site-wide and the
    harness can't drift from the real page.
 
-4. **Target asset handling.** The loop can't fix a broken/placeholder image (e.g. `about.jpg` 404). Add a
-   capture step that downloads/snapshots the target's section images (or proposes equivalents) so imagery
-   isn't a permanent manual gap.
+4. ~~**Target asset handling.**~~ ✅ **Reference imagery captured (I11).** Capture now records each section's
+   imagery SHAPE/ROLE (aspect-ratio bucket, full-bleed-background flag, count — not the bytes, per the IP posture)
+   and feeds it to the worker via the `targetStyle` seam, so it picks a closer-aspect placeholder/R2 asset (a
+   16:9 hero vs a 1:1 thumbnail, §18-F). Downloading the actual target bytes stays out of scope (design
+   inspiration, not asset copying). See `tasks.md` I11.
 
-5. **Structured, per-dimension scoring.** One holistic VLM score → a rubric (layout / color / typography /
-   spacing / imagery) with a must-fix checklist gives the worker sharper, more actionable critiques and a
-   higher, more reliable lock signal.
+5. ~~**Structured, per-dimension scoring.**~~ ✅ **Done (I8).** `scorer/rubric.ts` turns the VLM output into a
+   per-dimension breakdown + a severity-tagged must-fix checklist (`normalizeFindings`/`renderCritique`); the
+   worker now gets that checklist as its steering critique instead of a prose blob, and `suggestStrategy` maps
+   the dominant gap to a strategy hint (token gaps → tune-json, structural → new-variant). See `tasks.md` I8.
 
 6. **Scheduler coverage guarantee.** `about` once got 0 iterations because alignment orphaned it. Ensure
    every in-play unit gets at least N attempts before the run can settle.
@@ -84,5 +88,8 @@ for manual fixing. That full arc — evolve → converge → manual handoff — 
    is close — budget ~12–15 (not 30–60) is plenty for incremental runs. Each run should commit to `develop`
    so the next run starts from the improved state (accumulate, don't restart).
 
-8. **Multi-breakpoint scoring.** Currently desktop-scored with a mobile guard; score mobile too, since the
-   design-system components are responsive and mobile regressions are invisible today.
+8. ~~**Multi-breakpoint scoring.**~~ ✅ **Mobile guard wired (I12).** The §5.2-step-6 mobile guard was never
+   actually implemented (mobile was captured, never consulted). Now an additive `guard` collaborator + opt-in
+   `SITC_SCORE_MOBILE=1`: a desktop-winning challenger that introduces mobile horizontal overflow vs the champion
+   is rejected. `combineBreakpointScores` is the pure primitive for full weighted both-breakpoint scoring next
+   (needs mobile target crops from ingestion). See `tasks.md` I12.

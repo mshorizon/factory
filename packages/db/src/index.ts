@@ -161,4 +161,6 @@ export { DrizzleRunStore } from "./sitc-store.js";
 
 export { DrizzleLessonStore } from "./sitc-lesson-store.js";
 
+export { DrizzleJudgeCalibrationStore } from "./sitc-judge-store.js";
+
 export { seedRunProfile, createSqlExec } from "./sitc-run-db.js";

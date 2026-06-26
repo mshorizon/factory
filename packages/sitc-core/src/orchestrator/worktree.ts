@@ -29,6 +29,8 @@ export interface WorktreeManagerOptions {
 export class WorktreeManager {
   readonly repoRoot: string;
   readonly worktreeRoot: string;
+  /** Dedupes concurrent `ensureBaseWorktree` calls for the same path (tasks I2). */
+  private readonly baseWorktrees = new Map<string, Promise<string>>();
 
   constructor(opts: WorktreeManagerOptions) {
     this.repoRoot = opts.repoRoot;
@@ -65,6 +67,70 @@ export class WorktreeManager {
     await git(["worktree", "add", "--detach", wt, base], this.repoRoot);
     await this.linkNodeModules(wt);
     return { path: wt, base };
+  }
+
+  /**
+   * Acquire a PERSISTENT pooled worktree for a worker slot (tasks I3). Unlike
+   * `addWorkerWorktree` (fresh + removed per iteration → cold Vite compile every
+   * time), a slot worktree is created once and REUSED across iterations: its render
+   * engine stays warm and HMR recompiles only what changed. On each acquire it's
+   * reset to the current champion + cleaned of the previous iteration's untracked
+   * files, so the worker always starts from a pristine champion checkout. Returns
+   * the same `{path, base}` contract as `addWorkerWorktree`. node_modules symlinks
+   * are git-excluded, so `clean` preserves them.
+   */
+  async acquireSlot(runId: string | number, slotId: number | string): Promise<{ path: string; base: string }> {
+    const base = await this.champion(runId);
+    const safe = String(slotId).replace(/[^A-Za-z0-9._-]/g, "-");
+    const wt = path.join(this.worktreeRoot, `run-${runId}`, `slot-${safe}`);
+    const present = await fs
+      .access(path.join(wt, ".git"))
+      .then(() => true)
+      .catch(() => false);
+    if (present) {
+      await git(["reset", "--hard", base], wt);
+      await git(["clean", "-fdq"], wt);
+    } else {
+      await fs.mkdir(path.dirname(wt), { recursive: true });
+      await git(["worktree", "add", "--detach", wt, base], this.repoRoot);
+      await this.linkNodeModules(wt);
+    }
+    return { path: wt, base };
+  }
+
+  /**
+   * Get (creating once) a shared, READ-ONLY detached worktree pinned at a champion
+   * commit `baseSha`, named by the short sha so all callers at the same champion
+   * reuse it (tasks I2). Unlike per-worker worktrees this is never mutated — it
+   * exists purely so a warm render engine can serve that champion's component code
+   * while the section's edited JSON is supplied via profilePath. Idempotent +
+   * concurrency-safe (dedupes in-flight creates per path). Cleaned up by teardown
+   * along with the rest of the run dir.
+   */
+  async ensureBaseWorktree(runId: string | number, baseSha: string): Promise<string> {
+    const short = baseSha.slice(0, 12).replace(/[^A-Za-z0-9]/g, "");
+    const wt = path.join(this.worktreeRoot, `run-${runId}`, `__base-${short}`);
+    const inflight = this.baseWorktrees.get(wt);
+    if (inflight) return inflight;
+    const create = (async () => {
+      const present = await fs
+        .access(path.join(wt, ".git"))
+        .then(() => true)
+        .catch(() => false);
+      if (!present) {
+        await fs.mkdir(path.dirname(wt), { recursive: true });
+        await git(["worktree", "add", "--detach", wt, baseSha], this.repoRoot);
+        await this.linkNodeModules(wt);
+      }
+      return wt;
+    })();
+    this.baseWorktrees.set(wt, create);
+    try {
+      return await create;
+    } catch (e) {
+      this.baseWorktrees.delete(wt); // allow a retry on failure
+      throw e;
+    }
   }
 
   /**
