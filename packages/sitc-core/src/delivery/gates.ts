@@ -63,8 +63,15 @@ export async function acceptanceGate(checks: AcceptanceChecks): Promise<GateResu
     ["hygiene", checks.hygiene],
   ];
   for (const [name, fn] of entries) {
-    const r = await fn();
-    if (!r.ok) failures.push(`${name}: ${r.detail ?? "failed"}`);
+    // A check that THROWS (e.g. the preview URL is unreachable) must fail the gate,
+    // never crash the whole run mid-delivery — route to needs_review with the branch
+    // intact (consistent with the I4 safe-downgrade philosophy).
+    try {
+      const r = await fn();
+      if (!r.ok) failures.push(`${name}: ${r.detail ?? "failed"}`);
+    } catch (e) {
+      failures.push(`${name}: errored — ${String((e as Error)?.message ?? e).slice(0, 160)}`);
+    }
   }
   return { pass: failures.length === 0, failures };
 }
