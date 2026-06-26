@@ -306,7 +306,7 @@
           "imageFrame": true,
           "ctaShape": "rect",
           "ctaVariant": "primary",
-          "badgeVariant": "accent",
+          "badgeVariant": "accent-no-line",
           "header": {
             "badge": "",
             "title": "O Naszej Parafii",
