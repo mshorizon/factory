@@ -3,6 +3,7 @@
 import * as React from "react";
 import { cn } from "../../lib/utils";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
+import { ImageDescription } from "../../atoms/ImageDescription";
 import type { FeaturesNumberedSplitProps } from "./types";
 
 export function FeaturesNumberedSplit({
@@ -11,6 +12,7 @@ export function FeaturesNumberedSplit({
   title,
   image,
   imageBlend,
+  imageDescription,
   className,
 }: FeaturesNumberedSplitProps) {
   // Mirror the about-section blend modes. "feather" crosses two linear-gradient
@@ -64,7 +66,7 @@ export function FeaturesNumberedSplit({
           {items.map((item, index) => (
             <StaggerItem key={index} direction="up" distance={20}>
               <div
-                className="flex items-start gap-spacing-lg py-spacing-lg px-spacing-md -mx-spacing-md rounded-radius border border-transparent transition-colors duration-300 hover:border-primary"
+                className="group flex items-start gap-spacing-lg py-spacing-lg px-spacing-md -mx-spacing-md rounded-radius"
                 data-field={`items.${index}`}
               >
                 <span
@@ -75,7 +77,7 @@ export function FeaturesNumberedSplit({
                 </span>
                 <div className="flex flex-col gap-spacing-xs">
                   <h3
-                    className="text-lg font-heading text-foreground"
+                    className="text-lg font-heading text-foreground transition-colors duration-300 group-hover:text-primary"
                     data-field={`items.${index}.title`}
                   >
                     {item.title}
@@ -112,6 +114,12 @@ export function FeaturesNumberedSplit({
             style={imageStyle}
             loading="lazy"
           />
+          {imageDescription && (imageDescription.name || imageDescription.description) && (
+            <ImageDescription
+              {...imageDescription}
+              className="absolute bottom-0 left-0"
+            />
+          )}
         </div>
       )}
     </div>
