@@ -855,6 +855,7 @@
             {
               "title": "t:home.events.items.0.title",
               "description": "t:home.events.items.0.desc",
+              "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=900&h=700&fit=crop",
               "tags": [
                 "t:home.events.items.0.tag"
               ],
@@ -865,6 +866,7 @@
             {
               "title": "t:home.events.items.1.title",
               "description": "t:home.events.items.1.desc",
+              "image": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=900&h=700&fit=crop",
               "tags": [
                 "t:home.events.items.1.tag"
               ],
@@ -875,6 +877,7 @@
             {
               "title": "t:home.events.items.2.title",
               "description": "t:home.events.items.2.desc",
+              "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=900&h=700&fit=crop",
               "tags": [
                 "t:home.events.items.2.tag"
               ],

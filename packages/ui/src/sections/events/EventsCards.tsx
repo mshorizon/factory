@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { SafeImage } from "../../atoms/SafeImage.js";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { EventsCardsProps } from "./types";
 
@@ -36,71 +37,85 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
           const isExternal = href.startsWith("http");
           return (
             <ScrollReveal key={index} delay={index * 0.1} direction="up" distance={30}>
-              <div
-                className="h-full flex flex-col border border-border rounded-radius p-spacing-lg"
+              <a
+                href={href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                className="group flex h-full flex-col overflow-hidden rounded-radius border border-border bg-surface-alt transition-colors duration-300 hover:border-primary"
                 data-field={`items.${index}`}
               >
-                {/* Top row: category tag + meta note */}
-                <div className="flex items-center justify-between gap-spacing-md mb-spacing-lg">
-                  {tag ? (
-                    <span
-                      className="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary"
-                      style={{ backgroundColor: "color-mix(in srgb, var(--primary) 10%, transparent)" }}
-                      data-field={`items.${index}.tags`}
-                    >
-                      {tag}
-                    </span>
-                  ) : (
-                    <span />
-                  )}
-                  {item.meta && (
-                    <span className="text-sm text-muted" data-field={`items.${index}.meta`}>
-                      {item.meta}
-                    </span>
-                  )}
-                </div>
-
-                {/* Date */}
-                {item.dateStart && (
-                  <p
-                    className="font-heading text-base text-muted mb-spacing-md"
-                    data-field={`items.${index}.dateStart`}
-                  >
-                    {item.dateStart}
-                  </p>
+                {/* Image with overlaid badge / date / meta */}
+                {item.image && (
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <SafeImage
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      loading={index < 2 ? "eager" : "lazy"}
+                    />
+                    {/* Legibility gradient so overlaid copy stays readable over any photo */}
+                    <div
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"
+                      aria-hidden="true"
+                    />
+                    {tag && (
+                      <span
+                        className="absolute left-spacing-md top-spacing-md inline-flex items-center rounded-sm bg-primary px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em]"
+                        style={{ color: "var(--text-on-primary)" }}
+                        data-field={`items.${index}.tags`}
+                      >
+                        {tag}
+                      </span>
+                    )}
+                    {item.dateStart && (
+                      <span
+                        className="absolute bottom-spacing-md left-spacing-md font-heading text-sm text-white/90"
+                        data-field={`items.${index}.dateStart`}
+                      >
+                        {item.dateStart}
+                      </span>
+                    )}
+                    {item.meta && (
+                      <span
+                        className="absolute bottom-spacing-md right-spacing-md text-sm text-white/80"
+                        data-field={`items.${index}.meta`}
+                      >
+                        {item.meta}
+                      </span>
+                    )}
+                  </div>
                 )}
 
-                {/* Divider */}
-                <div className="border-t border-border mb-spacing-lg" />
+                {/* Tricolor accent divider (theme navLogoFlag, falls back to primary) */}
+                <div
+                  className="h-[3px] w-full"
+                  style={{ background: "var(--nav-logo-flag, var(--primary))" }}
+                  aria-hidden="true"
+                />
 
-                {/* Title */}
-                <h3
-                  className="text-2xl lg:text-3xl font-heading text-foreground mb-spacing-md"
-                  data-field={`items.${index}.title`}
-                >
-                  {item.title}
-                </h3>
-
-                {/* Description */}
-                <p
-                  className="text-sm text-muted leading-relaxed mb-spacing-lg"
-                  data-field={`items.${index}.description`}
-                >
-                  {item.description}
-                </p>
-
-                {/* CTA */}
-                <a
-                  href={href}
-                  target={isExternal ? "_blank" : undefined}
-                  rel={isExternal ? "noopener noreferrer" : undefined}
-                  className="group mt-auto inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-primary"
-                  data-field={`items.${index}.linkLabel`}
-                >
-                  {item.linkLabel || linkLabel || "See details"}
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </a>
-              </div>
+                {/* Content */}
+                <div className="flex flex-1 flex-col p-spacing-lg">
+                  <h3
+                    className="text-2xl lg:text-3xl font-heading text-foreground mb-spacing-md"
+                    data-field={`items.${index}.title`}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    className="text-sm text-muted leading-relaxed mb-spacing-lg"
+                    data-field={`items.${index}.description`}
+                  >
+                    {item.description}
+                  </p>
+                  <span
+                    className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-[0.15em] text-primary"
+                    data-field={`items.${index}.linkLabel`}
+                  >
+                    {item.linkLabel || linkLabel || "See details"}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </a>
             </ScrollReveal>
           );
         })}
