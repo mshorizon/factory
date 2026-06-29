@@ -479,6 +479,10 @@ export type HeroScrollIndicatorColorOverride = string;
  */
 export type HeroTextColorOverride = string;
 /**
+ * When set, renders a thin horizontal divider line directly under the hero title (default hero-fold variant), in this color. Custom CSS color value, e.g. '#f0ebdb'.
+ */
+export type HeroTitleDividerColor = string;
+/**
  * Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'.
  */
 export type MapPanelButtonColor = "primary" | "primary-light";
@@ -990,6 +994,7 @@ export interface Section {
   ctaColor?: CTATextColorOverride;
   scrollColor?: HeroScrollIndicatorColorOverride;
   textColor?: HeroTextColorOverride;
+  titleDividerColor?: HeroTitleDividerColor;
   mapPanelButtonColor?: MapPanelButtonColor;
   headerLineColor?: HeaderDecorativeLineColor;
   statsInverted?: InvertStatColorsLightBgDarkText;

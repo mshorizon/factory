@@ -209,6 +209,7 @@
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
         "scrollColor": { "type": "string", "title": "Hero Scroll Indicator Color Override", "description": "Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
         "textColor": { "type": "string", "title": "Hero Text Color Override", "description": "Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
+        "titleDividerColor": { "type": "string", "title": "Hero Title Divider Color", "description": "When set, renders a thin horizontal divider line directly under the hero title (default hero-fold variant), in this color. Custom CSS color value, e.g. '#f0ebdb'." },
         "mapPanelButtonColor": { "type": "string", "title": "Map Panel Button Color", "enum": ["primary", "primary-light"], "description": "Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'." },
         "headerLineColor": { "type": "string", "title": "Header Decorative Line Color", "enum": ["primary", "foreground"], "description": "Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'." },
         "statsInverted": { "type": "boolean", "title": "Invert stat colors (light bg, dark text)" },
