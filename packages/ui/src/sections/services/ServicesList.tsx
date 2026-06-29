@@ -225,7 +225,7 @@ export function ServicesList({
             aria-selected={active}
             onClick={() => setActiveSubTab(catId)}
             className={cn(
-              "px-spacing-md py-spacing-xs text-sm rounded-full border transition-colors",
+              "px-spacing-md py-spacing-xs text-sm rounded-radius border transition-colors",
               active
                 ? "border-primary bg-primary/10 text-primary font-semibold"
                 : "border-border text-muted hover:text-foreground hover:border-foreground/30"
