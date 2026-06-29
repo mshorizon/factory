@@ -281,10 +281,10 @@
             "title": "t:home.about.title"
           },
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-nostrano.jpeg",
-          "imageRounded": true,
+          "imageRounded": false,
           "imageWidth": "560px",
           "imageHeight": "620px",
-          "imageBorder": true,
+          "imageBorder": false,
           "imageDescription": {
             "name": "Kuchnia Nostrano",
             "description": "Il cibo è cultura, è passione",
