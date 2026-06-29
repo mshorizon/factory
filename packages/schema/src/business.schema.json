@@ -63,6 +63,7 @@
         "title": { "type": "string", "title": "Title" },
         "subtitle": { "type": "string", "title": "Subtitle" },
         "layout": { "type": "string", "title": "Header Layout", "enum": ["stacked", "split", "most-minimalistic", "none"] },
+        "align": { "type": "string", "title": "Header Alignment", "enum": ["left", "center", "right"], "description": "Horizontal alignment of the section header (badge, title, subtitle). When omitted, the section variant decides." },
         "flag": { "type": "boolean", "title": "Show Flag Bar", "description": "Render a small country flag accent bar (144x3px, using the theme navLogoFlag stripe colors) below the title." }
       }
     },

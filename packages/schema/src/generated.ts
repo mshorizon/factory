@@ -432,6 +432,10 @@ export type Title = string;
 export type Subtitle = string;
 export type HeaderLayout = "stacked" | "split" | "most-minimalistic" | "none";
 /**
+ * Horizontal alignment of the section header (badge, title, subtitle). When omitted, the section variant decides.
+ */
+export type HeaderAlignment = "left" | "center" | "right";
+/**
  * Render a small country flag accent bar (144x3px, using the theme navLogoFlag stripe colors) below the title.
  */
 export type ShowFlagBar = boolean;
@@ -1119,6 +1123,7 @@ export interface SectionHeader {
   title?: Title;
   subtitle?: Subtitle;
   layout?: HeaderLayout;
+  align?: HeaderAlignment;
   flag?: ShowFlagBar;
 }
 /**

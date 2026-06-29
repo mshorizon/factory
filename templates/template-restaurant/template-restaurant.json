@@ -310,6 +310,7 @@
           "header": {
             "badge": "Degustazione",
             "title": "t:home.menu.title",
+            "align": "left",
             "flag": true
           },
           "serviceCategories": [
