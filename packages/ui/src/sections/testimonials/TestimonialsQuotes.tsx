@@ -101,7 +101,7 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
         <div className="mt-spacing-3xl flex justify-center">
           <a
             href={ctaHref}
-            className="group inline-flex items-center gap-spacing-sm border-b border-accent/40 pb-1 text-sm font-medium uppercase [letter-spacing:var(--btn-letter-spacing,.05rem)] text-primary transition-colors hover:border-accent"
+            className="group inline-flex items-center gap-spacing-sm rounded-radius border border-primary-dark px-spacing-lg py-spacing-sm text-sm font-medium uppercase [letter-spacing:var(--btn-letter-spacing,.05rem)] text-primary transition-colors hover:border-white hover:text-white"
           >
             {ctaLabel}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
