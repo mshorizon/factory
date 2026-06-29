@@ -928,8 +928,6 @@
         {
           "type": "about",
           "variant": "quote-split",
-          "background": "dark",
-          "backgroundColor": "#26201c",
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-nostrano.jpeg",
           "contentAlign": "right",
           "badgeVariant": "accent-no-line",
