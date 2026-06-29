@@ -53,6 +53,8 @@ const readMoreLabel = t(translations, "about.readMore", "Read more");
         background={section.background}
         cardBackgroundColor={(section as any).cardBackgroundColor}
         badgeVariant={(section as any).badgeVariant}
+        image={section.image}
+        contentAlign={(section as any).contentAlign}
       />
     ) : variant === "career" ? (
       <AboutCareer

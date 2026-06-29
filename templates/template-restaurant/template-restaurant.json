@@ -359,12 +359,20 @@
             {
               "id": "pizza-group",
               "label": "t:home.menu.cat.pizza-group",
-              "categories": ["pizza", "dodatki"]
+              "categories": [
+                "pizza",
+                "dodatki"
+              ]
             },
             {
               "id": "napoje-group",
               "label": "t:home.menu.cat.napoje-group",
-              "categories": ["napoje", "lemoniady", "gorace", "koktajle"],
+              "categories": [
+                "napoje",
+                "lemoniady",
+                "gorace",
+                "koktajle"
+              ],
               "showSubTabs": true
             }
           ],
@@ -373,37 +381,65 @@
             {
               "id": "zupy",
               "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&h=1100&fit=crop",
-              "imageDescription": { "name": "Zuppe", "description": "Calde e confortanti", "color": "#f0ebdb" }
+              "imageDescription": {
+                "name": "Zuppe",
+                "description": "Calde e confortanti",
+                "color": "#f0ebdb"
+              }
             },
             {
               "id": "przystawki",
               "image": "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=900&h=1100&fit=crop",
-              "imageDescription": { "name": "Antipasti", "description": "L'inizio perfetto", "color": "#f0ebdb" }
+              "imageDescription": {
+                "name": "Antipasti",
+                "description": "L'inizio perfetto",
+                "color": "#f0ebdb"
+              }
             },
             {
               "id": "salatki",
               "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=900&h=1100&fit=crop",
-              "imageDescription": { "name": "Insalate", "description": "Fresche e leggere", "color": "#f0ebdb" }
+              "imageDescription": {
+                "name": "Insalate",
+                "description": "Fresche e leggere",
+                "color": "#f0ebdb"
+              }
             },
             {
               "id": "pizza-group",
               "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=900&h=1100&fit=crop",
-              "imageDescription": { "name": "Le Pizze", "description": "Dal forno a legna", "color": "#f0ebdb" }
+              "imageDescription": {
+                "name": "Le Pizze",
+                "description": "Dal forno a legna",
+                "color": "#f0ebdb"
+              }
             },
             {
               "id": "napoje-group",
               "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=900&h=1100&fit=crop",
-              "imageDescription": { "name": "Bevande", "description": "Da accompagnare", "color": "#f0ebdb" }
+              "imageDescription": {
+                "name": "Bevande",
+                "description": "Da accompagnare",
+                "color": "#f0ebdb"
+              }
             },
             {
               "id": "koktajle",
               "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=900&h=1100&fit=crop&sat=-20",
-              "imageDescription": { "name": "Cocktail", "description": "L'aperitivo italiano", "color": "#f0ebdb" }
+              "imageDescription": {
+                "name": "Cocktail",
+                "description": "L'aperitivo italiano",
+                "color": "#f0ebdb"
+              }
             },
             {
               "id": "desery",
               "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&h=1100&fit=crop",
-              "imageDescription": { "name": "Dolci", "description": "Il finale dolce", "color": "#f0ebdb" }
+              "imageDescription": {
+                "name": "Dolci",
+                "description": "Il finale dolce",
+                "color": "#f0ebdb"
+              }
             }
           ],
           "items": [
@@ -894,7 +930,8 @@
           "variant": "quote-split",
           "background": "dark",
           "backgroundColor": "#26201c",
-          "cardBackgroundColor": "#1d1916",
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-nostrano.jpeg",
+          "contentAlign": "right",
           "badgeVariant": "accent-no-line",
           "header": {
             "badge": "I Bambini",

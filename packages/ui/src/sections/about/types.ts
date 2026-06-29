@@ -123,6 +123,18 @@ export interface AboutQuoteSplitProps {
   cardBackgroundColor?: string;
   /** Badge style. "accent" (default) shows a short leading line; "accent-no-line" omits it. */
   badgeVariant?: "accent" | "accent-no-line";
+  /**
+   * Optional background image URL. When supplied the section switches to an
+   * image-overlay layout: a single full-bleed photo with all text laid on top,
+   * darkened by a gradient rising from the bottom for legibility.
+   */
+  image?: string;
+  /**
+   * Horizontal placement of the overlaid text block in image mode. "right"
+   * (default) anchors the content to the right side of the photo; "left" anchors
+   * it to the left. Ignored when no `image` is provided.
+   */
+  contentAlign?: "left" | "right";
 }
 
 export interface CareerItem {

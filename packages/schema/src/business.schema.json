@@ -197,6 +197,7 @@
         "image": { "type": "string", "title": "Image URL" },
         "hideDots": { "type": "boolean", "title": "Hide Decorative Dots" },
         "imagePosition": { "type": "string", "title": "Image Position", "enum": ["left", "right"] },
+        "contentAlign": { "type": "string", "title": "Overlay Content Alignment", "enum": ["left", "right"], "description": "Horizontal placement of the overlaid text in the about 'quote-split' image-overlay layout (when 'image' is set). 'right' (default) anchors the copy to the right side of the photo; 'left' to the left." },
         "imageRounded": { "type": "boolean", "title": "Round Image Corners", "description": "When false, renders the section image with square (un-rounded) corners. Defaults to true (rounded)." },
         "badgeLayout": { "type": "string", "title": "Badge Layout Direction", "enum": ["row", "column"] },
         "badgeVariant": { "type": "string", "title": "Section-level Badge Variant Override", "enum": ["accent", "accent-no-line", "outlined", "text"] },

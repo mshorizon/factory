@@ -446,6 +446,10 @@ export type ImageURL = string;
 export type HideDecorativeDots = boolean;
 export type ImagePosition = "left" | "right";
 /**
+ * Horizontal placement of the overlaid text in the about 'quote-split' image-overlay layout (when 'image' is set). 'right' (default) anchors the copy to the right side of the photo; 'left' to the left.
+ */
+export type OverlayContentAlignment = "left" | "right";
+/**
  * When false, renders the section image with square (un-rounded) corners. Defaults to true (rounded).
  */
 export type RoundImageCorners = boolean;
@@ -1030,6 +1034,7 @@ export interface Section {
   image?: ImageURL;
   hideDots?: HideDecorativeDots;
   imagePosition?: ImagePosition;
+  contentAlign?: OverlayContentAlignment;
   imageRounded?: RoundImageCorners;
   badgeLayout?: BadgeLayoutDirection;
   badgeVariant?: SectionLevelBadgeVariantOverride;
