@@ -46,7 +46,12 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
               >
                 {/* Image with overlaid badge / date / meta */}
                 {item.image && (
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div
+                    className="relative aspect-[4/3] overflow-hidden"
+                    // Border in the text (foreground) color, kept translucent so the
+                    // image mixes through where the border meets the photo edge.
+                    style={{ border: "1px solid color-mix(in srgb, var(--foreground) 40%, transparent)" }}
+                  >
                     <SafeImage
                       src={item.image}
                       alt={item.title}
@@ -60,8 +65,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     />
                     {tag && (
                       <span
-                        className="absolute left-spacing-md top-spacing-md inline-flex items-center rounded-sm bg-primary px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em]"
-                        style={{ color: "var(--text-on-primary)" }}
+                        className="absolute left-spacing-md top-spacing-md inline-flex items-center rounded-sm bg-black/40 backdrop-blur-sm px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-primary"
                         data-field={`items.${index}.tags`}
                       >
                         {tag}
