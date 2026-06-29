@@ -371,6 +371,32 @@
           "title": "Default Category Tab",
           "description": "Optional id of the serviceCategories tab (or categoryGroups group) selected by default when the page loads. When omitted, the first tab is selected."
         },
+        "categoryImages": {
+          "type": "array",
+          "title": "Category Tab Images",
+          "description": "Optional per-tab images for the services 'list' variant. When present, the section renders a two-column split: tabs + single-column items on the left, and a bordered image with a bottom-left caption overlay on the right. Selecting a tab cross-reveals the matching image. Each entry's id matches a serviceCategories tab id or a categoryGroups group id.",
+          "items": {
+            "type": "object",
+            "title": "CategoryImage",
+            "properties": {
+              "id": { "type": "string", "title": "Tab/Group ID", "description": "Matches a serviceCategories tab id or a categoryGroups group id." },
+              "image": { "type": "string", "title": "Image URL" },
+              "imageDescription": {
+                "type": "object",
+                "title": "Image Caption Overlay",
+                "description": "Two-line caption overlaid on the bottom-left corner of the image: a small name line plus an italic description line.",
+                "properties": {
+                  "name": { "type": "string", "title": "Name Line" },
+                  "description": { "type": "string", "title": "Description Line" },
+                  "color": { "type": "string", "title": "Text Color", "description": "Full CSS color value, e.g. '#f0ebdb'." },
+                  "nameFontFamily": { "type": "string", "title": "Name Font Family" },
+                  "descriptionFontFamily": { "type": "string", "title": "Description Font Family" }
+                }
+              }
+            },
+            "required": ["id", "image"]
+          }
+        },
         "story": {
           "type": "object",
           "properties": {

@@ -32,6 +32,7 @@ const requirementsLabel = (section as any).requirementsLabel as string | undefin
 const serviceCategories = (section as any).serviceCategories as { id: string; label: string }[] | undefined;
 const categoryGroups = (section as any).categoryGroups as { id: string; label: string; categories: string[]; showSubTabs?: boolean }[] | undefined;
 const defaultCategory = (section as any).defaultCategory as string | undefined;
+const categoryImages = (section as any).categoryImages as { id: string; image: string; imageDescription?: Record<string, string> }[] | undefined;
 const columns = (section as any).columns as number | undefined;
 const footnote = (section as any).footnote as string | undefined;
 const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
@@ -53,7 +54,7 @@ const maxWidth = (section as any).maxWidth as string | undefined;
       revealDelay={0}
     />
     {variant === "list" ? (
-      <ServicesList client:visible items={items} categories={serviceCategories} categoryGroups={categoryGroups} defaultCategory={defaultCategory} columns={columns} />
+      <ServicesList client:visible items={items} categories={serviceCategories} categoryGroups={categoryGroups} defaultCategory={defaultCategory} columns={columns} categoryImages={categoryImages} />
     ) : variant === "imageGrid" ? (
       <ServicesImageGrid client:visible items={items} />
     ) : variant === "darkCards" ? (

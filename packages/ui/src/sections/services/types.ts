@@ -27,6 +27,21 @@ export interface CategoryGroup {
   showSubTabs?: boolean;
 }
 
+export interface CategoryImageDescription {
+  name?: string;
+  description?: string;
+  color?: string;
+  nameFontFamily?: string;
+  descriptionFontFamily?: string;
+}
+
+export interface CategoryImage {
+  /** Matches a ServiceCategory id or a CategoryGroup id (the effective top-level tab). */
+  id: string;
+  image: string;
+  imageDescription?: CategoryImageDescription;
+}
+
 export interface ServicesProps {
   items: ServiceItem[];
   ctaLabel?: string;
@@ -52,4 +67,11 @@ export interface ServicesProps {
   requirementsLabel?: string;
   /** Number of columns for the list layout (1, 2, or 3). Defaults to 1 (single column). */
   columns?: number;
+  /**
+   * Optional per-tab images (list variant). When present alongside `categories`, the
+   * section renders a two-column split: tabs + single-column items on the left, an
+   * image with a caption overlay on the right that cross-reveals on tab change.
+   * Keyed by the effective top-level tab id (a category id or a group id).
+   */
+  categoryImages?: CategoryImage[];
 }

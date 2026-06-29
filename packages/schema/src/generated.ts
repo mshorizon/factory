@@ -599,6 +599,23 @@ export type CategoryGroups = CategoryGroup[];
  */
 export type DefaultCategoryTab = string;
 /**
+ * Matches a serviceCategories tab id or a categoryGroups group id.
+ */
+export type TabGroupID = string;
+export type ImageURL1 = string;
+export type NameLine1 = string;
+export type DescriptionLine1 = string;
+/**
+ * Full CSS color value, e.g. '#f0ebdb'.
+ */
+export type TextColor1 = string;
+export type NameFontFamily1 = string;
+export type DescriptionFontFamily1 = string;
+/**
+ * Optional per-tab images for the services 'list' variant. When present, the section renders a two-column split: tabs + single-column items on the left, and a bordered image with a bottom-left caption overlay on the right. Selecting a tab cross-reveals the matching image. Each entry's id matches a serviceCategories tab id or a categoryGroups group id.
+ */
+export type CategoryTabImages = CategoryImage[];
+/**
  * Rendered in uppercase.
  */
 export type SignatureText = string;
@@ -678,7 +695,7 @@ export type TierIcon = string;
 export type PricingTiers = PricingTier[];
 export type Title1 = string;
 export type Description1 = string;
-export type ImageURL1 = string;
+export type ImageURL2 = string;
 export type LogoImageURL = string;
 export type Date = string;
 export type KeyMetric = string;
@@ -1044,6 +1061,7 @@ export interface Section {
   serviceCategories?: ServiceCategoryTabs;
   categoryGroups?: CategoryGroups;
   defaultCategory?: DefaultCategoryTab;
+  categoryImages?: CategoryTabImages;
   story?: {
     title?: string;
     content?: string;
@@ -1165,6 +1183,21 @@ export interface CategoryGroup {
   label: GroupTabLabel;
   categories: ConstituentCategoryIDs;
   showSubTabs?: ShowSubTabs;
+}
+export interface CategoryImage {
+  id: TabGroupID;
+  image: ImageURL1;
+  imageDescription?: ImageCaptionOverlay1;
+}
+/**
+ * Two-line caption overlaid on the bottom-left corner of the image: a small name line plus an italic description line.
+ */
+export interface ImageCaptionOverlay1 {
+  name?: NameLine1;
+  description?: DescriptionLine1;
+  color?: TextColor1;
+  nameFontFamily?: NameFontFamily1;
+  descriptionFontFamily?: DescriptionFontFamily1;
 }
 /**
  * Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.
@@ -1307,7 +1340,7 @@ export interface PricingTier {
 export interface ProjectItem {
   title?: Title1;
   description?: Description1;
-  image?: ImageURL1;
+  image?: ImageURL2;
   logo?: LogoImageURL;
   date?: Date;
   metric?: KeyMetric;
