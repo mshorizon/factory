@@ -198,7 +198,7 @@ export function ServicesList({
   const tabsBlock = hasTabs && (
     <div
       className={cn(
-        "flex flex-wrap lg:flex-nowrap gap-x-spacing-lg gap-y-spacing-md border-b border-border mb-spacing-2xl",
+        "flex flex-wrap gap-x-spacing-lg gap-y-spacing-md border-b border-border mb-spacing-2xl",
         hasSideImage ? "justify-start" : "justify-center"
       )}
       role="tablist"
@@ -252,9 +252,9 @@ export function ServicesList({
 
   if (hasSideImage) {
     return (
-      <div className={cn("grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-spacing-section-sm items-start", className)}>
+      <div className={cn("grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-spacing-2xl lg:gap-spacing-3xl items-start", className)}>
         {/* Left: tabs + single-column menu */}
-        <div className="min-w-0">
+        <div className="relative z-10 min-w-0">
           {tabsBlock}
           {subTabsBlock}
           {listBlock}
