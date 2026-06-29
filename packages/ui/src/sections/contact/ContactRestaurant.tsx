@@ -45,9 +45,9 @@ function handleFromUrl(url: string): string {
 
 function SocialIcon({ platform }: { platform: string }) {
   const p = platform.toLowerCase();
-  if (p === "instagram") return <Instagram className="h-4 w-4" />;
-  if (p === "facebook") return <Facebook className="h-4 w-4" />;
-  return <Link2 className="h-4 w-4" />;
+  if (p === "instagram") return <Instagram className="h-6 w-6" />;
+  if (p === "facebook") return <Facebook className="h-6 w-6" />;
+  return <Link2 className="h-6 w-6" />;
 }
 
 export function ContactRestaurant({
@@ -137,7 +137,7 @@ export function ContactRestaurant({
         {/* Left: contact + social */}
         <ScrollReveal delay={0.1} direction="up" distance={20}>
           <div>
-            <h3 className="font-heading text-2xl text-foreground mb-spacing-lg">{contactHeading}</h3>
+            <h3 className="font-heading text-2xl text-foreground mb-spacing-lg pb-spacing-sm border-b border-border/40">{contactHeading}</h3>
 
             {/* Address */}
             {info?.address && (
@@ -182,7 +182,7 @@ export function ContactRestaurant({
             {/* Social media */}
             {socials.length > 0 && (
               <>
-                <h3 className="font-heading text-2xl text-foreground mb-spacing-lg">{socialHeading}</h3>
+                <h3 className="font-heading text-2xl text-foreground mb-spacing-lg pb-spacing-sm border-b border-border/40">{socialHeading}</h3>
                 <div className="flex flex-col gap-spacing-md">
                   {socials.map((s) => (
                     <a
@@ -190,7 +190,7 @@ export function ContactRestaurant({
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-spacing-sm text-muted hover:text-foreground transition-colors w-fit"
+                      className="flex items-center gap-spacing-sm text-muted hover:text-primary transition-colors w-fit"
                     >
                       <SocialIcon platform={s.platform} />
                       <span className="text-sm">{socialLabel(s)}</span>
@@ -211,7 +211,7 @@ export function ContactRestaurant({
               style={{ background: "var(--nav-logo-flag, var(--primary))" }}
             />
 
-            <div className="flex items-center gap-spacing-sm mb-spacing-lg">
+            <div className="flex items-center gap-spacing-sm mb-spacing-lg pb-spacing-sm border-b border-border/40">
               <Clock className="h-5 w-5 text-primary" />
               <h3 className="font-heading text-xl text-foreground">{hoursTitle}</h3>
             </div>
