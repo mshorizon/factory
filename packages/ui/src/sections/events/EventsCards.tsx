@@ -60,12 +60,12 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     />
                     {/* Legibility gradient so overlaid copy stays readable over any photo */}
                     <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/55 via-transparent to-transparent"
                       aria-hidden="true"
                     />
                     {tag && (
                       <span
-                        className="absolute left-spacing-md top-spacing-md inline-flex items-center rounded-sm bg-black/40 backdrop-blur-sm px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-primary"
+                        className="absolute left-spacing-md top-spacing-md inline-flex items-center rounded-sm bg-primary px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-white"
                         data-field={`items.${index}.tags`}
                       >
                         {tag}
@@ -73,7 +73,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     )}
                     {item.dateStart && (
                       <span
-                        className="absolute bottom-spacing-md left-spacing-md font-heading text-sm text-white/90"
+                        className="absolute bottom-spacing-md left-spacing-md font-heading text-sm text-black/90"
                         data-field={`items.${index}.dateStart`}
                       >
                         {item.dateStart}
@@ -81,7 +81,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     )}
                     {item.meta && (
                       <span
-                        className="absolute bottom-spacing-md right-spacing-md text-sm text-white/80"
+                        className="absolute bottom-spacing-md right-spacing-md text-sm text-black/80"
                         data-field={`items.${index}.meta`}
                       >
                         {item.meta}
