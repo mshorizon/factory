@@ -469,6 +469,30 @@ export type SectionImageHeightOverride = string;
  * Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look.
  */
 export type ImageBlendEffect = "feather" | "soft";
+/**
+ * When true (about 'story' variant), wraps the image in an almost-transparent border tinted with the page text color, inset by a small padding mat so the background shows between the image and the border. Replaces the floating drop shadow.
+ */
+export type ImageTextColorBorderMat = boolean;
+/**
+ * First line — small name/title. Defaults to 12px DM Sans.
+ */
+export type NameLine = string;
+/**
+ * Second line — italic subtitle. Defaults to 18px Cormorant Garamond.
+ */
+export type DescriptionLine = string;
+/**
+ * Overlay text color. Full CSS color value, e.g. '#f0ebdb'.
+ */
+export type TextColor = string;
+/**
+ * Overrides the name line font-family. Full CSS font-family value.
+ */
+export type NameFontFamily = string;
+/**
+ * Overrides the description line font-family. Full CSS font-family value.
+ */
+export type DescriptionFontFamily = string;
 export type CTATextColorOverride = string;
 /**
  * Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
@@ -995,6 +1019,8 @@ export interface Section {
   imageWidth?: SectionImageWidthOverride;
   imageHeight?: SectionImageHeightOverride;
   imageBlend?: ImageBlendEffect;
+  imageBorder?: ImageTextColorBorderMat;
+  imageDescription?: ImageCaptionOverlay;
   ctaColor?: CTATextColorOverride;
   scrollColor?: HeroScrollIndicatorColorOverride;
   textColor?: HeroTextColorOverride;
@@ -1076,6 +1102,16 @@ export interface SectionHeader {
   subtitle?: Subtitle;
   layout?: HeaderLayout;
   flag?: ShowFlagBar;
+}
+/**
+ * Optional two-line caption overlaid on the bottom-left corner of the about-section image (about 'story' variant): a small name line plus an italic description line, left-aligned with 20px/24px padding.
+ */
+export interface ImageCaptionOverlay {
+  name?: NameLine;
+  description?: DescriptionLine;
+  color?: TextColor;
+  nameFontFamily?: NameFontFamily;
+  descriptionFontFamily?: DescriptionFontFamily;
 }
 /**
  * A ghost-style link rendered below the gallery grid (e.g. 'FOLLOW US on instagram @handle'). The full text is shown uppercase; the 'highlight' substring within it is rendered in 'highlightColor'.

@@ -206,6 +206,19 @@
         "imageWidth": { "type": "string", "title": "Section Image Width Override", "description": "Overrides the about-section image width. Full CSS length value, e.g. '560px'. Defaults to 448px." },
         "imageHeight": { "type": "string", "title": "Section Image Height Override", "description": "Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px." },
         "imageBlend": { "type": "string", "title": "Image Blend Effect", "enum": ["feather", "soft"], "description": "Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look." },
+        "imageBorder": { "type": "boolean", "title": "Image Text-Color Border Mat", "description": "When true (about 'story' variant), wraps the image in an almost-transparent border tinted with the page text color, inset by a small padding mat so the background shows between the image and the border. Replaces the floating drop shadow." },
+        "imageDescription": {
+          "type": "object",
+          "title": "Image Caption Overlay",
+          "description": "Optional two-line caption overlaid on the bottom-left corner of the about-section image (about 'story' variant): a small name line plus an italic description line, left-aligned with 20px/24px padding.",
+          "properties": {
+            "name": { "type": "string", "title": "Name Line", "description": "First line — small name/title. Defaults to 12px DM Sans." },
+            "description": { "type": "string", "title": "Description Line", "description": "Second line — italic subtitle. Defaults to 18px Cormorant Garamond." },
+            "color": { "type": "string", "title": "Text Color", "description": "Overlay text color. Full CSS color value, e.g. '#f0ebdb'." },
+            "nameFontFamily": { "type": "string", "title": "Name Font Family", "description": "Overrides the name line font-family. Full CSS font-family value." },
+            "descriptionFontFamily": { "type": "string", "title": "Description Font Family", "description": "Overrides the description line font-family. Full CSS font-family value." }
+          }
+        },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
         "scrollColor": { "type": "string", "title": "Hero Scroll Indicator Color Override", "description": "Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
         "textColor": { "type": "string", "title": "Hero Text Color Override", "description": "Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },

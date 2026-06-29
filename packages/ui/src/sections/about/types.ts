@@ -75,6 +75,30 @@ export interface AboutStoryProps {
   imageFill?: boolean;
   /** When true (only meaningful with imageFill), wraps the fill image in a thin primary-colored border with a small inset mat, giving a framed-photo look. Defaults to false (flush, no frame). */
   imageFrame?: boolean;
+  /**
+   * When true, wraps the (non-fill) image in an almost-transparent border tinted with the
+   * page text color, inset by a small padding mat so background shows between the image and
+   * the border. Replaces the floating drop shadow. Defaults to false.
+   */
+  imageBorder?: boolean;
+  /**
+   * Optional two-line caption overlaid on the bottom-left corner of the image
+   * (name + italic description). Rendered by the ImageDescription atom.
+   */
+  imageDescription?: ImageDescriptionContent;
+}
+
+export interface ImageDescriptionContent {
+  /** First line — small name/title (12px DM Sans by default). */
+  name?: string;
+  /** Second line — italic subtitle (18px Cormorant Garamond by default). */
+  description?: string;
+  /** Text color for the overlay. Supplied from JSON since there is no reliable contrasting token over a photo. */
+  color?: string;
+  /** Override the name line font-family. Full CSS font-family value. */
+  nameFontFamily?: string;
+  /** Override the description line font-family. Full CSS font-family value. */
+  descriptionFontFamily?: string;
 }
 
 export interface QuotePanel {

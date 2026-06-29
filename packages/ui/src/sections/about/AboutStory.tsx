@@ -5,6 +5,7 @@ import { cn } from "../../lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "../../atoms/Badge";
 import { SafeImage } from "../../atoms/SafeImage.js";
+import { ImageDescription } from "../../atoms/ImageDescription";
 import { Card, CardContent } from "../../atoms/Card";
 import { ScrollReveal } from "../../animations/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
@@ -39,6 +40,8 @@ export function AboutStory({
   quote,
   imageFill = false,
   imageFrame = false,
+  imageBorder = false,
+  imageDescription,
 }: AboutStoryProps) {
   // On mobile the story is collapsed to its first paragraph; the rest is revealed
   // on tap. On md+ everything is always visible regardless of this state.
@@ -106,26 +109,46 @@ export function AboutStory({
     ) : (
       <ScrollReveal delay={0} direction={imageRight ? "right" : "left"} distance={30}>
         <div className="relative flex items-center justify-center lg:justify-start">
-          <SafeImage
-            src={image}
-            alt=""
+          {/* Outer frame: an almost-transparent text-color border with a padding mat that
+              keeps space between the border and the image. The inner wrapper hugs the image
+              exactly so the overlay caption can anchor to the photo's bottom-left corner. */}
+          <div
             className={cn(
-              "max-w-full object-cover",
-              !imageBlend && "shadow-lg",
-              hasCustomSize
-                ? cn(
-                    "w-[220px] h-auto",
-                    imageWidth && "md:w-[var(--about-img-w)]",
-                    imageHeight && "md:h-[var(--about-img-h)]"
-                  )
-                : "w-[448px] h-[500px]",
-              imageRounded && imageBlend !== "feather" && "rounded-[var(--radius-lg)]"
+              "relative inline-block",
+              imageBorder && "p-spacing-md",
+              imageBorder && imageRounded && "rounded-[var(--radius-lg)]"
             )}
-            style={imageSizeStyle}
-            data-field="image"
-            loading="lazy"
-            decoding="async"
-          />
+            style={imageBorder ? { border: "1px solid color-mix(in oklab, var(--foreground) 12%, transparent)" } : undefined}
+          >
+            <div className="relative inline-block leading-[0]">
+              <SafeImage
+                src={image}
+                alt=""
+                className={cn(
+                  "max-w-full object-cover",
+                  !imageBlend && !imageBorder && "shadow-lg",
+                  hasCustomSize
+                    ? cn(
+                        "w-[220px] h-auto",
+                        imageWidth && "md:w-[var(--about-img-w)]",
+                        imageHeight && "md:h-[var(--about-img-h)]"
+                      )
+                    : "w-[448px] h-[500px]",
+                  imageRounded && imageBlend !== "feather" && "rounded-[var(--radius-lg)]"
+                )}
+                style={imageSizeStyle}
+                data-field="image"
+                loading="lazy"
+                decoding="async"
+              />
+              {imageDescription && (imageDescription.name || imageDescription.description) && (
+                <ImageDescription
+                  {...imageDescription}
+                  className="absolute bottom-0 left-0"
+                />
+              )}
+            </div>
+          </div>
         </div>
       </ScrollReveal>
     )
