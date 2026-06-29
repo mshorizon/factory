@@ -39,6 +39,13 @@ export interface FeaturesNumberedSplitProps extends FeaturesGridProps {
    */
   imageBlend?: "feather" | "soft";
   /**
+   * Wraps the image in the about-section "border line" frame: an almost-transparent
+   * border tinted with the page text color, inset by a small padding mat so the
+   * background shows between the image and the border. Mirrors the about 'story'
+   * variant's `imageBorder`. Takes precedence over `imageBlend`.
+   */
+  imageBorder?: boolean;
+  /**
    * Optional two-line caption overlaid on the bottom-left corner of the image
    * (name + italic description). Rendered by the ImageDescription atom — mirrors
    * the about-section image caption.

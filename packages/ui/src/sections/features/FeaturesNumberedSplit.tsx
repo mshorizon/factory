@@ -12,6 +12,7 @@ export function FeaturesNumberedSplit({
   title,
   image,
   imageBlend,
+  imageBorder,
   imageDescription,
   className,
 }: FeaturesNumberedSplitProps) {
@@ -22,8 +23,12 @@ export function FeaturesNumberedSplit({
   const edgeFeather =
     "linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%), " +
     "linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%)";
-  const imageStyle =
-    imageBlend === "feather"
+  // `imageBorder` (the about-section "border line" frame) takes precedence and
+  // suppresses the blend masks — the image sits as a clean photo inside an
+  // almost-transparent text-color border with a padding mat.
+  const imageStyle = imageBorder
+    ? undefined
+    : imageBlend === "feather"
       ? {
           WebkitMaskImage: edgeFeather,
           WebkitMaskComposite: "source-in",
@@ -101,25 +106,44 @@ export function FeaturesNumberedSplit({
           data-reveal
           data-reveal-delay="150"
           className={cn(
-            "relative h-full min-h-[320px] lg:min-h-full overflow-hidden",
-            // A feathered image has no hard edge, so a corner radius is moot —
-            // drop it to match the about-section feather look.
-            imageBlend !== "feather" && "rounded-radius"
+            "relative h-full min-h-[320px] lg:min-h-full",
+            // The about-section "border line" frame: a padding mat keeps space
+            // between the almost-transparent text-color border and the photo.
+            imageBorder
+              ? "p-spacing-md rounded-[var(--radius-lg)]"
+              : cn(
+                  "overflow-hidden",
+                  // A feathered image has no hard edge, so a corner radius is moot —
+                  // drop it to match the about-section feather look.
+                  imageBlend !== "feather" && "rounded-radius"
+                )
           )}
+          style={
+            imageBorder
+              ? { border: "1px solid color-mix(in oklab, var(--foreground) 12%, transparent)" }
+              : undefined
+          }
         >
-          <img
-            src={image}
-            alt={title || ""}
-            className="absolute inset-0 h-full w-full object-cover"
-            style={imageStyle}
-            loading="lazy"
-          />
-          {imageDescription && (imageDescription.name || imageDescription.description) && (
-            <ImageDescription
-              {...imageDescription}
-              className="absolute bottom-0 left-0"
+          <div
+            className={cn(
+              "relative h-full w-full",
+              imageBorder && "overflow-hidden rounded-[var(--radius-lg)]"
+            )}
+          >
+            <img
+              src={image}
+              alt={title || ""}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={imageStyle}
+              loading="lazy"
             />
-          )}
+            {imageDescription && (imageDescription.name || imageDescription.description) && (
+              <ImageDescription
+                {...imageDescription}
+                className="absolute bottom-0 left-0"
+              />
+            )}
+          </div>
         </div>
       )}
     </div>
