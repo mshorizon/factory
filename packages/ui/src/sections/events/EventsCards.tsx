@@ -112,7 +112,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     {item.description}
                   </p>
                   <span
-                    className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-[0.15em] text-primary"
+                    className="mt-auto inline-flex w-fit items-center gap-1.5 rounded-radius border border-white/30 px-spacing-md py-spacing-sm text-sm font-semibold uppercase tracking-[0.15em] text-white transition-colors group-hover:border-white/70"
                     data-field={`items.${index}.linkLabel`}
                   >
                     {item.linkLabel || linkLabel || "See details"}
