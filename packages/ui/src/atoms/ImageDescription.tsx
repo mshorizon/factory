@@ -20,8 +20,10 @@ export interface ImageDescriptionProps {
 
 /**
  * A small two-line caption (name + italic description) intended to overlay the
- * bottom-left corner of an image. Text is left-aligned with 20px/24px padding.
- * A subtle text-shadow keeps it legible over photography without a background plate.
+ * bottom-left corner of an image. Text is left-aligned with 24px horizontal padding.
+ * The caption spans the full width of the image and lays a bottom-up dark gradient
+ * behind itself so the text stays legible over any photography. A subtle text-shadow
+ * reinforces that legibility without relying on a solid background plate.
  */
 export function ImageDescription({
   name,
@@ -35,13 +37,24 @@ export function ImageDescription({
 
   return (
     <div
-      className={cn("text-left", className)}
-      style={{ padding: "20px 24px", color, textShadow: "0 1px 12px rgba(0,0,0,0.45)" }}
+      className={cn("text-left w-full", className)}
+      style={{
+        padding: "56px 24px 20px",
+        color,
+        textShadow: "0 1px 12px rgba(0,0,0,0.45)",
+        background:
+          "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 45%, transparent 100%)",
+      }}
       data-field="imageDescription"
     >
       {name && (
         <div
-          style={{ fontFamily: nameFontFamily, fontSize: "12px" }}
+          style={{
+            fontFamily: nameFontFamily,
+            fontSize: "12px",
+            textTransform: "uppercase",
+            opacity: 0.7,
+          }}
           data-field="imageDescription.name"
         >
           {name}
@@ -49,8 +62,12 @@ export function ImageDescription({
       )}
       {description && (
         <div
-          className="mt-spacing-xs"
-          style={{ fontFamily: descriptionFontFamily, fontSize: "18px", fontStyle: "italic" }}
+          style={{
+            fontFamily: descriptionFontFamily,
+            fontSize: "18px",
+            fontStyle: "italic",
+            marginTop: "4px",
+          }}
           data-field="imageDescription.description"
         >
           {description}
