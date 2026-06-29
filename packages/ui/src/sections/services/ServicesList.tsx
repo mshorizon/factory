@@ -137,13 +137,9 @@ export function ServicesList({
         <StaggerItem key={index} direction="up" distance={16}>
           <a
             href={`/services/${item.slug || item.id}`}
-            className="services-list-item group relative flex items-start justify-between gap-spacing-md py-spacing-md pl-spacing-md border-b border-border/60 transition-colors hover:bg-foreground/[0.03] cursor-pointer"
+            className="services-list-item group relative flex items-start justify-between gap-spacing-md py-spacing-md pl-spacing-md border-b border-border/60 border-l-2 border-l-transparent transition-colors hover:bg-foreground/[0.03] hover:border-l-primary cursor-pointer"
             data-field={`items.${index}`}
           >
-            <span
-              aria-hidden="true"
-              className="absolute left-0 top-1.5 bottom-1.5 w-0.5 origin-center rounded-full bg-primary scale-y-0 transition-transform duration-300 ease-out group-hover:scale-y-100"
-            />
             <div className="flex-1">
               <h3
                 className="services-item-title text-lg font-semibold font-heading text-foreground group-hover:text-primary transition-colors"
