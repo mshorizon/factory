@@ -311,7 +311,7 @@ const secondaryCta = section.secondaryCta ? {
             style={`background-image:url('${section.backgroundImage}')`}
             data-field="backgroundImage"
           />
-          <div class="hero-fold__overlay" />
+          <div class="hero-fold__overlay" style={(section as any).overlayColor ? `background-color:${(section as any).overlayColor}` : undefined} />
           <div class="hero-bottom-fade" />
         </>
       )}

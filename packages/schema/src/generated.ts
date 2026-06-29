@@ -483,6 +483,10 @@ export type HeroTextColorOverride = string;
  */
 export type HeroTitleDividerColor = string;
 /**
+ * Overrides the dark overlay drawn over the hero background image across the whole image (default hero-fold variant). Higher opacity = darker image. Full CSS color value, e.g. 'rgba(20,17,15,0.6)' or 'color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)'. Defaults to a 40% dark overlay.
+ */
+export type HeroOverlayColorOverride = string;
+/**
  * Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'.
  */
 export type MapPanelButtonColor = "primary" | "primary-light";
@@ -995,6 +999,7 @@ export interface Section {
   scrollColor?: HeroScrollIndicatorColorOverride;
   textColor?: HeroTextColorOverride;
   titleDividerColor?: HeroTitleDividerColor;
+  overlayColor?: HeroOverlayColorOverride;
   mapPanelButtonColor?: MapPanelButtonColor;
   headerLineColor?: HeaderDecorativeLineColor;
   statsInverted?: InvertStatColorsLightBgDarkText;

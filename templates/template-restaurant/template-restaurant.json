@@ -247,6 +247,7 @@
           "type": "hero",
           "variant": "default",
           "backgroundImage": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/hero-nostrano.jpg",
+          "overlayColor": "color-mix(in oklab, hsl(24 15% 10%) 62%, transparent)",
           "scrollColor": "#f0ebdb",
           "textColor": "#f0ebdb",
           "badgeColor": "#f0ebdbb3",
