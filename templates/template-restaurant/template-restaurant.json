@@ -251,7 +251,7 @@
           "scrollColor": "#f0ebdb",
           "textColor": "#f0ebdb",
           "badgeColor": "#f0ebdbb3",
-          "titleDividerColor": "#f0ebdb",
+          "titleDividerColor": "#f0ebdb66",
           "header": {
             "badge": "t:home.hero.badge",
             "title": "Nostrano",
