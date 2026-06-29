@@ -848,6 +848,7 @@
         {
           "type": "events",
           "variant": "cards",
+          "backgroundColor": "#26201c",
           "header": {
             "badge": "Vita a Nostrano",
             "title": "t:home.events.title"
