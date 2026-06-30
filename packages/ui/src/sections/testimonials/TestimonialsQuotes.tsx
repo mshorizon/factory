@@ -26,33 +26,32 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
               key={index}
               direction="up"
               distance={24}
+              className={index > 0 ? "border-t border-border/10" : undefined}
             >
               <div
                 className="h-full flex gap-spacing-lg rounded-radius p-spacing-xl"
                 data-field={`items.${index}`}
               >
-                {/* Decorative quotation mark (CTA color, translucent) */}
+                {/* Decorative quotation mark (CTA dark color) */}
                 <span
                   aria-hidden="true"
-                  className="flex-shrink-0 font-heading-secondary leading-none text-6xl text-primary/20 select-none"
+                  className="flex-shrink-0 font-heading-secondary leading-none text-[32px] text-primary-dark select-none"
                 >
                   &ldquo;
                 </span>
 
                 <div className="flex flex-1 flex-col min-w-0">
-                  {/* Quote */}
+                  {/* Quote (Cormorant serif) */}
                   <p
-                    className="flex-1 font-heading-secondary italic text-lg leading-relaxed text-foreground/90"
+                    className="flex-1 italic text-lg leading-relaxed text-foreground/90"
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                     data-field={`items.${index}.description`}
                   >
                     {item.description}
                   </p>
 
-                  {/* Divider */}
-                  <div className="my-spacing-lg h-px w-full bg-border/15" />
-
-                  {/* Footer */}
-                  <div className="flex items-center justify-between gap-spacing-md">
+                  {/* Footer (16px gap above) */}
+                  <div className="mt-spacing-md flex items-center justify-between gap-spacing-md">
                     <div className="flex items-center gap-spacing-md min-w-0">
                       {/* Rating */}
                       <div className="flex flex-shrink-0 gap-1">
@@ -72,7 +71,7 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
                           )}
                           {item.role && (
                             <p
-                              className="text-sm text-muted"
+                              className="text-sm italic text-muted"
                               data-field={`items.${index}.role`}
                             >
                               {item.role}
