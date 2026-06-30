@@ -50,9 +50,9 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
                     {item.description}
                   </p>
 
-                  {/* Footer (16px gap above) */}
-                  <div className="mt-spacing-md flex items-center justify-between gap-spacing-md">
-                    <div className="flex items-center gap-spacing-md min-w-0">
+                  {/* Footer (16px gap above) — stacks vertically on mobile, row on sm+ */}
+                  <div className="mt-spacing-md flex flex-col gap-spacing-sm sm:flex-row sm:items-center sm:justify-between sm:gap-spacing-md">
+                    <div className="flex flex-col gap-spacing-sm sm:flex-row sm:items-center sm:gap-spacing-md min-w-0">
                       {/* Rating */}
                       <div className="flex flex-shrink-0 gap-1">
                         {Array.from({ length: 5 }).map((_, i) => (
@@ -60,7 +60,7 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
                         ))}
                       </div>
                       {(name || item.role) && (
-                        <div className="flex items-center gap-spacing-sm min-w-0">
+                        <div className="flex flex-wrap items-baseline gap-spacing-sm min-w-0">
                           {name && (
                             <p
                               className="font-medium text-foreground"
