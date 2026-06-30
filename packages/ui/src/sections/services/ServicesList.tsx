@@ -134,15 +134,15 @@ export function ServicesList({
       // Menu-row style: no full card border, a hairline divider, and an animated
       // vertical accent bar that grows on the left edge on hover.
       return (
-        <StaggerItem key={index} direction="up" distance={16}>
+        <StaggerItem key={index} direction="up" distance={16} className="group/svc services-item-wrap">
           <a
             href={`/services/${item.slug || item.id}`}
-            className="services-list-item group relative flex items-start justify-between gap-spacing-md py-spacing-md pl-spacing-md border-b border-border/60 border-l-2 border-l-transparent transition-colors hover:bg-foreground/[0.03] hover:border-l-primary cursor-pointer"
+            className="services-list-item group relative flex items-start justify-between gap-spacing-md py-spacing-md pl-spacing-md border-b border-border/60 border-l-2 border-l-transparent transition-colors group-hover/svc:bg-foreground/[0.03] group-hover/svc:border-l-primary cursor-pointer"
             data-field={`items.${index}`}
           >
             <div className="flex-1">
               <h3
-                className="services-item-title text-lg font-semibold font-heading text-foreground group-hover:text-primary transition-colors"
+                className="services-item-title text-lg font-semibold font-heading text-foreground group-hover/svc:text-primary transition-colors"
                 data-field={`items.${index}.title`}
               >
                 {item.title}
@@ -259,17 +259,17 @@ export function ServicesList({
         {/* Right: bordered image with caption overlay that cross-reveals on tab change */}
         <div className="hidden lg:block lg:sticky lg:top-28">
           <div
-            className="relative inline-block w-full p-spacing-md rounded-[var(--radius-lg)]"
+            className="relative inline-block w-full p-spacing-md"
             style={{ border: "1px solid color-mix(in oklab, var(--foreground) 12%, transparent)" }}
           >
-            <div className="relative w-full overflow-hidden rounded-[var(--radius-lg)] leading-[0] aspect-[4/5]">
+            <div className="relative w-full overflow-hidden leading-[0] aspect-[4/5]">
               <AnimatePresence initial={false}>
                 {activeImage && (
                   <motion.div
                     key={activeImage.id}
                     className="absolute inset-0"
-                    initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0.5 }}
-                    animate={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                   >

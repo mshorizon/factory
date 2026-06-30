@@ -428,6 +428,14 @@ body::-webkit-scrollbar {
   box-shadow: none !important;
 }
 
+/* Hover accent: a vertical CTA-colored (--primary) line on the left edge of the
+   hovered item. Hover is detected on the wrapper (.services-item-wrap) because the
+   item itself may be pointer-events:none via theme.servicesNotClickable. The higher
+   specificity + !important beats the border:0 reset above. */
+[data-services-list-divider="1"] .services-item-wrap:hover .services-list-item {
+  border-left: 2px solid var(--primary) !important;
+}
+
 /* Non-interactive service items (opt-in via theme.servicesNotClickable) */
 [data-services-not-clickable="1"] .services-list-item {
   pointer-events: none;
