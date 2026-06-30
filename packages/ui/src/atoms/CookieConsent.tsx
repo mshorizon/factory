@@ -163,7 +163,7 @@ export function CookieConsent({ translations = {} }: { translations?: CookieCons
         transform: hiding ? "translateY(100%)" : "translateY(0)",
       }}
     >
-      <div className="container mx-auto px-spacing-container">
+      <div className="container mx-auto px-spacing-container pb-[calc(var(--spacing-md)+env(safe-area-inset-bottom))] md:pb-0">
         {/* Main bar — buttons hidden when expanded (duplicated in expanded panel) */}
         <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-spacing-md py-4 md:py-0" style={{ minHeight: "var(--spacing-section-sm)" }}>
           <p className="text-sm text-foreground flex-1 leading-relaxed">
