@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { GalleryGrid, GalleryShowcase, GalleryMosaic, SectionHeader, buttonVariants } from "@mshorizon/ui";
+import { GalleryGrid, GalleryShowcase, GalleryMosaic, SectionHeader, buttonVariants, cn } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -53,7 +53,11 @@ const socialParts = socialCta?.text && socialCta.highlight
           href={socialCta.href || "#"}
           target={socialCta.href?.startsWith("http") ? "_blank" : undefined}
           rel={socialCta.href?.startsWith("http") ? "noopener noreferrer" : undefined}
-          class={`${buttonVariants({ variant: "outline", size: "lg" })} uppercase tracking-wide h-auto min-h-12 w-full max-w-full whitespace-normal py-spacing-sm text-center sm:w-auto`}
+          class={cn(
+            buttonVariants({ variant: "outline", size: "lg" }),
+            // Gray, highly transparent border; white label that flips to black on a white hover fill
+            "border-white/20 text-white hover:bg-white hover:text-black uppercase tracking-wide h-auto min-h-12 w-full max-w-full whitespace-normal py-spacing-sm text-center sm:w-auto"
+          )}
         >
           {socialParts ? (
             <span>
