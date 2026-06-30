@@ -133,7 +133,7 @@ export function ContactRestaurant({
       )}
 
       {/* Two columns: contact info + opening hours */}
-      <div className="grid lg:grid-cols-2 gap-spacing-2xl lg:gap-spacing-3xl items-start mb-spacing-2xl">
+      <div className="grid lg:grid-cols-2 gap-spacing-2xl lg:gap-spacing-3xl items-start mb-spacing-2xl [&>*]:min-w-0">
         {/* Left: contact + social */}
         <ScrollReveal delay={0.1} direction="up" distance={20}>
           <div>
@@ -238,7 +238,7 @@ export function ContactRestaurant({
             )}
 
             {ctaLabel && ctaHref && (
-              <Button asChild size="lg" className="w-full uppercase [letter-spacing:var(--btn-letter-spacing,0.025em)]">
+              <Button asChild size="lg" className="w-full uppercase [letter-spacing:var(--btn-letter-spacing,0.025em)] whitespace-normal h-auto min-h-12 py-spacing-sm text-center">
                 <a href={ctaHref}>{ctaLabel}</a>
               </Button>
             )}
