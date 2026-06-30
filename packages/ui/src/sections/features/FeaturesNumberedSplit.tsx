@@ -106,30 +106,14 @@ export function FeaturesNumberedSplit({
           data-reveal
           data-reveal-delay="150"
           className={cn(
-            "relative h-full min-h-[320px] lg:min-h-full",
-            // The about-section "border line" frame: a padding mat keeps space
-            // between the almost-transparent text-color border and the photo.
-            imageBorder
-              ? "p-spacing-md rounded-[var(--radius-lg)]"
-              : cn(
-                  "overflow-hidden",
-                  // A feathered image has no hard edge, so a corner radius is moot —
-                  // drop it to match the about-section feather look.
-                  imageBlend !== "feather" && "rounded-radius"
-                )
+            "relative h-full min-h-[320px] lg:min-h-full overflow-hidden",
+            // A feathered image has no hard edge, so a corner radius is moot —
+            // drop it to match the about-section feather look. The `imageBorder`
+            // frame (see below) is also a square, edge-to-edge crop with no radius.
+            !imageBorder && imageBlend !== "feather" && "rounded-radius"
           )}
-          style={
-            imageBorder
-              ? { border: "1px solid color-mix(in oklab, var(--foreground) 12%, transparent)" }
-              : undefined
-          }
         >
-          <div
-            className={cn(
-              "relative h-full w-full",
-              imageBorder && "overflow-hidden rounded-[var(--radius-lg)]"
-            )}
-          >
+          <div className="relative h-full w-full">
             <img
               src={image}
               alt={title || ""}
@@ -144,6 +128,11 @@ export function FeaturesNumberedSplit({
               />
             )}
           </div>
+          {/* Inner border — a translucent line so its color blends with the
+              image beneath (mirrors the services-list side image). */}
+          {imageBorder && (
+            <div className="pointer-events-none absolute inset-0 border border-white/20" />
+          )}
         </div>
       )}
     </div>
