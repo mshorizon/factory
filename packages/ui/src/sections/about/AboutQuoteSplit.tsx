@@ -107,6 +107,9 @@ export function AboutQuoteSplit({
               aria-hidden="true"
             />
 
+            {/* Inner border — a translucent line so its color blends with the image beneath */}
+            <div className="pointer-events-none absolute inset-0 rounded-radius border border-white/20" />
+
             <div
               className="relative z-10 h-full flex flex-col justify-end p-9 gap-spacing-lg text-white"
               data-field="quote"
