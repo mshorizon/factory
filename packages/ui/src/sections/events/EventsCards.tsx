@@ -54,7 +54,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                 onClick={handleClick}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
-                className="group flex h-full flex-col overflow-hidden rounded-radius border border-border/20 bg-surface-alt transition-colors duration-300 hover:border-primary"
+                className="group flex h-full flex-col overflow-hidden rounded-radius border border-border/10 bg-surface-alt transition-colors duration-300 hover:border-primary"
                 data-field={`items.${index}`}
               >
                 {/* Image with overlaid badge / date / meta */}
@@ -68,7 +68,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     />
                     {/* Legibility gradient so overlaid copy stays readable over any photo */}
                     <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/55 via-transparent to-transparent"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
                       aria-hidden="true"
                     />
                     {tag && (
