@@ -54,7 +54,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                 onClick={handleClick}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
-                className="group flex h-full flex-col overflow-hidden rounded-radius border border-border/10 bg-surface-alt transition-colors duration-300 hover:border-primary"
+                className="group flex h-full flex-col overflow-hidden rounded-radius border border-border/5 bg-surface-alt transition-colors duration-300 hover:border-primary"
                 data-field={`items.${index}`}
               >
                 {/* Image with overlaid badge / date / meta */}
