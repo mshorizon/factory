@@ -1059,6 +1059,7 @@
         {
           "type": "contact",
           "variant": "restaurant",
+          "backgroundColor": "#26201c",
           "header": {
             "badge": "t:home.contact.badge",
             "title": "t:home.contact.title",
