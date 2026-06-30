@@ -326,7 +326,7 @@ const secondaryCta = section.secondaryCta ? {
           <div class="hero-bottom-fade" />
         </>
       )}
-      {section.backgroundImage && <div class="hero-fold__frame" aria-hidden="true" />}
+      {section.backgroundImage && (section as any).imageFrame !== false && <div class="hero-fold__frame" aria-hidden="true" />}
       <div class="hero-fold__content">
         <div class="hero-fold__flag" aria-hidden="true"></div>
         {header.badge && (

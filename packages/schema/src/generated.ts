@@ -515,6 +515,10 @@ export type HeroTextColorOverride = string;
  */
 export type HeroTitleDividerColor = string;
 /**
+ * When false, removes the inset picture-frame line drawn around the hero background image (default hero-fold variant). Defaults to true (frame shown).
+ */
+export type HeroImageFrame = boolean;
+/**
  * Overrides the dark overlay drawn over the hero background image across the whole image (default hero-fold variant). Higher opacity = darker image. Full CSS color value, e.g. 'rgba(20,17,15,0.6)' or 'color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)'. Defaults to a 40% dark overlay.
  */
 export type HeroOverlayColorOverride = string;
@@ -1051,6 +1055,7 @@ export interface Section {
   scrollColor?: HeroScrollIndicatorColorOverride;
   textColor?: HeroTextColorOverride;
   titleDividerColor?: HeroTitleDividerColor;
+  imageFrame?: HeroImageFrame;
   overlayColor?: HeroOverlayColorOverride;
   mapPanelButtonColor?: MapPanelButtonColor;
   headerLineColor?: HeaderDecorativeLineColor;
