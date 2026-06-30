@@ -16,7 +16,7 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
   return (
     <div className={cn("flex flex-col", className)}>
       <StaggerContainer
-        className="grid grid-cols-1 gap-spacing-lg"
+        className="grid grid-cols-1 gap-spacing-sm"
         staggerDelay={0.1}
       >
         {items.map((item, index) => {
@@ -26,7 +26,7 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
               key={index}
               direction="up"
               distance={24}
-              className={index > 0 ? "hidden md:block border-t border-border/10" : undefined}
+              className={index > 0 ? "hidden md:block border-t border-border/5 pt-spacing-sm" : undefined}
             >
               <div
                 className="h-full flex gap-spacing-lg rounded-radius p-spacing-xl"
