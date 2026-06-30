@@ -41,17 +41,12 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                 href={href}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
-                className="group flex h-full flex-col overflow-hidden rounded-radius border border-border/40 bg-surface-alt transition-colors duration-300 hover:border-primary"
+                className="group flex h-full flex-col overflow-hidden rounded-radius border border-border/20 bg-surface-alt transition-colors duration-300 hover:border-primary"
                 data-field={`items.${index}`}
               >
                 {/* Image with overlaid badge / date / meta */}
                 {item.image && (
-                  <div
-                    className="relative aspect-[4/3] overflow-hidden"
-                    // Border in the text (foreground) color, kept translucent so the
-                    // image mixes through where the border meets the photo edge.
-                    style={{ border: "1px solid color-mix(in srgb, var(--foreground) 40%, transparent)" }}
-                  >
+                  <div className="relative aspect-[4/3] overflow-hidden">
                     <SafeImage
                       src={item.image}
                       alt={item.title}
@@ -73,7 +68,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     )}
                     {item.dateStart && (
                       <span
-                        className="absolute bottom-spacing-md left-spacing-md font-heading text-sm text-black/90"
+                        className="absolute bottom-spacing-md left-spacing-md font-heading text-sm text-muted"
                         data-field={`items.${index}.dateStart`}
                       >
                         {item.dateStart}
@@ -81,7 +76,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     )}
                     {item.meta && (
                       <span
-                        className="absolute bottom-spacing-md right-spacing-md text-sm text-black/80"
+                        className="absolute bottom-spacing-md right-spacing-md text-sm text-muted"
                         data-field={`items.${index}.meta`}
                       >
                         {item.meta}
@@ -112,7 +107,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     {item.description}
                   </p>
                   <span
-                    className="mt-auto inline-flex w-fit items-center gap-1.5 rounded-radius px-spacing-md py-spacing-sm text-sm font-semibold uppercase tracking-[0.15em] text-primary transition-colors group-hover:text-white"
+                    className="mt-auto inline-flex w-fit items-center gap-1.5 rounded-radius text-sm font-semibold uppercase tracking-[0.15em] text-primary transition-colors group-hover:text-white"
                     data-field={`items.${index}.linkLabel`}
                   >
                     {item.linkLabel || linkLabel || "See details"}
