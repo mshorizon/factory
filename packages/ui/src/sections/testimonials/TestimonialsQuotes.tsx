@@ -26,7 +26,7 @@ export function TestimonialsQuotes({ items, ctaLabel, ctaHref, className }: Test
               key={index}
               direction="up"
               distance={24}
-              className={index > 0 ? "border-t border-border/10" : undefined}
+              className={index > 0 ? "hidden md:block border-t border-border/10" : undefined}
             >
               <div
                 className="h-full flex gap-spacing-lg rounded-radius p-spacing-xl"
