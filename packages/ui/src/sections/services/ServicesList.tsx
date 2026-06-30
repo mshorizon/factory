@@ -137,9 +137,16 @@ export function ServicesList({
         <StaggerItem key={index} direction="up" distance={16} className="group/svc services-item-wrap">
           <a
             href={`/services/${item.slug || item.id}`}
-            className="services-list-item group relative flex items-start justify-between gap-spacing-md py-spacing-md pl-spacing-md border-b border-border/60 border-l-2 border-l-transparent transition-colors group-hover/svc:bg-foreground/[0.03] group-hover/svc:border-l-primary cursor-pointer"
+            className="services-list-item group relative flex items-start justify-between gap-spacing-md py-spacing-md pl-spacing-md border-b border-border/60 transition-colors group-hover/svc:bg-foreground/[0.03] cursor-pointer"
             data-field={`items.${index}`}
           >
+            {/* Vertical accent bar: always in CTA (primary) color, grows in height
+                from the center on hover and shrinks back on unhover. Absolutely
+                positioned so it never shifts the row's text. */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute left-0 top-0 h-full w-0.5 origin-center scale-y-0 bg-primary transition-transform duration-300 ease-out group-hover/svc:scale-y-100"
+            />
             <div className="flex-1">
               <h3
                 className="services-item-title text-lg font-semibold font-heading text-foreground group-hover/svc:text-primary transition-colors"
