@@ -124,15 +124,15 @@ export interface AboutQuoteSplitProps {
   /** Badge style. "accent" (default) shows a short leading line; "accent-no-line" omits it. */
   badgeVariant?: "accent" | "accent-no-line";
   /**
-   * Optional background image URL. When supplied the section switches to an
-   * image-overlay layout: a single full-bleed photo with all text laid on top,
-   * darkened by a gradient rising from the bottom for legibility.
+   * Optional image URL. When supplied the section switches to a two-column split:
+   * the eyebrow, heading, story and stat cards sit on the page background in one
+   * column, while the photo fills the other column with only the flag, quote,
+   * author and CTA overlaid on its bottom (darkened by a gradient for legibility).
    */
   image?: string;
   /**
-   * Horizontal placement of the overlaid text block in image mode. "right"
-   * (default) anchors the content to the right side of the photo; "left" anchors
-   * it to the left. Ignored when no `image` is provided.
+   * Side the photo occupies in image mode. "right" (default) puts the photo on the
+   * right and the text on the left; "left" flips them. Ignored when no `image` is provided.
    */
   contentAlign?: "left" | "right";
 }
