@@ -173,6 +173,17 @@ const secondaryCta = section.secondaryCta ? {
         inset: 0;
         background-color: color-mix(in oklab, hsl(24 15% 10%) 40%, transparent);
       }
+      /* Inner border — a translucent line, inset from the edges, so its color
+         blends with the image beneath. Same treatment as the gallery tiles
+         (border-white/20 + theme radius); ported here as an inset picture-frame
+         around the full-bleed hero image instead of a hard outer line. */
+      .hero-fold__frame {
+        position: absolute;
+        inset: clamp(1.25rem, 2.5vw, 2.5rem);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius, 0);
+        pointer-events: none;
+      }
       .hero-fold__content {
         position: relative;
         min-height: 100vh;
@@ -315,6 +326,7 @@ const secondaryCta = section.secondaryCta ? {
           <div class="hero-bottom-fade" />
         </>
       )}
+      {section.backgroundImage && <div class="hero-fold__frame" aria-hidden="true" />}
       <div class="hero-fold__content">
         <div class="hero-fold__flag" aria-hidden="true"></div>
         {header.badge && (
