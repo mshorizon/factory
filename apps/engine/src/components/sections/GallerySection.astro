@@ -55,8 +55,11 @@ const socialParts = socialCta?.text && socialCta.highlight
           rel={socialCta.href?.startsWith("http") ? "noopener noreferrer" : undefined}
           class={cn(
             buttonVariants({ variant: "outline", size: "lg" }),
-            // Gray, highly transparent border; white label that flips to black on a white hover fill
-            "border-white/20 text-white hover:bg-white hover:text-black uppercase tracking-wide h-auto min-h-12 w-full max-w-full whitespace-normal py-spacing-sm text-center sm:w-auto"
+            // Gray, highly transparent border; white label that flips to black on a white fill.
+            // Hover is gated to hover-capable devices so touch devices don't get the sticky
+            // :hover that swallows the first tap (the "button needs a double tap" mobile bug);
+            // `active:` gives touch users immediate press feedback on a single tap instead.
+            "border-white/20 text-white [@media(hover:hover)]:hover:bg-white [@media(hover:hover)]:hover:text-black active:bg-white active:text-black uppercase tracking-wide h-auto min-h-12 w-full max-w-full whitespace-normal py-spacing-sm text-center sm:w-auto"
           )}
         >
           {socialParts ? (
