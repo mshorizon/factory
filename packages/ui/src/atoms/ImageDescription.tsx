@@ -39,7 +39,8 @@ export function ImageDescription({
     <div
       className={cn("text-left w-full", className)}
       style={{
-        padding: "56px 24px 20px",
+        // Padding scales down on narrow viewports so the caption stays proportional on mobile.
+        padding: "clamp(40px, 8vw, 56px) clamp(16px, 4vw, 24px) clamp(14px, 3vw, 20px)",
         color,
         textShadow: "0 1px 12px rgba(0,0,0,0.45)",
         background:
@@ -51,7 +52,8 @@ export function ImageDescription({
         <div
           style={{
             fontFamily: nameFontFamily,
-            fontSize: "12px",
+            // Responsive: stays readable on mobile, caps at the original 12px on larger screens.
+            fontSize: "clamp(11px, 3vw, 12px)",
             textTransform: "uppercase",
             opacity: 0.7,
           }}
@@ -64,9 +66,10 @@ export function ImageDescription({
         <div
           style={{
             fontFamily: descriptionFontFamily,
-            fontSize: "18px",
+            // Responsive: scales from ~15px on small phones up to the original 18px.
+            fontSize: "clamp(15px, 4.5vw, 18px)",
             fontStyle: "italic",
-            marginTop: "20px",
+            marginTop: "clamp(12px, 3vw, 20px)",
           }}
           data-field="imageDescription.description"
         >
