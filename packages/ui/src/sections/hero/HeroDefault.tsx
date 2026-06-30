@@ -102,7 +102,7 @@ export function HeroDefault({
                   asChild
                   size="xl"
                   variant={cta.variant || "default"}
-                  className="shadow-lg shadow-primary/25"
+                  className="shadow-lg shadow-primary/25 transition-transform duration-300 ease-out hover:scale-105"
                   data-field="cta"
                 >
                   <a href={cta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
