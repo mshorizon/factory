@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { SafeImage } from "../../atoms/SafeImage.js";
@@ -35,10 +36,22 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
           const tag = item.tags?.[0];
           const href = item.href || "#";
           const isExternal = href.startsWith("http");
+          // No dedicated event page → clicking the card guides the visitor to the
+          // contact section (e.g. to book/reserve). Targets the section generically
+          // via the [data-section-type] anchor emitted by the engine's dispatcher.
+          const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+            if (href === "#") {
+              e.preventDefault();
+              document
+                .querySelector('[data-section-type="contact"]')
+                ?.scrollIntoView({ behavior: "smooth" });
+            }
+          };
           return (
             <ScrollReveal key={index} delay={index * 0.1} direction="up" distance={30}>
               <a
                 href={href}
+                onClick={handleClick}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
                 className="group flex h-full flex-col overflow-hidden rounded-radius border border-border/20 bg-surface-alt transition-colors duration-300 hover:border-primary"
