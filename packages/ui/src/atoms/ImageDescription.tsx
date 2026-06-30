@@ -66,7 +66,7 @@ export function ImageDescription({
             fontFamily: descriptionFontFamily,
             fontSize: "18px",
             fontStyle: "italic",
-            marginTop: "4px",
+            marginTop: "12px",
           }}
           data-field="imageDescription.description"
         >

@@ -284,7 +284,7 @@
           "imageRounded": false,
           "imageWidth": "560px",
           "imageHeight": "620px",
-          "imageBorder": false,
+          "imageBorder": true,
           "imageDescription": {
             "name": "Kuchnia Nostrano",
             "description": "Il cibo è cultura, è passione",
