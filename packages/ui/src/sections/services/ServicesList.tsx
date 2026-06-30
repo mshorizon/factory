@@ -256,42 +256,40 @@ export function ServicesList({
           {listBlock}
         </div>
 
-        {/* Right: bordered image with caption overlay that cross-reveals on tab change */}
+        {/* Right: image with caption overlay that cross-reveals on tab change */}
         <div className="hidden lg:block lg:sticky lg:top-28">
-          <div
-            className="relative inline-block w-full p-spacing-md"
-            style={{ border: "1px solid color-mix(in oklab, var(--foreground) 12%, transparent)" }}
-          >
-            <div className="relative w-full overflow-hidden leading-[0] aspect-[4/5]">
-              <AnimatePresence initial={false}>
-                {activeImage && (
-                  <motion.div
-                    key={activeImage.id}
-                    className="absolute inset-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <SafeImage
-                      src={activeImage.image}
-                      alt=""
-                      className="absolute inset-0 w-full h-full object-cover"
-                      data-field="categoryImages.image"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    {activeImage.imageDescription &&
-                      (activeImage.imageDescription.name || activeImage.imageDescription.description) && (
-                        <ImageDescription
-                          {...activeImage.imageDescription}
-                          className="absolute bottom-0 left-0"
-                        />
-                      )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+          <div className="relative w-full overflow-hidden leading-[0] aspect-[4/5]">
+            <AnimatePresence initial={false}>
+              {activeImage && (
+                <motion.div
+                  key={activeImage.id}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <SafeImage
+                    src={activeImage.image}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
+                    data-field="categoryImages.image"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {activeImage.imageDescription &&
+                    (activeImage.imageDescription.name || activeImage.imageDescription.description) && (
+                      <ImageDescription
+                        {...activeImage.imageDescription}
+                        className="absolute bottom-0 left-0"
+                      />
+                    )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Inner border — a translucent line so its color blends with the image beneath */}
+            <div className="pointer-events-none absolute inset-0 border border-white/20" />
           </div>
         </div>
       </div>
