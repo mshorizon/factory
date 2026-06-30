@@ -362,7 +362,8 @@
               "categories": [
                 "pizza",
                 "dodatki"
-              ]
+              ],
+              "showSubTabs": true
             },
             {
               "id": "napoje-group",
