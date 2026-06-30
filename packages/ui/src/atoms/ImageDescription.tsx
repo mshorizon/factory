@@ -43,7 +43,7 @@ export function ImageDescription({
         color,
         textShadow: "0 1px 12px rgba(0,0,0,0.45)",
         background:
-          "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 45%, transparent 100%)",
+          "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 45%, transparent 100%)",
       }}
       data-field="imageDescription"
     >
@@ -66,7 +66,7 @@ export function ImageDescription({
             fontFamily: descriptionFontFamily,
             fontSize: "18px",
             fontStyle: "italic",
-            marginTop: "12px",
+            marginTop: "20px",
           }}
           data-field="imageDescription.description"
         >
