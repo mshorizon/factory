@@ -969,7 +969,6 @@
         {
           "type": "gallery",
           "variant": "mosaic",
-          "background": "dark",
           "backgroundColor": "#26201c",
           "header": {
             "badge": "La Nostra Arte",
