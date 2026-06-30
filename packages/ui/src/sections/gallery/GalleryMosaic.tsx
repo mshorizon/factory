@@ -2,6 +2,7 @@
 
 import { cn } from "../../lib/utils";
 import { SafeImage } from "../../atoms/SafeImage.js";
+import { ImageDescription } from "../../atoms/ImageDescription";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { GalleryGridProps } from "./types";
 
@@ -51,29 +52,17 @@ export function GalleryMosaic({ items, className }: GalleryGridProps) {
               loading={index < 3 ? "eager" : "lazy"}
             />
 
-            {/* Gradient scrim — fades in on hover for text legibility */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
             {/* Inner border — a translucent line so its color blends with the image beneath */}
             <div className="pointer-events-none absolute inset-0 rounded-radius border border-white/20" />
 
-            {/* Caption — slides up into the bottom-left corner on hover */}
-            <div className="absolute bottom-0 left-0 p-spacing-md translate-y-2 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-              <h3
-                className="font-heading font-semibold text-white drop-shadow-sm"
-                data-field={`items.${index}.title`}
-              >
-                {item.title}
-              </h3>
-              {item.description && (
-                <p
-                  className="mt-0.5 text-sm text-white/80"
-                  data-field={`items.${index}.description`}
-                >
-                  {item.description}
-                </p>
-              )}
-            </div>
+            {/* Caption — shares the ImageDescription atom (same as the services
+                section's image caption); slides up on hover. The atom lays its
+                own bottom-up gradient, so no separate scrim is needed. */}
+            {(item.title || item.description) && (
+              <div className="absolute bottom-0 left-0 right-0 translate-y-2 text-white opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                <ImageDescription name={item.title} description={item.description} />
+              </div>
+            )}
           </div>
         </StaggerItem>
       ))}
