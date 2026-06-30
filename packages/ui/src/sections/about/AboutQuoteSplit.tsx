@@ -108,7 +108,7 @@ export function AboutQuoteSplit({
             />
 
             <div
-              className="relative z-10 h-full flex flex-col justify-end p-spacing-2xl lg:p-spacing-3xl gap-spacing-lg text-white"
+              className="relative z-10 h-full flex flex-col justify-end p-9 gap-spacing-lg text-white"
               data-field="quote"
             >
               {quote && quote.flag ? (
@@ -140,7 +140,7 @@ export function AboutQuoteSplit({
               )}
 
               {quote && quote.author && (
-                <p className="text-sm font-medium uppercase tracking-wide text-white/70" data-field="quote.author">{quote.author}</p>
+                <p className="text-xs font-medium uppercase tracking-wide text-white/70" data-field="quote.author">{quote.author}</p>
               )}
 
               {cta && (
@@ -150,7 +150,7 @@ export function AboutQuoteSplit({
                   className="inline-flex items-center gap-spacing-xs text-sm font-semibold uppercase [letter-spacing:var(--btn-letter-spacing,0.025em)] text-accent hover:opacity-80 transition-opacity w-fit"
                   data-field="cta"
                 >
-                  {cta}
+                  <span className="underline">{cta}</span>
                   <ArrowRight className="h-4 w-4" />
                 </a>
               )}
