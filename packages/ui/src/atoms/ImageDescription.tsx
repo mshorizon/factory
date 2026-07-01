@@ -3,7 +3,7 @@ import { cn } from "../lib/utils";
 export interface ImageDescriptionProps {
   /** First line — the name/title. Rendered small (12px DM Sans by default). */
   name?: string;
-  /** Second line — italic subtitle (18px Cormorant Garamond by default). */
+  /** Second line — italic subtitle (always 24px Cormorant Garamond by default). */
   description?: string;
   /**
    * Text color. Left to props so the value comes from the business JSON rather than
@@ -73,8 +73,8 @@ export function ImageDescription({
         <div
           style={{
             fontFamily: descriptionFontFamily,
-            // Responsive: scales from ~15px on small phones up to the original 18px.
-            fontSize: "clamp(15px, 4.5vw, 18px)",
+            // Always 24px regardless of viewport (fixed, non-responsive).
+            fontSize: "24px",
             fontStyle: "italic",
             // Collapse the default line-height so the text div hugs its glyphs
             // instead of carrying extra vertical height.
