@@ -210,6 +210,15 @@ html.scroll-momentum {
   transform: none;
 }
 
+/* Site-wide badge/eyebrow typography (opt-in via theme.badgeWeight /
+   theme.badgeLetterSpacing). Only applies when the layout emits
+   [data-badge-typography]; !important beats per-section Tailwind utilities
+   (font-medium, tracking-[.05rem], etc.). Undefined vars degrade gracefully. */
+html[data-badge-typography] .badge-base {
+  font-weight: var(--badge-weight) !important;
+  letter-spacing: var(--badge-letter-spacing) !important;
+}
+
 /* Badge decorative line reveal — expands from left after badge fades in */
 [data-reveal] .reveal-line {
   transform-origin: left center;

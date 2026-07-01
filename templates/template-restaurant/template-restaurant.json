@@ -119,6 +119,8 @@
     ],
     "navLinksPosition": "right",
     "badgeVariant": "text",
+    "badgeWeight": "500",
+    "badgeLetterSpacing": "0.1em",
     "scrollType": "momentum"
   },
   "layout": {

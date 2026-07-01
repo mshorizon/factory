@@ -223,6 +223,14 @@ export type NavbarLinkLetterSpacing = string;
  */
 export type ButtonLetterSpacing = string;
 /**
+ * Font weight applied to all badges/eyebrows site-wide, e.g. "500". Overrides the per-component default weight.
+ */
+export type BadgeFontWeight = string;
+/**
+ * Letter spacing applied to all badges/eyebrows site-wide, e.g. "0.1em". Overrides the per-component default spacing.
+ */
+export type BadgeLetterSpacing = string;
+/**
  * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
  */
 export type NavbarLogoFlagStripes = string[];
@@ -891,6 +899,8 @@ export interface Theme {
   heroTitleLetterSpacing?: HeroTitleLetterSpacing;
   navLinkLetterSpacing?: NavbarLinkLetterSpacing;
   buttonLetterSpacing?: ButtonLetterSpacing;
+  badgeWeight?: BadgeFontWeight;
+  badgeLetterSpacing?: BadgeLetterSpacing;
   navLogoFlag?: NavbarLogoFlagStripes;
   navHeightTop?: NavbarHeightAtTop;
   navHeightScrolled?: NavbarHeightWhenScrolled;

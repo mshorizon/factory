@@ -1119,6 +1119,8 @@
         "heroTitleLetterSpacing": { "type": "string", "title": "Hero Title Letter Spacing", "description": "Letter spacing for the hero title text, e.g. \"0.01em\" or \"-0.02em\". Overrides the default 0.04em." },
         "navLinkLetterSpacing": { "type": "string", "title": "Navbar Link Letter Spacing", "description": "Letter spacing for the navbar links (desktop + mobile), e.g. \"0.1em\". Overrides the default normal spacing." },
         "buttonLetterSpacing": { "type": "string", "title": "Button Letter Spacing", "description": "Letter spacing applied to CTA buttons (primary/default variant), ghost buttons, and the navbar CTA, e.g. \"0.1em\". Overrides the default normal spacing." },
+        "badgeWeight": { "type": "string", "title": "Badge Font Weight", "description": "Font weight applied to all badges/eyebrows site-wide, e.g. \"500\". Overrides the per-component default weight." },
+        "badgeLetterSpacing": { "type": "string", "title": "Badge Letter Spacing", "description": "Letter spacing applied to all badges/eyebrows site-wide, e.g. \"0.1em\". Overrides the per-component default spacing." },
         "navLogoFlag": {
           "type": "array",
           "title": "Navbar Logo Flag Stripes",
