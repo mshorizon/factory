@@ -65,6 +65,8 @@ export function ImageDescription({
             // instead of carrying extra vertical height.
             lineHeight: 1,
             textTransform: "uppercase",
+            // Match the tracking of the "Reservations" badge (Tailwind `tracking-wide` = 0.025em).
+            letterSpacing: "0.025em",
             opacity: 0.7,
           }}
           data-field="imageDescription.name"
