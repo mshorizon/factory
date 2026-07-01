@@ -102,34 +102,36 @@ export function ContactRestaurant({
     <div className={cn("max-w-6xl mx-auto", className)}>
       {/* Header */}
       {(badge || title || subtitle) && (
-        <div className="text-center mb-spacing-3xl">
-          {badge && (
-            <div className="mb-spacing-md">
-              <span
-                className="text-sm font-medium uppercase tracking-[0.2em] text-primary"
-                data-field="header.badge"
+        <ScrollReveal direction="up" distance={20}>
+          <div className="text-center mb-spacing-3xl">
+            {badge && (
+              <div className="mb-spacing-md">
+                <span
+                  className="text-sm font-medium uppercase tracking-[0.2em] text-primary"
+                  data-field="header.badge"
+                >
+                  {badge}
+                </span>
+              </div>
+            )}
+            {title && (
+              <h2
+                className="font-heading text-4xl lg:text-5xl text-foreground leading-tight mb-spacing-md"
+                data-field="header.title"
               >
-                {badge}
-              </span>
-            </div>
-          )}
-          {title && (
-            <h2
-              className="font-heading text-4xl lg:text-5xl text-foreground leading-tight mb-spacing-md"
-              data-field="header.title"
-            >
-              {title}
-            </h2>
-          )}
-          {subtitle && (
-            <p
-              className="text-muted text-lg leading-relaxed max-w-xl mx-auto"
-              data-field="header.subtitle"
-            >
-              {subtitle}
-            </p>
-          )}
-        </div>
+                {title}
+              </h2>
+            )}
+            {subtitle && (
+              <p
+                className="text-muted text-lg leading-relaxed max-w-xl mx-auto"
+                data-field="header.subtitle"
+              >
+                {subtitle}
+              </p>
+            )}
+          </div>
+        </ScrollReveal>
       )}
 
       {/* Two columns: contact info + opening hours */}
