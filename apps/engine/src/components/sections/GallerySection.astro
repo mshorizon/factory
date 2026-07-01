@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { GalleryGrid, GalleryShowcase, GalleryMosaic, SectionHeader, buttonVariants, cn } from "@mshorizon/ui";
+import { GalleryGrid, GalleryShowcase, GalleryMosaic, SectionHeader, ScrollReveal, buttonVariants, cn } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -49,31 +49,34 @@ const socialParts = socialCta?.text && socialCta.highlight
     )}
     {socialCta?.text && (
       <div class="mt-spacing-2xl flex justify-center">
-        <a
-          href={socialCta.href || "#"}
-          target={socialCta.href?.startsWith("http") ? "_blank" : undefined}
-          rel={socialCta.href?.startsWith("http") ? "noopener noreferrer" : undefined}
-          class={cn(
-            buttonVariants({ variant: "outline", size: "lg" }),
-            // Gray, highly transparent border; white label that flips to black on a white fill.
-            // Hover is gated to hover-capable devices so touch devices don't get the sticky
-            // :hover that swallows the first tap (the "button needs a double tap" mobile bug);
-            // `active:` gives touch users immediate press feedback on a single tap instead.
-            "border-white/20 text-white [@media(hover:hover)]:hover:bg-white [@media(hover:hover)]:hover:text-black active:bg-white active:text-black uppercase tracking-wide h-auto min-h-12 w-full max-w-full whitespace-normal py-spacing-sm text-center sm:w-auto"
-          )}
-        >
-          {socialParts ? (
-            <span>
-              {socialParts[0]}
-              <span style={socialCta.highlightColor ? `color:${socialCta.highlightColor}` : undefined}>
-                {socialCta.highlight}
+        {/* Reveal on scroll to match the gallery items (ScrollReveal, direction "up"). */}
+        <ScrollReveal client:visible direction="up" distance={30} className="w-full sm:w-auto flex justify-center">
+          <a
+            href={socialCta.href || "#"}
+            target={socialCta.href?.startsWith("http") ? "_blank" : undefined}
+            rel={socialCta.href?.startsWith("http") ? "noopener noreferrer" : undefined}
+            class={cn(
+              buttonVariants({ variant: "outline", size: "lg" }),
+              // Gray, highly transparent border; white label that flips to black on a white fill.
+              // Hover is gated to hover-capable devices so touch devices don't get the sticky
+              // :hover that swallows the first tap (the "button needs a double tap" mobile bug);
+              // `active:` gives touch users immediate press feedback on a single tap instead.
+              "border-white/20 text-white [@media(hover:hover)]:hover:bg-white [@media(hover:hover)]:hover:text-black active:bg-white active:text-black uppercase tracking-wide h-auto min-h-12 w-full max-w-full whitespace-normal py-spacing-sm text-center sm:w-auto"
+            )}
+          >
+            {socialParts ? (
+              <span>
+                {socialParts[0]}
+                <span style={socialCta.highlightColor ? `color:${socialCta.highlightColor}` : undefined}>
+                  {socialCta.highlight}
+                </span>
+                {socialParts.slice(1).join(socialCta.highlight)}
               </span>
-              {socialParts.slice(1).join(socialCta.highlight)}
-            </span>
-          ) : (
-            <span>{socialCta.text}</span>
-          )}
-        </a>
+            ) : (
+              <span>{socialCta.text}</span>
+            )}
+          </a>
+        </ScrollReveal>
       </div>
     )}
   </div>
