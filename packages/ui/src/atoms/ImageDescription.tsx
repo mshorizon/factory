@@ -39,8 +39,9 @@ export function ImageDescription({
     <div
       className={cn("text-left w-full", className)}
       style={{
-        // Padding scales down on narrow viewports so the caption stays proportional on mobile.
-        padding: "clamp(40px, 8vw, 56px) clamp(16px, 4vw, 24px) clamp(14px, 3vw, 20px)",
+        // Uniform 20px vertical / 24px horizontal padding so the two-line caption
+        // sits evenly inside the box instead of being crushed by an oversized top pad.
+        padding: "20px 24px",
         color,
         textShadow: "0 1px 12px rgba(0,0,0,0.45)",
         background:
