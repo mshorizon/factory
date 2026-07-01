@@ -3,7 +3,7 @@ import { cn } from "../lib/utils";
 export interface ImageDescriptionProps {
   /** First line — the name/title. Rendered small (12px DM Sans by default). */
   name?: string;
-  /** Second line — italic subtitle (always 24px Cormorant Garamond by default). */
+  /** Second line — italic subtitle (always 18px Cormorant Garamond by default). */
   description?: string;
   /**
    * Text color. Left to props so the value comes from the business JSON rather than
@@ -69,8 +69,8 @@ export function ImageDescription({
             // instead of carrying extra vertical height.
             lineHeight: 1,
             textTransform: "uppercase",
-            // Match the tracking of the "Reservations" badge (Tailwind `tracking-wide` = 0.025em).
-            letterSpacing: "0.025em",
+            // Wide tracking for a more spaced-out, editorial caption.
+            letterSpacing: "0.3em",
             opacity: 0.7,
           }}
           data-field="imageDescription.name"
@@ -82,8 +82,8 @@ export function ImageDescription({
         <div
           style={{
             fontFamily: descriptionFontFamily,
-            // Always 24px regardless of viewport (fixed, non-responsive).
-            fontSize: "24px",
+            // Always 18px regardless of viewport (fixed, non-responsive).
+            fontSize: "18px",
             fontStyle: "italic",
             // Lighter weight for a more refined caption.
             fontWeight: 300,
