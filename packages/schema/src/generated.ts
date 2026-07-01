@@ -135,6 +135,10 @@ export type HeadingFontWeight = string;
  * Caps the maximum font-weight used anywhere on the site (e.g. "400" forces all text to weight 400 or lower).
  */
 export type MaxFontWeight = string;
+/**
+ * Optional cap applied specifically to body paragraphs. When set, every <p> (and any weight-utility inside it) is clamped to this weight (e.g. "300") so paragraph copy never renders heavier than the design intends. Capped by maxFontWeight. Absent → no paragraph-specific cap.
+ */
+export type ParagraphMaxFontWeight = string;
 export type NavbarFontSize = string;
 export type NavbarLogoFontSize = string;
 export type NavbarLogoFontWeight = string;
@@ -863,6 +867,7 @@ export interface Theme {
   servicesCtaHideIcon?: ServicesCTAHideIcon;
   headingWeight?: HeadingFontWeight;
   maxFontWeight?: MaxFontWeight;
+  paragraphMaxWeight?: ParagraphMaxFontWeight;
   navFontSize?: NavbarFontSize;
   navLogoSize?: NavbarLogoFontSize;
   navLogoWeight?: NavbarLogoFontWeight;

@@ -1095,6 +1095,7 @@
         "servicesCtaHideIcon": { "type": "boolean", "title": "Services CTA Hide Icon", "description": "Hide the arrow icon inside the services section CTA button.", "default": false },
         "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
         "maxFontWeight": { "type": "string", "title": "Max Font Weight", "description": "Caps the maximum font-weight used anywhere on the site (e.g. \"400\" forces all text to weight 400 or lower).", "default": "900" },
+        "paragraphMaxWeight": { "type": "string", "title": "Paragraph Max Font Weight", "description": "Optional cap applied specifically to body paragraphs. When set, every <p> (and any weight-utility inside it) is clamped to this weight (e.g. \"300\") so paragraph copy never renders heavier than the design intends. Capped by maxFontWeight. Absent → no paragraph-specific cap." },
         "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
         "navLogoSize": { "type": "string", "title": "Navbar Logo Font Size", "default": "24px" },
         "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
