@@ -76,7 +76,7 @@ export function ImageDescription({
             // Collapse the default line-height so the text div hugs its glyphs
             // instead of carrying extra vertical height.
             lineHeight: 1,
-            marginTop: "clamp(12px, 3vw, 20px)",
+            marginTop: "4px",
           }}
           data-field="imageDescription.description"
         >
