@@ -297,33 +297,7 @@
           "centered": true,
           "requirementsLabel": "Wymagane:"
         },
-        {
-          "type": "about",
-          "variant": "story",
-          "background": "light-padded",
-          "imagePosition": "left",
-          "imageHeight": "600px",
-          "imageFill": true,
-          "imageFrame": true,
-          "ctaShape": "rect",
-          "ctaVariant": "primary",
-          "badgeVariant": "accent-no-line",
-          "header": {
-            "badge": "",
-            "title": "O Naszej Parafii",
-            "layout": "none"
-          },
-          "image": "https://images.unsplash.com/photo-1473177104440-ffee2f376098?auto=format&fit=crop&w=1000&q=80",
-          "story": {
-            "title": "O Naszej Parafii",
-            "content": "Parafia pod wezwaniem Świętego Józefa w Trąbkach to wspólnota z bogatą tradycją sięgającą wielu pokoleń. Nasz kościół, będący sercem lokalnej społeczności, jest miejscem, gdzie wiara spotyka się z historią, a modlitwa łączy pokolenia.\n\nŚwięty Józef — opiekun Świętej Rodziny, patron robotników i ojców — niezmiennie czuwa nad naszą parafią. Jego pokora, wierność i oddanie są dla nas wzorem codziennego życia chrześcijańskiego.\n\nZapraszamy każdego, kto szuka duchowego ukojenia, wspólnoty i bliskości z Bogiem. W naszej parafii znajdziesz miejsce na modlitwę, sakramenty i braterskie spotkanie."
-          },
-          "quote": { "text": "„Józefie, synu Dawida, nie bój się wziąć do siebie Maryi.\"", "author": "— Ewangelia wg św. Mateusza 1,20" },
-          "cta": {
-            "label": "Poznaj pełną historię parafii",
-            "target": { "type": "page", "value": "about" }
-          }
-        }
+        {"type":"features","variant":"icon-tiles","background":"light","badgeVariant":"accent","header":{"badge":"","title":"Wspólnoty i Grupy Parafialne","subtitle":"Każdy znajdzie w naszej wspólnocie swoje miejsce — dołącz do jednej z grup i rozwijaj wiarę razem z innymi","layout":"stacked"},"items":[{"title":"Koło Żywego Różańca","description":"Różaniec drogą do świętości","icon":"heart","linkLabel":"Dowiedz się więcej","linkHref":"/about"},{"title":"Ministranci i Lektorzy","description":"Posługa na Mszy Świętej i nabożeństwach","icon":"star","linkLabel":"Dowiedz się więcej","linkHref":"/about"},{"title":"Chór Parafialny","description":"Śpiewem uświęcamy niedzielną Eucharystię","icon":"headphones","linkLabel":"Dowiedz się więcej","linkHref":"/about"},{"title":"Schola Dziecięca","description":"Dzieci modlą się również śpiewem","icon":"users","linkLabel":"Dowiedz się więcej","linkHref":"/about"},{"title":"Parafialne Koło Caritas","description":"Miłość bliźniego w codziennym działaniu","icon":"award","linkLabel":"Dowiedz się więcej","linkHref":"/about"},{"title":"Domowy Kościół","description":"Formacja małżeństw i rodzin","icon":"home","linkLabel":"Dowiedz się więcej","linkHref":"/about"},{"title":"Oaza Młodzieżowa","description":"Żywa wiara młodego pokolenia","icon":"rocket","linkLabel":"Dowiedz się więcej","linkHref":"/about"},{"title":"Klub Seniora","description":"Aktywna starość w duchu wspólnoty","icon":"clock","linkLabel":"Dowiedz się więcej","linkHref":"/about"}]}
       ]
     },
     "about": {
