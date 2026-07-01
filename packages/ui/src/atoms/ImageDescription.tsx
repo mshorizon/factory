@@ -39,17 +39,21 @@ export function ImageDescription({
     <div
       className={cn("text-left w-full", className)}
       style={{
-        // Uniform 20px vertical / 24px horizontal padding so the two-line caption
-        // sits evenly inside the box instead of being crushed by an oversized top pad.
-        padding: "20px 24px",
+        // Large TOP padding is intentional: it gives the gradient vertical room to
+        // fade fully to transparent above the caption. Without it the box is only as
+        // tall as the two text lines, so its top edge lands where the gradient is
+        // still partly opaque — producing the visible hard horizontal edge. The
+        // extra space is transparent, so it never shows as a solid plate.
+        padding: "72px 24px 20px 24px",
         color,
         textShadow: "0 1px 12px rgba(0,0,0,0.45)",
-        // Diagonal gradient anchored at the bottom-left corner (`to top right`)
-        // so the darkest region sits under the left-aligned caption text. Extra
-        // intermediate stops make the falloff gradual so there is no hard edge
-        // at the top of the box while keeping the copy legible over bright photography.
+        // Vertical gradient (`to top`) so the fade is uniform across the full width —
+        // a diagonal fade leaves one top corner darker than the other, which itself
+        // reads as an edge. The dark region is concentrated in the bottom portion
+        // (under the text) and is fully transparent by ~65%, well below the top edge
+        // thanks to the top padding above, so there is no hard edge.
         background:
-          "linear-gradient(to top right, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.72) 28%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.12) 75%, transparent 92%)",
+          "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 12%, rgba(0,0,0,0.55) 28%, rgba(0,0,0,0.28) 42%, rgba(0,0,0,0.1) 55%, transparent 68%)",
       }}
       data-field="imageDescription"
     >
