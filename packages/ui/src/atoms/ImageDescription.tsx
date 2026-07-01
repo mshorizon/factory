@@ -55,6 +55,9 @@ export function ImageDescription({
             fontFamily: nameFontFamily,
             // Responsive: stays readable on mobile, caps at the original 12px on larger screens.
             fontSize: "clamp(11px, 3vw, 12px)",
+            // Collapse the default line-height so the text div hugs its glyphs
+            // instead of carrying extra vertical height.
+            lineHeight: 1,
             textTransform: "uppercase",
             opacity: 0.7,
           }}
@@ -70,6 +73,9 @@ export function ImageDescription({
             // Responsive: scales from ~15px on small phones up to the original 18px.
             fontSize: "clamp(15px, 4.5vw, 18px)",
             fontStyle: "italic",
+            // Collapse the default line-height so the text div hugs its glyphs
+            // instead of carrying extra vertical height.
+            lineHeight: 1,
             marginTop: "clamp(12px, 3vw, 20px)",
           }}
           data-field="imageDescription.description"
