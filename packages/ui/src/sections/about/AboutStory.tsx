@@ -72,9 +72,10 @@ export function AboutStory({
     ? { boxShadow: "0 30px 60px -25px rgba(0, 0, 0, 0.45)" }
     : undefined;
   // Custom dimensions are exposed as CSS variables (instead of inline width/height)
-  // so the size can stay responsive: a much smaller image on mobile, the full
-  // custom size only from `lg` up. Inline width/height would override every
-  // breakpoint and blow the photo up on phones.
+  // so the size can stay responsive: the photo fills the full section width on
+  // mobile (matching the sibling image-split section), and the custom size only
+  // kicks in from `md` up. Inline width/height would override every breakpoint
+  // and blow the photo up on phones.
   const hasCustomSize = Boolean(imageWidth || imageHeight);
   const imageSizeStyle = (hasCustomSize || featherStyle || softShadowStyle)
     ? {
@@ -111,7 +112,7 @@ export function AboutStory({
         <div className="relative flex items-center justify-center lg:justify-start">
           {/* The wrapper hugs the image exactly so the overlay caption can anchor to
               the photo's bottom-left corner. */}
-          <div className="relative inline-block leading-[0]">
+          <div className="relative inline-block leading-[0] w-full md:w-auto">
             <SafeImage
               src={image}
               alt=""
@@ -120,7 +121,7 @@ export function AboutStory({
                 !imageBlend && !imageBorder && "shadow-lg",
                 hasCustomSize
                   ? cn(
-                      "w-[220px] h-auto",
+                      "w-full h-auto",
                       imageWidth && "md:w-[var(--about-img-w)]",
                       imageHeight && "md:h-[var(--about-img-h)]"
                     )
