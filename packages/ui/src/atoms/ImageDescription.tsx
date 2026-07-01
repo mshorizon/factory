@@ -21,8 +21,8 @@ export interface ImageDescriptionProps {
 /**
  * A small two-line caption (name + italic description) intended to overlay the
  * bottom-left corner of an image. Text is left-aligned with 24px horizontal padding.
- * The caption spans the full width of the image and lays a bottom-up dark gradient
- * behind itself so the text stays legible over any photography. A subtle text-shadow
+ * The caption spans the full width of the image and lays a dark gradient anchored
+ * at the bottom-left corner behind itself so the text stays legible over any photography. A subtle text-shadow
  * reinforces that legibility without relying on a solid background plate.
  */
 export function ImageDescription({
@@ -44,8 +44,11 @@ export function ImageDescription({
         padding: "20px 24px",
         color,
         textShadow: "0 1px 12px rgba(0,0,0,0.45)",
+        // Diagonal gradient anchored at the bottom-left corner (`to top right`)
+        // so the darkest region sits under the left-aligned caption text. Boosted
+        // opacities keep the copy legible over bright photography.
         background:
-          "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 45%, transparent 100%)",
+          "linear-gradient(to top right, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 40%, transparent 85%)",
       }}
       data-field="imageDescription"
     >
