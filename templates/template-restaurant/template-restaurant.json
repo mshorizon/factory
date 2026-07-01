@@ -74,6 +74,7 @@
     },
     "headingWeight": "400",
     "maxFontWeight": "400",
+    "paragraphMaxWeight": "300",
     "contentWidth": "1232px",
     "servicesListDivider": true,
     "servicesNotClickable": true,

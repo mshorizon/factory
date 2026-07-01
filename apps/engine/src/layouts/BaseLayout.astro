@@ -131,6 +131,13 @@ const capWeight = (w: string): string => {
 cssVars.headingWeight = capWeight(cssVars.headingWeight);
 cssVars.navLogoWeight = capWeight(cssVars.navLogoWeight);
 
+// Optional per-business cap for body paragraphs (theme.paragraphMaxWeight). When set,
+// every <p> — and any weight-utility inside it — is clamped to this value so paragraph
+// copy never renders heavier than the design intends. Absent → no paragraph-specific cap.
+const paragraphMaxWeight = (theme as any).paragraphMaxWeight
+  ? capWeight(String((theme as any).paragraphMaxWeight))
+  : "";
+
 // Optional flag bar beneath the navbar logo (e.g. Italian tricolore for a restaurant).
 // Stripe colors are turned into a hard-edged horizontal linear-gradient consumed by
 // the `.nav-logo` ::after in Navbar.astro. Empty/absent → no flag.
@@ -282,6 +289,7 @@ const htmlStyle = `--primary:${cssVars.primary};--primary-dark:${cssVars.primary
       .font-extrabold{font-weight:${Math.min(800, maxFw)} !important}
       .font-black{font-weight:${Math.min(900, maxFw)} !important}
       b,strong{font-weight:${Math.min(700, maxFw)}}
+      ${paragraphMaxWeight ? `p,p *{font-weight:${paragraphMaxWeight} !important}` : ""}
     `} />
     <style is:global>
       /* Section spacing derives from the theme-injected *-base vars so it can be
