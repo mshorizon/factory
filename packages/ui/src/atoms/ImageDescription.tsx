@@ -45,10 +45,11 @@ export function ImageDescription({
         color,
         textShadow: "0 1px 12px rgba(0,0,0,0.45)",
         // Diagonal gradient anchored at the bottom-left corner (`to top right`)
-        // so the darkest region sits under the left-aligned caption text. Boosted
-        // opacities keep the copy legible over bright photography.
+        // so the darkest region sits under the left-aligned caption text. Extra
+        // intermediate stops make the falloff gradual so there is no hard edge
+        // at the top of the box while keeping the copy legible over bright photography.
         background:
-          "linear-gradient(to top right, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.8) 40%, transparent 85%)",
+          "linear-gradient(to top right, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.72) 28%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.12) 75%, transparent 92%)",
       }}
       data-field="imageDescription"
     >
@@ -58,6 +59,8 @@ export function ImageDescription({
             fontFamily: nameFontFamily,
             // Responsive: stays readable on mobile, caps at the original 12px on larger screens.
             fontSize: "clamp(11px, 3vw, 12px)",
+            // Lighter weight for a more refined caption.
+            fontWeight: 300,
             // Collapse the default line-height so the text div hugs its glyphs
             // instead of carrying extra vertical height.
             lineHeight: 1,
@@ -76,10 +79,13 @@ export function ImageDescription({
             // Always 24px regardless of viewport (fixed, non-responsive).
             fontSize: "24px",
             fontStyle: "italic",
+            // Lighter weight for a more refined caption.
+            fontWeight: 300,
             // Collapse the default line-height so the text div hugs its glyphs
             // instead of carrying extra vertical height.
             lineHeight: 1,
-            marginTop: "4px",
+            // Larger gap between the name and description lines.
+            marginTop: "10px",
           }}
           data-field="imageDescription.description"
         >
