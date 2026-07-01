@@ -161,7 +161,8 @@
     },
     "links": [
       { "label": "OGŁOSZENIA", "target": { "type": "section", "value": "project-1" } },
-      { "label": "SAKRAMENTY", "target": { "type": "section", "value": "services-2" } }
+      { "label": "SAKRAMENTY", "target": { "type": "section", "value": "services-2" } },
+      { "label": "O PARAFII", "target": { "type": "page", "value": "about" } }
     ]
   },
   "data": {
@@ -329,6 +330,7 @@
       "title": "O Parafii",
       "navLabel": "O PARAFII",
       "navOrder": 2,
+      "hideFromNav": true,
       "sections": [
         {
           "type": "about",
