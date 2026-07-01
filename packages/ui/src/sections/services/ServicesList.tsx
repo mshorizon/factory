@@ -7,6 +7,7 @@ import { cn } from "../../lib/utils";
 import { SafeImage } from "../../atoms/SafeImage.js";
 import { ImageDescription } from "../../atoms/ImageDescription";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
+import { ScrollReveal } from "../../animations/ScrollReveal";
 import type { ServicesProps, CategoryGroup, ServiceItem } from "./types";
 
 export function ServicesList({
@@ -199,28 +200,31 @@ export function ServicesList({
   };
 
   const tabsBlock = hasTabs && (
-    <div
-      className={cn(
-        "flex flex-wrap gap-x-spacing-lg gap-y-spacing-md border-b border-border mb-spacing-2xl",
-        hasSideImage ? "justify-start" : "justify-center"
-      )}
-      role="tablist"
-    >
-      {effectiveTabs.map((tab) =>
-        renderTabButton(tab.id, tab.label, tab.id === activeTab, () => handleTabClick(tab.id))
-      )}
-    </div>
+    <ScrollReveal direction="up" distance={20}>
+      <div
+        className={cn(
+          "flex flex-wrap gap-x-spacing-lg gap-y-spacing-md border-b border-border mb-spacing-2xl",
+          hasSideImage ? "justify-start" : "justify-center"
+        )}
+        role="tablist"
+      >
+        {effectiveTabs.map((tab) =>
+          renderTabButton(tab.id, tab.label, tab.id === activeTab, () => handleTabClick(tab.id))
+        )}
+      </div>
+    </ScrollReveal>
   );
 
   const subTabsBlock = activeGroup?.showSubTabs && (
-    <div
-      className={cn(
-        "flex flex-wrap gap-x-spacing-md gap-y-spacing-sm mb-spacing-xl",
-        hasSideImage ? "justify-start" : "justify-center"
-      )}
-      role="tablist"
-    >
-      {activeGroup.categories.map((catId) => {
+    <ScrollReveal direction="up" distance={16} delay={0.05}>
+      <div
+        className={cn(
+          "flex flex-wrap gap-x-spacing-md gap-y-spacing-sm mb-spacing-xl",
+          hasSideImage ? "justify-start" : "justify-center"
+        )}
+        role="tablist"
+      >
+        {activeGroup.categories.map((catId) => {
         const cat = categoryById.get(catId);
         if (!cat) return null;
         const active = catId === activeSubTab;
@@ -241,8 +245,9 @@ export function ServicesList({
             {cat.label}
           </button>
         );
-      })}
-    </div>
+        })}
+      </div>
+    </ScrollReveal>
   );
 
   const listBlock = (
@@ -264,7 +269,7 @@ export function ServicesList({
         </div>
 
         {/* Right: image with caption overlay that cross-reveals on tab change */}
-        <div className="hidden lg:block lg:sticky lg:top-28">
+        <ScrollReveal direction="up" distance={20} delay={0.1} className="hidden lg:block lg:sticky lg:top-28">
           <div className="relative w-full overflow-hidden leading-[0] aspect-[4/5]">
             <AnimatePresence initial={false}>
               {activeImage && (
@@ -298,7 +303,7 @@ export function ServicesList({
             {/* Inner border — a translucent line so its color blends with the image beneath */}
             <div className="pointer-events-none absolute inset-0 border border-white/20" />
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     );
   }
