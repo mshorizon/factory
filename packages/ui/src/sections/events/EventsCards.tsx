@@ -68,7 +68,7 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
                     />
                     {/* Legibility gradient so overlaid copy stays readable over any photo */}
                     <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"
                       aria-hidden="true"
                     />
                     {tag && (
