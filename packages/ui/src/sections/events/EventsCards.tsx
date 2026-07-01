@@ -11,24 +11,26 @@ export function EventsCards({ badge, title, items, linkLabel, className }: Event
   return (
     <div className={cn("space-y-spacing-3xl", className)}>
       {/* Header — left aligned eyebrow + large heading */}
-      <div className="text-left">
-        {badge && (
-          <span
-            className="block text-sm font-medium uppercase tracking-[0.15em] text-primary mb-spacing-lg"
-            data-field="header.badge"
-          >
-            {badge}
-          </span>
-        )}
-        {title && (
-          <h2
-            className="text-4xl md:text-5xl lg:text-6xl text-foreground font-heading"
-            data-field="header.title"
-          >
-            {title}
-          </h2>
-        )}
-      </div>
+      <ScrollReveal direction="up" distance={30}>
+        <div className="text-left">
+          {badge && (
+            <span
+              className="block text-sm font-medium uppercase tracking-[0.15em] text-primary mb-spacing-lg"
+              data-field="header.badge"
+            >
+              {badge}
+            </span>
+          )}
+          {title && (
+            <h2
+              className="text-4xl md:text-5xl lg:text-6xl text-foreground font-heading"
+              data-field="header.title"
+            >
+              {title}
+            </h2>
+          )}
+        </div>
+      </ScrollReveal>
 
       {/* Cards grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-spacing-lg">
