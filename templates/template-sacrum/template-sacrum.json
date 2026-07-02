@@ -225,6 +225,7 @@
           },
           "titleAccent": "w Trąbkach",
           "fullBleed": true,
+          "badgeLineOnly": true,
           "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-sacrum/hero.jpg",
           "scheduleCards": [
             {
