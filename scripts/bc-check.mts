@@ -111,11 +111,20 @@ function discoverTemplates(): string[] {
 }
 
 async function loadPage(page: Page, url: string): Promise<LoadStatus> {
+  // networkidle is the best capture point, but pages with maps/analytics can keep the
+  // network busy forever (and the dev server compiles on first hit) — fall back to
+  // "load" + a longer settle instead of reporting the page as missing.
   let resp;
+  let settle = 500;
   try {
     resp = await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
   } catch {
-    return "http-error";
+    settle = 3_000;
+    try {
+      resp = await page.goto(url, { waitUntil: "load", timeout: 60_000 });
+    } catch {
+      return "http-error";
+    }
   }
   if (!resp || resp.status() >= 400) return "http-error";
   if ((await page.title()).includes(FALLBACK_TITLE)) return "fallback";
@@ -134,7 +143,7 @@ async function loadPage(page: Page, url: string): Promise<LoadStatus> {
     }
   });
   await page.evaluate(() => window.scrollTo(0, 0));
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(settle);
   return "ok";
 }
 
@@ -381,7 +390,7 @@ function printReport(results: TemplateResult[], threshold: number) {
       }
       // Per the task spec: whenever a page is not a 100% match, name the differing sections.
       for (const s of p.sections.filter((s) => s.similarity < 1 - 1e-9 && !s.note).sort((a, b) => a.similarity - b.similarity)) {
-        console.log(`        ${pct(s.similarity)}  ${s.type}-${s.index}`);
+        console.log(`        ${pct(s.similarity)}  ${s.id}`);
       }
     }
   }

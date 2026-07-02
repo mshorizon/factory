@@ -66,6 +66,11 @@ lazy-load), scroll back to top, 500ms settle, viewport 1440×900 @ deviceScaleFa
 Modeled on `packages/sitc-core/src/scorer/capture.ts` (not imported — it drags in
 render/breakpoint machinery bc-check doesn't need).
 
+⚠️ `networkidle` alone is not reliable: pages with maps/analytics keep the network busy
+forever and the dev server compiles on first hit, so a strict `networkidle` goto falsely
+reported `/contact` pages as `missing-on-dev`. `loadPage` therefore falls back to
+`waitUntil: "load"` + a 3s settle when `networkidle` times out.
+
 ⚠️ tsx/esbuild gotcha: `page.evaluate` callbacks must not contain **named** inner
 functions (`const f = () => …`) — esbuild's `keepNames` injects a `__name` helper that
 doesn't exist in the browser context (`ReferenceError: __name is not defined`).
