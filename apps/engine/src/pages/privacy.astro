@@ -66,8 +66,10 @@ const year = new Date().getFullYear();
 <BaseLayout title={`Polityka prywatności | ${businessName}`} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
   <Navbar
     logo={layout.navbar.logoText || businessName}
+    logoSubtext={layout.navbar.logoSubtext}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     logoIconLucide={business.business.assets?.iconLucide}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
@@ -82,7 +84,7 @@ const year = new Date().getFullYear();
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1" data-nav-offset>
+  <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     <PageHero title="Polityka prywatności" hasUpperBar={layout.navbar.extensions?.some((ext: any) => ext.type === 'upper-bar') ?? false} />
     <div class="container mx-auto py-spacing-section-sm">
       <div class="max-w-3xl mx-auto prose prose-neutral">
@@ -184,6 +186,11 @@ const year = new Date().getFullYear();
     columns={footerColumns}
     copyright={layout.footer.copyright}
     tagline={layout.footer.tagline}
+    flag={layout.footer.flag}
+    findUsTitle={layout.footer.findUsTitle}
+    hoursTitle={layout.footer.hoursTitle}
+    hours={layout.footer.hours}
+    signature={layout.footer.signature}
     currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns"}
     socialLinks={socialLinks}

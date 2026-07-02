@@ -74,14 +74,174 @@ export type SectionSpacing = string;
 export type ContainerSpacing = string;
 export type SpacingScale = number;
 export type ButtonStyle = string;
+/**
+ * Max width of the centered content container (e.g. "1200px" or "1488px"). Defaults to 1200px when unset.
+ */
+export type ContentWidth = string;
+/**
+ * For the services "list" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).
+ */
+export type ServicesListDividerStyle = boolean;
+/**
+ * Make service list/grid items non-interactive (no link navigation, no hover affordance).
+ */
+export type ServicesNotClickable = boolean;
+/**
+ * Cap the services section content width (e.g. "848px"). Centered within the page container. Unset = full container width.
+ */
+export type ServicesSectionMaxWidth = string;
+/**
+ * For the services "list" variant: render as a restaurant-style menu — drop the price pill, right-align the price, and apply the servicesTitle/Desc/Price/Footnote font + size overrides.
+ */
+export type ServicesMenuStyle = boolean;
+/**
+ * CSS font-family for service item titles when servicesMenuStyle is on, e.g. "'Cormorant Garamond', serif". The font is automatically loaded.
+ */
+export type ServicesItemTitleFontFamily = string;
+/**
+ * Font size for service item titles when servicesMenuStyle is on, e.g. "18px".
+ */
+export type ServicesItemTitleFontSize = string;
+/**
+ * CSS font-family for service item descriptions when servicesMenuStyle is on, e.g. "'DM Sans', sans-serif". The font is automatically loaded.
+ */
+export type ServicesItemDescriptionFontFamily = string;
+/**
+ * Font size for service item descriptions when servicesMenuStyle is on, e.g. "14px".
+ */
+export type ServicesItemDescriptionFontSize = string;
+/**
+ * CSS font-family for service item prices when servicesMenuStyle is on, e.g. "'Cormorant Garamond', serif". The font is automatically loaded.
+ */
+export type ServicesItemPriceFontFamily = string;
+/**
+ * Font size for service item prices when servicesMenuStyle is on, e.g. "16px".
+ */
+export type ServicesItemPriceFontSize = string;
+/**
+ * CSS font-family for the services section footnote when servicesMenuStyle is on, e.g. "'DM Sans', sans-serif". The font is automatically loaded.
+ */
+export type ServicesFootnoteFontFamily = string;
+/**
+ * Font size for the services section footnote when servicesMenuStyle is on, e.g. "14px".
+ */
+export type ServicesFootnoteFontSize = string;
+/**
+ * Hide the arrow icon inside the services section CTA button.
+ */
+export type ServicesCTAHideIcon = boolean;
 export type HeadingFontWeight = string;
 /**
  * Caps the maximum font-weight used anywhere on the site (e.g. "400" forces all text to weight 400 or lower).
  */
 export type MaxFontWeight = string;
+/**
+ * Optional cap applied specifically to body paragraphs. When set, every <p> (and any weight-utility inside it) is clamped to this weight (e.g. "300") so paragraph copy never renders heavier than the design intends. Capped by maxFontWeight. Absent → no paragraph-specific cap.
+ */
+export type ParagraphMaxFontWeight = string;
 export type NavbarFontSize = string;
 export type NavbarLogoFontSize = string;
 export type NavbarLogoFontWeight = string;
+/**
+ * Render the navbar logo text in uppercase.
+ */
+export type NavbarLogoUppercase = boolean;
+/**
+ * Which theme font the navbar logo text uses: "body" (typography.primary) or "heading" (typography.secondary).
+ */
+export type NavbarLogoFont = "body" | "heading";
+/**
+ * Explicit CSS font-family for the navbar logo text, e.g. "'Cormorant Garamond', serif". Overrides navLogoFont. The font is automatically loaded.
+ */
+export type NavbarLogoFontFamily = string;
+/**
+ * Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior.
+ */
+export type NavbarLogoColor = string;
+/**
+ * Fixed color for the navbar links (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior.
+ */
+export type NavbarLinkColor = string;
+/**
+ * Render the navbar links (desktop + mobile) in uppercase.
+ */
+export type NavbarLinksUppercase = boolean;
+/**
+ * Letter spacing for the navbar logo text, e.g. "0.05em". Overrides the default normal spacing.
+ */
+export type NavbarLogoLetterSpacing = string;
+/**
+ * Hide the icon (arrow/clock) inside the navbar CTA button.
+ */
+export type NavbarCTAHideIcon = boolean;
+/**
+ * Render the navbar CTA button text (desktop + mobile) in uppercase.
+ */
+export type NavbarCTAUppercase = boolean;
+/**
+ * Hide the arrow icon inside the hero section CTA button.
+ */
+export type HeroCTAHideIcon = boolean;
+/**
+ * Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.
+ */
+export type HeroTextUsesThemeColors = boolean;
+/**
+ * Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.
+ */
+export type HeroBottomFade = boolean;
+/**
+ * Font size for the hero title. Any CSS length, e.g. "96px" or a responsive "clamp(3.5rem, 7vw, 6rem)". Overrides the default responsive sizing.
+ */
+export type HeroTitleFontSize = string;
+/**
+ * Explicit CSS font-family for the hero title text, e.g. "'Cormorant Garamond', serif". Overrides the default heading font. The font is automatically loaded.
+ */
+export type HeroTitleFontFamily = string;
+/**
+ * Font size for the hero subtitle/description, e.g. "24px". Overrides the default responsive sizing.
+ */
+export type HeroSubtitleFontSize = string;
+/**
+ * Letter spacing for the hero badge/eyebrow text, e.g. "0.4em". Overrides the default 0.05em.
+ */
+export type HeroBadgeLetterSpacing = string;
+/**
+ * Letter spacing for the hero subtitle/description text, e.g. "0.15em". Overrides the default 0.05em.
+ */
+export type HeroSubtitleLetterSpacing = string;
+/**
+ * Letter spacing for the hero title text, e.g. "0.01em" or "-0.02em". Overrides the default 0.04em.
+ */
+export type HeroTitleLetterSpacing = string;
+/**
+ * Letter spacing for the navbar links (desktop + mobile), e.g. "0.1em". Overrides the default normal spacing.
+ */
+export type NavbarLinkLetterSpacing = string;
+/**
+ * Letter spacing applied to CTA buttons (primary/default variant), ghost buttons, and the navbar CTA, e.g. "0.1em". Overrides the default normal spacing.
+ */
+export type ButtonLetterSpacing = string;
+/**
+ * Font weight applied to all badges/eyebrows site-wide, e.g. "500". Overrides the per-component default weight.
+ */
+export type BadgeFontWeight = string;
+/**
+ * Letter spacing applied to all badges/eyebrows site-wide, e.g. "0.1em". Overrides the per-component default spacing.
+ */
+export type BadgeLetterSpacing = string;
+/**
+ * Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: ["#008C45", "#F4F5F0", "#CD212A"]).
+ */
+export type NavbarLogoFlagStripes = string[];
+/**
+ * Navbar height when scrolled to the very top (e.g. "86px"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant "transparent".
+ */
+export type NavbarHeightAtTop = string;
+/**
+ * Navbar height once the solid background appears on scroll (e.g. "70px").
+ */
+export type NavbarHeightWhenScrolled = string;
 export type NavbarLinksPosition = "center" | "right";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "accent-no-line" | "outlined" | "text";
@@ -92,6 +252,14 @@ export type NavbarVariant = "standard" | "centered" | "transparent";
  */
 export type LogoTextOverride = string;
 /**
+ * Optional second line shown below the logo text (stacked column layout)
+ */
+export type LogoSubtext = string;
+/**
+ * Hide the icon next to the logo text in the navbar
+ */
+export type HideLogoIcon = boolean;
+/**
  * Hide the bottom border when scroll is at the very top of the page
  */
 export type HideBorderWhenAtTop = boolean;
@@ -99,6 +267,10 @@ export type HideBorderWhenAtTop = boolean;
  * Hide the call-to-action button in the navbar
  */
 export type HideCTAButton = boolean;
+/**
+ * Hide the auto-injected Blog link in the navbar
+ */
+export type HideBlogLink = boolean;
 /**
  * Show social media icons in the upper bar extension
  */
@@ -116,8 +288,13 @@ export type ShowAddressInExtension = boolean;
  */
 export type ShowAdditionalInfoInExtension = boolean;
 export type ExtensionType = "upper-bar";
+/**
+ * Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text.
+ */
+export type UpperBarNotice = string;
 export type NavbarExtensions = {
   type: ExtensionType;
+  notice?: UpperBarNotice;
 }[];
 export type FooterVariant =
   | "simple"
@@ -127,9 +304,43 @@ export type FooterVariant =
   | "branded"
   | "stacked"
   | "gradient"
-  | "darkColumns";
+  | "darkColumns"
+  | "restaurant";
 export type CopyrightText = string;
+/**
+ * Suppress the auto-generated 'Strony'/Pages column (nav + footer links) that is otherwise prepended to the footer columns.
+ */
+export type HideAutoPagesColumn = boolean;
+/**
+ * Footer tagline. Use \n to split across multiple lines.
+ */
 export type Tagline = string;
+/**
+ * Optional list of hex colors rendered as a segmented accent bar under the logo (e.g. an Italian flag).
+ */
+export type BrandFlagColors = string[];
+/**
+ * Heading for the address/phone column (restaurant variant).
+ */
+export type FindUsColumnTitle = string;
+/**
+ * Heading for the opening-hours column (restaurant variant).
+ */
+export type OpeningHoursColumnTitle = string;
+export type DayLabel = string;
+export type HoursValue = string;
+/**
+ * Render the value in the primary accent color
+ */
+export type HighlightRow = boolean;
+/**
+ * Structured opening-hours rows (restaurant variant).
+ */
+export type OpeningHoursRows = FooterHoursRow[];
+/**
+ * Italic signature line shown on the right of the bottom bar (restaurant variant).
+ */
+export type FooterSignature = string;
 export type Label = string;
 export type TargetType = "page" | "section" | "external" | "phone" | "email";
 export type TargetValue = string;
@@ -147,6 +358,10 @@ export type ContainerBorderRadius = string;
  * Gradient preset e.g. primary-to-primary-dark
  */
 export type BackgroundGradient = string;
+/**
+ * Overrides the footer wrapper background with a custom CSS color value. Takes precedence over the variant's default background fill.
+ */
+export type FooterBackgroundColorOverrideCustomCSSColorEG26201C = string;
 export type ExtensionType1 = "call";
 export type Headline = string;
 export type Phone1 = string;
@@ -216,21 +431,109 @@ export type SectionBackground =
   | "primary"
   | "gradient"
   | "transparent";
+/**
+ * Overrides the section wrapper background color with a custom CSS color value. Takes precedence over the 'background' enum for the background fill.
+ */
+export type SectionBackgroundColorOverrideCustomCSSColorEG26201C = string;
+/**
+ * Overrides the background color of the section's inner card/panel (e.g. the quote panel in the about 'quote-split' variant). Full CSS color value.
+ */
+export type CardBackgroundColorOverrideCustomCSSColorEG26201C = string;
 export type BadgeText = string;
 export type Title = string;
 export type Subtitle = string;
 export type HeaderLayout = "stacked" | "split" | "most-minimalistic" | "none";
+/**
+ * Horizontal alignment of the section header (badge, title, subtitle). When omitted, the section variant decides.
+ */
+export type HeaderAlignment = "left" | "center" | "right";
+/**
+ * Render a small country flag accent bar (144x3px, using the theme navLogoFlag stripe colors) below the title.
+ */
+export type ShowFlagBar = boolean;
 export type SectionTopPaddingOverrideEG120Px8Rem = string;
 export type SectionBottomPaddingOverrideEG120Px8Rem = string;
 export type BackgroundImageURL = string;
 export type ImageURL = string;
 export type HideDecorativeDots = boolean;
 export type ImagePosition = "left" | "right";
+/**
+ * Horizontal placement of the overlaid text in the about 'quote-split' image-overlay layout (when 'image' is set). 'right' (default) anchors the copy to the right side of the photo; 'left' to the left.
+ */
+export type OverlayContentAlignment = "left" | "right";
+/**
+ * When false, renders the section image with square (un-rounded) corners. Defaults to true (rounded).
+ */
+export type RoundImageCorners = boolean;
 export type BadgeLayoutDirection = "row" | "column";
 export type SectionLevelBadgeVariantOverride = "accent" | "accent-no-line" | "outlined" | "text";
 export type BadgeTextColorOverride = string;
 export type DescriptionTextColorOverride = string;
+/**
+ * Overrides the font-family of the section's main body/story text (the 'big text' content). Full CSS font-family value, e.g. "'DM Sans', sans-serif".
+ */
+export type BodyContentFontFamilyOverride = string;
+/**
+ * Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'.
+ */
+export type BodyContentFontSizeOverride = string;
+/**
+ * Overrides the about-section image width. Full CSS length value, e.g. '560px'. Defaults to 448px.
+ */
+export type SectionImageWidthOverride = string;
+/**
+ * Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px.
+ */
+export type SectionImageHeightOverride = string;
+/**
+ * Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look.
+ */
+export type ImageBlendEffect = "feather" | "soft";
+/**
+ * When true (about 'story' variant), wraps the image in an almost-transparent border tinted with the page text color, inset by a small padding mat so the background shows between the image and the border. Replaces the floating drop shadow.
+ */
+export type ImageTextColorBorderMat = boolean;
+/**
+ * First line — small name/title. Defaults to 12px DM Sans.
+ */
+export type NameLine = string;
+/**
+ * Second line — italic subtitle. Defaults to 18px Cormorant Garamond.
+ */
+export type DescriptionLine = string;
+/**
+ * Overlay text color. Full CSS color value, e.g. '#f0ebdb'.
+ */
+export type TextColor = string;
+/**
+ * Overrides the name line font-family. Full CSS font-family value.
+ */
+export type NameFontFamily = string;
+/**
+ * Overrides the description line font-family. Full CSS font-family value.
+ */
+export type DescriptionFontFamily = string;
 export type CTATextColorOverride = string;
+/**
+ * Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
+ */
+export type HeroScrollIndicatorColorOverride = string;
+/**
+ * Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
+ */
+export type HeroTextColorOverride = string;
+/**
+ * When set, renders a thin horizontal divider line directly under the hero title (default hero-fold variant), in this color. Custom CSS color value, e.g. '#f0ebdb'.
+ */
+export type HeroTitleDividerColor = string;
+/**
+ * When false, removes the inset picture-frame line drawn around the hero background image (default hero-fold variant). Defaults to true (frame shown).
+ */
+export type HeroImageFrame = boolean;
+/**
+ * Overrides the dark overlay drawn over the hero background image across the whole image (default hero-fold variant). Higher opacity = darker image. Full CSS color value, e.g. 'rgba(20,17,15,0.6)' or 'color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)'. Defaults to a 40% dark overlay.
+ */
+export type HeroOverlayColorOverride = string;
 /**
  * Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'.
  */
@@ -240,7 +543,26 @@ export type MapPanelButtonColor = "primary" | "primary-light";
  */
 export type HeaderDecorativeLineColor = "primary" | "foreground";
 export type InvertStatColorsLightBgDarkText = boolean;
+export type Text = string;
+/**
+ * A substring of 'text' rendered in the highlight color (e.g. a social handle).
+ */
+export type HighlightSubstring = string;
+export type HighlightColorCustomCSSColorEGD94A26 = string;
+export type LinkURL = string;
 export type DetailsButtonLabelEGSeeDetailsLearnMore = string;
+/**
+ * Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant.
+ */
+export type ServicesColumnCount = 1 | 2 | 3;
+/**
+ * Supplementary text rendered in italic below the section content (e.g. below the services list).
+ */
+export type SectionFootnote = string;
+/**
+ * Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths.
+ */
+export type SectionMaxWidthOverride = string;
 export type AvatarImageURL1 = string;
 export type AvatarImageURL2 = string;
 export type Testimonials = {
@@ -248,6 +570,19 @@ export type Testimonials = {
   quote?: string;
   image?: AvatarImageURL2;
 }[];
+/**
+ * Decorative italic phrase rendered as a secondary line under the main title (used by hero/sacrum).
+ */
+export type TitleAccent = string;
+export type CardTitle = string;
+export type LucideIconName = string;
+export type Label2 = string;
+export type Value = string;
+export type Rows = ScheduleRow[];
+/**
+ * Compact data cards (e.g. mass hours, confession hours) rendered inside the hero (used by hero/sacrum).
+ */
+export type ScheduleCards = ScheduleCard[];
 export type FeatureTags = string[];
 export type AuthorName = string;
 export type AuthorRole = string;
@@ -255,10 +590,84 @@ export type Metric = string;
 export type MetricLabel = string;
 export type StartDate = string;
 export type EndDate = string;
-export type LinkURL = string;
+/**
+ * Short note shown top-right of an event card (e.g. 'Limited seats').
+ */
+export type MetaNote = string;
+export type LinkURL1 = string;
 export type LinkLabel = string;
+/**
+ * ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown.
+ */
+export type Category = string;
 export type Items = ServiceItem[];
+export type CategoryID = string;
+export type TabLabel = string;
+/**
+ * Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.
+ */
+export type ServiceCategoryTabs = ServiceCategory[];
+export type GroupID = string;
+export type GroupTabLabel = string;
+export type ConstituentCategoryIDs = string[];
+/**
+ * When true, selecting this group tab reveals a second row of sub-tabs for each constituent category.
+ */
+export type ShowSubTabs = boolean;
+/**
+ * Optional groups that aggregate multiple serviceCategories into a single top-level tab. A group with showSubTabs:true renders a second tab row for its constituent categories; without it, items from all constituent categories are shown merged.
+ */
+export type CategoryGroups = CategoryGroup[];
+/**
+ * Optional id of the serviceCategories tab (or categoryGroups group) selected by default when the page loads. When omitted, the first tab is selected.
+ */
+export type DefaultCategoryTab = string;
+/**
+ * Matches a serviceCategories tab id or a categoryGroups group id.
+ */
+export type TabGroupID = string;
+export type ImageURL1 = string;
+export type NameLine1 = string;
+export type DescriptionLine1 = string;
+/**
+ * Full CSS color value, e.g. '#f0ebdb'.
+ */
+export type TextColor1 = string;
+export type NameFontFamily1 = string;
+export type DescriptionFontFamily1 = string;
+/**
+ * Optional per-tab images for the services 'list' variant. When present, the section renders a two-column split: tabs + single-column items on the left, and a bordered image with a bottom-left caption overlay on the right. Selecting a tab cross-reveals the matching image. Each entry's id matches a serviceCategories tab id or a categoryGroups group id.
+ */
+export type CategoryTabImages = CategoryImage[];
+/**
+ * Rendered in uppercase.
+ */
+export type SignatureText = string;
+/**
+ * Optional. When omitted, the theme navLogoFlag gradient is used.
+ */
+export type FlagImageURL = string;
+/**
+ * Rendered as an italic blockquote with curly quotes.
+ */
+export type QuoteText = string;
+/**
+ * Rendered in uppercase below the quote.
+ */
+export type Author = string;
+/**
+ * Optional. When omitted, the theme navLogoFlag gradient bar is used.
+ */
+export type FlagImageURL1 = string;
+/**
+ * Optional paragraph rendered below a divider.
+ */
+export type NoteParagraph = string;
 export type Timeline = TimelineItem[];
+/**
+ * Business name/address query for the embedded contact map (e.g. 'Restauracja Nostrano, Garwolin'). When set, the map resolves to Google's native place listing showing reviews/opinions instead of a plain address pin.
+ */
+export type GooglePlaceQuery1 = string;
 /**
  * Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.
  */
@@ -275,6 +684,10 @@ export type ReceptionLabel = string;
  * Extra contact info lines (e.g., bank account, EPUAP address).
  */
 export type AdditionalInfo1 = string[];
+/**
+ * Temporary warning/alert shown prominently above the contact info (e.g. office closure on a given day). Plain text.
+ */
+export type ContactWarning = string;
 export type ExploreLabel = string;
 export type Products = Product[];
 export type Currency = string;
@@ -306,7 +719,7 @@ export type TierIcon = string;
 export type PricingTiers = PricingTier[];
 export type Title1 = string;
 export type Description1 = string;
-export type ImageURL1 = string;
+export type ImageURL2 = string;
 export type LogoImageURL = string;
 export type Date = string;
 export type KeyMetric = string;
@@ -446,11 +859,51 @@ export interface Theme {
   colors?: ColorSchemes;
   typography?: Typography;
   ui?: UISettings;
+  contentWidth?: ContentWidth;
+  servicesListDivider?: ServicesListDividerStyle;
+  servicesNotClickable?: ServicesNotClickable;
+  servicesMaxWidth?: ServicesSectionMaxWidth;
+  servicesMenuStyle?: ServicesMenuStyle;
+  servicesTitleFontFamily?: ServicesItemTitleFontFamily;
+  servicesTitleSize?: ServicesItemTitleFontSize;
+  servicesDescFontFamily?: ServicesItemDescriptionFontFamily;
+  servicesDescSize?: ServicesItemDescriptionFontSize;
+  servicesPriceFontFamily?: ServicesItemPriceFontFamily;
+  servicesPriceSize?: ServicesItemPriceFontSize;
+  servicesFootnoteFontFamily?: ServicesFootnoteFontFamily;
+  servicesFootnoteSize?: ServicesFootnoteFontSize;
+  servicesCtaHideIcon?: ServicesCTAHideIcon;
   headingWeight?: HeadingFontWeight;
   maxFontWeight?: MaxFontWeight;
+  paragraphMaxWeight?: ParagraphMaxFontWeight;
   navFontSize?: NavbarFontSize;
   navLogoSize?: NavbarLogoFontSize;
   navLogoWeight?: NavbarLogoFontWeight;
+  navLogoUppercase?: NavbarLogoUppercase;
+  navLogoFont?: NavbarLogoFont;
+  navLogoFontFamily?: NavbarLogoFontFamily;
+  navLogoColor?: NavbarLogoColor;
+  navLinkColor?: NavbarLinkColor;
+  navLinksUppercase?: NavbarLinksUppercase;
+  navLogoLetterSpacing?: NavbarLogoLetterSpacing;
+  navCtaHideIcon?: NavbarCTAHideIcon;
+  navCtaUppercase?: NavbarCTAUppercase;
+  heroCtaHideIcon?: HeroCTAHideIcon;
+  heroTextThemeColors?: HeroTextUsesThemeColors;
+  heroBottomFade?: HeroBottomFade;
+  heroTitleSize?: HeroTitleFontSize;
+  heroTitleFontFamily?: HeroTitleFontFamily;
+  heroSubtitleSize?: HeroSubtitleFontSize;
+  heroBadgeLetterSpacing?: HeroBadgeLetterSpacing;
+  heroSubtitleLetterSpacing?: HeroSubtitleLetterSpacing;
+  heroTitleLetterSpacing?: HeroTitleLetterSpacing;
+  navLinkLetterSpacing?: NavbarLinkLetterSpacing;
+  buttonLetterSpacing?: ButtonLetterSpacing;
+  badgeWeight?: BadgeFontWeight;
+  badgeLetterSpacing?: BadgeLetterSpacing;
+  navLogoFlag?: NavbarLogoFlagStripes;
+  navHeightTop?: NavbarHeightAtTop;
+  navHeightScrolled?: NavbarHeightWhenScrolled;
   navLinksPosition?: NavbarLinksPosition;
   scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;
@@ -511,8 +964,11 @@ export interface Layout {
 export interface Navbar {
   variant?: NavbarVariant;
   logoText?: LogoTextOverride;
+  logoSubtext?: LogoSubtext;
+  hideLogoIcon?: HideLogoIcon;
   hideBorderOnTop?: HideBorderWhenAtTop;
   hideCta?: HideCTAButton;
+  hideBlog?: HideBlogLink;
   showSocials?: ShowSocialMediaIconsInExtension;
   showAvailability?: ShowAvailabilityInExtension;
   showAddress?: ShowAddressInExtension;
@@ -522,12 +978,23 @@ export interface Navbar {
 export interface FooterConfig {
   variant?: FooterVariant;
   copyright?: CopyrightText;
+  hidePagesColumn?: HideAutoPagesColumn;
   tagline?: Tagline;
+  flag?: BrandFlagColors;
+  findUsTitle?: FindUsColumnTitle;
+  hoursTitle?: OpeningHoursColumnTitle;
+  hours?: OpeningHoursRows;
+  signature?: FooterSignature;
   links?: FooterLinks;
   columns?: FooterColumns;
   name?: FooterDisplayName;
   background?: FooterBackground;
   extensions?: FooterExtensions;
+}
+export interface FooterHoursRow {
+  label: DayLabel;
+  value: HoursValue;
+  highlight?: HighlightRow;
 }
 export interface Link {
   label: Label;
@@ -546,6 +1013,7 @@ export interface FooterBackground {
   padding?: ContainerPadding;
   borderRadius?: ContainerBorderRadius;
   gradient?: BackgroundGradient;
+  color?: FooterBackgroundColorOverrideCustomCSSColorEG26201C;
 }
 export interface BlogSettings {
   postVariant?: BlogPostLayout;
@@ -576,6 +1044,8 @@ export interface Section {
   sidebarContact?: SidebarContactCard;
   variant?: Variant;
   background?: SectionBackground;
+  backgroundColor?: SectionBackgroundColorOverrideCustomCSSColorEG26201C;
+  cardBackgroundColor?: CardBackgroundColorOverrideCustomCSSColorEG26201C;
   header?: SectionHeader;
   paddingTop?: SectionTopPaddingOverrideEG120Px8Rem;
   paddingBottom?: SectionBottomPaddingOverrideEG120Px8Rem;
@@ -583,29 +1053,55 @@ export interface Section {
   image?: ImageURL;
   hideDots?: HideDecorativeDots;
   imagePosition?: ImagePosition;
+  contentAlign?: OverlayContentAlignment;
+  imageRounded?: RoundImageCorners;
   badgeLayout?: BadgeLayoutDirection;
   badgeVariant?: SectionLevelBadgeVariantOverride;
   badgeColor?: BadgeTextColorOverride;
   descriptionColor?: DescriptionTextColorOverride;
+  contentFontFamily?: BodyContentFontFamilyOverride;
+  contentFontSize?: BodyContentFontSizeOverride;
+  imageWidth?: SectionImageWidthOverride;
+  imageHeight?: SectionImageHeightOverride;
+  imageBlend?: ImageBlendEffect;
+  imageBorder?: ImageTextColorBorderMat;
+  imageDescription?: ImageCaptionOverlay;
   ctaColor?: CTATextColorOverride;
+  scrollColor?: HeroScrollIndicatorColorOverride;
+  textColor?: HeroTextColorOverride;
+  titleDividerColor?: HeroTitleDividerColor;
+  imageFrame?: HeroImageFrame;
+  overlayColor?: HeroOverlayColorOverride;
   mapPanelButtonColor?: MapPanelButtonColor;
   headerLineColor?: HeaderDecorativeLineColor;
   statsInverted?: InvertStatColorsLightBgDarkText;
   cta?: Cta1;
   secondaryCta?: Cta1;
+  socialCta?: SocialCTAGhostButton;
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
+  columns?: ServicesColumnCount;
+  footnote?: SectionFootnote;
+  maxWidth?: SectionMaxWidthOverride;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
+  titleAccent?: TitleAccent;
+  scheduleCards?: ScheduleCards;
   items?: Items;
+  serviceCategories?: ServiceCategoryTabs;
+  categoryGroups?: CategoryGroups;
+  defaultCategory?: DefaultCategoryTab;
+  categoryImages?: CategoryTabImages;
   story?: {
     title?: string;
     content?: string;
   };
+  signature?: SignatureRow;
   stats?: StatItem[];
   commitment?: {
     title?: string;
     content?: string;
   };
+  quote?: QuotePanel;
   timeline?: Timeline;
   info?: ContactInfo;
   form?: ContactForm;
@@ -652,11 +1148,41 @@ export interface SectionHeader {
   title?: Title;
   subtitle?: Subtitle;
   layout?: HeaderLayout;
+  align?: HeaderAlignment;
+  flag?: ShowFlagBar;
+}
+/**
+ * Optional two-line caption overlaid on the bottom-left corner of the about-section image (about 'story' variant): a small name line plus an italic description line, left-aligned with 20px/24px padding.
+ */
+export interface ImageCaptionOverlay {
+  name?: NameLine;
+  description?: DescriptionLine;
+  color?: TextColor;
+  nameFontFamily?: NameFontFamily;
+  descriptionFontFamily?: DescriptionFontFamily;
+}
+/**
+ * A ghost-style link rendered below the gallery grid (e.g. 'FOLLOW US on instagram @handle'). The full text is shown uppercase; the 'highlight' substring within it is rendered in 'highlightColor'.
+ */
+export interface SocialCTAGhostButton {
+  text: Text;
+  highlight?: HighlightSubstring;
+  highlightColor?: HighlightColorCustomCSSColorEGD94A26;
+  href?: LinkURL;
 }
 export interface Testimonial {
   title?: string;
   quote?: string;
   image?: AvatarImageURL1;
+}
+export interface ScheduleCard {
+  title?: CardTitle;
+  icon?: LucideIconName;
+  rows?: Rows;
+}
+export interface ScheduleRow {
+  label?: Label2;
+  value?: Value;
 }
 export interface ServiceItem {
   id?: string;
@@ -673,12 +1199,55 @@ export interface ServiceItem {
   metricLabel?: MetricLabel;
   dateStart?: StartDate;
   dateEnd?: EndDate;
-  href?: LinkURL;
+  meta?: MetaNote;
+  href?: LinkURL1;
   linkLabel?: LinkLabel;
+  category?: Category;
+}
+export interface ServiceCategory {
+  id: CategoryID;
+  label: TabLabel;
+}
+export interface CategoryGroup {
+  id: GroupID;
+  label: GroupTabLabel;
+  categories: ConstituentCategoryIDs;
+  showSubTabs?: ShowSubTabs;
+}
+export interface CategoryImage {
+  id: TabGroupID;
+  image: ImageURL1;
+  imageDescription?: ImageCaptionOverlay1;
+}
+/**
+ * Two-line caption overlaid on the bottom-left corner of the image: a small name line plus an italic description line.
+ */
+export interface ImageCaptionOverlay1 {
+  name?: NameLine1;
+  description?: DescriptionLine1;
+  color?: TextColor1;
+  nameFontFamily?: NameFontFamily1;
+  descriptionFontFamily?: DescriptionFontFamily1;
+}
+/**
+ * Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.
+ */
+export interface SignatureRow {
+  text?: SignatureText;
+  flag?: FlagImageURL;
 }
 export interface StatItem {
   value?: string;
   label?: string;
+}
+/**
+ * Right-side quote panel for the about "quote-split" variant: a small flag accent, an italic quote, an author line, a divider, a note paragraph and (via the section cta) a call to action.
+ */
+export interface QuotePanel {
+  text?: QuoteText;
+  author?: Author;
+  flag?: FlagImageURL1;
+  note?: NoteParagraph;
 }
 export interface TimelineItem {
   year?: string;
@@ -691,11 +1260,13 @@ export interface ContactInfo {
   phone?: string;
   email?: string;
   hours?: string;
+  googlePlaceQuery?: GooglePlaceQuery1;
   hoursDetailed?: DetailedHours;
   receptionHours?: ReceptionHours;
   receptionLabel?: ReceptionLabel;
   additionalInfo?: AdditionalInfo1;
   notice?: ContactNotice;
+  warning?: ContactWarning;
 }
 /**
  * Highlighted notice block displayed below the contact info (e.g., bank transfer instructions).
@@ -799,7 +1370,7 @@ export interface PricingTier {
 export interface ProjectItem {
   title?: Title1;
   description?: Description1;
-  image?: ImageURL1;
+  image?: ImageURL2;
   logo?: LogoImageURL;
   date?: Date;
   metric?: KeyMetric;

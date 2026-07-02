@@ -40,6 +40,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
     publicUrl: import.meta.env.R2_PUBLIC_DOMAIN,
   });
 
+  // SITC isolation harness in filesystem mode (DESIGN §13.2): it renders a
+  // template JSON straight from a worktree and reads NO business from the DB, so
+  // skip the DB-backed business resolution (which would throw without a seeded
+  // site). Dev/flag-gated, matching the route's own guard.
+  const fsHarnessAllowed = import.meta.env.DEV || import.meta.env.SITC_HARNESS_FS === "1";
+  if (
+    url.pathname === "/sitc-harness/section" &&
+    url.searchParams.get("profilePath") &&
+    fsHarnessAllowed
+  ) {
+    locals.logger = createRequestLogger(request, "sitc-harness");
+    return next();
+  }
+
   // Check if this is a preview request from the admin iframe
   const isPreview = url.searchParams.get("_preview") === "1";
 

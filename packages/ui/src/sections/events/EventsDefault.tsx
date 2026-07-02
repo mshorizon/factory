@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { SafeImage } from "../../atoms/SafeImage.js";
@@ -9,10 +10,23 @@ import type { EventsDefaultProps } from "./types";
 export function EventsDefault({ items, className }: EventsDefaultProps) {
   return (
     <div className={cn("space-y-spacing-lg", className)}>
-      {items.map((item, index) => (
+      {items.map((item, index) => {
+        const href = item.href || "#";
+        // No dedicated event page → clicking guides the visitor to the contact
+        // section. Targets it generically via the engine's [data-section-type] anchor.
+        const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+          if (href === "#") {
+            e.preventDefault();
+            document
+              .querySelector('[data-section-type="contact"]')
+              ?.scrollIntoView({ behavior: "smooth" });
+          }
+        };
+        return (
         <ScrollReveal key={index} delay={index * 0.1} direction="up" distance={30}>
           <a
-            href={item.href || "#"}
+            href={href}
+            onClick={handleClick}
             target={item.href?.startsWith("http") ? "_blank" : undefined}
             rel={item.href?.startsWith("http") ? "noopener noreferrer" : undefined}
             className="group block bg-surface-alt rounded-radius overflow-hidden transition-shadow hover:shadow-lg"
@@ -63,7 +77,8 @@ export function EventsDefault({ items, className }: EventsDefaultProps) {
             </div>
           </a>
         </ScrollReveal>
-      ))}
+        );
+      })}
     </div>
   );
 }

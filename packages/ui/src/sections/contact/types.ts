@@ -27,11 +27,14 @@ export interface ContactInfo {
   phone?: string;
   email?: string;
   hours?: string;
+  /** Place query for the embedded map; resolves to Google's native listing with reviews/opinions. */
+  googlePlaceQuery?: string;
   hoursDetailed?: string[];
   receptionHours?: string;
   receptionLabel?: string;
   additionalInfo?: string[];
   notice?: ContactNotice;
+  warning?: string;
   industry?: string;
   city?: string;
 }
@@ -64,6 +67,31 @@ export interface ContactSplitProps {
   businessId?: string;
   business?: any;
   turnstileSiteKey?: string;
+  className?: string;
+}
+
+export interface ContactSocialLink {
+  platform: string;
+  url: string;
+  /** Optional display text; when omitted it is derived from the platform/URL. */
+  label?: string;
+}
+
+export interface ContactRestaurantLabels {
+  contactHeading?: string;
+  socialHeading?: string;
+  showOnMap?: string;
+}
+
+export interface ContactRestaurantProps {
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+  info?: ContactInfo;
+  socials?: ContactSocialLink[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  labels?: ContactRestaurantLabels;
   className?: string;
 }
 

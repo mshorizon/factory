@@ -15,8 +15,10 @@ interface CTA {
 
 interface Props {
   logo: string;
+  logoSubtext?: string;
   logoIcon?: string;
   logoIconLucide?: string;
+  hideLogoIcon?: boolean;
   links: NavLink[];
   cta?: CTA;
   variant?: "standard" | "centered" | "transparent";
@@ -32,7 +34,7 @@ interface Props {
   showAdditionalInfo?: boolean;
 }
 
-const { logo, logoIcon, logoIconLucide, links, cta, variant = "standard", showCart = false, extensions = [], contact, socials, hideBorderOnTop = false, hideCta = false, showSocials = true, showAvailability = true, showAddress = true, showAdditionalInfo = true } = Astro.props;
+const { logo, logoSubtext, logoIcon, logoIconLucide, hideLogoIcon = false, links, cta, variant = "standard", showCart = false, extensions = [], contact, socials, hideBorderOnTop = false, hideCta = false, showSocials = true, showAvailability = true, showAddress = true, showAdditionalInfo = true } = Astro.props;
 
 const lucideIconSvgs: Record<string, string> = {
   scale: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
@@ -43,7 +45,9 @@ const lucideIconSvgs: Record<string, string> = {
   scroll: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></svg>`,
 };
 
-const hasUpperBar = extensions.some((ext) => ext.type === "upper-bar");
+const upperBarExt = extensions.find((ext) => ext.type === "upper-bar");
+const hasUpperBar = !!upperBarExt;
+const upperBarNotice = upperBarExt?.notice;
 const isTransparent = variant === "transparent";
 const showCta = !hideCta && !!cta;
 ---
@@ -74,8 +78,13 @@ const showCta = !hideCta && !!cta;
           </div>
         )}
 
-        {/* Center: Availability - Absolutely centered */}
-        {showAvailability && (
+        {/* Center: Notice (priority) or Availability - Absolutely centered */}
+        {upperBarNotice ? (
+          <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 max-w-[60%] rounded-full bg-white/15 px-3 py-0.5 font-medium text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span class="truncate">{upperBarNotice}</span>
+          </div>
+        ) : showAvailability && (
           <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-white/70">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <span>Available 24/7</span>
@@ -132,21 +141,31 @@ const showCta = !hideCta && !!cta;
 ]}>
   <div class="container mx-auto">
     <div class:list={[
-      "flex items-center h-14 lg:h-16",
+      "nav-inner flex items-center h-14 lg:h-16",
       variant === "centered" ? "justify-center" : "justify-between"
     ]}>
       {/* Left: Logo */}
       <div class="flex items-center gap-8">
         <a href="/" class="flex items-center gap-2 group shrink-0">
-          {logoIconLucide && lucideIconSvgs[logoIconLucide]
+          {!hideLogoIcon && (logoIconLucide && lucideIconSvgs[logoIconLucide]
             ? <span class="w-6 h-6 text-primary flex items-center justify-center shrink-0" set:html={lucideIconSvgs[logoIconLucide]} />
             : logoIcon && <img src={logoIcon} alt="" class="w-6 h-6" />
-          }
-          <span class:list={[
-            "nav-logo tracking-tight group-hover:text-primary transition-colors",
-            isTransparent ? "text-white" : "text-foreground"
-          ]} style={`font-size: var(--nav-logo-size, 24px); font-weight: var(--nav-logo-weight, 600);`}>
-            {logo}
+          )}
+          <span class="flex flex-col leading-tight">
+            <span class:list={[
+              "nav-logo tracking-tight group-hover:text-primary transition-colors",
+              isTransparent ? "text-white" : "text-foreground"
+            ]} style={`font-size: var(--nav-logo-size, 24px); font-weight: var(--nav-logo-weight, 600); font-family: var(--nav-logo-font, inherit); letter-spacing: var(--nav-logo-letter-spacing, normal);`}>
+              {logo}
+            </span>
+            {logoSubtext && (
+              <span class:list={[
+                "nav-logo-subtext tracking-tight",
+                isTransparent ? "text-white/70" : "text-foreground/70"
+              ]} style={`font-size: calc(var(--nav-logo-size, 24px) * 0.65); font-weight: var(--nav-logo-weight, 600);`}>
+                {logoSubtext}
+              </span>
+            )}
           </span>
         </a>
 
@@ -173,7 +192,7 @@ const showCta = !hideCta && !!cta;
 
       {/* Right: Nav Links (right position) + Cart & CTA */}
       <div class:list={[
-        "hidden lg:flex items-center gap-4",
+        "hidden xl:flex items-center gap-4",
         variant === "centered" && "absolute right-10"
       ]}>
         {/* Desktop Navigation — right position */}
@@ -198,16 +217,17 @@ const showCta = !hideCta && !!cta;
         {showCta && cta && (
           <a
             href={cta.href}
-            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
+            class="nav-cta inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors whitespace-nowrap shrink-0"
           >
+            <svg class="cta-icon-clock" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             {cta.label}
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <svg class="cta-icon-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         )}
       </div>
 
       {/* Mobile Cart & Menu Button */}
-      <div class="lg:hidden flex items-center gap-2 ml-auto">
+      <div class="xl:hidden flex items-center gap-2 ml-auto">
         {showCart && <CartButton client:load />}
         <button
           id="mobile-menu-btn"
@@ -224,13 +244,13 @@ const showCta = !hideCta && !!cta;
     </div>
 
     {/* Mobile Menu */}
-    <div id="mobile-menu" class="lg:hidden hidden pb-6">
+    <div id="mobile-menu" class="xl:hidden hidden pb-6">
       <div class="flex flex-col gap-1 pt-4 border-t border-border">
         {links.map((link) => (
           <a
             href={link.href}
             {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            class="px-4 py-3 text-[length:var(--nav-font-size,16px)] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
+            class="nav-link-mobile px-4 py-3 text-[length:var(--nav-font-size,16px)] text-foreground/80 hover:text-foreground hover:bg-primary/5 rounded-radius font-medium transition-colors"
           >
             {link.label}
           </a>
@@ -239,10 +259,11 @@ const showCta = !hideCta && !!cta;
         {showCta && cta && (
           <a
             href={cta.href}
-            class="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
+            class="nav-cta mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-on-primary bg-primary rounded-radius shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors"
           >
+            <svg class="cta-icon-clock" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             {cta.label}
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <svg class="cta-icon-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         )}
       </div>
@@ -267,7 +288,7 @@ const showCta = !hideCta && !!cta;
     display: none;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     /* Nav links position: center (default) */
     :global([data-nav-links-position="center"]) .nav-links-center {
       display: flex;
@@ -288,16 +309,125 @@ const showCta = !hideCta && !!cta;
 
 {/* ---- navbar overrides (global so they survive Astro scoping) ---- */}
 <style is:global>
+  /* Uppercase logo text (opt-in via theme.navLogoUppercase) */
+  [data-nav-logo-uppercase="1"] #main-nav .nav-logo {
+    text-transform: uppercase;
+  }
+
+  /* Flag bar beneath the logo text (opt-in via theme.navLogoFlag stripe colors).
+     The gradient is injected as --nav-logo-flag on <html> by BaseLayout. The bar
+     is a block ::after, so it sits directly under the text and matches its width. */
+  [data-nav-logo-flag="1"] #main-nav .nav-logo::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    margin-top: 0.28em;
+    background: var(--nav-logo-flag);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+  [data-nav-logo-flag="1"] #main-nav .nav-logo:hover::after {
+    opacity: 1;
+  }
+
+  /* Fixed logo text color (opt-in via theme.navLogoColor). !important so it wins
+     over the Tailwind text-* classes and the transparent→solid scroll toggle.
+     Hover lightens it slightly by mixing toward white. */
+  [data-nav-logo-color="1"] #main-nav .nav-logo {
+    color: var(--nav-logo-color) !important;
+    transition: color 0.3s ease;
+  }
+  [data-nav-logo-color="1"] #main-nav a:hover .nav-logo,
+  [data-nav-logo-color="1"] #main-nav .nav-logo:hover {
+    color: color-mix(in srgb, var(--nav-logo-color) 80%, white) !important;
+  }
+
+  /* Fixed navbar link color (opt-in via theme.navLinkColor). !important so it wins
+     over the Tailwind text-* classes and the transparent→solid scroll toggle.
+     Hover lightens it slightly by mixing toward white. Covers desktop links and
+     the mobile menu links. */
+  [data-nav-link-color="1"] #main-nav .nav-link,
+  [data-nav-link-color="1"] #mobile-menu .nav-link-mobile {
+    color: var(--nav-link-color) !important;
+    transition: color 0.3s ease;
+  }
+  [data-nav-link-color="1"] #main-nav .nav-link:hover,
+  [data-nav-link-color="1"] #mobile-menu .nav-link-mobile:hover {
+    color: color-mix(in srgb, var(--nav-link-color) 80%, white) !important;
+  }
+
+  /* Uppercase navbar links (opt-in via theme.navLinksUppercase). Covers desktop
+     links and the mobile menu links. */
+  [data-nav-links-uppercase="1"] #main-nav .nav-link,
+  [data-nav-links-uppercase="1"] #mobile-menu .nav-link-mobile {
+    text-transform: uppercase;
+  }
+
+  /* Uppercase navbar CTA button text (opt-in via theme.navCtaUppercase).
+     Covers the desktop and mobile CTA buttons. */
+  [data-nav-cta-uppercase="1"] #main-nav .nav-cta,
+  [data-nav-cta-uppercase="1"] #mobile-menu .nav-cta {
+    text-transform: uppercase;
+  }
+
+  /* Letter spacing for navbar links (opt-in via theme.navLinkLetterSpacing).
+     Defaults to normal so it is a no-op unless --nav-link-letter-spacing is set. */
+  #main-nav .nav-link,
+  #mobile-menu .nav-link-mobile {
+    letter-spacing: var(--nav-link-letter-spacing, normal);
+  }
+
+  /* Letter spacing for the navbar CTA (opt-in via theme.buttonLetterSpacing,
+     shared with the Button atom CTA/ghost variants). Defaults to normal. */
+  #main-nav .nav-cta,
+  #mobile-menu .nav-cta {
+    letter-spacing: var(--btn-letter-spacing, normal);
+  }
+
+  /* Animated navbar height (opt-in via theme.navHeightTop / navHeightScrolled).
+     Tall at the top; shrinks once the transparent navbar gains its solid
+     background on scroll (JS toggles .bg-background on #main-nav). */
+  [data-nav-height="1"] #main-nav .nav-inner {
+    height: var(--nav-h-top, 86px) !important;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  [data-nav-height="1"] #main-nav.bg-background .nav-inner {
+    height: var(--nav-h-scrolled, 70px) !important;
+  }
+
+  /* Hide the CTA button icon (opt-in via theme.navCtaHideIcon) */
+  [data-nav-cta-hide-icon="1"] #main-nav .cta-icon-arrow,
+  [data-nav-cta-hide-icon="1"] #main-nav .cta-icon-clock,
+  [data-nav-cta-hide-icon="1"] #mobile-menu .cta-icon-arrow,
+  [data-nav-cta-hide-icon="1"] #mobile-menu .cta-icon-clock {
+    display: none !important;
+  }
+
   /* Nav links position: right — hide center column, show right column.
      Global so the descendant combinator from <html data-*> reaches the
      nav link containers regardless of scoping. */
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     [data-nav-links-position="right"] #main-nav .nav-links-center {
       display: none !important;
     }
     [data-nav-links-position="right"] #main-nav .nav-links-right {
       display: flex !important;
     }
+  }
+
+  /* CTA icon swap: default = arrow (right), template-law = clock (left) */
+  #main-nav .cta-icon-clock,
+  #mobile-menu .cta-icon-clock {
+    display: none;
+  }
+  [data-major-theme="template-law"] #main-nav .cta-icon-clock,
+  [data-major-theme="template-law"] #mobile-menu .cta-icon-clock {
+    display: inline-block;
+  }
+  [data-major-theme="template-law"] #main-nav .cta-icon-arrow,
+  [data-major-theme="template-law"] #mobile-menu .cta-icon-arrow {
+    display: none;
   }
 
   /* portfolio-law specific */
@@ -311,9 +441,9 @@ const showCta = !hideCta && !!cta;
   [data-major-theme="template-law"] #mobile-menu a {
     font-weight: 400 !important;
   }
-  /* portfolio-law: scrolled navbar background uses the top gradient color to match the page top */
+  /* portfolio-law: navbar background uses surface.card from business JSON */
   [data-major-theme="template-law"] #main-nav.bg-background {
-    background-color: var(--surface-gradient) !important;
+    background-color: var(--card) !important;
   }
 
   /* portfolio-law: nav text always uses foreground color regardless of transparent/scroll state */
@@ -330,13 +460,38 @@ const showCta = !hideCta && !!cta;
     color: var(--foreground) !important;
   }
   [data-major-theme="template-law"] #main-nav > .container > div:first-child {
-    height: 84px !important;
+    height: 80px !important;
   }
   /* portfolio-law: frosted glass so the upper bar slides under the navbar visually */
   [data-major-theme="template-law"] #main-nav {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: none !important;
+  }
+
+  /* template-art (restaurant): wider gap between nav links for a more
+     spacious, editorial feel. Overrides the default gap-1/lg:gap-2. */
+  [data-major-theme="template-art"] #main-nav .nav-links-center,
+  [data-major-theme="template-art"] #main-nav .nav-links-right {
+    gap: var(--spacing-md);
+  }
+  @media (min-width: 1024px) {
+    [data-major-theme="template-art"] #main-nav .nav-links-center,
+    [data-major-theme="template-art"] #main-nav .nav-links-right {
+      gap: var(--spacing-lg);
+    }
+  }
+
+  /* template-art (restaurant): when the mobile menu is expanded it should sit on
+     a solid dark panel (#1d1916) so the light nav links stay readable over the
+     transparent navbar / hero imagery. Uses the theme's dark surface base token
+     (--dark-background = colors.dark.surface.base) — no hardcoded colors. The
+     inner border-t is dropped since the panel now has its own surface. */
+  [data-major-theme="template-art"] #mobile-menu {
+    background-color: var(--dark-background);
+  }
+  [data-major-theme="template-art"] #mobile-menu > div {
+    border-top-color: transparent;
   }
 </style>
 
@@ -349,10 +504,11 @@ const showCta = !hideCta && !!cta;
     const navH = nav ? nav.getBoundingClientRect().height : 0;
     const barH = (upperBar && window.innerWidth >= 1024) ? upperBar.getBoundingClientRect().height : 0;
     const offset = navH + barH;
-    const mainEl = document.querySelector('main[data-nav-offset]');
-    if (mainEl) {
-      mainEl.style.paddingTop = offset + 'px';
-    }
+    document.documentElement.style.setProperty('--main-nav-offset', offset + 'px');
+    // main's padding-top reads from var(--main-nav-offset) inline on the
+    // element itself — do NOT also set inline paddingTop here. Doing so
+    // creates a layout shift when JS first runs (going from "no padding"
+    // to "padding") which restarts CSS animations in the hero.
   }
   if (document.readyState !== 'loading') {
     requestAnimationFrame(updateMainNavOffset);
@@ -511,5 +667,44 @@ const showCta = !hideCta && !!cta;
     menuIcon?.classList.toggle('hidden');
     closeIcon?.classList.toggle('hidden');
     requestAnimationFrame(updateMainNavOffset);
+  });
+
+  // --- Smooth-scroll for in-page anchor links (single-page nav) ---
+  // Nav links / CTA pointing at "#section-id" scroll to the section, offset by
+  // the fixed navbar height so the section heading isn't hidden underneath it.
+  function scrollToHash(hash) {
+    if (!hash || hash === '#') return false;
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target) return false;
+    const navH = nav ? nav.getBoundingClientRect().height : 0;
+    if (scrollContainer === document.documentElement) {
+      const top = target.getBoundingClientRect().top + window.scrollY - navH;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    } else {
+      const top = target.getBoundingClientRect().top
+        - scrollContainer.getBoundingClientRect().top
+        + scrollContainer.scrollTop - navH;
+      scrollContainer.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
+    return true;
+  }
+
+  function closeMobileMenu() {
+    if (menu && !menu.classList.contains('hidden')) {
+      menu.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    }
+  }
+
+  document.querySelectorAll('#main-nav a[href^="#"], #mobile-menu a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const hash = a.getAttribute('href') || '';
+      if (scrollToHash(hash)) {
+        e.preventDefault();
+        history.replaceState(null, '', hash);
+        closeMobileMenu();
+      }
+    });
   });
 </script>

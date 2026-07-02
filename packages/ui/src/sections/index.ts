@@ -7,11 +7,11 @@ export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered,
 export type { FooterProps, SocialLink, Link, FooterColumn } from "./footer";
 
 // Hero variants
-export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency } from "./hero";
-export type { HeroProps, CTAButton } from "./hero";
+export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency, HeroSacrum } from "./hero";
+export type { HeroProps, CTAButton, ScheduleCard, ScheduleCardRow } from "./hero";
 
 // Services variants
-export { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating } from "./services";
+export { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating, ServicesFramedGrid } from "./services";
 export type { ServicesProps, ServiceItem } from "./services";
 
 // Categories variants
@@ -19,12 +19,12 @@ export { CategoriesCarousel, CategoriesFeatured } from "./categories";
 export type { CategoriesProps, CategoryItem } from "./categories";
 
 // About variants
-export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats, AboutCareer } from "./about";
-export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, AboutCareerProps, CareerItem, StatItem, TimelineItem, StoryContent } from "./about";
+export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats, AboutCareer, AboutQuoteSplit } from "./about";
+export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, AboutCareerProps, AboutQuoteSplitProps, QuotePanel, CareerItem, StatItem, TimelineItem, StoryContent } from "./about";
 
 // Contact variants
-export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional } from "./contact";
-export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactProfessionalProps, ContactForm, ContactInfo, ContactLabels } from "./contact";
+export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional, ContactRestaurant } from "./contact";
+export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactProfessionalProps, ContactRestaurantProps, ContactSocialLink, ContactRestaurantLabels, ContactForm, ContactInfo, ContactLabels } from "./contact";
 
 // Shop variants
 export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid, OrderSuccessContent } from "./shop";
@@ -47,20 +47,20 @@ export { GalleryBA } from "./galleryBA";
 export type { GalleryBAProps, BeforeAfterPair } from "./galleryBA";
 
 // Gallery variants
-export { GalleryGrid, GalleryShowcase } from "./gallery";
+export { GalleryGrid, GalleryShowcase, GalleryMosaic } from "./gallery";
 export type { GalleryGridProps, GalleryShowcaseProps, GalleryItem } from "./gallery";
 
 // Testimonials variants
-export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered, TestimonialsAgency } from "./testimonials";
-export type { TestimonialsGridProps, TestimonialItem } from "./testimonials";
+export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, TestimonialsCentered, TestimonialsAgency, TestimonialsQuotes } from "./testimonials";
+export type { TestimonialsGridProps, TestimonialsQuotesProps, TestimonialItem } from "./testimonials";
 
 // FAQ variants
 export { FAQAccordion, FAQBordered, FAQSplit } from "./faq";
 export type { FAQAccordionProps, FAQSplitProps, FAQItem } from "./faq";
 
 // Features variants
-export { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles } from "./features";
-export type { FeaturesGridProps, FeatureItem } from "./features";
+export { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, FeaturesNumberedSplit } from "./features";
+export type { FeaturesGridProps, FeatureItem, FeaturesNumberedSplitProps } from "./features";
 
 // CTA Banner variants
 export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency } from "./ctaBanner";
@@ -95,8 +95,8 @@ export { TeamGrid } from "./team";
 export type { TeamGridProps, TeamMember } from "./team";
 
 // Events variants
-export { EventsDefault } from "./events";
-export type { EventsDefaultProps, EventItem } from "./events";
+export { EventsDefault, EventsCards } from "./events";
+export type { EventsDefaultProps, EventsCardsProps, EventItem } from "./events";
 
 // Files variants
 export { FilesPage } from "./files";

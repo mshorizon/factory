@@ -1,0 +1,178 @@
+---
+// SITC isolation render harness (DESIGN §4.4 spike).
+// Renders ONE section through the REAL BaseLayout + SectionDispatcher (so theme
+// CSS-var injection + variant resolution + wrapper bg/spacing are byte-identical
+// to the in-page render), with no navbar/footer/sibling sections.
+//
+// Usage:
+//   /sitc-harness/section?business=<id>&page=<slug>&index=<n>
+//   /sitc-harness/section?business=<id>&index=<n>&profilePath=<abs .json>
+//
+// `profilePath` (DESIGN §13.2 "working file" path) renders the run's EVOLVING
+// template JSON straight from the worktree the worker just edited — no DB
+// round-trip in the inner loop. Filesystem reads are dev/flag-gated and the path
+// is constrained to a templates dir, since this route is dev/spike only.
+import { readFileSync, existsSync } from "node:fs";
+import path from "node:path";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionDispatcher from "../../components/SectionDispatcher.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { findPageBySlug, getLayoutConfig, getNavLinks } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
+import { deepTranslate, t } from "../../lib/i18n";
+import { deepResolveImages } from "../../lib/images";
+import { resolveTheme } from "@mshorizon/ui";
+import type { BusinessProfile } from "@mshorizon/schema";
+
+const pageSlug = Astro.url.searchParams.get("page") || "home";
+const index = parseInt(Astro.url.searchParams.get("index") || "0", 10);
+const profilePath = Astro.url.searchParams.get("profilePath");
+// Global-chrome render mode: "navbar" | "footer" (DESIGN §4.4 — chrome tier).
+// These aren't page sections; render the layout's Navbar/Footer in isolation.
+const chrome = Astro.url.searchParams.get("chrome");
+
+// Filesystem mode is dev/flag-only — never expose arbitrary reads in prod.
+const fsAllowed = import.meta.env.DEV || import.meta.env.SITC_HARNESS_FS === "1";
+
+let businessId: string;
+let businessData: BusinessProfile;
+let theme: ReturnType<typeof resolveTheme>;
+let translations: Record<string, any>;
+let currentLang: string;
+
+if (profilePath && fsAllowed) {
+  // Constrain to a templates dir + .json so a stray path can't read secrets.
+  const norm = path.resolve(profilePath);
+  const inTemplates = norm.split(path.sep).includes("templates");
+  if (!norm.endsWith(".json") || !inTemplates || !existsSync(norm)) {
+    return new Response(null, { status: 400, statusText: "invalid profilePath" });
+  }
+  const profile = JSON.parse(readFileSync(norm, "utf-8")) as BusinessProfile;
+  businessData = profile;
+  businessId = Astro.url.searchParams.get("business") || path.basename(norm, ".json");
+  theme = resolveTheme(profile.theme.preset, profile.theme as any);
+  currentLang = (profile as any)?.defaultLanguage || "en";
+  // Sibling translations dir (mirrors db:seed); empty is fine for layout scoring.
+  translations = {};
+  const transDir = path.join(path.dirname(norm), "translations");
+  for (const lang of [currentLang, "en"]) {
+    const f = path.join(transDir, `${lang}.json`);
+    if (existsSync(f)) translations = { ...JSON.parse(readFileSync(f, "utf-8")), ...translations };
+  }
+} else {
+  if (profilePath && !fsAllowed) {
+    return new Response(null, { status: 403, statusText: "profilePath disabled (set SITC_HARNESS_FS=1)" });
+  }
+  // DB-backed path (middleware-resolved business).
+  const locals = Astro.locals;
+  businessId = locals.businessId;
+  theme = locals.theme;
+  currentLang = locals.currentLang;
+  businessData = locals.businessData;
+  translations = locals.t;
+}
+
+const translatedData = deepTranslate(translations, businessData) as BusinessProfile;
+const business = deepResolveImages(translatedData, businessId);
+
+// ── CHROME mode: render the global navbar/footer in isolation ────────────────
+// Mirrors the navbar/footer prop assembly in [...slug].astro so the harness
+// render matches the in-page chrome. The fixed navbar is forced static (below)
+// so the screenshotted wrapper has real height.
+let chromeProps: any = null;
+if (chrome === "navbar" || chrome === "footer") {
+  const layout = getLayoutConfig(business) as any;
+  const navLinks = getNavLinks(business).map((l: any) => ({
+    label: l.label,
+    href: l.href || resolveTarget(l.target, business),
+    ...(l.external ? { external: true } : {}),
+  }));
+  const navCta = business.navigation?.cta
+    ? { label: business.navigation.cta.label, href: resolveTarget(business.navigation.cta.target, business) }
+    : undefined;
+  const footerLinks = (layout.footer?.links || []).map((l: any) => ({ label: l.label, href: l.href || resolveTarget(l.target, business) }));
+  const pagesColumn = { title: t(translations, "footer.columns.pages.title", "Strony"), links: [...navLinks, ...footerLinks] };
+  const footerColumns = [
+    ...(layout.footer?.hidePagesColumn ? [] : [pagesColumn]),
+    ...(layout.footer?.columns || [])
+      .filter((c: any) => c.title !== pagesColumn.title)
+      .map((c: any) => ({ title: c.title, links: (c.links || []).map((l: any) => ({ label: l.label, href: l.href || resolveTarget(l.target, business) })) })),
+  ];
+  const socialLinks = business.business.socials ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url })) : [];
+  const hasShopSection = Object.values(business.pages).some((p: any) => p.sections?.some((s: any) => s.type === "shop"));
+  chromeProps = { layout, navLinks, navCta, footerLinks, footerColumns, socialLinks, hasShopSection };
+}
+
+let section: any = null;
+let isHomePage = true;
+if (!chrome) {
+  const page = findPageBySlug(business, pageSlug);
+  if (!page) return new Response(null, { status: 404, statusText: "page not found" });
+  section = page.sections?.[index];
+  if (!section) return new Response(null, { status: 404, statusText: "section index out of range" });
+  isHomePage = pageSlug === "home";
+}
+const L = chromeProps?.layout;
+---
+
+<BaseLayout
+  title={`sitc-harness ${chrome ?? `${pageSlug}#${index}`}`}
+  theme={theme}
+  lang={currentLang}
+  noCustomScrollbars={true}
+>
+  {chrome === "navbar" && chromeProps ? (
+    <div data-section-index="0" data-sitc-chrome style="width:100%">
+      <Navbar
+        logo={L.navbar.logoText || business.business.name}
+        logoSubtext={L.navbar.logoSubtext}
+        logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+        logoIconLucide={business.business.assets?.iconLucide}
+        hideLogoIcon={L.navbar.hideLogoIcon}
+        links={chromeProps.navLinks}
+        cta={chromeProps.navCta}
+        variant={L.navbar.variant}
+        showCart={chromeProps.hasShopSection}
+        extensions={L.navbar.extensions}
+        contact={business.business.contact}
+        socials={business.business.socials}
+        hideBorderOnTop={L.navbar.hideBorderOnTop}
+        hideCta={L.navbar.hideCta}
+        showSocials={L.navbar.showSocials}
+        showAvailability={L.navbar.showAvailability}
+        showAddress={L.navbar.showAddress}
+        showAdditionalInfo={L.navbar.showAdditionalInfo}
+      />
+    </div>
+    <style is:inline>{`[data-sitc-chrome] :is(header,nav){position:static!important;top:auto!important}`}</style>
+  ) : chrome === "footer" && chromeProps ? (
+    <div data-section-index="0" data-sitc-chrome style="width:100%">
+      <Footer
+        businessName={business.business.name}
+        footerName={L.footer.name}
+        logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+        footerLogoIcon={business.business.assets?.footerIcon}
+        links={chromeProps.footerLinks}
+        columns={chromeProps.footerColumns}
+        copyright={L.footer.copyright}
+        tagline={L.footer.tagline}
+        flag={L.footer.flag}
+        findUsTitle={L.footer.findUsTitle}
+        hoursTitle={L.footer.hoursTitle}
+        hours={L.footer.hours}
+        signature={L.footer.signature}
+        currentLanguage={currentLang}
+        variant={L.footer.variant}
+        socialLinks={chromeProps.socialLinks}
+        extensions={L.footer.extensions}
+        background={L.footer.background}
+        contact={business.business.contact}
+      />
+    </div>
+  ) : (
+    <main data-sitc-harness data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
+      <SectionDispatcher sections={[section]} business={business} isHomePage={isHomePage} />
+    </main>
+  )}
+</BaseLayout>

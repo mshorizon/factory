@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-on-primary shadow hover:bg-primary/90",
+          "bg-primary text-on-primary shadow hover:bg-primary/90 [letter-spacing:var(--btn-letter-spacing,normal)]",
         destructive:
           "bg-red-500 text-on-primary shadow-sm hover:bg-red-500/90",
         outline:
@@ -17,7 +17,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-on-primary shadow-sm hover:bg-secondary/80",
         ghost:
-          "hover:bg-primary/10 hover:text-primary",
+          "hover:bg-primary/10 hover:text-primary [letter-spacing:var(--btn-letter-spacing,normal)]",
         link:
           "text-primary underline-offset-4 hover:underline",
       },

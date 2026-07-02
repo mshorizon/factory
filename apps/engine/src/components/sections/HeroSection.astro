@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency } from "@mshorizon/ui";
+import { HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency, HeroSacrum } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -10,6 +10,8 @@ interface Props {
 }
 
 const { section, isHomePage = false } = Astro.props;
+const translations = (Astro.locals as any).t || {};
+const scrollLabel = translations["home.hero.scroll"] || "Scroll";
 const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const heroImage = section.image || section.backgroundImage;
@@ -120,16 +122,281 @@ const secondaryCta = section.secondaryCta ? {
     secondaryCta={secondaryCta}
     isHomePage={isHomePage}
   />
-) : (
-  <HeroDefault
+) : variant === "sacrum" ? (
+  <HeroSacrum
     client:load
     badge={header.badge}
+    badgeColor={section.badgeColor}
     title={header.title || ""}
     subtitle={header.subtitle}
-    backgroundImage={section.backgroundImage}
+    image={heroImage}
     cta={cta}
-    secondaryCta={secondaryCta}
-    fullHeight
+    titleAccent={(section as any).titleAccent}
+    scheduleCards={(section as any).scheduleCards}
+    badgeLineOnly={(section as any).badgeLineOnly}
+    fullBleed={(section as any).fullBleed}
     isHomePage={isHomePage}
   />
+) : (
+  <Fragment>
+    <style is:inline set:html={`
+      @keyframes hero-bg-zoom { from { transform: scale(1.1); } to { transform: scale(1); } }
+      @keyframes hero-fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+      /* Dedicated keyframe for the scroll indicator: it is centered via
+         translateX(-50%), so its fade-up animation must preserve that X offset.
+         Using the generic hero-fade-up here would end on transform:translateY(0),
+         clobbering translateX(-50%) and shifting the block ~half its width right. */
+      @keyframes hero-scroll-fade-up { from { opacity: 0; transform: translateX(-50%) translateY(24px); } to { opacity: 0.5; transform: translateX(-50%) translateY(0); } }
+      @keyframes hero-scroll-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+      .hero-fold {
+        position: relative;
+        z-index: 0;
+        overflow: hidden;
+        min-height: 100vh;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        margin-top: calc(var(--main-nav-offset, 64px) * -1);
+        background-color: var(--background, #1d1916);
+      }
+      .hero-fold__bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        animation: hero-bg-zoom 10s ease-out both;
+        will-change: transform;
+      }
+      .hero-fold__overlay {
+        position: absolute;
+        inset: 0;
+        background-color: color-mix(in oklab, hsl(24 15% 10%) 40%, transparent);
+      }
+      /* Inner border — a translucent line, inset from the edges, so its color
+         blends with the image beneath. Same treatment as the gallery tiles
+         (border-white/20 + theme radius); ported here as an inset picture-frame
+         around the full-bleed hero image instead of a hard outer line. */
+      .hero-fold__frame {
+        position: absolute;
+        inset: clamp(1.25rem, 2.5vw, 2.5rem);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius, 0);
+        pointer-events: none;
+      }
+      .hero-fold__content {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 1.5rem;
+        max-width: 80rem;
+        margin: 0 auto;
+      }
+      /* Country flag above the badge, reusing the same gradient as the navbar
+         logo flag (--nav-logo-flag). Hidden unless theme.navLogoFlag is set. */
+      .hero-fold__flag { display: none; }
+      [data-nav-logo-flag="1"] .hero-fold__flag {
+        display: block;
+        width: 160px;
+        height: 3px;
+        margin: 0 auto 0.75rem auto;
+        background: var(--nav-logo-flag);
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0s forwards;
+      }
+      .hero-fold__badge {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.05s forwards;
+        color: var(--primary, #d94a26);
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: var(--hero-badge-letter-spacing, 0.05em);
+        font-weight: 300;
+        margin-bottom: 1rem;
+      }
+      .hero-fold__title {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.15s forwards;
+        font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        line-height: 1.05;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        color: var(--text-on-primary, #fff);
+        margin: 0 0 1rem 0;
+      }
+      .hero-fold__divider {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.22s forwards;
+        width: 5rem;
+        height: 1px;
+        border: 0;
+        margin: 0 auto 1.5rem auto;
+        background-color: currentColor;
+      }
+      .hero-fold__subtitle {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.3s forwards;
+        font-size: 1.125rem;
+        line-height: 1.5;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: var(--hero-subtitle-letter-spacing, 0.05em);
+        color: rgba(255, 255, 255, 0.85);
+        max-width: 42rem;
+        margin: 0 auto 2.5rem auto;
+      }
+      .hero-fold__ctas {
+        opacity: 0;
+        animation: hero-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.45s forwards;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+      .hero-fold__cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: var(--btn-letter-spacing, normal);
+        color: var(--text-on-primary, #fff);
+        background-color: var(--primary, #d94a26);
+        border-radius: var(--radius, 0);
+        text-decoration: none;
+        box-shadow: 0 10px 25px rgba(217, 74, 38, 0.25);
+        transition: background-color 0.2s;
+      }
+      .hero-fold__cta:hover { background-color: color-mix(in oklab, var(--primary, #d94a26) 90%, black); }
+      .hero-fold__cta--secondary {
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: none;
+      }
+      .hero-fold__cta--secondary:hover { background-color: rgba(255, 255, 255, 0.12); }
+      .hero-fold__scroll {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 1;
+        color: var(--text-on-primary, #fff);
+        opacity: 0;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+        animation: hero-scroll-fade-up 0.6s cubic-bezier(0.25,0.1,0.25,1) 0.6s forwards;
+      }
+      /* !important is required to beat the animation's forwards-filled opacity. */
+      .hero-fold__scroll:hover { opacity: 1 !important; }
+      .hero-fold__scroll-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-weight: 500;
+        line-height: 1;
+      }
+      .hero-fold__scroll-chevron { animation: hero-scroll-bounce 1.5s ease-in-out infinite; }
+      @media (max-width: 767px) {
+        .hero-fold__scroll { display: none; }
+      }
+    `} />
+    <section class="hero-fold">
+      {section.backgroundImage && (
+        <>
+          <div
+            class="hero-fold__bg"
+            style={`background-image:url('${section.backgroundImage}')`}
+            data-field="backgroundImage"
+          />
+          <div class="hero-fold__overlay" style={(section as any).overlayColor ? `background-color:${(section as any).overlayColor}` : undefined} />
+          <div class="hero-bottom-fade" />
+        </>
+      )}
+      {section.backgroundImage && (section as any).imageFrame !== false && <div class="hero-fold__frame" aria-hidden="true" />}
+      <div class="hero-fold__content">
+        <div class="hero-fold__flag" aria-hidden="true"></div>
+        {header.badge && (
+          <div class="hero-fold__badge" style={(section as any).badgeColor ? `color:${(section as any).badgeColor}` : undefined}>{header.badge}</div>
+        )}
+        <h1 class="hero-fold__title hero-title" data-field="header.title" style={(section as any).textColor ? `color:${(section as any).textColor}` : undefined}>
+          {header.title || ""}
+        </h1>
+        {(section as any).titleDividerColor && (
+          <hr class="hero-fold__divider" aria-hidden="true" style={`color:${(section as any).titleDividerColor}`} />
+        )}
+        {header.subtitle && (
+          <p class="hero-fold__subtitle hero-subtitle" data-field="header.subtitle" style={(section as any).textColor ? `color:${(section as any).textColor}` : undefined}>
+            {header.subtitle}
+          </p>
+        )}
+        {(cta || secondaryCta) && (
+          <div class="hero-fold__ctas">
+            {cta && (
+              <a href={cta.href} class="hero-fold__cta" data-field="cta">
+                {cta.label}
+                <svg class="hero-cta-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            )}
+            {secondaryCta && (
+              <a href={secondaryCta.href} class="hero-fold__cta hero-fold__cta--secondary" data-field="secondaryCta">
+                {secondaryCta.label}
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+      <div class="hero-fold__scroll" aria-hidden="true" style={(section as any).scrollColor ? `color:${(section as any).scrollColor}` : undefined}>
+        <span class="hero-fold__scroll-label">{scrollLabel}</span>
+        <svg class="hero-fold__scroll-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </section>
+    <script is:inline>
+      // Smooth-scroll for in-page hero anchor CTAs (e.g. the "Rezerwuj stolik"
+      // button targeting "#contact-8", or the "Poznaj nas" ghost button).
+      // If the exact indexed id is missing, fall back to the first section of
+      // the same type (e.g. "contact-8" -> [data-section-type="contact"]) so
+      // the CTA always lands on the intended section even if the index shifts.
+      document.querySelectorAll('.hero-fold a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+          const id = a.getAttribute('href').slice(1);
+          const type = id.replace(/-\d+$/, '');
+          const el = document.getElementById(id) || document.querySelector('[data-section-type="' + type + '"]');
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      // Scroll indicator: clicking it smooth-scrolls to the next section below
+      // the hero. The hero is wrapped in a [data-section-index] div by the
+      // SectionDispatcher, so the next section is simply the next sibling.
+      document.querySelectorAll('.hero-fold__scroll').forEach((indicator) => {
+        indicator.addEventListener('click', () => {
+          const heroWrapper = indicator.closest('[data-section-index]');
+          const next = heroWrapper && heroWrapper.nextElementSibling;
+          if (next) {
+            next.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+          }
+        });
+      });
+    </script>
+  </Fragment>
 )}

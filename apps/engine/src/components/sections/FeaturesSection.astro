@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, SectionHeader } from "@mshorizon/ui";
+import { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, FeaturesNumberedSplit, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -25,21 +25,36 @@ const items = rawItems.map((item: any) => ({
 
 <section>
   <div class="container mx-auto">
-    <SectionHeader
-      badge={header.badge}
-      title={header.title}
-      subtitle={header.subtitle}
-      background={section.background}
-      badgeVariant={sectionBadgeVariant as any}
-    />
-    {variant === "compact" ? (
-      <FeaturesCompact client:visible items={items} />
-    ) : variant === "gradient" ? (
-      <FeaturesGradient client:visible items={items} />
-    ) : variant === "icon-tiles" ? (
-      <FeaturesIconTiles client:visible items={items} />
+    {variant === "numbered-split" ? (
+      <FeaturesNumberedSplit
+        client:visible
+        items={items}
+        badge={header.badge}
+        title={header.title}
+        image={section.image}
+        imageBlend={(section as any).imageBlend}
+        imageBorder={(section as any).imageBorder}
+        imageDescription={(section as any).imageDescription}
+      />
     ) : (
-      <FeaturesGrid client:visible items={items} />
+      <>
+        <SectionHeader
+          badge={header.badge}
+          title={header.title}
+          subtitle={header.subtitle}
+          background={section.background}
+          badgeVariant={sectionBadgeVariant as any}
+        />
+        {variant === "compact" ? (
+          <FeaturesCompact client:visible items={items} />
+        ) : variant === "gradient" ? (
+          <FeaturesGradient client:visible items={items} />
+        ) : variant === "icon-tiles" ? (
+          <FeaturesIconTiles client:visible items={items} />
+        ) : (
+          <FeaturesGrid client:visible items={items} />
+        )}
+      </>
     )}
   </div>
 </section>

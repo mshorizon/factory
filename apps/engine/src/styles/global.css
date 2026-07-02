@@ -95,6 +95,80 @@
   font-style: normal;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/cormorant-garamond-cyrillic.woff2') format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext (Polish) */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/cormorant-garamond-latin-ext.woff2') format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/cormorant-garamond-latin.woff2') format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Inter — self-hosted to avoid Google Fonts FOUT */
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-cyrillic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext (Polish) */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* DM Sans — self-hosted (latin script) */
+/* latin-ext (Polish) */
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-latin-ext.woff2') format('woff2');
+  font-weight: 100 1000;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-latin.woff2') format('woff2');
+  font-weight: 100 1000;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 @tailwind base;
 @tailwind components;
@@ -134,6 +208,15 @@ html.scroll-momentum {
 [data-reveal].is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* Site-wide badge/eyebrow typography (opt-in via theme.badgeWeight /
+   theme.badgeLetterSpacing). Only applies when the layout emits
+   [data-badge-typography]; !important beats per-section Tailwind utilities
+   (font-medium, tracking-[.05rem], etc.). Undefined vars degrade gracefully. */
+html[data-badge-typography] .badge-base {
+  font-weight: var(--badge-weight) !important;
+  letter-spacing: var(--badge-letter-spacing) !important;
 }
 
 /* Badge decorative line reveal — expands from left after badge fades in */
@@ -287,4 +370,115 @@ body::-webkit-scrollbar {
   html {
     @apply font-sans;
   }
+}
+
+/* Hide the hero CTA button arrow icon (opt-in via theme.heroCtaHideIcon) */
+[data-hero-cta-hide-icon="1"] .hero-cta-icon {
+  display: none !important;
+}
+
+/* Hero text uses theme colors instead of on-image white (opt-in via
+   theme.heroTextThemeColors): title = text.main, subtitle = text.muted */
+[data-hero-theme-text="1"] .hero-title {
+  color: var(--foreground) !important;
+}
+[data-hero-theme-text="1"] .hero-subtitle {
+  color: var(--muted) !important;
+}
+
+/* Hero bottom fade into page background (opt-in via theme.heroBottomFade).
+   Self-contained so both the React HeroDefault and the inline .hero-fold can
+   use it via a bare <div class="hero-bottom-fade">. Parent must be relative. */
+.hero-bottom-fade {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 50%, var(--background) 100%);
+}
+[data-hero-bottom-fade="1"] .hero-bottom-fade {
+  display: block;
+}
+
+/* Hero text font sizes from business JSON (opt-in via theme.heroTitleSize /
+   theme.heroSubtitleSize). When unset, the component's responsive Tailwind
+   sizing applies. */
+[data-hero-title-size="1"] .hero-title {
+  font-size: var(--hero-title-size) !important;
+  line-height: 1.05;
+}
+[data-hero-title-font="1"] .hero-title {
+  font-family: var(--hero-title-font) !important;
+}
+[data-hero-title-letter-spacing="1"] .hero-title {
+  letter-spacing: var(--hero-title-letter-spacing) !important;
+}
+[data-hero-subtitle-size="1"] .hero-subtitle {
+  font-size: var(--hero-subtitle-size) !important;
+}
+
+/* Content container max-width driven by theme.contentWidth (--content-width,
+   default 1200px). Overrides the Tailwind container's fixed 1200px cap. The
+   container only caps width once the viewport passes the 1200px breakpoint. */
+@media (min-width: 1200px) {
+  .container {
+    max-width: var(--content-width, 1200px);
+  }
+}
+
+/* Services list divider style (opt-in via theme.servicesListDivider): drop the
+   card border/shadow/radius, keep only a bottom divider = surface.card (--card)
+   at 50% opacity. Kept on hover too. */
+[data-services-list-divider="1"] .services-list-item,
+[data-services-list-divider="1"] .services-list-item:hover {
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--card) 50%, transparent) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Non-interactive service items (opt-in via theme.servicesNotClickable) */
+[data-services-not-clickable="1"] .services-list-item {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Cap services section width (opt-in via theme.servicesMaxWidth). Higher
+   specificity than the .container content-width rule, so it wins. */
+[data-services-max-width="1"] .services-section {
+  max-width: var(--services-max-width) !important;
+}
+
+/* Restaurant-style "menu" treatment for the services list (opt-in via
+   theme.servicesMenuStyle). Per-element font/size come from theme-driven CSS
+   vars; when a var is unset the declaration is dropped and the component's
+   default Tailwind styling applies. */
+[data-services-menu="1"] .services-item-title {
+  font-family: var(--services-title-font) !important;
+  font-size: var(--services-title-size) !important;
+}
+[data-services-menu="1"] .services-item-desc {
+  font-family: var(--services-desc-font) !important;
+  font-size: var(--services-desc-size) !important;
+}
+/* Price: drop the pill (bg/padding/radius/bold/primary color), push to the
+   right edge of the item, render in the menu price font using --foreground. */
+[data-services-menu="1"] .services-item-price {
+  margin-left: auto;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-weight: 400 !important;
+  color: var(--foreground) !important;
+  font-family: var(--services-price-font) !important;
+  font-size: var(--services-price-size) !important;
+}
+[data-services-menu="1"] .services-footnote {
+  font-family: var(--services-footnote-font) !important;
+  font-size: var(--services-footnote-size) !important;
+}
+
+/* Hide the services CTA button arrow icon (opt-in via theme.servicesCtaHideIcon) */
+[data-services-cta-hide-icon="1"] .services-cta-icon {
+  display: none !important;
 }

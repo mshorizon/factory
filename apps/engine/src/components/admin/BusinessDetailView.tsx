@@ -17,6 +17,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,6 +30,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   CheckCircle2,
+  ChevronDown,
   Circle,
   Clock,
   Copy,
@@ -129,10 +136,53 @@ function TaskStatusIcon({ status }: { status: string }) {
   return <Circle className="h-3.5 w-3.5 text-muted-foreground" />;
 }
 
-function SiteStatusBadge({ status }: { status: string }) {
-  if (status === "released") return <Badge className="bg-green-600/15 text-green-700 border-green-600/25">released</Badge>;
-  if (status === "suspended") return <Badge className="bg-yellow-500/15 text-yellow-700 border-yellow-500/25">suspended</Badge>;
-  return <Badge variant="secondary">{status}</Badge>;
+const STATUS_CONFIG: Record<string, { label: string; badgeCls: string; dotCls: string }> = {
+  lead:             { label: "Lead",            badgeCls: "bg-slate-100 text-slate-700 border-slate-300",   dotCls: "bg-slate-500" },
+  site_generated:   { label: "Site Generated",  badgeCls: "bg-sky-100 text-sky-700 border-sky-300",         dotCls: "bg-sky-500" },
+  after_first_sms:  { label: "After First SMS", badgeCls: "bg-blue-100 text-blue-700 border-blue-300",      dotCls: "bg-blue-500" },
+  after_first_call: { label: "After First Call",badgeCls: "bg-indigo-100 text-indigo-700 border-indigo-300",dotCls: "bg-indigo-500" },
+  demo_scheduled:   { label: "Demo Scheduled",  badgeCls: "bg-violet-100 text-violet-700 border-violet-300",dotCls: "bg-violet-500" },
+  after_demo:       { label: "After Demo",      badgeCls: "bg-purple-100 text-purple-700 border-purple-300",dotCls: "bg-purple-500" },
+  offer_sent:       { label: "Offer Sent",      badgeCls: "bg-amber-100 text-amber-700 border-amber-300",   dotCls: "bg-amber-500" },
+  onboarding:       { label: "Onboarding",      badgeCls: "bg-orange-100 text-orange-700 border-orange-300",dotCls: "bg-orange-500" },
+  active:           { label: "Active",          badgeCls: "bg-green-100 text-green-700 border-green-300",   dotCls: "bg-green-500" },
+  not_interested:   { label: "Not Interested",  badgeCls: "bg-gray-100 text-gray-500 border-gray-300",      dotCls: "bg-gray-400" },
+  churned:          { label: "Churned",         badgeCls: "bg-red-100 text-red-700 border-red-300",         dotCls: "bg-red-500" },
+};
+
+function StatusBadge({ status }: { status: string }) {
+  const cfg = STATUS_CONFIG[status];
+  if (!cfg) return <Badge variant="secondary">{status}</Badge>;
+  return (
+    <Badge className={`${cfg.badgeCls} border flex items-center gap-1.5`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${cfg.dotCls}`} />
+      {cfg.label}
+    </Badge>
+  );
+}
+
+function StatusDropdown({ status, onStatusChange }: { status: string; onStatusChange: (s: string) => void }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="inline-flex items-center gap-1 focus:outline-none group cursor-pointer">
+        <StatusBadge status={status} />
+        <ChevronDown className="h-3 w-3 text-muted-foreground group-hover:text-foreground transition-colors" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-52">
+        {Object.entries(STATUS_CONFIG).map(([value, { label, dotCls }]) => (
+          <DropdownMenuItem
+            key={value}
+            onClick={() => { if (value !== status) onStatusChange(value); }}
+            className={value === status ? "font-medium" : ""}
+          >
+            <span className={`h-2 w-2 rounded-full ${dotCls} mr-2 shrink-0`} />
+            {label}
+            {value === status && <span className="ml-auto text-xs text-muted-foreground">current</span>}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
 
 // ── Email templates ────────────────────────────────────────────────────────────
@@ -440,7 +490,7 @@ export function BusinessDetailView({ siteId }: Props) {
             <a href="/admin?tab=businesses" className="text-sm text-muted-foreground hover:text-foreground">Businesses</a>
             <span className="text-muted-foreground text-sm">/</span>
             <h1 className="text-lg font-semibold">{site.businessName}</h1>
-            <SiteStatusBadge status={site.status} />
+            <StatusDropdown status={site.status} onStatusChange={updateStatus} />
           </div>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -650,29 +700,29 @@ export function BusinessDetailView({ siteId }: Props) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              {site.status !== "suspended" ? (
+              {site.status === "active" ? (
                 <Button
                   variant="outline"
                   size="sm"
                   className="w-full justify-start text-yellow-700 border-yellow-500/30 hover:bg-yellow-500/10"
                   onClick={() => {
-                    if (confirm("Suspend this business? The site will be disabled.")) {
-                      updateStatus("suspended");
+                    if (confirm("Mark this business as churned? The site will remain accessible.")) {
+                      updateStatus("churned");
                     }
                   }}
                 >
-                  <ZapOff className="h-3.5 w-3.5 mr-2" />Suspend
+                  <ZapOff className="h-3.5 w-3.5 mr-2" />Mark Churned
                 </Button>
-              ) : (
+              ) : site.status === "churned" ? (
                 <Button
                   variant="outline"
                   size="sm"
                   className="w-full justify-start text-green-700 border-green-500/30 hover:bg-green-500/10"
-                  onClick={() => updateStatus("released")}
+                  onClick={() => updateStatus("active")}
                 >
                   <CheckCircle2 className="h-3.5 w-3.5 mr-2" />Reactivate
                 </Button>
-              )}
+              ) : null}
             </CardContent>
           </Card>
 

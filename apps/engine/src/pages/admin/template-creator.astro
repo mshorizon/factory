@@ -1,0 +1,27 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import TemplateCreator from "../../components/admin/TemplateCreator";
+
+const auth = Astro.locals.auth;
+if (!auth) {
+  return Astro.redirect("/admin/login");
+}
+if (auth.role !== "super-admin") {
+  return Astro.redirect("/admin");
+}
+---
+
+<AdminLayout title="Template Creator — Admin">
+  <div class="sitc-wrapper">
+    <TemplateCreator client:load />
+  </div>
+</AdminLayout>
+
+<style>
+  .sitc-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    padding: 1rem;
+  }
+</style>

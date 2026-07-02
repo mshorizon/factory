@@ -108,5 +108,6 @@ function getBgClass(bg?: string): string {
   const heroSkipsSpacing = isHero && resolvedSection.background !== 'transparent';
   const ctaBannerSkipsSpacing = resolvedSection.type === 'ctaBanner';
   const skipsSpacing = heroSkipsSpacing || ctaBannerSkipsSpacing;
-  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class:list={[bgClass, !skipsSpacing && (isHomePage ? "py-spacing-section" : "py-spacing-section-sm")]}><Component {...props} /></div>;
+  const bgColorOverride = (resolvedSection as any).backgroundColor as string | undefined;
+  return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class:list={[bgClass, !skipsSpacing && (isHomePage ? "py-spacing-section" : "py-spacing-section-sm")]} style={bgColorOverride ? `background-color:${bgColorOverride}` : undefined}><Component {...props} /></div>;
 })}

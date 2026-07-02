@@ -145,10 +145,6 @@ export function StatusTab({ businessId }: StatusTabProps) {
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-semibold">Status serwisu</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Monitoring dostępności {businessId}</p>
-        </div>
         <div className="flex gap-1">
           {PERIODS.map((p) => (
             <Button

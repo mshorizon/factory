@@ -4,6 +4,8 @@ export interface TestimonialItem {
   image?: string;
   author?: string;
   role?: string;
+  /** Short note rendered alongside the author (e.g. a date like "Maj 2025"). */
+  meta?: string;
 }
 
 export interface TestimonialsGridProps {
@@ -11,4 +13,12 @@ export interface TestimonialsGridProps {
   className?: string;
   sectionTitle?: string;
   sectionDescription?: string;
+}
+
+export interface TestimonialsQuotesProps {
+  items: TestimonialItem[];
+  className?: string;
+  /** Optional CTA rendered as an underlined text link below the grid. */
+  ctaLabel?: string;
+  ctaHref?: string;
 }

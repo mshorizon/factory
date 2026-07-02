@@ -151,8 +151,10 @@ if (!contactCardImage) {
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription || undefined} canonical={canonicalUrl} ogImage={blog.image || undefined} ogType="article" siteName={business.business.name} jsonLd={jsonLd}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoSubtext={layout.navbar.logoSubtext}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     logoIconLucide={business.business.assets?.iconLucide}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
@@ -167,7 +169,7 @@ if (!contactCardImage) {
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1" data-nav-offset>
+  <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     {isSidebarLayout ? (
       <!-- Portfolio-Law: BlogStandalone-style layout with contact sidebar, no comments -->
       <section class="py-spacing-section-sm">
@@ -437,6 +439,11 @@ if (!contactCardImage) {
     columns={footerColumns}
     copyright={layout.footer.copyright}
     tagline={layout.footer.tagline}
+    flag={layout.footer.flag}
+    findUsTitle={layout.footer.findUsTitle}
+    hoursTitle={layout.footer.hoursTitle}
+    hours={layout.footer.hours}
+    signature={layout.footer.signature}
     currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns"}
     socialLinks={socialLinks}

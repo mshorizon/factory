@@ -93,6 +93,8 @@ const checkoutLabels = {
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoSubtext={layout.navbar.logoSubtext}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered"}
@@ -104,7 +106,7 @@ const checkoutLabels = {
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1" data-nav-offset>
+  <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     <div id="page-hero" class="py-8 lg:py-12">
       <div class="container mx-auto mb-8">
         <h1 class="text-3xl lg:text-4xl font-bold text-foreground">
@@ -149,6 +151,11 @@ const checkoutLabels = {
     columns={footerColumns}
     copyright={layout.footer.copyright}
     tagline={layout.footer.tagline}
+    flag={layout.footer.flag}
+    findUsTitle={layout.footer.findUsTitle}
+    hoursTitle={layout.footer.hoursTitle}
+    hours={layout.footer.hours}
+    signature={layout.footer.signature}
     currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns"}
     background={layout.footer.background}

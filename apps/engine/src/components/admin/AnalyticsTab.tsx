@@ -169,10 +169,6 @@ export function AnalyticsTab({ businessId }: AnalyticsTabProps) {
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-semibold">Analytics</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Ruch na stronie {businessId}</p>
-        </div>
         <div className="flex gap-1">
           {PERIODS.map((p) => (
             <Button

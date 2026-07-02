@@ -28,8 +28,20 @@ async function seed() {
   const client = postgres(DATABASE_URL);
   const db = drizzle(client);
 
+  // Optional subdomain filter (argv[2]) — seed only that business. Without it,
+  // every template is (re)seeded. Scoping avoids clobbering unrelated businesses
+  // that may carry admin-panel-only edits.
+  const only = process.argv[2];
+
   const entries = readdirSync(dataDir, { withFileTypes: true });
-  const businessDirs = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+  let businessDirs = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+  if (only) {
+    businessDirs = businessDirs.filter((name) => name === only);
+    if (businessDirs.length === 0) {
+      console.error(`No template directory named "${only}" found in ${dataDir}`);
+      process.exit(1);
+    }
+  }
 
   console.log(`Found ${businessDirs.length} businesses to seed: ${businessDirs.join(", ")}`);
 
@@ -59,7 +71,15 @@ async function seed() {
       }
     }
 
-    const businessName = config.business?.name || config.name || subdomain;
+    let businessName = config.business?.name || config.name || subdomain;
+    if (typeof businessName === "string" && businessName.startsWith("t:")) {
+      const key = businessName.slice(2);
+      const settings = translations["_settings"] as Record<string, string> | undefined;
+      const primaryLang = settings?.primaryLanguage ?? "en";
+      const langTrans = (translations[primaryLang] ?? translations["en"] ?? {}) as Record<string, unknown>;
+      const resolved = langTrans[key];
+      businessName = typeof resolved === "string" ? resolved : subdomain;
+    }
     const industry = config.business?.industry || config.industry || null;
 
     // Upsert: update if exists, insert if not

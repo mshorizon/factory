@@ -1,0 +1,1170 @@
+{
+  "business": {
+    "id": "template-restaurant-001",
+    "name": "Nostrano",
+    "industry": "restaurant",
+    "assets": {
+      "favicon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d1916'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Cormorant Garamond, Georgia, serif' font-size='18' fill='%23d94a26'%3EN%3C/text%3E%3C/svg%3E",
+      "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Cormorant Garamond, Georgia, serif' font-size='22' fill='%23d94a26'%3EN%3C/text%3E%3C/svg%3E"
+    },
+    "contact": {
+      "address": "ul. Janusza Korczaka 46, 08-400 Garwolin",
+      "phone": "+48 881 455 855",
+      "email": "kontakt@nostrano.pl",
+      "hours": "t:common.contactHours"
+    },
+    "socials": {
+      "instagram": "https://instagram.com/nostrano.garwolin",
+      "facebook": "https://facebook.com/nostrano.garwolin"
+    }
+  },
+  "theme": {
+    "preset": "elegant",
+    "majorTheme": "template-art",
+    "mode": "dark",
+    "colors": {
+      "light": {
+        "primary": "#d94a26",
+        "primaryDark": "#d94a26",
+        "surface": {
+          "base": "#f7f5ed",
+          "alt": "#efece1",
+          "card": "#ffffff"
+        },
+        "text": {
+          "main": "#1d1916",
+          "muted": "#7a7264",
+          "onPrimary": "#f7f5ed"
+        }
+      },
+      "dark": {
+        "primary": "#d94a26",
+        "primaryDark": "#d94a26",
+        "surface": {
+          "base": "#1d1916",
+          "alt": "#26201c",
+          "card": "#3b312b"
+        },
+        "text": {
+          "main": "#f0ebdb",
+          "muted": "#c2baa3",
+          "onPrimary": "#f7f5ed"
+        }
+      }
+    },
+    "typography": {
+      "primary": "'DM Sans', sans-serif",
+      "secondary": "'Cormorant Garamond', serif"
+    },
+    "ui": {
+      "radius": "0px",
+      "radiusSm": "0px",
+      "spacing": {
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "5rem",
+        "section": "7.5rem",
+        "container": "2.5rem"
+      }
+    },
+    "headingWeight": "400",
+    "maxFontWeight": "400",
+    "paragraphMaxWeight": "300",
+    "contentWidth": "1232px",
+    "servicesListDivider": true,
+    "servicesNotClickable": true,
+    "servicesMenuStyle": true,
+    "servicesTitleFontFamily": "'Cormorant Garamond', serif",
+    "servicesTitleSize": "18px",
+    "servicesDescFontFamily": "'DM Sans', sans-serif",
+    "servicesDescSize": "14px",
+    "servicesPriceFontFamily": "'Cormorant Garamond', serif",
+    "servicesPriceSize": "16px",
+    "servicesFootnoteFontFamily": "'DM Sans', sans-serif",
+    "servicesFootnoteSize": "14px",
+    "servicesCtaHideIcon": true,
+    "navFontSize": "12px",
+    "navLogoWeight": "400",
+    "navLogoUppercase": true,
+    "navLogoFont": "heading",
+    "navLogoFontFamily": "'Cormorant Garamond', serif",
+    "navLogoColor": "#f0ebdb",
+    "navLogoLetterSpacing": "0.05em",
+    "navLinkColor": "#c2baa3",
+    "navLinksUppercase": true,
+    "navCtaHideIcon": true,
+    "navCtaUppercase": true,
+    "navHeightTop": "86px",
+    "navHeightScrolled": "64px",
+    "heroCtaHideIcon": true,
+    "heroTextThemeColors": true,
+    "heroBottomFade": true,
+    "heroTitleSize": "clamp(4.5rem, 10vw, 8rem)",
+    "heroTitleFontFamily": "'Cormorant Garamond', serif",
+    "heroSubtitleSize": "1em",
+    "heroBadgeLetterSpacing": "0.4em",
+    "heroSubtitleLetterSpacing": "0.15em",
+    "heroTitleLetterSpacing": "0.01em",
+    "navLinkLetterSpacing": "0.1em",
+    "buttonLetterSpacing": "0.1em",
+    "navLogoFlag": [
+      "#008C45",
+      "#F4F5F0",
+      "#CD212A"
+    ],
+    "navLinksPosition": "right",
+    "badgeVariant": "text",
+    "badgeWeight": "500",
+    "badgeLetterSpacing": "0.1em",
+    "scrollType": "momentum"
+  },
+  "layout": {
+    "navbar": {
+      "variant": "transparent",
+      "hideLogoIcon": true,
+      "hideBlog": true
+    },
+    "footer": {
+      "variant": "restaurant",
+      "name": "Nostrano",
+      "copyright": "t:footer.copyright",
+      "tagline": "t:footer.tagline",
+      "flag": [
+        "#008C45",
+        "#F4F5F0",
+        "#CD212A"
+      ],
+      "findUsTitle": "t:footer.findUs",
+      "hoursTitle": "t:common.openingHours",
+      "hours": [
+        {
+          "label": "t:footer.hours.mon",
+          "value": "t:common.closed"
+        },
+        {
+          "label": "t:footer.hours.tueThuSun",
+          "value": "13:00 – 21:00"
+        },
+        {
+          "label": "t:footer.hours.friSat",
+          "value": "13:00 – 23:00",
+          "highlight": true
+        }
+      ],
+      "links": [
+        {
+          "label": "Instagram",
+          "target": {
+            "type": "external",
+            "value": "https://instagram.com/nostrano.garwolin"
+          }
+        },
+        {
+          "label": "Facebook",
+          "target": {
+            "type": "external",
+            "value": "https://facebook.com/nostrano.garwolin"
+          }
+        }
+      ]
+    }
+  },
+  "navigation": {
+    "links": [
+      {
+        "label": "t:nav.about",
+        "target": {
+          "type": "section",
+          "value": "about-1"
+        }
+      },
+      {
+        "label": "t:nav.menu",
+        "target": {
+          "type": "section",
+          "value": "services-2"
+        }
+      },
+      {
+        "label": "t:nav.why",
+        "target": {
+          "type": "section",
+          "value": "features-3"
+        }
+      },
+      {
+        "label": "t:nav.events",
+        "target": {
+          "type": "section",
+          "value": "events-4"
+        }
+      },
+      {
+        "label": "t:nav.kids",
+        "target": {
+          "type": "section",
+          "value": "about-5"
+        }
+      },
+      {
+        "label": "t:nav.gallery",
+        "target": {
+          "type": "section",
+          "value": "gallery-7"
+        }
+      },
+      {
+        "label": "t:nav.contact",
+        "target": {
+          "type": "section",
+          "value": "contact-8"
+        }
+      }
+    ],
+    "cta": {
+      "label": "t:nav.cta",
+      "target": {
+        "type": "section",
+        "value": "contact-8"
+      }
+    }
+  },
+  "data": {
+    "services": []
+  },
+  "pages": {
+    "home": {
+      "title": "Home",
+      "hideFromNav": true,
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "default",
+          "backgroundImage": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/hero-nostrano.jpg",
+          "overlayColor": "color-mix(in oklab, hsl(24 15% 10%) 62%, transparent)",
+          "scrollColor": "#f0ebdb",
+          "textColor": "#f0ebdb",
+          "badgeColor": "#f0ebdbb3",
+          "titleDividerColor": "#f0ebdb66",
+          "imageFrame": false,
+          "header": {
+            "badge": "t:home.hero.badge",
+            "title": "Nostrano",
+            "subtitle": "t:home.hero.subtitle"
+          },
+          "cta": {
+            "label": "t:home.hero.cta",
+            "target": {
+              "type": "section",
+              "value": "contact-8"
+            }
+          },
+          "secondaryCta": {
+            "label": "t:home.hero.cta2",
+            "target": {
+              "type": "section",
+              "value": "about-1"
+            }
+          }
+        },
+        {
+          "type": "about",
+          "variant": "story",
+          "badgeVariant": "accent-no-line",
+          "header": {
+            "badge": "Nasza Historia",
+            "title": "t:home.about.title"
+          },
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-nostrano.jpeg",
+          "imageRounded": false,
+          "imageWidth": "560px",
+          "imageHeight": "620px",
+          "imageBorder": true,
+          "imageDescription": {
+            "name": "Kuchnia Nostrano",
+            "description": "Il cibo è cultura, è passione",
+            "color": "#f0ebdb"
+          },
+          "contentFontFamily": "'DM Sans', sans-serif",
+          "contentFontSize": "18px",
+          "story": {
+            "title": "t:home.about.story.title",
+            "content": "t:home.about.story.content"
+          },
+          "signature": {
+            "text": "Fatto con amore — con cuore italiano"
+          }
+        },
+        {
+          "type": "services",
+          "variant": "list",
+          "backgroundColor": "#26201c",
+          "maxWidth": "1200px",
+          "badgeVariant": "accent-no-line",
+          "columns": 1,
+          "header": {
+            "badge": "Degustazione",
+            "title": "t:home.menu.title",
+            "align": "left",
+            "flag": true
+          },
+          "serviceCategories": [
+            {
+              "id": "zupy",
+              "label": "t:home.menu.cat.zupy"
+            },
+            {
+              "id": "przystawki",
+              "label": "t:home.menu.cat.przystawki"
+            },
+            {
+              "id": "salatki",
+              "label": "t:home.menu.cat.salatki"
+            },
+            {
+              "id": "pizza",
+              "label": "t:home.menu.cat.pizza"
+            },
+            {
+              "id": "dodatki",
+              "label": "t:home.menu.cat.dodatki"
+            },
+            {
+              "id": "napoje",
+              "label": "t:home.menu.cat.napoje"
+            },
+            {
+              "id": "lemoniady",
+              "label": "t:home.menu.cat.lemoniady"
+            },
+            {
+              "id": "gorace",
+              "label": "t:home.menu.cat.gorace"
+            },
+            {
+              "id": "koktajle",
+              "label": "t:home.menu.cat.koktajle"
+            },
+            {
+              "id": "desery",
+              "label": "t:home.menu.cat.desery"
+            }
+          ],
+          "categoryGroups": [
+            {
+              "id": "pizza-group",
+              "label": "t:home.menu.cat.pizza-group",
+              "categories": [
+                "pizza",
+                "dodatki"
+              ],
+              "showSubTabs": true
+            },
+            {
+              "id": "napoje-group",
+              "label": "t:home.menu.cat.napoje-group",
+              "categories": [
+                "napoje",
+                "lemoniady",
+                "gorace",
+                "koktajle"
+              ],
+              "showSubTabs": true
+            }
+          ],
+          "defaultCategory": "pizza-group",
+          "categoryImages": [
+            {
+              "id": "zupy",
+              "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&h=1100&fit=crop",
+              "imageDescription": {
+                "name": "Zuppe",
+                "description": "Calde e confortanti",
+                "color": "#f0ebdb"
+              }
+            },
+            {
+              "id": "przystawki",
+              "image": "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=900&h=1100&fit=crop",
+              "imageDescription": {
+                "name": "Antipasti",
+                "description": "L'inizio perfetto",
+                "color": "#f0ebdb"
+              }
+            },
+            {
+              "id": "salatki",
+              "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=900&h=1100&fit=crop",
+              "imageDescription": {
+                "name": "Insalate",
+                "description": "Fresche e leggere",
+                "color": "#f0ebdb"
+              }
+            },
+            {
+              "id": "pizza-group",
+              "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=900&h=1100&fit=crop",
+              "imageDescription": {
+                "name": "Le Pizze",
+                "description": "Dal forno a legna",
+                "color": "#f0ebdb"
+              }
+            },
+            {
+              "id": "napoje-group",
+              "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=900&h=1100&fit=crop",
+              "imageDescription": {
+                "name": "Bevande",
+                "description": "Da accompagnare",
+                "color": "#f0ebdb"
+              }
+            },
+            {
+              "id": "koktajle",
+              "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=900&h=1100&fit=crop&sat=-20",
+              "imageDescription": {
+                "name": "Cocktail",
+                "description": "L'aperitivo italiano",
+                "color": "#f0ebdb"
+              }
+            },
+            {
+              "id": "desery",
+              "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&h=1100&fit=crop",
+              "imageDescription": {
+                "name": "Dolci",
+                "description": "Il finale dolce",
+                "color": "#f0ebdb"
+              }
+            }
+          ],
+          "items": [
+            {
+              "id": "crema-pomodoro",
+              "category": "zupy",
+              "title": "t:home.menu.items.crema-pomodoro.title",
+              "description": "t:home.menu.items.crema-pomodoro.desc",
+              "price": "23 zł"
+            },
+            {
+              "id": "focaccia",
+              "category": "przystawki",
+              "title": "t:home.menu.items.focaccia.title",
+              "description": "t:home.menu.items.focaccia.desc",
+              "price": "25 zł"
+            },
+            {
+              "id": "bruschetta-pomodoro",
+              "category": "przystawki",
+              "title": "t:home.menu.items.bruschetta-pomodoro.title",
+              "description": "t:home.menu.items.bruschetta-pomodoro.desc",
+              "price": "32 zł"
+            },
+            {
+              "id": "bruschetta-portobello",
+              "category": "przystawki",
+              "title": "t:home.menu.items.bruschetta-portobello.title",
+              "description": "t:home.menu.items.bruschetta-portobello.desc",
+              "price": "33 zł"
+            },
+            {
+              "id": "krewetki",
+              "category": "przystawki",
+              "title": "t:home.menu.items.krewetki.title",
+              "description": "t:home.menu.items.krewetki.desc",
+              "price": "46 zł"
+            },
+            {
+              "id": "antipasti",
+              "category": "przystawki",
+              "title": "t:home.menu.items.antipasti.title",
+              "description": "t:home.menu.items.antipasti.desc",
+              "price": "47 zł"
+            },
+            {
+              "id": "insalata-burrata",
+              "category": "salatki",
+              "title": "t:home.menu.items.insalata-burrata.title",
+              "description": "t:home.menu.items.insalata-burrata.desc",
+              "price": "43 zł"
+            },
+            {
+              "id": "caesar-gamberetti",
+              "category": "salatki",
+              "title": "t:home.menu.items.caesar-gamberetti.title",
+              "description": "t:home.menu.items.caesar-gamberetti.desc",
+              "price": "51 zł"
+            },
+            {
+              "id": "caesar-pastrami",
+              "category": "salatki",
+              "title": "t:home.menu.items.caesar-pastrami.title",
+              "description": "t:home.menu.items.caesar-pastrami.desc",
+              "price": "55 zł"
+            },
+            {
+              "id": "marinara",
+              "category": "pizza",
+              "title": "t:home.menu.items.marinara.title",
+              "description": "t:home.menu.items.marinara.desc",
+              "price": "27 zł"
+            },
+            {
+              "id": "margherita",
+              "category": "pizza",
+              "title": "t:home.menu.items.margherita.title",
+              "description": "t:home.menu.items.margherita.desc",
+              "price": "35 zł"
+            },
+            {
+              "id": "funghi",
+              "category": "pizza",
+              "title": "t:home.menu.items.funghi.title",
+              "description": "t:home.menu.items.funghi.desc",
+              "price": "38 zł"
+            },
+            {
+              "id": "cotto",
+              "category": "pizza",
+              "title": "t:home.menu.items.cotto.title",
+              "description": "t:home.menu.items.cotto.desc",
+              "price": "39 zł"
+            },
+            {
+              "id": "salame",
+              "category": "pizza",
+              "title": "t:home.menu.items.salame.title",
+              "description": "t:home.menu.items.salame.desc",
+              "price": "40 zł"
+            },
+            {
+              "id": "capricciosa",
+              "category": "pizza",
+              "title": "t:home.menu.items.capricciosa.title",
+              "description": "t:home.menu.items.capricciosa.desc",
+              "price": "43 zł"
+            },
+            {
+              "id": "diavola",
+              "category": "pizza",
+              "title": "t:home.menu.items.diavola.title",
+              "description": "t:home.menu.items.diavola.desc",
+              "price": "46 zł"
+            },
+            {
+              "id": "formaggi",
+              "category": "pizza",
+              "title": "t:home.menu.items.formaggi.title",
+              "description": "t:home.menu.items.formaggi.desc",
+              "price": "46 zł"
+            },
+            {
+              "id": "parma",
+              "category": "pizza",
+              "title": "t:home.menu.items.parma.title",
+              "description": "t:home.menu.items.parma.desc",
+              "price": "47 zł"
+            },
+            {
+              "id": "tuna",
+              "category": "pizza",
+              "title": "t:home.menu.items.tuna.title",
+              "description": "t:home.menu.items.tuna.desc",
+              "price": "47 zł"
+            },
+            {
+              "id": "mortadella",
+              "category": "pizza",
+              "title": "t:home.menu.items.mortadella.title",
+              "description": "t:home.menu.items.mortadella.desc",
+              "price": "47 zł"
+            },
+            {
+              "id": "nduja",
+              "category": "pizza",
+              "title": "t:home.menu.items.nduja.title",
+              "description": "t:home.menu.items.nduja.desc",
+              "price": "47 zł"
+            },
+            {
+              "id": "margherita-burrata",
+              "category": "pizza",
+              "title": "t:home.menu.items.margherita-burrata.title",
+              "description": "t:home.menu.items.margherita-burrata.desc",
+              "price": "47 zł"
+            },
+            {
+              "id": "affumicata",
+              "category": "pizza",
+              "title": "t:home.menu.items.affumicata.title",
+              "description": "t:home.menu.items.affumicata.desc",
+              "price": "49 zł"
+            },
+            {
+              "id": "cotto-tartufo",
+              "category": "pizza",
+              "title": "t:home.menu.items.cotto-tartufo.title",
+              "description": "t:home.menu.items.cotto-tartufo.desc",
+              "price": "52 zł"
+            },
+            {
+              "id": "dodatek-warzywny",
+              "category": "dodatki",
+              "title": "t:home.menu.items.dodatek-warzywny.title",
+              "description": "t:home.menu.items.dodatek-warzywny.desc",
+              "price": "4 zł"
+            },
+            {
+              "id": "dodatek-miesny",
+              "category": "dodatki",
+              "title": "t:home.menu.items.dodatek-miesny.title",
+              "description": "t:home.menu.items.dodatek-miesny.desc",
+              "price": "7 zł"
+            },
+            {
+              "id": "dodatek-burrata",
+              "category": "dodatki",
+              "title": "t:home.menu.items.dodatek-burrata.title",
+              "description": "t:home.menu.items.dodatek-burrata.desc",
+              "price": "9 zł"
+            },
+            {
+              "id": "dodatek-krewetki",
+              "category": "dodatki",
+              "title": "t:home.menu.items.dodatek-krewetki.title",
+              "description": "t:home.menu.items.dodatek-krewetki.desc",
+              "price": "12 zł"
+            },
+            {
+              "id": "cola",
+              "category": "napoje",
+              "title": "t:home.menu.items.cola.title",
+              "description": "t:home.menu.items.cola.desc",
+              "price": "10 / 19 zł"
+            },
+            {
+              "id": "fanta",
+              "category": "napoje",
+              "title": "t:home.menu.items.fanta.title",
+              "description": "t:home.menu.items.fanta.desc",
+              "price": "10 / 19 zł"
+            },
+            {
+              "id": "sprite",
+              "category": "napoje",
+              "title": "t:home.menu.items.sprite.title",
+              "description": "t:home.menu.items.sprite.desc",
+              "price": "10 / 19 zł"
+            },
+            {
+              "id": "tonic",
+              "category": "napoje",
+              "title": "t:home.menu.items.tonic.title",
+              "description": "t:home.menu.items.tonic.desc",
+              "price": "10 / 19 zł"
+            },
+            {
+              "id": "cappy",
+              "category": "napoje",
+              "title": "t:home.menu.items.cappy.title",
+              "description": "t:home.menu.items.cappy.desc",
+              "price": "10 / 19 zł"
+            },
+            {
+              "id": "lem-klasyczna",
+              "category": "lemoniady",
+              "title": "t:home.menu.items.lem-klasyczna.title",
+              "description": "t:home.menu.items.lem-klasyczna.desc",
+              "price": "23 / 35 zł"
+            },
+            {
+              "id": "lem-marakuja",
+              "category": "lemoniady",
+              "title": "t:home.menu.items.lem-marakuja.title",
+              "description": "t:home.menu.items.lem-marakuja.desc",
+              "price": "25 / 37 zł"
+            },
+            {
+              "id": "lem-sezonowa",
+              "category": "lemoniady",
+              "title": "t:home.menu.items.lem-sezonowa.title",
+              "description": "t:home.menu.items.lem-sezonowa.desc",
+              "price": "25 / 37 zł"
+            },
+            {
+              "id": "herbata",
+              "category": "gorace",
+              "title": "t:home.menu.items.herbata.title",
+              "description": "t:home.menu.items.herbata.desc",
+              "price": "13 zł"
+            },
+            {
+              "id": "espresso",
+              "category": "gorace",
+              "title": "t:home.menu.items.espresso.title",
+              "description": "t:home.menu.items.espresso.desc",
+              "price": "13 zł"
+            },
+            {
+              "id": "espresso-doppio",
+              "category": "gorace",
+              "title": "t:home.menu.items.espresso-doppio.title",
+              "description": "t:home.menu.items.espresso-doppio.desc",
+              "price": "13 zł"
+            },
+            {
+              "id": "espresso-macchiato",
+              "category": "gorace",
+              "title": "t:home.menu.items.espresso-macchiato.title",
+              "description": "t:home.menu.items.espresso-macchiato.desc",
+              "price": "12 zł"
+            },
+            {
+              "id": "americano",
+              "category": "gorace",
+              "title": "t:home.menu.items.americano.title",
+              "description": "t:home.menu.items.americano.desc",
+              "price": "13 zł"
+            },
+            {
+              "id": "americano-mleko",
+              "category": "gorace",
+              "title": "t:home.menu.items.americano-mleko.title",
+              "description": "t:home.menu.items.americano-mleko.desc",
+              "price": "14 zł"
+            },
+            {
+              "id": "cappuccino",
+              "category": "gorace",
+              "title": "t:home.menu.items.cappuccino.title",
+              "description": "t:home.menu.items.cappuccino.desc",
+              "price": "14 zł"
+            },
+            {
+              "id": "caffe-latte",
+              "category": "gorace",
+              "title": "t:home.menu.items.caffe-latte.title",
+              "description": "t:home.menu.items.caffe-latte.desc",
+              "price": "15 zł"
+            },
+            {
+              "id": "flat-white",
+              "category": "gorace",
+              "title": "t:home.menu.items.flat-white.title",
+              "description": "t:home.menu.items.flat-white.desc",
+              "price": "16 zł"
+            },
+            {
+              "id": "mojito",
+              "category": "koktajle",
+              "title": "t:home.menu.items.mojito.title",
+              "description": "t:home.menu.items.mojito.desc",
+              "price": "34 zł"
+            },
+            {
+              "id": "aperol-spritz",
+              "category": "koktajle",
+              "title": "t:home.menu.items.aperol-spritz.title",
+              "description": "t:home.menu.items.aperol-spritz.desc",
+              "price": "36 zł"
+            },
+            {
+              "id": "hugo-spritz",
+              "category": "koktajle",
+              "title": "t:home.menu.items.hugo-spritz.title",
+              "description": "t:home.menu.items.hugo-spritz.desc",
+              "price": "36 zł"
+            },
+            {
+              "id": "cuba-libre",
+              "category": "koktajle",
+              "title": "t:home.menu.items.cuba-libre.title",
+              "description": "t:home.menu.items.cuba-libre.desc",
+              "price": "36 zł"
+            },
+            {
+              "id": "wodka-sour",
+              "category": "koktajle",
+              "title": "t:home.menu.items.wodka-sour.title",
+              "description": "t:home.menu.items.wodka-sour.desc",
+              "price": "36 zł"
+            },
+            {
+              "id": "margarita",
+              "category": "koktajle",
+              "title": "t:home.menu.items.margarita.title",
+              "description": "t:home.menu.items.margarita.desc",
+              "price": "36 zł"
+            },
+            {
+              "id": "gin-tonic",
+              "category": "koktajle",
+              "title": "t:home.menu.items.gin-tonic.title",
+              "description": "t:home.menu.items.gin-tonic.desc",
+              "price": "37 zł"
+            },
+            {
+              "id": "whisky-sour",
+              "category": "koktajle",
+              "title": "t:home.menu.items.whisky-sour.title",
+              "description": "t:home.menu.items.whisky-sour.desc",
+              "price": "38 zł"
+            },
+            {
+              "id": "long-island",
+              "category": "koktajle",
+              "title": "t:home.menu.items.long-island.title",
+              "description": "t:home.menu.items.long-island.desc",
+              "price": "36 zł"
+            },
+            {
+              "id": "tiramisu",
+              "category": "desery",
+              "title": "t:home.menu.items.tiramisu.title",
+              "description": "t:home.menu.items.tiramisu.desc",
+              "price": "25 zł"
+            },
+            {
+              "id": "deser-dnia",
+              "category": "desery",
+              "title": "t:home.menu.items.deser-dnia.title",
+              "description": "t:home.menu.items.deser-dnia.desc"
+            }
+          ],
+          "footnote": "t:home.menu.footnote",
+          "cta": {
+            "label": "t:common.bookTable",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        },
+        {
+          "type": "features",
+          "variant": "numbered-split",
+          "header": {
+            "badge": "t:home.features.badge",
+            "title": "t:home.features.title"
+          },
+          "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&h=900&fit=crop",
+          "imageBorder": true,
+          "imageDescription": {
+            "name": "t:home.features.imageDescription.name",
+            "description": "t:home.features.imageDescription.description",
+            "color": "#f0ebdb"
+          },
+          "items": [
+            {
+              "icon": "flame",
+              "title": "t:home.features.items.0.title",
+              "description": "t:home.features.items.0.desc"
+            },
+            {
+              "icon": "award",
+              "title": "t:home.features.items.1.title",
+              "description": "t:home.features.items.1.desc"
+            },
+            {
+              "icon": "users",
+              "title": "t:home.features.items.2.title",
+              "description": "t:home.features.items.2.desc"
+            },
+            {
+              "icon": "calendar",
+              "title": "t:home.features.items.3.title",
+              "description": "t:home.features.items.3.desc"
+            }
+          ]
+        },
+        {
+          "type": "events",
+          "variant": "cards",
+          "backgroundColor": "#26201c",
+          "header": {
+            "badge": "Vita a Nostrano",
+            "title": "t:home.events.title"
+          },
+          "items": [
+            {
+              "title": "t:home.events.items.0.title",
+              "description": "t:home.events.items.0.desc",
+              "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=900&h=700&fit=crop",
+              "tags": [
+                "t:home.events.items.0.tag"
+              ],
+              "meta": "t:home.events.items.0.meta",
+              "dateStart": "t:home.events.items.0.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
+            },
+            {
+              "title": "t:home.events.items.1.title",
+              "description": "t:home.events.items.1.desc",
+              "image": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=900&h=700&fit=crop",
+              "tags": [
+                "t:home.events.items.1.tag"
+              ],
+              "meta": "t:home.events.items.1.meta",
+              "dateStart": "t:home.events.items.1.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
+            },
+            {
+              "title": "t:home.events.items.2.title",
+              "description": "t:home.events.items.2.desc",
+              "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=900&h=700&fit=crop",
+              "tags": [
+                "t:home.events.items.2.tag"
+              ],
+              "meta": "t:home.events.items.2.meta",
+              "dateStart": "t:home.events.items.2.dateStart",
+              "linkLabel": "t:home.events.linkLabel"
+            }
+          ]
+        },
+        {
+          "type": "about",
+          "variant": "quote-split",
+          "image": "https://pub-e1c131c824954a5086d6fb327930e430.r2.dev/template-restaurant/about-bambini.jpg",
+          "contentAlign": "right",
+          "badgeVariant": "accent-no-line",
+          "header": {
+            "badge": "I Bambini",
+            "title": "t:home.kids.title"
+          },
+          "story": {
+            "content": "t:home.kids.content"
+          },
+          "stats": [
+            {
+              "value": "t:home.kids.stats.0.value",
+              "label": "t:home.kids.stats.0.label"
+            },
+            {
+              "value": "t:home.kids.stats.1.value",
+              "label": "t:home.kids.stats.1.label"
+            },
+            {
+              "value": "t:home.kids.stats.2.value",
+              "label": "t:home.kids.stats.2.label"
+            }
+          ],
+          "quote": {
+            "text": "t:home.kids.quote.text",
+            "author": "t:home.kids.quote.author",
+            "note": "t:home.kids.quote.note"
+          },
+          "cta": {
+            "label": "t:home.kids.cta",
+            "target": {
+              "type": "page",
+              "value": "contact"
+            }
+          }
+        },
+        {
+          "type": "gallery",
+          "variant": "mosaic",
+          "backgroundColor": "#26201c",
+          "header": {
+            "badge": "La Nostra Arte",
+            "title": "t:home.gallery.title"
+          },
+          "items": [
+            {
+              "title": "t:home.menu.items.pizza.title",
+              "description": "t:home.gallery.items.0.desc",
+              "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Bruschetta",
+              "description": "t:home.gallery.items.1.desc",
+              "image": "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Burrata di Bufala",
+              "description": "t:home.gallery.items.2.desc",
+              "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Aperitivo",
+              "description": "t:home.gallery.items.3.desc",
+              "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "Pasta",
+              "description": "t:home.gallery.items.4.desc",
+              "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=800&h=800&fit=crop"
+            },
+            {
+              "title": "t:home.gallery.items.5.title",
+              "description": "t:home.gallery.items.5.desc",
+              "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=800&fit=crop"
+            }
+          ],
+          "socialCta": {
+            "text": "t:home.gallery.social.cta",
+            "highlight": "@nostrano.garwolin",
+            "highlightColor": "#d94a26",
+            "href": "https://instagram.com/nostrano.garwolin"
+          }
+        },
+        {
+          "type": "testimonials",
+          "variant": "quotes",
+          "header": {
+            "badge": "t:home.testimonials.badge",
+            "title": "t:home.testimonials.title",
+            "subtitle": "t:home.testimonials.subtitle"
+          },
+          "cta": {
+            "label": "t:home.testimonials.cta",
+            "target": {
+              "type": "external",
+              "value": "https://www.google.com/maps/search/Nostrano+Garwolin"
+            }
+          },
+          "items": [
+            {
+              "description": "t:home.testimonials.items.0.text",
+              "author": "t:home.testimonials.items.0.author",
+              "role": "t:home.testimonials.items.0.role",
+              "meta": "t:home.testimonials.items.0.date"
+            },
+            {
+              "description": "t:home.testimonials.items.1.text",
+              "author": "t:home.testimonials.items.1.author",
+              "role": "t:home.testimonials.items.1.role",
+              "meta": "t:home.testimonials.items.1.date"
+            },
+            {
+              "description": "t:home.testimonials.items.2.text",
+              "author": "t:home.testimonials.items.2.author",
+              "role": "t:home.testimonials.items.2.role",
+              "meta": "t:home.testimonials.items.2.date"
+            },
+            {
+              "description": "t:home.testimonials.items.3.text",
+              "author": "t:home.testimonials.items.3.author",
+              "role": "t:home.testimonials.items.3.role",
+              "meta": "t:home.testimonials.items.3.date"
+            }
+          ]
+        },
+        {
+          "type": "contact",
+          "variant": "restaurant",
+          "backgroundColor": "#26201c",
+          "header": {
+            "badge": "t:home.contact.badge",
+            "title": "t:home.contact.title",
+            "subtitle": "t:home.contact.subtitle"
+          },
+          "info": {
+            "address": "t:home.contact.address",
+            "googlePlaceQuery": "Restauracja Nostrano, ul. Janusza Korczaka 46, 08-400 Garwolin",
+            "phone": "+48 881 455 855",
+            "email": "kontakt@nostrano.pl",
+            "hours": "t:common.openingHours",
+            "hoursDetailed": [
+              "t:home.contact.hoursDetailed.0",
+              "t:home.contact.hoursDetailed.1",
+              "t:home.contact.hoursDetailed.2",
+              "t:home.contact.hoursDetailed.3"
+            ]
+          },
+          "form": {
+            "namePlaceholder": "t:form.namePlaceholder",
+            "emailPlaceholder": "t:form.emailPlaceholder",
+            "messagePlaceholder": "t:form.messagePlaceholder",
+            "submitButton": "t:common.callAndBook",
+            "nameLabel": "t:form.nameLabel",
+            "emailLabel": "t:form.emailLabel",
+            "messageLabel": "t:form.messageLabel"
+          },
+          "cta": {
+            "label": "t:common.callAndBook",
+            "target": {
+              "type": "external",
+              "value": "tel:+48000000000"
+            }
+          }
+        }
+      ]
+    },
+    "about": {
+      "title": "t:nav.about",
+      "hideFromNav": true,
+      "sections": [
+        {
+          "type": "about",
+          "variant": "story",
+          "header": {
+            "badge": "t:home.about.badge",
+            "title": "t:home.about.title"
+          },
+          "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop",
+          "story": {
+            "title": "t:home.about.story.title",
+            "content": "t:about.story.content"
+          },
+          "stats": [
+            {
+              "value": "48h",
+              "label": "t:about.stats.0.label"
+            },
+            {
+              "value": "100%",
+              "label": "t:about.stats.1.label"
+            },
+            {
+              "value": "2",
+              "label": "t:about.stats.2.label"
+            }
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "title": "t:nav.contact",
+      "hideFromNav": true,
+      "sections": [
+        {
+          "type": "contact",
+          "variant": "split",
+          "header": {
+            "badge": "t:home.contact.badge",
+            "title": "t:home.contact.title",
+            "subtitle": "t:home.contact.subtitle"
+          },
+          "info": {
+            "address": "t:home.contact.address",
+            "phone": "+48 881 455 855",
+            "email": "kontakt@nostrano.pl",
+            "hours": "t:common.openingHours",
+            "hoursDetailed": [
+              "t:home.contact.hoursDetailed.0",
+              "t:home.contact.hoursDetailed.1",
+              "t:home.contact.hoursDetailed.2",
+              "t:home.contact.hoursDetailed.3"
+            ]
+          },
+          "form": {
+            "namePlaceholder": "t:form.namePlaceholder",
+            "emailPlaceholder": "t:form.emailPlaceholder",
+            "messagePlaceholder": "t:form.messagePlaceholder",
+            "submitButton": "t:common.callAndBook",
+            "nameLabel": "t:form.nameLabel",
+            "emailLabel": "t:form.emailLabel",
+            "messageLabel": "t:form.messageLabel"
+          }
+        }
+      ]
+    }
+  },
+  "sharedSections": {}
+}

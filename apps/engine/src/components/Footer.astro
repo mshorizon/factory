@@ -27,6 +27,8 @@ interface FooterBackground {
   borderRadius?: string;
   /** Optional vertical gradient — e.g. "primary-to-primary-dark". Falls back to bg-secondary when absent. */
   gradient?: "primary-to-primary-dark" | string;
+  /** Optional custom CSS color override for the footer wrapper — e.g. "#26201c". */
+  color?: string;
 }
 
 interface ContactData {
@@ -34,6 +36,12 @@ interface ContactData {
   email?: string;
   address?: string;
   additionalInfo?: string[];
+}
+
+interface HoursRow {
+  label: string;
+  value: string;
+  highlight?: boolean;
 }
 
 interface Props {
@@ -46,11 +54,23 @@ interface Props {
   copyright?: string;
   tagline?: string;
   currentLanguage?: string;
-  variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns";
+  variant?: "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns" | "restaurant";
   socialLinks?: SocialLink[];
   extensions?: FooterExtension[];
   background?: FooterBackground;
   contact?: ContactData;
+  /** Restaurant variant extras */
+  flag?: string[];
+  findUsTitle?: string;
+  hoursTitle?: string;
+  hours?: HoursRow[];
+  signature?: string;
+  /** darkColumns: column title style — 'label' (default, tiny uppercase) or 'serif' (large font-heading headings) */
+  columnHeadingVariant?: "label" | "serif";
+  /** darkColumns: 'embed' (default, live Google Maps iframe) or 'placeholder' (flat neutral panel) */
+  mapStyle?: "embed" | "placeholder";
+  /** darkColumns: optional uppercase label rendered above the IBAN account number (e.g. "NUMER KONTA") */
+  accountLabel?: string;
 }
 
 const {
@@ -68,6 +88,14 @@ const {
   extensions = [],
   background,
   contact,
+  flag = [],
+  findUsTitle,
+  hoursTitle,
+  hours = [],
+  signature,
+  columnHeadingVariant = "label",
+  mapStyle = "embed",
+  accountLabel,
 } = Astro.props;
 
 const displayName = footerName || businessName;
@@ -79,11 +107,21 @@ const contactIcons: Record<string, string> = {
   phone: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>',
   mail: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>',
   mapPin: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>',
+  clock: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>',
+};
+
+// Larger, outlined (stroke-based) contact icons for the restaurant footer variant
+const restaurantContactIcons: Record<string, string> = {
+  phone: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+  mapPin: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+  mail: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
 };
 
 function getContactIcon(href: string): string | null {
   if (href.startsWith('tel:')) return contactIcons.phone;
   if (href.startsWith('mailto:')) return contactIcons.mail;
+  if (href.startsWith('geo:')) return contactIcons.mapPin;
+  if (href.startsWith('#hours')) return contactIcons.clock;
   if (href.includes('maps') || href.includes('google.com/maps')) return contactIcons.mapPin;
   return null;
 }
@@ -117,8 +155,10 @@ if (contact?.address) {
   });
 }
 const contactColumnTitle = translations["footer.columns.contact.title"] || "Contact";
+// Drop any JSON-defined contact column with the same title before appending
+// the auto-built one, so contact info isn't rendered in two columns.
 const effectiveColumns: FooterColumn[] = autoContactLinks.length > 0
-  ? [...columns, { title: contactColumnTitle, links: autoContactLinks }]
+  ? [...columns.filter((c) => c.title !== contactColumnTitle), { title: contactColumnTitle, links: autoContactLinks }]
   : columns;
 
 const languages = [
@@ -127,6 +167,13 @@ const languages = [
   { code: "de", label: "Deutsch" },
   { code: "uk", label: "Українська" },
 ];
+
+// The darkColumns restyle (no brand column, uppercase label headings, icon links,
+// trimmed bottom bar) was designed for template-sacrum, which opts in via these props.
+// Without them darkColumns must keep its original rendering (brand column, plain links,
+// language switcher) — template-law depends on it, and prod/dev share one DB so the
+// fork has to live in code, not in per-template config.
+const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle || !!accountLabel;
 ---
 
 {callExtension && (
@@ -393,7 +440,7 @@ const languages = [
   </footer>
 )}
 
-{variant === "darkColumns" && (
+{variant === "darkColumns" && !darkColumnsDetailed && (
   <footer class="shrink-0 pt-spacing-section px-4 pb-4">
     <div
       style="background: linear-gradient(to top, var(--primary-dark) 0%, var(--primary) 100%); border-radius: 16px; overflow: hidden;"
@@ -463,6 +510,110 @@ const languages = [
             <button data-cookie-settings class="text-xs text-on-primary/65 hover:text-on-primary transition-colors">{cookieSettingsLabel}</button>
             <span class="text-xs text-on-primary/65">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary font-medium hover:opacity-80 transition-opacity">Hazelgrouse Studio</a></span>
           </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+)}
+
+{variant === "darkColumns" && darkColumnsDetailed && (
+  <footer class:list={["shrink-0", !background?.color && "pt-spacing-section px-4 pb-4"]}>
+    <div
+      class="bg-secondary text-on-primary"
+      style={[
+        background?.color
+          ? `background-color: ${background.color};`
+          : 'background: linear-gradient(to top, var(--primary-dark) 0%, var(--primary) 100%);',
+        !background?.color ? 'border-radius: 16px; overflow: hidden;' : '',
+      ].filter(Boolean).join(' ')}
+    >
+      <div class="container mx-auto py-spacing-2xl">
+        {/* Columns grid — no brand column */}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-spacing-2xl lg:gap-spacing-3xl">
+          {effectiveColumns.map((column, colIndex) => (
+            <div>
+              <h3 class:list={["text-on-primary mb-spacing-md", (columnHeadingVariant === "serif" || !!findUsTitle) ? "font-heading text-2xl tracking-tight" : "text-xs font-medium uppercase tracking-widest"]}>{column.title}</h3>
+              <ul class="space-y-spacing-sm">
+                {column.links.map((link, linkIndex) => {
+                  const isIBAN = /^[A-Z]{2}\s?\d{2}[\s\d]{15,}/.test(link.label);
+                  const prevLink = column.links[linkIndex - 1];
+                  const prevIsIBAN = prevLink ? /^[A-Z]{2}\s?\d{2}[\s\d]{15,}/.test(prevLink.label) : false;
+                  if (prevIsIBAN) return null;
+
+                  if (isIBAN) {
+                    const nextLink = column.links[linkIndex + 1];
+                    return (
+                      <div class="mt-spacing-md border border-on-primary/20 rounded p-spacing-md">
+                        {accountLabel && <p class="text-[11px] uppercase tracking-widest text-on-primary/50 mb-spacing-xs">{accountLabel}</p>}
+                        <span class:list={[accountLabel ? "font-heading italic text-base text-primary" : "font-mono text-sm text-primary"]}>{link.label}</span>
+                        {nextLink && <p class="text-on-primary/60 text-xs mt-spacing-xs">{nextLink.label}</p>}
+                      </div>
+                    );
+                  }
+
+                  const isGoogleMaps = (link.href || '').includes('maps.google') || (link.href || '').includes('google.com/maps');
+                  const icon = getContactIcon(link.href || '');
+
+                  if (isGoogleMaps) {
+                    const rawHref = link.href || '';
+                    const embedSrc = rawHref.includes('output=embed')
+                      ? rawHref
+                      : rawHref.replace('https://maps.google.com/?', 'https://maps.google.com/maps?') + '&output=embed';
+                    return (
+                      <li>
+                        {mapStyle === "placeholder"
+                          ? <div class="w-full mb-spacing-sm rounded bg-on-primary/10" style="height:200px;" aria-hidden="true" />
+                          : <iframe src={embedSrc} class="w-full mb-spacing-sm rounded" style="height:150px; border:0;" loading="lazy" />}
+                        <a href={rawHref} class="flex items-start gap-spacing-sm text-on-primary/75 hover:text-on-primary text-sm transition-colors">
+                          <span class="shrink-0 mt-0.5 text-primary" set:html={icon} />
+                          {link.label}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5 ml-0.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                        </a>
+                      </li>
+                    );
+                  }
+
+                  return (
+                    <li>
+                      {icon ? (
+                        <a href={link.href} class="flex items-start gap-spacing-sm text-on-primary/75 hover:text-on-primary text-sm transition-colors">
+                          <span class="shrink-0 mt-0.5 text-primary" set:html={icon} />
+                          {link.label.includes("\n") ? link.label.split("\n").map((line) => <span class="block">{line}</span>) : link.label}
+                        </a>
+                      ) : (
+                        <a href={link.href} class="text-on-primary/75 hover:text-on-primary text-sm transition-colors">
+                          {link.label.includes("\n") ? link.label.split("\n").map((line) => <span class="block">{line}</span>) : link.label}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+              {colIndex === effectiveColumns.length - 1 && socialLinks.length > 0 && (
+                <>
+                  {findUsTitle && <p class="text-xs uppercase tracking-widest text-on-primary/50 mt-spacing-lg mb-spacing-sm">{findUsTitle}</p>}
+                  <div class="flex items-center gap-spacing-sm">
+                    {socialLinks.map((social) => (
+                      <a
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.platform}
+                        class="inline-flex items-center justify-center w-9 h-9 border border-on-primary/30 rounded-full text-on-primary/75 hover:text-on-primary hover:border-on-primary transition-colors"
+                        set:html={socialIcons[social.platform] || ''}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Bar */}
+        <div class="mt-spacing-2xl pt-spacing-lg border-t border-on-primary/10 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+          <p class="text-sm text-on-primary/65">{copyrightText}</p>
+          {tagline && <span class="text-sm text-on-primary/50 italic">{tagline}</span>}
         </div>
       </div>
     </div>
@@ -558,6 +709,125 @@ const languages = [
           )}
           <button data-cookie-settings class="text-xs text-on-primary/60 hover:text-on-primary/90 transition-colors">{cookieSettingsLabel}</button>
           <span class="text-xs text-on-primary/60">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary font-medium hover:opacity-80 transition-opacity">Hazelgrouse Studio</a></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+)}
+
+{variant === "restaurant" && (
+  <footer
+    class:list={["border-t border-border/40 shrink-0", !background?.color && "bg-background"]}
+    style={background?.color ? `background-color: ${background.color};` : undefined}
+  >
+    <div class="container mx-auto py-spacing-3xl">
+      <div class="grid grid-cols-1 gap-spacing-2xl lg:grid-cols-3 lg:gap-spacing-3xl">
+
+        {/* Brand Column */}
+        <div>
+          <span class="block font-heading uppercase tracking-[0.15em] text-2xl text-foreground">{displayName}</span>
+          {flag.length > 0 && (
+            <div class="flex items-center gap-0 mt-spacing-md mb-spacing-lg">
+              {flag.map((color) => (
+                <span class="h-[3px] w-10" style={`background-color: ${color}`}></span>
+              ))}
+            </div>
+          )}
+          {tagline && (
+            <div class="text-muted text-sm leading-relaxed max-w-xs">
+              {tagline.split("\n").map((line) => (<p>{line}</p>))}
+            </div>
+          )}
+        </div>
+
+        {/* Find Us Column */}
+        <div>
+          {findUsTitle && <h3 class="text-xs uppercase tracking-[0.2em] text-muted mb-spacing-lg">{findUsTitle}</h3>}
+          <ul class="space-y-spacing-lg">
+            {contact?.address && (
+              <li>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-start gap-spacing-sm text-sm text-foreground/90 hover:text-foreground transition-colors"
+                >
+                  <span class="shrink-0 mt-0.5" style="color: var(--primary)" set:html={restaurantContactIcons.mapPin} />
+                  <span>
+                    {contact.address.split(",").map((line) => (<span class="block">{line.trim()}</span>))}
+                  </span>
+                </a>
+              </li>
+            )}
+            {contact?.phone && (
+              <li>
+                <a
+                  href={`tel:${contact.phone.replace(/\s/g, '')}`}
+                  class="flex items-center gap-spacing-sm text-sm text-foreground/90 hover:text-foreground transition-colors"
+                >
+                  <span class="shrink-0" style="color: var(--primary)" set:html={restaurantContactIcons.phone} />
+                  {contact.phone}
+                </a>
+              </li>
+            )}
+            {contact?.email && (
+              <li>
+                <a
+                  href={`mailto:${contact.email}`}
+                  class="flex items-center gap-spacing-sm text-sm text-foreground/90 hover:text-foreground transition-colors"
+                >
+                  <span class="shrink-0" style="color: var(--primary)" set:html={restaurantContactIcons.mail} />
+                  {contact.email}
+                </a>
+              </li>
+            )}
+          </ul>
+        </div>
+
+        {/* Opening Hours Column */}
+        <div>
+          {hoursTitle && <h3 class="text-xs uppercase tracking-[0.2em] text-muted mb-spacing-lg">{hoursTitle}</h3>}
+          {hours.length > 0 && (
+            <ul class="space-y-spacing-sm">
+              {hours.map((row) => (
+                <li class="flex items-baseline justify-between gap-spacing-lg text-sm">
+                  <span class="text-foreground/90">{row.label}</span>
+                  <span class:list={["tabular-nums", row.highlight ? "" : "text-muted"]} style={row.highlight ? "color: var(--primary)" : undefined}>{row.value}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {socialLinks.length > 0 && (
+            <div class="flex items-center gap-spacing-lg mt-spacing-xl">
+              {socialLinks.map((social) => (
+                <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.platform} class="text-muted hover:text-primary transition-colors">
+                  <Fragment set:html={socialIcons[social.platform] || ''} />
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
+      </div>
+
+      {/* Bottom Bar */}
+      <div class="mt-spacing-3xl pt-spacing-lg border-t border-border/40 flex flex-col items-center gap-3 md:flex-row md:justify-between">
+        <p class="text-sm text-muted text-center md:text-left">{copyrightText}</p>
+        <div class="flex flex-col items-center gap-3 sm:flex-row sm:gap-x-6">
+          {currentLanguage && (
+            <div class="lang-switcher flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-muted"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              {languages.map((lang, i) => (
+                <>
+                  {i > 0 && <span class="text-[10px] select-none text-muted/40">/</span>}
+                  <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-foreground font-medium" : "text-muted hover:text-foreground"]}>{lang.label}</button>
+                </>
+              ))}
+            </div>
+          )}
+          {signature && <p class="text-sm italic text-muted text-center md:text-right">{signature}</p>}
+          <button data-cookie-settings class="text-xs text-muted hover:text-foreground transition-colors">{cookieSettingsLabel}</button>
+          <span class="text-xs text-muted">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-foreground font-medium hover:opacity-80 transition-opacity">Hazelgrouse Studio</a></span>
         </div>
       </div>
     </div>

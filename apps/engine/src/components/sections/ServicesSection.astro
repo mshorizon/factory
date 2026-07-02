@@ -1,6 +1,6 @@
 ---
 import type { Section, BusinessProfile } from "@mshorizon/schema";
-import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating, SectionHeader, Button } from "@mshorizon/ui";
+import { ServicesGrid, ServicesList, ServicesImageGrid, ServicesDarkCards, ServicesFeatured, ServicesAlternating, ServicesFramedGrid, SectionHeader, Button } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -22,28 +22,40 @@ const items = (section.items && section.items.length > 0)
 const header = getSectionHeader(section);
 const headerLayout = header.layout || (variant === "darkCards" || variant === "imageGrid" ? "split" : undefined);
 const minimal = headerLayout === "most-minimalistic" || !!(section as any).minimal;
-const headerAlign = (minimal || variant === "darkCards" || variant === "imageGrid") ? "left" : "center";
+const headerAlign = (header as any).align
+  || ((minimal || variant === "darkCards" || variant === "imageGrid") ? "left" : "center");
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.href || resolveTarget(section.cta?.target);
 const detailsLabel = section.detailsLabel;
 const showIcons = !!(section as any).showIcons;
+const centered = !!(section as any).centered;
+const requirementsLabel = (section as any).requirementsLabel as string | undefined;
+const serviceCategories = (section as any).serviceCategories as { id: string; label: string }[] | undefined;
+const categoryGroups = (section as any).categoryGroups as { id: string; label: string; categories: string[]; showSubTabs?: boolean }[] | undefined;
+const defaultCategory = (section as any).defaultCategory as string | undefined;
+const categoryImages = (section as any).categoryImages as { id: string; image: string; imageDescription?: Record<string, string> }[] | undefined;
+const columns = (section as any).columns as number | undefined;
+const footnote = (section as any).footnote as string | undefined;
+const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
+const maxWidth = (section as any).maxWidth as string | undefined;
 ---
 
 <section>
-  <div class="container mx-auto">
+  <div class="container mx-auto services-section" style={maxWidth ? `max-width: ${maxWidth};` : undefined}>
     <SectionHeader
       badge={header.badge}
       title={minimal ? undefined : header.title}
       subtitle={header.subtitle}
+      flag={(header as any).flag}
       layout={headerLayout as any}
       align={headerAlign as any}
       background={section.background}
-      badgeVariant={badgeVariant as any}
+      badgeVariant={sectionBadgeVariant as any}
       className={variant === "alternating" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
       revealDelay={0}
     />
     {variant === "list" ? (
-      <ServicesList client:visible items={items} />
+      <ServicesList client:visible items={items} categories={serviceCategories} categoryGroups={categoryGroups} defaultCategory={defaultCategory} columns={columns} categoryImages={categoryImages} />
     ) : variant === "imageGrid" ? (
       <ServicesImageGrid client:visible items={items} />
     ) : variant === "darkCards" ? (
@@ -52,18 +64,25 @@ const showIcons = !!(section as any).showIcons;
       <ServicesFeatured client:visible items={items} />
     ) : variant === "alternating" ? (
       <ServicesAlternating client:visible items={items} />
+    ) : variant === "framedGrid" ? (
+      <ServicesFramedGrid client:visible items={items} requirementsLabel={requirementsLabel} />
     ) : (
-      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} />
+      <ServicesGrid client:visible items={items} minimal={minimal} detailsLabel={detailsLabel} title={minimal ? header.title : undefined} showIcons={showIcons} centered={centered} requirementsLabel={requirementsLabel} />
+    )}
+    {footnote && (
+      <p data-reveal data-reveal-delay="0" class={`services-footnote mt-spacing-3xl italic text-muted ${headerAlign === "left" ? "text-left" : "text-center"}`} data-field="footnote">
+        {footnote}
+      </p>
     )}
     {ctaLabel && (
-      <div class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>
+      <div data-reveal data-reveal-delay="100" class={`mt-spacing-2xl ${headerAlign === "left" ? "text-left" : "text-center"}`}>
         <a
           href={ctaHref}
           class={`inline-flex items-center justify-center gap-spacing-xs bg-primary text-on-primary px-spacing-2xl py-3 text-base font-medium shadow hover:bg-primary/90 transition-all ${minimal ? "rounded-full" : "rounded-radius"}`}
           data-field="cta"
         >
           {ctaLabel}
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="services-cta-icon h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
     )}

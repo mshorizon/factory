@@ -145,8 +145,10 @@ const socialLinks = business.business.socials
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={service.image || undefined} siteName={business.business.name} jsonLd={jsonLd}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoSubtext={layout.navbar.logoSubtext}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     logoIconLucide={business.business.assets?.iconLucide}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered" | "transparent"}
@@ -161,7 +163,7 @@ const socialLinks = business.business.socials
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1 pt-14 lg:pt-16" data-nav-offset>
+  <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     {(!layout.hideBreadcrumbs || service.content) && (
       <section class="relative bg-background py-spacing-section-sm">
         {!layout.hideBreadcrumbs && <Breadcrumbs items={breadcrumbs} />}
@@ -189,6 +191,11 @@ const socialLinks = business.business.socials
     columns={footerColumns}
     copyright={layout.footer.copyright}
     tagline={layout.footer.tagline}
+    flag={layout.footer.flag}
+    findUsTitle={layout.footer.findUsTitle}
+    hoursTitle={layout.footer.hoursTitle}
+    hours={layout.footer.hours}
+    signature={layout.footer.signature}
     currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns"}
     socialLinks={socialLinks}

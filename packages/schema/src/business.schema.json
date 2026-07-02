@@ -45,6 +45,16 @@
         }
       }
     },
+    "footerHoursRow": {
+      "type": "object",
+      "title": "FooterHoursRow",
+      "properties": {
+        "label": { "type": "string", "title": "Day Label" },
+        "value": { "type": "string", "title": "Hours Value" },
+        "highlight": { "type": "boolean", "title": "Highlight Row", "description": "Render the value in the primary accent color", "default": false }
+      },
+      "required": ["label", "value"]
+    },
     "sectionHeader": {
       "type": "object",
       "title": "SectionHeader",
@@ -52,7 +62,9 @@
         "badge": { "type": "string", "title": "Badge Text" },
         "title": { "type": "string", "title": "Title" },
         "subtitle": { "type": "string", "title": "Subtitle" },
-        "layout": { "type": "string", "title": "Header Layout", "enum": ["stacked", "split", "most-minimalistic", "none"] }
+        "layout": { "type": "string", "title": "Header Layout", "enum": ["stacked", "split", "most-minimalistic", "none"] },
+        "align": { "type": "string", "title": "Header Alignment", "enum": ["left", "center", "right"], "description": "Horizontal alignment of the section header (badge, title, subtitle). When omitted, the section variant decides." },
+        "flag": { "type": "boolean", "title": "Show Flag Bar", "description": "Render a small country flag accent bar (144x3px, using the theme navLogoFlag stripe colors) below the title." }
       }
     },
     "productCustomizationOption": {
@@ -168,6 +180,16 @@
           "title": "Section Background",
           "enum": ["light", "dark", "dark-padded", "light-padded", "primary", "gradient", "transparent"]
         },
+        "backgroundColor": {
+          "type": "string",
+          "title": "Section Background Color Override (custom CSS color, e.g. '#26201c')",
+          "description": "Overrides the section wrapper background color with a custom CSS color value. Takes precedence over the 'background' enum for the background fill."
+        },
+        "cardBackgroundColor": {
+          "type": "string",
+          "title": "Card Background Color Override (custom CSS color, e.g. '#26201c')",
+          "description": "Overrides the background color of the section's inner card/panel (e.g. the quote panel in the about 'quote-split' variant). Full CSS color value."
+        },
         "header": { "$ref": "#/definitions/sectionHeader" },
         "paddingTop": { "type": "string", "title": "Section Top Padding Override (e.g. '120px', '8rem')" },
         "paddingBottom": { "type": "string", "title": "Section Bottom Padding Override (e.g. '120px', '8rem')" },
@@ -175,17 +197,57 @@
         "image": { "type": "string", "title": "Image URL" },
         "hideDots": { "type": "boolean", "title": "Hide Decorative Dots" },
         "imagePosition": { "type": "string", "title": "Image Position", "enum": ["left", "right"] },
+        "contentAlign": { "type": "string", "title": "Overlay Content Alignment", "enum": ["left", "right"], "description": "Horizontal placement of the overlaid text in the about 'quote-split' image-overlay layout (when 'image' is set). 'right' (default) anchors the copy to the right side of the photo; 'left' to the left." },
+        "imageRounded": { "type": "boolean", "title": "Round Image Corners", "description": "When false, renders the section image with square (un-rounded) corners. Defaults to true (rounded)." },
         "badgeLayout": { "type": "string", "title": "Badge Layout Direction", "enum": ["row", "column"] },
         "badgeVariant": { "type": "string", "title": "Section-level Badge Variant Override", "enum": ["accent", "accent-no-line", "outlined", "text"] },
         "badgeColor": { "type": "string", "title": "Badge Text Color Override" },
         "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
+        "contentFontFamily": { "type": "string", "title": "Body Content Font Family Override", "description": "Overrides the font-family of the section's main body/story text (the 'big text' content). Full CSS font-family value, e.g. \"'DM Sans', sans-serif\"." },
+        "contentFontSize": { "type": "string", "title": "Body Content Font Size Override", "description": "Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'." },
+        "imageWidth": { "type": "string", "title": "Section Image Width Override", "description": "Overrides the about-section image width. Full CSS length value, e.g. '560px'. Defaults to 448px." },
+        "imageHeight": { "type": "string", "title": "Section Image Height Override", "description": "Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px." },
+        "imageBlend": { "type": "string", "title": "Image Blend Effect", "enum": ["feather", "soft"], "description": "Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look." },
+        "imageBorder": { "type": "boolean", "title": "Image Text-Color Border Mat", "description": "When true (about 'story' variant), wraps the image in an almost-transparent border tinted with the page text color, inset by a small padding mat so the background shows between the image and the border. Replaces the floating drop shadow." },
+        "imageDescription": {
+          "type": "object",
+          "title": "Image Caption Overlay",
+          "description": "Optional two-line caption overlaid on the bottom-left corner of the about-section image (about 'story' variant): a small name line plus an italic description line, left-aligned with 20px/24px padding.",
+          "properties": {
+            "name": { "type": "string", "title": "Name Line", "description": "First line — small name/title. Defaults to 12px DM Sans." },
+            "description": { "type": "string", "title": "Description Line", "description": "Second line — italic subtitle. Defaults to 18px Cormorant Garamond." },
+            "color": { "type": "string", "title": "Text Color", "description": "Overlay text color. Full CSS color value, e.g. '#f0ebdb'." },
+            "nameFontFamily": { "type": "string", "title": "Name Font Family", "description": "Overrides the name line font-family. Full CSS font-family value." },
+            "descriptionFontFamily": { "type": "string", "title": "Description Font Family", "description": "Overrides the description line font-family. Full CSS font-family value." }
+          }
+        },
         "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
+        "scrollColor": { "type": "string", "title": "Hero Scroll Indicator Color Override", "description": "Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
+        "textColor": { "type": "string", "title": "Hero Text Color Override", "description": "Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
+        "titleDividerColor": { "type": "string", "title": "Hero Title Divider Color", "description": "When set, renders a thin horizontal divider line directly under the hero title (default hero-fold variant), in this color. Custom CSS color value, e.g. '#f0ebdb'." },
+        "imageFrame": { "type": "boolean", "title": "Hero Image Frame", "description": "When false, removes the inset picture-frame line drawn around the hero background image (default hero-fold variant). Defaults to true (frame shown)." },
+        "overlayColor": { "type": "string", "title": "Hero Overlay Color Override", "description": "Overrides the dark overlay drawn over the hero background image across the whole image (default hero-fold variant). Higher opacity = darker image. Full CSS color value, e.g. 'rgba(20,17,15,0.6)' or 'color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)'. Defaults to a 40% dark overlay." },
         "mapPanelButtonColor": { "type": "string", "title": "Map Panel Button Color", "enum": ["primary", "primary-light"], "description": "Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'." },
         "headerLineColor": { "type": "string", "title": "Header Decorative Line Color", "enum": ["primary", "foreground"], "description": "Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'." },
         "statsInverted": { "type": "boolean", "title": "Invert stat colors (light bg, dark text)" },
         "cta": { "$ref": "#/definitions/cta" },
         "secondaryCta": { "$ref": "#/definitions/cta" },
+        "socialCta": {
+          "type": "object",
+          "title": "Social CTA (ghost button)",
+          "description": "A ghost-style link rendered below the gallery grid (e.g. 'FOLLOW US on instagram @handle'). The full text is shown uppercase; the 'highlight' substring within it is rendered in 'highlightColor'.",
+          "properties": {
+            "text": { "type": "string", "title": "Text" },
+            "highlight": { "type": "string", "title": "Highlight Substring", "description": "A substring of 'text' rendered in the highlight color (e.g. a social handle)." },
+            "highlightColor": { "type": "string", "title": "Highlight Color (custom CSS color, e.g. '#d94a26')" },
+            "href": { "type": "string", "title": "Link URL" }
+          },
+          "required": ["text"]
+        },
         "detailsLabel": { "type": "string", "title": "Details Button Label (e.g. 'See details', 'Learn more')" },
+        "columns": { "type": "integer", "title": "Services Column Count", "enum": [1, 2, 3], "description": "Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant." },
+        "footnote": { "type": "string", "title": "Section Footnote", "description": "Supplementary text rendered in italic below the section content (e.g. below the services list)." },
+        "maxWidth": { "type": "string", "title": "Section Max Width Override", "description": "Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths." },
         "testimonial": {
           "type": "object",
           "title": "Testimonial",
@@ -204,6 +266,36 @@
               "title": { "type": "string" },
               "quote": { "type": "string" },
               "image": { "type": "string", "title": "Avatar Image URL" }
+            }
+          }
+        },
+        "titleAccent": {
+          "type": "string",
+          "title": "Title Accent",
+          "description": "Decorative italic phrase rendered as a secondary line under the main title (used by hero/sacrum)."
+        },
+        "scheduleCards": {
+          "type": "array",
+          "title": "Schedule Cards",
+          "description": "Compact data cards (e.g. mass hours, confession hours) rendered inside the hero (used by hero/sacrum).",
+          "items": {
+            "type": "object",
+            "title": "ScheduleCard",
+            "properties": {
+              "title": { "type": "string", "title": "Card Title" },
+              "icon": { "type": "string", "title": "Lucide Icon Name" },
+              "rows": {
+                "type": "array",
+                "title": "Rows",
+                "items": {
+                  "type": "object",
+                  "title": "ScheduleRow",
+                  "properties": {
+                    "label": { "type": "string", "title": "Label" },
+                    "value": { "type": "string", "title": "Value" }
+                  }
+                }
+              }
             }
           }
         },
@@ -232,9 +324,80 @@
               "metricLabel": { "type": "string", "title": "Metric Label" },
               "dateStart": { "type": "string", "title": "Start Date" },
               "dateEnd": { "type": "string", "title": "End Date" },
+              "meta": { "type": "string", "title": "Meta Note", "description": "Short note shown top-right of an event card (e.g. 'Limited seats')." },
               "href": { "type": "string", "title": "Link URL" },
-              "linkLabel": { "type": "string", "title": "Link Label" }
+              "linkLabel": { "type": "string", "title": "Link Label" },
+              "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." }
             }
+          }
+        },
+        "serviceCategories": {
+          "type": "array",
+          "title": "Service Category Tabs",
+          "description": "Optional tabs shown between the section header and the services list. Selecting a tab shows only the items whose category matches the tab id.",
+          "items": {
+            "type": "object",
+            "title": "ServiceCategory",
+            "properties": {
+              "id": { "type": "string", "title": "Category ID" },
+              "label": { "type": "string", "title": "Tab Label" }
+            },
+            "required": ["id", "label"]
+          }
+        },
+        "categoryGroups": {
+          "type": "array",
+          "title": "Category Groups",
+          "description": "Optional groups that aggregate multiple serviceCategories into a single top-level tab. A group with showSubTabs:true renders a second tab row for its constituent categories; without it, items from all constituent categories are shown merged.",
+          "items": {
+            "type": "object",
+            "title": "CategoryGroup",
+            "properties": {
+              "id": { "type": "string", "title": "Group ID" },
+              "label": { "type": "string", "title": "Group Tab Label" },
+              "categories": {
+                "type": "array",
+                "title": "Constituent Category IDs",
+                "items": { "type": "string" }
+              },
+              "showSubTabs": {
+                "type": "boolean",
+                "title": "Show Sub-Tabs",
+                "description": "When true, selecting this group tab reveals a second row of sub-tabs for each constituent category."
+              }
+            },
+            "required": ["id", "label", "categories"]
+          }
+        },
+        "defaultCategory": {
+          "type": "string",
+          "title": "Default Category Tab",
+          "description": "Optional id of the serviceCategories tab (or categoryGroups group) selected by default when the page loads. When omitted, the first tab is selected."
+        },
+        "categoryImages": {
+          "type": "array",
+          "title": "Category Tab Images",
+          "description": "Optional per-tab images for the services 'list' variant. When present, the section renders a two-column split: tabs + single-column items on the left, and a bordered image with a bottom-left caption overlay on the right. Selecting a tab cross-reveals the matching image. Each entry's id matches a serviceCategories tab id or a categoryGroups group id.",
+          "items": {
+            "type": "object",
+            "title": "CategoryImage",
+            "properties": {
+              "id": { "type": "string", "title": "Tab/Group ID", "description": "Matches a serviceCategories tab id or a categoryGroups group id." },
+              "image": { "type": "string", "title": "Image URL" },
+              "imageDescription": {
+                "type": "object",
+                "title": "Image Caption Overlay",
+                "description": "Two-line caption overlaid on the bottom-left corner of the image: a small name line plus an italic description line.",
+                "properties": {
+                  "name": { "type": "string", "title": "Name Line" },
+                  "description": { "type": "string", "title": "Description Line" },
+                  "color": { "type": "string", "title": "Text Color", "description": "Full CSS color value, e.g. '#f0ebdb'." },
+                  "nameFontFamily": { "type": "string", "title": "Name Font Family" },
+                  "descriptionFontFamily": { "type": "string", "title": "Description Font Family" }
+                }
+              }
+            },
+            "required": ["id", "image"]
           }
         },
         "story": {
@@ -242,6 +405,15 @@
           "properties": {
             "title": { "type": "string" },
             "content": { "type": "string" }
+          }
+        },
+        "signature": {
+          "type": "object",
+          "title": "Signature Row",
+          "description": "Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.",
+          "properties": {
+            "text": { "type": "string", "title": "Signature Text", "description": "Rendered in uppercase." },
+            "flag": { "type": "string", "title": "Flag Image URL", "description": "Optional. When omitted, the theme navLogoFlag gradient is used." }
           }
         },
         "stats": {
@@ -260,6 +432,17 @@
           "properties": {
             "title": { "type": "string" },
             "content": { "type": "string" }
+          }
+        },
+        "quote": {
+          "type": "object",
+          "title": "Quote Panel",
+          "description": "Right-side quote panel for the about \"quote-split\" variant: a small flag accent, an italic quote, an author line, a divider, a note paragraph and (via the section cta) a call to action.",
+          "properties": {
+            "text": { "type": "string", "title": "Quote Text", "description": "Rendered as an italic blockquote with curly quotes." },
+            "author": { "type": "string", "title": "Author", "description": "Rendered in uppercase below the quote." },
+            "flag": { "type": "string", "title": "Flag Image URL", "description": "Optional. When omitted, the theme navLogoFlag gradient bar is used." },
+            "note": { "type": "string", "title": "Note Paragraph", "description": "Optional paragraph rendered below a divider." }
           }
         },
         "timeline": {
@@ -284,6 +467,7 @@
             "phone": { "type": "string" },
             "email": { "type": "string" },
             "hours": { "type": "string" },
+            "googlePlaceQuery": { "type": "string", "title": "Google Place Query", "description": "Business name/address query for the embedded contact map (e.g. 'Restauracja Nostrano, Garwolin'). When set, the map resolves to Google's native place listing showing reviews/opinions instead of a plain address pin." },
             "hoursDetailed": {
               "type": "array",
               "title": "Detailed Hours",
@@ -315,6 +499,11 @@
                 "highlight": { "type": "string" },
                 "description": { "type": "string" }
               }
+            },
+            "warning": {
+              "type": "string",
+              "title": "Contact Warning",
+              "description": "Temporary warning/alert shown prominently above the contact info (e.g. office closure on a given day). Plain text."
             }
           }
         },
@@ -890,11 +1079,56 @@
             "buttonStyle": { "type": "string", "title": "Button Style" }
           }
         },
+        "contentWidth": { "type": "string", "title": "Content Width", "description": "Max width of the centered content container (e.g. \"1200px\" or \"1488px\"). Defaults to 1200px when unset.", "default": "1200px" },
+        "servicesListDivider": { "type": "boolean", "title": "Services List Divider Style", "description": "For the services \"list\" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).", "default": false },
+        "servicesNotClickable": { "type": "boolean", "title": "Services Not Clickable", "description": "Make service list/grid items non-interactive (no link navigation, no hover affordance).", "default": false },
+        "servicesMaxWidth": { "type": "string", "title": "Services Section Max Width", "description": "Cap the services section content width (e.g. \"848px\"). Centered within the page container. Unset = full container width." },
+        "servicesMenuStyle": { "type": "boolean", "title": "Services Menu Style", "description": "For the services \"list\" variant: render as a restaurant-style menu — drop the price pill, right-align the price, and apply the servicesTitle/Desc/Price/Footnote font + size overrides.", "default": false },
+        "servicesTitleFontFamily": { "type": "string", "title": "Services Item Title Font Family", "description": "CSS font-family for service item titles when servicesMenuStyle is on, e.g. \"'Cormorant Garamond', serif\". The font is automatically loaded." },
+        "servicesTitleSize": { "type": "string", "title": "Services Item Title Font Size", "description": "Font size for service item titles when servicesMenuStyle is on, e.g. \"18px\"." },
+        "servicesDescFontFamily": { "type": "string", "title": "Services Item Description Font Family", "description": "CSS font-family for service item descriptions when servicesMenuStyle is on, e.g. \"'DM Sans', sans-serif\". The font is automatically loaded." },
+        "servicesDescSize": { "type": "string", "title": "Services Item Description Font Size", "description": "Font size for service item descriptions when servicesMenuStyle is on, e.g. \"14px\"." },
+        "servicesPriceFontFamily": { "type": "string", "title": "Services Item Price Font Family", "description": "CSS font-family for service item prices when servicesMenuStyle is on, e.g. \"'Cormorant Garamond', serif\". The font is automatically loaded." },
+        "servicesPriceSize": { "type": "string", "title": "Services Item Price Font Size", "description": "Font size for service item prices when servicesMenuStyle is on, e.g. \"16px\"." },
+        "servicesFootnoteFontFamily": { "type": "string", "title": "Services Footnote Font Family", "description": "CSS font-family for the services section footnote when servicesMenuStyle is on, e.g. \"'DM Sans', sans-serif\". The font is automatically loaded." },
+        "servicesFootnoteSize": { "type": "string", "title": "Services Footnote Font Size", "description": "Font size for the services section footnote when servicesMenuStyle is on, e.g. \"14px\"." },
+        "servicesCtaHideIcon": { "type": "boolean", "title": "Services CTA Hide Icon", "description": "Hide the arrow icon inside the services section CTA button.", "default": false },
         "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
         "maxFontWeight": { "type": "string", "title": "Max Font Weight", "description": "Caps the maximum font-weight used anywhere on the site (e.g. \"400\" forces all text to weight 400 or lower).", "default": "900" },
+        "paragraphMaxWeight": { "type": "string", "title": "Paragraph Max Font Weight", "description": "Optional cap applied specifically to body paragraphs. When set, every <p> (and any weight-utility inside it) is clamped to this weight (e.g. \"300\") so paragraph copy never renders heavier than the design intends. Capped by maxFontWeight. Absent → no paragraph-specific cap." },
         "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
         "navLogoSize": { "type": "string", "title": "Navbar Logo Font Size", "default": "24px" },
         "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
+        "navLogoUppercase": { "type": "boolean", "title": "Navbar Logo Uppercase", "description": "Render the navbar logo text in uppercase.", "default": false },
+        "navLogoFont": { "type": "string", "title": "Navbar Logo Font", "description": "Which theme font the navbar logo text uses: \"body\" (typography.primary) or \"heading\" (typography.secondary).", "enum": ["body", "heading"], "default": "body" },
+        "navLogoFontFamily": { "type": "string", "title": "Navbar Logo Font Family", "description": "Explicit CSS font-family for the navbar logo text, e.g. \"'Cormorant Garamond', serif\". Overrides navLogoFont. The font is automatically loaded." },
+        "navLogoColor": { "type": "string", "title": "Navbar Logo Color", "description": "Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
+        "navLinkColor": { "type": "string", "title": "Navbar Link Color", "description": "Fixed color for the navbar links (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
+        "navLinksUppercase": { "type": "boolean", "title": "Navbar Links Uppercase", "description": "Render the navbar links (desktop + mobile) in uppercase.", "default": false },
+        "navLogoLetterSpacing": { "type": "string", "title": "Navbar Logo Letter Spacing", "description": "Letter spacing for the navbar logo text, e.g. \"0.05em\". Overrides the default normal spacing." },
+        "navCtaHideIcon": { "type": "boolean", "title": "Navbar CTA Hide Icon", "description": "Hide the icon (arrow/clock) inside the navbar CTA button.", "default": false },
+        "navCtaUppercase": { "type": "boolean", "title": "Navbar CTA Uppercase", "description": "Render the navbar CTA button text (desktop + mobile) in uppercase.", "default": false },
+        "heroCtaHideIcon": { "type": "boolean", "title": "Hero CTA Hide Icon", "description": "Hide the arrow icon inside the hero section CTA button.", "default": false },
+        "heroTextThemeColors": { "type": "boolean", "title": "Hero Text Uses Theme Colors", "description": "Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.", "default": false },
+        "heroBottomFade": { "type": "boolean", "title": "Hero Bottom Fade", "description": "Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.", "default": false },
+        "heroTitleSize": { "type": "string", "title": "Hero Title Font Size", "description": "Font size for the hero title. Any CSS length, e.g. \"96px\" or a responsive \"clamp(3.5rem, 7vw, 6rem)\". Overrides the default responsive sizing." },
+        "heroTitleFontFamily": { "type": "string", "title": "Hero Title Font Family", "description": "Explicit CSS font-family for the hero title text, e.g. \"'Cormorant Garamond', serif\". Overrides the default heading font. The font is automatically loaded." },
+        "heroSubtitleSize": { "type": "string", "title": "Hero Subtitle Font Size", "description": "Font size for the hero subtitle/description, e.g. \"24px\". Overrides the default responsive sizing." },
+        "heroBadgeLetterSpacing": { "type": "string", "title": "Hero Badge Letter Spacing", "description": "Letter spacing for the hero badge/eyebrow text, e.g. \"0.4em\". Overrides the default 0.05em." },
+        "heroSubtitleLetterSpacing": { "type": "string", "title": "Hero Subtitle Letter Spacing", "description": "Letter spacing for the hero subtitle/description text, e.g. \"0.15em\". Overrides the default 0.05em." },
+        "heroTitleLetterSpacing": { "type": "string", "title": "Hero Title Letter Spacing", "description": "Letter spacing for the hero title text, e.g. \"0.01em\" or \"-0.02em\". Overrides the default 0.04em." },
+        "navLinkLetterSpacing": { "type": "string", "title": "Navbar Link Letter Spacing", "description": "Letter spacing for the navbar links (desktop + mobile), e.g. \"0.1em\". Overrides the default normal spacing." },
+        "buttonLetterSpacing": { "type": "string", "title": "Button Letter Spacing", "description": "Letter spacing applied to CTA buttons (primary/default variant), ghost buttons, and the navbar CTA, e.g. \"0.1em\". Overrides the default normal spacing." },
+        "badgeWeight": { "type": "string", "title": "Badge Font Weight", "description": "Font weight applied to all badges/eyebrows site-wide, e.g. \"500\". Overrides the per-component default weight." },
+        "badgeLetterSpacing": { "type": "string", "title": "Badge Letter Spacing", "description": "Letter spacing applied to all badges/eyebrows site-wide, e.g. \"0.1em\". Overrides the per-component default spacing." },
+        "navLogoFlag": {
+          "type": "array",
+          "title": "Navbar Logo Flag Stripes",
+          "description": "Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: [\"#008C45\", \"#F4F5F0\", \"#CD212A\"]).",
+          "items": { "type": "string" }
+        },
+        "navHeightTop": { "type": "string", "title": "Navbar Height At Top", "description": "Navbar height when scrolled to the very top (e.g. \"86px\"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant \"transparent\"." },
+        "navHeightScrolled": { "type": "string", "title": "Navbar Height When Scrolled", "description": "Navbar height once the solid background appears on scroll (e.g. \"70px\")." },
         "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
         "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
         "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "accent-no-line", "outlined", "text"], "default": "accent" },
@@ -920,6 +1154,17 @@
               "title": "Logo Text Override",
               "description": "Override the business name displayed in the navbar"
             },
+            "logoSubtext": {
+              "type": "string",
+              "title": "Logo Subtext",
+              "description": "Optional second line shown below the logo text (stacked column layout)"
+            },
+            "hideLogoIcon": {
+              "type": "boolean",
+              "title": "Hide Logo Icon",
+              "description": "Hide the icon next to the logo text in the navbar",
+              "default": false
+            },
             "hideBorderOnTop": {
               "type": "boolean",
               "title": "Hide Border When At Top",
@@ -930,6 +1175,12 @@
               "type": "boolean",
               "title": "Hide CTA Button",
               "description": "Hide the call-to-action button in the navbar",
+              "default": false
+            },
+            "hideBlog": {
+              "type": "boolean",
+              "title": "Hide Blog Link",
+              "description": "Hide the auto-injected Blog link in the navbar",
               "default": false
             },
             "showSocials": {
@@ -962,7 +1213,8 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["upper-bar"], "title": "Extension Type" }
+                  "type": { "type": "string", "enum": ["upper-bar"], "title": "Extension Type" },
+                  "notice": { "type": "string", "title": "Upper Bar Notice", "description": "Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text." }
                 },
                 "required": ["type"]
               }
@@ -976,11 +1228,27 @@
             "variant": {
               "type": "string",
               "title": "Footer Variant",
-              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient", "darkColumns"],
+              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient", "darkColumns", "restaurant"],
               "default": "simple"
             },
             "copyright": { "type": "string", "title": "Copyright Text" },
-            "tagline": { "type": "string", "title": "Tagline" },
+            "hidePagesColumn": { "type": "boolean", "title": "Hide Auto Pages Column", "description": "Suppress the auto-generated 'Strony'/Pages column (nav + footer links) that is otherwise prepended to the footer columns." },
+            "tagline": { "type": "string", "title": "Tagline", "description": "Footer tagline. Use \\n to split across multiple lines." },
+            "flag": {
+              "type": "array",
+              "title": "Brand Flag Colors",
+              "description": "Optional list of hex colors rendered as a segmented accent bar under the logo (e.g. an Italian flag).",
+              "items": { "type": "string" }
+            },
+            "findUsTitle": { "type": "string", "title": "Find-Us Column Title", "description": "Heading for the address/phone column (restaurant variant)." },
+            "hoursTitle": { "type": "string", "title": "Opening-Hours Column Title", "description": "Heading for the opening-hours column (restaurant variant)." },
+            "hours": {
+              "type": "array",
+              "title": "Opening Hours Rows",
+              "description": "Structured opening-hours rows (restaurant variant).",
+              "items": { "$ref": "#/definitions/footerHoursRow" }
+            },
+            "signature": { "type": "string", "title": "Footer Signature", "description": "Italic signature line shown on the right of the bottom bar (restaurant variant)." },
             "links": {
               "type": "array",
               "title": "Footer Links",
@@ -999,7 +1267,8 @@
                 "enabled": { "type": "boolean", "title": "Enable Background Container", "default": false },
                 "padding": { "type": "string", "title": "Container Padding", "default": "16px" },
                 "borderRadius": { "type": "string", "title": "Container Border Radius", "default": "12px" },
-                "gradient": { "type": "string", "title": "Background Gradient", "description": "Gradient preset e.g. primary-to-primary-dark" }
+                "gradient": { "type": "string", "title": "Background Gradient", "description": "Gradient preset e.g. primary-to-primary-dark" },
+                "color": { "type": "string", "title": "Footer Background Color Override (custom CSS color, e.g. '#26201c')", "description": "Overrides the footer wrapper background with a custom CSS color value. Takes precedence over the variant's default background fill." }
               }
             },
             "extensions": {

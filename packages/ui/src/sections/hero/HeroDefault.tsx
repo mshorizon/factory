@@ -46,6 +46,7 @@ export function HeroDefault({
       {backgroundImage && overlay && (
         <div className="absolute inset-0 bg-black/50" data-field="backgroundImage" />
       )}
+      {backgroundImage && <div className="hero-bottom-fade" />}
       <div
         className={cn(
           "relative container mx-auto flex flex-col justify-center",
@@ -62,7 +63,7 @@ export function HeroDefault({
         <ScrollReveal delay={0.1} direction="up">
           <h1
             className={cn(
-              "text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight",
+              "hero-title text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-spacing-md tracking-tight",
               backgroundImage ? "text-on-primary" : "text-foreground"
             )}
             data-field="header.title"
@@ -74,7 +75,7 @@ export function HeroDefault({
           <ScrollReveal delay={0.2} direction="up">
             <p
               className={cn(
-                "text-lg md:text-xl max-w-2xl mb-spacing-2xl",
+                "hero-subtitle text-lg md:text-xl max-w-2xl mb-spacing-2xl",
                 backgroundImage ? "text-on-primary/90" : "text-muted",
                 align === "center" && "mx-auto"
               )}
@@ -101,12 +102,12 @@ export function HeroDefault({
                   asChild
                   size="xl"
                   variant={cta.variant || "default"}
-                  className="shadow-lg shadow-primary/25"
+                  className="shadow-lg shadow-primary/25 transition-transform duration-300 ease-out hover:scale-105"
                   data-field="cta"
                 >
                   <a href={cta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero', label: cta.label })}>
                     {cta.label}
-                    <ArrowRight className="ml-1 h-5 w-5" />
+                    <ArrowRight className="hero-cta-icon ml-1 h-5 w-5" />
                   </a>
                 </Button>
               )}
@@ -115,7 +116,7 @@ export function HeroDefault({
                   asChild
                   size="xl"
                   variant={secondaryCta.variant || "outline"}
-                  className={backgroundImage ? "border-on-primary text-on-primary hover:bg-on-primary hover:text-foreground" : ""}
+                  className={backgroundImage ? "border-on-primary/70 text-on-primary hover:bg-on-primary/10 hover:border-on-primary hover:text-on-primary" : ""}
                   data-field="secondaryCta"
                 >
                   <a href={secondaryCta.href} onClick={() => (window as any).umami?.track('cta-click', { section: 'hero-secondary', label: secondaryCta.label })}>{secondaryCta.label}</a>

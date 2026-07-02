@@ -4,4 +4,5 @@ export { ServicesImageGrid } from "./ServicesImageGrid";
 export { ServicesDarkCards } from "./ServicesDarkCards";
 export { ServicesFeatured } from "./ServicesFeatured";
 export { ServicesAlternating } from "./ServicesAlternating";
+export { ServicesFramedGrid } from "./ServicesFramedGrid";
 export type { ServicesProps, ServiceItem } from "./types";

@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
-import { createLeads, getLeadDeduplicationKeys } from "@mshorizon/db";
-import type { NewLead } from "@mshorizon/db";
+import { createBusinessLeads, getBusinessDeduplicationKeys } from "@mshorizon/db";
+import type { NewSite } from "@mshorizon/db";
 
 const OVERPASS_INSTANCES = [
   "https://overpass.kumi.systems/api/interpreter",
@@ -73,7 +73,7 @@ interface OsmElement {
   center?: { lat: number; lon: number };
 }
 
-function parseElement(el: OsmElement, businessType: string, city: string): NewLead | null {
+function parseElement(el: OsmElement, businessType: string, city: string): Omit<NewSite, "config" | "translations"> | null {
   const tags = el.tags ?? {};
   const name = tags["name"];
   if (!name) return null;
@@ -88,20 +88,22 @@ function parseElement(el: OsmElement, businessType: string, city: string): NewLe
   if (addrCity) parts.push(addrCity);
 
   return {
-    name,
-    businessType,
+    businessName: name,
+    industry: businessType,
     city,
     address: parts.join(", "),
     phone: tags["phone"] ?? tags["contact:phone"] ?? "",
     email: tags["email"] ?? tags["contact:email"] ?? "",
     website: tags["website"] ?? tags["contact:website"] ?? tags["url"] ?? "",
     source: "osm",
-    status: "new",
+    status: "lead",
   };
 }
 
-function isDuplicate(lead: NewLead, existing: { name: string; city: string; phone: string; email: string }[]): boolean {
-  const nameCity = `${lead.name.toLowerCase().trim()}|${lead.city.toLowerCase().trim()}`;
+type DeduplicationEntry = { name: string; city: string; phone: string; email: string };
+
+function isDuplicate(lead: Omit<NewSite, "config" | "translations">, existing: DeduplicationEntry[]): boolean {
+  const nameCity = `${lead.businessName.toLowerCase().trim()}|${(lead.city ?? "").toLowerCase().trim()}`;
   for (const e of existing) {
     if (`${e.name.toLowerCase().trim()}|${e.city.toLowerCase().trim()}` === nameCity) return true;
     if (lead.phone && e.phone && lead.phone.trim() === e.phone.trim()) return true;
@@ -150,25 +152,24 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
   if (!osmData) return json({ error: `Overpass API error: ${lastError}` }, 502);
 
-  const existing = await getLeadDeduplicationKeys();
-  const newLeads: NewLead[] = [];
+  const existing = await getBusinessDeduplicationKeys();
+  const newBusinesses: Omit<NewSite, "config" | "translations">[] = [];
 
   for (const el of osmData.elements) {
-    if (newLeads.length >= count) break;
-    const lead = parseElement(el, businessType, city);
-    if (!lead) continue;
-    if (isDuplicate(lead, existing)) continue;
-    // Also deduplicate within this batch
-    if (isDuplicate(lead, newLeads.map(l => ({ name: l.name, city: l.city ?? "", phone: l.phone ?? "", email: l.email ?? "" })))) continue;
-    newLeads.push(lead);
+    if (newBusinesses.length >= count) break;
+    const biz = parseElement(el, businessType, city);
+    if (!biz) continue;
+    if (isDuplicate(biz, existing)) continue;
+    if (isDuplicate(biz, newBusinesses.map(b => ({ name: b.businessName, city: b.city ?? "", phone: b.phone ?? "", email: b.email ?? "" })))) continue;
+    newBusinesses.push(biz);
   }
 
-  if (newLeads.length === 0) {
-    return json({ saved: 0, leads: [], message: "No new leads found (all duplicates or empty results)" });
+  if (newBusinesses.length === 0) {
+    return json({ saved: 0, businesses: [], message: "No new businesses found (all duplicates or empty results)" });
   }
 
-  const saved = await createLeads(newLeads);
-  return json({ saved: saved.length, leads: saved });
+  const saved = await createBusinessLeads(newBusinesses);
+  return json({ saved: saved.length, businesses: saved });
 };
 
 export const GET: APIRoute = async () => {

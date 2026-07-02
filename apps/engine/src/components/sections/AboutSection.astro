@@ -1,8 +1,9 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { AboutStory, AboutTimeline, AboutCareer, SectionHeader } from "@mshorizon/ui";
+import { AboutStory, AboutTimeline, AboutCareer, AboutQuoteSplit, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
+import { t } from "../../lib/i18n";
 
 interface Props {
   isHomePage?: boolean;
@@ -16,6 +17,9 @@ const header = getSectionHeader(section);
 
 const ctaLabel = section.cta?.label;
 const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/contact";
+
+const { t: translations } = Astro.locals;
+const readMoreLabel = t(translations, "about.readMore", "Read more");
 ---
 
 <section class="overflow-hidden">
@@ -36,6 +40,22 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
           ctaHref={ctaHref}
         />
       </>
+    ) : variant === "quote-split" ? (
+      <AboutQuoteSplit
+        client:visible
+        badge={header.badge}
+        title={header.title}
+        story={section.story}
+        stats={section.stats}
+        quote={(section as any).quote}
+        cta={ctaLabel}
+        ctaHref={ctaHref}
+        background={section.background}
+        cardBackgroundColor={(section as any).cardBackgroundColor}
+        badgeVariant={(section as any).badgeVariant}
+        image={section.image}
+        contentAlign={(section as any).contentAlign}
+      />
     ) : variant === "career" ? (
       <AboutCareer
         client:visible
@@ -53,6 +73,7 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
         badge={header.badge}
         title={header.title}
         story={section.story}
+        signature={section.signature}
         stats={section.stats}
         commitment={section.commitment}
         image={section.image}
@@ -61,8 +82,22 @@ const ctaHref = section.cta?.target ? resolveTarget(section.cta.target) : "/cont
         experienceBadge={section.experienceBadge}
         experienceBadgeLabel={section.experienceBadgeLabel}
         background={section.background}
+        badgeVariant={(section as any).badgeVariant}
         imagePosition={(section as any).imagePosition}
         ctaVariant={(section as any).ctaVariant}
+        imageRounded={(section as any).imageRounded}
+        contentFontFamily={(section as any).contentFontFamily}
+        contentFontSize={(section as any).contentFontSize}
+        imageWidth={(section as any).imageWidth}
+        imageHeight={(section as any).imageHeight}
+        imageBlend={(section as any).imageBlend}
+        quote={(section as any).quote}
+        readMoreLabel={readMoreLabel}
+        ctaShape={(section as any).ctaShape}
+        imageFill={(section as any).imageFill}
+        imageFrame={(section as any).imageFrame}
+        imageBorder={(section as any).imageBorder}
+        imageDescription={(section as any).imageDescription}
       />
     )}
   </div>

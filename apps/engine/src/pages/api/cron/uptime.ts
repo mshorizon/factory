@@ -63,7 +63,7 @@ export const GET: APIRoute = async ({ url }) => {
   const releasedSites = await db
     .select()
     .from(sites)
-    .where(eq(sites.status, "released"));
+    .where(eq(sites.status, "active"));
 
   const siteResults: Record<string, { status: string; latencyMs: number }> = {};
   const baseUrl = import.meta.env.PROD

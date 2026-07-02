@@ -38,6 +38,8 @@ const pageTitle = `Zamówienie anulowane | ${business.business.name}`;
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoSubtext={layout.navbar.logoSubtext}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}
     cta={navCta}
     variant={layout.navbar.variant as "standard" | "centered"}
@@ -49,7 +51,7 @@ const pageTitle = `Zamówienie anulowane | ${business.business.name}`;
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
-  <main class="flex-1" data-nav-offset>
+  <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     <div class="flex flex-col items-center justify-center py-24 px-6 text-center">
       <div class="h-20 w-20 rounded-full bg-yellow-500/10 flex items-center justify-center mb-6">
         <svg class="h-10 w-10 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -89,6 +91,11 @@ const pageTitle = `Zamówienie anulowane | ${business.business.name}`;
     columns={footerColumns}
     copyright={layout.footer.copyright}
     tagline={layout.footer.tagline}
+    flag={layout.footer.flag}
+    findUsTitle={layout.footer.findUsTitle}
+    hoursTitle={layout.footer.hoursTitle}
+    hours={layout.footer.hours}
+    signature={layout.footer.signature}
     currentLanguage={currentLang}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns"}
     background={layout.footer.background}

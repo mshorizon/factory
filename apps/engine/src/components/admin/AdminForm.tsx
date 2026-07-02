@@ -20,10 +20,10 @@ import { BookingsTab } from "./BookingsTab";
 import { FilesTab } from "./FilesTab";
 import { UniversalList } from "./UniversalList";
 import TaskManager from "./TaskManager";
+import { AddTaskDialog } from "./AddTaskDialog";
 import { BusinessesPanel } from "./BusinessesPanel";
 import StrategyView from "./StrategyView";
 import ScriptsView from "./ScriptsView";
-import { LeadsTab } from "./LeadsTab";
 import { BusinessJsonTab } from "./BusinessJsonTab";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
@@ -109,7 +109,6 @@ import {
   Lightbulb,
   Terminal,
   X,
-  UserSearch,
   FileJson,
 } from "lucide-react";
 
@@ -356,7 +355,7 @@ function UsersPanel({ currentUserId }: { currentUserId?: number }) {
   ];
 
   return (
-    <div className="p-6 space-y-4 max-w-3xl">
+    <div className="space-y-4">
       <UniversalList<AdminUser>
         title="Users"
         subtitle={`${users.length} account${users.length !== 1 ? 's' : ''}`}
@@ -477,6 +476,7 @@ export default function AdminForm({
   const [themeSubTab, setThemeSubTab] = useState<"colors" | "typography">("colors");
   const [translationsSubTab, setTranslationsSubTab] = useState("en");
   const [translationMode, setTranslationMode] = useState<"keys" | "en" | "pl">("keys");
+  const [addTaskModalOpen, setAddTaskModalOpen] = useState(false);
 
   // Restore + persist active tab via sessionStorage (client-only, after mount)
   useEffect(() => {
@@ -495,6 +495,18 @@ export default function AdminForm({
     const others = names.filter((n) => n !== "home");
     return [...home, ...others];
   }, [pages]);
+
+  const taskBusinessPages = useMemo(() => {
+    const pagesObj = (formData.pages as Record<string, any>) ?? {};
+    const bp: BusinessPageMeta[] = Object.entries(pagesObj).map(([name, data]) => ({
+      name,
+      sections: (data?.sections ?? [])
+        .map((s: any) => s?.type)
+        .filter((t: any): t is string => Boolean(t) && t !== "ref"),
+    }));
+    if (!("blog" in pagesObj)) bp.push({ name: "blog", sections: [] });
+    return bp;
+  }, [formData.pages]);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
@@ -1663,10 +1675,6 @@ export default function AdminForm({
       return <BusinessesPanel />;
     }
 
-    if (activeTab === "leads") {
-      return <LeadsTab />;
-    }
-
     if (activeTab === "users") return <UsersPanel currentUserId={auth?.userId} />;
 
     if (activeTab === "scripts") return <ScriptsView />;
@@ -1779,7 +1787,6 @@ export default function AdminForm({
           { id: "strategy", label: "Suggestions", Icon: Lightbulb },
           { id: "tasks", label: "Tasks", Icon: ListTodo },
           { id: "businesses", label: "Businesses", Icon: Building2 },
-          { id: "leads", label: "Leads", Icon: UserSearch },
           { id: "overview", label: "Health Overview", Icon: LayoutDashboard },
           { id: "users", label: "Users", Icon: Users },
           { id: "scripts", label: "Scripts", Icon: Terminal },
@@ -1843,6 +1850,12 @@ export default function AdminForm({
 
   const faviconUrl = (formData.business as any)?.assets?.favicon;
 
+  const TABS_WITH_DATA_TABLE = new Set([
+    "businesses", "users", "blog", "projects", "orders", "bookings", "files",
+    "data-products", "data-services",
+  ]);
+  const tabHasDataTable = TABS_WITH_DATA_TABLE.has(activeTab);
+
   return (
     <TooltipProvider>
       <SidebarProvider defaultOpen={true}>
@@ -1897,17 +1910,41 @@ export default function AdminForm({
                         <ul className="mx-3.5 flex min-w-0 flex-col gap-0.5 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]:hidden">
                           {group.items.map((item) => (
                             <li key={item.id}>
-                              <button
-                                type="button"
-                                onClick={() => setActiveTab(item.id)}
-                                className={`flex w-full h-7 items-center rounded-md px-2 text-sm text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
-                                  activeTab === item.id
-                                    ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                                    : "text-sidebar-foreground/80"
-                                }`}
-                              >
-                                <span className="truncate">{item.label}</span>
-                              </button>
+                              {item.id === "tasks" ? (
+                                <div className="flex w-full h-7 items-center gap-0.5 group/tasks-item">
+                                  <button
+                                    type="button"
+                                    onClick={() => setActiveTab(item.id)}
+                                    className={`flex flex-1 h-full items-center rounded-md px-2 text-sm text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                                      activeTab === item.id
+                                        ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                                        : "text-sidebar-foreground/80"
+                                    }`}
+                                  >
+                                    <span className="truncate">{item.label}</span>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => setAddTaskModalOpen(true)}
+                                    className="h-5 w-5 flex items-center justify-center rounded opacity-0 group-hover/tasks-item:opacity-100 hover:bg-sidebar-accent text-muted-foreground hover:text-sidebar-accent-foreground transition-colors shrink-0"
+                                    title="Add task"
+                                  >
+                                    <Plus className="h-3 w-3" />
+                                  </button>
+                                </div>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => setActiveTab(item.id)}
+                                  className={`flex w-full h-7 items-center rounded-md px-2 text-sm text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${
+                                    activeTab === item.id
+                                      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                                      : "text-sidebar-foreground/80"
+                                  }`}
+                                >
+                                  <span className="truncate">{item.label}</span>
+                                </button>
+                              )}
                             </li>
                           ))}
                         </ul>
@@ -2133,13 +2170,7 @@ export default function AdminForm({
 
           {/* Content area */}
           <div className="flex-1 overflow-y-auto admin-form-area">
-            <div className="p-6 max-w-[960px] mx-auto space-y-6">
-              {activeGroup && (
-                <div>
-                  <h2 className="text-2xl font-semibold tracking-tight">{activeGroup.label}</h2>
-                  <p className="text-sm text-muted-foreground mt-1">{activeGroup.description}</p>
-                </div>
-              )}
+            <div className={`p-4 space-y-6${!tabHasDataTable ? ' max-w-[960px] mx-auto' : ''}`}>
               <div className="w-full min-w-0 space-y-6">
                 {getTabContent()}
               </div>
@@ -2147,6 +2178,15 @@ export default function AdminForm({
           </div>
         </SidebarInset>
       </SidebarProvider>
+      <AddTaskDialog
+        open={addTaskModalOpen}
+        onClose={() => setAddTaskModalOpen(false)}
+        currentDomain={businessId}
+        currentTemplate={currentTemplate}
+        isSuperAdmin={auth?.role === "super-admin"}
+        availableDomains={availableDomains ?? []}
+        businessPages={taskBusinessPages}
+      />
     </TooltipProvider>
   );
 }

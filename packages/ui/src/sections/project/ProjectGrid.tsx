@@ -1,16 +1,18 @@
 "use client";
 
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, ArrowRight, ArrowUpRight } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { Button } from "../../atoms/Button";
 import { Card } from "../../atoms/Card";
 import { SafeImage } from "../../atoms/SafeImage.js";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { ProjectGridProps } from "./types";
 
-export function ProjectGrid({ projects, className }: ProjectGridProps) {
+export function ProjectGrid({ projects, className, columns = 2, footerCta }: ProjectGridProps) {
   return (
+    <>
     <StaggerContainer
-      className={cn("grid md:grid-cols-2 gap-spacing-2xl", className)}
+      className={cn("grid gap-spacing-2xl", columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2", className)}
       staggerDelay={0.12}
     >
       {projects.map((project, index) => {
@@ -44,6 +46,14 @@ export function ProjectGrid({ projects, className }: ProjectGridProps) {
                   </span>
                 </div>
               )}
+              {project.category && (
+                <span
+                  className="self-start inline-flex items-center px-2.5 py-0.5 mb-spacing-xs text-[10px] font-semibold uppercase tracking-wider rounded-radius bg-primary/10 text-primary"
+                  data-field={`projects.${index}.category`}
+                >
+                  {project.category}
+                </span>
+              )}
               <h3
                 className="text-lg font-semibold font-heading text-foreground mb-spacing-xs"
                 data-field={`projects.${index}.title`}
@@ -56,11 +66,31 @@ export function ProjectGrid({ projects, className }: ProjectGridProps) {
               >
                 {project.description}
               </p>
+              {project.readMore && (
+                <a
+                  href={project.readMore.href}
+                  className="inline-flex items-center gap-1.5 mt-spacing-md text-sm font-semibold text-primary no-underline hover:underline"
+                >
+                  {project.readMore.label}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              )}
             </div>
           </Card>
         </StaggerItem>
         );
       })}
     </StaggerContainer>
+    {footerCta && (
+      <div className="flex justify-center mt-spacing-2xl">
+        <Button asChild variant="outline" className="uppercase tracking-wider">
+          <a href={footerCta.href}>
+            {footerCta.label}
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+        </Button>
+      </div>
+    )}
+    </>
   );
 }
