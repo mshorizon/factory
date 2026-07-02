@@ -162,3 +162,6 @@ screenshots/
 .mcp.json
 # SITC run artifacts (target captures, crops, renders, worktrees)
 .sitc/
+
+# bc-check run artifacts (screenshots are covered by the global screenshots/ rule)
+features/bc-check/reports/

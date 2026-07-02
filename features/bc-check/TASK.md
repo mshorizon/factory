@@ -1,3 +1,8 @@
+> **Status: DONE** (2026-07-02) — see FEATURE.md. Implemented as `pnpm bc-check`
+> (`scripts/bc-check.mts`) + `/bc-fix` skill (`.claude/skills/bc-fix/SKILL.md`).
+> ⚠️ One correction: the dev URL is `https://[template-name].dev.hazelgrouse.pl`
+> (dot), not `-dev.` as guessed below — details in CONTEXT.md.
+
 task description:
 
 add to package.json file script "bc-check" (backward compatibility-check). what this does is to for every template from templates folder:
