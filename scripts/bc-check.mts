@@ -213,6 +213,16 @@ async function captureSections(page: Page, outDir: string): Promise<SectionShot[
       shots.push({ ...meta, file: null });
     }
   }
+
+  // The footer is not a data-section either — capture it as pseudo-section "footer"
+  // (index 999 keeps it last so LCS alignment pairs it across envs).
+  const footerFile = join(outDir, "footer.png");
+  try {
+    await page.locator("footer").first().screenshot({ path: footerFile, animations: "disabled", timeout: 15_000 });
+    shots.push({ index: 999, type: "footer", id: "footer", file: footerFile });
+  } catch {
+    shots.push({ index: 999, type: "footer", id: "footer", file: null });
+  }
   return shots;
 }
 

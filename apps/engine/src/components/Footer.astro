@@ -167,6 +167,13 @@ const languages = [
   { code: "de", label: "Deutsch" },
   { code: "uk", label: "Українська" },
 ];
+
+// The darkColumns restyle (no brand column, uppercase label headings, icon links,
+// trimmed bottom bar) was designed for template-sacrum, which opts in via these props.
+// Without them darkColumns must keep its original rendering (brand column, plain links,
+// language switcher) — template-law depends on it, and prod/dev share one DB so the
+// fork has to live in code, not in per-template config.
+const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle || !!accountLabel;
 ---
 
 {callExtension && (
@@ -433,7 +440,83 @@ const languages = [
   </footer>
 )}
 
-{variant === "darkColumns" && (
+{variant === "darkColumns" && !darkColumnsDetailed && (
+  <footer class="shrink-0 pt-spacing-section px-4 pb-4">
+    <div
+      style="background: linear-gradient(to top, var(--primary-dark) 0%, var(--primary) 100%); border-radius: 16px; overflow: hidden;"
+    >
+      <div class="container mx-auto pt-spacing-section pb-spacing-2xl">
+        {/* Main grid */}
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-spacing-2xl lg:gap-spacing-3xl">
+          {/* Brand Column */}
+          <div class="md:col-span-1 lg:col-span-2">
+            <div class="flex items-center gap-spacing-sm mb-spacing-md">
+              {effectiveFooterIcon && <img src={effectiveFooterIcon} alt="" class="w-6 h-6 footer-logo-white" />}
+              <span class="text-lg font-medium tracking-tight text-on-primary font-heading">{displayName}</span>
+            </div>
+            {tagline && (
+              <p class="text-on-primary/75 text-sm leading-relaxed font-sans max-w-xs">{tagline}</p>
+            )}
+          </div>
+
+          {/* Navigation columns */}
+          {effectiveColumns.map((column, colIndex) => (
+            <div>
+              <h3 class="text-sm font-medium text-on-primary mb-spacing-md">{column.title}</h3>
+              <ul class="space-y-spacing-sm">
+                {column.links.map((link) => (
+                  <li>
+                    <a href={link.href} class="text-on-primary/75 hover:text-on-primary text-sm transition-colors">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              {/* Social icons in the last column */}
+              {colIndex === effectiveColumns.length - 1 && socialLinks.length > 0 && (
+                <div class="flex items-center gap-spacing-sm mt-spacing-lg">
+                  {socialLinks.map((social) => (
+                    <a
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.platform}
+                      class="text-on-primary/75 hover:text-on-primary transition-colors"
+                    >
+                      <Fragment set:html={socialIcons[social.platform] || ''} />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Bar */}
+        <div class="mt-spacing-2xl pt-spacing-lg border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
+          <p class="text-sm text-on-primary/65 text-center md:text-left">{copyrightText}</p>
+          <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            {currentLanguage && (
+              <div class="lang-switcher flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                {languages.map((lang, i) => (
+                  <>
+                    {i > 0 && <span class="text-[10px] select-none text-on-primary/40">/</span>}
+                    <button data-lang={lang.code} class:list={["lang-btn text-xs transition-colors", currentLanguage === lang.code ? "text-on-primary font-medium" : "text-on-primary/65 hover:text-on-primary"]}>{lang.label}</button>
+                  </>
+                ))}
+              </div>
+            )}
+            <button data-cookie-settings class="text-xs text-on-primary/65 hover:text-on-primary transition-colors">{cookieSettingsLabel}</button>
+            <span class="text-xs text-on-primary/65">Made by <a href="https://hazelgrouse.pl" target="_blank" rel="noopener noreferrer" class="text-on-primary font-medium hover:opacity-80 transition-opacity">Hazelgrouse Studio</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+)}
+
+{variant === "darkColumns" && darkColumnsDetailed && (
   <footer class:list={["shrink-0", !background?.color && "pt-spacing-section px-4 pb-4"]}>
     <div
       class="bg-secondary text-on-primary"

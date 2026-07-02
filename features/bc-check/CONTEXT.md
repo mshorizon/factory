@@ -36,7 +36,10 @@ Every section is wrapped by `SectionDispatcher.astro` (line ~112) in:
 bc-check screenshots each wrapper per env and pixel-diffs the pairs. The `sectionComponents`
 map in the same file is the section-type → UI-component lookup used by `/bc-fix`.
 The fixed navbar is captured as pseudo-section `navbar` (index −1) — it renders as
-`<nav id="main-nav">`, NOT `<header>` (verified on the live sites).
+`<nav id="main-nav">`, NOT `<header>` (verified on the live sites). The footer is
+captured as pseudo-section `footer` (index 999) — it is rendered by
+`apps/engine/src/components/Footer.astro`, outside SectionDispatcher, and an early
+version of bc-check missed a real footer regression because of that.
 
 ## Navbar scraping (vs template JSON)
 
