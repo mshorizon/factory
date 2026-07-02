@@ -180,9 +180,13 @@ async function captureSections(page: Page, outDir: string): Promise<SectionShot[
   const shots: SectionShot[] = [];
 
   // The fixed navbar is compared as a pseudo-section so header regressions are caught too.
+  // The engine renders it as <nav id="main-nav">; header/nav are fallbacks.
   const navbarFile = join(outDir, "navbar.png");
   try {
-    await page.locator("header").first().screenshot({ path: navbarFile, animations: "disabled", timeout: 15_000 });
+    await page
+      .locator("#main-nav, header, nav")
+      .first()
+      .screenshot({ path: navbarFile, animations: "disabled", timeout: 15_000 });
     shots.push({ index: -1, type: "navbar", id: "navbar", file: navbarFile });
   } catch {
     shots.push({ index: -1, type: "navbar", id: "navbar", file: null });
@@ -233,7 +237,7 @@ function alignSections(prod: SectionShot[], dev: SectionShot[]) {
 
 const rel = (p: string | null) => (p ? relative(ROOT, p) : null);
 
-async function comparePage(browser: Browser, template: string, path: string): Promise<PageResult> {
+async function comparePage(browser: Browser, template: string, path: string, threshold: number): Promise<PageResult> {
   const slug = pageSlug(path);
   const envs = { prod: prodBase(template) + path, dev: devBase(template) + path };
   const shots: Record<"prod" | "dev", SectionShot[] | null> = { prod: null, dev: null };
@@ -302,7 +306,7 @@ async function comparePage(browser: Browser, template: string, path: string): Pr
         }
       : null;
 
-  return { path, status: score < 1 - 1e-9 || structuralDiff ? "fail" : "ok", score, structuralDiff, sections };
+  return { path, status: score < threshold || structuralDiff ? "fail" : "ok", score, structuralDiff, sections };
 }
 
 async function checkTemplate(browser: Browser, template: string, threshold: number): Promise<TemplateResult> {
@@ -342,7 +346,7 @@ async function checkTemplate(browser: Browser, template: string, threshold: numb
   const allPaths = [...prodNav, ...devOnly];
   for (const path of allPaths) {
     console.log(`    ${path}`);
-    base.pages.push(await comparePage(browser, template, path));
+    base.pages.push(await comparePage(browser, template, path, threshold));
   }
 
   const scored = base.pages.filter((p) => p.score !== null);
@@ -370,15 +374,12 @@ function printReport(results: TemplateResult[], threshold: number) {
       if (t.navDiff.devOnly.length) console.log(`    navbar links only on dev:  ${t.navDiff.devOnly.join(", ")}`);
     }
     for (const p of t.pages) {
-      if (p.status === "ok") {
-        console.log(`    ${pct(p.score)}  ${p.path}`);
-        continue;
-      }
-      console.log(`    ${pct(p.score)}  ${p.path}  [${p.status}]`);
+      console.log(`    ${pct(p.score)}  ${p.path}${p.status === "ok" ? "" : `  [${p.status}]`}`);
       if (p.structuralDiff) {
         if (p.structuralDiff.removed.length) console.log(`        sections removed on dev: ${p.structuralDiff.removed.join(", ")}`);
         if (p.structuralDiff.added.length) console.log(`        sections added on dev:   ${p.structuralDiff.added.join(", ")}`);
       }
+      // Per the task spec: whenever a page is not a 100% match, name the differing sections.
       for (const s of p.sections.filter((s) => s.similarity < 1 - 1e-9 && !s.note).sort((a, b) => a.similarity - b.similarity)) {
         console.log(`        ${pct(s.similarity)}  ${s.type}-${s.index}`);
       }
