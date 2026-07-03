@@ -122,36 +122,45 @@
 
 ## Tier 2 — cost: most of the budget buys nothing
 
-- [ ] **I23 — Score-then-lock: don't spend mutate tokens on units that already match.**
-      Run 41: 15 mutate calls = $7.78 of $8.65 total, 1 render, 1 promotion — 4/6 units self-reported
-      "already matches target" repeatedly, because units are only scored when a challenger renders.
-      Fix: score champion-vs-target once at run start (and on any no-op verdict) and lock units already
-      ≥ threshold before dispatching mutate. Side effect: fixes `metrics.json` reporting finalScore 0
-      for sections that actually match.
+- [x] **I23 — Score-then-lock: don't spend mutate tokens on units that already match.** ✅ *built &
+      verified (part of `sitc-cost-cuts` 21/21, 2026-07-03).* `preScoreAndLock` (`loop/prescore.ts`) +
+      a `prescore` seam in `runFull` that runs AFTER lockTiers (scored champion includes the locked theme)
+      and before the sweep: each unit's champion renders once through the warm I2 base engine and is
+      VLM-scored against its target crop. Units ≥ threshold lock with `iterationsToLock=0` and a REAL
+      final score (no more misleading 0s); in-play units get (a) a seeded champion image — so the FIRST
+      challenger must now WIN the pairwise judgment instead of auto-promoting a possibly-worse render —
+      and (b) the champion's critique seeded as their first steering input (new `initialCritiques` on
+      `runSweep`). Per-unit failure degrades to the old behavior. Runner opt-out: `SITC_PRESCORE=0`.
+      Cost: one render + 1 VLM call per unit ≪ the $7.78/15-mutate-call waste it removes.
 
-- [ ] **I24 — Keep the critique on promote.**
-      `loop/sweep.ts:141` resets critique to `""` on promote, but a promoted result's critique is the NEW
-      champion's remaining-gap description — exactly what the next attempt on a still-unlocked section
-      needs. Fix: keep `res.critique` on promote; clear only on lock.
+- [x] **I24 — Keep the critique on promote.** ✅ *built & verified (`sitc-cost-cuts`).* The sweep now
+      carries every result's critique forward — a promoted result's critique is the NEW champion's
+      remaining-gap description, so a promoted-but-unlocked section's next mutate starts steered instead
+      of blind (locked sections aren't dispatched, so nothing to clear).
 
-- [ ] **I25 — Pre-gate the judge with a pixel identity check.**
-      Every non-no-op iteration pays 1 VLM + 2 pairwise calls even when the challenger renders
-      pixel-identically to the champion (semantically-null edit). Fix: `pixelScore(championImg, ourImg)
-      ≥ ~0.995 → auto-tie`, skip both judge calls.
+- [x] **I25 — Pre-gate the judge with a pixel identity check.** ✅ *built & verified (`sitc-cost-cuts`).*
+      Optional `pixelSimilarity` collaborator on `runSectionIteration` (runner wires `pixelScore`): with a
+      champion present, a challenger at similarity ≥ 0.995 reverts IMMEDIATELY after render — skipping the
+      VLM score AND both pairwise calls (3 model calls saved per null edit) — with a critique telling the
+      worker its edit changed nothing visible. Below threshold / no champion / no collaborator → previous
+      behavior. Render nondeterminism only makes the gate conservatively not fire.
 
-- [ ] **I26 — Shared browser instance.**
-      `renderSection` (`steps/render.ts:59`), `measureHorizontalOverflow` (`steps/render.ts:164`), and every
-      acceptance check (`withBrowser`, `delivery/checks.ts:143`) each do `chromium.launch()`/`close()` —
-      hundreds of launches/run, self-inflicted load on the machine-contention failure mode (CONCLUSIONS #6).
-      Fix: one shared browser, fresh *context* per render, closed at run end.
+- [x] **I26 — Shared browser instance.** ✅ *built (2026-07-03); live perf win operator-observed.* New
+      `src/browser.ts`: `sharedBrowser()` (one Chromium per process, relaunches if it crashed/disconnected)
+      + `withPage()` (fresh context per call — full isolation — always closed) + `closeSharedBrowser()`.
+      Converted all four launch sites: `renderSection`, `measureHorizontalOverflow`, `captureTarget`
+      (context per breakpoint), and the acceptance checks' `withBrowser`. Runner cleanup closes it.
+      Removes ~1–2s + a process fork per screenshot on the contention-limited machine (CONCLUSIONS #6).
 
-- [ ] **I27 — Dollar cap in BudgetCaps.**
-      `delivery/budget.ts` caps only iterations/wall-clock; the I9 CostMeter knows `totalUsd` live but
-      nothing enforces it. Fix: add `maxUsd` + thread `meter.snapshot()` into the sweep's budget check.
+- [x] **I27 — Dollar cap in BudgetCaps.** ✅ *built & verified (`sitc-cost-cuts`).* `BudgetCaps.maxUsd` +
+      `BudgetSpent.usd`; the sweep gained a `spentUsd` thunk (runner wires `meter.snapshot().costUsd`)
+      checked each round alongside iterations/wall-clock → `stoppedBy:"budget"`. Operator flag
+      `SITC_MAX_USD`. A stuck-expensive run now stops on real spend, not just the iteration count.
 
-- [ ] **I28 — Drop the 240s render timeout.**
-      `sitc-runner.mts` `waitForMs: 240000` predates I2/I3's warm engines; any non-fail-fast wedge costs
-      4 min/iteration. Fix: 30–60s with one retry.
+- [x] **I28 — Drop the 240s render timeout.** ✅ *built (2026-07-03).* Runner renders now default to 60s
+      (`SITC_RENDER_TIMEOUT_MS` to override) with ONE retry on timeout only — fail-fast errors (HTTP≥400,
+      error overlay) are deterministic and never retried. Applies to the mutate render path and the I23
+      prescore renders. Worst-case wedge cost drops from 4 min to ~2 min, typical to seconds.
 
 ## Tier 3 — operational trust
 

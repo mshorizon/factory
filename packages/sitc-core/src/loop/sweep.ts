@@ -23,6 +23,13 @@ export interface SweepInput {
   initialStates: SectionState[];
   /** Initial champion render per section (null if none yet). */
   championImg?: Record<string, string | null>;
+  /**
+   * Seed critiques per section (todo I23 prescore) — the champion's VLM gap
+   * description, so the FIRST mutate starts steered instead of blind.
+   */
+  initialCritiques?: Record<string, string>;
+  /** Live dollar spend (CostMeter, I9) for the `maxUsd` budget cap (todo I27). */
+  spentUsd?: () => number;
   maxWorkers?: number;
   maxRounds?: number;
   /** Hard budget caps (§8) — stop when any is hit, returning best-so-far. */
@@ -65,7 +72,7 @@ export interface SweepResult {
 export async function runSweep(input: SweepInput): Promise<SweepResult> {
   const states = new Map(input.initialStates.map((s) => [s.sectionId, { ...s }]));
   const champ: Record<string, string | null> = { ...(input.championImg ?? {}) };
-  const critiques: Record<string, string | undefined> = {};
+  const critiques: Record<string, string | undefined> = { ...(input.initialCritiques ?? {}) };
   const lock = createMutex();
   const maxWorkers = input.maxWorkers ?? 3;
   const maxRounds = input.maxRounds ?? 50;
@@ -95,8 +102,10 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
     }
     if (
       input.budget &&
-      budgetExceeded({ iterations: workerInvocations, workerInvocations, elapsedMs: now() - startMs }, input.budget)
-        .exceeded
+      budgetExceeded(
+        { iterations: workerInvocations, workerInvocations, elapsedMs: now() - startMs, usd: input.spentUsd?.() },
+        input.budget,
+      ).exceeded
     ) {
       stoppedBy = "budget";
       break;
@@ -137,8 +146,11 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
           res = { outcome: "no-op", challengerSha: null, changedFiles: [], critique: `iteration error: ${String(err).slice(0, 160)}` };
         }
         input.onIteration?.(pick.sectionId, res);
-        // remember the critique for the section's next attempt (cleared on promote)
-        critiques[pick.sectionId] = res.outcome === "promoted" ? "" : res.critique ?? critiques[pick.sectionId];
+        // Remember the critique for the section's next attempt. todo I24: a PROMOTED
+        // result's critique is the NEW champion's remaining-gap description — exactly
+        // what the next attempt on a still-unlocked section needs, so keep it (the old
+        // reset-to-"" made every post-promotion attempt start blind).
+        critiques[pick.sectionId] = res.critique ?? critiques[pick.sectionId];
 
         if (res.outcome === "promoted") {
           promotions++;

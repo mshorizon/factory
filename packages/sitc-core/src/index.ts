@@ -142,6 +142,10 @@ export { WorktreePool } from "./orchestrator/worktree-pool.js";
 export type { WorktreeLease } from "./orchestrator/worktree-pool.js";
 export { createMutateCollaborator } from "./loop/mutate-collaborator.js";
 export type { MutateCollaboratorOptions } from "./loop/mutate-collaborator.js";
+export { preScoreAndLock } from "./loop/prescore.js";
+export type { PreScoreDeps, PreScoreResult } from "./loop/prescore.js";
+export { sharedBrowser, withPage, closeSharedBrowser } from "./browser.js";
+export type { WithPageOptions } from "./browser.js";
 
 // ─── learning: semantic lessons store (Phase 6) ──────────────────────────────
 export { SITC_EMBED_DIM } from "./learning/dims.js";

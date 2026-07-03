@@ -38,8 +38,11 @@ import { segmentTarget } from "../packages/sitc-core/src/steps/segment.js";
 import { cropBands } from "../packages/sitc-core/src/steps/crop-bands.js";
 import { alignSections, targetImageMap } from "../packages/sitc-core/src/steps/align-sections.js";
 import { renderSection, harnessUrl, measureHorizontalOverflow, MOBILE_GUARD } from "../packages/sitc-core/src/steps/render.js";
+import { closeSharedBrowser } from "../packages/sitc-core/src/browser.js";
 import { mobileGuardVerdict } from "../packages/sitc-core/src/scorer/breakpoints.js";
+import { pixelScore } from "../packages/sitc-core/src/scorer/pixel.js";
 import { scoreSection } from "../packages/sitc-core/src/scorer/score.js";
+import { preScoreAndLock } from "../packages/sitc-core/src/loop/prescore.js";
 import { suggestStrategy } from "../packages/sitc-core/src/scorer/rubric.js";
 import { pairwiseJudge } from "../packages/sitc-core/src/scorer/pairwise.js";
 import { sanityGate } from "../packages/sitc-core/src/loop/sanity.js";
@@ -60,6 +63,9 @@ async function main() {
   if (!dbUrl) throw new Error("DATABASE_URL required (control DB)");
   const engineUrl = process.env.SITC_ENGINE_URL ?? "http://localhost:4321";
   const model = process.env.SITC_MODEL ?? "sonnet";
+  // I28 — post-I2/I3 warm engines render in seconds; the old 240s wait made every
+  // non-fail-fast wedge cost 4 minutes. One retry covers a transient slow compile.
+  const renderTimeoutMs = process.env.SITC_RENDER_TIMEOUT_MS ? Number(process.env.SITC_RENDER_TIMEOUT_MS) : 60_000;
   const workerEnabled = process.env.SITC_ENABLE_WORKER === "1";
   // I1 / §18-G: the OFF arm of the lessons A/B. With this set, no lessons are
   // retrieved into the worker prompt → run.metrics is directly comparable to a
@@ -311,6 +317,7 @@ async function main() {
     if (cleanedUp) return;
     cleanedUp = true;
     await preview?.stop().catch(() => {});
+    await closeSharedBrowser().catch(() => {}); // I26 — one browser per run, closed here
     await engines.stopAll().catch(() => {});
     await worktree.teardown(runId, {}).catch(() => {});
   };
@@ -375,12 +382,25 @@ async function main() {
       // screenshot below doesn't race a cold Vite compile under worker concurrency.
       const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: wtTemplate, chrome });
       const baseUrl = await engines.ensure(engineWorktree, { warmupUrl });
-      const r = await renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: 240000, chrome });
+      // I28 — tight timeout + one retry on TIMEOUT only (fail-fast errors like
+      // HTTP≥400/error-overlay are deterministic; retrying them wastes a minute).
+      const renderOnce = () => renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: renderTimeoutMs, chrome });
+      let r;
+      try {
+        r = await renderOnce();
+      } catch (e) {
+        if (!/timeout/i.test(String(e))) throw e;
+        console.log(`      ⏱ render timeout (${renderTimeoutMs}ms) for ${ctx.sectionId} — one retry`);
+        r = await renderOnce();
+      }
       const out = path.join(artifactsDir, "renders", `${ctx.sectionId}-${Date.now()}.png`);
       await fs.mkdir(path.dirname(out), { recursive: true });
       await fs.writeFile(out, r.png);
       return { ourImg: out };
     },
+    // I25 — cheap identity check: a challenger pixel-identical to the champion
+    // skips the VLM score + both judge calls (semantically-null edit).
+    pixelSimilarity: async (a: string, b: string) => (await pixelScore(a, b)).similarity,
     score: (ctx: { ourImg: string; targetImg: string }) => meter.scope("score", () => scoreSection(readRunner, { ourImg: ctx.ourImg, targetImg: ctx.targetImg, model })),
     judge: (ctx: { champion: string; challenger: string; target: string }) => meter.scope("judge", () => pairwiseJudge(readRunner, ctx, { model })),
     // I12 — mobile guard (opt-in): a desktop-winning challenger that introduces
@@ -420,6 +440,42 @@ async function main() {
   // Per-unit convergence tracking — drives the "loop done → manual fixes" handoff.
   const unitStats: Record<string, UnitConvergence> = {};
   for (const s of initialStates) unitStats[s.sectionId] = { sectionId: s.sectionId, promotions: 0, threshold: s.threshold };
+
+  // I23 — pre-score-then-lock: render + score each unit's CURRENT champion once
+  // (through the warm I2 base engine, post-theme) and lock what already matches,
+  // BEFORE any mutate tokens are spent. Run 41 burned $7.78/15 mutate calls on
+  // units that repeatedly self-reported "already matches". Opt-out: SITC_PRESCORE=0.
+  const renderChampionFor = async (sectionId: string): Promise<string> => {
+    const champ = await worktree.champion(runId);
+    const tree = await worktree.ensureBaseWorktree(runId, champ);
+    const tpl = path.join(tree, "templates", template, `${template}.json`);
+    const chrome = sectionId === "navbar" || sectionId === "footer" ? (sectionId as "navbar" | "footer") : undefined;
+    const index = chrome ? 0 : indexById[sectionId];
+    const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: tpl, chrome });
+    const baseUrl = await engines.ensure(tree, { warmupUrl });
+    const r = await renderSection({ baseUrl, business: template, index, profilePath: tpl, waitForMs: renderTimeoutMs, chrome });
+    const out = path.join(artifactsDir, "prescore", `${sectionId}.png`);
+    await fs.mkdir(path.dirname(out), { recursive: true });
+    await fs.writeFile(out, r.png);
+    return out;
+  };
+  const prescore =
+    process.env.SITC_PRESCORE === "0"
+      ? undefined
+      : (states: import("../packages/sitc-core/src/loop/scheduler.js").SectionState[]) =>
+          preScoreAndLock(states, {
+            renderChampion: renderChampionFor,
+            score: (ctx) => meter.scope("score", () => scoreSection(readRunner, { ...ctx, model })),
+            targetImgFor: (id) => targetFor[id],
+            log: (m) => console.log(`  ⚡ ${m}`),
+          });
+
+  // I27 — hard dollar cap (live CostMeter spend), alongside the iteration cap.
+  const maxUsd = process.env.SITC_MAX_USD ? Number(process.env.SITC_MAX_USD) : undefined;
+  const budget =
+    run.budgetIterations || maxUsd
+      ? { ...(run.budgetIterations ? { maxIterations: run.budgetIterations } : {}), ...(maxUsd ? { maxUsd } : {}) }
+      : undefined;
 
   let result;
   try {
@@ -478,7 +534,9 @@ async function main() {
       }),
       acceptance: createAcceptanceChecks({ url: acceptanceUrl, baselineUrl: baselineAcceptanceUrl, enforcePerf: acceptanceTarget.enforcePerf }),
     },
-    budget: run.budgetIterations ? { maxIterations: run.budgetIterations } : undefined,
+    prescore,
+    budget,
+    spentUsd: () => meter.snapshot().costUsd, // I27 — live spend feeds the maxUsd cap
     landing,
     worktreePool,
     model,
@@ -486,6 +544,15 @@ async function main() {
   } catch (e) {
     await cleanup();
     throw e;
+  }
+
+  // Sync unit stats with the run's final scores — prescore-locked units (I23) never
+  // hit onIteration, so without this the convergence report would miscount them.
+  if (result.metrics) {
+    for (const [id, sc] of Object.entries(result.metrics.finalScores)) {
+      const u = unitStats[id];
+      if (u) u.bestScore = Math.max(u.bestScore ?? 0, sc);
+    }
   }
 
   // I13 — escalated pass (opt-in): if the run converged with component-code gaps the

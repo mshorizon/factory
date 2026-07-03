@@ -6,7 +6,8 @@
  * full-page screenshot per breakpoint. Runs ONCE at run start; the loop never
  * re-fetches the URL.
  */
-import { chromium, type Page } from "playwright";
+import type { Page } from "playwright";
+import { withPage } from "../browser.js";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { Breakpoint } from "../types.js";
@@ -308,19 +309,13 @@ async function extractDomBands(
 export async function captureTarget(opts: CaptureTargetOptions): Promise<CaptureResult> {
   const bps = opts.breakpoints ?? [DESKTOP_SCORE, MOBILE_GUARD];
   await fs.mkdir(opts.outDir, { recursive: true });
-  const browser = await chromium.launch();
   const screenshots: Record<string, string> = {};
   let domBands: BandBase[] = [];
   let globalStyle: StyleProfile | null = null;
   let navbarBand: BandBase | null = null;
-  try {
-    for (const bp of bps) {
-      const ctx = await browser.newContext({
-        viewport: { width: bp.width, height: bp.height },
-        deviceScaleFactor: 1,
-        reducedMotion: "reduce",
-      });
-      const pg = await ctx.newPage();
+  // Shared browser, fresh context per breakpoint (I26).
+  for (const bp of bps) {
+    await withPage({ viewport: { width: bp.width, height: bp.height }, reducedMotion: "reduce" }, async (pg) => {
       await pg.goto(opts.url, { waitUntil: "networkidle", timeout: 60000 });
       await dismissBanners(pg);
       await pg.addStyleTag({ content: FREEZE_CSS });
@@ -338,10 +333,7 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
       const file = path.join(opts.outDir, `target-${bp.label}.png`);
       await pg.screenshot({ path: file, fullPage: true, animations: "disabled" });
       screenshots[bp.label] = file;
-      await ctx.close();
-    }
-  } finally {
-    await browser.close();
+    });
   }
   return { url: opts.url, screenshots, domBands, globalStyle, navbarBand };
 }

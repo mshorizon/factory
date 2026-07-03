@@ -63,6 +63,14 @@ export interface SectionCollaborators {
   guard?(ctx: { worktreePath: string; sectionId: string; strategy: MutationStrategy; base: string; ourImg: string }): Promise<{ ok: boolean; reason?: string }>;
   score(ctx: { ourImg: string; targetImg: string }): Promise<HybridScore>;
   judge(ctx: { champion: string; challenger: string; target: string }): Promise<PairwiseResult>;
+  /**
+   * Optional cheap pixel similarity (todo I25). When present and a champion
+   * exists, a challenger rendering (near-)identically to the champion —
+   * similarity ≥ `identicalSimilarity` — is reverted immediately: the worker's
+   * edit was semantically null, so the 1 VLM score + 2 pairwise judge calls it
+   * would otherwise cost prove nothing. Absent → previous behavior.
+   */
+  pixelSimilarity?(a: string, b: string): Promise<number>;
 }
 
 /** A leased worktree (tasks I3) — same shape `addWorkerWorktree` yields, plus release. */
@@ -91,6 +99,8 @@ export interface SectionIterationInput {
    * `removeWorktree` (the original per-iteration behavior).
    */
   lease?: () => Promise<WorktreeLease>;
+  /** Similarity at/above which a challenger counts as identical to the champion (I25). Default 0.995. */
+  identicalSimilarity?: number;
 }
 
 export type SectionOutcome = "promoted" | "reverted" | "sanity_failed" | "no-op";
@@ -142,6 +152,22 @@ export async function runSectionIteration(input: SectionIterationInput): Promise
 
     // RENDER + SCORE
     const { ourImg } = await collab.render({ worktreePath: wt.path, sectionId, strategy, base: wt.base });
+
+    // I25 — pixel-identity pre-gate: a challenger that renders identically to the
+    // champion changed nothing visually; skip the VLM score AND both judge calls.
+    if (input.championImg != null && collab.pixelSimilarity) {
+      const sim = await collab.pixelSimilarity(input.championImg, ourImg);
+      if (sim >= (input.identicalSimilarity ?? 0.995)) {
+        return {
+          outcome: "reverted",
+          challengerSha: sha,
+          changedFiles,
+          ourImg,
+          critique: `challenger renders pixel-identical to the champion (similarity ${sim.toFixed(3)}) — the edit changed nothing visible; make a visually meaningful change or report the gap as unreachable`,
+        };
+      }
+    }
+
     const score = await collab.score({ ourImg, targetImg: input.targetImg });
 
     // SELECT — first challenger auto-promotes; otherwise pairwise A/B decides

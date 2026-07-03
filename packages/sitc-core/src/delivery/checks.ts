@@ -14,8 +14,9 @@
  * gates stay pure orchestration.
  */
 import { execFile } from "node:child_process";
-import { chromium, type Page } from "playwright";
+import type { Page } from "playwright";
 import axeCore from "axe-core";
+import { withPage } from "../browser.js";
 import { pixelScore } from "../scorer/pixel.js";
 import type { AcceptanceChecks, RegressionChecks } from "./gates.js";
 import type { SanityCheck } from "../loop/sanity.js";
@@ -232,15 +233,9 @@ export function diffHygiene(challenger: HygieneProbe, baseline?: HygieneProbe | 
   };
 }
 
-async function withBrowser<T>(fn: (page: Page, ctx: import("playwright").BrowserContext, browser: import("playwright").Browser) => Promise<T>, viewport: { width: number; height: number }): Promise<T> {
-  const browser = await chromium.launch();
-  try {
-    const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1 });
-    const page = await ctx.newPage();
-    return await fn(page, ctx, browser);
-  } finally {
-    await browser.close();
-  }
+// Shared browser, fresh context per check (I26) — no per-check launch cost.
+async function withBrowser<T>(fn: (page: Page, ctx: import("playwright").BrowserContext) => Promise<T>, viewport: { width: number; height: number }): Promise<T> {
+  return withPage({ viewport }, (page, ctx) => fn(page, ctx));
 }
 
 export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): AcceptanceChecks {

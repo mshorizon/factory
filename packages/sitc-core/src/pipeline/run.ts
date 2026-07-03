@@ -41,6 +41,15 @@ export interface FullRunInput {
   /** Sections to evolve. */
   initialStates: SectionState[];
   championImg?: Record<string, string | null>;
+  /**
+   * Pre-score-then-lock seam (todo I23, see loop/prescore.ts). Runs AFTER
+   * lockTiers (so the scored champion includes the locked theme) and BEFORE the
+   * sweep: units already ≥ threshold lock without a single mutate call; the rest
+   * get a seeded champion image (first challenger must WIN pairwise) + critique.
+   */
+  prescore?: (states: SectionState[]) => Promise<import("../loop/prescore.js").PreScoreResult>;
+  /** Live dollar spend (CostMeter, I9) for the `maxUsd` budget cap (todo I27). */
+  spentUsd?: () => number;
   gates: { regression: RegressionChecks; acceptance: AcceptanceChecks; schemaChanged?: { old: unknown; new: unknown } };
   /** How a converged run lands (merge+push / push+PR). Default: local no-ff merge, no push (I4). */
   landing?: LandingOptions;
@@ -188,23 +197,41 @@ async function drive(input: FullRunInput): Promise<FullRunResult> {
     model: input.model,
   });
 
+  // ── I23: pre-score champions (post-theme) — lock what already matches ──────
+  let initialStates = input.initialStates;
+  let championImg = input.championImg;
+  let initialCritiques: Record<string, string> | undefined;
+  let prescoreLocked: string[] = [];
+  if (input.prescore) {
+    const p = await input.prescore(initialStates);
+    initialStates = p.states;
+    championImg = { ...(championImg ?? {}), ...p.championImg };
+    initialCritiques = p.critiques;
+    prescoreLocked = p.locked;
+  }
+
   // ── Phase B: per-section sweep (controllable: polls pause/abort) ──────────
   const sweep = await runSweep({
     worktree: input.worktree,
     runId: input.runId,
     collab: input.collab,
     targetImgFor: input.targetImgFor,
-    initialStates: input.initialStates,
-    championImg: input.championImg,
+    initialStates,
+    championImg,
+    initialCritiques,
     maxWorkers: input.maxWorkers,
     minCoverage: input.minCoverage,
     budget: input.budget,
+    spentUsd: input.spentUsd,
     store: input.store,
     worktreePool: input.worktreePool,
     onIteration: input.onIteration,
   });
 
   const metrics = buildMetrics(sweep);
+  // Prescore-locked units reached threshold in "round 0" — record that instead of
+  // null so cross-run metrics distinguish "already matched" from "never locked".
+  for (const id of prescoreLocked) metrics.iterationsToLock[id] = 0;
 
   // pause/abort short-circuit delivery (§16) — best-so-far is kept on the branch
   if (sweep.stoppedBy === "aborted") {

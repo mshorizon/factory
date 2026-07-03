@@ -6,8 +6,8 @@
  * forces entrance animations to their final state, and strips fixed/sticky
  * chrome so the screenshot is just the section node.
  */
-import { chromium } from "playwright";
 import type { Breakpoint, RenderResult } from "../types.js";
+import { withPage } from "../browser.js";
 
 /** The dev-only route added to apps/engine (see DESIGN §4.4). */
 export const HARNESS_ROUTE = "/sitc-harness/section";
@@ -56,14 +56,8 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
   const index = opts.index ?? 0;
   const url = harnessUrl(opts);
 
-  const browser = await chromium.launch();
-  try {
-    const ctx = await browser.newContext({
-      viewport: { width: bp.width, height: bp.height },
-      deviceScaleFactor: 1,
-      reducedMotion: "reduce",
-    });
-    const pg = await ctx.newPage();
+  // Shared browser + fresh context per render (I26) — no per-screenshot launch cost.
+  return withPage({ viewport: { width: bp.width, height: bp.height }, reducedMotion: "reduce" }, async (pg) => {
     const resp = await pg.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
     // FAIL FAST on a broken edit: a runtime error in the worker's component makes
     // Astro SSR return 500. Surface it immediately (→ revert + feeds the worker's
@@ -138,9 +132,7 @@ export async function renderSection(opts: RenderSectionOptions): Promise<RenderR
       url,
       breakpoint: bp.label,
     };
-  } finally {
-    await browser.close();
-  }
+  });
 }
 
 /**
@@ -161,16 +153,11 @@ export async function measureHorizontalOverflow(opts: {
 }): Promise<number> {
   const bp = opts.breakpoint ?? MOBILE_GUARD;
   const url = harnessUrl(opts);
-  const browser = await chromium.launch();
-  try {
-    const ctx = await browser.newContext({ viewport: { width: bp.width, height: bp.height }, deviceScaleFactor: 1, reducedMotion: "reduce" });
-    const pg = await ctx.newPage();
+  return withPage({ viewport: { width: bp.width, height: bp.height }, reducedMotion: "reduce" }, async (pg) => {
     const resp = await pg.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
     if (resp && resp.status() >= 400) throw new Error(`overflow probe HTTP ${resp.status()}`);
     await pg.locator(`[data-section-index="0"]`).first().waitFor({ state: "attached", timeout: opts.waitForMs ?? 30000 });
     const overflow = await pg.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     return Math.max(0, overflow);
-  } finally {
-    await browser.close();
-  }
+  });
 }
