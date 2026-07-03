@@ -19,7 +19,7 @@ import { allSettled } from "../loop/scheduler.js";
 import { regressionGate, acceptanceGate, type RegressionChecks, type AcceptanceChecks } from "../delivery/gates.js";
 import { decideDelivery, landDelivery, type DeliveryRouting, type LandingOptions } from "../delivery/delivery.js";
 import type { BudgetCaps } from "../delivery/budget.js";
-import { applyEvent } from "../orchestrator/state-machine.js";
+import { applyEvent, canTransition } from "../orchestrator/state-machine.js";
 
 export interface FullRunInput {
   runId: number;
@@ -53,6 +53,8 @@ export interface FullRunInput {
   minCoverage?: number;
   /** Per-iteration observability (outcome/score/reason) for logging. */
   onIteration?: SweepInput["onIteration"];
+  /** Driver-level observability (lease-heartbeat loss, crash-status transitions). */
+  log?: (m: string) => void;
 }
 
 export interface FullRunResult {
@@ -92,8 +94,53 @@ export interface RunMetrics {
   sectionCount: number;
 }
 
+/**
+ * todo I18 — keep the single-owner lease alive for the run's whole lifetime.
+ *
+ * THE GAP THIS CLOSES: `runFull` acquired a 60s-TTL lease and never renewed it —
+ * only the Phase-1 stub Orchestrator called `renewLease`. A multi-hour sweep's
+ * lease expired ~60s in, and the orphan-GC cron (every 15 min, `--drop-db`) then
+ * tore down the worktrees and DROPPED THE RUN DB of the still-active run.
+ *
+ * Renews at ttl/3 (so two consecutive failures still fit inside the TTL). A lost
+ * lease (renew returns false: another owner took it / row gone) is surfaced via
+ * `onLost` — the driver logs it; it does not abort (the DB guard is advisory,
+ * the GC only reaps EXPIRED leases, and aborting mid-integrate would lose work).
+ * Returns a stop() that must be called in the driver's finally.
+ */
+export function startLeaseHeartbeat(
+  store: Pick<RunStore, "renewLease">,
+  runId: number,
+  owner: string,
+  ttlMs: number,
+  opts: { intervalMs?: number; onLost?: (reason: string) => void } = {},
+): () => void {
+  const intervalMs = opts.intervalMs ?? Math.max(1_000, Math.floor(ttlMs / 3));
+  let stopped = false;
+  let inflight = false;
+  const timer = setInterval(async () => {
+    if (stopped || inflight) return;
+    inflight = true;
+    try {
+      const ok = await store.renewLease(runId, owner, ttlMs);
+      if (!ok && !stopped) opts.onLost?.("renewLease returned false — lease lost or taken by another owner");
+    } catch (e) {
+      if (!stopped) opts.onLost?.(`renewLease errored: ${String(e).slice(0, 120)}`);
+    } finally {
+      inflight = false;
+    }
+  }, intervalMs);
+  // Never keep the process alive just to renew a lease.
+  timer.unref?.();
+  return () => {
+    stopped = true;
+    clearInterval(timer);
+  };
+}
+
 export async function runFull(input: FullRunInput): Promise<FullRunResult> {
   const ttl = input.leaseTtlMs ?? 60_000;
+  const log = input.log ?? (() => {});
   // single-owner lease (§13.1) — refuse if another driver holds the run
   if (!(await input.store.acquireLease(input.runId, input.owner, ttl))) {
     return { profile: {} as BusinessProfile, thresholdReached: false, strategiesUsed: [], finalStatus: "lease-denied" };
@@ -101,9 +148,30 @@ export async function runFull(input: FullRunInput): Promise<FullRunResult> {
   const cur = await input.store.getRun(input.runId);
   if (cur && cur.status === "idle") await input.store.updateRun(input.runId, { status: applyEvent("idle", "start") });
 
+  // I18 — renew the lease for as long as the driver lives (see startLeaseHeartbeat).
+  const stopHeartbeat = startLeaseHeartbeat(input.store, input.runId, input.owner, ttl, {
+    onLost: (reason) => log(`⚠ lease heartbeat: ${reason}`),
+  });
   try {
     return await drive(input);
+  } catch (e) {
+    // todo I20 — a crashed run must not stay `running` forever: with the lease
+    // released below it would be invisible to the orphan GC (which only matches
+    // lockedBy != null) — a phantom run whose worktrees/run-DB leak. Route it
+    // through the state machine's `fail` event (→ needs_review) so the admin UI
+    // shows it and teardown/GC can reach it. Best-effort: never mask the crash.
+    try {
+      const at = await input.store.getRun(input.runId);
+      if (at && canTransition(at.status, "needs_review")) {
+        await input.store.updateRun(input.runId, { status: applyEvent(at.status, "fail") });
+        log(`run #${input.runId} marked needs_review after crash`);
+      }
+    } catch {
+      /* status update is best-effort — the crash below is the primary signal */
+    }
+    throw e;
   } finally {
+    stopHeartbeat();
     await input.store.releaseLease(input.runId, input.owner);
   }
 }

@@ -73,38 +73,52 @@
 
 ## Tier 1 — bugs that will kill a long unattended run
 
-- [ ] **I18 — Lease heartbeat: the GC cron will destroy a live run.**
-      `runFull` acquires a 60s-TTL lease (`pipeline/run.ts:96`) and never renews — `renewLease` is only
-      called by the Phase-1 stub orchestrator. `ecosystem.sitc.config.cjs` runs orphan GC with
-      `--drop-db --yes` every 15 min; `sweepOrphans` tears down worktrees + drops the run DB of any
-      expired-lease non-terminal run. A multi-hour sweep is "orphaned" 60s in. Fix: heartbeat
-      `store.renewLease` in `runSweep`'s round loop (store + runId already threaded).
+- [x] **I18 — Lease heartbeat: the GC cron will destroy a live run.** ✅ *built & verified (2026-07-03,
+      part of `sitc-run-resilience` 12/12).* `startLeaseHeartbeat` (`pipeline/run.ts`, exported): renews at
+      ttl/3 via an unref'd interval for the driver's whole lifetime (not just between rounds — a single
+      iteration can outlive the TTL), stopped in `runFull`'s finally. A lost lease / renew error surfaces
+      via `onLost` → the new `FullRunInput.log` (wired to console in the runner) but never aborts the run
+      (GC only reaps EXPIRED leases; the heartbeat keeps retrying). Verified: periodic renewal with correct
+      id/owner/ttl, stop() halts, renew-false and renew-throw both route to onLost, and a real `runFull`
+      renews during the run.
 
-- [ ] **I19 — Integrate-conflict recovery: a conflicting cherry-pick wedges the run silently.**
-      `integrate()` (`orchestrator/worktree.ts:210`) has no failure path. Concurrent sections edit the
-      same template JSON; a cherry-pick conflict leaves `__integrate` mid-pick (CHERRY_PICK_HEAD), every
-      later promotion degrades to an "iteration error" no-op, and the run burns its remaining budget
-      achieving nothing — no distinct signal. Fix: on failure `cherry-pick --abort` + `reset --hard
-      <branch>`, tag the critique as an integrate conflict, retry the pick from the new champion.
+- [x] **I19 — Integrate-conflict recovery: a conflicting cherry-pick wedges the run silently.** ✅ *built &
+      verified (9/9, `sitc-integrate-recovery`, real temp git).* `integrate()` now (a) SELF-HEALS on entry
+      (`cherry-pick --abort` + `checkout -f` + `reset --hard` — recovers from a crash mid-pick), and (b) on
+      a failed pick aborts + hard-resets back to the branch tip and throws a tagged `integrate-conflict:`
+      error: champion unchanged, ops tree clean, and the sweep's critique tells the worker to re-edit from
+      the NEW champion (an immediate re-pick would conflict identically — the section's next mutate starts
+      from the advanced champion, which is the correct retry). Verified: conflict throws tagged + champion
+      stable + no CHERRY_PICK_HEAD + clean tree, the NEXT promotion integrates fine (previously impossible),
+      and a hand-wedged ops tree self-heals on entry.
 
-- [ ] **I20 — Crashed runs stay `running` forever, invisible to GC.**
-      If `drive()` throws, `runFull`'s `finally` releases the lease but never updates status; GC's
-      `findExpiredLeasedRuns` only matches `lockedBy != null` → phantom run, leaked worktrees/run-DB.
-      The state machine's `fail` event exists and is never used. Fix: catch → `applyEvent(cur, "fail")`
-      before releasing the lease; optionally let GC also match `running` runs with a null lease.
+- [x] **I20 — Crashed runs stay `running` forever, invisible to GC.** ✅ *built & verified (part of
+      `sitc-run-resilience` 12/12).* `runFull` now catches a `drive()` crash and routes the run through the
+      state machine's (previously never-used) `fail` event → `needs_review`, guarded by `canTransition` and
+      best-effort (never masks the original crash, which still propagates), then releases the lease. A
+      crashed run is now visible in the admin UI as `needs_review` instead of a phantom `running` with
+      leaked worktrees/run-DB. Verified: crash propagates + status lands `needs_review` + lease released;
+      the lease-denied short-circuit leaves status untouched. (The "GC matches running+null-lease" variant
+      became unnecessary — crashed runs are no longer `running`.)
 
-- [ ] **I21 — Run the regression gate + merge in a dedicated worktree, not the operator's checkout.**
-      `createRegressionChecks` runs `pnpm type-check`/`test:validate` in `repoRoot` (`delivery/checks.ts:92`)
-      — the main checkout on `develop`, i.e. the pre-merge build/validate checks code that never changed.
-      And `mergeRunToDevelop` does `git checkout develop` in the operator's working tree mid-run and never
-      fetches (`delivery/delivery.ts:63`). Fix: pin a worktree at the champion for the gates and one at
-      (fetched) `develop` for the merge; never touch the main checkout.
+- [x] **I21 — Run the regression gate + merge in a dedicated worktree, not the operator's checkout.** ✅
+      *built & verified (17/17, `sitc-merge-isolation`, real temp repos + real spawned commands).* Three
+      fixes: (a) `createRegressionChecks` gained a lazy memoized `cwd` thunk — the runner passes the
+      CHAMPION base worktree, so pre-merge build/validate finally checks the code being merged (proven with
+      a marker-file command: runs in the champion tree, nothing in repoRoot; back-compat default preserved).
+      (b) `mergeRunToDevelop`: HEAD==develop (VPS case) merges in place with the clean-tree guard; HEAD on
+      any other branch merges in a THROWAWAY worktree pinned at develop — operator's branch, index, and
+      dirty files untouched (develop checked out elsewhere → worktree-add refuses → safe downgrade).
+      (c) `landDelivery` with push enabled fetches first and refuses BEFORE merging when local develop is
+      behind the remote (no local merge to unwind). Pre-existing `sitc-delivery-landing` 17/17 still green.
 
-- [ ] **I22 — Additive-schema check: recurse `oneOf`/`anyOf`/`allOf`.**
-      `isAdditiveSchemaChange` (`delivery/schema-additive.ts:54`) only descends `properties`/`definitions`/
-      `$defs`/`items` — an enum removal or type change inside a combinator branch (present in
-      `business.schema.json`) passes as "additive" and could auto-merge. Fix: recurse combinator arrays
-      (positional match; flag reordering as non-additive), `additionalProperties`, `patternProperties`.
+- [x] **I22 — Additive-schema check: recurse `oneOf`/`anyOf`/`allOf`.** ✅ *built & verified (24/24,
+      `sitc-schema-additive`).* `isAdditiveSchemaChange` now recurses combinator arrays positionally
+      (removed branches flagged; added branches additive; reordering surfaces per-branch — conservative by
+      design), catches `additionalProperties` narrowing to `false` and recurses schema-form AP (removing
+      the AP schema widens → additive), recurses `patternProperties` (removed pattern flagged), and handles
+      tuple-form `items` positionally. Verified incl. the realistic shape: a variant-enum removal nested in
+      `$defs→section→oneOf[0]` is caught with a precise violation path; the same nested enum ADDITION passes.
 
 ## Tier 2 — cost: most of the budget buys nothing
 

@@ -78,6 +78,14 @@ export function createSanityChecks(opts: SanityToolchainOptions = {}): SanityChe
 export interface RegressionToolchainOptions extends SanityToolchainOptions {
   repoRoot: string;
   /**
+   * Where build/validate run (todo I21). MUST be the run-branch CHAMPION tree —
+   * running them in `repoRoot` (the operator's checkout, sitting on `develop`)
+   * type-checked code the run never changed, so the final pre-merge gate was
+   * vacuous. Lazy thunk (the champion worktree only exists post-sweep), memoized.
+   * Default: `repoRoot` (back-compat for tests/callers without a champion tree).
+   */
+  cwd?: string | (() => Promise<string>);
+  /**
    * Yields image pairs [challengerPng, baselinePng] for existing templates —
    * the run's render vs the `develop` baseline. Min SSIM across all pairs proves
    * unrelated templates didn't regress (§7.3). Empty list → perfect (1).
@@ -88,9 +96,12 @@ export interface RegressionToolchainOptions extends SanityToolchainOptions {
 export function createRegressionChecks(opts: RegressionToolchainOptions): RegressionChecks {
   const [bc, ba] = opts.buildCmd ?? ["pnpm", ["type-check"]];
   const [vc, va] = opts.validateCmd ?? ["pnpm", ["test:validate"]];
+  let cwdCache: Promise<string> | undefined;
+  const resolveCwd = () =>
+    (cwdCache ??= Promise.resolve(typeof opts.cwd === "function" ? opts.cwd() : opts.cwd ?? opts.repoRoot));
   return {
-    build: () => runCommand(bc, ba, opts.repoRoot, opts.buildTimeoutMs),
-    validate: () => runCommand(vc, va, opts.repoRoot, opts.buildTimeoutMs),
+    build: async () => runCommand(bc, ba, await resolveCwd(), opts.buildTimeoutMs),
+    validate: async () => runCommand(vc, va, await resolveCwd(), opts.buildTimeoutMs),
     async existingTemplatesMinSsim() {
       const pairs = await opts.ssimPairs();
       if (!pairs.length) return 1;

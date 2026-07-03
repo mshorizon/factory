@@ -425,6 +425,7 @@ async function main() {
   try {
     result = await runFull({
     runId, store, worktree, runner: mkWorker(), owner,
+    log: (m) => console.log(`  ${m}`), // I18/I20 driver events (lease loss, crash status)
     seed: { templatePath },
     targetScreenshots: Object.values(cap.screenshots),
     groundTruthStyle: cap.globalStyle, // exact measured palette/fonts/radius for the theme pass
@@ -461,6 +462,9 @@ async function main() {
       // so a shared-component edit that regresses another business fails the gate.
       regression: createRegressionChecks({
         repoRoot: REPO_ROOT,
+        // I21 — build/validate must check the CHAMPION tree (the code being merged),
+        // not the operator's checkout on develop (which never changed).
+        cwd: async () => worktree.ensureBaseWorktree(runId, await worktree.champion(runId)),
         ssimPairs: createRealExistingSsim({
           repoRoot: REPO_ROOT,
           runId,
