@@ -173,6 +173,7 @@ export type { RunArtifacts, RunsReport, RunsReportRow, TemplateTrend } from "./e
 // ─── runner config + target-context assembly (todo I29 / I33) ────────────────
 export { resolveRunnerConfig, renderConfigLines } from "./orchestrator/config.js";
 export type { RunnerConfig, SitcProfile } from "./orchestrator/config.js";
+export { envFileFallback } from "./orchestrator/env-file.js";
 export { buildTargetContext, fmtMeasuredStyle, bandStyleLine } from "./steps/ingest.js";
 export type { TargetContext, TargetContextInput, IngestCrop } from "./steps/ingest.js";
 
@@ -189,7 +190,7 @@ export { isAdditiveSchemaChange } from "./delivery/schema-additive.js";
 export type { AdditiveResult } from "./delivery/schema-additive.js";
 export { regressionGate, acceptanceGate } from "./delivery/gates.js";
 export type { GateResult, RegressionChecks, RegressionInput, AcceptanceChecks } from "./delivery/gates.js";
-export { createSanityChecks, createRegressionChecks, createAcceptanceChecks, diffA11yViolations, diffHygiene, normalizeConsoleError } from "./delivery/checks.js";
+export { createSanityChecks, createRegressionChecks, createAcceptanceChecks, diffA11yViolations, diffHygiene, normalizeConsoleError, withPath, aggregatePages } from "./delivery/checks.js";
 export type {
   CmdResult,
   SanityToolchainOptions,
@@ -198,6 +199,7 @@ export type {
   PerfBudgets,
   A11yViolation,
   HygieneProbe,
+  PageCheckResult,
 } from "./delivery/checks.js";
 export { decideDelivery, mergeRunToDevelop, landDelivery, ghOpenPr } from "./delivery/delivery.js";
 export type { DeliveryDecision, DeliveryInput, DeliveryRouting, MergeOptions, LandingOptions, LandingResult } from "./delivery/delivery.js";

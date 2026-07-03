@@ -146,6 +146,16 @@ export interface AcceptanceToolchainOptions {
    * stricter, never looser). Absent → absolute mode (previous behavior).
    */
   baselineUrl?: string | (() => Promise<string>);
+  /**
+   * Additional page PATHS to gate (todo I41), e.g. ["/about", "/contact"] — the
+   * inherited pages reuse the converged variants and ship in the SAME merge, but
+   * a11y/hygiene/responsive previously only ever visited the home URL, so a
+   * broken inherited page could auto-merge. Each path is applied to both the
+   * challenger and baseline origins (query string preserved — the engine selects
+   * the business via `?business=`). Perf stays home-only (CWV budgets are an
+   * origin-level signal; re-measuring per page adds noise, not information).
+   */
+  pages?: string[];
   /** Mobile URL for the responsive check (defaults to the resolved `url`). */
   mobileUrl?: string;
   budgets?: PerfBudgets;
@@ -238,12 +248,41 @@ async function withBrowser<T>(fn: (page: Page, ctx: import("playwright").Browser
   return withPage({ viewport }, (page, ctx) => fn(page, ctx));
 }
 
+// ─── multi-page helpers (todo I41) — pure, unit-tested ───────────────────────
+
+/** Apply a page path to a base URL, preserving origin + query (`null` → unchanged). */
+export function withPath(url: string, path: string | null): string {
+  if (path == null) return url;
+  const u = new URL(url);
+  u.pathname = path.startsWith("/") ? path : `/${path}`;
+  return u.toString();
+}
+
+export interface PageCheckResult {
+  /** Page path ("/" for the main URL). */
+  page: string;
+  ok: boolean;
+  detail: string;
+}
+
+/** Combine per-page results: any failing page fails the check; detail names the pages. */
+export function aggregatePages(results: PageCheckResult[]): { ok: boolean; detail: string } {
+  const failing = results.filter((r) => !r.ok);
+  if (failing.length) {
+    return { ok: false, detail: failing.map((r) => `${r.page}: ${r.detail}`).join(" | ") };
+  }
+  if (results.length === 1) return { ok: true, detail: results[0].detail };
+  return { ok: true, detail: `${results.length} pages ok (${results.map((r) => r.page).join(", ")}) — ${results[0].detail}` };
+}
+
 export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): AcceptanceChecks {
   const desktop = opts.desktop ?? { width: 1440, height: 900 };
   const mobile = opts.mobile ?? { width: 390, height: 844 };
   const budgets = opts.budgets ?? { lcpMs: 4000, cls: 0.1, transferBytes: 5_000_000, requests: 120 };
   const failOn = opts.axeFailOn ?? ["critical", "serious"];
   const enforcePerf = opts.enforcePerf ?? true;
+  // I41 — inherited pages gated alongside the main URL (normalized to /paths).
+  const pageList = (opts.pages ?? []).map((p) => (p.startsWith("/") ? p : `/${p}`));
   // Resolve (and build, in I5 build-mode) the preview URL once, shared by all checks.
   let urlCache: Promise<string> | undefined;
   const resolveUrl = () => (urlCache ??= Promise.resolve(typeof opts.url === "function" ? opts.url() : opts.url));
@@ -319,40 +358,72 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
 
     async a11y() {
       const url = await resolveUrl();
-      const challenger = await collectA11y(url);
-      // I16 — baseline-relative: pre-existing violations (present on develop) can't
-      // fail the run; only NEW rule ids do. Baseline probe failure → absolute mode.
       const baseUrl = await resolveBaseline();
-      const baseline = baseUrl ? await collectA11y(baseUrl).catch(() => null) : null;
-      const r = diffA11yViolations(challenger, baseline);
-      return baseUrl && !baseline ? { ok: r.ok, detail: `${r.detail} (baseline probe failed — absolute mode)` } : r;
+      const results: PageCheckResult[] = [];
+      // I41 — main URL plus every inherited page; each diffed against the SAME
+      // path on the baseline (I16: pre-existing violations can't fail the run).
+      for (const p of [null, ...pageList]) {
+        const challenger = await collectA11y(withPath(url, p));
+        const baseline = baseUrl ? await collectA11y(withPath(baseUrl, p)).catch(() => null) : null;
+        const r = diffA11yViolations(challenger, baseline);
+        results.push({
+          page: p ?? "/",
+          ok: r.ok,
+          detail: baseUrl && !baseline ? `${r.detail} (baseline probe failed — absolute mode)` : r.detail,
+        });
+      }
+      return aggregatePages(results);
     },
 
     async responsive() {
       const url = await resolveUrl();
+      const baseUrl = await resolveBaseline();
       const check = (vp: { width: number; height: number }, u: string) =>
         withBrowser(async (page) => {
           await page.goto(u, { waitUntil: "networkidle", timeout: 60_000 });
           const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
           return overflow;
         }, vp);
-      const mob = await check(mobile, opts.mobileUrl ?? url);
-      const desk = await check(desktop, url);
       const fails: string[] = [];
-      if (mob > 2) fails.push(`mobile h-overflow ${mob}px`);
-      if (desk > 2) fails.push(`desktop h-overflow ${desk}px`);
-      return { ok: fails.length === 0, detail: fails.join("; ") || "no horizontal overflow" };
+      let suppressed = 0;
+      // I41 — every page at both viewports; I16-style baseline-relative: an
+      // overflow the baseline ALREADY has (pre-existing) doesn't fail the run.
+      for (const p of [null, ...pageList]) {
+        const pageLabel = p ?? "/";
+        for (const [label, vp] of [["mobile", mobile], ["desktop", desktop]] as const) {
+          const u = p == null && label === "mobile" && opts.mobileUrl ? opts.mobileUrl : withPath(url, p);
+          const c = await check(vp, u);
+          if (c <= 2) continue;
+          const b = baseUrl ? await check(vp, withPath(baseUrl, p)).catch(() => null) : null;
+          if (b != null && c <= b) {
+            suppressed++;
+            continue; // pre-existing overflow, not this run's regression
+          }
+          fails.push(`${pageLabel} ${label} h-overflow ${c}px${b != null ? ` (baseline ${b}px)` : ""}`);
+        }
+      }
+      return {
+        ok: fails.length === 0,
+        detail: fails.join("; ") || `no new horizontal overflow (${1 + pageList.length} page(s)${suppressed ? `, ${suppressed} pre-existing suppressed` : ""})`,
+      };
     },
 
     async hygiene() {
       const url = await resolveUrl();
-      const challenger = await collectHygiene(url);
-      // I16 — baseline-relative: only regressions the run introduced fail (counts
-      // that grew, new console errors). Baseline probe failure → absolute mode.
       const baseUrl = await resolveBaseline();
-      const baseline = baseUrl ? await collectHygiene(baseUrl).catch(() => null) : null;
-      const r = diffHygiene(challenger, baseline);
-      return baseUrl && !baseline ? { ok: r.ok, detail: `${r.detail} (baseline probe failed — absolute mode)` } : r;
+      const results: PageCheckResult[] = [];
+      // I41 + I16 — every page, only regressions the run introduced fail.
+      for (const p of [null, ...pageList]) {
+        const challenger = await collectHygiene(withPath(url, p));
+        const baseline = baseUrl ? await collectHygiene(withPath(baseUrl, p)).catch(() => null) : null;
+        const r = diffHygiene(challenger, baseline);
+        results.push({
+          page: p ?? "/",
+          ok: r.ok,
+          detail: baseUrl && !baseline ? `${r.detail} (baseline probe failed — absolute mode)` : r.detail,
+        });
+      }
+      return aggregatePages(results);
     },
   };
 }

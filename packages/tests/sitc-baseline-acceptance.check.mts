@@ -7,7 +7,7 @@
  *
  * Run: pnpm tsx packages/tests/sitc-baseline-acceptance.check.mts
  */
-import { diffA11yViolations, diffHygiene, normalizeConsoleError, type A11yViolation, type HygieneProbe } from "../sitc-core/src/delivery/checks.js";
+import { diffA11yViolations, diffHygiene, normalizeConsoleError, withPath, aggregatePages, type A11yViolation, type HygieneProbe } from "../sitc-core/src/delivery/checks.js";
 
 let pass = 0, fail = 0;
 const ok = (c: boolean, l: string) => { if (c) { pass++; console.log(`  ✓ ${l}`); } else { fail++; console.error(`  ✗ ${l}`); } };
@@ -60,6 +60,28 @@ console.log("C. diffHygiene");
   ok(!diffHygiene(probe({ title: "" }), probe()).ok, "title lost vs baseline → fails");
   ok(diffHygiene(probe({ title: "" }), probe({ title: "" })).ok, "title empty on both → pre-existing, passes");
   ok(!diffHygiene(probe({ lang: "" })).ok, "absolute: missing lang fails");
+}
+
+// ── D. I41 multi-page helpers ────────────────────────────────────────────────
+console.log("D. withPath / aggregatePages (I41)");
+{
+  ok(withPath("http://127.0.0.1:4400/?business=sacrum", "/about") === "http://127.0.0.1:4400/about?business=sacrum", "path applied, query preserved (engine business selection intact)");
+  ok(withPath("http://x.test/?b=1", "contact") === "http://x.test/contact?b=1", "missing leading slash normalized");
+  ok(withPath("http://x.test/?b=1", null) === "http://x.test/?b=1", "null path → main URL unchanged");
+
+  ok(aggregatePages([{ page: "/", ok: true, detail: "clean" }]).detail === "clean", "single page keeps its detail (back-compat)");
+  const multi = aggregatePages([
+    { page: "/", ok: true, detail: "clean vs baseline" },
+    { page: "/about", ok: true, detail: "clean" },
+  ]);
+  ok(multi.ok && multi.detail.includes("2 pages ok") && multi.detail.includes("/about"), "all-clean multi-page names the pages");
+  const failing = aggregatePages([
+    { page: "/", ok: true, detail: "clean" },
+    { page: "/about", ok: false, detail: "new vs baseline: serious:image-alt(2)" },
+    { page: "/contact", ok: false, detail: "1 new console error(s): boom" },
+  ]);
+  ok(!failing.ok, "any failing page fails the check");
+  ok(failing.detail.includes("/about: new vs baseline") && failing.detail.includes("/contact: 1 new console"), "detail names each failing page (a broken inherited page can no longer auto-merge silently)");
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

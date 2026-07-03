@@ -39,6 +39,7 @@ import { cropBands } from "../packages/sitc-core/src/steps/crop-bands.js";
 import { alignSections } from "../packages/sitc-core/src/steps/align-sections.js";
 import { buildTargetContext } from "../packages/sitc-core/src/steps/ingest.js";
 import { resolveRunnerConfig, renderConfigLines } from "../packages/sitc-core/src/orchestrator/config.js";
+import { envFileFallback } from "../packages/sitc-core/src/orchestrator/env-file.js";
 import { renderSection, harnessUrl, measureHorizontalOverflow, MOBILE_GUARD } from "../packages/sitc-core/src/steps/render.js";
 import { closeSharedBrowser } from "../packages/sitc-core/src/browser.js";
 import { mobileGuardVerdict } from "../packages/sitc-core/src/scorer/breakpoints.js";
@@ -61,8 +62,9 @@ const REPO_ROOT = path.resolve(import.meta.dirname, "..");
 const arg = (n: string) => { const i = process.argv.indexOf(`--${n}`); return i >= 0 ? process.argv[i + 1] : undefined; };
 
 async function main() {
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) throw new Error("DATABASE_URL required (control DB)");
+  // I40 — env-file fallback (PM2 freezes env at first start; see env-file.ts).
+  const dbUrl = process.env.DATABASE_URL || (await envFileFallback(REPO_ROOT, "DATABASE_URL"));
+  if (!dbUrl) throw new Error("DATABASE_URL required (control DB; export it or set it in apps/engine/.env)");
   // I29 — ONE typed config resolver over the SITC_* flags. `SITC_PROFILE=live`
   // turns the quality bundle ON (judge gate, mobile guard, prod-build acceptance,
   // delivery PR, escalation); an explicit env value always wins over the profile;
@@ -221,6 +223,20 @@ async function main() {
   // vs a cold per-worktree compile (code-changing strategies).
   let warmRenders = 0;
   let coldRenders = 0;
+  // I40 — render wall-clock: claude spend is metered (I9) but the render path
+  // (the dominant LOCAL cost per CONCLUSIONS #6) wasn't. Accumulated per render
+  // (engine ensure + screenshot), logged + written to cost.json.
+  let renderMsTotal = 0;
+  let renderCount = 0;
+  const timeRender = async <T,>(fn: () => Promise<T>): Promise<T> => {
+    const t0 = Date.now();
+    try {
+      return await fn();
+    } finally {
+      renderMsTotal += Date.now() - t0;
+      renderCount++;
+    }
+  };
 
   // I5 — acceptance target: prod build > operator URL > dev fallback (perf not
   // enforced on dev, since unbundled numbers are inflated/meaningless).
@@ -319,7 +335,7 @@ async function main() {
     mutate: (ctx: any) => meter.scope("mutate", () => mutateCollaborator(ctx)),
     sanity: (ctx: { worktreePath: string; changedFiles: string[]; strategy: any }) =>
       sanityGate({ worktreePath: ctx.worktreePath, changedFiles: ctx.changedFiles, strategy: ctx.strategy, checks: createSanityChecks({}), templateName: template }),
-    render: async (ctx: { worktreePath: string; sectionId: string; strategy: string; base: string }) => {
+    render: (ctx: { worktreePath: string; sectionId: string; strategy: string; base: string }) => timeRender(async () => {
       // The edited JSON ALWAYS comes from the worker's own worktree (via profilePath).
       const wtTemplate = path.join(ctx.worktreePath, "templates", template, `${template}.json`);
       const chrome = ctx.sectionId === "navbar" || ctx.sectionId === "footer" ? (ctx.sectionId as "navbar" | "footer") : undefined;
@@ -353,7 +369,7 @@ async function main() {
       await fs.mkdir(path.dirname(out), { recursive: true });
       await fs.writeFile(out, r.png);
       return { ourImg: out };
-    },
+    }),
     // I25 — cheap identity check: a challenger pixel-identical to the champion
     // skips the VLM score + both judge calls (semantically-null edit).
     pixelSimilarity: async (a: string, b: string) => (await pixelScore(a, b)).similarity,
@@ -397,6 +413,8 @@ async function main() {
   // ONE tracker shared by the main sweep and the I13 escalated pass (was duplicated).
   const unitStats: Record<string, UnitConvergence> = {};
   for (const s of initialStates) unitStats[s.sectionId] = { sectionId: s.sectionId, promotions: 0, threshold: s.threshold };
+  // I37 — champion-generation history for base-worktree retirement (keep last 3).
+  const championGens: string[] = [];
   const trackUnitStats = (sectionId: string, r: { outcome: string; critique?: string; score?: { score: number } }) => {
     const u = unitStats[sectionId];
     if (!u) return;
@@ -409,7 +427,7 @@ async function main() {
   // (through the warm I2 base engine, post-theme) and lock what already matches,
   // BEFORE any mutate tokens are spent. Run 41 burned $7.78/15 mutate calls on
   // units that repeatedly self-reported "already matches". Opt-out: SITC_PRESCORE=0.
-  const renderChampionFor = async (sectionId: string): Promise<string> => {
+  const renderChampionFor = (sectionId: string): Promise<string> => timeRender(async () => {
     const champ = await worktree.champion(runId);
     const tree = await worktree.ensureBaseWorktree(runId, champ);
     const tpl = path.join(tree, "templates", template, `${template}.json`);
@@ -422,7 +440,7 @@ async function main() {
     await fs.mkdir(path.dirname(out), { recursive: true });
     await fs.writeFile(out, r.png);
     return out;
-  };
+  });
   const prescore =
     !cfg.prescore
       ? undefined
@@ -463,6 +481,19 @@ async function main() {
       console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${score}${files}${reason}  [${meter.line()}]`);
       // I15 — lesson attribution + distill history (advisory, never throws).
       writePath.recordIteration(sectionId, r);
+      // I37 — retire base worktrees older than the last 3 champion generations
+      // (same-round iterations may still render from the previous one or two).
+      // Best-effort background work; the engine is stopped before its dir goes.
+      if (r.outcome === "promoted" && r.newChampionCommit) {
+        championGens.push(r.newChampionCommit);
+        if (championGens.length > 3) {
+          const keep = championGens.slice(-3);
+          void worktree
+            .retireBaseWorktrees(runId, keep, { beforeRemove: (wt) => engines.stop(wt) })
+            .then((removed) => { if (removed.length) console.log(`  ♻ retired ${removed.length} stale base worktree(s)`); })
+            .catch(() => {});
+        }
+      }
       // I8 — advisory strategy hint from the structured per-dimension findings.
       if (r.score?.vlm?.findings?.length) {
         const hint = suggestStrategy(r.score.vlm.findings, r.score.vlm.breakdown);
@@ -490,7 +521,14 @@ async function main() {
           log: (m) => console.log(`  🛡 ${m}`),
         }),
       }),
-      acceptance: createAcceptanceChecks({ url: acceptanceUrl, baselineUrl: baselineAcceptanceUrl, enforcePerf: acceptanceTarget.enforcePerf }),
+      acceptance: createAcceptanceChecks({
+        url: acceptanceUrl,
+        baselineUrl: baselineAcceptanceUrl,
+        // I41 — inherited pages (about/contact/…) reuse the converged variants and
+        // ship in the same merge; gate them too. Page key == engine route slug.
+        pages: Object.keys(profile?.pages ?? {}).filter((k) => k !== "home").map((k) => `/${k}`).slice(0, 4),
+        enforcePerf: acceptanceTarget.enforcePerf,
+      }),
     },
     prescore,
     budget,
@@ -559,6 +597,8 @@ async function main() {
   await cleanup();
   console.log(`\n✔ run #${runId} finished: status=${result.finalStatus}  thresholdReached=${result.thresholdReached}  strategies=[${result.strategiesUsed.join(",")}]`);
   console.log(`  renders: ${warmRenders} via shared champion engine (tune-json, I2) / ${coldRenders} via pooled slot engine (code-changing, I3)`);
+  // I40 — render wall-clock (the dominant LOCAL cost, previously unmetered).
+  if (renderCount) console.log(`  render wall-clock: ${renderCount} render(s), ${(renderMsTotal / 1000).toFixed(1)}s total, avg ${(renderMsTotal / renderCount / 1000).toFixed(1)}s`);
 
   // I15 — lessons WRITE-path: distill this run's iteration history into reusable,
   // trait-conditioned lessons (distill → dedupe → insert; duplicates bump evidence
@@ -591,7 +631,7 @@ async function main() {
   const mutCache = cacheByLabel.mutate ?? 0;
   console.log(`  cache-read share: ${cacheStr || "—"}`);
   console.log(`  ↳ kit caching (mutate): ${mutCache >= 0.5 ? `GOOD (${(mutCache * 100).toFixed(0)}%) — warm kit reused` : mutCache > 0 ? `PARTIAL (${(mutCache * 100).toFixed(0)}%)` : "NONE — kit re-sent uncached each spawn; front-load the static prefix or run scripts/sitc-cache-probe.mts to confirm"}`);
-  await fs.writeFile(path.join(artifactsDir, "cost.json"), JSON.stringify({ ...costSnap, roi, cacheReadShareByLabel: cacheByLabel }, null, 2)).catch(() => {});
+  await fs.writeFile(path.join(artifactsDir, "cost.json"), JSON.stringify({ ...costSnap, roi, cacheReadShareByLabel: cacheByLabel, renderWallClock: { count: renderCount, totalMs: renderMsTotal } }, null, 2)).catch(() => {});
 
   // I4 — delivery outcome + durable record (no manual cherry-pick).
   if (result.merged) console.log(`  ✅ auto-merged onto develop: ${result.merged.develop}${result.pushed ? " (pushed)" : " (local only — set SITC_DELIVERY_PUSH=1 to push)"}`);

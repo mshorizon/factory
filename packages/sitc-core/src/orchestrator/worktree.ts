@@ -249,6 +249,39 @@ export class WorktreeManager {
     return git(["rev-parse", "HEAD"], opsWt);
   }
 
+  /**
+   * Retire superseded `__base-<sha>` worktrees (todo I37) — one accumulates per
+   * champion generation (I2) and nothing removed them until run teardown, piling
+   * up disk + engine-LRU pressure on promotion-heavy runs. Keeps `keepShas`
+   * (callers pass the last few generations, since a same-round iteration may
+   * still be rendering from the previous one). `beforeRemove` runs per path
+   * BEFORE removal — the runner stops the worktree's engine there.
+   */
+  async retireBaseWorktrees(
+    runId: string | number,
+    keepShas: string[],
+    opts: { beforeRemove?: (worktreePath: string) => Promise<void> } = {},
+  ): Promise<string[]> {
+    const keep = new Set(keepShas.map((s) => `__base-${s.slice(0, 12).replace(/[^A-Za-z0-9]/g, "")}`));
+    const runDir = path.join(this.worktreeRoot, `run-${runId}`);
+    let entries: string[] = [];
+    try {
+      entries = await fs.readdir(runDir);
+    } catch {
+      return [];
+    }
+    const removed: string[] = [];
+    for (const name of entries) {
+      if (!name.startsWith("__base-") || keep.has(name)) continue;
+      const wt = path.join(runDir, name);
+      if (opts.beforeRemove) await opts.beforeRemove(wt).catch(() => {});
+      await this.removeWorktree(wt);
+      this.baseWorktrees.delete(wt);
+      removed.push(wt);
+    }
+    return removed;
+  }
+
   /** Revert specific files in a worktree back to the champion (per-section revert, §5.2). */
   async revertFiles(worktreePath: string, runId: string | number, files: string[]): Promise<void> {
     const base = await this.champion(runId);

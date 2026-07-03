@@ -86,19 +86,22 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
   const iterationsToLock: Record<string, number> = {};
   let stoppedBy: SweepResult["stoppedBy"] = "settled";
 
-  while (!allSettled([...states.values()])) {
-    // admin commands (pause/abort) take effect between rounds (§16)
+  // todo I39 — pause/abort/budget used to take effect only BETWEEN rounds; a round
+  // is up to maxWorkers iterations (each a claude -p mutate + render + score), so
+  // an admin "abort" could burn ~10 min of real tokens before landing. `stopping`
+  // is also consulted before each in-round dispatch; in-flight iterations finish
+  // (their work integrates or reverts normally), but nothing NEW starts.
+  let stopping: SweepResult["stoppedBy"] | null = null;
+  const checkStopping = async (): Promise<void> => {
+    if (stopping) return;
     if (input.store) {
       const cmd = await input.store.nextCommand(input.runId);
       if (cmd) {
         await input.store.consumeCommand(cmd.id);
-        if (cmd.type === "abort") { stoppedBy = "aborted"; break; }
-        if (cmd.type === "pause") { stoppedBy = "paused"; break; }
+        if (cmd.type === "abort") stopping = "aborted";
+        else if (cmd.type === "pause") stopping = "paused";
+        if (stopping) return;
       }
-    }
-    if (rounds >= maxRounds) {
-      stoppedBy = "maxRounds";
-      break;
     }
     if (
       input.budget &&
@@ -107,16 +110,28 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
         input.budget,
       ).exceeded
     ) {
-      stoppedBy = "budget";
+      stopping = "budget";
+    }
+  };
+
+  while (!allSettled([...states.values()])) {
+    await checkStopping();
+    if (stopping) { stoppedBy = stopping; break; }
+    if (rounds >= maxRounds) {
+      stoppedBy = "maxRounds";
       break;
     }
     rounds++;
     const picked = pickNext([...states.values()], maxWorkers, { minCoverage });
     if (!picked.length) break;
-    workerInvocations += picked.length;
 
     await Promise.all(
       picked.map(async (pick) => {
+        // I39 — re-check before each dispatch: an abort/pause/budget-hit raised by
+        // a sibling iteration (or the admin) stops the REST of the round's picks.
+        await checkStopping();
+        if (stopping) return;
+        workerInvocations++; // only dispatches that actually ran
         const st = states.get(pick.sectionId)!;
         // count the dispatch up front (survives promote, unlike `attempts`) so the
         // coverage floor sees it on the next round's pickNext.

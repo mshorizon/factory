@@ -6,6 +6,13 @@
 >
 > **Headline:** the engineering is done, but the feature's two core claims — "self-improving" and
 > "auto-merge flywheel" — were **not actually operating** in the live runs. Tier 0 turns them on.
+>
+> **STATUS 2026-07-03: I15–I41 ALL RESOLVED** (25 suites, ~510 deterministic checks). Remaining
+> open threads, deliberately deferred: `sitc:seed-calibration` command (I30 — needs a store insert path
+> + artifact home), persisted per-section ids (I32 — schema change; positional matching covers today's
+> case), collaborator/escalation extraction (I33 — thin runner glue, no second consumer), engine
+> refcounting (I37 — idle-age guard covers the observed failure). **Next step: a supervised live run**
+> (`SITC_PROFILE=live SITC_ENABLE_WORKER=1`), then `pnpm sitc:report` to see the gates + flywheel operate.
 
 ---
 
@@ -209,24 +216,47 @@
 
 ## Smaller items (one-liners, fix opportunistically)
 
-- [ ] **I34** — `pixelScore` crops to overlap (`scorer/pixel.ts:35`): a half-height render pays no size
-      penalty (30% of hybrid score + the SSIM gate signal). Multiply by an overlap penalty
-      `(minH/maxH)×(minW/maxW)`.
-- [ ] **I35** — `dismissBanners` (`scorer/capture.ts:18`) clicks any button matching /ok|accept|agree/i —
-      a CTA like "OK, book now" navigates and poisons the one-shot target capture. Scope to
-      dialog/cookie/fixed-overlay containers + assert `page.url()` unchanged.
-- [ ] **I36** — Vite cache dir keyed by port (`orchestrator/engine-manager.ts:112`) + port reuse hands a
-      new worktree a stale cache — the exact failure class the variable was added to prevent. Key by
-      worktree-path hash; clean in `stop()`.
-- [ ] **I37** — EngineManager LRU can evict an engine mid-render (`lastUsed` only bumps on `ensure()`);
-      `__base-<sha>` engines squeeze the window. Refcount acquire/release around renders; evict idle only,
-      prefer stale-champion base engines. Also: base worktrees accumulate one per champion generation
-      until teardown — retire superseded ones when the champion advances.
-- [ ] **I38** — `theme-pass.ts:95` `maxIterations` accepted but never read (dead API); validation guard
-      adopts an invalid candidate when the seed was already invalid — require `after.valid` outright.
-- [ ] **I39** — Pause/abort/budget only take effect between rounds (up to ~10 min latency): re-check
-      `nextCommand` + `budgetExceeded` before each iteration dispatch inside a round.
-- [ ] **I40** — Ops crud: `ecosystem.sitc.config.cjs:18` freezes `DATABASE_URL` into PM2 env at first
-      start (stale after restart); `scripts/sitc-orchestrate.ts` is a stale Phase-1 stub kept beside the
-      real runner (fold into `--stub` or delete); I9 cost telemetry counts only claude spend — render
-      wall-clock (the dominant local cost) is unmetered.
+- [x] **I34** ✅ *(verified in `sitc-small-fixes` 15/15, 2026-07-03)* — `pixelScore` now reports `overlap =
+      (minW/maxW)·(minH/maxH)` and multiplies similarity by it when < 0.95 (few-px render variance stays
+      unpenalized): a half-height render of identical pixels drops from ~1.0 to ~0.5. Applies to the
+      hybrid score, the identity gate (only makes it conservatively not-fire on real size changes), and
+      the regression-SSIM signal.
+- [x] **I35** ✅ — `dismissBanners` clicks only buttons inside banner-ish containers (role=dialog/
+      alertdialog, aria-modal, cookie/consent/gdpr/privacy class-or-id) plus a second pass for unnamed
+      fixed/sticky overlays; after EVERY click `page.url()` is asserted and a navigation is undone by
+      re-goto-ing the capture URL. A page CTA like "OK, book now" can no longer poison the capture.
+- [x] **I36** ✅ — Vite cache dir keyed by a sha1 of the WORKTREE path (was: port — port reuse handed a
+      different worktree a stale cache), and `stop()` removes the dead engine's cache dir so `/tmp`
+      caches no longer persist across runs.
+- [x] **I37** ✅ *(retirement verified in `sitc-small-fixes`)* — eviction now considers only engines idle
+      >180s (an engine ensured recently may be mid-render); if none are idle the cap is soft-exceeded
+      with a log instead of killing a busy engine. `WorktreeManager.retireBaseWorktrees(runId, keepShas,
+      {beforeRemove})` retires superseded `__base-` generations; the runner keeps the last 3 champion
+      generations and stops each engine before its worktree is removed. (Full refcounting deferred —
+      the idle-age guard covers the observed failure mode without an API change.)
+- [x] **I38** ✅ *(verified in `sitc-small-fixes`)* — dead `maxIterations` param dropped; the guard is now
+      simply "adopt the candidate only if IT validates" — an invalid candidate off an already-invalid
+      seed keeps the seed (the old guard adopted it, compounding the breakage).
+- [x] **I39** ✅ *(verified in `sitc-small-fixes`)* — commands + budget (incl. live `spentUsd`) are
+      re-checked before each in-round dispatch via a shared `stopping` flag; skipped dispatches don't
+      count as invocations. Honest scope note: dispatches within a round start concurrently, so the
+      practical latency floor is one iteration's duration — true preemption of in-flight `claude -p`
+      is out of scope; what this fixes is a round dispatching new work after the stop condition is
+      already known at dispatch time.
+- [x] **I40** ✅ — (a) `envFileFallback` (`orchestrator/env-file.ts`): runner + run-db CLI fall back to
+      `apps/engine/.env` for `DATABASE_URL`, so PM2's frozen-at-first-start env can't brick the GC cron
+      (config comment documents `pm2 restart --update-env`); (b) stale `scripts/sitc-orchestrate.ts`
+      Phase-1 stub DELETED along with its npm script (which also embedded the DB credential);
+      (c) render wall-clock is now metered (count/total/avg logged + `renderWallClock` in `cost.json`) —
+      the dominant local cost is no longer invisible next to claude spend.
+- [x] **I41 — Acceptance gate covers inherited pages.** *(Found in the post-backlog cross-check: this
+      reviewer finding had been dropped from the original todo.)* ✅ *built & verified (2026-07-03,
+      `sitc-baseline-acceptance` 27/27).* a11y/hygiene/responsive previously probed ONLY the home URL,
+      while about/contact/… inherit the converged variants and ship in the same merge — a broken
+      inherited page could auto-merge. Now `createAcceptanceChecks({pages})` iterates the main URL plus
+      each page path (runner derives them from `profile.pages` keys == engine route slugs, capped at 4),
+      each diffed I16-style against the SAME path on the develop baseline; `responsive` also became
+      baseline-relative (a pre-existing overflow can't fail every future run). Pure helpers `withPath`
+      (query-preserving — `?business=` selection intact) + `aggregatePages` (any failing page fails, named
+      per page) are exported + unit-checked. Perf stays home-only by design (CWV budgets are an
+      origin-level signal).
