@@ -407,6 +407,9 @@ async function main() {
     collab,
     initialStates,
     maxWorkers: run.maxWorkers,
+    // Coverage floor (CONCLUSIONS #6): guarantee every in-play unit is attempted
+    // ≥N times before budget re-rolls a peer. Default 1; override via env.
+    minCoverage: process.env.SITC_MIN_COVERAGE ? Number(process.env.SITC_MIN_COVERAGE) : undefined,
     onIteration: (sectionId, r) => {
       const score = r.score ? ` score=${r.score.score.toFixed(3)}` : "";
       const reason = r.critique ? ` — ${r.critique.slice(0, 240).replace(/\s+/g, " ")}` : "";

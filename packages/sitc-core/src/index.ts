@@ -126,8 +126,8 @@ export type { AllowlistResult } from "./loop/allowlist.js";
 export { sanityGate } from "./loop/sanity.js";
 export type { SanityCheck, SanityInput, SanityResult } from "./loop/sanity.js";
 export { STRATEGY_LADDER, STRATEGY_COST, forcesReview, nextStrategy, ladderExhausted } from "./loop/strategy.js";
-export { pickNext, gap, inPlay, allSettled } from "./loop/scheduler.js";
-export type { SectionState } from "./loop/scheduler.js";
+export { pickNext, gap, inPlay, allSettled, dispatchesOf, isCovered, coverageMet } from "./loop/scheduler.js";
+export type { SectionState, PickOptions } from "./loop/scheduler.js";
 export { runSectionIteration, createMutex } from "./loop/section-iteration.js";
 export type {
   SectionCollaborators,

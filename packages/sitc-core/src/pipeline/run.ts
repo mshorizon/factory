@@ -49,6 +49,8 @@ export interface FullRunInput {
   maxWorkers?: number;
   budget?: BudgetCaps;
   model?: string;
+  /** Coverage floor forwarded to the sweep (CONCLUSIONS #6). Default 1. */
+  minCoverage?: number;
   /** Per-iteration observability (outcome/score/reason) for logging. */
   onIteration?: SweepInput["onIteration"];
 }
@@ -127,6 +129,7 @@ async function drive(input: FullRunInput): Promise<FullRunResult> {
     initialStates: input.initialStates,
     championImg: input.championImg,
     maxWorkers: input.maxWorkers,
+    minCoverage: input.minCoverage,
     budget: input.budget,
     store: input.store,
     worktreePool: input.worktreePool,

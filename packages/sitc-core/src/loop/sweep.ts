@@ -34,6 +34,13 @@ export interface SweepInput {
   nowMs?: () => number;
   /** Consecutive low-yield attempts before escalating strategy. */
   plateauAfter?: number;
+  /**
+   * Coverage floor (CONCLUSIONS #6): every in-play section is dispatched at least
+   * this many times before the scheduler re-rolls an already-covered peer, so a
+   * budget/round cap can't starve a unit to 0 iterations (the `about` orphan bug).
+   * Default 1. Set 0 to disable (pure gap ordering). Bounded by rounds×maxWorkers.
+   */
+  minCoverage?: number;
   onIteration?: (sectionId: string, r: SectionIterationResult) => void;
 }
 
@@ -63,6 +70,7 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
   const maxWorkers = input.maxWorkers ?? 3;
   const maxRounds = input.maxRounds ?? 50;
   const plateauAfter = input.plateauAfter ?? 2;
+  const minCoverage = input.minCoverage ?? 1;
   const now = input.nowMs ?? (() => Date.now());
   const startMs = now();
   let rounds = 0;
@@ -94,13 +102,16 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
       break;
     }
     rounds++;
-    const picked = pickNext([...states.values()], maxWorkers);
+    const picked = pickNext([...states.values()], maxWorkers, { minCoverage });
     if (!picked.length) break;
     workerInvocations += picked.length;
 
     await Promise.all(
       picked.map(async (pick) => {
         const st = states.get(pick.sectionId)!;
+        // count the dispatch up front (survives promote, unlike `attempts`) so the
+        // coverage floor sees it on the next round's pickNext.
+        st.dispatches = (st.dispatches ?? 0) + 1;
         // Isolate per-section failures: an error in one iteration (worker crash,
         // render/score throw) degrades to a low-yield no-op for THAT section, it
         // never aborts the whole sweep.
