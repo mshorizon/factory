@@ -124,6 +124,16 @@ export interface AcceptanceToolchainOptions {
    * only exists after the champion worktree is built (post-sweep).
    */
   url: string | (() => Promise<string>);
+  /**
+   * BASELINE page (the same template rendered from `develop`) for baseline-relative
+   * a11y/hygiene (todo I16). When set, those checks fail ONLY on violations not
+   * already present on the baseline — a pre-existing defect (e.g. an old footer
+   * iframe with bad contrast) can no longer fail every future run and permanently
+   * block auto-merge. Lazily resolved + memoized like `url`; if resolution or the
+   * baseline probe fails, checks degrade to ABSOLUTE mode with a note (fail-safe:
+   * stricter, never looser). Absent → absolute mode (previous behavior).
+   */
+  baselineUrl?: string | (() => Promise<string>);
   /** Mobile URL for the responsive check (defaults to the resolved `url`). */
   mobileUrl?: string;
   budgets?: PerfBudgets;
@@ -138,6 +148,77 @@ export interface AcceptanceToolchainOptions {
    * is skipped (passes with a note) and a11y/responsive/hygiene still run. Default true.
    */
   enforcePerf?: boolean;
+}
+
+// ─── baseline-relative diffing (todo I16) — pure, unit-tested ────────────────
+
+export interface A11yViolation {
+  impact: string;
+  id: string;
+  nodes: number;
+}
+
+/**
+ * Fail only on axe rule ids NOT present on the baseline. Rule-id granularity (not
+ * per-node) — a pre-existing violation growing by a node is tolerated; a NEW rule
+ * firing is not. `baseline` null/undefined → absolute mode (fail on any violation).
+ */
+export function diffA11yViolations(
+  challenger: A11yViolation[],
+  baseline?: A11yViolation[] | null,
+): { ok: boolean; detail: string } {
+  const fmt = (vs: A11yViolation[]) => vs.map((v) => `${v.impact}:${v.id}(${v.nodes})`).join(", ");
+  if (baseline == null) return { ok: challenger.length === 0, detail: fmt(challenger) || "axe clean" };
+  const baseIds = new Set(baseline.map((v) => v.id));
+  const fresh = challenger.filter((v) => !baseIds.has(v.id));
+  const suppressed = challenger.length - fresh.length;
+  return {
+    ok: fresh.length === 0,
+    detail: fresh.length
+      ? `new vs baseline: ${fmt(fresh)}${suppressed ? ` (+${suppressed} pre-existing suppressed)` : ""}`
+      : `axe clean vs baseline${suppressed ? ` (${suppressed} pre-existing suppressed)` : ""}`,
+  };
+}
+
+export interface HygieneProbe {
+  title: string;
+  lang: string;
+  imgsNoAlt: number;
+  leaked: number;
+  consoleErrors: string[];
+}
+
+/** Normalize a console-error message so the same defect matches across renders (URLs/ports/counters vary). */
+export function normalizeConsoleError(msg: string): string {
+  return msg.replace(/https?:\/\/[^\s"']+/g, "<url>").replace(/\d+/g, "<n>").trim().slice(0, 100);
+}
+
+/**
+ * Baseline-relative hygiene: fail only on regressions the run INTRODUCED —
+ * counts that grew vs the baseline, a title/lang that disappeared, console errors
+ * whose normalized text isn't in the baseline. `baseline` null/undefined →
+ * absolute mode (previous behavior).
+ */
+export function diffHygiene(challenger: HygieneProbe, baseline?: HygieneProbe | null): { ok: boolean; detail: string } {
+  const fails: string[] = [];
+  const rel = baseline != null;
+  if (!challenger.title && (!rel || baseline.title)) fails.push("empty <title>");
+  if (!challenger.lang && (!rel || baseline.lang)) fails.push("missing <html lang>");
+  const grew = (c: number, b: number) => (rel ? c > b : c > 0);
+  if (grew(challenger.imgsNoAlt, baseline?.imgsNoAlt ?? 0))
+    fails.push(`${challenger.imgsNoAlt} img without alt${rel ? ` (baseline ${baseline.imgsNoAlt})` : ""}`);
+  if (grew(challenger.leaked, baseline?.leaked ?? 0))
+    fails.push(`${challenger.leaked} leaked t: keys${rel ? ` (baseline ${baseline.leaked})` : ""}`);
+  const baseErr = new Set((baseline?.consoleErrors ?? []).map(normalizeConsoleError));
+  const newErrs = rel
+    ? challenger.consoleErrors.filter((e) => !baseErr.has(normalizeConsoleError(e)))
+    : challenger.consoleErrors;
+  if (newErrs.length) fails.push(`${newErrs.length} ${rel ? "new " : ""}console error(s): ${newErrs[0]}`);
+  const suppressed = rel ? challenger.consoleErrors.length - newErrs.length : 0;
+  return {
+    ok: fails.length === 0,
+    detail: fails.join("; ") || (rel ? `clean vs baseline${suppressed ? ` (${suppressed} pre-existing console error(s) suppressed)` : ""}` : "clean"),
+  };
 }
 
 async function withBrowser<T>(fn: (page: Page, ctx: import("playwright").BrowserContext, browser: import("playwright").Browser) => Promise<T>, viewport: { width: number; height: number }): Promise<T> {
@@ -160,6 +241,41 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
   // Resolve (and build, in I5 build-mode) the preview URL once, shared by all checks.
   let urlCache: Promise<string> | undefined;
   const resolveUrl = () => (urlCache ??= Promise.resolve(typeof opts.url === "function" ? opts.url() : opts.url));
+  // Baseline URL (I16) — null when unset OR when resolution fails (→ absolute mode).
+  let baselineCache: Promise<string | null> | undefined;
+  const resolveBaseline = () =>
+    (baselineCache ??= opts.baselineUrl == null
+      ? Promise.resolve(null)
+      : Promise.resolve(typeof opts.baselineUrl === "function" ? opts.baselineUrl() : opts.baselineUrl).catch(() => null));
+
+  const collectA11y = (url: string): Promise<A11yViolation[]> =>
+    withBrowser(async (page) => {
+      await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
+      await page.addScriptTag({ content: axeCore.source });
+      const results = await page.evaluate(async () => {
+        const axe = (window as unknown as { axe: { run: (d: Document, o: unknown) => Promise<{ violations: unknown[] }> } }).axe;
+        return await axe.run(document, { resultTypes: ["violations"] });
+      });
+      return (results.violations as any[])
+        .filter((v) => failOn.includes(v.impact))
+        .map((v) => ({ impact: v.impact as string, id: v.id as string, nodes: v.nodes.length as number }));
+    }, desktop);
+
+  const collectHygiene = (url: string): Promise<HygieneProbe> =>
+    withBrowser(async (page) => {
+      const consoleErrors: string[] = [];
+      page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 120)); });
+      await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
+      const probe = await page.evaluate(() => {
+        const imgsNoAlt = Array.from(document.querySelectorAll("img")).filter((i) => !i.hasAttribute("alt")).length;
+        const title = document.title?.trim() ?? "";
+        // leaked i18n keys like "t:hero.title" rendered as visible text
+        const leaked = (document.body.innerText.match(/\bt:[a-zA-Z0-9_.-]+/g) ?? []).length;
+        const lang = document.documentElement.getAttribute("lang") ?? "";
+        return { imgsNoAlt, title, leaked, lang };
+      });
+      return { ...probe, consoleErrors };
+    }, desktop);
 
   return {
     async perf() {
@@ -197,17 +313,13 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
 
     async a11y() {
       const url = await resolveUrl();
-      return withBrowser(async (page) => {
-        await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
-        await page.addScriptTag({ content: axeCore.source });
-        const results = await page.evaluate(async () => {
-          const axe = (window as unknown as { axe: { run: (d: Document, o: unknown) => Promise<{ violations: unknown[] }> } }).axe;
-          return await axe.run(document, { resultTypes: ["violations"] });
-        });
-        const blocking = (results.violations as any[]).filter((v) => failOn.includes(v.impact));
-        const detail = blocking.map((v) => `${v.impact}:${v.id}(${v.nodes.length})`).join(", ");
-        return { ok: blocking.length === 0, detail: detail || `axe clean (${(results.violations as any[]).length} non-blocking)` };
-      }, desktop);
+      const challenger = await collectA11y(url);
+      // I16 — baseline-relative: pre-existing violations (present on develop) can't
+      // fail the run; only NEW rule ids do. Baseline probe failure → absolute mode.
+      const baseUrl = await resolveBaseline();
+      const baseline = baseUrl ? await collectA11y(baseUrl).catch(() => null) : null;
+      const r = diffA11yViolations(challenger, baseline);
+      return baseUrl && !baseline ? { ok: r.ok, detail: `${r.detail} (baseline probe failed — absolute mode)` } : r;
     },
 
     async responsive() {
@@ -228,26 +340,13 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
 
     async hygiene() {
       const url = await resolveUrl();
-      return withBrowser(async (page) => {
-        const consoleErrors: string[] = [];
-        page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 120)); });
-        await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
-        const probe = await page.evaluate(() => {
-          const imgsNoAlt = Array.from(document.querySelectorAll("img")).filter((i) => !i.hasAttribute("alt")).length;
-          const title = document.title?.trim() ?? "";
-          // leaked i18n keys like "t:hero.title" rendered as visible text
-          const leaked = (document.body.innerText.match(/\bt:[a-zA-Z0-9_.-]+/g) ?? []).length;
-          const lang = document.documentElement.getAttribute("lang") ?? "";
-          return { imgsNoAlt, title, leaked, lang };
-        });
-        const fails: string[] = [];
-        if (!probe.title) fails.push("empty <title>");
-        if (!probe.lang) fails.push("missing <html lang>");
-        if (probe.imgsNoAlt > 0) fails.push(`${probe.imgsNoAlt} img without alt`);
-        if (probe.leaked > 0) fails.push(`${probe.leaked} leaked t: keys`);
-        if (consoleErrors.length) fails.push(`${consoleErrors.length} console error(s): ${consoleErrors[0]}`);
-        return { ok: fails.length === 0, detail: fails.join("; ") || "clean" };
-      }, desktop);
+      const challenger = await collectHygiene(url);
+      // I16 — baseline-relative: only regressions the run introduced fail (counts
+      // that grew, new console errors). Baseline probe failure → absolute mode.
+      const baseUrl = await resolveBaseline();
+      const baseline = baseUrl ? await collectHygiene(baseUrl).catch(() => null) : null;
+      const r = diffHygiene(challenger, baseline);
+      return baseUrl && !baseline ? { ok: r.ok, detail: `${r.detail} (baseline probe failed — absolute mode)` } : r;
     },
   };
 }

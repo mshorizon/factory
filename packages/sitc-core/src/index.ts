@@ -153,8 +153,10 @@ export { InMemoryLessonStore } from "./learning/lesson-store.js";
 export type { LessonStore, LessonRecord, NewLesson } from "./learning/lesson-store.js";
 export { retrieveLessons, lessonsToPromptBlock } from "./learning/retrieval.js";
 export type { RetrievalQuery, RetrievedLesson } from "./learning/retrieval.js";
-export { distillLessons, dedupeLessons } from "./learning/distill.js";
+export { distillLessons, dedupeLessons, serializeHistory } from "./learning/distill.js";
 export type { IterationDatum, DistilledLesson, DistillInput, DedupeResult } from "./learning/distill.js";
+export { createLessonWritePath, traitTagsFromStyle, sampleHistory, TRAIT_VOCAB } from "./learning/write-path.js";
+export type { LessonWritePath, LessonWritePathOpts, DistillOutcome } from "./learning/write-path.js";
 export { renderLessonsDigest } from "./learning/digest.js";
 export type { DigestOptions } from "./learning/digest.js";
 
@@ -175,13 +177,15 @@ export { isAdditiveSchemaChange } from "./delivery/schema-additive.js";
 export type { AdditiveResult } from "./delivery/schema-additive.js";
 export { regressionGate, acceptanceGate } from "./delivery/gates.js";
 export type { GateResult, RegressionChecks, RegressionInput, AcceptanceChecks } from "./delivery/gates.js";
-export { createSanityChecks, createRegressionChecks, createAcceptanceChecks } from "./delivery/checks.js";
+export { createSanityChecks, createRegressionChecks, createAcceptanceChecks, diffA11yViolations, diffHygiene, normalizeConsoleError } from "./delivery/checks.js";
 export type {
   CmdResult,
   SanityToolchainOptions,
   RegressionToolchainOptions,
   AcceptanceToolchainOptions,
   PerfBudgets,
+  A11yViolation,
+  HygieneProbe,
 } from "./delivery/checks.js";
 export { decideDelivery, mergeRunToDevelop, landDelivery, ghOpenPr } from "./delivery/delivery.js";
 export type { DeliveryDecision, DeliveryInput, DeliveryRouting, MergeOptions, LandingOptions, LandingResult } from "./delivery/delivery.js";

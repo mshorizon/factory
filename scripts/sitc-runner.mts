@@ -20,6 +20,7 @@
  */
 import path from "node:path";
 import { promises as fs } from "node:fs";
+import { execFile } from "node:child_process";
 import { initDb } from "../packages/db/src/client.js";
 import { DrizzleRunStore } from "../packages/db/src/sitc-store.js";
 import { DrizzleLessonStore } from "../packages/db/src/sitc-lesson-store.js";
@@ -29,7 +30,7 @@ import { WorktreeManager } from "../packages/sitc-core/src/orchestrator/worktree
 import { WorktreePool } from "../packages/sitc-core/src/orchestrator/worktree-pool.js";
 import { EngineManager } from "../packages/sitc-core/src/orchestrator/engine-manager.js";
 import { defaultEmbedder, probeEmbedder } from "../packages/sitc-core/src/learning/embed.js";
-import { retrieveLessons, lessonsToPromptBlock } from "../packages/sitc-core/src/learning/retrieval.js";
+import { createLessonWritePath, traitTagsFromStyle } from "../packages/sitc-core/src/learning/write-path.js";
 import { createClaudeWorker } from "../packages/sitc-core/src/claude-worker.js";
 import { CostMeter, runCostRoi, cacheReadShareByLabel } from "../packages/sitc-core/src/cost-meter.js";
 import { captureTarget, summarizeBandImages } from "../packages/sitc-core/src/scorer/capture.js";
@@ -287,6 +288,24 @@ async function main() {
         ? acceptanceTarget.url!
         : `${engineUrl}/?business=${template}`;
 
+  // I16 — baseline page for baseline-relative a11y/hygiene: the SAME template
+  // served from a worktree pinned at develop, so PRE-EXISTING defects (e.g. the
+  // footer map-iframe a11y violations + its console error, which failed runs 40/41
+  // forever) can't fail the gate — only regressions the run introduced do. Note:
+  // in build-mode the challenger is a prod build while the baseline is a dev
+  // engine; that's fine for a11y/DOM-hygiene (defects live in components/JSON, not
+  // the bundler), and a failed baseline probe degrades to absolute mode anyway.
+  const revParseDevelop = () =>
+    new Promise<string>((resolve, reject) =>
+      execFile("git", ["rev-parse", "develop"], { cwd: REPO_ROOT }, (err, stdout) => (err ? reject(err) : resolve(stdout.trim()))),
+    );
+  const baselineAcceptanceUrl = async () => {
+    const devSha = await revParseDevelop();
+    const tree = await worktree.ensureBaseWorktree(runId, devSha);
+    const base = await engines.ensure(tree, { warmupUrl: `http://127.0.0.1/?business=${template}` });
+    return `${base}/?business=${template}`;
+  };
+
   let cleanedUp = false;
   const cleanup = async () => {
     if (cleanedUp) return;
@@ -300,18 +319,24 @@ async function main() {
   }
   const indexById = Object.fromEntries(evolve.map((s) => [s.id, s.idx]));
 
-  // lessons retrieval (DESIGN §9.2) — advisory hints into the worker prompt; degrades
-  // to empty (no lessons) if the store is empty or pgvector is unavailable.
+  // Lessons READ + WRITE path (DESIGN §9.2 + §9.4, todo I15). Retrieval injects
+  // advisory hints into the worker prompt (traits threaded as the §9.2 pre-filter);
+  // recordIteration attributes each outcome to the injected lessons (recordUse →
+  // confidence → archive); finalize() distills this run's history into new lessons
+  // at run end. The OFF arm (SITC_DISABLE_LESSONS) injects nothing but still WRITES,
+  // so learning compounds regardless of the A/B arm. Degrades to a no-op if the
+  // store/pgvector is unavailable.
   const lessonStore = new DrizzleLessonStore();
-  const lessonsFor = async (ctx: { sectionId: string; strategy: string; critique?: string }) => {
-    try {
-      const text = `${ctx.sectionId} ${ctx.strategy} ${ctx.critique ?? ""}`.trim();
-      const hits = await retrieveLessons(lessonStore, embed, { scope: ctx.sectionId.split("#")[0], text });
-      return lessonsToPromptBlock(hits);
-    } catch {
-      return "";
-    }
-  };
+  const writePath = createLessonWritePath({
+    store: lessonStore,
+    embed,
+    runId,
+    designTraits: traitTagsFromStyle(cap.globalStyle),
+    inject: !lessonsDisabled,
+    model,
+    log: (m) => console.log(`  📚 ${m}`),
+  });
+  const lessonsFor = writePath.lessonsFor;
 
   // Factory so the I13 escalated pass can rebuild it with a stronger model.
   const buildMutate = (m: string) =>
@@ -322,7 +347,7 @@ async function main() {
       sectionTypeFor: (id: string) => id.split("#")[0], // "hero#0" → "hero"
       targetStyleFor: (id: string) => styleFor[id], // measured ground-truth CSS + imagery (I11)
       templateName: template, // worker may edit ONLY this template's JSON
-      lessonsFor: lessonsDisabled ? undefined : lessonsFor, // OFF arm injects no lessons (I1 A/B)
+      lessonsFor, // OFF arm (I1 A/B) returns "" — write-path still tracks strategy/outcomes
       model: m,
     });
   const mutateCollaborator = buildMutate(model);
@@ -415,6 +440,8 @@ async function main() {
       const reason = r.critique ? ` — ${r.critique.slice(0, 240).replace(/\s+/g, " ")}` : "";
       const files = r.changedFiles.length ? ` files=${r.changedFiles.length}` : "";
       console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${score}${files}${reason}  [${meter.line()}]`);
+      // I15 — lesson attribution + distill history (advisory, never throws).
+      writePath.recordIteration(sectionId, r);
       // I8 — advisory strategy hint from the structured per-dimension findings.
       if (r.score?.vlm?.findings?.length) {
         const hint = suggestStrategy(r.score.vlm.findings, r.score.vlm.breakdown);
@@ -445,7 +472,7 @@ async function main() {
           log: (m) => console.log(`  🛡 ${m}`),
         }),
       }),
-      acceptance: createAcceptanceChecks({ url: acceptanceUrl, enforcePerf: acceptanceTarget.enforcePerf }),
+      acceptance: createAcceptanceChecks({ url: acceptanceUrl, baselineUrl: baselineAcceptanceUrl, enforcePerf: acceptanceTarget.enforcePerf }),
     },
     budget: run.budgetIterations ? { maxIterations: run.budgetIterations } : undefined,
     landing,
@@ -492,6 +519,7 @@ async function main() {
         store,
         onIteration: (sectionId, r) => {
           console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${r.score ? ` score=${r.score.score.toFixed(3)}` : ""}`);
+          writePath.recordIteration(sectionId, r);
           const u = unitStats[sectionId];
           if (u) {
             if (r.outcome === "promoted") u.promotions++;
@@ -507,6 +535,21 @@ async function main() {
   await cleanup();
   console.log(`\n✔ run #${runId} finished: status=${result.finalStatus}  thresholdReached=${result.thresholdReached}  strategies=[${result.strategiesUsed.join(",")}]`);
   console.log(`  renders: ${warmRenders} via shared champion engine (tune-json, I2) / ${coldRenders} via pooled slot engine (code-changing, I3)`);
+
+  // I15 — lessons WRITE-path: distill this run's iteration history into reusable,
+  // trait-conditioned lessons (distill → dedupe → insert; duplicates bump evidence
+  // on the existing row). This is the "next run starts smarter" leg the read-path
+  // alone never delivered. Advisory: a failure is logged, never fails the run.
+  // Runs before the cost snapshot so its spend lands in cost.json (label "distill").
+  if (process.env.SITC_DISABLE_DISTILL !== "1") {
+    const distilled = await meter
+      .scope("distill", () => writePath.finalize(readRunner, { traits: cap.globalStyle as Record<string, unknown> }))
+      .catch((e) => {
+        console.log(`  📚 lessons distill failed: ${String(e).slice(0, 140)}`);
+        return null;
+      });
+    if (distilled) console.log(`  📚 lessons: ${distilled.proposed} proposed → ${distilled.inserted} new, ${distilled.merged} merged (evidence bumped)`);
+  }
 
   // I9 — real cost/ROI for this run (vs. the pre-launch estimate).
   const costSnap = meter.snapshot();

@@ -64,9 +64,11 @@ export class DrizzleLessonStore implements LessonStore {
       : eq(sitcLessons.archived, false);
     const rows = await this.db.select().from(sitcLessons).where(where);
     const traits = new Set(filter.designTraits ?? []);
+    // Trait-less lessons are wildcards (apply to any design) — same semantics as
+    // InMemoryLessonStore.candidates.
     return rows
       .map(toRecord)
-      .filter((r) => traits.size === 0 || r.designTraits.some((t) => traits.has(t)));
+      .filter((r) => traits.size === 0 || r.designTraits.length === 0 || r.designTraits.some((t) => traits.has(t)));
   }
 
   async all(includeArchived = false): Promise<LessonRecord[]> {
