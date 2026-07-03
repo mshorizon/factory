@@ -33,10 +33,12 @@ import { defaultEmbedder, probeEmbedder } from "../packages/sitc-core/src/learni
 import { createLessonWritePath, traitTagsFromStyle } from "../packages/sitc-core/src/learning/write-path.js";
 import { createClaudeWorker } from "../packages/sitc-core/src/claude-worker.js";
 import { CostMeter, runCostRoi, cacheReadShareByLabel } from "../packages/sitc-core/src/cost-meter.js";
-import { captureTarget, summarizeBandImages } from "../packages/sitc-core/src/scorer/capture.js";
+import { captureTarget } from "../packages/sitc-core/src/scorer/capture.js";
 import { segmentTarget } from "../packages/sitc-core/src/steps/segment.js";
 import { cropBands } from "../packages/sitc-core/src/steps/crop-bands.js";
-import { alignSections, targetImageMap } from "../packages/sitc-core/src/steps/align-sections.js";
+import { alignSections } from "../packages/sitc-core/src/steps/align-sections.js";
+import { buildTargetContext } from "../packages/sitc-core/src/steps/ingest.js";
+import { resolveRunnerConfig, renderConfigLines } from "../packages/sitc-core/src/orchestrator/config.js";
 import { renderSection, harnessUrl, measureHorizontalOverflow, MOBILE_GUARD } from "../packages/sitc-core/src/steps/render.js";
 import { closeSharedBrowser } from "../packages/sitc-core/src/browser.js";
 import { mobileGuardVerdict } from "../packages/sitc-core/src/scorer/breakpoints.js";
@@ -61,25 +63,13 @@ const arg = (n: string) => { const i = process.argv.indexOf(`--${n}`); return i 
 async function main() {
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) throw new Error("DATABASE_URL required (control DB)");
-  const engineUrl = process.env.SITC_ENGINE_URL ?? "http://localhost:4321";
-  const model = process.env.SITC_MODEL ?? "sonnet";
-  // I28 — post-I2/I3 warm engines render in seconds; the old 240s wait made every
-  // non-fail-fast wedge cost 4 minutes. One retry covers a transient slow compile.
-  const renderTimeoutMs = process.env.SITC_RENDER_TIMEOUT_MS ? Number(process.env.SITC_RENDER_TIMEOUT_MS) : 60_000;
-  const workerEnabled = process.env.SITC_ENABLE_WORKER === "1";
-  // I1 / §18-G: the OFF arm of the lessons A/B. With this set, no lessons are
-  // retrieved into the worker prompt → run.metrics is directly comparable to a
-  // lessons-on run via scripts/sitc-lessons-ab.mts.
-  const lessonsDisabled = process.env.SITC_DISABLE_LESSONS === "1";
-  // I4 — delivery landing. Local no-ff merge always accumulates on the VPS's
-  // `develop` so the next run seeds improved (CONCLUSIONS #7). Pushing is
-  // outward-facing (triggers prod deploy) → opt-in. PR mode pushes the branch +
-  // opens a gh PR for needs_review runs instead of leaving them for cherry-pick.
-  const landing = {
-    push: process.env.SITC_DELIVERY_PUSH === "1",
-    openPr: process.env.SITC_DELIVERY_PR === "1",
-    remote: process.env.SITC_GIT_REMOTE ?? "origin",
-  };
+  // I29 — ONE typed config resolver over the SITC_* flags. `SITC_PROFILE=live`
+  // turns the quality bundle ON (judge gate, mobile guard, prod-build acceptance,
+  // delivery PR, escalation); an explicit env value always wins over the profile;
+  // the effective config prints below so the operator sees what will actually run.
+  const cfg = resolveRunnerConfig(process.env);
+  const { engineUrl, model, renderTimeoutMs, workerEnabled, lessonsDisabled } = cfg;
+  const landing = { push: cfg.deliveryPush, openPr: cfg.deliveryPr, remote: cfg.gitRemote };
   const owner = arg("owner") ?? "vps";
   const runId = Number(arg("run"));
   if (!runId) throw new Error("--run <id> required");
@@ -97,7 +87,8 @@ async function main() {
   const artifactsDir = path.join(REPO_ROOT, ".sitc", "runs", String(runId));
   await fs.mkdir(artifactsDir, { recursive: true });
 
-  console.log(`▶ run #${runId}  template=${template}  target=${targetUrl}  owner=${owner}  worker=${workerEnabled ? "LIVE" : "disabled (plan only)"}  lessons=${lessonsDisabled ? "OFF (A/B off-arm)" : "on"}`);
+  console.log(`▶ run #${runId}  template=${template}  target=${targetUrl}  owner=${owner}`);
+  for (const line of renderConfigLines(cfg)) console.log(`  ⚙ ${line}`);
 
   // I9 — live cost/ROI meter: every `claude -p` call feeds it (onUsage); collab
   // calls are scoped by type so cost attributes to mutate/score/judge.
@@ -126,54 +117,13 @@ async function main() {
       : await segmentTarget(readRunner, desktopShot, { model });
   console.log(`  segmentation: ${cap.domBands.length >= 2 ? `DOM (${cap.domBands.length} sections)` : "VLM fallback"}`);
   const crops = await cropBands({ screenshotPath: desktopShot, bands, outDir: path.join(artifactsDir, "crops") });
-  const cropPaths = Object.fromEntries(crops.map((c) => [c.band.index, c.path]));
   // align against the SAME normalized bands that were cropped.
   const alignment = alignSections(crops.map((c) => c.band), homeSections);
-  const sectionIds = homeSections.map((s, i) => `${s.type}#${i}`);
-  const targetFor = targetImageMap(alignment, sectionIds, cropPaths);
-
-  // Ground-truth styling per section (measured CSS; normalizeBands preserves the
-  // spread `style` field through cropping). Maps band index → our section via the
-  // same alignment used for crops.
-  const fmtStyle = (s: any): string =>
-    [
-      `page/section background ${s.bg}`,
-      `body text ${s.text}`,
-      `brand/accent color ${s.accent}`,
-      `heading font "${s.headingFont}"`,
-      `body font "${s.bodyFont}"`,
-      `corner radius ${s.radius}`,
-      s.card ? `cards: background ${s.card.bg}, border ${s.card.border}` : "",
-      s.button ? `buttons: background ${s.button.bg}, text ${s.button.text}` : "",
-    ]
-      .filter(Boolean)
-      .join("; ");
-  const styleByBand: Record<number, string> = {};
-  for (const c of crops) {
-    const st = (c.band as any).style;
-    const imgs = (c.band as any).images as import("../packages/sitc-core/src/scorer/capture.js").BandImage[] | undefined;
-    let s = st ? fmtStyle(st) : "";
-    // I11 — append the section's reference imagery shape so the worker picks a
-    // closer-aspect placeholder/R2 asset (not the target's actual bytes).
-    if (imgs?.length) s += (s ? "; " : "") + `imagery: ${summarizeBandImages(imgs)}`;
-    if (s) styleByBand[c.band.index] = s;
-  }
-  const styleFor: Record<string, string> = {};
-  for (const e of alignment) {
-    if (e.status === "matched" && e.ourSectionIndex != null && e.targetBandIndex != null) {
-      const id = sectionIds[e.ourSectionIndex];
-      const s = styleByBand[e.targetBandIndex];
-      if (id && s) styleFor[id] = s;
-    }
-  }
-
   const matched = alignment.filter((e) => e.status === "matched" && e.ourSectionIndex != null);
   console.log(`• alignment: ${matched.length} matched / ${alignment.filter((e) => e.status === "target-only").length} target-only / ${alignment.filter((e) => e.status === "ours-only").length} ours-only`);
 
-  // ── GLOBAL CHROME units (navbar + footer) — evolved alongside sections ──────
-  // They're not page sections: navbar = the captured top header crop; footer =
-  // the last target-only band crop. Both render via the harness chrome mode.
-  const chromeIds: string[] = [];
+  // Navbar crop (chrome unit) — the only IO piece of context assembly.
+  let navbar: { cropPath: string; style?: any; images?: any } | null = null;
   if (cap.navbarBand) {
     const navCrop = await cropBands({
       screenshotPath: desktopShot,
@@ -181,25 +131,18 @@ async function main() {
       outDir: path.join(artifactsDir, "crops-chrome", "navbar"),
       normalize: false,
     });
-    if (navCrop[0]) {
-      targetFor["navbar"] = navCrop[0].path;
-      styleFor["navbar"] = fmtStyle(cap.navbarBand.style) + (cap.navbarBand.images?.length ? `; imagery: ${summarizeBandImages(cap.navbarBand.images)}` : "");
-      chromeIds.push("navbar");
-    }
+    if (navCrop[0]) navbar = { cropPath: navCrop[0].path, style: cap.navbarBand.style, images: cap.navbarBand.images };
   }
-  const targetOnly = alignment.filter((e) => e.status === "target-only" && e.targetBandIndex != null).map((e) => e.targetBandIndex as number);
-  const footerBandIdx = targetOnly.length ? targetOnly[targetOnly.length - 1] : null;
-  if (footerBandIdx != null && cropPaths[footerBandIdx]) {
-    targetFor["footer"] = cropPaths[footerBandIdx];
-    if (styleByBand[footerBandIdx]) styleFor["footer"] = styleByBand[footerBandIdx];
-    chromeIds.push("footer");
-  }
-  console.log(`• chrome units: ${chromeIds.length ? chromeIds.join(", ") : "none"}`);
 
-  // sections we will evolve = matched ones that have a target crop
-  const evolve = matched
-    .map((e) => ({ idx: e.ourSectionIndex as number, id: sectionIds[e.ourSectionIndex as number] }))
-    .filter((s) => targetFor[s.id]);
+  // I33 — pure, unit-checked context assembly (target crops, measured styles,
+  // chrome units, evolve list) extracted to sitc-core (steps/ingest.ts).
+  const { targetFor, styleFor, chromeIds, evolve } = buildTargetContext({
+    crops: crops as any,
+    alignment,
+    homeSections,
+    navbar,
+  });
+  console.log(`• chrome units: ${chromeIds.length ? chromeIds.join(", ") : "none"}`);
 
   if (!workerEnabled) {
     console.log("\n── PLAN (worker disabled) ─────────────────────────────────");
@@ -209,19 +152,32 @@ async function main() {
     process.exit(0);
   }
 
-  // ── I7: run-start judge-drift gate (opt-in) ─────────────────────────────────
+  // ── I7: run-start judge-drift gate ──────────────────────────────────────────
   // Replay the durable calibration triples through the pairwise judge; REFUSE the
   // run if agreement/order-stability dropped, so a drifting judge can't converge on
   // (and auto-merge) the wrong design. Runs before any engine/worktree setup so a
-  // failure aborts cheaply. Graceful: empty set → gate skipped, run proceeds.
-  if (process.env.SITC_JUDGE_GATE === "1") {
+  // failure aborts cheaply.
+  // I30 — fail-closed semantics: an EXPLICIT SITC_JUDGE_GATE=1 means the operator
+  // demanded the gate — an empty calibration table or an errored check must REFUSE
+  // the run (the old "SKIPPED" log contradicted the flag exactly when it mattered).
+  // A profile-implied gate (SITC_PROFILE=live without the explicit flag) skips
+  // loudly instead, so an unseeded table doesn't block the first live runs.
+  if (cfg.judgeGate) {
+    const failClosed = (why: string): never => {
+      console.error(`  ✗ judge-health gate FAILED-CLOSED (SITC_JUDGE_GATE=1 explicit): ${why}`);
+      console.error("    Seed sitc_judge_calibration (scorer/calibration-gen.ts generateSubtleTriples) or unset the flag.");
+      process.exit(3);
+    };
     const judgeStore = new DrizzleJudgeCalibrationStore();
     const health = await checkJudgeHealth(readRunner, judgeStore, { model, now: new Date() }).catch((e) => {
-      console.log(`  ⚖ judge-health check errored — gate skipped: ${String(e).slice(0, 120)}`);
+      const why = `judge-health check errored: ${String(e).slice(0, 120)}`;
+      if (cfg.judgeGateExplicit) failClosed(why);
+      console.log(`  ⚖ ${why} — gate skipped (profile-implied)`);
       return null;
     });
     if (!health || !health.report) {
-      console.log("  ⚖ judge-health: no calibration triples in sitc_judge_calibration — gate SKIPPED (seed triples to enable).");
+      if (health && cfg.judgeGateExplicit) failClosed("no calibration triples in sitc_judge_calibration");
+      if (health) console.log("  ⚖ judge-health: no calibration triples — gate SKIPPED (profile-implied; seed triples to arm it).");
     } else {
       await judgeStore.recordResults(health.rows).catch(() => {});
       const g = health.gate!;
@@ -236,7 +192,7 @@ async function main() {
   // ── LIVE: real collaborators + runFull ──────────────────────────────────────
   // Worktrees can live outside the repo (SITC_WORKTREE_ROOT) — required when the
   // runner's filesystem copy-on-write would otherwise discard in-repo writes.
-  const worktree = new WorktreeManager({ repoRoot: REPO_ROOT, worktreeRoot: process.env.SITC_WORKTREE_ROOT });
+  const worktree = new WorktreeManager({ repoRoot: REPO_ROOT, worktreeRoot: cfg.worktreeRoot });
   await worktree.createRunBranch(runId);
 
   // I3 — persistent slot worktree pool: code-changing iterations reuse a warm
@@ -269,8 +225,8 @@ async function main() {
   // I5 — acceptance target: prod build > operator URL > dev fallback (perf not
   // enforced on dev, since unbundled numbers are inflated/meaningless).
   const acceptanceTarget = resolveAcceptanceTarget({
-    acceptanceUrl: process.env.SITC_ACCEPTANCE_URL,
-    build: process.env.SITC_ACCEPTANCE_BUILD === "1",
+    acceptanceUrl: cfg.acceptanceUrl,
+    build: cfg.acceptanceBuild,
   });
   console.log(`• acceptance: ${acceptanceTarget.note}`);
   let preview: PreviewServer | null = null;
@@ -406,7 +362,7 @@ async function main() {
     // I12 — mobile guard (opt-in): a desktop-winning challenger that introduces
     // mobile horizontal overflow vs the champion is rejected (kept invisible until
     // delivery before). Renders both at mobile (champion from its base worktree).
-    ...(process.env.SITC_SCORE_MOBILE === "1"
+    ...(cfg.scoreMobile
       ? {
           guard: async (ctx: { worktreePath: string; sectionId: string; base: string }) => {
             const chrome = ctx.sectionId === "navbar" || ctx.sectionId === "footer" ? (ctx.sectionId as "navbar" | "footer") : undefined;
@@ -438,8 +394,16 @@ async function main() {
   }));
 
   // Per-unit convergence tracking — drives the "loop done → manual fixes" handoff.
+  // ONE tracker shared by the main sweep and the I13 escalated pass (was duplicated).
   const unitStats: Record<string, UnitConvergence> = {};
   for (const s of initialStates) unitStats[s.sectionId] = { sectionId: s.sectionId, promotions: 0, threshold: s.threshold };
+  const trackUnitStats = (sectionId: string, r: { outcome: string; critique?: string; score?: { score: number } }) => {
+    const u = unitStats[sectionId];
+    if (!u) return;
+    if (r.outcome === "promoted") u.promotions++;
+    if (r.score) u.bestScore = Math.max(u.bestScore ?? 0, r.score.score);
+    if (r.outcome !== "promoted" && r.critique) u.lastCritique = r.critique;
+  };
 
   // I23 — pre-score-then-lock: render + score each unit's CURRENT champion once
   // (through the warm I2 base engine, post-theme) and lock what already matches,
@@ -460,7 +424,7 @@ async function main() {
     return out;
   };
   const prescore =
-    process.env.SITC_PRESCORE === "0"
+    !cfg.prescore
       ? undefined
       : (states: import("../packages/sitc-core/src/loop/scheduler.js").SectionState[]) =>
           preScoreAndLock(states, {
@@ -471,7 +435,7 @@ async function main() {
           });
 
   // I27 — hard dollar cap (live CostMeter spend), alongside the iteration cap.
-  const maxUsd = process.env.SITC_MAX_USD ? Number(process.env.SITC_MAX_USD) : undefined;
+  const maxUsd = cfg.maxUsd;
   const budget =
     run.budgetIterations || maxUsd
       ? { ...(run.budgetIterations ? { maxIterations: run.budgetIterations } : {}), ...(maxUsd ? { maxUsd } : {}) }
@@ -491,7 +455,7 @@ async function main() {
     maxWorkers: run.maxWorkers,
     // Coverage floor (CONCLUSIONS #6): guarantee every in-play unit is attempted
     // ≥N times before budget re-rolls a peer. Default 1; override via env.
-    minCoverage: process.env.SITC_MIN_COVERAGE ? Number(process.env.SITC_MIN_COVERAGE) : undefined,
+    minCoverage: cfg.minCoverage,
     onIteration: (sectionId, r) => {
       const score = r.score ? ` score=${r.score.score.toFixed(3)}` : "";
       const reason = r.critique ? ` — ${r.critique.slice(0, 240).replace(/\s+/g, " ")}` : "";
@@ -504,13 +468,7 @@ async function main() {
         const hint = suggestStrategy(r.score.vlm.findings, r.score.vlm.breakdown);
         if (hint.suggested !== "tune-json") console.log(`      ↳ hint: ${hint.suggested} — ${hint.rationale}`);
       }
-      // Track convergence: promotions + best score + the latest unclosed-gap critique.
-      const u = unitStats[sectionId];
-      if (u) {
-        if (r.outcome === "promoted") u.promotions++;
-        if (r.score) u.bestScore = Math.max(u.bestScore ?? 0, r.score.score);
-        if (r.outcome !== "promoted" && r.critique) u.lastCritique = r.critique;
-      }
+      trackUnitStats(sectionId, r);
     },
     gates: {
       // build/validate are real; existing-template SSIM (I6) renders every OTHER
@@ -528,7 +486,7 @@ async function main() {
           engines,
           excludeTemplate: template,
           outDir: path.join(artifactsDir, "regression"),
-          maxTemplates: process.env.SITC_REGRESSION_MAX_TEMPLATES ? Number(process.env.SITC_REGRESSION_MAX_TEMPLATES) : undefined,
+          maxTemplates: cfg.regressionMaxTemplates,
           log: (m) => console.log(`  🛡 ${m}`),
         }),
       }),
@@ -560,11 +518,11 @@ async function main() {
   // those units with a stronger model + forced new-variant strategy (explicit
   // component authoring) before handing them to a human. Runs before cleanup so the
   // engines/worktrees are still warm.
-  if (process.env.SITC_ESCALATE === "1") {
+  if (cfg.escalate) {
     const pre = summarizeConvergence(Object.values(unitStats));
     const plan = planEscalation(pre);
     if (pre.converged && plan.escalatable.length) {
-      const escModel = process.env.SITC_ESCALATION_MODEL ?? model;
+      const escModel = cfg.escalationModel;
       console.log(`\n── ESCALATION — ${plan.escalatable.length} component-code gap(s), one pass @ ${escModel} (forced new-variant) ──`);
       const escMutate = buildMutate(escModel);
       const escCollab = { ...collab, mutate: (ctx: any) => meter.scope("mutate", () => escMutate(ctx)) };
@@ -591,12 +549,7 @@ async function main() {
         onIteration: (sectionId, r) => {
           console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${r.score ? ` score=${r.score.score.toFixed(3)}` : ""}`);
           writePath.recordIteration(sectionId, r);
-          const u = unitStats[sectionId];
-          if (u) {
-            if (r.outcome === "promoted") u.promotions++;
-            if (r.score) u.bestScore = Math.max(u.bestScore ?? 0, r.score.score);
-            if (r.outcome !== "promoted" && r.critique) u.lastCritique = r.critique;
-          }
+          trackUnitStats(sectionId, r);
         },
       }).catch((e) => { console.log(`  escalation errored: ${String(e).slice(0, 140)}`); return null; });
       if (esc) console.log(`  escalation: ${esc.promotions} promotion(s)${esc.promotions ? " — commit + re-run the normal loop to continue" : " — no gain; the gaps go to manual"}`);
@@ -612,7 +565,7 @@ async function main() {
   // on the existing row). This is the "next run starts smarter" leg the read-path
   // alone never delivered. Advisory: a failure is logged, never fails the run.
   // Runs before the cost snapshot so its spend lands in cost.json (label "distill").
-  if (process.env.SITC_DISABLE_DISTILL !== "1") {
+  if (!cfg.distillDisabled) {
     const distilled = await meter
       .scope("distill", () => writePath.finalize(readRunner, { traits: cap.globalStyle as Record<string, unknown> }))
       .catch((e) => {

@@ -165,8 +165,16 @@ export { renderLessonsDigest } from "./learning/digest.js";
 export type { DigestOptions } from "./learning/digest.js";
 
 // ─── experiment: lessons-on vs lessons-off A/B (tasks I1 / §18-G) ────────────
-export { compareLessonsAb, renderAbReport, toArmMetrics } from "./experiment/lessons-ab.js";
+export { compareLessonsAb, renderAbReport, toArmMetrics, alignArmSectionIds } from "./experiment/lessons-ab.js";
 export type { Arm, ArmMetrics, SectionDelta, Verdict, AbComparison, CompareOptions } from "./experiment/lessons-ab.js";
+export { aggregateRuns, renderRunsReport } from "./experiment/report.js";
+export type { RunArtifacts, RunsReport, RunsReportRow, TemplateTrend } from "./experiment/report.js";
+
+// ─── runner config + target-context assembly (todo I29 / I33) ────────────────
+export { resolveRunnerConfig, renderConfigLines } from "./orchestrator/config.js";
+export type { RunnerConfig, SitcProfile } from "./orchestrator/config.js";
+export { buildTargetContext, fmtMeasuredStyle, bandStyleLine } from "./steps/ingest.js";
+export type { TargetContext, TargetContextInput, IngestCrop } from "./steps/ingest.js";
 
 // ─── cost estimate (Phase 7 / §18-H) ─────────────────────────────────────────
 export { estimateRunCost, DEFAULT_COST_MODEL } from "./cost.js";

@@ -164,34 +164,48 @@
 
 ## Tier 3 — operational trust
 
-- [ ] **I29 — Config story: `SITC_PROFILE=live` preset + print effective config.**
-      27 distinct `SITC_*` flags; every quality feature (judge gate, mobile guard, prod acceptance build,
-      delivery PR, escalation) defaults OFF — the *recommended* configuration has likely never run. Fix:
-      a `live` preset composing the sane flags, effective-config printout at startup, and default
-      `SITC_DELIVERY_PR=1` so `needs_review` runs open a PR instead of silently parking a branch
-      (sitc-21-preview still strands 4 real component improvements).
+- [x] **I29 — Config story: `SITC_PROFILE=live` preset + print effective config.** ✅ *built & verified
+      (part of `sitc-ops-trust` 32/32, 2026-07-03).* `resolveRunnerConfig` (`orchestrator/config.ts`) is
+      the ONE typed resolver over the SITC_* flags: `SITC_PROFILE=live` turns the quality bundle ON (judge
+      gate, mobile guard, prod-build acceptance, delivery PR, escalation); an explicit env value always
+      wins (`SITC_SCORE_MOBILE=0` beats the profile); the autonomous worker and prod push are NEVER
+      profile-implied (governance). `renderConfigLines` prints the effective config at run start. The
+      runner's scattered env reads are all routed through the resolver.
 
-- [ ] **I30 — Judge gate must fail closed when explicitly enabled.**
-      With `SITC_JUDGE_GATE=1`, an empty `sitc_judge_calibration` table or an errored health check logs
-      "SKIPPED" and proceeds (`sitc-runner.mts` ~:210) — contradicting I7's fail-closed claim exactly when
-      the operator asked for the gate. Fix: explicit flag → hard fail; also ship `pnpm sitc:seed-calibration`
-      (generateSubtleTriples exists; R2 upload is the only missing piece).
+- [x] **I30 — Judge gate must fail closed when explicitly enabled.** ✅ *built (2026-07-03; semantics
+      verified via I29's `judgeGateExplicit` in `sitc-ops-trust`).* Two-tier semantics in the runner:
+      an EXPLICIT `SITC_JUDGE_GATE=1` now `process.exit(3)`s on an empty calibration table or an errored
+      health check (fail-closed, as I7 claimed); a PROFILE-implied gate (`SITC_PROFILE=live` without the
+      explicit flag) skips loudly instead, so an unseeded table doesn't block the first live runs.
+      **Still open:** a `pnpm sitc:seed-calibration` command — `generateSubtleTriples` exists but the
+      Drizzle store has no seed-insert path (only `loadTriples`/`recordResults`) and durable artifacts
+      need a home (R2 or VPS disk); operator infra step.
 
-- [ ] **I31 — Cross-run trend report (§18-G, still unmeasured).**
-      24 run dirs under `.sitc/runs/`, nothing aggregates them. Fix: `pnpm sitc:report` sweeping
-      `.sitc/runs/*/{metrics,cost,delivery}.json` into one table (iterations-to-threshold trend,
-      $/promotion over time); optionally persist to `sitc_runs` for the admin panel.
+- [x] **I31 — Cross-run trend report (§18-G, still unmeasured).** ✅ *built & verified + smoke-tested on
+      the real artifacts (2026-07-03).* `aggregateRuns`/`renderRunsReport` (`experiment/report.ts`, pure)
+      + `scripts/sitc-report.mts` + `pnpm sitc:report`: one table (locked/rounds/invocations/promotions/
+      cost/$-per-promotion/delivery/first gate reason) + a per-template first→latest trend, written to
+      `.sitc/report.md`. First real output is already diagnostic: runs 39–41 all `needs_review` on
+      existing-template SSIM (0.914/0.735/0.703 — the I17 false positive), 0 merged, cost $2→$11→$8.65.
+      Admin-panel persistence to `sitc_runs` left as a future nicety.
 
-- [ ] **I32 — Stable section identity across runs.**
-      `type#index` drifts as the template JSON evolves (run 40 `about#3` = run 41 `features#3`) — corrupts
-      any cross-run per-section comparison, including the I1 A/B tooling. Fix: a stable per-section id
-      (content hash at seed time, or persisted id in the section JSON).
+- [x] **I32 — Stable section identity across runs.** ✅ *comparison-level fix built & verified
+      (`sitc-ops-trust`).* `alignArmSectionIds` (`experiment/lessons-ab.ts`): exact id matches first, then
+      a leftover off-arm id unifies with the UNIQUE leftover on-arm id sharing its positional `#index`
+      (ambiguous positions are left alone, chrome units match exactly). `compareLessonsAb` applies it
+      before any per-section math and surfaces `renames` in the report ("features#3→about#3, matched by
+      position") — the run-40/41 drift no longer splits one unit into two half-empty rows. A persisted
+      per-section id in the template JSON (schema change) remains the fuller future fix if sections start
+      being added/removed mid-experiment.
 
-- [ ] **I33 — Extract the runner's untested orchestration into sitc-core.**
-      ~250 lines in `sitc-runner.mts` (target-style assembly, chrome-unit derivation, strategy-routed
-      render collaborator, escalation pass, duplicated convergence stat tracking) have zero coverage while
-      sitc-core has 13 deterministic suites. Fix: `ingestTarget()` + `createRunCollaborators()` in
-      sitc-core with checks.
+- [x] **I33 — Extract the runner's untested orchestration into sitc-core.** ✅ *mostly done (2026-07-03).*
+      Extracted + unit-checked: target-context assembly (`steps/ingest.ts` `buildTargetContext` —
+      target-crop map, measured-style lines incl. I11 imagery, chrome-unit derivation, evolve list;
+      ~60 runner lines), env handling (`orchestrator/config.ts`, I29), and the duplicated convergence
+      stat-tracking (one `trackUnitStats` closure shared by both onIteration callbacks). **Left in the
+      runner deliberately:** the strategy-routed render collaborator and the escalation pass — they're
+      thin glue over engines/worktrees/meter whose extraction would mean passing the whole runner context
+      as a deps object; revisit only if a second consumer appears.
 
 ## Smaller items (one-liners, fix opportunistically)
 
