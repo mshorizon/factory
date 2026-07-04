@@ -59,7 +59,7 @@ export function ProjectCaseStudy({
                 </p>
               )}
               {quote.text && (
-                <blockquote className="italic text-[15px] leading-relaxed text-foreground/80 mb-spacing-md" data-field="quote.text">
+                <blockquote className="italic text-[15px] leading-relaxed text-muted mb-spacing-md" data-field="quote.text">
                   &bdquo;{quote.text}&rdquo;
                 </blockquote>
               )}

@@ -37,7 +37,7 @@ export type TrustSignals = {
 }[];
 export type ThemePreset = "industrial" | "wellness" | "minimal" | "elegant" | "modern" | "classic" | "bold";
 export type GlobalVariant = string;
-export type MajorTheme = "template-specialist" | "template-tech" | "template-art" | "template-law";
+export type MajorTheme = "template-specialist" | "template-tech" | "template-art" | "template-law" | "template-studio";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
 export type PrimaryLightColor = string;

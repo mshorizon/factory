@@ -77,7 +77,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     categories: "featured",
     about: "story",
     "about-summary": "default",
-    contact: "split",
+    contact: "panel",
     testimonials: "agency",
     faq: "bordered",
     features: "icon-tiles",

@@ -123,7 +123,7 @@ export function HeroStudio({
                       asChild
                       size="lg"
                       variant="ghost"
-                      className="!rounded-full h-12 px-7 text-[15px] font-bold bg-primary-light text-primary-dark hover:bg-primary-light/80 hover:text-primary-dark transition-all"
+                      className="!rounded-full h-12 px-7 text-[15px] font-bold bg-primary-light text-primary-dark hover:brightness-95 hover:text-primary-dark transition-all"
                       data-field="secondaryCta"
                     >
                       <a

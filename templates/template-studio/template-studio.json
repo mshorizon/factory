@@ -62,15 +62,10 @@
   "layout": {
     "navbar": { "variant": "standard" },
     "footer": {
-      "variant": "gradient",
+      "variant": "stacked",
       "copyright": "© 2026 Hazelgrouse Studio. Wszelkie prawa zastrzeżone.",
       "tagline": "Jednoosobowe studio stron internetowych. Najpierw widzisz gotową stronę — płacisz dopiero, gdy Ci się spodoba.",
-      "links": [
-        { "label": "Jak to działa", "target": { "type": "page", "value": "home" } },
-        { "label": "Cennik", "target": { "type": "page", "value": "home" } },
-        { "label": "Blog", "target": { "type": "page", "value": "blog" } },
-        { "label": "Kontakt", "target": { "type": "page", "value": "contact" } }
-      ]
+      "links": []
     }
   },
   "navigation": {
@@ -86,7 +81,8 @@
         "icon": "file-text",
         "category": "www",
         "available": true,
-        "price": "890 zł"
+        "price": 890,
+        "priceLabel": "890 zł"
       },
       {
         "id": "firma",
@@ -96,7 +92,8 @@
         "icon": "briefcase",
         "category": "www",
         "available": true,
-        "price": "1590 zł"
+        "price": 1590,
+        "priceLabel": "1590 zł"
       },
       {
         "id": "premium",
@@ -106,13 +103,15 @@
         "icon": "sparkles",
         "category": "www",
         "available": true,
-        "price": "2790 zł"
+        "price": 2790,
+        "priceLabel": "2790 zł"
       }
     ]
   },
   "pages": {
     "home": {
       "title": "Hazelgrouse Studio — najpierw widzisz, potem płacisz",
+      "hideFromNav": true,
       "sections": [
         {
           "type": "hero",
@@ -122,7 +121,7 @@
             "subtitle": "Opowiadasz mi o swoim biznesie, a ja przygotowuję kompletny, dopracowany projekt Twojej strony — bez zaliczek i bez ryzyka. Decyzję podejmujesz, patrząc na skończony efekt."
           },
           "cta": { "label": "Zamów darmowy projekt", "target": { "type": "page", "value": "contact" } },
-          "secondaryCta": { "label": "Zobacz przykłady", "target": { "type": "url", "value": "#templateShowcase-3" } },
+          "secondaryCta": { "label": "Zobacz przykłady", "target": { "type": "section", "value": "templateShowcase-3" } },
           "items": [
             {
               "title": "Kancelaria",
@@ -187,10 +186,7 @@
           },
           "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=900&q=80",
           "story": {
-            "content": [
-              "Cześć, jestem Kuba — projektuję i koduję strony dla małych firm oraz jednoosobowych biznesów. Wszystko robię sam: od pierwszego szkicu, przez teksty, po publikację. Masz jeden kontakt i jedną osobę odpowiedzialną za całość.",
-              "Model „najpierw efekt, potem płatność\" wymyśliłem, bo sam nie lubię kupować w ciemno. Wolę pokazać gotową stronę i pozwolić jej mówić za siebie."
-            ]
+            "content": "Cześć, jestem Kuba — projektuję i koduję strony dla małych firm oraz jednoosobowych biznesów. Wszystko robię sam: od pierwszego szkicu, przez teksty, po publikację. Masz jeden kontakt i jedną osobę odpowiedzialną za całość.\n\nModel „najpierw efekt, potem płatność\" wymyśliłem, bo sam nie lubię kupować w ciemno. Wolę pokazać gotową stronę i pozwolić jej mówić za siebie."
           },
           "stats": [
             { "value": "60+", "label": "zrealizowanych stron" },
@@ -240,7 +236,7 @@
           },
           "quote": {
             "note": "Zgłoszenie od klienta",
-            "text": "„Prowadzę firmę elektryczną ElektroMax pod Wrocławiem. Robię głównie instalacje w domach i pomiary elektryczne. Chciałbym prostą stronę, żeby klienci mogli szybko zadzwonić i zobaczyć, co robię. Kolory? Może coś energetycznego.\"",
+            "text": "Prowadzę firmę elektryczną ElektroMax pod Wrocławiem. Robię głównie instalacje w domach i pomiary elektryczne. Chciałbym prostą stronę, żeby klienci mogli szybko zadzwonić i zobaczyć, co robię. Kolory? Może coś energetycznego.",
             "author": "→ to całe zgłoszenie. Resztę zrobiłem ja."
           },
           "image": "/template-previews/specialist.png",
@@ -272,17 +268,17 @@
             {
               "title": "Marta W.",
               "role": "Kancelaria adwokacka",
-              "description": "„Nie wierzyłam, że zobaczę stronę przed zapłatą. Zobaczyłam — i od razu wiedziałam, że chcę.\""
+              "description": "Nie wierzyłam, że zobaczę stronę przed zapłatą. Zobaczyłam — i od razu wiedziałam, że chcę."
             },
             {
               "title": "Paweł K.",
               "role": "Usługi elektryczne",
-              "description": "„Wysłałem parę zdań o firmie, tydzień później miałem stronę lepszą niż konkurencja.\""
+              "description": "Wysłałem parę zdań o firmie, tydzień później miałem stronę lepszą niż konkurencja."
             },
             {
               "title": "Ania i Tomek",
               "role": "Restauracja",
-              "description": "„Menu, rezerwacje, zdjęcia — wszystko dograne. Goście chwalą stronę częściej niż deser.\""
+              "description": "Menu, rezerwacje, zdjęcia — wszystko dograne. Goście chwalą stronę częściej niż deser."
             }
           ]
         },
@@ -371,11 +367,11 @@
           },
           "items": [
             { "icon": "shield-check", "title": "Certyfikat SSL", "description": "Bezpieczne połączenie i kłódka w przeglądarce od pierwszego dnia." },
-            { "icon": "file-check", "title": "Zgodność z RODO", "description": "Polityka prywatności i zgody dopięte na ostatni guzik." },
+            { "icon": "file-text", "title": "Zgodność z RODO", "description": "Polityka prywatności i zgody dopięte na ostatni guzik." },
             { "icon": "zap", "title": "Szybkie ładowanie", "description": "Strona otwiera się błyskawicznie — także na słabym łączu." },
-            { "icon": "smartphone", "title": "Pełna wersja mobilna", "description": "Dopracowany wygląd na każdym telefonie i tablecie." },
-            { "icon": "map-pin", "title": "Mapa Google", "description": "Klienci od razu widzą, gdzie Cię znaleźć." },
-            { "icon": "database", "title": "Kopia zapasowa", "description": "Regularny backup — Twoja strona jest bezpieczna." },
+            { "icon": "phone", "title": "Pełna wersja mobilna", "description": "Dopracowany wygląd na każdym telefonie i tablecie." },
+            { "icon": "search", "title": "Mapa Google", "description": "Klienci od razu widzą, gdzie Cię znaleźć." },
+            { "icon": "clock", "title": "Kopia zapasowa", "description": "Regularny backup — Twoja strona jest bezpieczna." },
             { "icon": "globe", "title": "Hosting i domena", "description": "Pomagam ogarnąć wszystko od A do Z po publikacji." },
             { "icon": "wrench", "title": "Opieka techniczna", "description": "Drobne poprawki w pierwszym miesiącu w cenie, aktualizacje i kopie zapasowe." }
           ]

@@ -44,7 +44,7 @@ export function CtaBannerPanel({
               asChild
               size="lg"
               variant="ghost"
-              className="!rounded-full h-12 px-7 text-[15px] font-bold bg-card text-primary-dark hover:bg-card/90 hover:text-primary-dark shadow-lg transition-all"
+              className="!rounded-full h-12 px-7 text-[15px] font-bold bg-card text-primary-dark hover:brightness-95 hover:text-primary-dark shadow-lg transition-all"
               data-field="cta"
             >
               <a
