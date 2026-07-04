@@ -715,6 +715,31 @@
             }
           }
         },
+        "criteria": {
+          "type": "array",
+          "title": "Comparison Criteria",
+          "description": "Row labels for the comparison 'triple' variant. Each comparisonColumns entry provides one value per criterion (values[i] aligns with criteria[i]).",
+          "items": { "type": "string" }
+        },
+        "comparisonColumns": {
+          "type": "array",
+          "title": "Comparison Columns",
+          "description": "Columns for the comparison 'triple' variant. The highlighted column is rendered as an elevated card with a primary header block and check-prefixed values.",
+          "items": {
+            "type": "object",
+            "title": "ComparisonColumn",
+            "properties": {
+              "title": { "type": "string", "title": "Column Title" },
+              "badge": { "type": "string", "title": "Badge Pill (shown on the highlighted column header)" },
+              "highlighted": { "type": "boolean", "title": "Highlighted Column" },
+              "values": {
+                "type": "array",
+                "title": "Cell Values (one per criterion)",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
         "members": {
           "type": "array",
           "title": "Team Members",

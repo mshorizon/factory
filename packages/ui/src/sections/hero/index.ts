@@ -7,6 +7,8 @@ export { HeroMinimal } from "./HeroMinimal";
 export { HeroArtist } from "./HeroArtist";
 export { HeroAgency } from "./HeroAgency";
 export { HeroSacrum } from "./HeroSacrum";
+export { HeroStudio } from "./HeroStudio";
+export type { HeroStudioProps, HeroStudioTab } from "./HeroStudio";
 export type { ScheduleCard, ScheduleCardRow } from "./HeroSacrum";
 export type { HeroProps, CTAButton } from "./types";
 

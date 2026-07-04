@@ -70,6 +70,16 @@ export interface ContactSplitProps {
   className?: string;
 }
 
+export interface ContactPanelProps {
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+  form?: ContactForm;
+  businessId?: string;
+  turnstileSiteKey?: string;
+  className?: string;
+}
+
 export interface ContactSocialLink {
   platform: string;
   url: string;
