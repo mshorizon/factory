@@ -238,16 +238,27 @@ export const orders = pgTable("orders", {
   siteId: integer("site_id").notNull().references(() => sites.id, { onDelete: 'cascade' }),
 
   orderNumber: text("order_number").notNull(),
-  status: text("status").notNull().default("pending"), // "pending" | "paid" | "shipped" | "cancelled"
+  // "pending" (awaiting restaurant acceptance) | "accepted" (payment link sent) | "paid" | "preparing" | "ready" | "completed" | "rejected" | "cancelled"
+  status: text("status").notNull().default("pending"),
+
+  // Public token used for /order/[token] status page (unguessable)
+  orderToken: text("order_token"),
+
+  // Fulfillment: "delivery" | "pickup" | "dine_in"
+  fulfillmentType: text("fulfillment_type"),
+  pickupTime: timestamp("pickup_time"),
+  tableNumber: text("table_number"),
+  customerNotes: text("customer_notes"),
 
   // Customer
   customerEmail: text("customer_email").notNull(),
   customerPhone: text("customer_phone"),
   customerFirstName: text("customer_first_name").notNull(),
   customerLastName: text("customer_last_name").notNull(),
-  shippingAddress: text("shipping_address").notNull(),
-  shippingCity: text("shipping_city").notNull(),
-  shippingPostalCode: text("shipping_postal_code").notNull(),
+  // Nullable for pickup/dine-in
+  shippingAddress: text("shipping_address"),
+  shippingCity: text("shipping_city"),
+  shippingPostalCode: text("shipping_postal_code"),
 
   // Money (integers — grosze/cents)
   subtotal: integer("subtotal").notNull(),
@@ -258,21 +269,31 @@ export const orders = pgTable("orders", {
   // Stripe
   stripeSessionId: text("stripe_session_id"),
   stripePaymentIntentId: text("stripe_payment_intent_id"),
+  paymentLinkUrl: text("payment_link_url"),
+
+  // ETA (set by admin after payment received)
+  estimatedReadyAt: timestamp("estimated_ready_at"),
 
   // Invoice
   invoiceUrl: text("invoice_url"),
 
-  // Admin notes
+  // Admin notes / rejection reason
   notes: text("notes"),
 
-  // Timestamps
+  // Timestamps for lifecycle stages
+  acceptedAt: timestamp("accepted_at"),
+  rejectedAt: timestamp("rejected_at"),
   paidAt: timestamp("paid_at"),
+  preparingAt: timestamp("preparing_at"),
+  readyAt: timestamp("ready_at"),
+  completedAt: timestamp("completed_at"),
   shippedAt: timestamp("shipped_at"),
   cancelledAt: timestamp("cancelled_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 }, (table) => ({
   uniqueOrderPerSite: unique().on(table.siteId, table.orderNumber),
+  uniqueOrderToken: unique().on(table.orderToken),
 }));
 
 export type Order = typeof orders.$inferSelect;
