@@ -1043,7 +1043,7 @@
         "majorTheme": {
           "type": "string",
           "title": "Major Theme",
-          "enum": ["template-specialist", "template-tech", "template-art", "template-law", "template-tech-agency"]
+          "enum": ["template-specialist", "template-tech", "template-art", "template-law"]
         },
         "mode": {
           "type": "string",

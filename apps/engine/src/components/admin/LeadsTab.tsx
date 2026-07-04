@@ -58,7 +58,6 @@ const TEMPLATES = [
   { value: "template-tech", label: "Tech" },
   { value: "template-law", label: "Law" },
   { value: "template-art", label: "Art" },
-  { value: "template-tech-agency", label: "Tech Agency" },
 ];
 
 interface Lead {
