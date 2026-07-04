@@ -26,6 +26,7 @@ import type { Breakpoint } from "../types.js";
 import type { WorktreeManager } from "../orchestrator/worktree.js";
 import type { EngineManager } from "../orchestrator/engine-manager.js";
 import { renderSection, harnessUrl, DESKTOP_SCORE } from "../steps/render.js";
+import { pixelScore } from "../scorer/pixel.js";
 
 function git(args: string[], cwd: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -77,8 +78,15 @@ export interface ExistingSsimDeps {
   developSha: () => Promise<string>;
   championSha: () => Promise<string>;
   /** Render ONE section of `template` from `tree`; returns the screenshot path. */
-  renderTreeSection: (a: { tree: string; role: "baseline" | "challenger"; template: string; index: number }) => Promise<string>;
+  renderTreeSection: (a: { tree: string; role: "baseline" | "challenger" | "control"; template: string; index: number }) => Promise<string>;
   listTemplates: () => Promise<ExistingTemplate[]>;
+  /**
+   * Changed file paths between two shas (`git diff --name-only from...to`), for the
+   * todo-I17 shared-code early exit. Optional: absent → always render (old behavior).
+   */
+  changedPaths?: (fromSha: string, toSha: string) => Promise<string[]>;
+  /** SSIM two screenshots (for the noise control pair). Required when `noiseControl` is on. */
+  ssim?: (a: string, b: string) => Promise<number>;
   log?: (m: string) => void;
 }
 
@@ -87,6 +95,18 @@ export interface ExistingSsimOptions {
   maxTemplates?: number;
   /** Cap sections per template. Default: all. */
   maxSectionsPerTemplate?: number;
+  /**
+   * todo I17(b) — render-nondeterminism self-calibration. Before pairing, render the
+   * SAME baseline tree twice and SSIM the pair: identical code should score ≈1.0.
+   * If it scores below `noiseFloor`, the harness itself is too noisy for the gate
+   * (runs 40/41 failed at ~0.70–0.74 on byte-identical shared code — animations/
+   * fonts/images, a systematic false positive that made auto-merge impossible) —
+   * skip with a LOUD log (fail-open, gate returns no pairs) instead of failing
+   * every run on noise. Requires `deps.ssim`. Default off (opt-in via real wiring).
+   */
+  noiseControl?: boolean;
+  /** Min self-SSIM on identical code for the harness to be trusted. Default 0.99 (the gate's own threshold). */
+  noiseFloor?: number;
 }
 
 /**
@@ -101,6 +121,21 @@ export function createExistingTemplatesSsim(deps: ExistingSsimDeps, opts: Existi
       log("run branch == develop — no shared-code change to regression-check");
       return [];
     }
+
+    // todo I17(a) — shared-code early exit: if the run only touched `templates/`
+    // (its own JSON), other templates render from byte-identical code — SSIM is
+    // vacuously 1 and rendering ~2×templates×sections screenshots proves nothing
+    // (run 41 burned ~110 renders this way, then failed on harness noise).
+    if (deps.changedPaths) {
+      const changed = await deps.changedPaths(devSha, champSha);
+      const shared = changed.filter((p) => !p.startsWith("templates/"));
+      if (!shared.length) {
+        log(`diff develop...champion touches only templates/ (${changed.length} file(s)) — no shared code to regression-check`);
+        return [];
+      }
+      log(`${shared.length} shared-code path(s) changed — running visual regression`);
+    }
+
     const [baseTree, challTree] = await Promise.all([deps.resolveTree(devSha), deps.resolveTree(champSha)]);
 
     let templates = await deps.listTemplates();
@@ -108,6 +143,24 @@ export function createExistingTemplatesSsim(deps: ExistingSsimDeps, opts: Existi
     if (templates.length > cap) {
       log(`sampling ${cap}/${templates.length} existing templates (SITC_REGRESSION_MAX_TEMPLATES)`);
       templates = templates.slice(0, cap);
+    }
+
+    // todo I17(b) — noise self-calibration: same tree, same section, rendered twice.
+    if (opts.noiseControl && deps.ssim && templates.length) {
+      const t0 = templates[0];
+      const a = await deps.renderTreeSection({ tree: baseTree, role: "baseline", template: t0.name, index: 0 });
+      const b = await deps.renderTreeSection({ tree: baseTree, role: "control", template: t0.name, index: 0 });
+      const self = await deps.ssim(a, b);
+      const floor = opts.noiseFloor ?? 0.99;
+      if (self < floor) {
+        log(
+          `⚠ render harness self-SSIM ${self.toFixed(3)} < ${floor} on IDENTICAL code — ` +
+            `the visual regression gate cannot distinguish real regressions from render noise; SKIPPING it (fail-open). ` +
+            `Fix render determinism (animations/fonts/lazy images) to re-arm the gate.`,
+        );
+        return [];
+      }
+      log(`render harness self-SSIM ${self.toFixed(3)} (noise floor ok)`);
     }
 
     const pairs: Array<[string, string]> = [];
@@ -154,6 +207,9 @@ export function createRealExistingSsim(o: RealExistingSsimOptions): () => Promis
       championSha: () => o.worktree.champion(o.runId),
       resolveTree: (sha) => o.worktree.ensureBaseWorktree(o.runId, sha),
       listTemplates: () => listExistingTemplates(o.repoRoot, o.excludeTemplate),
+      changedPaths: async (from, to) =>
+        (await git(["diff", "--name-only", `${from}...${to}`], o.repoRoot)).split("\n").filter(Boolean),
+      ssim: async (a, b) => (await pixelScore(a, b)).similarity,
       renderTreeSection: async ({ tree, role, template, index }) => {
         const tpl = path.join(tree, "templates", template, `${template}.json`);
         const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: tpl });
@@ -165,6 +221,6 @@ export function createRealExistingSsim(o: RealExistingSsimOptions): () => Promis
         return out;
       },
     },
-    { maxTemplates: o.maxTemplates, maxSectionsPerTemplate: o.maxSectionsPerTemplate },
+    { maxTemplates: o.maxTemplates, maxSectionsPerTemplate: o.maxSectionsPerTemplate, noiseControl: true },
   );
 }

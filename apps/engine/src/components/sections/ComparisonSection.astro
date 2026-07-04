@@ -1,7 +1,7 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ComparisonTable, SectionHeader } from "@mshorizon/ui";
-import { getSectionHeader } from "../../lib/pages";
+import { ComparisonTable, ComparisonTriple, SectionHeader } from "@mshorizon/ui";
+import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
   isHomePage?: boolean;
@@ -10,10 +10,13 @@ interface Props {
 }
 
 const { section, isHomePage = false, badgeVariant } = Astro.props;
+const variant = getSectionVariant(section);
 const header = getSectionHeader(section);
 const rows = (section as any).rows || [];
 const leftTitle = (section as any).leftTitle || "Manual Work";
 const rightTitle = (section as any).rightTitle || "AI Automation";
+const criteria = (section as any).criteria || [];
+const comparisonColumns = (section as any).comparisonColumns || [];
 ---
 
 <section>
@@ -26,11 +29,19 @@ const rightTitle = (section as any).rightTitle || "AI Automation";
       background={section.background}
       badgeVariant={badgeVariant as any}
     />
-    <ComparisonTable
-      client:visible
-      leftTitle={leftTitle}
-      rightTitle={rightTitle}
-      rows={rows}
-    />
+    {variant === "triple" ? (
+      <ComparisonTriple
+        client:visible
+        criteria={criteria}
+        columns={comparisonColumns}
+      />
+    ) : (
+      <ComparisonTable
+        client:visible
+        leftTitle={leftTitle}
+        rightTitle={rightTitle}
+        rows={rows}
+      />
+    )}
   </div>
 </section>

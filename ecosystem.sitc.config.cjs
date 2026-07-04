@@ -15,7 +15,11 @@
  */
 const path = require("node:path");
 const REPO = __dirname;
-const DB_URL = process.env.DATABASE_URL || ""; // export before `pm2 start`, or set in PM2 env
+// I40: PM2 captures this value when the config FIRST loads — a later `export
+// DATABASE_URL=… && pm2 restart` keeps the stale one. The scripts now fall back
+// to apps/engine/.env when the env var is empty, so an un-exported shell no
+// longer bricks the GC cron. Use `pm2 restart --update-env` after re-exporting.
+const DB_URL = process.env.DATABASE_URL || "";
 
 module.exports = {
   apps: [

@@ -8,7 +8,7 @@
  *
  * Proposes tokens from the target, merges them into the profile (preserving
  * preset/majorTheme/spacing scale), and keeps the result schema-valid. The
- * convergence loop is capped (`maxIterations`, default 1) for cost; the structure
+ * single-pass by design (propose → validate → adopt-or-keep); the structure
  * supports score-driven iteration via the injected scorer.
  */
 import type { BusinessProfile, DesignTraits, WorkerRunner } from "../types.js";
@@ -91,17 +91,17 @@ function applyTheme(profile: BusinessProfile, t: ProposedTheme): BusinessProfile
   return next as BusinessProfile;
 }
 
-export async function lockGlobalTheme(
-  input: LockGlobalThemeInput & { maxIterations?: number },
-): Promise<LockGlobalThemeResult> {
+export async function lockGlobalTheme(input: LockGlobalThemeInput): Promise<LockGlobalThemeResult> {
   const traits = input.traits ?? (await analyzeTarget(input.runner, input.targetScreenshots, { model: input.model }));
   const theme = await proposeTheme(input.runner, input.targetScreenshots, traits, input.model, input.groundTruth);
   const candidate = applyTheme(input.profile, theme);
 
-  // Keep the lock schema-valid: only adopt if it doesn't break validation.
-  const before = validateProfile(input.profile);
+  // Keep the lock schema-valid: adopt the candidate only if IT validates (todo
+  // I38 — the old `!after.valid && before.valid` guard adopted an INVALID
+  // candidate whenever the seed profile was already invalid, compounding the
+  // breakage instead of at least not making it worse).
   const after = validateProfile(candidate);
-  const profile = !after.valid && before.valid ? input.profile : candidate;
+  const profile = after.valid ? candidate : input.profile;
 
   return { profile, theme, traits };
 }

@@ -78,8 +78,10 @@ export class InMemoryLessonStore implements LessonStore {
       .filter((r) => !r.archived)
       .filter((r) => {
         const scopeOk = !filter.scope || r.scope === filter.scope || r.scope === "general";
-        const traitOk = traits.size === 0 || r.designTraits.some((t) => traits.has(t));
-        return scopeOk && (traits.size === 0 || traitOk);
+        // A lesson with NO trait tags is a wildcard (applies to any design) —
+        // excluding it when the query carries traits would hide general lessons.
+        const traitOk = traits.size === 0 || r.designTraits.length === 0 || r.designTraits.some((t) => traits.has(t));
+        return scopeOk && traitOk;
       })
       .map((r) => ({ ...r }));
   }

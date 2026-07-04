@@ -48,6 +48,8 @@ export type Verdict = "lessons-help" | "lessons-hurt" | "inconclusive";
 
 export interface AbComparison {
   perSection: SectionDelta[];
+  /** off-arm id → on-arm id pairs unified by positional match (I32 identity drift). */
+  renames: Record<string, string>;
   /** Sections both arms locked. */
   bothLocked: string[];
   /** Mean rounds saved over sections both arms locked (positive = lessons faster). */
@@ -72,6 +74,38 @@ export interface CompareOptions {
   itersEpsilon?: number;
 }
 
+/**
+ * todo I32 — section identity `type#index` is NOT stable across runs: as the
+ * template JSON evolves, section 3 can read `about#3` in one run and `features#3`
+ * in the next, so a naive id union treats one unit as two half-empty rows and
+ * corrupts every per-section delta. Align the OFF arm's ids onto the ON arm's:
+ * exact matches first; then a leftover off-id pairs with the UNIQUE leftover
+ * on-id sharing its positional `#index` (position is stable unless sections are
+ * added/removed — and an ambiguous position is left alone rather than guessed).
+ * Chrome units (`navbar`/`footer`, no `#index`) only ever match exactly.
+ */
+export function alignArmSectionIds(on: ArmMetrics, off: ArmMetrics): { off: ArmMetrics; renames: Record<string, string> } {
+  const idxOf = (id: string) => id.match(/#(\d+)$/)?.[1] ?? null;
+  const onIds = Object.keys(on.finalScores);
+  const offIds = Object.keys(off.finalScores);
+  const leftoverOn = onIds.filter((id) => !offIds.includes(id));
+  const leftoverOff = offIds.filter((id) => !onIds.includes(id));
+  const renames: Record<string, string> = {};
+  for (const offId of leftoverOff) {
+    const i = idxOf(offId);
+    if (i == null) continue;
+    const candidates = leftoverOn.filter((onId) => idxOf(onId) === i);
+    if (candidates.length === 1) renames[offId] = candidates[0];
+  }
+  if (!Object.keys(renames).length) return { off, renames };
+  const remap = <T,>(rec: Record<string, T>): Record<string, T> =>
+    Object.fromEntries(Object.entries(rec).map(([k, v]) => [renames[k] ?? k, v]));
+  return {
+    off: { ...off, finalScores: remap(off.finalScores), iterationsToLock: remap(off.iterationsToLock) },
+    renames,
+  };
+}
+
 function median(xs: number[]): number | null {
   if (!xs.length) return null;
   const s = [...xs].sort((a, b) => a - b);
@@ -89,9 +123,12 @@ function mean(xs: number[]): number | null {
  * quality beyond scoring noise. Anything ambiguous returns `inconclusive` — the
  * point is an honest falsification test, not to flatter the feature.
  */
-export function compareLessonsAb(on: ArmMetrics, off: ArmMetrics, opts: CompareOptions = {}): AbComparison {
+export function compareLessonsAb(on: ArmMetrics, offRaw: ArmMetrics, opts: CompareOptions = {}): AbComparison {
   const scoreEps = opts.scoreEpsilon ?? 0.02;
   const itersEps = opts.itersEpsilon ?? 0.5;
+
+  // I32 — unify drifted section identities before any per-section math.
+  const { off, renames } = alignArmSectionIds(on, offRaw);
 
   const sectionIds = [...new Set([...Object.keys(on.finalScores), ...Object.keys(off.finalScores)])].sort();
   const perSection: SectionDelta[] = sectionIds.map((id) => {
@@ -160,6 +197,7 @@ export function compareLessonsAb(on: ArmMetrics, off: ArmMetrics, opts: CompareO
 
   return {
     perSection,
+    renames,
     bothLocked,
     meanItersSaved,
     medianItersSaved,
@@ -215,5 +253,5 @@ ${rows}
 
 > "rounds saved" = off − on over sections **both** arms locked (positive = lessons converged faster).
 > A section locked by only one arm is flagged (🟢on-only / 🔴off-only) and excluded from the rounds-saved mean.
-`;
+${Object.keys(cmp.renames).length ? `> Identity drift unified (I32): ${Object.entries(cmp.renames).map(([o, n]) => `${o}→${n}`).join(", ")} (matched by position).\n` : ""}`;
 }

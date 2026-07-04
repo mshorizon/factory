@@ -39,10 +39,10 @@
     "client1": "bash scripts/claude-client-1.sh",
     "client2": "bash scripts/claude-client-2.sh",
 
-    "sitc:orchestrate": "DATABASE_URL=\"postgresql://postgres:qM2NsnxsnPsM3FPKqqHE6VOaodrE9P7FJtaG0OwWu4ddkNdVPwhflxbRf1kR6Y4D@46.224.191.237:5432/hazelgrouse-db\" tsx scripts/sitc-orchestrate.ts",
     "sitc:runner": "DATABASE_URL=\"postgresql://postgres:qM2NsnxsnPsM3FPKqqHE6VOaodrE9P7FJtaG0OwWu4ddkNdVPwhflxbRf1kR6Y4D@46.224.191.237:5432/hazelgrouse-db\" tsx scripts/sitc-runner.mts",
     "sitc:run-db": "DATABASE_URL=\"postgresql://postgres:qM2NsnxsnPsM3FPKqqHE6VOaodrE9P7FJtaG0OwWu4ddkNdVPwhflxbRf1kR6Y4D@46.224.191.237:5432/hazelgrouse-db\" ADMIN_DATABASE_URL=\"postgresql://postgres:qM2NsnxsnPsM3FPKqqHE6VOaodrE9P7FJtaG0OwWu4ddkNdVPwhflxbRf1kR6Y4D@46.224.191.237:5432/hazelgrouse-db\" tsx scripts/sitc-run-db.mts",
     "sitc:lessons-ab": "tsx scripts/sitc-lessons-ab.mts",
+    "sitc:report": "tsx scripts/sitc-report.mts",
     "sitc:cache-probe": "tsx scripts/sitc-cache-probe.mts",
 
     "bc-check": "tsx scripts/bc-check.mts",

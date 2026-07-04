@@ -81,8 +81,12 @@ for manual fixing. That full arc — evolve → converge → manual handoff — 
    worker now gets that checklist as its steering critique instead of a prose blob, and `suggestStrategy` maps
    the dominant gap to a strategy hint (token gaps → tune-json, structural → new-variant). See `tasks.md` I8.
 
-6. **Scheduler coverage guarantee.** `about` once got 0 iterations because alignment orphaned it. Ensure
-   every in-play unit gets at least N attempts before the run can settle.
+6. ~~**Scheduler coverage guarantee.**~~ ✅ **Done (I14).** `about` once got 0 iterations because higher-gap
+   peers hogged every round (pure gap priority) and the run settled on budget before it was ever dispatched.
+   Fixed with a coverage floor: `SectionState` gained a never-reset `dispatches` counter, and `pickNext` now
+   sorts in-play units below the floor (`minCoverage`, default 1) strictly before covered peers — so every
+   in-play unit is attempted ≥N times before any peer is re-rolled beyond it (bounded by rounds×maxWorkers).
+   Operator override `SITC_MIN_COVERAGE`. See `tasks.md` I14.
 
 7. **Budget defaults down.** opus converges fast and most units no-op as "already matches" once the template
    is close — budget ~12–15 (not 30–60) is plenty for incremental runs. Each run should commit to `develop`

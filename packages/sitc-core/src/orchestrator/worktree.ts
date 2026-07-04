@@ -206,6 +206,17 @@ export class WorktreeManager {
    * SINGLE-WRITER integrate: cherry-pick a worker's commit onto the run branch.
    * Caller (orchestrator) must serialize this and must serialize commits whose
    * changed files overlap. Returns the new champion sha.
+   *
+   * todo I19 — conflict recovery. Concurrent sections routinely edit the SAME
+   * template JSON; once the champion advances, a later challenger's cherry-pick
+   * (based on the older champion) can conflict. Without recovery that left the
+   * ops worktree wedged mid-cherry-pick (CHERRY_PICK_HEAD + unmerged paths), so
+   * EVERY subsequent promotion failed as a silent "iteration error" no-op and the
+   * run burned its remaining budget achieving nothing. Now: self-heal on entry,
+   * and on a failed pick abort + hard-reset back to the branch tip and throw a
+   * tagged `integrate-conflict:` error — the champion is unchanged, the section's
+   * next attempt starts from the NEW champion (so its re-edit applies cleanly),
+   * and the critique tells the worker why the promotion was lost.
    */
   async integrate(runId: string | number, commitSha: string): Promise<string> {
     const branch = this.branchName(runId);
@@ -216,10 +227,59 @@ export class WorktreeManager {
       .access(path.join(opsWt, ".git"))
       .then(() => true)
       .catch(() => false);
-    if (!exists) await git(["worktree", "add", opsWt, branch], this.repoRoot);
-    else await git(["checkout", branch], opsWt);
-    await git(["cherry-pick", "--allow-empty", commitSha], opsWt);
+    if (!exists) {
+      await git(["worktree", "add", opsWt, branch], this.repoRoot);
+    } else {
+      // Self-heal: a crash may have left a cherry-pick in progress — abort it and
+      // force the tree back onto the branch tip before touching anything else.
+      await git(["cherry-pick", "--abort"], opsWt).catch(() => {});
+      await git(["checkout", "-f", branch], opsWt);
+      await git(["reset", "--hard", branch], opsWt);
+    }
+    try {
+      await git(["cherry-pick", "--allow-empty", commitSha], opsWt);
+    } catch (e) {
+      await git(["cherry-pick", "--abort"], opsWt).catch(() => {});
+      await git(["reset", "--hard", branch], opsWt).catch(() => {});
+      throw new Error(
+        `integrate-conflict: cherry-pick of ${commitSha.slice(0, 9)} onto ${branch} conflicted ` +
+          `(champion unchanged; ops tree recovered — re-edit from the new champion): ${(e as Error).message.slice(0, 200)}`,
+      );
+    }
     return git(["rev-parse", "HEAD"], opsWt);
+  }
+
+  /**
+   * Retire superseded `__base-<sha>` worktrees (todo I37) — one accumulates per
+   * champion generation (I2) and nothing removed them until run teardown, piling
+   * up disk + engine-LRU pressure on promotion-heavy runs. Keeps `keepShas`
+   * (callers pass the last few generations, since a same-round iteration may
+   * still be rendering from the previous one). `beforeRemove` runs per path
+   * BEFORE removal — the runner stops the worktree's engine there.
+   */
+  async retireBaseWorktrees(
+    runId: string | number,
+    keepShas: string[],
+    opts: { beforeRemove?: (worktreePath: string) => Promise<void> } = {},
+  ): Promise<string[]> {
+    const keep = new Set(keepShas.map((s) => `__base-${s.slice(0, 12).replace(/[^A-Za-z0-9]/g, "")}`));
+    const runDir = path.join(this.worktreeRoot, `run-${runId}`);
+    let entries: string[] = [];
+    try {
+      entries = await fs.readdir(runDir);
+    } catch {
+      return [];
+    }
+    const removed: string[] = [];
+    for (const name of entries) {
+      if (!name.startsWith("__base-") || keep.has(name)) continue;
+      const wt = path.join(runDir, name);
+      if (opts.beforeRemove) await opts.beforeRemove(wt).catch(() => {});
+      await this.removeWorktree(wt);
+      this.baseWorktrees.delete(wt);
+      removed.push(wt);
+    }
+    return removed;
   }
 
   /** Revert specific files in a worktree back to the champion (per-section revert, §5.2). */

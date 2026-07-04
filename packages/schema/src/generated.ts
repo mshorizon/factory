@@ -37,12 +37,7 @@ export type TrustSignals = {
 }[];
 export type ThemePreset = "industrial" | "wellness" | "minimal" | "elegant" | "modern" | "classic" | "bold";
 export type GlobalVariant = string;
-export type MajorTheme =
-  | "template-specialist"
-  | "template-tech"
-  | "template-art"
-  | "template-law"
-  | "template-tech-agency";
+export type MajorTheme = "template-specialist" | "template-tech" | "template-art" | "template-law" | "template-studio";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
 export type PrimaryLightColor = string;
@@ -734,6 +729,18 @@ export type RightColumnTitleEGAIAutomation = string;
 export type LeftProblem = string;
 export type RightSolution = string;
 export type ComparisonRows = ComparisonRow[];
+/**
+ * Row labels for the comparison 'triple' variant. Each comparisonColumns entry provides one value per criterion (values[i] aligns with criteria[i]).
+ */
+export type ComparisonCriteria = string[];
+export type ColumnTitle1 = string;
+export type BadgePillShownOnTheHighlightedColumnHeader = string;
+export type HighlightedColumn = boolean;
+export type CellValuesOnePerCriterion = string[];
+/**
+ * Columns for the comparison 'triple' variant. The highlighted column is rendered as an elevated card with a primary header block and check-prefixed values.
+ */
+export type ComparisonColumns = ComparisonColumn[];
 export type Name1 = string;
 export type Role = string;
 export type PhotoURL = string;
@@ -1126,6 +1133,8 @@ export interface Section {
   leftTitle?: LeftColumnTitleEGManualWork;
   rightTitle?: RightColumnTitleEGAIAutomation;
   rows?: ComparisonRows;
+  criteria?: ComparisonCriteria;
+  comparisonColumns?: ComparisonColumns;
   members?: TeamMembers;
   fileGroups?: FileGroups;
   templateItems?: TemplateItems;
@@ -1386,6 +1395,12 @@ export interface CTALink {
 export interface ComparisonRow {
   left?: LeftProblem;
   right?: RightSolution;
+}
+export interface ComparisonColumn {
+  title?: ColumnTitle1;
+  badge?: BadgePillShownOnTheHighlightedColumnHeader;
+  highlighted?: HighlightedColumn;
+  values?: CellValuesOnePerCriterion;
 }
 export interface TeamMember {
   name?: Name1;

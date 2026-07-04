@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency, HeroSacrum } from "@mshorizon/ui";
+import { HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency, HeroSacrum, HeroStudio } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 
@@ -120,6 +120,18 @@ const secondaryCta = section.secondaryCta ? {
     image={heroImage}
     cta={cta}
     secondaryCta={secondaryCta}
+    isHomePage={isHomePage}
+  />
+) : variant === "studio" ? (
+  <HeroStudio
+    client:load
+    badge={header.badge}
+    title={header.title || ""}
+    subtitle={header.subtitle}
+    cta={cta}
+    secondaryCta={secondaryCta}
+    items={(section.items as any) || []}
+    footnote={section.footnote}
     isHomePage={isHomePage}
   />
 ) : variant === "sacrum" ? (

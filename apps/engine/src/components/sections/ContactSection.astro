@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional, ContactRestaurant, SectionHeader } from "@mshorizon/ui";
+import { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional, ContactRestaurant, ContactPanel, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -85,6 +85,20 @@ const socials = Object.entries(socialsObj)
         turnstileSiteKey={turnstileSiteKey}
         ctaLabel={section.cta?.label}
         ctaHref={ctaHref}
+      />
+    </div>
+  </section>
+) : variant === "panel" ? (
+  <section>
+    <div class="container mx-auto">
+      <ContactPanel
+        client:visible
+        badge={header.badge}
+        title={header.title}
+        subtitle={header.subtitle}
+        form={section.form}
+        businessId={businessId}
+        turnstileSiteKey={turnstileSiteKey}
       />
     </div>
   </section>

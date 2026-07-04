@@ -32,12 +32,31 @@ export interface DistillInput {
   model?: string;
 }
 
+/**
+ * Serialize history item-wise under a char budget — never mid-token (a raw
+ * `JSON.stringify(all).slice()` truncated to malformed JSON and silently dropped
+ * most of a long run). Callers should pre-order the items most-informative-first
+ * (see learning/write-path.ts `sampleHistory`).
+ */
+export function serializeHistory(history: IterationDatum[], budget = 6000): string {
+  const lines: string[] = [];
+  let used = 0;
+  for (const h of history) {
+    const line = JSON.stringify({ ...h, critique: h.critique?.slice(0, 280) });
+    if (used + line.length + 1 > budget) break;
+    used += line.length + 1;
+    lines.push(line);
+  }
+  return lines.join("\n");
+}
+
 export async function distillLessons(runner: WorkerRunner, input: DistillInput): Promise<DistilledLesson[]> {
   const prompt = `You are distilling reusable DESIGN-CLONING lessons from one run's history.
 Detected target traits: ${JSON.stringify(input.traits ?? {})}.
-Iteration history (sectionId, strategy, outcome, scoreDelta, critique):
-${JSON.stringify(input.history).slice(0, 6000)}
+Iteration history (one JSON object per line: sectionId, strategy, outcome, scoreDelta, critique):
+${serializeHistory(input.history)}
 Propose 0-6 GENERALIZABLE, trait-conditioned heuristics (not target-specific quirks) that would help a FUTURE run on a similar design. Each must be actionable.
+For designTraits use ONLY tags from this vocabulary (so retrieval pre-filtering matches): dark, light, serif, sans-serif, rounded, sharp, minimal, colorful, image-heavy, text-heavy.
 Output NOTHING except one JSON object: {"lessons":[{"scope":"hero|color|typography|spacing|layout|general","designTraits":["..."],"trigger":"<when it applies>","lesson":"<what to do>","scoreDelta":0.0}]}`;
   const r = await runner.runJson<{ lessons: DistilledLesson[] }>(prompt, { model: input.model });
   return r.lessons ?? [];

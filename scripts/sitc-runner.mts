@@ -20,6 +20,7 @@
  */
 import path from "node:path";
 import { promises as fs } from "node:fs";
+import { execFile } from "node:child_process";
 import { initDb } from "../packages/db/src/client.js";
 import { DrizzleRunStore } from "../packages/db/src/sitc-store.js";
 import { DrizzleLessonStore } from "../packages/db/src/sitc-lesson-store.js";
@@ -29,16 +30,22 @@ import { WorktreeManager } from "../packages/sitc-core/src/orchestrator/worktree
 import { WorktreePool } from "../packages/sitc-core/src/orchestrator/worktree-pool.js";
 import { EngineManager } from "../packages/sitc-core/src/orchestrator/engine-manager.js";
 import { defaultEmbedder, probeEmbedder } from "../packages/sitc-core/src/learning/embed.js";
-import { retrieveLessons, lessonsToPromptBlock } from "../packages/sitc-core/src/learning/retrieval.js";
+import { createLessonWritePath, traitTagsFromStyle } from "../packages/sitc-core/src/learning/write-path.js";
 import { createClaudeWorker } from "../packages/sitc-core/src/claude-worker.js";
 import { CostMeter, runCostRoi, cacheReadShareByLabel } from "../packages/sitc-core/src/cost-meter.js";
-import { captureTarget, summarizeBandImages } from "../packages/sitc-core/src/scorer/capture.js";
+import { captureTarget } from "../packages/sitc-core/src/scorer/capture.js";
 import { segmentTarget } from "../packages/sitc-core/src/steps/segment.js";
 import { cropBands } from "../packages/sitc-core/src/steps/crop-bands.js";
-import { alignSections, targetImageMap } from "../packages/sitc-core/src/steps/align-sections.js";
+import { alignSections } from "../packages/sitc-core/src/steps/align-sections.js";
+import { buildTargetContext } from "../packages/sitc-core/src/steps/ingest.js";
+import { resolveRunnerConfig, renderConfigLines } from "../packages/sitc-core/src/orchestrator/config.js";
+import { envFileFallback } from "../packages/sitc-core/src/orchestrator/env-file.js";
 import { renderSection, harnessUrl, measureHorizontalOverflow, MOBILE_GUARD } from "../packages/sitc-core/src/steps/render.js";
+import { closeSharedBrowser } from "../packages/sitc-core/src/browser.js";
 import { mobileGuardVerdict } from "../packages/sitc-core/src/scorer/breakpoints.js";
+import { pixelScore } from "../packages/sitc-core/src/scorer/pixel.js";
 import { scoreSection } from "../packages/sitc-core/src/scorer/score.js";
+import { preScoreAndLock } from "../packages/sitc-core/src/loop/prescore.js";
 import { suggestStrategy } from "../packages/sitc-core/src/scorer/rubric.js";
 import { pairwiseJudge } from "../packages/sitc-core/src/scorer/pairwise.js";
 import { sanityGate } from "../packages/sitc-core/src/loop/sanity.js";
@@ -55,24 +62,16 @@ const REPO_ROOT = path.resolve(import.meta.dirname, "..");
 const arg = (n: string) => { const i = process.argv.indexOf(`--${n}`); return i >= 0 ? process.argv[i + 1] : undefined; };
 
 async function main() {
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) throw new Error("DATABASE_URL required (control DB)");
-  const engineUrl = process.env.SITC_ENGINE_URL ?? "http://localhost:4321";
-  const model = process.env.SITC_MODEL ?? "sonnet";
-  const workerEnabled = process.env.SITC_ENABLE_WORKER === "1";
-  // I1 / §18-G: the OFF arm of the lessons A/B. With this set, no lessons are
-  // retrieved into the worker prompt → run.metrics is directly comparable to a
-  // lessons-on run via scripts/sitc-lessons-ab.mts.
-  const lessonsDisabled = process.env.SITC_DISABLE_LESSONS === "1";
-  // I4 — delivery landing. Local no-ff merge always accumulates on the VPS's
-  // `develop` so the next run seeds improved (CONCLUSIONS #7). Pushing is
-  // outward-facing (triggers prod deploy) → opt-in. PR mode pushes the branch +
-  // opens a gh PR for needs_review runs instead of leaving them for cherry-pick.
-  const landing = {
-    push: process.env.SITC_DELIVERY_PUSH === "1",
-    openPr: process.env.SITC_DELIVERY_PR === "1",
-    remote: process.env.SITC_GIT_REMOTE ?? "origin",
-  };
+  // I40 — env-file fallback (PM2 freezes env at first start; see env-file.ts).
+  const dbUrl = process.env.DATABASE_URL || (await envFileFallback(REPO_ROOT, "DATABASE_URL"));
+  if (!dbUrl) throw new Error("DATABASE_URL required (control DB; export it or set it in apps/engine/.env)");
+  // I29 — ONE typed config resolver over the SITC_* flags. `SITC_PROFILE=live`
+  // turns the quality bundle ON (judge gate, mobile guard, prod-build acceptance,
+  // delivery PR, escalation); an explicit env value always wins over the profile;
+  // the effective config prints below so the operator sees what will actually run.
+  const cfg = resolveRunnerConfig(process.env);
+  const { engineUrl, model, renderTimeoutMs, workerEnabled, lessonsDisabled } = cfg;
+  const landing = { push: cfg.deliveryPush, openPr: cfg.deliveryPr, remote: cfg.gitRemote };
   const owner = arg("owner") ?? "vps";
   const runId = Number(arg("run"));
   if (!runId) throw new Error("--run <id> required");
@@ -90,7 +89,8 @@ async function main() {
   const artifactsDir = path.join(REPO_ROOT, ".sitc", "runs", String(runId));
   await fs.mkdir(artifactsDir, { recursive: true });
 
-  console.log(`▶ run #${runId}  template=${template}  target=${targetUrl}  owner=${owner}  worker=${workerEnabled ? "LIVE" : "disabled (plan only)"}  lessons=${lessonsDisabled ? "OFF (A/B off-arm)" : "on"}`);
+  console.log(`▶ run #${runId}  template=${template}  target=${targetUrl}  owner=${owner}`);
+  for (const line of renderConfigLines(cfg)) console.log(`  ⚙ ${line}`);
 
   // I9 — live cost/ROI meter: every `claude -p` call feeds it (onUsage); collab
   // calls are scoped by type so cost attributes to mutate/score/judge.
@@ -119,54 +119,13 @@ async function main() {
       : await segmentTarget(readRunner, desktopShot, { model });
   console.log(`  segmentation: ${cap.domBands.length >= 2 ? `DOM (${cap.domBands.length} sections)` : "VLM fallback"}`);
   const crops = await cropBands({ screenshotPath: desktopShot, bands, outDir: path.join(artifactsDir, "crops") });
-  const cropPaths = Object.fromEntries(crops.map((c) => [c.band.index, c.path]));
   // align against the SAME normalized bands that were cropped.
   const alignment = alignSections(crops.map((c) => c.band), homeSections);
-  const sectionIds = homeSections.map((s, i) => `${s.type}#${i}`);
-  const targetFor = targetImageMap(alignment, sectionIds, cropPaths);
-
-  // Ground-truth styling per section (measured CSS; normalizeBands preserves the
-  // spread `style` field through cropping). Maps band index → our section via the
-  // same alignment used for crops.
-  const fmtStyle = (s: any): string =>
-    [
-      `page/section background ${s.bg}`,
-      `body text ${s.text}`,
-      `brand/accent color ${s.accent}`,
-      `heading font "${s.headingFont}"`,
-      `body font "${s.bodyFont}"`,
-      `corner radius ${s.radius}`,
-      s.card ? `cards: background ${s.card.bg}, border ${s.card.border}` : "",
-      s.button ? `buttons: background ${s.button.bg}, text ${s.button.text}` : "",
-    ]
-      .filter(Boolean)
-      .join("; ");
-  const styleByBand: Record<number, string> = {};
-  for (const c of crops) {
-    const st = (c.band as any).style;
-    const imgs = (c.band as any).images as import("../packages/sitc-core/src/scorer/capture.js").BandImage[] | undefined;
-    let s = st ? fmtStyle(st) : "";
-    // I11 — append the section's reference imagery shape so the worker picks a
-    // closer-aspect placeholder/R2 asset (not the target's actual bytes).
-    if (imgs?.length) s += (s ? "; " : "") + `imagery: ${summarizeBandImages(imgs)}`;
-    if (s) styleByBand[c.band.index] = s;
-  }
-  const styleFor: Record<string, string> = {};
-  for (const e of alignment) {
-    if (e.status === "matched" && e.ourSectionIndex != null && e.targetBandIndex != null) {
-      const id = sectionIds[e.ourSectionIndex];
-      const s = styleByBand[e.targetBandIndex];
-      if (id && s) styleFor[id] = s;
-    }
-  }
-
   const matched = alignment.filter((e) => e.status === "matched" && e.ourSectionIndex != null);
   console.log(`• alignment: ${matched.length} matched / ${alignment.filter((e) => e.status === "target-only").length} target-only / ${alignment.filter((e) => e.status === "ours-only").length} ours-only`);
 
-  // ── GLOBAL CHROME units (navbar + footer) — evolved alongside sections ──────
-  // They're not page sections: navbar = the captured top header crop; footer =
-  // the last target-only band crop. Both render via the harness chrome mode.
-  const chromeIds: string[] = [];
+  // Navbar crop (chrome unit) — the only IO piece of context assembly.
+  let navbar: { cropPath: string; style?: any; images?: any } | null = null;
   if (cap.navbarBand) {
     const navCrop = await cropBands({
       screenshotPath: desktopShot,
@@ -174,25 +133,18 @@ async function main() {
       outDir: path.join(artifactsDir, "crops-chrome", "navbar"),
       normalize: false,
     });
-    if (navCrop[0]) {
-      targetFor["navbar"] = navCrop[0].path;
-      styleFor["navbar"] = fmtStyle(cap.navbarBand.style) + (cap.navbarBand.images?.length ? `; imagery: ${summarizeBandImages(cap.navbarBand.images)}` : "");
-      chromeIds.push("navbar");
-    }
+    if (navCrop[0]) navbar = { cropPath: navCrop[0].path, style: cap.navbarBand.style, images: cap.navbarBand.images };
   }
-  const targetOnly = alignment.filter((e) => e.status === "target-only" && e.targetBandIndex != null).map((e) => e.targetBandIndex as number);
-  const footerBandIdx = targetOnly.length ? targetOnly[targetOnly.length - 1] : null;
-  if (footerBandIdx != null && cropPaths[footerBandIdx]) {
-    targetFor["footer"] = cropPaths[footerBandIdx];
-    if (styleByBand[footerBandIdx]) styleFor["footer"] = styleByBand[footerBandIdx];
-    chromeIds.push("footer");
-  }
-  console.log(`• chrome units: ${chromeIds.length ? chromeIds.join(", ") : "none"}`);
 
-  // sections we will evolve = matched ones that have a target crop
-  const evolve = matched
-    .map((e) => ({ idx: e.ourSectionIndex as number, id: sectionIds[e.ourSectionIndex as number] }))
-    .filter((s) => targetFor[s.id]);
+  // I33 — pure, unit-checked context assembly (target crops, measured styles,
+  // chrome units, evolve list) extracted to sitc-core (steps/ingest.ts).
+  const { targetFor, styleFor, chromeIds, evolve } = buildTargetContext({
+    crops: crops as any,
+    alignment,
+    homeSections,
+    navbar,
+  });
+  console.log(`• chrome units: ${chromeIds.length ? chromeIds.join(", ") : "none"}`);
 
   if (!workerEnabled) {
     console.log("\n── PLAN (worker disabled) ─────────────────────────────────");
@@ -202,19 +154,32 @@ async function main() {
     process.exit(0);
   }
 
-  // ── I7: run-start judge-drift gate (opt-in) ─────────────────────────────────
+  // ── I7: run-start judge-drift gate ──────────────────────────────────────────
   // Replay the durable calibration triples through the pairwise judge; REFUSE the
   // run if agreement/order-stability dropped, so a drifting judge can't converge on
   // (and auto-merge) the wrong design. Runs before any engine/worktree setup so a
-  // failure aborts cheaply. Graceful: empty set → gate skipped, run proceeds.
-  if (process.env.SITC_JUDGE_GATE === "1") {
+  // failure aborts cheaply.
+  // I30 — fail-closed semantics: an EXPLICIT SITC_JUDGE_GATE=1 means the operator
+  // demanded the gate — an empty calibration table or an errored check must REFUSE
+  // the run (the old "SKIPPED" log contradicted the flag exactly when it mattered).
+  // A profile-implied gate (SITC_PROFILE=live without the explicit flag) skips
+  // loudly instead, so an unseeded table doesn't block the first live runs.
+  if (cfg.judgeGate) {
+    const failClosed = (why: string): never => {
+      console.error(`  ✗ judge-health gate FAILED-CLOSED (SITC_JUDGE_GATE=1 explicit): ${why}`);
+      console.error("    Seed sitc_judge_calibration (scorer/calibration-gen.ts generateSubtleTriples) or unset the flag.");
+      process.exit(3);
+    };
     const judgeStore = new DrizzleJudgeCalibrationStore();
     const health = await checkJudgeHealth(readRunner, judgeStore, { model, now: new Date() }).catch((e) => {
-      console.log(`  ⚖ judge-health check errored — gate skipped: ${String(e).slice(0, 120)}`);
+      const why = `judge-health check errored: ${String(e).slice(0, 120)}`;
+      if (cfg.judgeGateExplicit) failClosed(why);
+      console.log(`  ⚖ ${why} — gate skipped (profile-implied)`);
       return null;
     });
     if (!health || !health.report) {
-      console.log("  ⚖ judge-health: no calibration triples in sitc_judge_calibration — gate SKIPPED (seed triples to enable).");
+      if (health && cfg.judgeGateExplicit) failClosed("no calibration triples in sitc_judge_calibration");
+      if (health) console.log("  ⚖ judge-health: no calibration triples — gate SKIPPED (profile-implied; seed triples to arm it).");
     } else {
       await judgeStore.recordResults(health.rows).catch(() => {});
       const g = health.gate!;
@@ -229,7 +194,7 @@ async function main() {
   // ── LIVE: real collaborators + runFull ──────────────────────────────────────
   // Worktrees can live outside the repo (SITC_WORKTREE_ROOT) — required when the
   // runner's filesystem copy-on-write would otherwise discard in-repo writes.
-  const worktree = new WorktreeManager({ repoRoot: REPO_ROOT, worktreeRoot: process.env.SITC_WORKTREE_ROOT });
+  const worktree = new WorktreeManager({ repoRoot: REPO_ROOT, worktreeRoot: cfg.worktreeRoot });
   await worktree.createRunBranch(runId);
 
   // I3 — persistent slot worktree pool: code-changing iterations reuse a warm
@@ -258,12 +223,26 @@ async function main() {
   // vs a cold per-worktree compile (code-changing strategies).
   let warmRenders = 0;
   let coldRenders = 0;
+  // I40 — render wall-clock: claude spend is metered (I9) but the render path
+  // (the dominant LOCAL cost per CONCLUSIONS #6) wasn't. Accumulated per render
+  // (engine ensure + screenshot), logged + written to cost.json.
+  let renderMsTotal = 0;
+  let renderCount = 0;
+  const timeRender = async <T,>(fn: () => Promise<T>): Promise<T> => {
+    const t0 = Date.now();
+    try {
+      return await fn();
+    } finally {
+      renderMsTotal += Date.now() - t0;
+      renderCount++;
+    }
+  };
 
   // I5 — acceptance target: prod build > operator URL > dev fallback (perf not
   // enforced on dev, since unbundled numbers are inflated/meaningless).
   const acceptanceTarget = resolveAcceptanceTarget({
-    acceptanceUrl: process.env.SITC_ACCEPTANCE_URL,
-    build: process.env.SITC_ACCEPTANCE_BUILD === "1",
+    acceptanceUrl: cfg.acceptanceUrl,
+    build: cfg.acceptanceBuild,
   });
   console.log(`• acceptance: ${acceptanceTarget.note}`);
   let preview: PreviewServer | null = null;
@@ -287,11 +266,30 @@ async function main() {
         ? acceptanceTarget.url!
         : `${engineUrl}/?business=${template}`;
 
+  // I16 — baseline page for baseline-relative a11y/hygiene: the SAME template
+  // served from a worktree pinned at develop, so PRE-EXISTING defects (e.g. the
+  // footer map-iframe a11y violations + its console error, which failed runs 40/41
+  // forever) can't fail the gate — only regressions the run introduced do. Note:
+  // in build-mode the challenger is a prod build while the baseline is a dev
+  // engine; that's fine for a11y/DOM-hygiene (defects live in components/JSON, not
+  // the bundler), and a failed baseline probe degrades to absolute mode anyway.
+  const revParseDevelop = () =>
+    new Promise<string>((resolve, reject) =>
+      execFile("git", ["rev-parse", "develop"], { cwd: REPO_ROOT }, (err, stdout) => (err ? reject(err) : resolve(stdout.trim()))),
+    );
+  const baselineAcceptanceUrl = async () => {
+    const devSha = await revParseDevelop();
+    const tree = await worktree.ensureBaseWorktree(runId, devSha);
+    const base = await engines.ensure(tree, { warmupUrl: `http://127.0.0.1/?business=${template}` });
+    return `${base}/?business=${template}`;
+  };
+
   let cleanedUp = false;
   const cleanup = async () => {
     if (cleanedUp) return;
     cleanedUp = true;
     await preview?.stop().catch(() => {});
+    await closeSharedBrowser().catch(() => {}); // I26 — one browser per run, closed here
     await engines.stopAll().catch(() => {});
     await worktree.teardown(runId, {}).catch(() => {});
   };
@@ -300,18 +298,24 @@ async function main() {
   }
   const indexById = Object.fromEntries(evolve.map((s) => [s.id, s.idx]));
 
-  // lessons retrieval (DESIGN §9.2) — advisory hints into the worker prompt; degrades
-  // to empty (no lessons) if the store is empty or pgvector is unavailable.
+  // Lessons READ + WRITE path (DESIGN §9.2 + §9.4, todo I15). Retrieval injects
+  // advisory hints into the worker prompt (traits threaded as the §9.2 pre-filter);
+  // recordIteration attributes each outcome to the injected lessons (recordUse →
+  // confidence → archive); finalize() distills this run's history into new lessons
+  // at run end. The OFF arm (SITC_DISABLE_LESSONS) injects nothing but still WRITES,
+  // so learning compounds regardless of the A/B arm. Degrades to a no-op if the
+  // store/pgvector is unavailable.
   const lessonStore = new DrizzleLessonStore();
-  const lessonsFor = async (ctx: { sectionId: string; strategy: string; critique?: string }) => {
-    try {
-      const text = `${ctx.sectionId} ${ctx.strategy} ${ctx.critique ?? ""}`.trim();
-      const hits = await retrieveLessons(lessonStore, embed, { scope: ctx.sectionId.split("#")[0], text });
-      return lessonsToPromptBlock(hits);
-    } catch {
-      return "";
-    }
-  };
+  const writePath = createLessonWritePath({
+    store: lessonStore,
+    embed,
+    runId,
+    designTraits: traitTagsFromStyle(cap.globalStyle),
+    inject: !lessonsDisabled,
+    model,
+    log: (m) => console.log(`  📚 ${m}`),
+  });
+  const lessonsFor = writePath.lessonsFor;
 
   // Factory so the I13 escalated pass can rebuild it with a stronger model.
   const buildMutate = (m: string) =>
@@ -322,7 +326,7 @@ async function main() {
       sectionTypeFor: (id: string) => id.split("#")[0], // "hero#0" → "hero"
       targetStyleFor: (id: string) => styleFor[id], // measured ground-truth CSS + imagery (I11)
       templateName: template, // worker may edit ONLY this template's JSON
-      lessonsFor: lessonsDisabled ? undefined : lessonsFor, // OFF arm injects no lessons (I1 A/B)
+      lessonsFor, // OFF arm (I1 A/B) returns "" — write-path still tracks strategy/outcomes
       model: m,
     });
   const mutateCollaborator = buildMutate(model);
@@ -331,7 +335,7 @@ async function main() {
     mutate: (ctx: any) => meter.scope("mutate", () => mutateCollaborator(ctx)),
     sanity: (ctx: { worktreePath: string; changedFiles: string[]; strategy: any }) =>
       sanityGate({ worktreePath: ctx.worktreePath, changedFiles: ctx.changedFiles, strategy: ctx.strategy, checks: createSanityChecks({}), templateName: template }),
-    render: async (ctx: { worktreePath: string; sectionId: string; strategy: string; base: string }) => {
+    render: (ctx: { worktreePath: string; sectionId: string; strategy: string; base: string }) => timeRender(async () => {
       // The edited JSON ALWAYS comes from the worker's own worktree (via profilePath).
       const wtTemplate = path.join(ctx.worktreePath, "templates", template, `${template}.json`);
       const chrome = ctx.sectionId === "navbar" || ctx.sectionId === "footer" ? (ctx.sectionId as "navbar" | "footer") : undefined;
@@ -350,18 +354,31 @@ async function main() {
       // screenshot below doesn't race a cold Vite compile under worker concurrency.
       const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: wtTemplate, chrome });
       const baseUrl = await engines.ensure(engineWorktree, { warmupUrl });
-      const r = await renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: 240000, chrome });
+      // I28 — tight timeout + one retry on TIMEOUT only (fail-fast errors like
+      // HTTP≥400/error-overlay are deterministic; retrying them wastes a minute).
+      const renderOnce = () => renderSection({ baseUrl, business: template, index, profilePath: wtTemplate, waitForMs: renderTimeoutMs, chrome });
+      let r;
+      try {
+        r = await renderOnce();
+      } catch (e) {
+        if (!/timeout/i.test(String(e))) throw e;
+        console.log(`      ⏱ render timeout (${renderTimeoutMs}ms) for ${ctx.sectionId} — one retry`);
+        r = await renderOnce();
+      }
       const out = path.join(artifactsDir, "renders", `${ctx.sectionId}-${Date.now()}.png`);
       await fs.mkdir(path.dirname(out), { recursive: true });
       await fs.writeFile(out, r.png);
       return { ourImg: out };
-    },
+    }),
+    // I25 — cheap identity check: a challenger pixel-identical to the champion
+    // skips the VLM score + both judge calls (semantically-null edit).
+    pixelSimilarity: async (a: string, b: string) => (await pixelScore(a, b)).similarity,
     score: (ctx: { ourImg: string; targetImg: string }) => meter.scope("score", () => scoreSection(readRunner, { ourImg: ctx.ourImg, targetImg: ctx.targetImg, model })),
     judge: (ctx: { champion: string; challenger: string; target: string }) => meter.scope("judge", () => pairwiseJudge(readRunner, ctx, { model })),
     // I12 — mobile guard (opt-in): a desktop-winning challenger that introduces
     // mobile horizontal overflow vs the champion is rejected (kept invisible until
     // delivery before). Renders both at mobile (champion from its base worktree).
-    ...(process.env.SITC_SCORE_MOBILE === "1"
+    ...(cfg.scoreMobile
       ? {
           guard: async (ctx: { worktreePath: string; sectionId: string; base: string }) => {
             const chrome = ctx.sectionId === "navbar" || ctx.sectionId === "footer" ? (ctx.sectionId as "navbar" | "footer") : undefined;
@@ -393,13 +410,60 @@ async function main() {
   }));
 
   // Per-unit convergence tracking — drives the "loop done → manual fixes" handoff.
+  // ONE tracker shared by the main sweep and the I13 escalated pass (was duplicated).
   const unitStats: Record<string, UnitConvergence> = {};
   for (const s of initialStates) unitStats[s.sectionId] = { sectionId: s.sectionId, promotions: 0, threshold: s.threshold };
+  // I37 — champion-generation history for base-worktree retirement (keep last 3).
+  const championGens: string[] = [];
+  const trackUnitStats = (sectionId: string, r: { outcome: string; critique?: string; score?: { score: number } }) => {
+    const u = unitStats[sectionId];
+    if (!u) return;
+    if (r.outcome === "promoted") u.promotions++;
+    if (r.score) u.bestScore = Math.max(u.bestScore ?? 0, r.score.score);
+    if (r.outcome !== "promoted" && r.critique) u.lastCritique = r.critique;
+  };
+
+  // I23 — pre-score-then-lock: render + score each unit's CURRENT champion once
+  // (through the warm I2 base engine, post-theme) and lock what already matches,
+  // BEFORE any mutate tokens are spent. Run 41 burned $7.78/15 mutate calls on
+  // units that repeatedly self-reported "already matches". Opt-out: SITC_PRESCORE=0.
+  const renderChampionFor = (sectionId: string): Promise<string> => timeRender(async () => {
+    const champ = await worktree.champion(runId);
+    const tree = await worktree.ensureBaseWorktree(runId, champ);
+    const tpl = path.join(tree, "templates", template, `${template}.json`);
+    const chrome = sectionId === "navbar" || sectionId === "footer" ? (sectionId as "navbar" | "footer") : undefined;
+    const index = chrome ? 0 : indexById[sectionId];
+    const warmupUrl = harnessUrl({ baseUrl: "http://127.0.0.1", business: template, index, profilePath: tpl, chrome });
+    const baseUrl = await engines.ensure(tree, { warmupUrl });
+    const r = await renderSection({ baseUrl, business: template, index, profilePath: tpl, waitForMs: renderTimeoutMs, chrome });
+    const out = path.join(artifactsDir, "prescore", `${sectionId}.png`);
+    await fs.mkdir(path.dirname(out), { recursive: true });
+    await fs.writeFile(out, r.png);
+    return out;
+  });
+  const prescore =
+    !cfg.prescore
+      ? undefined
+      : (states: import("../packages/sitc-core/src/loop/scheduler.js").SectionState[]) =>
+          preScoreAndLock(states, {
+            renderChampion: renderChampionFor,
+            score: (ctx) => meter.scope("score", () => scoreSection(readRunner, { ...ctx, model })),
+            targetImgFor: (id) => targetFor[id],
+            log: (m) => console.log(`  ⚡ ${m}`),
+          });
+
+  // I27 — hard dollar cap (live CostMeter spend), alongside the iteration cap.
+  const maxUsd = cfg.maxUsd;
+  const budget =
+    run.budgetIterations || maxUsd
+      ? { ...(run.budgetIterations ? { maxIterations: run.budgetIterations } : {}), ...(maxUsd ? { maxUsd } : {}) }
+      : undefined;
 
   let result;
   try {
     result = await runFull({
     runId, store, worktree, runner: mkWorker(), owner,
+    log: (m) => console.log(`  ${m}`), // I18/I20 driver events (lease loss, crash status)
     seed: { templatePath },
     targetScreenshots: Object.values(cap.screenshots),
     groundTruthStyle: cap.globalStyle, // exact measured palette/fonts/radius for the theme pass
@@ -407,23 +471,35 @@ async function main() {
     collab,
     initialStates,
     maxWorkers: run.maxWorkers,
+    // Coverage floor (CONCLUSIONS #6): guarantee every in-play unit is attempted
+    // ≥N times before budget re-rolls a peer. Default 1; override via env.
+    minCoverage: cfg.minCoverage,
     onIteration: (sectionId, r) => {
       const score = r.score ? ` score=${r.score.score.toFixed(3)}` : "";
       const reason = r.critique ? ` — ${r.critique.slice(0, 240).replace(/\s+/g, " ")}` : "";
       const files = r.changedFiles.length ? ` files=${r.changedFiles.length}` : "";
       console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${score}${files}${reason}  [${meter.line()}]`);
+      // I15 — lesson attribution + distill history (advisory, never throws).
+      writePath.recordIteration(sectionId, r);
+      // I37 — retire base worktrees older than the last 3 champion generations
+      // (same-round iterations may still render from the previous one or two).
+      // Best-effort background work; the engine is stopped before its dir goes.
+      if (r.outcome === "promoted" && r.newChampionCommit) {
+        championGens.push(r.newChampionCommit);
+        if (championGens.length > 3) {
+          const keep = championGens.slice(-3);
+          void worktree
+            .retireBaseWorktrees(runId, keep, { beforeRemove: (wt) => engines.stop(wt) })
+            .then((removed) => { if (removed.length) console.log(`  ♻ retired ${removed.length} stale base worktree(s)`); })
+            .catch(() => {});
+        }
+      }
       // I8 — advisory strategy hint from the structured per-dimension findings.
       if (r.score?.vlm?.findings?.length) {
         const hint = suggestStrategy(r.score.vlm.findings, r.score.vlm.breakdown);
         if (hint.suggested !== "tune-json") console.log(`      ↳ hint: ${hint.suggested} — ${hint.rationale}`);
       }
-      // Track convergence: promotions + best score + the latest unclosed-gap critique.
-      const u = unitStats[sectionId];
-      if (u) {
-        if (r.outcome === "promoted") u.promotions++;
-        if (r.score) u.bestScore = Math.max(u.bestScore ?? 0, r.score.score);
-        if (r.outcome !== "promoted" && r.critique) u.lastCritique = r.critique;
-      }
+      trackUnitStats(sectionId, r);
     },
     gates: {
       // build/validate are real; existing-template SSIM (I6) renders every OTHER
@@ -431,6 +507,9 @@ async function main() {
       // so a shared-component edit that regresses another business fails the gate.
       regression: createRegressionChecks({
         repoRoot: REPO_ROOT,
+        // I21 — build/validate must check the CHAMPION tree (the code being merged),
+        // not the operator's checkout on develop (which never changed).
+        cwd: async () => worktree.ensureBaseWorktree(runId, await worktree.champion(runId)),
         ssimPairs: createRealExistingSsim({
           repoRoot: REPO_ROOT,
           runId,
@@ -438,13 +517,22 @@ async function main() {
           engines,
           excludeTemplate: template,
           outDir: path.join(artifactsDir, "regression"),
-          maxTemplates: process.env.SITC_REGRESSION_MAX_TEMPLATES ? Number(process.env.SITC_REGRESSION_MAX_TEMPLATES) : undefined,
+          maxTemplates: cfg.regressionMaxTemplates,
           log: (m) => console.log(`  🛡 ${m}`),
         }),
       }),
-      acceptance: createAcceptanceChecks({ url: acceptanceUrl, enforcePerf: acceptanceTarget.enforcePerf }),
+      acceptance: createAcceptanceChecks({
+        url: acceptanceUrl,
+        baselineUrl: baselineAcceptanceUrl,
+        // I41 — inherited pages (about/contact/…) reuse the converged variants and
+        // ship in the same merge; gate them too. Page key == engine route slug.
+        pages: Object.keys(profile?.pages ?? {}).filter((k) => k !== "home").map((k) => `/${k}`).slice(0, 4),
+        enforcePerf: acceptanceTarget.enforcePerf,
+      }),
     },
-    budget: run.budgetIterations ? { maxIterations: run.budgetIterations } : undefined,
+    prescore,
+    budget,
+    spentUsd: () => meter.snapshot().costUsd, // I27 — live spend feeds the maxUsd cap
     landing,
     worktreePool,
     model,
@@ -454,16 +542,25 @@ async function main() {
     throw e;
   }
 
+  // Sync unit stats with the run's final scores — prescore-locked units (I23) never
+  // hit onIteration, so without this the convergence report would miscount them.
+  if (result.metrics) {
+    for (const [id, sc] of Object.entries(result.metrics.finalScores)) {
+      const u = unitStats[id];
+      if (u) u.bestScore = Math.max(u.bestScore ?? 0, sc);
+    }
+  }
+
   // I13 — escalated pass (opt-in): if the run converged with component-code gaps the
   // worker DECLINED (vs genuine asset/layout-primitive gaps), try ONE pass over just
   // those units with a stronger model + forced new-variant strategy (explicit
   // component authoring) before handing them to a human. Runs before cleanup so the
   // engines/worktrees are still warm.
-  if (process.env.SITC_ESCALATE === "1") {
+  if (cfg.escalate) {
     const pre = summarizeConvergence(Object.values(unitStats));
     const plan = planEscalation(pre);
     if (pre.converged && plan.escalatable.length) {
-      const escModel = process.env.SITC_ESCALATION_MODEL ?? model;
+      const escModel = cfg.escalationModel;
       console.log(`\n── ESCALATION — ${plan.escalatable.length} component-code gap(s), one pass @ ${escModel} (forced new-variant) ──`);
       const escMutate = buildMutate(escModel);
       const escCollab = { ...collab, mutate: (ctx: any) => meter.scope("mutate", () => escMutate(ctx)) };
@@ -489,12 +586,8 @@ async function main() {
         store,
         onIteration: (sectionId, r) => {
           console.log(`  · ${sectionId.padEnd(16)} ${r.outcome}${r.score ? ` score=${r.score.score.toFixed(3)}` : ""}`);
-          const u = unitStats[sectionId];
-          if (u) {
-            if (r.outcome === "promoted") u.promotions++;
-            if (r.score) u.bestScore = Math.max(u.bestScore ?? 0, r.score.score);
-            if (r.outcome !== "promoted" && r.critique) u.lastCritique = r.critique;
-          }
+          writePath.recordIteration(sectionId, r);
+          trackUnitStats(sectionId, r);
         },
       }).catch((e) => { console.log(`  escalation errored: ${String(e).slice(0, 140)}`); return null; });
       if (esc) console.log(`  escalation: ${esc.promotions} promotion(s)${esc.promotions ? " — commit + re-run the normal loop to continue" : " — no gain; the gaps go to manual"}`);
@@ -504,6 +597,23 @@ async function main() {
   await cleanup();
   console.log(`\n✔ run #${runId} finished: status=${result.finalStatus}  thresholdReached=${result.thresholdReached}  strategies=[${result.strategiesUsed.join(",")}]`);
   console.log(`  renders: ${warmRenders} via shared champion engine (tune-json, I2) / ${coldRenders} via pooled slot engine (code-changing, I3)`);
+  // I40 — render wall-clock (the dominant LOCAL cost, previously unmetered).
+  if (renderCount) console.log(`  render wall-clock: ${renderCount} render(s), ${(renderMsTotal / 1000).toFixed(1)}s total, avg ${(renderMsTotal / renderCount / 1000).toFixed(1)}s`);
+
+  // I15 — lessons WRITE-path: distill this run's iteration history into reusable,
+  // trait-conditioned lessons (distill → dedupe → insert; duplicates bump evidence
+  // on the existing row). This is the "next run starts smarter" leg the read-path
+  // alone never delivered. Advisory: a failure is logged, never fails the run.
+  // Runs before the cost snapshot so its spend lands in cost.json (label "distill").
+  if (!cfg.distillDisabled) {
+    const distilled = await meter
+      .scope("distill", () => writePath.finalize(readRunner, { traits: cap.globalStyle as Record<string, unknown> }))
+      .catch((e) => {
+        console.log(`  📚 lessons distill failed: ${String(e).slice(0, 140)}`);
+        return null;
+      });
+    if (distilled) console.log(`  📚 lessons: ${distilled.proposed} proposed → ${distilled.inserted} new, ${distilled.merged} merged (evidence bumped)`);
+  }
 
   // I9 — real cost/ROI for this run (vs. the pre-launch estimate).
   const costSnap = meter.snapshot();
@@ -521,7 +631,7 @@ async function main() {
   const mutCache = cacheByLabel.mutate ?? 0;
   console.log(`  cache-read share: ${cacheStr || "—"}`);
   console.log(`  ↳ kit caching (mutate): ${mutCache >= 0.5 ? `GOOD (${(mutCache * 100).toFixed(0)}%) — warm kit reused` : mutCache > 0 ? `PARTIAL (${(mutCache * 100).toFixed(0)}%)` : "NONE — kit re-sent uncached each spawn; front-load the static prefix or run scripts/sitc-cache-probe.mts to confirm"}`);
-  await fs.writeFile(path.join(artifactsDir, "cost.json"), JSON.stringify({ ...costSnap, roi, cacheReadShareByLabel: cacheByLabel }, null, 2)).catch(() => {});
+  await fs.writeFile(path.join(artifactsDir, "cost.json"), JSON.stringify({ ...costSnap, roi, cacheReadShareByLabel: cacheByLabel, renderWallClock: { count: renderCount, totalMs: renderMsTotal } }, null, 2)).catch(() => {});
 
   // I4 — delivery outcome + durable record (no manual cherry-pick).
   if (result.merged) console.log(`  ✅ auto-merged onto develop: ${result.merged.develop}${result.pushed ? " (pushed)" : " (local only — set SITC_DELIVERY_PUSH=1 to push)"}`);

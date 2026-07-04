@@ -1,2 +1,3 @@
 export { ComparisonTable } from "./ComparisonTable";
-export type { ComparisonTableProps, ComparisonRow } from "./types";
+export { ComparisonTriple } from "./ComparisonTriple";
+export type { ComparisonTableProps, ComparisonRow, ComparisonTripleProps, ComparisonColumn } from "./types";

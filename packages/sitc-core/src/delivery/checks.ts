@@ -14,8 +14,9 @@
  * gates stay pure orchestration.
  */
 import { execFile } from "node:child_process";
-import { chromium, type Page } from "playwright";
+import type { Page } from "playwright";
 import axeCore from "axe-core";
+import { withPage } from "../browser.js";
 import { pixelScore } from "../scorer/pixel.js";
 import type { AcceptanceChecks, RegressionChecks } from "./gates.js";
 import type { SanityCheck } from "../loop/sanity.js";
@@ -78,6 +79,14 @@ export function createSanityChecks(opts: SanityToolchainOptions = {}): SanityChe
 export interface RegressionToolchainOptions extends SanityToolchainOptions {
   repoRoot: string;
   /**
+   * Where build/validate run (todo I21). MUST be the run-branch CHAMPION tree —
+   * running them in `repoRoot` (the operator's checkout, sitting on `develop`)
+   * type-checked code the run never changed, so the final pre-merge gate was
+   * vacuous. Lazy thunk (the champion worktree only exists post-sweep), memoized.
+   * Default: `repoRoot` (back-compat for tests/callers without a champion tree).
+   */
+  cwd?: string | (() => Promise<string>);
+  /**
    * Yields image pairs [challengerPng, baselinePng] for existing templates —
    * the run's render vs the `develop` baseline. Min SSIM across all pairs proves
    * unrelated templates didn't regress (§7.3). Empty list → perfect (1).
@@ -88,9 +97,12 @@ export interface RegressionToolchainOptions extends SanityToolchainOptions {
 export function createRegressionChecks(opts: RegressionToolchainOptions): RegressionChecks {
   const [bc, ba] = opts.buildCmd ?? ["pnpm", ["type-check"]];
   const [vc, va] = opts.validateCmd ?? ["pnpm", ["test:validate"]];
+  let cwdCache: Promise<string> | undefined;
+  const resolveCwd = () =>
+    (cwdCache ??= Promise.resolve(typeof opts.cwd === "function" ? opts.cwd() : opts.cwd ?? opts.repoRoot));
   return {
-    build: () => runCommand(bc, ba, opts.repoRoot, opts.buildTimeoutMs),
-    validate: () => runCommand(vc, va, opts.repoRoot, opts.buildTimeoutMs),
+    build: async () => runCommand(bc, ba, await resolveCwd(), opts.buildTimeoutMs),
+    validate: async () => runCommand(vc, va, await resolveCwd(), opts.buildTimeoutMs),
     async existingTemplatesMinSsim() {
       const pairs = await opts.ssimPairs();
       if (!pairs.length) return 1;
@@ -124,6 +136,26 @@ export interface AcceptanceToolchainOptions {
    * only exists after the champion worktree is built (post-sweep).
    */
   url: string | (() => Promise<string>);
+  /**
+   * BASELINE page (the same template rendered from `develop`) for baseline-relative
+   * a11y/hygiene (todo I16). When set, those checks fail ONLY on violations not
+   * already present on the baseline — a pre-existing defect (e.g. an old footer
+   * iframe with bad contrast) can no longer fail every future run and permanently
+   * block auto-merge. Lazily resolved + memoized like `url`; if resolution or the
+   * baseline probe fails, checks degrade to ABSOLUTE mode with a note (fail-safe:
+   * stricter, never looser). Absent → absolute mode (previous behavior).
+   */
+  baselineUrl?: string | (() => Promise<string>);
+  /**
+   * Additional page PATHS to gate (todo I41), e.g. ["/about", "/contact"] — the
+   * inherited pages reuse the converged variants and ship in the SAME merge, but
+   * a11y/hygiene/responsive previously only ever visited the home URL, so a
+   * broken inherited page could auto-merge. Each path is applied to both the
+   * challenger and baseline origins (query string preserved — the engine selects
+   * the business via `?business=`). Perf stays home-only (CWV budgets are an
+   * origin-level signal; re-measuring per page adds noise, not information).
+   */
+  pages?: string[];
   /** Mobile URL for the responsive check (defaults to the resolved `url`). */
   mobileUrl?: string;
   budgets?: PerfBudgets;
@@ -140,15 +172,107 @@ export interface AcceptanceToolchainOptions {
   enforcePerf?: boolean;
 }
 
-async function withBrowser<T>(fn: (page: Page, ctx: import("playwright").BrowserContext, browser: import("playwright").Browser) => Promise<T>, viewport: { width: number; height: number }): Promise<T> {
-  const browser = await chromium.launch();
-  try {
-    const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1 });
-    const page = await ctx.newPage();
-    return await fn(page, ctx, browser);
-  } finally {
-    await browser.close();
+// ─── baseline-relative diffing (todo I16) — pure, unit-tested ────────────────
+
+export interface A11yViolation {
+  impact: string;
+  id: string;
+  nodes: number;
+}
+
+/**
+ * Fail only on axe rule ids NOT present on the baseline. Rule-id granularity (not
+ * per-node) — a pre-existing violation growing by a node is tolerated; a NEW rule
+ * firing is not. `baseline` null/undefined → absolute mode (fail on any violation).
+ */
+export function diffA11yViolations(
+  challenger: A11yViolation[],
+  baseline?: A11yViolation[] | null,
+): { ok: boolean; detail: string } {
+  const fmt = (vs: A11yViolation[]) => vs.map((v) => `${v.impact}:${v.id}(${v.nodes})`).join(", ");
+  if (baseline == null) return { ok: challenger.length === 0, detail: fmt(challenger) || "axe clean" };
+  const baseIds = new Set(baseline.map((v) => v.id));
+  const fresh = challenger.filter((v) => !baseIds.has(v.id));
+  const suppressed = challenger.length - fresh.length;
+  return {
+    ok: fresh.length === 0,
+    detail: fresh.length
+      ? `new vs baseline: ${fmt(fresh)}${suppressed ? ` (+${suppressed} pre-existing suppressed)` : ""}`
+      : `axe clean vs baseline${suppressed ? ` (${suppressed} pre-existing suppressed)` : ""}`,
+  };
+}
+
+export interface HygieneProbe {
+  title: string;
+  lang: string;
+  imgsNoAlt: number;
+  leaked: number;
+  consoleErrors: string[];
+}
+
+/** Normalize a console-error message so the same defect matches across renders (URLs/ports/counters vary). */
+export function normalizeConsoleError(msg: string): string {
+  return msg.replace(/https?:\/\/[^\s"']+/g, "<url>").replace(/\d+/g, "<n>").trim().slice(0, 100);
+}
+
+/**
+ * Baseline-relative hygiene: fail only on regressions the run INTRODUCED —
+ * counts that grew vs the baseline, a title/lang that disappeared, console errors
+ * whose normalized text isn't in the baseline. `baseline` null/undefined →
+ * absolute mode (previous behavior).
+ */
+export function diffHygiene(challenger: HygieneProbe, baseline?: HygieneProbe | null): { ok: boolean; detail: string } {
+  const fails: string[] = [];
+  const rel = baseline != null;
+  if (!challenger.title && (!rel || baseline.title)) fails.push("empty <title>");
+  if (!challenger.lang && (!rel || baseline.lang)) fails.push("missing <html lang>");
+  const grew = (c: number, b: number) => (rel ? c > b : c > 0);
+  if (grew(challenger.imgsNoAlt, baseline?.imgsNoAlt ?? 0))
+    fails.push(`${challenger.imgsNoAlt} img without alt${rel ? ` (baseline ${baseline.imgsNoAlt})` : ""}`);
+  if (grew(challenger.leaked, baseline?.leaked ?? 0))
+    fails.push(`${challenger.leaked} leaked t: keys${rel ? ` (baseline ${baseline.leaked})` : ""}`);
+  const baseErr = new Set((baseline?.consoleErrors ?? []).map(normalizeConsoleError));
+  const newErrs = rel
+    ? challenger.consoleErrors.filter((e) => !baseErr.has(normalizeConsoleError(e)))
+    : challenger.consoleErrors;
+  if (newErrs.length) fails.push(`${newErrs.length} ${rel ? "new " : ""}console error(s): ${newErrs[0]}`);
+  const suppressed = rel ? challenger.consoleErrors.length - newErrs.length : 0;
+  return {
+    ok: fails.length === 0,
+    detail: fails.join("; ") || (rel ? `clean vs baseline${suppressed ? ` (${suppressed} pre-existing console error(s) suppressed)` : ""}` : "clean"),
+  };
+}
+
+// Shared browser, fresh context per check (I26) — no per-check launch cost.
+async function withBrowser<T>(fn: (page: Page, ctx: import("playwright").BrowserContext) => Promise<T>, viewport: { width: number; height: number }): Promise<T> {
+  return withPage({ viewport }, (page, ctx) => fn(page, ctx));
+}
+
+// ─── multi-page helpers (todo I41) — pure, unit-tested ───────────────────────
+
+/** Apply a page path to a base URL, preserving origin + query (`null` → unchanged). */
+export function withPath(url: string, path: string | null): string {
+  if (path == null) return url;
+  const u = new URL(url);
+  u.pathname = path.startsWith("/") ? path : `/${path}`;
+  return u.toString();
+}
+
+export interface PageCheckResult {
+  /** Page path ("/" for the main URL). */
+  page: string;
+  ok: boolean;
+  detail: string;
+}
+
+/** Combine per-page results: any failing page fails the check; detail names the pages. */
+export function aggregatePages(results: PageCheckResult[]): { ok: boolean; detail: string } {
+  const failing = results.filter((r) => !r.ok);
+  if (failing.length) {
+    return { ok: false, detail: failing.map((r) => `${r.page}: ${r.detail}`).join(" | ") };
   }
+  if (results.length === 1) return { ok: true, detail: results[0].detail };
+  return { ok: true, detail: `${results.length} pages ok (${results.map((r) => r.page).join(", ")}) — ${results[0].detail}` };
 }
 
 export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): AcceptanceChecks {
@@ -157,9 +281,46 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
   const budgets = opts.budgets ?? { lcpMs: 4000, cls: 0.1, transferBytes: 5_000_000, requests: 120 };
   const failOn = opts.axeFailOn ?? ["critical", "serious"];
   const enforcePerf = opts.enforcePerf ?? true;
+  // I41 — inherited pages gated alongside the main URL (normalized to /paths).
+  const pageList = (opts.pages ?? []).map((p) => (p.startsWith("/") ? p : `/${p}`));
   // Resolve (and build, in I5 build-mode) the preview URL once, shared by all checks.
   let urlCache: Promise<string> | undefined;
   const resolveUrl = () => (urlCache ??= Promise.resolve(typeof opts.url === "function" ? opts.url() : opts.url));
+  // Baseline URL (I16) — null when unset OR when resolution fails (→ absolute mode).
+  let baselineCache: Promise<string | null> | undefined;
+  const resolveBaseline = () =>
+    (baselineCache ??= opts.baselineUrl == null
+      ? Promise.resolve(null)
+      : Promise.resolve(typeof opts.baselineUrl === "function" ? opts.baselineUrl() : opts.baselineUrl).catch(() => null));
+
+  const collectA11y = (url: string): Promise<A11yViolation[]> =>
+    withBrowser(async (page) => {
+      await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
+      await page.addScriptTag({ content: axeCore.source });
+      const results = await page.evaluate(async () => {
+        const axe = (window as unknown as { axe: { run: (d: Document, o: unknown) => Promise<{ violations: unknown[] }> } }).axe;
+        return await axe.run(document, { resultTypes: ["violations"] });
+      });
+      return (results.violations as any[])
+        .filter((v) => failOn.includes(v.impact))
+        .map((v) => ({ impact: v.impact as string, id: v.id as string, nodes: v.nodes.length as number }));
+    }, desktop);
+
+  const collectHygiene = (url: string): Promise<HygieneProbe> =>
+    withBrowser(async (page) => {
+      const consoleErrors: string[] = [];
+      page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 120)); });
+      await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
+      const probe = await page.evaluate(() => {
+        const imgsNoAlt = Array.from(document.querySelectorAll("img")).filter((i) => !i.hasAttribute("alt")).length;
+        const title = document.title?.trim() ?? "";
+        // leaked i18n keys like "t:hero.title" rendered as visible text
+        const leaked = (document.body.innerText.match(/\bt:[a-zA-Z0-9_.-]+/g) ?? []).length;
+        const lang = document.documentElement.getAttribute("lang") ?? "";
+        return { imgsNoAlt, title, leaked, lang };
+      });
+      return { ...probe, consoleErrors };
+    }, desktop);
 
   return {
     async perf() {
@@ -197,57 +358,72 @@ export function createAcceptanceChecks(opts: AcceptanceToolchainOptions): Accept
 
     async a11y() {
       const url = await resolveUrl();
-      return withBrowser(async (page) => {
-        await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
-        await page.addScriptTag({ content: axeCore.source });
-        const results = await page.evaluate(async () => {
-          const axe = (window as unknown as { axe: { run: (d: Document, o: unknown) => Promise<{ violations: unknown[] }> } }).axe;
-          return await axe.run(document, { resultTypes: ["violations"] });
+      const baseUrl = await resolveBaseline();
+      const results: PageCheckResult[] = [];
+      // I41 — main URL plus every inherited page; each diffed against the SAME
+      // path on the baseline (I16: pre-existing violations can't fail the run).
+      for (const p of [null, ...pageList]) {
+        const challenger = await collectA11y(withPath(url, p));
+        const baseline = baseUrl ? await collectA11y(withPath(baseUrl, p)).catch(() => null) : null;
+        const r = diffA11yViolations(challenger, baseline);
+        results.push({
+          page: p ?? "/",
+          ok: r.ok,
+          detail: baseUrl && !baseline ? `${r.detail} (baseline probe failed — absolute mode)` : r.detail,
         });
-        const blocking = (results.violations as any[]).filter((v) => failOn.includes(v.impact));
-        const detail = blocking.map((v) => `${v.impact}:${v.id}(${v.nodes.length})`).join(", ");
-        return { ok: blocking.length === 0, detail: detail || `axe clean (${(results.violations as any[]).length} non-blocking)` };
-      }, desktop);
+      }
+      return aggregatePages(results);
     },
 
     async responsive() {
       const url = await resolveUrl();
+      const baseUrl = await resolveBaseline();
       const check = (vp: { width: number; height: number }, u: string) =>
         withBrowser(async (page) => {
           await page.goto(u, { waitUntil: "networkidle", timeout: 60_000 });
           const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
           return overflow;
         }, vp);
-      const mob = await check(mobile, opts.mobileUrl ?? url);
-      const desk = await check(desktop, url);
       const fails: string[] = [];
-      if (mob > 2) fails.push(`mobile h-overflow ${mob}px`);
-      if (desk > 2) fails.push(`desktop h-overflow ${desk}px`);
-      return { ok: fails.length === 0, detail: fails.join("; ") || "no horizontal overflow" };
+      let suppressed = 0;
+      // I41 — every page at both viewports; I16-style baseline-relative: an
+      // overflow the baseline ALREADY has (pre-existing) doesn't fail the run.
+      for (const p of [null, ...pageList]) {
+        const pageLabel = p ?? "/";
+        for (const [label, vp] of [["mobile", mobile], ["desktop", desktop]] as const) {
+          const u = p == null && label === "mobile" && opts.mobileUrl ? opts.mobileUrl : withPath(url, p);
+          const c = await check(vp, u);
+          if (c <= 2) continue;
+          const b = baseUrl ? await check(vp, withPath(baseUrl, p)).catch(() => null) : null;
+          if (b != null && c <= b) {
+            suppressed++;
+            continue; // pre-existing overflow, not this run's regression
+          }
+          fails.push(`${pageLabel} ${label} h-overflow ${c}px${b != null ? ` (baseline ${b}px)` : ""}`);
+        }
+      }
+      return {
+        ok: fails.length === 0,
+        detail: fails.join("; ") || `no new horizontal overflow (${1 + pageList.length} page(s)${suppressed ? `, ${suppressed} pre-existing suppressed` : ""})`,
+      };
     },
 
     async hygiene() {
       const url = await resolveUrl();
-      return withBrowser(async (page) => {
-        const consoleErrors: string[] = [];
-        page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 120)); });
-        await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
-        const probe = await page.evaluate(() => {
-          const imgsNoAlt = Array.from(document.querySelectorAll("img")).filter((i) => !i.hasAttribute("alt")).length;
-          const title = document.title?.trim() ?? "";
-          // leaked i18n keys like "t:hero.title" rendered as visible text
-          const leaked = (document.body.innerText.match(/\bt:[a-zA-Z0-9_.-]+/g) ?? []).length;
-          const lang = document.documentElement.getAttribute("lang") ?? "";
-          return { imgsNoAlt, title, leaked, lang };
+      const baseUrl = await resolveBaseline();
+      const results: PageCheckResult[] = [];
+      // I41 + I16 — every page, only regressions the run introduced fail.
+      for (const p of [null, ...pageList]) {
+        const challenger = await collectHygiene(withPath(url, p));
+        const baseline = baseUrl ? await collectHygiene(withPath(baseUrl, p)).catch(() => null) : null;
+        const r = diffHygiene(challenger, baseline);
+        results.push({
+          page: p ?? "/",
+          ok: r.ok,
+          detail: baseUrl && !baseline ? `${r.detail} (baseline probe failed — absolute mode)` : r.detail,
         });
-        const fails: string[] = [];
-        if (!probe.title) fails.push("empty <title>");
-        if (!probe.lang) fails.push("missing <html lang>");
-        if (probe.imgsNoAlt > 0) fails.push(`${probe.imgsNoAlt} img without alt`);
-        if (probe.leaked > 0) fails.push(`${probe.leaked} leaked t: keys`);
-        if (consoleErrors.length) fails.push(`${consoleErrors.length} console error(s): ${consoleErrors[0]}`);
-        return { ok: fails.length === 0, detail: fails.join("; ") || "clean" };
-      }, desktop);
+      }
+      return aggregatePages(results);
     },
   };
 }
