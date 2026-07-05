@@ -73,6 +73,16 @@ export interface CheckoutPageContentProps {
   className?: string;
   // Business context
   businessId?: string;
+  // Restaurant flow
+  fulfillmentTypes?: ("delivery" | "pickup" | "dine_in")[];
+  deliveryFee?: number;
+  minOrderValue?: number;
+  notesLabel?: string;
+  notesPlaceholder?: string;
+  pickupTimeLabel?: string;
+  tableNumberLabel?: string;
+  tableNumberPlaceholder?: string;
+  fulfillmentLabels?: Partial<Record<"delivery" | "pickup" | "dine_in", string>>;
 }
 
 export interface ShopGridProps {

@@ -595,6 +595,14 @@ export type LinkLabel = string;
  * ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown.
  */
 export type Category = string;
+/**
+ * When true, this menu item can be added to the cart and ordered online. Requires priceValue.
+ */
+export type Orderable = boolean;
+/**
+ * Numeric price (e.g. 23.5 for 23,50 zł) — used for cart pricing. Required when orderable is true.
+ */
+export type PriceNumber = number;
 export type Items = ServiceItem[];
 export type CategoryID = string;
 export type TabLabel = string;
@@ -795,6 +803,19 @@ export type LeadTimeMinutes = number;
 export type MaxAdvanceBookingDays = number;
 export type BufferBetweenAppointmentsMinutes = number;
 export type BlackoutDatesYYYYMMDD = string[];
+export type StripeSecretKeySk_ = string;
+export type StripePublishableKeyPk_ = string;
+export type Currency1 = string;
+/**
+ * Which fulfillment options are shown at checkout.
+ */
+export type EnabledFulfillmentTypes = ("delivery" | "pickup" | "dine_in")[];
+/**
+ * Quick-buttons shown to the admin after payment when setting the ETA.
+ */
+export type PrepTimePresetsMinutes = number[];
+export type DeliveryFeeCents = number;
+export type MinimumOrderValueCents = number;
 /**
  * Override email for receiving contact form submissions. Use when the public contact email (business.contact.email) has delivery issues (e.g. strict government/corporate mail servers). Leave empty to use business.contact.email.
  */
@@ -818,6 +839,7 @@ export interface BusinessProfile {
   sharedSections?: SharedSections;
   data?: Data;
   booking?: Booking;
+  payments?: Payments;
   notifications?: Notifications;
 }
 export interface Business {
@@ -1212,6 +1234,8 @@ export interface ServiceItem {
   href?: LinkURL1;
   linkLabel?: LinkLabel;
   category?: Category;
+  orderable?: Orderable;
+  priceValue?: PriceNumber;
 }
 export interface ServiceCategory {
   id: CategoryID;
@@ -1484,6 +1508,18 @@ export interface BookingDayHours {
   enabled?: Open;
   open?: OpeningTime;
   close?: ClosingTime;
+}
+/**
+ * Stripe payment configuration used for online orders (restaurants, shops).
+ */
+export interface Payments {
+  stripeSecretKey?: StripeSecretKeySk_;
+  stripePublishableKey?: StripePublishableKeyPk_;
+  currency?: Currency1;
+  fulfillmentTypes?: EnabledFulfillmentTypes;
+  prepTimePresets?: PrepTimePresetsMinutes;
+  deliveryFee?: DeliveryFeeCents;
+  minOrderValue?: MinimumOrderValueCents;
 }
 export interface Notifications {
   email?: ContactFormNotificationEmail;

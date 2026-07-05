@@ -327,7 +327,9 @@
               "meta": { "type": "string", "title": "Meta Note", "description": "Short note shown top-right of an event card (e.g. 'Limited seats')." },
               "href": { "type": "string", "title": "Link URL" },
               "linkLabel": { "type": "string", "title": "Link Label" },
-              "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." }
+              "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." },
+              "orderable": { "type": "boolean", "title": "Orderable", "description": "When true, this menu item can be added to the cart and ordered online. Requires priceValue." },
+              "priceValue": { "type": "number", "title": "Price (number)", "description": "Numeric price (e.g. 23.5 for 23,50 zł) — used for cart pricing. Required when orderable is true." }
             }
           }
         },
@@ -1417,6 +1419,32 @@
           "title": "Blackout Dates (YYYY-MM-DD)",
           "items": { "type": "string" }
         }
+      }
+    },
+    "payments": {
+      "type": "object",
+      "title": "Payments",
+      "description": "Stripe payment configuration used for online orders (restaurants, shops).",
+      "properties": {
+        "stripeSecretKey": { "type": "string", "title": "Stripe Secret Key (sk_...)" },
+        "stripePublishableKey": { "type": "string", "title": "Stripe Publishable Key (pk_...)" },
+        "currency": { "type": "string", "title": "Currency", "default": "PLN" },
+        "fulfillmentTypes": {
+          "type": "array",
+          "title": "Enabled Fulfillment Types",
+          "description": "Which fulfillment options are shown at checkout.",
+          "items": { "type": "string", "enum": ["delivery", "pickup", "dine_in"] },
+          "default": ["pickup"]
+        },
+        "prepTimePresets": {
+          "type": "array",
+          "title": "Prep Time Presets (minutes)",
+          "description": "Quick-buttons shown to the admin after payment when setting the ETA.",
+          "items": { "type": "integer", "minimum": 1 },
+          "default": [15, 30, 45, 60]
+        },
+        "deliveryFee": { "type": "integer", "title": "Delivery Fee (cents)", "default": 0 },
+        "minOrderValue": { "type": "integer", "title": "Minimum Order Value (cents)", "default": 0 }
       }
     },
     "notifications": {

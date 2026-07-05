@@ -140,6 +140,9 @@ const checkoutLabels = {
         totalLabel={checkoutLabels.totalLabel}
         placeOrderLabel={checkoutLabels.placeOrderLabel}
         currency={checkoutLabels.currency}
+        fulfillmentTypes={((business as any).payments?.fulfillmentTypes) || ["pickup"]}
+        deliveryFee={(business as any).payments?.deliveryFee || 0}
+        minOrderValue={(business as any).payments?.minOrderValue || 0}
       />
     </div>
   </main>

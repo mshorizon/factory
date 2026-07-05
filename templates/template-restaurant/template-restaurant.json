@@ -449,196 +449,252 @@
               "category": "zupy",
               "title": "t:home.menu.items.crema-pomodoro.title",
               "description": "t:home.menu.items.crema-pomodoro.desc",
-              "price": "23 zł"
+              "price": "23 zł",
+              "orderable": true,
+              "priceValue": 23
             },
             {
               "id": "focaccia",
               "category": "przystawki",
               "title": "t:home.menu.items.focaccia.title",
               "description": "t:home.menu.items.focaccia.desc",
-              "price": "25 zł"
+              "price": "25 zł",
+              "orderable": true,
+              "priceValue": 25
             },
             {
               "id": "bruschetta-pomodoro",
               "category": "przystawki",
               "title": "t:home.menu.items.bruschetta-pomodoro.title",
               "description": "t:home.menu.items.bruschetta-pomodoro.desc",
-              "price": "32 zł"
+              "price": "32 zł",
+              "orderable": true,
+              "priceValue": 32
             },
             {
               "id": "bruschetta-portobello",
               "category": "przystawki",
               "title": "t:home.menu.items.bruschetta-portobello.title",
               "description": "t:home.menu.items.bruschetta-portobello.desc",
-              "price": "33 zł"
+              "price": "33 zł",
+              "orderable": true,
+              "priceValue": 33
             },
             {
               "id": "krewetki",
               "category": "przystawki",
               "title": "t:home.menu.items.krewetki.title",
               "description": "t:home.menu.items.krewetki.desc",
-              "price": "46 zł"
+              "price": "46 zł",
+              "orderable": true,
+              "priceValue": 46
             },
             {
               "id": "antipasti",
               "category": "przystawki",
               "title": "t:home.menu.items.antipasti.title",
               "description": "t:home.menu.items.antipasti.desc",
-              "price": "47 zł"
+              "price": "47 zł",
+              "orderable": true,
+              "priceValue": 47
             },
             {
               "id": "insalata-burrata",
               "category": "salatki",
               "title": "t:home.menu.items.insalata-burrata.title",
               "description": "t:home.menu.items.insalata-burrata.desc",
-              "price": "43 zł"
+              "price": "43 zł",
+              "orderable": true,
+              "priceValue": 43
             },
             {
               "id": "caesar-gamberetti",
               "category": "salatki",
               "title": "t:home.menu.items.caesar-gamberetti.title",
               "description": "t:home.menu.items.caesar-gamberetti.desc",
-              "price": "51 zł"
+              "price": "51 zł",
+              "orderable": true,
+              "priceValue": 51
             },
             {
               "id": "caesar-pastrami",
               "category": "salatki",
               "title": "t:home.menu.items.caesar-pastrami.title",
               "description": "t:home.menu.items.caesar-pastrami.desc",
-              "price": "55 zł"
+              "price": "55 zł",
+              "orderable": true,
+              "priceValue": 55
             },
             {
               "id": "marinara",
               "category": "pizza",
               "title": "t:home.menu.items.marinara.title",
               "description": "t:home.menu.items.marinara.desc",
-              "price": "27 zł"
+              "price": "27 zł",
+              "orderable": true,
+              "priceValue": 27
             },
             {
               "id": "margherita",
               "category": "pizza",
               "title": "t:home.menu.items.margherita.title",
               "description": "t:home.menu.items.margherita.desc",
-              "price": "35 zł"
+              "price": "35 zł",
+              "orderable": true,
+              "priceValue": 35
             },
             {
               "id": "funghi",
               "category": "pizza",
               "title": "t:home.menu.items.funghi.title",
               "description": "t:home.menu.items.funghi.desc",
-              "price": "38 zł"
+              "price": "38 zł",
+              "orderable": true,
+              "priceValue": 38
             },
             {
               "id": "cotto",
               "category": "pizza",
               "title": "t:home.menu.items.cotto.title",
               "description": "t:home.menu.items.cotto.desc",
-              "price": "39 zł"
+              "price": "39 zł",
+              "orderable": true,
+              "priceValue": 39
             },
             {
               "id": "salame",
               "category": "pizza",
               "title": "t:home.menu.items.salame.title",
               "description": "t:home.menu.items.salame.desc",
-              "price": "40 zł"
+              "price": "40 zł",
+              "orderable": true,
+              "priceValue": 40
             },
             {
               "id": "capricciosa",
               "category": "pizza",
               "title": "t:home.menu.items.capricciosa.title",
               "description": "t:home.menu.items.capricciosa.desc",
-              "price": "43 zł"
+              "price": "43 zł",
+              "orderable": true,
+              "priceValue": 43
             },
             {
               "id": "diavola",
               "category": "pizza",
               "title": "t:home.menu.items.diavola.title",
               "description": "t:home.menu.items.diavola.desc",
-              "price": "46 zł"
+              "price": "46 zł",
+              "orderable": true,
+              "priceValue": 46
             },
             {
               "id": "formaggi",
               "category": "pizza",
               "title": "t:home.menu.items.formaggi.title",
               "description": "t:home.menu.items.formaggi.desc",
-              "price": "46 zł"
+              "price": "46 zł",
+              "orderable": true,
+              "priceValue": 46
             },
             {
               "id": "parma",
               "category": "pizza",
               "title": "t:home.menu.items.parma.title",
               "description": "t:home.menu.items.parma.desc",
-              "price": "47 zł"
+              "price": "47 zł",
+              "orderable": true,
+              "priceValue": 47
             },
             {
               "id": "tuna",
               "category": "pizza",
               "title": "t:home.menu.items.tuna.title",
               "description": "t:home.menu.items.tuna.desc",
-              "price": "47 zł"
+              "price": "47 zł",
+              "orderable": true,
+              "priceValue": 47
             },
             {
               "id": "mortadella",
               "category": "pizza",
               "title": "t:home.menu.items.mortadella.title",
               "description": "t:home.menu.items.mortadella.desc",
-              "price": "47 zł"
+              "price": "47 zł",
+              "orderable": true,
+              "priceValue": 47
             },
             {
               "id": "nduja",
               "category": "pizza",
               "title": "t:home.menu.items.nduja.title",
               "description": "t:home.menu.items.nduja.desc",
-              "price": "47 zł"
+              "price": "47 zł",
+              "orderable": true,
+              "priceValue": 47
             },
             {
               "id": "margherita-burrata",
               "category": "pizza",
               "title": "t:home.menu.items.margherita-burrata.title",
               "description": "t:home.menu.items.margherita-burrata.desc",
-              "price": "47 zł"
+              "price": "47 zł",
+              "orderable": true,
+              "priceValue": 47
             },
             {
               "id": "affumicata",
               "category": "pizza",
               "title": "t:home.menu.items.affumicata.title",
               "description": "t:home.menu.items.affumicata.desc",
-              "price": "49 zł"
+              "price": "49 zł",
+              "orderable": true,
+              "priceValue": 49
             },
             {
               "id": "cotto-tartufo",
               "category": "pizza",
               "title": "t:home.menu.items.cotto-tartufo.title",
               "description": "t:home.menu.items.cotto-tartufo.desc",
-              "price": "52 zł"
+              "price": "52 zł",
+              "orderable": true,
+              "priceValue": 52
             },
             {
               "id": "dodatek-warzywny",
               "category": "dodatki",
               "title": "t:home.menu.items.dodatek-warzywny.title",
               "description": "t:home.menu.items.dodatek-warzywny.desc",
-              "price": "4 zł"
+              "price": "4 zł",
+              "orderable": true,
+              "priceValue": 4
             },
             {
               "id": "dodatek-miesny",
               "category": "dodatki",
               "title": "t:home.menu.items.dodatek-miesny.title",
               "description": "t:home.menu.items.dodatek-miesny.desc",
-              "price": "7 zł"
+              "price": "7 zł",
+              "orderable": true,
+              "priceValue": 7
             },
             {
               "id": "dodatek-burrata",
               "category": "dodatki",
               "title": "t:home.menu.items.dodatek-burrata.title",
               "description": "t:home.menu.items.dodatek-burrata.desc",
-              "price": "9 zł"
+              "price": "9 zł",
+              "orderable": true,
+              "priceValue": 9
             },
             {
               "id": "dodatek-krewetki",
               "category": "dodatki",
               "title": "t:home.menu.items.dodatek-krewetki.title",
               "description": "t:home.menu.items.dodatek-krewetki.desc",
-              "price": "12 zł"
+              "price": "12 zł",
+              "orderable": true,
+              "priceValue": 12
             },
             {
               "id": "cola",
@@ -701,63 +757,81 @@
               "category": "gorace",
               "title": "t:home.menu.items.herbata.title",
               "description": "t:home.menu.items.herbata.desc",
-              "price": "13 zł"
+              "price": "13 zł",
+              "orderable": true,
+              "priceValue": 13
             },
             {
               "id": "espresso",
               "category": "gorace",
               "title": "t:home.menu.items.espresso.title",
               "description": "t:home.menu.items.espresso.desc",
-              "price": "13 zł"
+              "price": "13 zł",
+              "orderable": true,
+              "priceValue": 13
             },
             {
               "id": "espresso-doppio",
               "category": "gorace",
               "title": "t:home.menu.items.espresso-doppio.title",
               "description": "t:home.menu.items.espresso-doppio.desc",
-              "price": "13 zł"
+              "price": "13 zł",
+              "orderable": true,
+              "priceValue": 13
             },
             {
               "id": "espresso-macchiato",
               "category": "gorace",
               "title": "t:home.menu.items.espresso-macchiato.title",
               "description": "t:home.menu.items.espresso-macchiato.desc",
-              "price": "12 zł"
+              "price": "12 zł",
+              "orderable": true,
+              "priceValue": 12
             },
             {
               "id": "americano",
               "category": "gorace",
               "title": "t:home.menu.items.americano.title",
               "description": "t:home.menu.items.americano.desc",
-              "price": "13 zł"
+              "price": "13 zł",
+              "orderable": true,
+              "priceValue": 13
             },
             {
               "id": "americano-mleko",
               "category": "gorace",
               "title": "t:home.menu.items.americano-mleko.title",
               "description": "t:home.menu.items.americano-mleko.desc",
-              "price": "14 zł"
+              "price": "14 zł",
+              "orderable": true,
+              "priceValue": 14
             },
             {
               "id": "cappuccino",
               "category": "gorace",
               "title": "t:home.menu.items.cappuccino.title",
               "description": "t:home.menu.items.cappuccino.desc",
-              "price": "14 zł"
+              "price": "14 zł",
+              "orderable": true,
+              "priceValue": 14
             },
             {
               "id": "caffe-latte",
               "category": "gorace",
               "title": "t:home.menu.items.caffe-latte.title",
               "description": "t:home.menu.items.caffe-latte.desc",
-              "price": "15 zł"
+              "price": "15 zł",
+              "orderable": true,
+              "priceValue": 15
             },
             {
               "id": "flat-white",
               "category": "gorace",
               "title": "t:home.menu.items.flat-white.title",
               "description": "t:home.menu.items.flat-white.desc",
-              "price": "16 zł"
+              "price": "16 zł",
+              "orderable": true,
+              "priceValue": 16
             },
             {
               "id": "mojito",
@@ -827,7 +901,9 @@
               "category": "desery",
               "title": "t:home.menu.items.tiramisu.title",
               "description": "t:home.menu.items.tiramisu.desc",
-              "price": "25 zł"
+              "price": "25 zł",
+              "orderable": true,
+              "priceValue": 25
             },
             {
               "id": "deser-dnia",
@@ -1166,5 +1242,14 @@
       ]
     }
   },
-  "sharedSections": {}
+  "sharedSections": {},
+  "payments": {
+    "stripeSecretKey": "",
+    "stripePublishableKey": "",
+    "currency": "PLN",
+    "fulfillmentTypes": ["delivery", "pickup", "dine_in"],
+    "prepTimePresets": [15, 30, 45, 60],
+    "deliveryFee": 1500,
+    "minOrderValue": 3000
+  }
 }

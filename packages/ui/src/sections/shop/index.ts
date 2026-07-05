@@ -5,6 +5,7 @@ export { CartPageContent } from "./CartPageContent";
 export { CheckoutPageContent } from "./CheckoutPageContent";
 export { ShopGrid } from "./ShopGrid";
 export { OrderSuccessContent } from "./OrderSuccessContent";
+export { OrderStatusContent } from "./OrderStatusContent";
 export type {
   ProductCardProps,
   CartButtonProps,

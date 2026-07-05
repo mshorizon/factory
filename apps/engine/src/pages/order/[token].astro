@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { OrderStatusContent } from "@mshorizon/ui";
+import { getLayoutConfig, getNavLinks } from "../../lib/pages";
+import { resolveTarget } from "../../lib/target";
+import { deepTranslate, t as translate } from "../../lib/i18n";
+import { deepResolveImages } from "../../lib/images";
+import { getOrderByToken, getOrderItemsByOrderId, initDb } from "@mshorizon/db";
+import type { BusinessProfile } from "@mshorizon/schema";
+
+const { businessId, businessData, theme, currentLang, t: translations } = Astro.locals;
+
+const translatedData = deepTranslate(translations, businessData) as BusinessProfile;
+const business = deepResolveImages(translatedData, businessId);
+const layout = getLayoutConfig(business);
+
+const navLinksRaw = getNavLinks(business);
+const navLinks = navLinksRaw.map((link: any) => ({
+  label: link.label,
+  href: link.href || resolveTarget(link.target, business),
+  ...(link.external ? { external: true } : {}),
+}));
+const navCta = business.navigation?.cta
+  ? { label: business.navigation.cta.label, href: resolveTarget(business.navigation.cta.target, business) }
+  : undefined;
+
+const footerLinks = layout.footer.links?.map((link: any) => ({
+  label: link.label, href: link.href || resolveTarget(link.target, business),
+})) || [];
+const pagesColumn = {
+  title: translate(translations, "footer.columns.pages.title", "Strony"),
+  links: [...navLinks, ...footerLinks],
+};
+const footerColumns = [
+  pagesColumn,
+  ...(layout.footer.columns
+    ?.filter((col: any) => col.title !== pagesColumn.title)
+    .map((col: any) => ({
+      title: col.title,
+      links: col.links?.map((link: any) => ({ label: link.label, href: link.href || resolveTarget(link.target, business) })) || [],
+    })) || []),
+];
+
+const { token } = Astro.params;
+initDb(import.meta.env.DATABASE_URL);
+const order = token ? await getOrderByToken(token) : null;
+
+if (!order) {
+  return Astro.redirect("/");
+}
+
+const items = await getOrderItemsByOrderId(order.id);
+
+const orderData = {
+  orderNumber: order.orderNumber,
+  status: order.status,
+  fulfillmentType: order.fulfillmentType,
+  tableNumber: order.tableNumber,
+  pickupTime: order.pickupTime ? order.pickupTime.toISOString() : null,
+  customerFirstName: order.customerFirstName,
+  customerLastName: order.customerLastName,
+  subtotal: order.subtotal,
+  shippingCost: order.shippingCost,
+  total: order.total,
+  currency: order.currency,
+  paymentLinkUrl: order.status === "accepted" ? order.paymentLinkUrl : null,
+  estimatedReadyAt: order.estimatedReadyAt ? order.estimatedReadyAt.toISOString() : null,
+  acceptedAt: order.acceptedAt ? order.acceptedAt.toISOString() : null,
+  paidAt: order.paidAt ? order.paidAt.toISOString() : null,
+  preparingAt: order.preparingAt ? order.preparingAt.toISOString() : null,
+  readyAt: order.readyAt ? order.readyAt.toISOString() : null,
+  completedAt: order.completedAt ? order.completedAt.toISOString() : null,
+  rejectedAt: order.rejectedAt ? order.rejectedAt.toISOString() : null,
+  cancelledAt: order.cancelledAt ? order.cancelledAt.toISOString() : null,
+  createdAt: order.createdAt.toISOString(),
+  notes: order.notes,
+  customerNotes: order.customerNotes,
+};
+
+const itemsData = items.map((i) => ({
+  id: i.id,
+  title: i.title?.startsWith("t:") ? translate(translations, i.title.slice(2), i.title) : i.title,
+  quantity: i.quantity,
+  unitPrice: i.unitPrice,
+  total: i.total,
+  image: i.image,
+  customizationLabels: i.customizationLabels,
+}));
+
+const socialLinks = business.business.socials
+  ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
+  : [];
+
+const pageTitle = `Zamówienie ${order.orderNumber} | ${business.business.name}`;
+---
+
+<BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
+  <Navbar
+    logo={layout.navbar.logoText || business.business.name}
+    logoSubtext={layout.navbar.logoSubtext}
+    logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    logoIconLucide={business.business.assets?.iconLucide}
+    hideLogoIcon={layout.navbar.hideLogoIcon}
+    links={navLinks}
+    cta={navCta}
+    variant={layout.navbar.variant as "standard" | "centered"}
+    showCart={true}
+    extensions={layout.navbar.extensions}
+    contact={business.business.contact}
+    socials={business.business.socials}
+    hideBorderOnTop={layout.navbar.hideBorderOnTop}
+    hideCta={layout.navbar.hideCta}
+    showSocials={layout.navbar.showSocials}
+    showAvailability={layout.navbar.showAvailability}
+    showAddress={layout.navbar.showAddress}
+    showAdditionalInfo={layout.navbar.showAdditionalInfo}
+  />
+  <main class="flex-1 pt-14 lg:pt-16">
+    <OrderStatusContent
+      client:load
+      orderToken={token!}
+      initialOrder={orderData}
+      initialItems={itemsData}
+    />
+  </main>
+  <Footer
+    businessName={business.business.name}
+    footerName={layout.footer.name}
+    logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
+    footerLogoIcon={business.business.assets?.footerIcon}
+    links={footerLinks}
+    columns={footerColumns}
+    copyright={layout.footer.copyright}
+    tagline={layout.footer.tagline}
+    flag={layout.footer.flag}
+    findUsTitle={layout.footer.findUsTitle}
+    hoursTitle={layout.footer.hoursTitle}
+    hours={layout.footer.hours}
+    signature={layout.footer.signature}
+    currentLanguage={currentLang}
+    variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns"}
+    socialLinks={socialLinks}
+    extensions={layout.footer.extensions}
+    background={layout.footer.background}
+    contact={business.business.contact}
+  />
+</BaseLayout>

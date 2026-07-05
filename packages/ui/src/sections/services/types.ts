@@ -13,6 +13,10 @@ export interface ServiceItem {
   linkLabel?: string;
   category?: string;
   requirements?: string;
+  /** When true and priceValue is set, an "Add to cart" button is rendered on the menu row. */
+  orderable?: boolean;
+  /** Numeric price in the site currency (e.g. 23.5 for "23,50 zł") — used for cart totals. */
+  priceValue?: number;
 }
 
 export interface ServiceCategory {
