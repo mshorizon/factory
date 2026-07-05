@@ -6,6 +6,7 @@ import PageHero from "../components/PageHero.astro";
 import { getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
 import { deepTranslate } from "../lib/i18n";
+import { siteHasCart } from "../lib/cart-detection";
 import { deepResolveImages } from "../lib/images";
 import type { BusinessProfile } from "@mshorizon/schema";
 
@@ -50,9 +51,7 @@ const footerColumns = [
     })) || []),
 ];
 
-const hasShopSection = Object.values(business.pages).some((p: any) =>
-  p.sections?.some((s: any) => s.type === "shop")
-);
+const hasShopSection = siteHasCart(business);
 
 const socialLinks = business.business.socials
   ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))

@@ -8,6 +8,7 @@ import { findPageBySlug, getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
 import { deepTranslate, t } from "../lib/i18n";
 import { deepResolveImages } from "../lib/images";
+import { siteHasCart } from "../lib/cart-detection";
 import type { BusinessProfile } from "@mshorizon/schema";
 
 // Get route params
@@ -145,9 +146,7 @@ const footerColumns = [
 ];
 
 // Check if business has any shop sections (to show cart button)
-const hasShopSection = Object.values(business.pages).some((p: any) =>
-  p.sections?.some((s: any) => s.type === "shop")
-);
+const hasShopSection = siteHasCart(business);
 
 // Convert socials Record<string, string> to SocialLink[] for footer
 const socialLinks = business.business.socials
