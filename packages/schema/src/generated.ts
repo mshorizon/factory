@@ -817,6 +817,10 @@ export type PrepTimePresetsMinutes = number[];
 export type DeliveryFeeCents = number;
 export type MinimumOrderValueCents = number;
 /**
+ * Payment methods offered at checkout. "online" requires Stripe keys; "cash" and "card_on_site" are settled at pickup/delivery/table.
+ */
+export type EnabledPaymentMethods = ("online" | "cash" | "card_on_site")[];
+/**
  * Override email for receiving contact form submissions. Use when the public contact email (business.contact.email) has delivery issues (e.g. strict government/corporate mail servers). Leave empty to use business.contact.email.
  */
 export type ContactFormNotificationEmail = {
@@ -1520,6 +1524,7 @@ export interface Payments {
   prepTimePresets?: PrepTimePresetsMinutes;
   deliveryFee?: DeliveryFeeCents;
   minOrderValue?: MinimumOrderValueCents;
+  paymentMethods?: EnabledPaymentMethods;
 }
 export interface Notifications {
   email?: ContactFormNotificationEmail;

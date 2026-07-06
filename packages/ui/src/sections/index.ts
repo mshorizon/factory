@@ -27,8 +27,8 @@ export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard,
 export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactProfessionalProps, ContactRestaurantProps, ContactPanelProps, ContactSocialLink, ContactRestaurantLabels, ContactForm, ContactInfo, ContactLabels } from "./contact";
 
 // Shop variants
-export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid, OrderSuccessContent, OrderStatusContent } from "./shop";
-export type { ProductCardProps, CartButtonProps, CartPageContentProps, CheckoutPageContentProps, ShopGridProps } from "./shop";
+export { ProductCard, CartButton, CartFloatingBar, CheckoutPageContent, ShopGrid, OrderSuccessContent, OrderStatusContent } from "./shop";
+export type { ProductCardProps, CartButtonProps, CartFloatingBarProps, CheckoutPageContentProps, ShopGridProps, PaymentMethod } from "./shop";
 
 // Process variants
 export { ProcessSteps, ProcessVisual, ProcessGrid, ProcessTimeline, ProcessConnected } from "./process";

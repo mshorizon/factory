@@ -170,7 +170,11 @@ export async function sendOrderReceivedEmail(
       <p>Cześć ${order.customerFirstName},</p>
       <p>Dziękujemy za zamówienie w <strong>${businessName}</strong>. Restauracja właśnie sprawdza dostępność.</p>
       <p><strong>Sposób realizacji:</strong> ${fulfillmentLabel(order)}</p>
-      <p>Po akceptacji otrzymasz e-mail z linkiem do płatności.</p>
+      <p>${
+        order.paymentMethod === "online"
+          ? "Po akceptacji otrzymasz e-mail z linkiem do płatności."
+          : "Po akceptacji restauracja od razu zacznie przygotowywać zamówienie — zapłacisz przy odbiorze."
+      }</p>
       <p style="margin-top:24px">
         <a href="${statusUrl}" style="background:#333;color:#fff;padding:10px 20px;text-decoration:none;border-radius:6px">
           Sprawdź status zamówienia
@@ -195,22 +199,31 @@ export async function sendOrderAcceptedEmail(
   items: OrderItem[],
   businessConfig: any,
   resendApiKey: string,
-  paymentUrl: string,
+  paymentUrl: string | null,
   statusUrl: string,
 ) {
   if (!resendApiKey) return;
   const resend = new Resend(resendApiKey);
   const businessName = businessConfig?.business?.name || "Restauracja";
-  const html = `
-    <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-      <h2>Zamówienie zaakceptowane — ${order.orderNumber}</h2>
-      <p>Cześć ${order.customerFirstName},</p>
+  const isOnline = order.paymentMethod === "online" && !!paymentUrl;
+  const paymentBlock = isOnline
+    ? `
       <p><strong>${businessName}</strong> przyjął(a) Twoje zamówienie. Aby przejść do przygotowania, opłać je poniżej.</p>
       <p style="margin:24px 0">
         <a href="${paymentUrl}" style="background:#0a7c3a;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold">
           Zapłać teraz — ${formatPrice(order.total, order.currency)}
         </a>
-      </p>
+      </p>`
+    : `
+      <p><strong>${businessName}</strong> przyjął(a) Twoje zamówienie i zaraz zacznie je przygotowywać.</p>
+      <p><strong>Płatność:</strong> ${
+        order.paymentMethod === "card_on_site" ? "kartą przy odbiorze" : "gotówką przy odbiorze"
+      } — ${formatPrice(order.total, order.currency)}</p>`;
+  const html = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+      <h2>Zamówienie zaakceptowane — ${order.orderNumber}</h2>
+      <p>Cześć ${order.customerFirstName},</p>
+      ${paymentBlock}
       <h3>Podsumowanie</h3>
       ${buildItemsTable(items, order.currency)}
       <p><strong>Sposób realizacji:</strong> ${fulfillmentLabel(order)}</p>
@@ -223,7 +236,9 @@ export async function sendOrderAcceptedEmail(
     await resend.emails.send({
       from: FROM,
       to: order.customerEmail,
-      subject: `Zamówienie ${order.orderNumber} zaakceptowane — link do płatności`,
+      subject: isOnline
+        ? `Zamówienie ${order.orderNumber} zaakceptowane — link do płatności`
+        : `Zamówienie ${order.orderNumber} zaakceptowane`,
       html,
     });
   } catch (err) {

@@ -17,6 +17,7 @@ export const GET: APIRoute = async ({ url, locals }) => {
       order: {
         orderNumber: order.orderNumber,
         status: order.status,
+        paymentMethod: order.paymentMethod,
         fulfillmentType: order.fulfillmentType,
         tableNumber: order.tableNumber,
         pickupTime: order.pickupTime,
@@ -26,7 +27,10 @@ export const GET: APIRoute = async ({ url, locals }) => {
         shippingCost: order.shippingCost,
         total: order.total,
         currency: order.currency,
-        paymentLinkUrl: order.status === "accepted" ? order.paymentLinkUrl : null,
+        paymentLinkUrl:
+          order.status === "accepted" && order.paymentMethod === "online"
+            ? order.paymentLinkUrl
+            : null,
         estimatedReadyAt: order.estimatedReadyAt,
         acceptedAt: order.acceptedAt,
         paidAt: order.paidAt,

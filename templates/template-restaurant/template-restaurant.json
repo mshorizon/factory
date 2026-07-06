@@ -1247,9 +1247,23 @@
     "stripeSecretKey": "",
     "stripePublishableKey": "",
     "currency": "PLN",
-    "fulfillmentTypes": ["delivery", "pickup", "dine_in"],
-    "prepTimePresets": [15, 30, 45, 60],
+    "fulfillmentTypes": [
+      "delivery",
+      "pickup",
+      "dine_in"
+    ],
+    "prepTimePresets": [
+      15,
+      30,
+      45,
+      60
+    ],
     "deliveryFee": 1500,
-    "minOrderValue": 3000
+    "minOrderValue": 3000,
+    "paymentMethods": [
+      "online",
+      "cash",
+      "card_on_site"
+    ]
   }
 }
