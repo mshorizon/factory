@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import { CheckoutPageContent } from "@mshorizon/ui";
 import { getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
+import { menuSectionHref } from "../lib/cart-detection";
 import { deepTranslate } from "../lib/i18n";
 import { deepResolveImages } from "../lib/images";
 import type { BusinessProfile } from "@mshorizon/schema";
@@ -67,6 +68,14 @@ const tt = (key: string, fallback: string) => translations[key] || fallback;
 const checkoutLabels = {
   emptyCartMessage: tt("checkout.empty", "Twoje zamówienie jest puste"),
   continueShoppingLabel: tt("checkout.continueShopping", "Zobacz menu"),
+  // Deep-link to the menu section on home; keep query params (?business= dev override)
+  continueShoppingHref: (() => {
+    const href = menuSectionHref(business);
+    const search = Astro.url.search;
+    if (!search) return href;
+    const [path, hash] = href.split("#");
+    return hash ? `${path}${search}#${hash}` : `${href}${search}`;
+  })(),
   editLabel: tt("checkout.items.edit", "Zmień"),
   removeItemLabel: tt("checkout.items.remove", "Usuń pozycję"),
   fulfillmentSectionTitle: tt("checkout.fulfillment.title", "Sposób realizacji"),

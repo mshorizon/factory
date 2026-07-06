@@ -311,9 +311,17 @@ export function OrderStatusContent({
                     className={cn(
                       "relative z-10 flex items-center justify-center h-10 w-10 rounded-full border transition-colors bg-background",
                       done ? "border-primary bg-primary text-on-primary" : "border-border text-foreground/40",
-                      current && !isPending && "ring-2 ring-primary ring-offset-2 ring-offset-background",
-                      current && isPending && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background animate-pulse"
+                      current && "ring-2 ring-primary ring-offset-2 ring-offset-background",
+                      current && isPending && "animate-pulse"
                     )}
+                    // Pin the ring to the CTA color — without this, a stale
+                    // Tailwind build missing the ring-primary utility falls
+                    // back to the default blue ring.
+                    style={
+                      current
+                        ? ({ "--tw-ring-color": "var(--primary)" } as React.CSSProperties)
+                        : undefined
+                    }
                   >
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </div>

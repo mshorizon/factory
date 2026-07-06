@@ -482,3 +482,28 @@ body::-webkit-scrollbar {
 [data-services-cta-hide-icon="1"] .services-cta-icon {
   display: none !important;
 }
+/* Browser autofill paints its own background (pale yellow/blue) over form
+   fields — repaint with theme colors so autofilled inputs match the site.
+   The inset box-shadow trick covers the UA background; the absurdly long
+   transition defers Chrome's background-color swap indefinitely. Keep the
+   -webkit and standard :autofill rules separate — one unsupported selector
+   would invalidate a combined list. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+  box-shadow: 0 0 0 1000px var(--background) inset;
+  -webkit-text-fill-color: var(--foreground);
+  caret-color: var(--foreground);
+  transition: background-color 9999999s ease-in-out 0s;
+}
+
+input:autofill,
+textarea:autofill,
+select:autofill {
+  box-shadow: 0 0 0 1000px var(--background) inset;
+  -webkit-text-fill-color: var(--foreground);
+  caret-color: var(--foreground);
+}
