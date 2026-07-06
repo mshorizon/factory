@@ -266,6 +266,9 @@ export const orders = pgTable("orders", {
   total: integer("total").notNull(),
   currency: text("currency").notNull().default("PLN"),
 
+  // Payment: "online" (Stripe link after acceptance) | "cash" | "card_on_site"
+  paymentMethod: text("payment_method").notNull().default("online"),
+
   // Stripe
   stripeSessionId: text("stripe_session_id"),
   stripePaymentIntentId: text("stripe_payment_intent_id"),

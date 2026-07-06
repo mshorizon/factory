@@ -56,6 +56,7 @@ const items = await getOrderItemsByOrderId(order.id);
 const orderData = {
   orderNumber: order.orderNumber,
   status: order.status,
+  paymentMethod: order.paymentMethod,
   fulfillmentType: order.fulfillmentType,
   tableNumber: order.tableNumber,
   pickupTime: order.pickupTime ? order.pickupTime.toISOString() : null,
@@ -65,7 +66,10 @@ const orderData = {
   shippingCost: order.shippingCost,
   total: order.total,
   currency: order.currency,
-  paymentLinkUrl: order.status === "accepted" ? order.paymentLinkUrl : null,
+  paymentLinkUrl:
+    order.status === "accepted" && order.paymentMethod === "online"
+      ? order.paymentLinkUrl
+      : null,
   estimatedReadyAt: order.estimatedReadyAt ? order.estimatedReadyAt.toISOString() : null,
   acceptedAt: order.acceptedAt ? order.acceptedAt.toISOString() : null,
   paidAt: order.paidAt ? order.paidAt.toISOString() : null,
@@ -93,7 +97,49 @@ const socialLinks = business.business.socials
   ? Object.entries(business.business.socials).map(([platform, url]) => ({ platform, url }))
   : [];
 
-const pageTitle = `Zamówienie ${order.orderNumber} | ${business.business.name}`;
+const pageTitle = `${translate(translations, "order.title", "Zamówienie")} ${order.orderNumber} | ${business.business.name}`;
+
+// Status-page labels — overridable per language via translations
+const orderLabels = {
+  orderLabel: translate(translations, "order.title", "Zamówienie"),
+  stagePending: translate(translations, "order.stage.pending", "Otrzymane"),
+  stageAccepted: translate(translations, "order.stage.accepted", "Przyjęte"),
+  stagePaid: translate(translations, "order.stage.paid", "Opłacone"),
+  stagePreparing: translate(translations, "order.stage.preparing", "W przygotowaniu"),
+  stageReady: translate(translations, "order.stage.ready", "Gotowe"),
+  stageCompleted: translate(translations, "order.stage.completed", "Zakończone"),
+  pendingTitle: translate(translations, "order.pending.title", "Czekamy na potwierdzenie restauracji"),
+  pendingDescription: translate(translations, "order.pending.description", "Twoje zamówienie dotarło do restauracji. Zwykle potwierdzenie zajmuje kilka minut."),
+  placedAtLabel: translate(translations, "order.pending.placedAt", "Złożone o"),
+  autoRefreshNote: translate(translations, "order.pending.autoRefresh", "Ta strona odświeża się automatycznie."),
+  callRestaurantLabel: translate(translations, "order.pending.call", "Zadzwoń do restauracji"),
+  acceptedOnlineText: translate(translations, "order.accepted.online", "Zamówienie przyjęte. Aby przejść do przygotowania, opłać je poniżej."),
+  payButtonLabel: translate(translations, "order.accepted.pay", "Zapłać"),
+  paymentEmailNote: translate(translations, "order.accepted.emailNote", "Link do płatności został też wysłany na Twój e-mail."),
+  acceptedOfflineText: translate(translations, "order.accepted.offline", "Restauracja przyjęła Twoje zamówienie i zaraz zacznie je przygotowywać."),
+  paidText: translate(translations, "order.paid.text", "Otrzymaliśmy płatność. Restauracja ustala czas przygotowania."),
+  etaLabel: translate(translations, "order.eta", "Szacowany czas gotowości"),
+  readyDelivery: translate(translations, "order.ready.delivery", "Zamówienie właśnie wyrusza w drogę."),
+  readyPickup: translate(translations, "order.ready.pickup", "Zamówienie czeka na odbiór."),
+  readyDineIn: translate(translations, "order.ready.dineIn", "Zamówienie trafia na Twój stolik."),
+  completedText: translate(translations, "order.completed", "Dziękujemy za zamówienie! Zapraszamy ponownie."),
+  rejectedTitle: translate(translations, "order.rejected", "Zamówienie odrzucone"),
+  cancelledTitle: translate(translations, "order.cancelled", "Zamówienie anulowane"),
+  notChargedNote: translate(translations, "order.notCharged", "Płatność nie została pobrana."),
+  summaryTitle: translate(translations, "order.summary", "Podsumowanie"),
+  notesLabel: translate(translations, "order.notes", "Uwagi"),
+  subtotalLabel: translate(translations, "order.subtotal", "Wartość zamówienia"),
+  shippingLabel: translate(translations, "order.shipping", "Dostawa"),
+  totalLabel: translate(translations, "order.total", "Razem"),
+  paymentMethodLabel: translate(translations, "order.paymentMethod", "Płatność"),
+  paymentOnline: translate(translations, "order.payment.online", "Online (BLIK / karta)"),
+  paymentCash: translate(translations, "order.payment.cash", "Gotówka przy odbiorze"),
+  paymentCardOnSite: translate(translations, "order.payment.cardOnSite", "Karta przy odbiorze"),
+  fulfillmentDelivery: translate(translations, "order.fulfillment.delivery", "Dostawa pod wskazany adres"),
+  fulfillmentPickup: translate(translations, "order.fulfillment.pickup", "Odbiór osobisty"),
+  fulfillmentPickupAt: translate(translations, "order.fulfillment.pickupAt", "Odbiór osobisty:"),
+  fulfillmentDineIn: translate(translations, "order.fulfillment.dineIn", "W lokalu — stolik"),
+};
 ---
 
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
@@ -123,6 +169,8 @@ const pageTitle = `Zamówienie ${order.orderNumber} | ${business.business.name}`
       orderToken={token!}
       initialOrder={orderData}
       initialItems={itemsData}
+      restaurantPhone={business.business.contact?.phone}
+      labels={orderLabels}
     />
   </main>
   <Footer

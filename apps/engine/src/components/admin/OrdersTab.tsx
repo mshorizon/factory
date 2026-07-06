@@ -26,6 +26,7 @@ interface Order {
   id: number;
   orderNumber: string;
   status: string;
+  paymentMethod: string | null;
   orderToken: string | null;
   fulfillmentType: string | null;
   pickupTime: string | null;
@@ -95,6 +96,25 @@ const FULFILLMENT_LABEL: Record<string, { label: string; icon: any }> = {
   pickup: { label: "Odbiór", icon: MapPin },
   dine_in: { label: "W lokalu", icon: Utensils },
 };
+
+const PAYMENT_LABEL: Record<string, string> = {
+  online: "Online (Stripe)",
+  cash: "Gotówka przy odbiorze",
+  card_on_site: "Karta przy odbiorze",
+};
+
+function isOfflinePayment(order: Order): boolean {
+  return !!order.paymentMethod && order.paymentMethod !== "online";
+}
+
+// "accepted" means different things per payment method: online waits for the
+// customer to pay, offline goes straight to preparation.
+function statusBadge(order: Order): { variant: string; label: string } {
+  if (order.status === "accepted" && isOfflinePayment(order)) {
+    return { variant: "default", label: "Przyjęte — do przygotowania" };
+  }
+  return STATUS_BADGE[order.status] || STATUS_BADGE.pending;
+}
 
 function formatPrice(cents: number, currency = "PLN"): string {
   return `${(cents / 100).toFixed(2)} ${currency === "PLN" ? "zł" : currency}`;
@@ -239,7 +259,8 @@ export function OrdersTab({ businessId, prepTimePresets = [15, 30, 45, 60] }: Or
 
   // Detail view
   if (selectedOrder) {
-    const badge = STATUS_BADGE[selectedOrder.status] || STATUS_BADGE.pending;
+    const badge = statusBadge(selectedOrder);
+    const offlinePayment = isOfflinePayment(selectedOrder);
     const fulfillment = selectedOrder.fulfillmentType
       ? FULFILLMENT_LABEL[selectedOrder.fulfillmentType]
       : undefined;
@@ -281,6 +302,11 @@ export function OrdersTab({ businessId, prepTimePresets = [15, 30, 45, 60] }: Or
               {selectedOrder.estimatedReadyAt && (
                 <p className="mt-1 text-muted-foreground">
                   Szacowana gotowość: <strong>{formatTime(selectedOrder.estimatedReadyAt)}</strong>
+                </p>
+              )}
+              {selectedOrder.paymentMethod && (
+                <p className="mt-1 text-muted-foreground">
+                  Płatność: <strong>{PAYMENT_LABEL[selectedOrder.paymentMethod] || selectedOrder.paymentMethod}</strong>
                 </p>
               )}
             </CardContent>
@@ -396,7 +422,8 @@ export function OrdersTab({ businessId, prepTimePresets = [15, 30, 45, 60] }: Or
             {selectedOrder.status === "pending" && !showRejectForm && (
               <div className="flex gap-2">
                 <Button size="sm" disabled={actionBusy} onClick={() => acceptOrder(selectedOrder.id)}>
-                  <Check className="mr-2 h-3.5 w-3.5" /> Akceptuj (wyślij link do płatności)
+                  <Check className="mr-2 h-3.5 w-3.5" />
+                  {offlinePayment ? "Akceptuj zamówienie" : "Akceptuj (wyślij link do płatności)"}
                 </Button>
                 <Button size="sm" variant="destructive" disabled={actionBusy} onClick={() => setShowRejectForm(true)}>
                   <XCircle className="mr-2 h-3.5 w-3.5" /> Odrzuć
@@ -422,13 +449,47 @@ export function OrdersTab({ businessId, prepTimePresets = [15, 30, 45, 60] }: Or
               </div>
             )}
 
-            {selectedOrder.status === "accepted" && (
+            {selectedOrder.status === "accepted" && !offlinePayment && (
               <>
                 <p className="text-sm text-muted-foreground">Czekamy aż klient opłaci zamówienie.</p>
                 <Button size="sm" variant="destructive" disabled={actionBusy} onClick={() => callAction("/api/admin/orders/reject", { orderId: selectedOrder.id, reason: "Anulowane" })}>
                   <XCircle className="mr-2 h-3.5 w-3.5" /> Anuluj
                 </Button>
               </>
+            )}
+
+            {selectedOrder.status === "accepted" && offlinePayment && !showEtaForm && (
+              <>
+                <p className="text-sm">Zamówienie przyjęte (płatność przy odbiorze) — ustaw czas przygotowania:</p>
+                <div className="flex flex-wrap gap-2">
+                  {prepTimePresets.map((m) => (
+                    <Button key={m} size="sm" disabled={actionBusy} onClick={() => setEta(selectedOrder.id, m)}>
+                      {m} min
+                    </Button>
+                  ))}
+                  <Button size="sm" variant="outline" onClick={() => setShowEtaForm(true)}>
+                    Inny...
+                  </Button>
+                </div>
+              </>
+            )}
+
+            {selectedOrder.status === "accepted" && offlinePayment && showEtaForm && (
+              <div className="flex gap-2 items-center">
+                <Input
+                  type="number"
+                  placeholder="Minuty"
+                  value={etaMinutes}
+                  onChange={(e) => setEtaMinutes(e.target.value)}
+                  className="w-24"
+                />
+                <Button size="sm" disabled={actionBusy} onClick={() => setEta(selectedOrder.id, parseInt(etaMinutes, 10))}>
+                  Ustaw
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => setShowEtaForm(false)}>
+                  Anuluj
+                </Button>
+              </div>
             )}
 
             {selectedOrder.status === "paid" && !showEtaForm && (
@@ -549,7 +610,7 @@ export function OrdersTab({ businessId, prepTimePresets = [15, 30, 45, 60] }: Or
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
-        const badge = STATUS_BADGE[row.original.status] || STATUS_BADGE.pending;
+        const badge = statusBadge(row.original);
         return <Badge variant={badge.variant as any} className="text-xs">{badge.label}</Badge>;
       },
     },

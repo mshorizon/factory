@@ -32,46 +32,53 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (!site) return json({ error: "Site not found" }, 404);
     const config = site.config as any;
 
-    const stripeSecretKey = config?.payments?.stripeSecretKey;
-    if (!stripeSecretKey) {
-      return json({ error: "Payments not configured for this business" }, 400);
-    }
-
     const items = await getOrderItemsByOrderId(order.id);
     if (!items.length) return json({ error: "Order has no items" }, 400);
 
     const url = new URL(request.url);
     const baseUrl = `${url.protocol}//${url.host}`;
     const statusUrl = `${baseUrl}/order/${order.orderToken}`;
+    const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
 
-    const stripe = getStripeClient(stripeSecretKey);
-    const session = await createCheckoutSession({
-      stripe,
-      order,
-      items,
-      successUrl: `${statusUrl}?paid=1`,
-      cancelUrl: `${statusUrl}?cancelled=1`,
-      customerEmail: order.customerEmail,
-      currency: order.currency,
-    });
+    // Only online payments need a Stripe session; cash / card-on-site orders
+    // are settled at pickup/delivery and go straight to "accepted".
+    let paymentUrl: string | null = null;
+    if (order.paymentMethod === "online") {
+      const stripeSecretKey = config?.payments?.stripeSecretKey;
+      if (!stripeSecretKey) {
+        return json({ error: "Payments not configured for this business" }, 400);
+      }
 
-    if (!session.url) {
-      return json({ error: "Stripe returned no session URL" }, 500);
+      const stripe = getStripeClient(stripeSecretKey);
+      const session = await createCheckoutSession({
+        stripe,
+        order,
+        items,
+        successUrl: `${statusUrl}?paid=1`,
+        cancelUrl: `${statusUrl}?cancelled=1`,
+        customerEmail: order.customerEmail,
+        currency: order.currency,
+      });
+
+      if (!session.url) {
+        return json({ error: "Stripe returned no session URL" }, 500);
+      }
+
+      await updateOrderStripeFields(order.id, {
+        stripeSessionId: session.id,
+        paymentLinkUrl: session.url,
+      });
+      paymentUrl = session.url;
     }
 
-    await updateOrderStripeFields(order.id, {
-      stripeSessionId: session.id,
-      paymentLinkUrl: session.url,
-    });
     const updated = await updateOrderStatus(order.id, "accepted", { acceptedAt: new Date() });
 
-    // Send payment link email — fire-and-forget
-    const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
-    sendOrderAcceptedEmail(updated!, items, config, resendApiKey, session.url, statusUrl).catch((err) =>
+    // Notify customer — fire-and-forget (with payment link only for online orders)
+    sendOrderAcceptedEmail(updated!, items, config, resendApiKey, paymentUrl, statusUrl).catch((err) =>
       logger.error({ err, orderId: order.id }, "Failed to send order-accepted email")
     );
 
-    return json({ success: true, order: updated, paymentUrl: session.url });
+    return json({ success: true, order: updated, paymentUrl });
   } catch (error) {
     (locals.logger ?? logger).error({ err: error, endpoint: "/api/admin/orders/accept" }, "Accept order error");
     return json({ error: "Failed to accept order" }, 500);

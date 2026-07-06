@@ -1444,7 +1444,14 @@
           "default": [15, 30, 45, 60]
         },
         "deliveryFee": { "type": "integer", "title": "Delivery Fee (cents)", "default": 0 },
-        "minOrderValue": { "type": "integer", "title": "Minimum Order Value (cents)", "default": 0 }
+        "minOrderValue": { "type": "integer", "title": "Minimum Order Value (cents)", "default": 0 },
+        "paymentMethods": {
+          "type": "array",
+          "title": "Enabled Payment Methods",
+          "description": "Payment methods offered at checkout. \"online\" requires Stripe keys; \"cash\" and \"card_on_site\" are settled at pickup/delivery/table.",
+          "items": { "type": "string", "enum": ["online", "cash", "card_on_site"] },
+          "default": ["cash"]
+        }
       }
     },
     "notifications": {

@@ -14,7 +14,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
     initDb(import.meta.env.DATABASE_URL);
     const order = await getOrderById(orderId);
     if (!order) return json({ error: "Order not found" }, 404);
-    if (!["paid", "preparing"].includes(order.status)) {
+    // Online orders must be paid first; offline (cash / card on site) orders
+    // can start preparing straight after acceptance.
+    const allowedStatuses =
+      order.paymentMethod === "online"
+        ? ["paid", "preparing"]
+        : ["accepted", "paid", "preparing"];
+    if (!allowedStatuses.includes(order.status)) {
       return json({ error: `Cannot set ETA for order in status "${order.status}"` }, 400);
     }
 

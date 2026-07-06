@@ -1,11 +1,15 @@
 import { ShoppingCart } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
-import { useCart } from "../../store/useCart";
+import { useCart, useCartHydrated } from "../../store/useCart";
 import type { CartButtonProps } from "./types";
 
 export function CartButton({ cartHref = "/cart", label, className }: CartButtonProps) {
-  const totalItems = useCart((state) => state.getTotalItems());
+  // Badge only after hydration — the persisted cart differs from the SSR-rendered
+  // empty cart and would otherwise trigger a React hydration mismatch.
+  const hydrated = useCartHydrated();
+  const count = useCart((state) => state.getTotalItems());
+  const totalItems = hydrated ? count : 0;
 
   return (
     <Button

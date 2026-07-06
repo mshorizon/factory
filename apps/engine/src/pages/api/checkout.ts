@@ -12,6 +12,7 @@ import { collectOrderableProducts, findOrderableProduct } from "../../lib/ordera
 import logger from "../../lib/logger";
 
 type FulfillmentType = "delivery" | "pickup" | "dine_in";
+type PaymentMethod = "online" | "cash" | "card_on_site";
 
 interface CheckoutItem {
   productId: string;
@@ -31,6 +32,7 @@ interface CheckoutBody {
   firstName: string;
   lastName: string;
   fulfillmentType: FulfillmentType;
+  paymentMethod?: PaymentMethod;
   // Delivery
   address?: string;
   city?: string;
@@ -67,6 +69,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       firstName,
       lastName,
       fulfillmentType,
+      paymentMethod,
       address,
       city,
       postalCode,
@@ -164,6 +167,24 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const subtotal = validatedItems.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
     const paymentsCfg = config?.payments || {};
     const currency = paymentsCfg.currency || "PLN";
+
+    // Validate payment method against what the business actually offers.
+    const configuredMethods: PaymentMethod[] = paymentsCfg.paymentMethods?.length
+      ? paymentsCfg.paymentMethods
+      : ["cash"];
+    const allowedMethods = configuredMethods.filter(
+      (m) => m !== "online" || !!paymentsCfg.stripeSecretKey
+    );
+    const resolvedPaymentMethod: PaymentMethod =
+      paymentMethod && allowedMethods.includes(paymentMethod)
+        ? paymentMethod
+        : allowedMethods[0] || "cash";
+    if (paymentMethod && !allowedMethods.includes(paymentMethod)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid payment method" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
     const shippingCost = fulfillmentType === "delivery" ? (paymentsCfg.deliveryFee ?? 0) : 0;
     const total = subtotal + shippingCost;
 
@@ -185,6 +206,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       orderToken,
       status: "pending",
       fulfillmentType,
+      paymentMethod: resolvedPaymentMethod,
       pickupTime: pickupTime ? new Date(pickupTime) : null,
       tableNumber: tableNumber || null,
       customerNotes: customerNotes || null,

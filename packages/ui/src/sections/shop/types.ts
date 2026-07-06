@@ -1,5 +1,8 @@
 import type { Product, ProductAttribute, ProductCustomization, ProductCustomizationOption, SectionHeader } from "@mshorizon/schema";
 
+export type PaymentMethod = "online" | "cash" | "card_on_site";
+export type FulfillmentType = "delivery" | "pickup" | "dine_in";
+
 export interface ProductCardProps {
   product: Product;
   ctaLabel?: string;
@@ -17,72 +20,72 @@ export interface CartButtonProps {
   className?: string;
 }
 
-export interface CartPageContentProps {
+export interface CheckoutPageContentProps {
+  // Empty state
   emptyCartMessage?: string;
   continueShoppingLabel?: string;
   continueShoppingHref?: string;
-  proceedToPaymentLabel?: string;
-  checkoutHref?: string;
-  removeLabel?: string;
-  totalLabel?: string;
-  quantityLabel?: string;
-  subtotalLabel?: string;
-  orderSummaryLabel?: string;
+  // Items section
+  itemsSectionTitle?: string;
   editLabel?: string;
-  currency?: string;
-  className?: string;
-}
-
-export interface CheckoutPageContentProps {
-  // Empty state labels
-  emptyCartMessage?: string;
-  continueShoppingLabel?: string;
-  // Page labels
-  pageTitle?: string;
-  backToCartLabel?: string;
-  backToCartHref?: string;
+  removeItemLabel?: string;
+  // Fulfillment
+  fulfillmentSectionTitle?: string;
+  fulfillmentTypes?: FulfillmentType[];
+  fulfillmentLabels?: Partial<Record<FulfillmentType, string>>;
   // Contact section
   contactSectionTitle?: string;
   emailLabel?: string;
   emailPlaceholder?: string;
   phoneLabel?: string;
   phonePlaceholder?: string;
-  // Shipping section
-  shippingSectionTitle?: string;
   firstNameLabel?: string;
   firstNamePlaceholder?: string;
   lastNameLabel?: string;
   lastNamePlaceholder?: string;
+  // Delivery address
+  shippingSectionTitle?: string;
   addressLabel?: string;
   addressPlaceholder?: string;
   cityLabel?: string;
   cityPlaceholder?: string;
   postalCodeLabel?: string;
   postalCodePlaceholder?: string;
-  // Order summary section
+  // Pickup / dine-in
+  pickupTimeLabel?: string;
+  pickupTimeHint?: string;
+  pickupTimeOptionalLabel?: string;
+  tableNumberLabel?: string;
+  tableNumberPlaceholder?: string;
+  // Payment
+  paymentSectionTitle?: string;
+  paymentMethods?: PaymentMethod[];
+  paymentMethodLabels?: Partial<Record<PaymentMethod, string>>;
+  // Notes
+  notesLabel?: string;
+  notesPlaceholder?: string;
+  // Summary
   orderSummaryTitle?: string;
   subtotalLabel?: string;
   shippingLabel?: string;
   shippingValue?: string;
   totalLabel?: string;
-  // Submit
   placeOrderLabel?: string;
   processingLabel?: string;
-  errorLabel?: string;
+  minOrderLabel?: string;
+  submitNoteOnline?: string;
+  submitNoteOffline?: string;
+  // Validation messages
+  errorContactMessage?: string;
+  errorAddressMessage?: string;
+  errorTableMessage?: string;
+  errorSubmitMessage?: string;
   currency?: string;
   className?: string;
   // Business context
   businessId?: string;
-  // Restaurant flow
-  fulfillmentTypes?: ("delivery" | "pickup" | "dine_in")[];
-  deliveryFee?: number;
-  minOrderValue?: number;
-  notesLabel?: string;
-  notesPlaceholder?: string;
-  pickupTimeLabel?: string;
-  tableNumberLabel?: string;
-  tableNumberPlaceholder?: string;
-  fulfillmentLabels?: Partial<Record<"delivery" | "pickup" | "dine_in", string>>;
+  deliveryFee?: number; // cents
+  minOrderValue?: number; // cents
 }
 
 export interface ShopGridProps {
