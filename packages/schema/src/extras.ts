@@ -31,6 +31,8 @@ export interface CartItem {
   productId: string;
   cartKey: string;
   title: string;
+  /** Human-readable category label shown in cart/checkout summaries. */
+  category?: string;
   price: number;
   image?: string;
   quantity: number;

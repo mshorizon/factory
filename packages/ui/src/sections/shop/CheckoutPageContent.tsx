@@ -35,8 +35,7 @@ export function CheckoutPageContent({
   emptyCartMessage = "Twoje zamówienie jest puste",
   continueShoppingLabel = "Zobacz menu",
   continueShoppingHref = "/",
-  // Items section
-  itemsSectionTitle = "Twoje zamówienie",
+  // Items
   editLabel = "Zmień",
   removeItemLabel = "Usuń pozycję",
   // Fulfillment
@@ -268,100 +267,36 @@ export function CheckoutPageContent({
               </div>
             )}
 
-            {/* Order items — editable, menu-row style */}
+            {/* Payment method — the first decision, so the first card */}
             <Card>
               <CardHeader>
-                <CardTitle>{itemsSectionTitle}</CardTitle>
+                <CardTitle>{paymentSectionTitle}</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="divide-y divide-border/60">
-                  {items.map((item) => (
-                    <li key={item.cartKey} className="flex gap-spacing-md py-spacing-md first:pt-0 last:pb-0">
-                      {item.image && (
-                        <div className="hidden sm:block flex-shrink-0 w-16 h-16 rounded-radius overflow-hidden bg-background/50">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className="w-full h-full object-cover"
-                            loading="lazy"
-                          />
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-heading font-semibold text-foreground">
-                          {item.title}
-                        </h3>
-                        {item.customizationLabels && (
-                          <div className="flex items-center gap-1.5 mt-0.5">
-                            <p className="text-xs text-foreground/60">
-                              {Object.entries(item.customizationLabels)
-                                .map(([key, val]) => `${key}: ${val}`)
-                                .join(" · ")}
-                            </p>
-                            {item.productCustomizations && item.productCustomizations.length > 0 && (
-                              <button
-                                type="button"
-                                onClick={() => setEditingItem(item)}
-                                className="inline-flex items-center gap-0.5 text-xs text-primary hover:text-primary/80 transition-colors"
-                                aria-label={editLabel}
-                              >
-                                <Pencil className="h-3 w-3" aria-hidden="true" />
-                                {editLabel}
-                              </button>
-                            )}
-                          </div>
+                <div className="grid gap-spacing-sm" role="radiogroup" aria-label={paymentSectionTitle}>
+                  {paymentMethods.map((pm) => {
+                    const active = paymentMethod === pm;
+                    const Icon = PAYMENT_ICONS[pm];
+                    return (
+                      <button
+                        key={pm}
+                        type="button"
+                        role="radio"
+                        aria-checked={active}
+                        onClick={() => setPaymentMethod(pm)}
+                        className={cn(
+                          "flex items-center gap-spacing-sm rounded-radius border px-spacing-md py-spacing-sm text-left text-sm font-medium transition-colors",
+                          active
+                            ? "border-primary bg-primary/10 text-primary"
+                            : "border-border text-foreground/70 hover:border-primary/40"
                         )}
-                        <div className="flex items-center gap-spacing-md mt-spacing-sm">
-                          <div className="flex items-center border border-border rounded-radius">
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
-                              onClick={() => updateQuantity(item.cartKey, item.quantity - 1)}
-                              aria-label={`${removeItemLabel}: ${item.title}`}
-                            >
-                              <Minus className="h-4 w-4" aria-hidden="true" />
-                            </Button>
-                            <span className="w-8 text-center text-sm font-medium">
-                              {item.quantity}
-                            </span>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
-                              onClick={() => updateQuantity(item.cartKey, item.quantity + 1)}
-                              aria-label={`+ ${item.title}`}
-                            >
-                              <Plus className="h-4 w-4" aria-hidden="true" />
-                            </Button>
-                          </div>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-foreground/50 hover:text-destructive hover:bg-destructive/10"
-                            onClick={() => removeItem(item.cartKey)}
-                            aria-label={`${removeItemLabel}: ${item.title}`}
-                          >
-                            <Trash2 className="h-4 w-4" aria-hidden="true" />
-                          </Button>
-                        </div>
-                      </div>
-                      <div className="text-right whitespace-nowrap">
-                        <p className="font-semibold text-foreground">
-                          {(item.price * item.quantity).toFixed(2)} {currency}
-                        </p>
-                        {item.quantity > 1 && (
-                          <p className="text-xs text-foreground/60 mt-0.5">
-                            {item.quantity} × {item.price.toFixed(2)} {currency}
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                      >
+                        <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
+                        {paymentMethodLabels[pm] || pm}
+                      </button>
+                    );
+                  })}
+                </div>
               </CardContent>
             </Card>
 
@@ -483,39 +418,6 @@ export function CheckoutPageContent({
               </Card>
             )}
 
-            {/* Payment method */}
-            <Card>
-              <CardHeader>
-                <CardTitle>{paymentSectionTitle}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-spacing-sm" role="radiogroup" aria-label={paymentSectionTitle}>
-                  {paymentMethods.map((pm) => {
-                    const active = paymentMethod === pm;
-                    const Icon = PAYMENT_ICONS[pm];
-                    return (
-                      <button
-                        key={pm}
-                        type="button"
-                        role="radio"
-                        aria-checked={active}
-                        onClick={() => setPaymentMethod(pm)}
-                        className={cn(
-                          "flex items-center gap-spacing-sm rounded-radius border px-spacing-md py-spacing-sm text-left text-sm font-medium transition-colors",
-                          active
-                            ? "border-primary bg-primary/10 text-primary"
-                            : "border-border text-foreground/70 hover:border-primary/40"
-                        )}
-                      >
-                        <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
-                        {paymentMethodLabels[pm] || pm}
-                      </button>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Notes */}
             <Card>
               <CardHeader>
@@ -534,14 +436,93 @@ export function CheckoutPageContent({
             </Card>
           </div>
 
-          {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <Card className="sticky top-spacing-3xl">
+          {/* Order Summary — includes the editable item list */}
+          <div className="lg:col-span-1 order-first lg:order-last">
+            <Card className="lg:sticky lg:top-spacing-3xl">
               <CardHeader>
                 <CardTitle>{orderSummaryTitle}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-spacing-md">
-                <div className="space-y-spacing-xs">
+                <ul className="divide-y divide-border/60">
+                  {items.map((item) => (
+                    <li key={item.cartKey} className="py-spacing-sm first:pt-0 space-y-spacing-xs">
+                      <div className="flex justify-between gap-spacing-sm">
+                        <div className="min-w-0">
+                          <p className="font-heading font-semibold text-foreground">{item.title}</p>
+                          {item.category && (
+                            <p className="text-xs uppercase tracking-wide text-foreground/50">{item.category}</p>
+                          )}
+                          {item.customizationLabels && (
+                            <div className="flex items-center gap-1.5 mt-0.5">
+                              <p className="text-xs text-foreground/60">
+                                {Object.entries(item.customizationLabels)
+                                  .map(([key, val]) => `${key}: ${val}`)
+                                  .join(" · ")}
+                              </p>
+                              {item.productCustomizations && item.productCustomizations.length > 0 && (
+                                <button
+                                  type="button"
+                                  onClick={() => setEditingItem(item)}
+                                  className="inline-flex items-center gap-0.5 text-xs text-primary hover:text-primary/80 transition-colors"
+                                  aria-label={editLabel}
+                                >
+                                  <Pencil className="h-3 w-3" aria-hidden="true" />
+                                  {editLabel}
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-right whitespace-nowrap">
+                          <p className="font-semibold text-foreground">
+                            {(item.price * item.quantity).toFixed(2)} {currency}
+                          </p>
+                          {item.quantity > 1 && (
+                            <p className="text-xs text-foreground/60 mt-0.5">
+                              {item.quantity} × {item.price.toFixed(2)} {currency}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center border border-border rounded-radius">
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7"
+                            onClick={() => updateQuantity(item.cartKey, item.quantity - 1)}
+                            aria-label={`− ${item.title}`}
+                          >
+                            <Minus className="h-3.5 w-3.5" aria-hidden="true" />
+                          </Button>
+                          <span className="w-7 text-center text-sm font-medium">{item.quantity}</span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7"
+                            onClick={() => updateQuantity(item.cartKey, item.quantity + 1)}
+                            aria-label={`+ ${item.title}`}
+                          >
+                            <Plus className="h-3.5 w-3.5" aria-hidden="true" />
+                          </Button>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7 text-foreground/50 hover:text-destructive hover:bg-destructive/10"
+                          onClick={() => removeItem(item.cartKey)}
+                          aria-label={`${removeItemLabel}: ${item.title}`}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
+                        </Button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <div className="space-y-spacing-xs border-t border-border pt-spacing-sm">
                   <div className="flex justify-between text-sm">
                     <span className="text-foreground/70">{subtotalLabel}</span>
                     <span>{totalPrice.toFixed(2)} {currency}</span>

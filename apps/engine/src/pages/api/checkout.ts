@@ -9,7 +9,13 @@ import {
 } from "@mshorizon/db";
 import { rateLimit } from "../../lib/rate-limit";
 import { collectOrderableProducts, findOrderableProduct } from "../../lib/orderable-products";
+import { t as translate } from "../../lib/i18n";
 import logger from "../../lib/logger";
+
+/** Orders are snapshots — resolve "t:" translation keys to text before storing. */
+function resolveText(translations: Record<string, string>, value: string): string {
+  return value?.startsWith("t:") ? translate(translations, value.slice(2), value) : value;
+}
 
 type FulfillmentType = "delivery" | "pickup" | "dine_in";
 type PaymentMethod = "online" | "cash" | "card_on_site";
@@ -153,14 +159,24 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
       const unitPriceCents = Math.round(price * 100);
 
+      const translations = ((locals as any).t as Record<string, string>) || {};
+      const customizationLabels = item.customizationLabels
+        ? Object.fromEntries(
+            Object.entries(item.customizationLabels).map(([k, v]) => [
+              resolveText(translations, k),
+              resolveText(translations, v),
+            ])
+          )
+        : undefined;
+
       validatedItems.push({
         productId: item.productId,
-        title: product.title,
+        title: resolveText(translations, product.title),
         unitPrice: unitPriceCents,
         quantity: item.quantity,
         image: item.image || product.image,
         customizations: item.customizations,
-        customizationLabels: item.customizationLabels,
+        customizationLabels,
       });
     }
 

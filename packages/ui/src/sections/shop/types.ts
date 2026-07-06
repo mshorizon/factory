@@ -25,8 +25,7 @@ export interface CheckoutPageContentProps {
   emptyCartMessage?: string;
   continueShoppingLabel?: string;
   continueShoppingHref?: string;
-  // Items section
-  itemsSectionTitle?: string;
+  // Items
   editLabel?: string;
   removeItemLabel?: string;
   // Fulfillment

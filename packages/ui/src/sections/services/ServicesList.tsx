@@ -81,7 +81,11 @@ export function ServicesList({
     e.stopPropagation();
     const product = serviceItemToProduct(item);
     if (!product) return;
-    addItemToCart(product);
+    // Cart shows the human category label, not the tab id
+    const categoryLabel = item.category
+      ? categoryById.get(item.category)?.label.replace(/\s*\(.*\)\s*$/, "") ?? item.category
+      : undefined;
+    addItemToCart({ ...product, category: categoryLabel });
     setJustAddedId(product.id);
     window.setTimeout(() => setJustAddedId((cur) => (cur === product.id ? null : cur)), 1200);
   };

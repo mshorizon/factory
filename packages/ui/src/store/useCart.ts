@@ -89,6 +89,7 @@ export const useCart = create<CartStore>()(
             productId: product.id,
             cartKey,
             title: product.title,
+            category: product.category,
             price: calculatePrice(product, customizations),
             image: product.image,
             quantity: 1,
