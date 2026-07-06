@@ -84,12 +84,23 @@ async function seed() {
 
     // Upsert: update if exists, insert if not
     const [existing] = await db
-      .select({ id: sites.id })
+      .select({ id: sites.id, config: sites.config })
       .from(sites)
       .where(eq(sites.subdomain, subdomain))
       .limit(1);
 
     if (existing) {
+      // Secrets are DB-managed and intentionally blank in git-tracked template
+      // files — keep the existing DB values when the file leaves them empty,
+      // otherwise every seed would disable configured online payments.
+      const existingPayments = (existing.config as any)?.payments;
+      if (config?.payments && existingPayments) {
+        for (const key of ["stripeSecretKey", "stripePublishableKey"]) {
+          if (!config.payments[key] && existingPayments[key]) {
+            config.payments[key] = existingPayments[key];
+          }
+        }
+      }
       await db
         .update(sites)
         .set({
