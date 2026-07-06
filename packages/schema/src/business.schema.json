@@ -327,7 +327,9 @@
               "meta": { "type": "string", "title": "Meta Note", "description": "Short note shown top-right of an event card (e.g. 'Limited seats')." },
               "href": { "type": "string", "title": "Link URL" },
               "linkLabel": { "type": "string", "title": "Link Label" },
-              "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." }
+              "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." },
+              "orderable": { "type": "boolean", "title": "Orderable", "description": "When true, this menu item can be added to the cart and ordered online. Requires priceValue." },
+              "priceValue": { "type": "number", "title": "Price (number)", "description": "Numeric price (e.g. 23.5 for 23,50 zł) — used for cart pricing. Required when orderable is true." }
             }
           }
         },
@@ -715,6 +717,31 @@
             }
           }
         },
+        "criteria": {
+          "type": "array",
+          "title": "Comparison Criteria",
+          "description": "Row labels for the comparison 'triple' variant. Each comparisonColumns entry provides one value per criterion (values[i] aligns with criteria[i]).",
+          "items": { "type": "string" }
+        },
+        "comparisonColumns": {
+          "type": "array",
+          "title": "Comparison Columns",
+          "description": "Columns for the comparison 'triple' variant. The highlighted column is rendered as an elevated card with a primary header block and check-prefixed values.",
+          "items": {
+            "type": "object",
+            "title": "ComparisonColumn",
+            "properties": {
+              "title": { "type": "string", "title": "Column Title" },
+              "badge": { "type": "string", "title": "Badge Pill (shown on the highlighted column header)" },
+              "highlighted": { "type": "boolean", "title": "Highlighted Column" },
+              "values": {
+                "type": "array",
+                "title": "Cell Values (one per criterion)",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
         "members": {
           "type": "array",
           "title": "Team Members",
@@ -1043,7 +1070,7 @@
         "majorTheme": {
           "type": "string",
           "title": "Major Theme",
-          "enum": ["template-specialist", "template-tech", "template-art", "template-law", "template-tech-agency"]
+          "enum": ["template-specialist", "template-tech", "template-art", "template-law", "template-studio"]
         },
         "mode": {
           "type": "string",
@@ -1391,6 +1418,39 @@
           "type": "array",
           "title": "Blackout Dates (YYYY-MM-DD)",
           "items": { "type": "string" }
+        }
+      }
+    },
+    "payments": {
+      "type": "object",
+      "title": "Payments",
+      "description": "Stripe payment configuration used for online orders (restaurants, shops).",
+      "properties": {
+        "stripeSecretKey": { "type": "string", "title": "Stripe Secret Key (sk_...)" },
+        "stripePublishableKey": { "type": "string", "title": "Stripe Publishable Key (pk_...)" },
+        "currency": { "type": "string", "title": "Currency", "default": "PLN" },
+        "fulfillmentTypes": {
+          "type": "array",
+          "title": "Enabled Fulfillment Types",
+          "description": "Which fulfillment options are shown at checkout.",
+          "items": { "type": "string", "enum": ["delivery", "pickup", "dine_in"] },
+          "default": ["pickup"]
+        },
+        "prepTimePresets": {
+          "type": "array",
+          "title": "Prep Time Presets (minutes)",
+          "description": "Quick-buttons shown to the admin after payment when setting the ETA.",
+          "items": { "type": "integer", "minimum": 1 },
+          "default": [15, 30, 45, 60]
+        },
+        "deliveryFee": { "type": "integer", "title": "Delivery Fee (cents)", "default": 0 },
+        "minOrderValue": { "type": "integer", "title": "Minimum Order Value (cents)", "default": 0 },
+        "paymentMethods": {
+          "type": "array",
+          "title": "Enabled Payment Methods",
+          "description": "Payment methods offered at checkout. \"online\" requires Stripe keys; \"cash\" and \"card_on_site\" are settled at pickup/delivery/table.",
+          "items": { "type": "string", "enum": ["online", "cash", "card_on_site"] },
+          "default": ["cash"]
         }
       }
     },

@@ -4,10 +4,12 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import SectionDispatcher from "../components/SectionDispatcher.astro";
 import PageHero from "../components/PageHero.astro";
+import { CartFloatingBar } from "@mshorizon/ui";
 import { findPageBySlug, getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
 import { deepTranslate, t } from "../lib/i18n";
 import { deepResolveImages } from "../lib/images";
+import { siteHasCart } from "../lib/cart-detection";
 import type { BusinessProfile } from "@mshorizon/schema";
 
 // Get route params
@@ -145,9 +147,7 @@ const footerColumns = [
 ];
 
 // Check if business has any shop sections (to show cart button)
-const hasShopSection = Object.values(business.pages).some((p: any) =>
-  p.sections?.some((s: any) => s.type === "shop")
-);
+const hasShopSection = siteHasCart(business);
 
 // Convert socials Record<string, string> to SocialLink[] for footer
 const socialLinks = business.business.socials
@@ -194,6 +194,14 @@ const heroFirstSectionHasBgImage =
   <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     <SectionDispatcher sections={page.sections} business={business} isHomePage={normalizedSlug === 'home'} />
   </main>
+  {hasShopSection && (
+    <CartFloatingBar
+      client:load
+      checkoutHref="/checkout"
+      label={t(translations, "cart.viewOrder", "Zobacz zamówienie")}
+      currency={t(translations, "currency", "zł")}
+    />
+  )}
   <Footer
     businessName={business.business.name}
     footerName={layout.footer.name}

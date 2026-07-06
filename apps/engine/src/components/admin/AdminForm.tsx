@@ -1549,7 +1549,8 @@ export default function AdminForm({
     }
 
     if (activeTab === "orders") {
-      return <OrdersTab businessId={businessId} />;
+      const prepTimePresets = (formData?.payments as any)?.prepTimePresets as number[] | undefined;
+      return <OrdersTab businessId={businessId} prepTimePresets={prepTimePresets} />;
     }
 
     if (activeTab === "bookings") {

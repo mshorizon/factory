@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency } from "@mshorizon/ui";
+import { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency, CtaBannerPanel } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -40,6 +40,18 @@ const ctaHref = section.cta?.target?.type === "phone"
     client:visible
     marqueeText={section.marqueeText || header.title}
   />
+) : variant === "panel" ? (
+  <section>
+    <div class="container mx-auto">
+      <CtaBannerPanel
+        client:visible
+        title={header.title}
+        subtitle={header.subtitle}
+        ctaLabel={section.cta?.label || (section as any).ctaLabel}
+        ctaHref={ctaHref}
+      />
+    </div>
+  </section>
 ) : variant === "card" ? (
   <section>
     <div class="container mx-auto">

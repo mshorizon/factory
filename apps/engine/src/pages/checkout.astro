@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import { CheckoutPageContent } from "@mshorizon/ui";
 import { getLayoutConfig, getNavLinks } from "../lib/pages";
 import { resolveTarget } from "../lib/target";
+import { menuSectionHref } from "../lib/cart-detection";
 import { deepTranslate } from "../lib/i18n";
 import { deepResolveImages } from "../lib/images";
 import type { BusinessProfile } from "@mshorizon/schema";
@@ -40,7 +41,7 @@ const navCta = business.navigation?.cta
   : undefined;
 
 // Build page title
-const pageTitle = `${translations["checkout.title"] || "Checkout"} | ${business.business.name}`;
+const pageTitle = `${translations["checkout.title"] || "Zamówienie"} | ${business.business.name}`;
 
 // Pre-resolve footer links
 const footerLinks =
@@ -60,34 +61,84 @@ const footerColumns =
       })) || [],
   })) || [];
 
-// Get translated checkout labels
+const payments = (business as any).payments || {};
+
+// Translated labels — every string can be overridden per language in translations
+const tt = (key: string, fallback: string) => translations[key] || fallback;
 const checkoutLabels = {
-  pageTitle: translations["checkout.title"] || "Checkout",
-  backToCartLabel: translations["checkout.backToCart"] || "Back to cart",
-  contactSectionTitle: translations["checkout.contact.title"] || "Contact Information",
-  emailLabel: translations["checkout.contact.email"] || "Email",
-  emailPlaceholder: translations["checkout.contact.emailPlaceholder"] || "your@email.com",
-  phoneLabel: translations["checkout.contact.phone"] || "Phone",
-  phonePlaceholder: translations["checkout.contact.phonePlaceholder"] || "+48 123 456 789",
-  shippingSectionTitle: translations["checkout.shipping.title"] || "Shipping Address",
-  firstNameLabel: translations["checkout.shipping.firstName"] || "First Name",
-  firstNamePlaceholder: translations["checkout.shipping.firstNamePlaceholder"] || "Jan",
-  lastNameLabel: translations["checkout.shipping.lastName"] || "Last Name",
-  lastNamePlaceholder: translations["checkout.shipping.lastNamePlaceholder"] || "Kowalski",
-  addressLabel: translations["checkout.shipping.address"] || "Address",
-  addressPlaceholder: translations["checkout.shipping.addressPlaceholder"] || "ul. Przykładowa 12/3",
-  cityLabel: translations["checkout.shipping.city"] || "City",
-  cityPlaceholder: translations["checkout.shipping.cityPlaceholder"] || "Warszawa",
-  postalCodeLabel: translations["checkout.shipping.postalCode"] || "Postal Code",
-  postalCodePlaceholder: translations["checkout.shipping.postalCodePlaceholder"] || "00-001",
-  orderSummaryTitle: translations["checkout.summary.title"] || "Order Summary",
-  subtotalLabel: translations["checkout.summary.subtotal"] || "Subtotal",
-  shippingLabel: translations["checkout.summary.shipping"] || "Shipping",
-  shippingValue: translations["checkout.summary.shippingValue"] || "Free",
-  totalLabel: translations["checkout.summary.total"] || "Total",
-  placeOrderLabel: translations["checkout.placeOrder"] || "Place Order",
-  currency: translations["currency"] || "zł",
+  emptyCartMessage: tt("checkout.empty", "Twoje zamówienie jest puste"),
+  continueShoppingLabel: tt("checkout.continueShopping", "Zobacz menu"),
+  // Deep-link to the menu section on home; keep query params (?business= dev override)
+  continueShoppingHref: (() => {
+    const href = menuSectionHref(business);
+    const search = Astro.url.search;
+    if (!search) return href;
+    const [path, hash] = href.split("#");
+    return hash ? `${path}${search}#${hash}` : `${href}${search}`;
+  })(),
+  editLabel: tt("checkout.items.edit", "Zmień"),
+  removeItemLabel: tt("checkout.items.remove", "Usuń pozycję"),
+  fulfillmentSectionTitle: tt("checkout.fulfillment.title", "Sposób realizacji"),
+  contactSectionTitle: tt("checkout.contact.title", "Dane kontaktowe"),
+  emailLabel: tt("checkout.contact.email", "Email"),
+  emailPlaceholder: tt("checkout.contact.emailPlaceholder", "twoj@email.com"),
+  phoneLabel: tt("checkout.contact.phone", "Telefon"),
+  phonePlaceholder: tt("checkout.contact.phonePlaceholder", "+48 123 456 789"),
+  firstNameLabel: tt("checkout.contact.firstName", "Imię"),
+  firstNamePlaceholder: tt("checkout.contact.firstNamePlaceholder", "Jan"),
+  lastNameLabel: tt("checkout.contact.lastName", "Nazwisko"),
+  lastNamePlaceholder: tt("checkout.contact.lastNamePlaceholder", "Kowalski"),
+  shippingSectionTitle: tt("checkout.shipping.title", "Adres dostawy"),
+  addressLabel: tt("checkout.shipping.address", "Adres"),
+  addressPlaceholder: tt("checkout.shipping.addressPlaceholder", "ul. Przykładowa 12/3"),
+  cityLabel: tt("checkout.shipping.city", "Miasto"),
+  cityPlaceholder: tt("checkout.shipping.cityPlaceholder", "Warszawa"),
+  postalCodeLabel: tt("checkout.shipping.postalCode", "Kod pocztowy"),
+  postalCodePlaceholder: tt("checkout.shipping.postalCodePlaceholder", "00-001"),
+  pickupTimeLabel: tt("checkout.pickup.title", "Godzina odbioru"),
+  pickupTimeOptionalLabel: tt("checkout.pickup.optional", "Godzina (opcjonalnie)"),
+  pickupTimeHint: tt("checkout.pickup.hint", "Zostaw puste, aby odebrać najszybciej jak to możliwe."),
+  tableNumberLabel: tt("checkout.dineIn.table", "Numer stolika"),
+  tableNumberPlaceholder: tt("checkout.dineIn.tablePlaceholder", "np. 5"),
+  paymentSectionTitle: tt("checkout.payment.title", "Płatność"),
+  notesLabel: tt("checkout.notes.title", "Uwagi do zamówienia (opcjonalnie)"),
+  notesPlaceholder: tt("checkout.notes.placeholder", "np. bez cebuli, dzwonek nie działa..."),
+  orderSummaryTitle: tt("checkout.summary.title", "Podsumowanie"),
+  subtotalLabel: tt("checkout.summary.subtotal", "Wartość zamówienia"),
+  shippingLabel: tt("checkout.summary.shipping", "Dostawa"),
+  shippingValue: tt("checkout.summary.shippingValue", "Za darmo"),
+  totalLabel: tt("checkout.summary.total", "Razem"),
+  placeOrderLabel: tt("checkout.placeOrder", "Złóż zamówienie"),
+  processingLabel: tt("checkout.processing", "Przetwarzanie..."),
+  minOrderLabel: tt("checkout.minOrder", "Minimalna wartość zamówienia"),
+  submitNoteOnline: tt("checkout.note.online", "Po akceptacji przez restaurację otrzymasz link do płatności — na tej stronie i e-mailem."),
+  submitNoteOffline: tt("checkout.note.offline", "Zapłacisz przy odbiorze zamówienia."),
+  errorContactMessage: tt("checkout.error.contact", "Wypełnij dane kontaktowe"),
+  errorAddressMessage: tt("checkout.error.address", "Uzupełnij adres dostawy"),
+  errorTableMessage: tt("checkout.error.table", "Podaj numer stolika"),
+  errorSubmitMessage: tt("checkout.error.submit", "Nie udało się złożyć zamówienia"),
+  currency: tt("currency", "zł"),
 };
+
+const fulfillmentLabels = {
+  delivery: tt("checkout.fulfillment.delivery", "Dostawa"),
+  pickup: tt("checkout.fulfillment.pickup", "Odbiór osobisty"),
+  dine_in: tt("checkout.fulfillment.dineIn", "W lokalu"),
+};
+
+const paymentMethodLabels = {
+  online: tt("checkout.payment.online", "Płatność online (BLIK / karta)"),
+  cash: tt("checkout.payment.cash", "Gotówka przy odbiorze"),
+  card_on_site: tt("checkout.payment.cardOnSite", "Karta przy odbiorze"),
+};
+
+// Only offer "online" when Stripe is actually configured for this business.
+const configuredMethods: string[] = payments.paymentMethods?.length
+  ? payments.paymentMethods
+  : ["cash"];
+const paymentMethods = configuredMethods.filter(
+  (m) => m !== "online" || !!payments.stripeSecretKey
+);
 ---
 
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
@@ -107,39 +158,22 @@ const checkoutLabels = {
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
   />
   <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
-    <div id="page-hero" class="py-8 lg:py-12">
-      <div class="container mx-auto mb-8">
-        <h1 class="text-3xl lg:text-4xl font-bold text-foreground">
-          {checkoutLabels.pageTitle}
+    <div class="py-8 lg:py-12">
+      <div class="container mx-auto mb-spacing-lg">
+        <h1 class="text-3xl lg:text-4xl font-heading font-semibold text-foreground">
+          {translations["checkout.title"] || "Zamówienie"}
         </h1>
       </div>
       <CheckoutPageContent
         client:load
         businessId={businessId}
-        backToCartLabel={checkoutLabels.backToCartLabel}
-        contactSectionTitle={checkoutLabels.contactSectionTitle}
-        emailLabel={checkoutLabels.emailLabel}
-        emailPlaceholder={checkoutLabels.emailPlaceholder}
-        phoneLabel={checkoutLabels.phoneLabel}
-        phonePlaceholder={checkoutLabels.phonePlaceholder}
-        shippingSectionTitle={checkoutLabels.shippingSectionTitle}
-        firstNameLabel={checkoutLabels.firstNameLabel}
-        firstNamePlaceholder={checkoutLabels.firstNamePlaceholder}
-        lastNameLabel={checkoutLabels.lastNameLabel}
-        lastNamePlaceholder={checkoutLabels.lastNamePlaceholder}
-        addressLabel={checkoutLabels.addressLabel}
-        addressPlaceholder={checkoutLabels.addressPlaceholder}
-        cityLabel={checkoutLabels.cityLabel}
-        cityPlaceholder={checkoutLabels.cityPlaceholder}
-        postalCodeLabel={checkoutLabels.postalCodeLabel}
-        postalCodePlaceholder={checkoutLabels.postalCodePlaceholder}
-        orderSummaryTitle={checkoutLabels.orderSummaryTitle}
-        subtotalLabel={checkoutLabels.subtotalLabel}
-        shippingLabel={checkoutLabels.shippingLabel}
-        shippingValue={checkoutLabels.shippingValue}
-        totalLabel={checkoutLabels.totalLabel}
-        placeOrderLabel={checkoutLabels.placeOrderLabel}
-        currency={checkoutLabels.currency}
+        {...checkoutLabels}
+        fulfillmentTypes={payments.fulfillmentTypes || ["pickup"]}
+        fulfillmentLabels={fulfillmentLabels}
+        paymentMethods={paymentMethods as ("online" | "cash" | "card_on_site")[]}
+        paymentMethodLabels={paymentMethodLabels}
+        deliveryFee={payments.deliveryFee || 0}
+        minOrderValue={payments.minOrderValue || 0}
       />
     </div>
   </main>

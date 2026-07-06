@@ -32,9 +32,12 @@ const arg = (n: string) => { const i = process.argv.indexOf(`--${n}`); return i 
 const has = (n: string) => process.argv.includes(`--${n}`);
 const cmd = process.argv[2];
 
-function adminUrl(): string {
-  const u = process.env.ADMIN_DATABASE_URL || process.env.DATABASE_URL;
-  if (!u) throw new Error("ADMIN_DATABASE_URL (or DATABASE_URL) is required — point it at the Postgres admin DB");
+async function adminUrl(): Promise<string> {
+  // I40 — env-file fallback: PM2 freezes env at first start, so the GC cron ran
+  // with an empty DATABASE_URL if the shell hadn't exported one at that moment.
+  const { envFileFallback } = await import("../packages/sitc-core/src/orchestrator/env-file.js");
+  const u = process.env.ADMIN_DATABASE_URL || process.env.DATABASE_URL || (await envFileFallback(REPO_ROOT, "DATABASE_URL"));
+  if (!u) throw new Error("ADMIN_DATABASE_URL (or DATABASE_URL) is required — point it at the Postgres admin DB (or set it in apps/engine/.env)");
   return u;
 }
 
@@ -53,11 +56,11 @@ async function main() {
       const runId = Number(arg("run"));
       if (!runId) throw new Error("--run <id> required");
       confirmOrExit(`CREATE DATABASE "${runDbName(runId)}" on the admin server`);
-      const admin = createSqlExec(adminUrl());
+      const admin = createSqlExec(await adminUrl());
       try {
         const name = await provisionRunDb(admin, runId);
         console.log(`✔ provisioned run DB: ${name}`);
-        console.log(`  run DB URL: ${runDbUrl(adminUrl(), runId).replace(/:[^:@/]+@/, ":***@")}`);
+        console.log(`  run DB URL: ${runDbUrl(await adminUrl(), runId).replace(/:[^:@/]+@/, ":***@")}`);
       } finally {
         await admin.close();
       }
@@ -68,7 +71,7 @@ async function main() {
       const runId = Number(arg("run"));
       const template = arg("template");
       if (!runId || !template) throw new Error("--run <id> and --template <name> required");
-      const url = runDbUrl(adminUrl(), runId);
+      const url = runDbUrl(await adminUrl(), runId);
       const templatePath = path.join(REPO_ROOT, "templates", template, `${template}.json`);
       const profile = JSON.parse(await fs.readFile(templatePath, "utf8"));
       confirmOrExit(`seed template "${template}" into run DB ${runDbName(runId)} (validates schema first)`);
@@ -85,7 +88,7 @@ async function main() {
       await wt.teardown(runId, { deleteBranch: has("delete-branch") });
       console.log(`✔ worktrees + ${has("delete-branch") ? "branch " : ""}removed for run ${runId}`);
       if (has("drop-db")) {
-        const admin = createSqlExec(adminUrl());
+        const admin = createSqlExec(await adminUrl());
         try { await dropRunDb(admin, runId); console.log(`✔ dropped DB ${runDbName(runId)}`); }
         finally { await admin.close(); }
       }
@@ -94,10 +97,10 @@ async function main() {
 
     case "gc": {
       confirmOrExit(`sweep orphaned (expired-lease) runs: teardown worktrees${has("drop-db") ? " + DROP their DBs" : ""}`);
-      initDb(adminUrl());
+      initDb(await adminUrl());
       const store = new DrizzleRunStore();
       const wt = new WorktreeManager({ repoRoot: REPO_ROOT });
-      const admin = has("drop-db") ? createSqlExec(adminUrl()) : undefined;
+      const admin = has("drop-db") ? createSqlExec(await adminUrl()) : undefined;
       try {
         const report = await sweepOrphans({ store, worktree: wt, admin, deleteBranch: has("delete-branch") });
         console.log(`✔ GC reclaimed ${report.reclaimed.length} run(s): [${report.reclaimed.join(", ")}]`);

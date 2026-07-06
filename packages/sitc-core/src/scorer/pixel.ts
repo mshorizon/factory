@@ -11,13 +11,24 @@ import { PNG } from "pngjs";
 import { promises as fs } from "node:fs";
 
 export interface PixelScore {
-  /** 1 - mismatchRatio, on the best-aligned overlapping region. */
+  /** 1 - mismatchRatio on the best-aligned overlapping region, ×overlap penalty (I34). */
   similarity: number;
   mismatchRatio: number;
   bestDy: number;
   width: number;
   height: number;
+  /**
+   * Fraction of the LARGER image the compared overlap covers (todo I34):
+   * `(minW/maxW)·(minH/maxH)`. Comparing only the overlap meant a challenger
+   * rendering half the target's height paid zero penalty for the missing half —
+   * 30% of the hybrid score and the regression-SSIM signal were blind to it.
+   * Below the tolerance (0.95 — normal few-px render variance stays unpenalized)
+   * the similarity is multiplied by this factor.
+   */
+  overlap: number;
 }
+
+const OVERLAP_TOLERANCE = 0.95;
 
 async function readPng(src: string | Buffer): Promise<PNG> {
   const buf = typeof src === "string" ? await fs.readFile(src) : src;
@@ -32,6 +43,11 @@ export async function pixelScore(
   const shift = opts.shift ?? 40;
   const pa = await readPng(a);
   const pb = await readPng(b);
+  // I34 — size-mismatch penalty factor over the ORIGINAL dimensions.
+  const overlap =
+    (Math.min(pa.width, pb.width) / Math.max(pa.width, pb.width)) *
+    (Math.min(pa.height, pb.height) / Math.max(pa.height, pb.height));
+  const penalize = (similarity: number) => (overlap < OVERLAP_TOLERANCE ? similarity * overlap : similarity);
   const W = Math.min(pa.width, pb.width);
   const H = Math.min(pa.height, pb.height) - 2 * shift;
   if (W <= 0 || H <= 0) {
@@ -44,7 +60,7 @@ export async function pixelScore(
     PNG.bitblt(pb, cb, 0, 0, w, h, 0, 0);
     const m = pixelmatch(ca.data, cb.data, undefined, w, h, { threshold: opts.threshold ?? 0.1 });
     const ratio = m / (w * h);
-    return { similarity: 1 - ratio, mismatchRatio: ratio, bestDy: 0, width: w, height: h };
+    return { similarity: penalize(1 - ratio), mismatchRatio: ratio, bestDy: 0, width: w, height: h, overlap };
   }
   const region = (src: PNG, dy: number) => {
     const out = new PNG({ width: W, height: H });
@@ -59,5 +75,5 @@ export async function pixelScore(
     const ratio = m / (W * H);
     if (ratio < best.ratio) best = { ratio, dy };
   }
-  return { similarity: 1 - best.ratio, mismatchRatio: best.ratio, bestDy: best.dy, width: W, height: H };
+  return { similarity: penalize(1 - best.ratio), mismatchRatio: best.ratio, bestDy: best.dy, width: W, height: H, overlap };
 }

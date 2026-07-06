@@ -1,6 +1,20 @@
+import { useEffect, useState } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Product, CartItem, CartStore } from "@mshorizon/schema";
+
+/**
+ * SSR-safe hydration guard for cart-driven UI. The cart is persisted in
+ * localStorage, so the first client render differs from the server-rendered
+ * HTML (server always sees an empty cart). Components must render the empty
+ * state until this returns true, otherwise React reports hydration mismatches
+ * and regenerates the whole tree.
+ */
+export function useCartHydrated(): boolean {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  return hydrated;
+}
 
 function getCartKey(
   productId: string,
@@ -75,6 +89,7 @@ export const useCart = create<CartStore>()(
             productId: product.id,
             cartKey,
             title: product.title,
+            category: product.category,
             price: calculatePrice(product, customizations),
             image: product.image,
             quantity: 1,

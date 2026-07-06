@@ -16,6 +16,7 @@
  * each on its own port; LRU-capped + torn down at run end.
  */
 import { spawn, type ChildProcess } from "node:child_process";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { promises as fs } from "node:fs";
 
@@ -39,7 +40,14 @@ interface Engine {
   baseUrl: string;
   proc: ChildProcess;
   lastUsed: number;
+  /** Wall-clock of the last ensure() — idle-age guard for eviction (todo I37). */
+  lastUsedAt: number;
+  /** Per-worktree Vite cache dir (todo I36) — removed on stop(). */
+  cacheDir: string;
 }
+
+/** Engines used within this window are considered possibly mid-render — never evicted (I37). */
+const MIN_IDLE_MS_FOR_EVICTION = 180_000;
 
 export class EngineManager {
   private readonly repoRoot: string;
@@ -73,6 +81,7 @@ export class EngineManager {
     const existing = this.engines.get(worktreePath);
     if (existing) {
       existing.lastUsed = ++this.clock;
+      existing.lastUsedAt = Date.now();
       return existing.baseUrl;
     }
     // Serialize startup + warm-up to avoid port races AND concurrent cold compiles.
@@ -90,11 +99,25 @@ export class EngineManager {
     throw new Error("EngineManager: no free port in range");
   }
 
+  /** Vite cache keyed by WORKTREE (todo I36) — the old per-PORT key meant port reuse
+   * handed a different worktree a stale cache: the exact "config-change re-optimize
+   * + resolution failure" class the isolated dir was added to prevent. */
+  private cacheDirFor(worktreePath: string): string {
+    return path.join("/tmp/sitc-vite-cache", createHash("sha1").update(worktreePath).digest("hex").slice(0, 12));
+  }
+
   private async start(worktreePath: string, warmupUrl?: string): Promise<string> {
-    // Evict the least-recently-used engine if at capacity.
+    // Evict the least-recently-used IDLE engine if at capacity (todo I37): an
+    // engine ensured recently may still be serving a screenshot — killing it
+    // mid-render fails the iteration and blames the challenger. If every engine
+    // is busy, temporarily exceed the cap instead (soft cap, logged).
     if (this.engines.size >= this.maxEngines) {
-      const lru = [...this.engines.values()].sort((a, b) => a.lastUsed - b.lastUsed)[0];
-      if (lru) await this.stop(lru.worktreePath);
+      const now = Date.now();
+      const idle = [...this.engines.values()]
+        .filter((e) => now - e.lastUsedAt > MIN_IDLE_MS_FOR_EVICTION)
+        .sort((a, b) => a.lastUsed - b.lastUsed)[0];
+      if (idle) await this.stop(idle.worktreePath);
+      else this.log(`engine cap ${this.maxEngines} reached but none idle >${MIN_IDLE_MS_FOR_EVICTION / 1000}s — soft-exceeding (no mid-render kill)`);
     }
 
     const engineDir = path.join(worktreePath, "apps", "engine");
@@ -109,7 +132,7 @@ export class EngineManager {
         SITC_HARNESS_FS: "1", // allow profilePath reads even if DEV is somehow unset
         // Isolated vite cache per engine — never share the main repo's (symlinked)
         // node_modules/.vite, which causes config-change re-optimize + resolution failures.
-        SITC_VITE_CACHE_DIR: path.join("/tmp/sitc-vite-cache", `${port}`),
+        SITC_VITE_CACHE_DIR: this.cacheDirFor(worktreePath),
         PORT: String(port),
         BROWSER: "none",
       },
@@ -129,7 +152,7 @@ export class EngineManager {
     proc.stderr?.on("data", append);
 
     const baseUrl = `http://127.0.0.1:${port}`;
-    const engine: Engine = { worktreePath, port, baseUrl, proc, lastUsed: ++this.clock };
+    const engine: Engine = { worktreePath, port, baseUrl, proc, lastUsed: ++this.clock, lastUsedAt: Date.now(), cacheDir: this.cacheDirFor(worktreePath) };
     this.engines.set(worktreePath, engine);
 
     let exited: string | null = null;
@@ -231,6 +254,9 @@ export class EngineManager {
         resolve();
       }, 4000);
     });
+    // I36 — a dead engine's Vite cache must not survive to poison a future engine
+    // (the /tmp caches used to persist across runs).
+    await fs.rm(e.cacheDir, { recursive: true, force: true }).catch(() => {});
   }
 
   async stopAll(): Promise<void> {

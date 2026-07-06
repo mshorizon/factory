@@ -2,13 +2,27 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Plus, Check } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { SafeImage } from "../../atoms/SafeImage.js";
 import { ImageDescription } from "../../atoms/ImageDescription";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import { ScrollReveal } from "../../animations/ScrollReveal";
+import { useCart } from "../../store/useCart";
 import type { ServicesProps, CategoryGroup, ServiceItem } from "./types";
+import type { Product } from "@mshorizon/schema";
+
+function serviceItemToProduct(item: ServiceItem): Product | null {
+  if (!item.orderable || typeof item.priceValue !== "number" || !item.id) return null;
+  return {
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    price: item.priceValue,
+    image: item.image,
+    category: item.category,
+  };
+}
 
 export function ServicesList({
   items,
@@ -59,6 +73,22 @@ export function ServicesList({
 
   const [activeTab, setActiveTab] = useState(initialTab);
   const [activeSubTab, setActiveSubTab] = useState(() => getInitialSubTab(initialTab));
+  const [justAddedId, setJustAddedId] = useState<string | null>(null);
+  const addItemToCart = useCart((s) => s.addItem);
+
+  const handleAddToCart = (e: React.MouseEvent, item: ServiceItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const product = serviceItemToProduct(item);
+    if (!product) return;
+    // Cart shows the human category label, not the tab id
+    const categoryLabel = item.category
+      ? categoryById.get(item.category)?.label.replace(/\s*\(.*\)\s*$/, "") ?? item.category
+      : undefined;
+    addItemToCart({ ...product, category: categoryLabel });
+    setJustAddedId(product.id);
+    window.setTimeout(() => setJustAddedId((cur) => (cur === product.id ? null : cur)), 1200);
+  };
 
   const activeGroup = (categoryGroups ?? []).find((g) => g.id === activeTab);
 
@@ -131,14 +161,37 @@ export function ServicesList({
   };
 
   const renderItem = (item: ServiceItem, index: number, direction: "left" | "right") => {
+    const isOrderable = !!(item.orderable && typeof item.priceValue === "number" && item.id);
+    const justAdded = isOrderable && justAddedId === item.id;
+    const RowTag: any = isOrderable ? "div" : "a";
+    const rowExtra = isOrderable ? {} : { href: `/services/${item.slug || item.id}` };
+    const addButton = isOrderable && (
+      <button
+        type="button"
+        onClick={(e) => handleAddToCart(e, item)}
+        aria-label={`Dodaj ${item.title} do koszyka`}
+        className={cn(
+          "shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-radius border transition-colors pointer-events-auto cursor-pointer",
+          justAdded
+            ? "border-primary bg-primary text-on-primary"
+            : "border-border text-foreground hover:border-primary hover:bg-primary hover:text-on-primary"
+        )}
+      >
+        {justAdded ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+      </button>
+    );
+
     if (hasSideImage) {
       // Menu-row style: no full card border, a hairline divider, and an animated
       // vertical accent bar that grows on the left edge on hover.
       return (
         <StaggerItem key={index} direction="up" distance={16} className="group/svc services-item-wrap">
-          <a
-            href={`/services/${item.slug || item.id}`}
-            className="services-list-item group relative flex items-start justify-between gap-spacing-md py-spacing-md pl-spacing-md border-b border-border/60 transition-colors group-hover/svc:bg-foreground/[0.03] cursor-pointer"
+          <RowTag
+            {...rowExtra}
+            className={cn(
+              "services-list-item group relative flex items-start justify-between gap-spacing-md py-spacing-md pl-spacing-md border-b border-border/60 transition-colors group-hover/svc:bg-foreground/[0.03]",
+              isOrderable ? "" : "cursor-pointer"
+            )}
             data-field={`items.${index}`}
           >
             {/* Vertical accent bar: always in CTA (primary) color, grows in height
@@ -167,14 +220,22 @@ export function ServicesList({
                 {item.price}
               </span>
             )}
-          </a>
+            {addButton}
+          </RowTag>
         </StaggerItem>
       );
     }
 
     return (
       <StaggerItem key={index} direction={direction} distance={20}>
-        <a href={`/services/${item.slug || item.id}`} className="services-list-item group flex flex-col md:flex-row md:items-center justify-between gap-spacing-md p-spacing-lg border border-border rounded-radius-secondary hover:shadow-lg hover:border-primary/20 transition-all block cursor-pointer" data-field={`items.${index}`}>
+        <RowTag
+          {...rowExtra}
+          className={cn(
+            "services-list-item group flex flex-col md:flex-row md:items-center justify-between gap-spacing-md p-spacing-lg border border-border rounded-radius-secondary hover:shadow-lg hover:border-primary/20 transition-all block",
+            isOrderable ? "" : "cursor-pointer"
+          )}
+          data-field={`items.${index}`}
+        >
           <div className="flex-1">
             <div className="flex items-center gap-spacing-sm mb-spacing-xs">
               <h3 className="services-item-title text-xl font-semibold font-heading text-foreground group-hover:text-primary transition-colors" data-field={`items.${index}.title`}>
@@ -188,13 +249,15 @@ export function ServicesList({
             </div>
             <p className="services-item-desc text-muted" data-field={`items.${index}.description`}>{item.description}</p>
           </div>
-          {ctaLabel && (
+          {isOrderable ? (
+            addButton
+          ) : ctaLabel && (
             <div className="shrink-0 flex items-center gap-spacing-xs text-muted group-hover:text-primary transition-colors">
               <span>{ctaLabel}</span>
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </div>
           )}
-        </a>
+        </RowTag>
       </StaggerItem>
     );
   };

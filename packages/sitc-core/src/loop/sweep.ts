@@ -23,6 +23,13 @@ export interface SweepInput {
   initialStates: SectionState[];
   /** Initial champion render per section (null if none yet). */
   championImg?: Record<string, string | null>;
+  /**
+   * Seed critiques per section (todo I23 prescore) — the champion's VLM gap
+   * description, so the FIRST mutate starts steered instead of blind.
+   */
+  initialCritiques?: Record<string, string>;
+  /** Live dollar spend (CostMeter, I9) for the `maxUsd` budget cap (todo I27). */
+  spentUsd?: () => number;
   maxWorkers?: number;
   maxRounds?: number;
   /** Hard budget caps (§8) — stop when any is hit, returning best-so-far. */
@@ -34,6 +41,13 @@ export interface SweepInput {
   nowMs?: () => number;
   /** Consecutive low-yield attempts before escalating strategy. */
   plateauAfter?: number;
+  /**
+   * Coverage floor (CONCLUSIONS #6): every in-play section is dispatched at least
+   * this many times before the scheduler re-rolls an already-covered peer, so a
+   * budget/round cap can't starve a unit to 0 iterations (the `about` orphan bug).
+   * Default 1. Set 0 to disable (pure gap ordering). Bounded by rounds×maxWorkers.
+   */
+  minCoverage?: number;
   onIteration?: (sectionId: string, r: SectionIterationResult) => void;
 }
 
@@ -58,11 +72,12 @@ export interface SweepResult {
 export async function runSweep(input: SweepInput): Promise<SweepResult> {
   const states = new Map(input.initialStates.map((s) => [s.sectionId, { ...s }]));
   const champ: Record<string, string | null> = { ...(input.championImg ?? {}) };
-  const critiques: Record<string, string | undefined> = {};
+  const critiques: Record<string, string | undefined> = { ...(input.initialCritiques ?? {}) };
   const lock = createMutex();
   const maxWorkers = input.maxWorkers ?? 3;
   const maxRounds = input.maxRounds ?? 50;
   const plateauAfter = input.plateauAfter ?? 2;
+  const minCoverage = input.minCoverage ?? 1;
   const now = input.nowMs ?? (() => Date.now());
   const startMs = now();
   let rounds = 0;
@@ -71,36 +86,56 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
   const iterationsToLock: Record<string, number> = {};
   let stoppedBy: SweepResult["stoppedBy"] = "settled";
 
-  while (!allSettled([...states.values()])) {
-    // admin commands (pause/abort) take effect between rounds (§16)
+  // todo I39 — pause/abort/budget used to take effect only BETWEEN rounds; a round
+  // is up to maxWorkers iterations (each a claude -p mutate + render + score), so
+  // an admin "abort" could burn ~10 min of real tokens before landing. `stopping`
+  // is also consulted before each in-round dispatch; in-flight iterations finish
+  // (their work integrates or reverts normally), but nothing NEW starts.
+  let stopping: SweepResult["stoppedBy"] | null = null;
+  const checkStopping = async (): Promise<void> => {
+    if (stopping) return;
     if (input.store) {
       const cmd = await input.store.nextCommand(input.runId);
       if (cmd) {
         await input.store.consumeCommand(cmd.id);
-        if (cmd.type === "abort") { stoppedBy = "aborted"; break; }
-        if (cmd.type === "pause") { stoppedBy = "paused"; break; }
+        if (cmd.type === "abort") stopping = "aborted";
+        else if (cmd.type === "pause") stopping = "paused";
+        if (stopping) return;
       }
     }
+    if (
+      input.budget &&
+      budgetExceeded(
+        { iterations: workerInvocations, workerInvocations, elapsedMs: now() - startMs, usd: input.spentUsd?.() },
+        input.budget,
+      ).exceeded
+    ) {
+      stopping = "budget";
+    }
+  };
+
+  while (!allSettled([...states.values()])) {
+    await checkStopping();
+    if (stopping) { stoppedBy = stopping; break; }
     if (rounds >= maxRounds) {
       stoppedBy = "maxRounds";
       break;
     }
-    if (
-      input.budget &&
-      budgetExceeded({ iterations: workerInvocations, workerInvocations, elapsedMs: now() - startMs }, input.budget)
-        .exceeded
-    ) {
-      stoppedBy = "budget";
-      break;
-    }
     rounds++;
-    const picked = pickNext([...states.values()], maxWorkers);
+    const picked = pickNext([...states.values()], maxWorkers, { minCoverage });
     if (!picked.length) break;
-    workerInvocations += picked.length;
 
     await Promise.all(
       picked.map(async (pick) => {
+        // I39 — re-check before each dispatch: an abort/pause/budget-hit raised by
+        // a sibling iteration (or the admin) stops the REST of the round's picks.
+        await checkStopping();
+        if (stopping) return;
+        workerInvocations++; // only dispatches that actually ran
         const st = states.get(pick.sectionId)!;
+        // count the dispatch up front (survives promote, unlike `attempts`) so the
+        // coverage floor sees it on the next round's pickNext.
+        st.dispatches = (st.dispatches ?? 0) + 1;
         // Isolate per-section failures: an error in one iteration (worker crash,
         // render/score throw) degrades to a low-yield no-op for THAT section, it
         // never aborts the whole sweep.
@@ -126,8 +161,11 @@ export async function runSweep(input: SweepInput): Promise<SweepResult> {
           res = { outcome: "no-op", challengerSha: null, changedFiles: [], critique: `iteration error: ${String(err).slice(0, 160)}` };
         }
         input.onIteration?.(pick.sectionId, res);
-        // remember the critique for the section's next attempt (cleared on promote)
-        critiques[pick.sectionId] = res.outcome === "promoted" ? "" : res.critique ?? critiques[pick.sectionId];
+        // Remember the critique for the section's next attempt. todo I24: a PROMOTED
+        // result's critique is the NEW champion's remaining-gap description — exactly
+        // what the next attempt on a still-unlocked section needs, so keep it (the old
+        // reset-to-"" made every post-promotion attempt start blind).
+        critiques[pick.sectionId] = res.critique ?? critiques[pick.sectionId];
 
         if (res.outcome === "promoted") {
           promotions++;

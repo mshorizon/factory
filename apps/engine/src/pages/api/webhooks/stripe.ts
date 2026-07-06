@@ -42,38 +42,34 @@ export const POST: APIRoute = async ({ request }) => {
           break;
         }
 
-        if (order.status === "paid") break; // Already processed
+        // Idempotency: already paid / preparing / ready / completed → skip
+        if (["paid", "preparing", "ready", "completed"].includes(order.status)) break;
 
-        // Update order
+        // Restaurant flow: accepted → paid (customer paid via link)
+        // Legacy shop flow: pending → paid (customer paid upfront)
+        if (!["accepted", "pending"].includes(order.status)) {
+          logger.warn({ orderId: order.id, status: order.status }, "Unexpected order status on payment");
+          break;
+        }
+
         await updateOrderStatus(order.id, "paid", { paidAt: new Date() });
         if (session.payment_intent) {
           await updateOrderStripeFields(order.id, { stripePaymentIntentId: session.payment_intent });
         }
 
-        // Send emails (fire-and-forget)
         const items = await getOrderItemsByOrderId(order.id);
-
-        // Find business config for email sending
-        const allSites = await import("@mshorizon/db").then((m) => m.getAllSubdomains());
-        // We need to find site by siteId — use metadata
-        const siteId = session.metadata?.siteId ? parseInt(session.metadata.siteId) : order.siteId;
-
-        // Get site config for business email
         try {
           const { getDb } = await import("@mshorizon/db");
           const { sites } = await import("@mshorizon/db");
           const { eq } = await import("drizzle-orm");
           const db = getDb();
-          const [site] = await db.select().from(sites).where(eq(sites.id, siteId)).limit(1);
+          const [site] = await db.select().from(sites).where(eq(sites.id, order.siteId)).limit(1);
 
           if (site) {
             const config = site.config as any;
             const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
             sendOrderConfirmationEmail(order, items, config, resendApiKey).catch(
               (err) => logger.error({ err, orderId: order.id }, "Failed to send order confirmation email")
-            );
-            sendOrderNotificationEmail(order, items, config, resendApiKey).catch(
-              (err) => logger.error({ err, orderId: order.id }, "Failed to send order notification email")
             );
           }
         } catch (emailErr) {
@@ -87,9 +83,9 @@ export const POST: APIRoute = async ({ request }) => {
       case "checkout.session.expired": {
         const session = event.data.object as any;
         const order = await getOrderByStripeSessionId(session.id);
-        if (order && order.status === "pending") {
+        if (order && order.status === "accepted") {
           await updateOrderStatus(order.id, "cancelled", { cancelledAt: new Date() });
-          logger.info({ orderId: order.id }, "Order cancelled (session expired)");
+          logger.info({ orderId: order.id }, "Order cancelled (payment session expired)");
         }
         break;
       }

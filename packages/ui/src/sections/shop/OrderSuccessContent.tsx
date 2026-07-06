@@ -39,8 +39,8 @@ export function OrderSuccessContent({
     <div className="max-w-2xl mx-auto py-spacing-3xl px-spacing-md">
       {/* Header */}
       <div className="flex flex-col items-center text-center mb-spacing-2xl">
-        <div className="h-20 w-20 rounded-full bg-green-500/10 flex items-center justify-center mb-spacing-lg">
-          <CheckCircle className="h-10 w-10 text-green-600" />
+        <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-spacing-lg">
+          <CheckCircle className="h-10 w-10 text-primary" />
         </div>
         <h1 className="text-2xl lg:text-3xl font-bold text-foreground mb-spacing-sm">
           Dziękujemy za zamówienie!

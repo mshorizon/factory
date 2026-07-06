@@ -6,6 +6,9 @@
  * any failed gate, or a non-converged run stops in `needs_review` (branch kept).
  */
 import { execFile } from "node:child_process";
+import { promises as fs } from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import type { MutationStrategy } from "../types.js";
 import { forcesReview } from "../loop/strategy.js";
 import type { GateResult } from "./gates.js";
@@ -59,14 +62,44 @@ export interface MergeOptions {
   noFF?: boolean;
 }
 
-/** Merge the run branch into `develop` (no-ff). Returns the new develop sha. */
+/**
+ * Merge the run branch into `develop` (no-ff). Returns the new develop sha.
+ *
+ * todo I21 — never hijack the operator's checkout. Two paths:
+ *   • main checkout already ON develop (the VPS case): merge in place, but only
+ *    with a clean tree (an uncommitted operator edit must not be swept into an
+ *    auto-merge commit).
+ *   • main checkout on ANY other branch: the old code did `git checkout develop`
+ *    in the operator's working tree mid-run — switching their branch under them.
+ *    Now the merge happens in a throwaway worktree pinned at `develop`; the
+ *    operator's checkout (branch, index, dirty files) is never touched. If
+ *    develop is checked out in some other worktree, `git worktree add` refuses
+ *    → the error propagates and landDelivery downgrades to needs_review.
+ */
 export async function mergeRunToDevelop(opts: MergeOptions): Promise<string> {
   const develop = opts.develop ?? "develop";
-  await git(["checkout", develop], opts.repoRoot);
-  const args = ["merge", opts.runBranch, "-m", `sitc: auto-merge ${opts.runBranch}`];
-  if (opts.noFF !== false) args.splice(1, 0, "--no-ff");
-  await git(args, opts.repoRoot);
-  return git(["rev-parse", "HEAD"], opts.repoRoot);
+  const msg = `sitc: auto-merge ${opts.runBranch}`;
+  const mergeArgs = ["merge", opts.runBranch, "-m", msg];
+  if (opts.noFF !== false) mergeArgs.splice(1, 0, "--no-ff");
+
+  const head = await git(["rev-parse", "--abbrev-ref", "HEAD"], opts.repoRoot).catch(() => "");
+  if (head === develop) {
+    if ((await git(["status", "--porcelain"], opts.repoRoot)) !== "") {
+      throw new Error("working tree not clean — refusing to auto-merge in place");
+    }
+    await git(mergeArgs, opts.repoRoot);
+    return git(["rev-parse", "HEAD"], opts.repoRoot);
+  }
+
+  const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "sitc-merge-"));
+  try {
+    await git(["worktree", "add", tmp, develop], opts.repoRoot);
+    await git(mergeArgs, tmp);
+    return await git(["rev-parse", "HEAD"], tmp);
+  } finally {
+    await git(["worktree", "remove", "--force", tmp], opts.repoRoot).catch(() => {});
+    await fs.rm(tmp, { recursive: true, force: true }).catch(() => {});
+  }
 }
 
 // ─── full landing (merge+push / push+PR / safe downgrade) — tasks I4 ──────────
@@ -107,10 +140,6 @@ export async function ghOpenPr(o: { repoRoot: string; branch: string; base: stri
   });
 }
 
-async function cleanTree(repoRoot: string): Promise<boolean> {
-  return (await git(["status", "--porcelain"], repoRoot)) === "";
-}
-
 /**
  * Perform the actual delivery git work after `decideDelivery` (DESIGN §13.4):
  *   auto-merge   → merge the run branch into `develop` (no-ff), optionally push.
@@ -136,8 +165,16 @@ export async function landDelivery(opts: {
 
   if (opts.routing.decision === "auto-merge") {
     try {
-      if (!(await cleanTree(opts.repoRoot))) {
-        throw new Error("working tree not clean — refusing to auto-merge");
+      // I21 — pushing onto a develop that silently diverged from the remote would
+      // fail (or worse, force-shape history). Check BEFORE merging so a stale local
+      // develop downgrades cleanly with no local merge to unwind.
+      if (l.push) {
+        await git(["fetch", remote, develop], opts.repoRoot);
+        const behind = await git(["merge-base", "--is-ancestor", `${remote}/${develop}`, develop], opts.repoRoot).then(
+          () => false,
+          () => true,
+        );
+        if (behind) throw new Error(`local ${develop} is behind ${remote}/${develop} — sync before auto-merge`);
       }
       const sha = await mergeRunToDevelop({ repoRoot: opts.repoRoot, runBranch: opts.runBranch, develop });
       notes.push(`auto-merged ${opts.runBranch} → ${develop} @ ${sha.slice(0, 9)}`);

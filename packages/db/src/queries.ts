@@ -561,6 +561,25 @@ export async function getOrderByStripeSessionId(sessionId: string) {
   return row ?? null;
 }
 
+export async function getOrderByToken(token: string) {
+  const db = getDb();
+  const [row] = await db.select().from(orders).where(eq(orders.orderToken, token)).limit(1);
+  return row ?? null;
+}
+
+export async function generateOrderToken(): Promise<string> {
+  const alphabet = "abcdefghijkmnopqrstuvwxyz23456789";
+  let attempts = 0;
+  while (attempts < 5) {
+    let token = "";
+    for (let i = 0; i < 20; i++) token += alphabet[Math.floor(Math.random() * alphabet.length)];
+    const existing = await getOrderByToken(token);
+    if (!existing) return token;
+    attempts++;
+  }
+  throw new Error("Failed to generate unique order token");
+}
+
 export async function getOrdersBySiteId(siteId: number, status?: string) {
   const db = getDb();
   const conditions = [eq(orders.siteId, siteId)];

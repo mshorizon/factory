@@ -37,12 +37,7 @@ export type TrustSignals = {
 }[];
 export type ThemePreset = "industrial" | "wellness" | "minimal" | "elegant" | "modern" | "classic" | "bold";
 export type GlobalVariant = string;
-export type MajorTheme =
-  | "template-specialist"
-  | "template-tech"
-  | "template-art"
-  | "template-law"
-  | "template-tech-agency";
+export type MajorTheme = "template-specialist" | "template-tech" | "template-art" | "template-law" | "template-studio";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
 export type PrimaryLightColor = string;
@@ -600,6 +595,14 @@ export type LinkLabel = string;
  * ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown.
  */
 export type Category = string;
+/**
+ * When true, this menu item can be added to the cart and ordered online. Requires priceValue.
+ */
+export type Orderable = boolean;
+/**
+ * Numeric price (e.g. 23.5 for 23,50 zł) — used for cart pricing. Required when orderable is true.
+ */
+export type PriceNumber = number;
 export type Items = ServiceItem[];
 export type CategoryID = string;
 export type TabLabel = string;
@@ -734,6 +737,18 @@ export type RightColumnTitleEGAIAutomation = string;
 export type LeftProblem = string;
 export type RightSolution = string;
 export type ComparisonRows = ComparisonRow[];
+/**
+ * Row labels for the comparison 'triple' variant. Each comparisonColumns entry provides one value per criterion (values[i] aligns with criteria[i]).
+ */
+export type ComparisonCriteria = string[];
+export type ColumnTitle1 = string;
+export type BadgePillShownOnTheHighlightedColumnHeader = string;
+export type HighlightedColumn = boolean;
+export type CellValuesOnePerCriterion = string[];
+/**
+ * Columns for the comparison 'triple' variant. The highlighted column is rendered as an elevated card with a primary header block and check-prefixed values.
+ */
+export type ComparisonColumns = ComparisonColumn[];
 export type Name1 = string;
 export type Role = string;
 export type PhotoURL = string;
@@ -788,6 +803,23 @@ export type LeadTimeMinutes = number;
 export type MaxAdvanceBookingDays = number;
 export type BufferBetweenAppointmentsMinutes = number;
 export type BlackoutDatesYYYYMMDD = string[];
+export type StripeSecretKeySk_ = string;
+export type StripePublishableKeyPk_ = string;
+export type Currency1 = string;
+/**
+ * Which fulfillment options are shown at checkout.
+ */
+export type EnabledFulfillmentTypes = ("delivery" | "pickup" | "dine_in")[];
+/**
+ * Quick-buttons shown to the admin after payment when setting the ETA.
+ */
+export type PrepTimePresetsMinutes = number[];
+export type DeliveryFeeCents = number;
+export type MinimumOrderValueCents = number;
+/**
+ * Payment methods offered at checkout. "online" requires Stripe keys; "cash" and "card_on_site" are settled at pickup/delivery/table.
+ */
+export type EnabledPaymentMethods = ("online" | "cash" | "card_on_site")[];
 /**
  * Override email for receiving contact form submissions. Use when the public contact email (business.contact.email) has delivery issues (e.g. strict government/corporate mail servers). Leave empty to use business.contact.email.
  */
@@ -811,6 +843,7 @@ export interface BusinessProfile {
   sharedSections?: SharedSections;
   data?: Data;
   booking?: Booking;
+  payments?: Payments;
   notifications?: Notifications;
 }
 export interface Business {
@@ -1126,6 +1159,8 @@ export interface Section {
   leftTitle?: LeftColumnTitleEGManualWork;
   rightTitle?: RightColumnTitleEGAIAutomation;
   rows?: ComparisonRows;
+  criteria?: ComparisonCriteria;
+  comparisonColumns?: ComparisonColumns;
   members?: TeamMembers;
   fileGroups?: FileGroups;
   templateItems?: TemplateItems;
@@ -1203,6 +1238,8 @@ export interface ServiceItem {
   href?: LinkURL1;
   linkLabel?: LinkLabel;
   category?: Category;
+  orderable?: Orderable;
+  priceValue?: PriceNumber;
 }
 export interface ServiceCategory {
   id: CategoryID;
@@ -1387,6 +1424,12 @@ export interface ComparisonRow {
   left?: LeftProblem;
   right?: RightSolution;
 }
+export interface ComparisonColumn {
+  title?: ColumnTitle1;
+  badge?: BadgePillShownOnTheHighlightedColumnHeader;
+  highlighted?: HighlightedColumn;
+  values?: CellValuesOnePerCriterion;
+}
 export interface TeamMember {
   name?: Name1;
   role?: Role;
@@ -1469,6 +1512,19 @@ export interface BookingDayHours {
   enabled?: Open;
   open?: OpeningTime;
   close?: ClosingTime;
+}
+/**
+ * Stripe payment configuration used for online orders (restaurants, shops).
+ */
+export interface Payments {
+  stripeSecretKey?: StripeSecretKeySk_;
+  stripePublishableKey?: StripePublishableKeyPk_;
+  currency?: Currency1;
+  fulfillmentTypes?: EnabledFulfillmentTypes;
+  prepTimePresets?: PrepTimePresetsMinutes;
+  deliveryFee?: DeliveryFeeCents;
+  minOrderValue?: MinimumOrderValueCents;
+  paymentMethods?: EnabledPaymentMethods;
 }
 export interface Notifications {
   email?: ContactFormNotificationEmail;

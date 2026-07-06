@@ -408,3 +408,24 @@ First point where you can **open a rendered section and compare it to the target
         sectioning + command). sitc-core + db type-check; **all 13 suites green (187 checks)**; runner loads.
       pass (stronger model / explicit "you may write the component"). Reserve true handoff for asset/layout
       primitives the loop genuinely can't touch.
+
+### Tier 2 — gaps blocking trusted unattended runs (cont.)
+- [x] **I14 — Scheduler coverage guarantee: no in-play unit starved to 0 iterations. [amplifies CONCLUSIONS #6]**
+      ✅ *built & verified (20/20).* CONCLUSIONS #6: `about` once got **0 iterations** because higher-gap peers
+      hogged every round under the pure gap-priority scheduler when `maxWorkers < in-play count`, and the run
+      then settled on budget/rounds before it was ever dispatched. The scorer can't fix what it never renders.
+      - **Coverage floor** (`loop/scheduler.ts`): added an optional, never-reset `dispatches` counter to
+        `SectionState` (distinct from `attempts`, which resets on promote). `pickNext(states, maxWorkers, {minCoverage})`
+        now sorts **uncovered (dispatches < minCoverage) STRICTLY BEFORE covered** peers — a hard partition that
+        beats gap — then falls back to the existing gap → cost → attempts ordering within each tier. `minCoverage=0`
+        keeps the exact old behavior (opt-in). Helpers `dispatchesOf`/`isCovered`/`coverageMet` for observability.
+      - **Wired** (`loop/sweep.ts` → `pipeline/run.ts` → `scripts/sitc-runner.mts`): the sweep increments
+        `st.dispatches` per pick (survives promote) and defaults `minCoverage=1`, so **every in-play unit is
+        attempted at least once before the scheduler re-rolls a covered peer**. Operator override `SITC_MIN_COVERAGE`.
+        Guarantee is bounded by `rounds × maxWorkers` (can't cover more units than the round budget allows).
+      - **Verified deterministically:** `packages/tests/sitc-scheduler-coverage.check.mts` — 20/20. Unit: coverage
+        partition beats gap, opt-in off = unchanged, floor N>1, gap order preserved within a tier, locked/frozen
+        excluded, maxWorkers cap; predicates. **Integration (real `runSweep`, fake collab):** 3 sections /
+        maxWorkers 1 / maxRounds 3, none promote → pure-gap **STARVES** low-gap units (dispatches **3/0/0**),
+        coverage-first dispatches **1/1/1** and `coverageMet`. sitc-core type-checks clean; lessons-ab sweep check
+        still 17/17; runner import graph resolves. CONCLUSIONS #6 marked done.

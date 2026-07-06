@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ProcessSteps, ProcessVisual, ProcessGrid, ProcessTimeline, SectionHeader } from "@mshorizon/ui";
+import { ProcessSteps, ProcessVisual, ProcessGrid, ProcessTimeline, ProcessConnected, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -21,13 +21,15 @@ const steps = section.steps || [];
       badge={header.badge}
       title={header.title}
       subtitle={header.subtitle}
-      align="center"
+      align={header.align || "center"}
       background={section.background}
       badgeVariant={badgeVariant as any}
       className={variant === "grid" ? "[&_h2]:max-w-[700px] [&_h2]:mx-auto" : undefined}
     />
     {variant === "timeline" ? (
       <ProcessTimeline client:visible steps={steps} />
+    ) : variant === "connected" ? (
+      <ProcessConnected client:visible steps={steps} />
     ) : variant === "visual" ? (
       <ProcessVisual client:visible steps={steps} />
     ) : variant === "grid" ? (

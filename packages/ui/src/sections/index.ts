@@ -7,7 +7,7 @@ export { Footer, FooterSimple, FooterMultiColumn, FooterMinimal, FooterCentered,
 export type { FooterProps, SocialLink, Link, FooterColumn } from "./footer";
 
 // Hero variants
-export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency, HeroSacrum } from "./hero";
+export { Hero, HeroDefault, HeroSplit, HeroGradient, HeroCards, HeroVideo, HeroMinimal, HeroArtist, HeroAgency, HeroSacrum, HeroStudio } from "./hero";
 export type { HeroProps, CTAButton, ScheduleCard, ScheduleCardRow } from "./hero";
 
 // Services variants
@@ -23,15 +23,15 @@ export { AboutStory, AboutTimeline, AboutSummary, AboutSummaryStats, AboutCareer
 export type { AboutStoryProps, AboutTimelineProps, AboutSummaryProps, AboutSummaryStatsProps, AboutCareerProps, AboutQuoteSplitProps, QuotePanel, CareerItem, StatItem, TimelineItem, StoryContent } from "./about";
 
 // Contact variants
-export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional, ContactRestaurant } from "./contact";
-export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactProfessionalProps, ContactRestaurantProps, ContactSocialLink, ContactRestaurantLabels, ContactForm, ContactInfo, ContactLabels } from "./contact";
+export { ContactCentered, ContactSplit, ContactCTA, ContactMinimal, ContactCard, ContactLightPanel, ContactProfessional, ContactRestaurant, ContactPanel } from "./contact";
+export type { ContactCenteredProps, ContactSplitProps, ContactCTAProps, ContactCardProps, ContactLightPanelProps, ContactProfessionalProps, ContactRestaurantProps, ContactPanelProps, ContactSocialLink, ContactRestaurantLabels, ContactForm, ContactInfo, ContactLabels } from "./contact";
 
 // Shop variants
-export { ProductCard, CartButton, CartPageContent, CheckoutPageContent, ShopGrid, OrderSuccessContent } from "./shop";
-export type { ProductCardProps, CartButtonProps, CartPageContentProps, CheckoutPageContentProps, ShopGridProps } from "./shop";
+export { ProductCard, CartButton, CartFloatingBar, CheckoutPageContent, ShopGrid, OrderSuccessContent, OrderStatusContent } from "./shop";
+export type { ProductCardProps, CartButtonProps, CartFloatingBarProps, CheckoutPageContentProps, ShopGridProps, PaymentMethod } from "./shop";
 
 // Process variants
-export { ProcessSteps, ProcessVisual, ProcessGrid, ProcessTimeline } from "./process";
+export { ProcessSteps, ProcessVisual, ProcessGrid, ProcessTimeline, ProcessConnected } from "./process";
 export type { ProcessStepsProps, ProcessStep } from "./process";
 
 // ServiceArea variants
@@ -63,7 +63,7 @@ export { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, Fea
 export type { FeaturesGridProps, FeatureItem, FeaturesNumberedSplitProps } from "./features";
 
 // CTA Banner variants
-export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency } from "./ctaBanner";
+export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency, CtaBannerPanel } from "./ctaBanner";
 export type { CtaBannerProps } from "./ctaBanner";
 
 // Blog variants
@@ -71,7 +71,7 @@ export { BlogGrid, BlogOverlay, BlogCards } from "./blog";
 export type { BlogGridProps, BlogPost } from "./blog";
 
 // Project variants
-export { ProjectGrid, ProjectCarousel, ProjectHorizontal, ProjectShowcase } from "./project";
+export { ProjectGrid, ProjectCarousel, ProjectHorizontal, ProjectShowcase, ProjectCaseStudy } from "./project";
 export type { ProjectGridProps, ProjectCarouselProps, ProjectCard } from "./project";
 
 // Map variants
@@ -87,8 +87,8 @@ export { BookingWidget } from "./booking/BookingWidget";
 export type { BookingWidgetProps, BookingConfig, BookingService, BookingDayHours } from "./booking/BookingWidget";
 
 // Comparison variants
-export { ComparisonTable } from "./comparison";
-export type { ComparisonTableProps, ComparisonRow } from "./comparison";
+export { ComparisonTable, ComparisonTriple } from "./comparison";
+export type { ComparisonTableProps, ComparisonRow, ComparisonTripleProps, ComparisonColumn } from "./comparison";
 
 // Team variants
 export { TeamGrid } from "./team";

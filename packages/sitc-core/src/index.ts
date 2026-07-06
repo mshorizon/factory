@@ -117,7 +117,7 @@ export { lockSharedAtoms } from "./pipeline/atom-pass.js";
 export type { LockSharedAtomsInput, LockSharedAtomsResult, ProposedAtoms } from "./pipeline/atom-pass.js";
 export { lockTiers } from "./pipeline/lock-tiers.js";
 export type { LockTiersInput, LockTiersResult } from "./pipeline/lock-tiers.js";
-export { runFull } from "./pipeline/run.js";
+export { runFull, startLeaseHeartbeat } from "./pipeline/run.js";
 export type { FullRunInput, FullRunResult, RunMetrics } from "./pipeline/run.js";
 
 // ─── loop: per-section sweep (Phase 4) ───────────────────────────────────────
@@ -126,8 +126,8 @@ export type { AllowlistResult } from "./loop/allowlist.js";
 export { sanityGate } from "./loop/sanity.js";
 export type { SanityCheck, SanityInput, SanityResult } from "./loop/sanity.js";
 export { STRATEGY_LADDER, STRATEGY_COST, forcesReview, nextStrategy, ladderExhausted } from "./loop/strategy.js";
-export { pickNext, gap, inPlay, allSettled } from "./loop/scheduler.js";
-export type { SectionState } from "./loop/scheduler.js";
+export { pickNext, gap, inPlay, allSettled, dispatchesOf, isCovered, coverageMet } from "./loop/scheduler.js";
+export type { SectionState, PickOptions } from "./loop/scheduler.js";
 export { runSectionIteration, createMutex } from "./loop/section-iteration.js";
 export type {
   SectionCollaborators,
@@ -142,6 +142,10 @@ export { WorktreePool } from "./orchestrator/worktree-pool.js";
 export type { WorktreeLease } from "./orchestrator/worktree-pool.js";
 export { createMutateCollaborator } from "./loop/mutate-collaborator.js";
 export type { MutateCollaboratorOptions } from "./loop/mutate-collaborator.js";
+export { preScoreAndLock } from "./loop/prescore.js";
+export type { PreScoreDeps, PreScoreResult } from "./loop/prescore.js";
+export { sharedBrowser, withPage, closeSharedBrowser } from "./browser.js";
+export type { WithPageOptions } from "./browser.js";
 
 // ─── learning: semantic lessons store (Phase 6) ──────────────────────────────
 export { SITC_EMBED_DIM } from "./learning/dims.js";
@@ -153,14 +157,25 @@ export { InMemoryLessonStore } from "./learning/lesson-store.js";
 export type { LessonStore, LessonRecord, NewLesson } from "./learning/lesson-store.js";
 export { retrieveLessons, lessonsToPromptBlock } from "./learning/retrieval.js";
 export type { RetrievalQuery, RetrievedLesson } from "./learning/retrieval.js";
-export { distillLessons, dedupeLessons } from "./learning/distill.js";
+export { distillLessons, dedupeLessons, serializeHistory } from "./learning/distill.js";
 export type { IterationDatum, DistilledLesson, DistillInput, DedupeResult } from "./learning/distill.js";
+export { createLessonWritePath, traitTagsFromStyle, sampleHistory, TRAIT_VOCAB } from "./learning/write-path.js";
+export type { LessonWritePath, LessonWritePathOpts, DistillOutcome } from "./learning/write-path.js";
 export { renderLessonsDigest } from "./learning/digest.js";
 export type { DigestOptions } from "./learning/digest.js";
 
 // ─── experiment: lessons-on vs lessons-off A/B (tasks I1 / §18-G) ────────────
-export { compareLessonsAb, renderAbReport, toArmMetrics } from "./experiment/lessons-ab.js";
+export { compareLessonsAb, renderAbReport, toArmMetrics, alignArmSectionIds } from "./experiment/lessons-ab.js";
 export type { Arm, ArmMetrics, SectionDelta, Verdict, AbComparison, CompareOptions } from "./experiment/lessons-ab.js";
+export { aggregateRuns, renderRunsReport } from "./experiment/report.js";
+export type { RunArtifacts, RunsReport, RunsReportRow, TemplateTrend } from "./experiment/report.js";
+
+// ─── runner config + target-context assembly (todo I29 / I33) ────────────────
+export { resolveRunnerConfig, renderConfigLines } from "./orchestrator/config.js";
+export type { RunnerConfig, SitcProfile } from "./orchestrator/config.js";
+export { envFileFallback } from "./orchestrator/env-file.js";
+export { buildTargetContext, fmtMeasuredStyle, bandStyleLine } from "./steps/ingest.js";
+export type { TargetContext, TargetContextInput, IngestCrop } from "./steps/ingest.js";
 
 // ─── cost estimate (Phase 7 / §18-H) ─────────────────────────────────────────
 export { estimateRunCost, DEFAULT_COST_MODEL } from "./cost.js";
@@ -175,13 +190,16 @@ export { isAdditiveSchemaChange } from "./delivery/schema-additive.js";
 export type { AdditiveResult } from "./delivery/schema-additive.js";
 export { regressionGate, acceptanceGate } from "./delivery/gates.js";
 export type { GateResult, RegressionChecks, RegressionInput, AcceptanceChecks } from "./delivery/gates.js";
-export { createSanityChecks, createRegressionChecks, createAcceptanceChecks } from "./delivery/checks.js";
+export { createSanityChecks, createRegressionChecks, createAcceptanceChecks, diffA11yViolations, diffHygiene, normalizeConsoleError, withPath, aggregatePages } from "./delivery/checks.js";
 export type {
   CmdResult,
   SanityToolchainOptions,
   RegressionToolchainOptions,
   AcceptanceToolchainOptions,
   PerfBudgets,
+  A11yViolation,
+  HygieneProbe,
+  PageCheckResult,
 } from "./delivery/checks.js";
 export { decideDelivery, mergeRunToDevelop, landDelivery, ghOpenPr } from "./delivery/delivery.js";
 export type { DeliveryDecision, DeliveryInput, DeliveryRouting, MergeOptions, LandingOptions, LandingResult } from "./delivery/delivery.js";

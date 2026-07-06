@@ -42,14 +42,18 @@ export async function getBusinessIdFromHost(hostname: string): Promise<string> {
   // Remove port if present
   const host = hostname.split(":")[0];
 
-  // Direct domain match from DOMAIN_MAP env
-  if (domainMap[host]) {
+  const availableBusinesses = await getAvailableBusinessIds();
+  const isAvailable = (id: string | undefined | null): id is string =>
+    !!id && availableBusinesses.includes(id);
+
+  // Direct domain match from DOMAIN_MAP env (validate against DB — env may be stale)
+  if (isAvailable(domainMap[host])) {
     return domainMap[host];
   }
 
   // Try without www prefix
   const withoutWww = host.replace(/^www\./, "");
-  if (domainMap[withoutWww]) {
+  if (isAvailable(domainMap[withoutWww])) {
     return domainMap[withoutWww];
   }
 
@@ -58,8 +62,7 @@ export async function getBusinessIdFromHost(hostname: string): Promise<string> {
     const suffix = `.${baseDomain}`;
     if (host.endsWith(suffix)) {
       const subdomain = host.slice(0, -suffix.length);
-      const availableBusinesses = await getAvailableBusinessIds();
-      if (subdomain && availableBusinesses.includes(subdomain)) {
+      if (isAvailable(subdomain)) {
         return subdomain;
       }
     }
@@ -67,16 +70,19 @@ export async function getBusinessIdFromHost(hostname: string): Promise<string> {
 
   // Fallback: first subdomain part (e.g., barber.my-domain.com -> barber)
   const parts = host.split(".");
-  if (parts.length >= 2) {
-    const subdomain = parts[0];
-    const availableBusinesses = await getAvailableBusinessIds();
-
-    if (availableBusinesses.includes(subdomain)) {
-      return subdomain;
-    }
+  if (parts.length >= 2 && isAvailable(parts[0])) {
+    return parts[0];
   }
 
-  return defaultBusiness;
+  if (isAvailable(defaultBusiness)) {
+    return defaultBusiness;
+  }
+
+  // Env points to a business that no longer exists — pick any real one so the
+  // admin panel and API routes keep working. Prefer template-* businesses so
+  // dev sessions land on a stable demo.
+  const preferred = availableBusinesses.find((b) => b.startsWith("template-"));
+  return preferred ?? availableBusinesses[0] ?? defaultBusiness;
 }
 
 // Check if a business ID is valid
@@ -118,9 +124,20 @@ export async function getBusinessContext(request: Request, draftOverride?: Draft
     const draftLang = draftOverride.translations[currentLang] || {};
     translations = { ...draftPrimary, ...draftLang };
   } else {
-    const site = await getSiteBySubdomain(businessId);
+    let site = await getSiteBySubdomain(businessId);
     if (!site) {
-      throw new Error(`Business not found: ${businessId}`);
+      // Env points to a business that no longer exists in DB. Fall back to any
+      // available business so admin routes / APIs still respond instead of the
+      // whole middleware throwing a 500.
+      const available = await getAvailableBusinessIds();
+      const fallbackId =
+        available.find((b) => b.startsWith("template-")) ?? available[0];
+      if (fallbackId) {
+        site = await getSiteBySubdomain(fallbackId);
+      }
+      if (!site) {
+        throw new Error(`Business not found: ${businessId}`);
+      }
     }
     normalizedData = site.config as BusinessProfile;
     const allTranslations = (site.translations || {}) as Record<string, Record<string, any>>;

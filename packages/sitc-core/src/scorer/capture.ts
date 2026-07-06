@@ -6,7 +6,8 @@
  * full-page screenshot per breakpoint. Runs ONCE at run start; the loop never
  * re-fetches the URL.
  */
-import { chromium, type Page } from "playwright";
+import type { Page } from "playwright";
+import { withPage } from "../browser.js";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { Breakpoint } from "../types.js";
@@ -20,16 +21,64 @@ const ACCEPT_LABELS = [
   /akceptuj wszystkie/i, /akceptuj/i, /zgadzam/i, /zezwól/i, /rozumiem/i,
 ];
 
+/** Containers a consent/cookie button may legitimately live in (todo I35). */
+const BANNER_CONTAINERS =
+  '[role="dialog"], [role="alertdialog"], [aria-modal="true"], ' +
+  '[class*="cookie" i], [id*="cookie" i], [class*="consent" i], [id*="consent" i], ' +
+  '[class*="gdpr" i], [id*="gdpr" i], [class*="privacy" i], [id*="privacy" i]';
+
+/**
+ * todo I35 — the old version clicked the FIRST button anywhere matching
+ * /ok|accept|agree/i, so a page CTA like "OK, book now" could be clicked and a
+ * navigation would poison the one-shot capture the whole run converges toward.
+ * Now: (1) only buttons inside banner-ish containers (dialogs / cookie / consent
+ * / gdpr) or fixed-position overlays are candidates; (2) after every click the
+ * URL is asserted unchanged — a navigation is undone by going back to the
+ * capture URL.
+ */
 async function dismissBanners(page: Page): Promise<void> {
+  const captureUrl = page.url();
+  const recoverIfNavigated = async () => {
+    if (page.url() !== captureUrl) {
+      await page.goto(captureUrl, { waitUntil: "networkidle", timeout: 60000 }).catch(() => {});
+    }
+  };
+  // Pass 1 — named banner containers.
   for (const re of ACCEPT_LABELS) {
     try {
-      const btn = page.getByRole("button", { name: re }).first();
+      const btn = page.locator(BANNER_CONTAINERS).getByRole("button", { name: re }).first();
       if (await btn.isVisible({ timeout: 400 }).catch(() => false)) {
         await btn.click({ timeout: 800 }).catch(() => {});
+        await recoverIfNavigated();
       }
     } catch {
       /* ignore */
     }
+  }
+  // Pass 2 — unnamed overlays: a visible matching button whose ancestor is a
+  // fixed/sticky layer (cookie bars without cookie-ish class names).
+  try {
+    await page.evaluate((labels: string[]) => {
+      const res = labels.map((s) => new RegExp(s, "i"));
+      const isOverlayChild = (el: Element): boolean => {
+        for (let n: Element | null = el; n; n = n.parentElement) {
+          const pos = getComputedStyle(n).position;
+          if (pos === "fixed" || pos === "sticky") return true;
+        }
+        return false;
+      };
+      for (const btn of Array.from(document.querySelectorAll<HTMLElement>('button, [role="button"]'))) {
+        const label = (btn.textContent ?? "").trim();
+        if (!label || label.length > 40) continue;
+        if (!res.some((r) => r.test(label))) continue;
+        if (!isOverlayChild(btn)) continue;
+        btn.click();
+        return; // one click per pass — re-render settles before anything else
+      }
+    }, ACCEPT_LABELS.map((r) => r.source));
+    await recoverIfNavigated();
+  } catch {
+    /* ignore */
   }
 }
 
@@ -308,19 +357,13 @@ async function extractDomBands(
 export async function captureTarget(opts: CaptureTargetOptions): Promise<CaptureResult> {
   const bps = opts.breakpoints ?? [DESKTOP_SCORE, MOBILE_GUARD];
   await fs.mkdir(opts.outDir, { recursive: true });
-  const browser = await chromium.launch();
   const screenshots: Record<string, string> = {};
   let domBands: BandBase[] = [];
   let globalStyle: StyleProfile | null = null;
   let navbarBand: BandBase | null = null;
-  try {
-    for (const bp of bps) {
-      const ctx = await browser.newContext({
-        viewport: { width: bp.width, height: bp.height },
-        deviceScaleFactor: 1,
-        reducedMotion: "reduce",
-      });
-      const pg = await ctx.newPage();
+  // Shared browser, fresh context per breakpoint (I26).
+  for (const bp of bps) {
+    await withPage({ viewport: { width: bp.width, height: bp.height }, reducedMotion: "reduce" }, async (pg) => {
       await pg.goto(opts.url, { waitUntil: "networkidle", timeout: 60000 });
       await dismissBanners(pg);
       await pg.addStyleTag({ content: FREEZE_CSS });
@@ -338,10 +381,7 @@ export async function captureTarget(opts: CaptureTargetOptions): Promise<Capture
       const file = path.join(opts.outDir, `target-${bp.label}.png`);
       await pg.screenshot({ path: file, fullPage: true, animations: "disabled" });
       screenshots[bp.label] = file;
-      await ctx.close();
-    }
-  } finally {
-    await browser.close();
+    });
   }
   return { url: opts.url, screenshots, domBands, globalStyle, navbarBand };
 }

@@ -1,0 +1,568 @@
+{
+  "business": {
+    "id": "template-studio-001",
+    "name": "Hazelgrouse Studio",
+    "industry": "web-design",
+    "assets": {
+      "favicon": "/hazelgrouse_studio_logo_v2.png",
+      "icon": "/hazelgrouse_studio_logo_v2.png",
+      "logo": "/hazelgrouse_studio_logo_v2.png"
+    },
+    "contact": {
+      "address": "Kraków, Polska",
+      "phone": "+48 600 000 000",
+      "email": "kontakt@hazelgrouse.studio",
+      "hours": "pon–pt 9:00–17:00"
+    },
+    "socials": {
+      "facebook": "https://facebook.com/hazelgrouse",
+      "instagram": "https://instagram.com/hazelgrouse",
+      "linkedin": "https://linkedin.com/company/hazelgrouse"
+    }
+  },
+  "theme": {
+    "preset": "minimal",
+    "majorTheme": "template-studio",
+    "mode": "light",
+    "colors": {
+      "light": {
+        "primary": "#3d6fc4",
+        "primaryLight": "#e3edfa",
+        "surface": { "base": "#f5f8fc", "alt": "#e3edfa", "card": "#ffffff" },
+        "text": { "main": "#22344e", "muted": "#5a6c86", "onPrimary": "#ffffff" }
+      },
+      "dark": {
+        "primary": "#3d6fc4",
+        "primaryLight": "#2c56a0",
+        "surface": { "base": "#22344e", "alt": "#1b2a42", "card": "#2b3e5e" },
+        "text": { "main": "#ffffff", "muted": "#b9c6dc", "onPrimary": "#ffffff" }
+      }
+    },
+    "typography": {
+      "primary": "'Plus Jakarta Sans', system-ui, sans-serif",
+      "secondary": "'Plus Jakarta Sans', system-ui, sans-serif"
+    },
+    "ui": {
+      "radius": "20px",
+      "headingWeight": "800",
+      "spacing": {
+        "xs": "0.5rem",
+        "sm": "0.75rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "section-sm": "5rem",
+        "section": "5rem",
+        "container": "2.5rem"
+      }
+    }
+  },
+  "layout": {
+    "navbar": { "variant": "standard" },
+    "footer": {
+      "variant": "stacked",
+      "copyright": "© 2026 Hazelgrouse Studio. Wszelkie prawa zastrzeżone.",
+      "tagline": "Jednoosobowe studio stron internetowych. Najpierw widzisz gotową stronę — płacisz dopiero, gdy Ci się spodoba.",
+      "links": []
+    }
+  },
+  "navigation": {
+    "cta": { "label": "Zamów projekt", "target": { "type": "page", "value": "contact" } }
+  },
+  "data": {
+    "services": [
+      {
+        "id": "wizytowka",
+        "slug": "strona-wizytowka",
+        "title": "Strona wizytówka",
+        "description": "Jednostronicowa strona z tekstami dopasowanymi do branży, formularzem kontaktowym i mapą. Gotowa w 5 dni.",
+        "icon": "file-text",
+        "category": "www",
+        "available": true,
+        "price": 890,
+        "priceLabel": "890 zł"
+      },
+      {
+        "id": "firma",
+        "slug": "strona-firmowa",
+        "title": "Strona firmowa",
+        "description": "Do 6 podstron, galeria lub portfolio, mapa i wizytówka Google, dopracowana wersja mobilna. Gotowa w 10 dni.",
+        "icon": "briefcase",
+        "category": "www",
+        "available": true,
+        "price": 1590,
+        "priceLabel": "1590 zł"
+      },
+      {
+        "id": "premium",
+        "slug": "strona-premium",
+        "title": "Strona premium",
+        "description": "Strona szyta na miarę: rezerwacje, menu lub cennik online, dopracowane teksty i grafiki. Gotowa w 14 dni.",
+        "icon": "sparkles",
+        "category": "www",
+        "available": true,
+        "price": 2790,
+        "priceLabel": "2790 zł"
+      }
+    ]
+  },
+  "pages": {
+    "home": {
+      "title": "Hazelgrouse Studio — najpierw widzisz, potem płacisz",
+      "hideFromNav": true,
+      "sections": [
+        {
+          "type": "hero",
+          "header": {
+            "badge": "✓ 0 zł z góry — najpierw zobaczysz efekt",
+            "title": "Najpierw pokazuję Ci gotową stronę. | Płacisz, gdy Ci się spodoba.",
+            "subtitle": "Opowiadasz mi o swoim biznesie, a ja przygotowuję kompletny, dopracowany projekt Twojej strony — bez zaliczek i bez ryzyka. Decyzję podejmujesz, patrząc na skończony efekt."
+          },
+          "cta": { "label": "Zamów darmowy projekt", "target": { "type": "page", "value": "contact" } },
+          "secondaryCta": { "label": "Zobacz przykłady", "target": { "type": "section", "value": "templateShowcase-3" } },
+          "items": [
+            {
+              "title": "Kancelaria",
+              "image": "/template-previews/law.png",
+              "meta": "kancelaria-nowak.pl — projekt gotowy do obejrzenia"
+            },
+            {
+              "title": "Elektryk",
+              "image": "/template-previews/specialist.png",
+              "meta": "elektromax.pl — projekt gotowy do obejrzenia"
+            },
+            {
+              "title": "Restauracja",
+              "image": "/template-previews/restaurant.png",
+              "meta": "trattoria-rosa.pl — projekt gotowy do obejrzenia"
+            }
+          ],
+          "footnote": "↑ przykładowy projekt — kliknij branżę, żeby zobaczyć inny styl"
+        },
+        {
+          "type": "process",
+          "header": {
+            "badge": "Proces",
+            "title": "Jak to działa?",
+            "subtitle": "Cały proces jest prosty i bezpieczny — Ty nic nie ryzykujesz, całą pracę na start biorę na siebie.",
+            "align": "left"
+          },
+          "steps": [
+            {
+              "number": 1,
+              "title": "Opowiadasz o firmie",
+              "description": "Wypełniasz krótki formularz: czym się zajmujesz, co lubisz, czego potrzebujesz.",
+              "badges": ["Krok 01"]
+            },
+            {
+              "number": 2,
+              "title": "Ja projektuję",
+              "description": "Przygotowuję kompletną stronę — z tekstami, kolorami i układem dopasowanym do Twojej branży.",
+              "badges": ["Krok 02"]
+            },
+            {
+              "number": 3,
+              "title": "Oglądasz gotowy efekt",
+              "description": "Dostajesz link do skończonej strony. Zgłaszasz uwagi, a ja nanoszę poprawki.",
+              "badges": ["Krok 03"]
+            },
+            {
+              "number": 4,
+              "title": "Płacisz i startujemy",
+              "description": "Dopiero gdy strona Ci się podoba, płacisz — i publikujemy ją pod Twoją domeną.",
+              "badges": ["Krok 04"]
+            }
+          ]
+        },
+        {
+          "type": "about",
+          "background": "dark",
+          "imagePosition": "left",
+          "header": {
+            "badge": "O mnie",
+            "title": "Jedna osoba. Od pomysłu po publikację."
+          },
+          "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=900&q=80",
+          "story": {
+            "content": "Cześć, jestem Kuba — projektuję i koduję strony dla małych firm oraz jednoosobowych biznesów. Wszystko robię sam: od pierwszego szkicu, przez teksty, po publikację. Masz jeden kontakt i jedną osobę odpowiedzialną za całość.\n\nModel „najpierw efekt, potem płatność\" wymyśliłem, bo sam nie lubię kupować w ciemno. Wolę pokazać gotową stronę i pozwolić jej mówić za siebie."
+          },
+          "stats": [
+            { "value": "60+", "label": "zrealizowanych stron" },
+            { "value": "5–14 dni", "label": "od zgłoszenia do publikacji" },
+            { "value": "100%", "label": "płatność po akceptacji" }
+          ]
+        },
+        {
+          "type": "templateShowcase",
+          "header": {
+            "badge": "Portfolio",
+            "title": "Strony, które robię",
+            "subtitle": "Dla każdej branży mam dopracowany punkt wyjścia, który krawiecko dopasowuję do Twojej firmy."
+          },
+          "templateItems": [
+            {
+              "name": "Kancelaria Nowak",
+              "description": "Pewne wsparcie prawne dla Ciebie i Twojej firmy — spokojna, ekspercka strona dla kancelarii prawnej.",
+              "screenshot": "/template-previews/law.png",
+              "demoUrl": "https://template-law.hazelgrouse.pl/",
+              "tags": ["Kancelaria prawna"]
+            },
+            {
+              "name": "ElektroMax",
+              "description": "Instalacje elektryczne bez niespodzianek — konkretna strona usługowa z wyceną w 24 h.",
+              "screenshot": "/template-previews/specialist.png",
+              "demoUrl": "https://template-specialist.hazelgrouse.pl/",
+              "tags": ["Usługi elektryczne"]
+            },
+            {
+              "name": "Trattoria Rosa",
+              "description": "Włoska kuchnia w sercu miasta — klimatyczna strona z menu i rezerwacją stolika.",
+              "screenshot": "/template-previews/restaurant.png",
+              "demoUrl": "https://template-restaurant.hazelgrouse.pl/",
+              "tags": ["Restauracja"]
+            }
+          ],
+          "footnote": "…i każda inna branża — zapytaj o swoją"
+        },
+        {
+          "type": "project",
+          "background": "dark",
+          "header": {
+            "badge": "Case study",
+            "title": "Od trzech zdań do gotowej strony",
+            "subtitle": "Paweł napisał do mnie trzy zdania o swojej firmie. Cztery dni później miał stronę, która zaczęła dzwonić."
+          },
+          "quote": {
+            "note": "Zgłoszenie od klienta",
+            "text": "Prowadzę firmę elektryczną ElektroMax pod Wrocławiem. Robię głównie instalacje w domach i pomiary elektryczne. Chciałbym prostą stronę, żeby klienci mogli szybko zadzwonić i zobaczyć, co robię. Kolory? Może coś energetycznego.",
+            "author": "→ to całe zgłoszenie. Resztę zrobiłem ja."
+          },
+          "image": "/template-previews/specialist.png",
+          "imageDescription": {
+            "name": "elektromax.pl — projekt po 4 dniach",
+            "description": "gotowy projekt — zaakceptowany bez poprawek"
+          },
+          "items": [
+            {
+              "meta": "Przed",
+              "title": "Brak strony",
+              "description": "Tylko wizytówka Google i numer telefonu na oklejonym busie."
+            },
+            {
+              "meta": "Po 4 dniach",
+              "title": "Strona, która pracuje",
+              "description": "Formularz i telefon prosto ze strony — pierwsze zapytania jeszcze w tym samym tygodniu."
+            }
+          ]
+        },
+        {
+          "type": "testimonials",
+          "header": {
+            "badge": "Opinie",
+            "title": "Co mówią klienci",
+            "subtitle": "Każda z tych osób najpierw zobaczyła gotową stronę — a potem zdecydowała się zapłacić."
+          },
+          "items": [
+            {
+              "title": "Marta W.",
+              "role": "Kancelaria adwokacka",
+              "description": "Nie wierzyłam, że zobaczę stronę przed zapłatą. Zobaczyłam — i od razu wiedziałam, że chcę."
+            },
+            {
+              "title": "Paweł K.",
+              "role": "Usługi elektryczne",
+              "description": "Wysłałem parę zdań o firmie, tydzień później miałem stronę lepszą niż konkurencja."
+            },
+            {
+              "title": "Ania i Tomek",
+              "role": "Restauracja",
+              "description": "Menu, rezerwacje, zdjęcia — wszystko dograne. Goście chwalą stronę częściej niż deser."
+            }
+          ]
+        },
+        {
+          "type": "comparison",
+          "background": "dark",
+          "header": {
+            "badge": "Porównanie",
+            "title": "Hazelgrouse vs alternatywy",
+            "subtitle": "Trzy drogi do własnej strony — i tylko jedna, w której nie płacisz w ciemno."
+          },
+          "criteria": [
+            "Koszt na start",
+            "Gotowa strona przed decyzją",
+            "Czas realizacji",
+            "Design pod Twoją branżę",
+            "Twoje zaangażowanie",
+            "Opieka po starcie"
+          ],
+          "comparisonColumns": [
+            {
+              "title": "Agencja",
+              "values": ["Zaliczka 30–50%", "Rzadko", "4–12 tygodni", "Tak", "Spotkania i maile", "Płatna osobno"]
+            },
+            {
+              "title": "Hazelgrouse Studio",
+              "highlighted": true,
+              "badge": "Polecane",
+              "values": ["0 zł — po akceptacji", "Zawsze, w 100%", "5–14 dni", "Indywidualny", "Jeden formularz", "1. miesiąc w cenie"]
+            },
+            {
+              "title": "Kreator DIY",
+              "values": ["Abonament od 1. dnia", "Budujesz sam", "Zależy od Ciebie", "Gotowy szablon", "Wiele godzin", "Wszystko sam"]
+            }
+          ]
+        },
+        {
+          "type": "pricing",
+          "header": {
+            "badge": "Oferta",
+            "title": "Cennik",
+            "subtitle": "Bez ukrytych kosztów. I pamiętaj — płacisz dopiero po akceptacji gotowego projektu."
+          },
+          "pricingTiers": [
+            {
+              "name": "Wizytówka",
+              "price": "890 zł",
+              "features": [
+                "Strona jednostronicowa",
+                "Teksty dopasowane do branży",
+                "Formularz kontaktowy",
+                "Gotowa w 5 dni"
+              ]
+            },
+            {
+              "name": "Firma",
+              "price": "1590 zł",
+              "highlighted": true,
+              "badge": "Najczęściej wybierany",
+              "features": [
+                "Do 6 podstron",
+                "Galeria / portfolio",
+                "Mapa i wizytówka Google",
+                "Wersja mobilna dopracowana",
+                "Gotowa w 10 dni"
+              ]
+            },
+            {
+              "name": "Premium",
+              "price": "2790 zł",
+              "features": [
+                "Strona szyta na miarę",
+                "Rezerwacje, menu lub cennik online",
+                "Dopracowane teksty i grafiki",
+                "Gotowa w 14 dni"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "features",
+          "variant": "icon-tiles",
+          "header": {
+            "title": "W każdym pakiecie w standardzie",
+            "subtitle": "Niezależnie od pakietu dostajesz solidne fundamenty — a po publikacji nie zostajesz sam."
+          },
+          "items": [
+            { "icon": "shield-check", "title": "Certyfikat SSL", "description": "Bezpieczne połączenie i kłódka w przeglądarce od pierwszego dnia." },
+            { "icon": "file-text", "title": "Zgodność z RODO", "description": "Polityka prywatności i zgody dopięte na ostatni guzik." },
+            { "icon": "zap", "title": "Szybkie ładowanie", "description": "Strona otwiera się błyskawicznie — także na słabym łączu." },
+            { "icon": "phone", "title": "Pełna wersja mobilna", "description": "Dopracowany wygląd na każdym telefonie i tablecie." },
+            { "icon": "search", "title": "Mapa Google", "description": "Klienci od razu widzą, gdzie Cię znaleźć." },
+            { "icon": "clock", "title": "Kopia zapasowa", "description": "Regularny backup — Twoja strona jest bezpieczna." },
+            { "icon": "globe", "title": "Hosting i domena", "description": "Pomagam ogarnąć wszystko od A do Z po publikacji." },
+            { "icon": "wrench", "title": "Opieka techniczna", "description": "Drobne poprawki w pierwszym miesiącu w cenie, aktualizacje i kopie zapasowe." }
+          ]
+        },
+        {
+          "type": "features",
+          "variant": "numbered-split",
+          "header": {
+            "badge": "Dostępny w każdym pakiecie",
+            "title": "Opcjonalny panel administratora"
+          },
+          "items": [
+            { "title": "Treści i wygląd", "description": "Teksty, zdjęcia, kolory i czcionki zmieniasz z podglądem na żywo." },
+            { "title": "Rezerwacje i zamówienia", "description": "Klienci rezerwują i zamawiają wprost ze strony, Ty wszystko widzisz w jednym miejscu." },
+            { "title": "Zapytania od klientów", "description": "Żaden lead nie ginie, każdy ma swój status." },
+            { "title": "Blog i analityka", "description": "Publikujesz wpisy i widzisz, kto odwiedza stronę." },
+            { "title": "Wersje językowe", "description": "Treści w kilku językach, bez kopiowania strony." }
+          ],
+          "image": "/template-previews/admin-panel.png",
+          "imageDescription": {
+            "name": "panel.twoja-firma.pl",
+            "description": "podgląd panelu administratora — edycja z widokiem na żywo"
+          }
+        },
+        {
+          "type": "blog",
+          "header": {
+            "badge": "Blog",
+            "title": "Zanim zdecydujesz — poczytaj",
+            "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
+          }
+        },
+        {
+          "type": "faq",
+          "background": "dark",
+          "header": {
+            "badge": "FAQ",
+            "title": "Częste pytania",
+            "subtitle": "A jeśli nie znajdziesz odpowiedzi — po prostu napisz."
+          },
+          "faqItems": [
+            {
+              "question": "Czy naprawdę nic nie płacę z góry?",
+              "answer": "Tak. Projekt strony przygotowuję na własne ryzyko. Płacisz dopiero wtedy, gdy zobaczysz gotową stronę i zdecydujesz, że jej chcesz."
+            },
+            {
+              "question": "Ile trwa przygotowanie projektu?",
+              "answer": "Zwykle 3–5 dni roboczych od otrzymania informacji o Twojej firmie."
+            },
+            {
+              "question": "Co jeśli projekt mi się nie spodoba?",
+              "answer": "Nanoszę poprawki według Twoich uwag. A jeśli mimo to nie będzie „to\" — rozstajemy się bez żadnych kosztów."
+            },
+            {
+              "question": "Czy strona będzie w pełni moja?",
+              "answer": "Tak — po opłaceniu dostajesz pełne prawa. Pomagam też z domeną i hostingiem."
+            }
+          ]
+        },
+        {
+          "type": "ctaBanner",
+          "header": {
+            "title": "Twoja strona jest bliżej, niż myślisz.",
+            "subtitle": "Zobacz swoją gotową stronę za darmo — a zapłać tylko wtedy, gdy powiesz „biorę\"."
+          },
+          "ctaLabel": "Zamów darmowy projekt",
+          "cta": { "label": "Zamów darmowy projekt", "target": { "type": "page", "value": "contact" } }
+        },
+        {
+          "type": "contact",
+          "background": "dark",
+          "header": {
+            "badge": "Kontakt",
+            "title": "Zobacz swoją stronę — za darmo",
+            "subtitle": "Napisz kilka zdań o swojej firmie. W ciągu kilku dni odezwę się z linkiem do gotowego projektu Twojej strony. Bez zobowiązań."
+          },
+          "form": {
+            "nameLabel": "Imię",
+            "namePlaceholder": "np. Anna",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "anna@firma.pl",
+            "selectFields": [
+              {
+                "name": "industry",
+                "label": "Branża",
+                "placeholder": "np. salon fryzjerski",
+                "options": [
+                  "Kancelaria prawna",
+                  "Usługi elektryczne",
+                  "Restauracja",
+                  "Fryzjer i barber",
+                  "Mechanik",
+                  "Gabinet kosmetyczny",
+                  "Trener personalny",
+                  "Księgowość",
+                  "Fizjoterapia",
+                  "Fotograf",
+                  "Stolarz",
+                  "Firma sprzątająca",
+                  "Szkoła językowa",
+                  "Inna branża"
+                ]
+              }
+            ],
+            "messageLabel": "Opowiedz o swoim biznesie",
+            "messagePlaceholder": "Czym się zajmujesz? Co Cię wyróżnia?",
+            "submitButton": "Wyślij — zobacz swoją stronę"
+          }
+        }
+      ]
+    },
+    "blog": {
+      "title": "Blog",
+      "sections": [
+        {
+          "type": "blog",
+          "header": {
+            "badge": "Blog",
+            "title": "Zanim zdecydujesz — poczytaj",
+            "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
+          }
+        }
+      ]
+    },
+    "contact": {
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "contact",
+          "background": "dark",
+          "header": {
+            "badge": "Kontakt",
+            "title": "Zobacz swoją stronę — za darmo",
+            "subtitle": "Napisz kilka zdań o swojej firmie. W ciągu kilku dni odezwę się z linkiem do gotowego projektu Twojej strony. Bez zobowiązań."
+          },
+          "form": {
+            "nameLabel": "Imię",
+            "namePlaceholder": "np. Anna",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "anna@firma.pl",
+            "selectFields": [
+              {
+                "name": "industry",
+                "label": "Branża",
+                "placeholder": "np. salon fryzjerski",
+                "options": [
+                  "Kancelaria prawna",
+                  "Usługi elektryczne",
+                  "Restauracja",
+                  "Fryzjer i barber",
+                  "Mechanik",
+                  "Gabinet kosmetyczny",
+                  "Trener personalny",
+                  "Księgowość",
+                  "Fizjoterapia",
+                  "Fotograf",
+                  "Stolarz",
+                  "Firma sprzątająca",
+                  "Szkoła językowa",
+                  "Inna branża"
+                ]
+              }
+            ],
+            "messageLabel": "Opowiedz o swoim biznesie",
+            "messagePlaceholder": "Czym się zajmujesz? Co Cię wyróżnia?",
+            "submitButton": "Wyślij — zobacz swoją stronę"
+          }
+        },
+        {
+          "type": "faq",
+          "faqItems": [
+            {
+              "question": "Czy naprawdę nic nie płacę z góry?",
+              "answer": "Tak. Projekt strony przygotowuję na własne ryzyko. Płacisz dopiero wtedy, gdy zobaczysz gotową stronę i zdecydujesz, że jej chcesz."
+            },
+            {
+              "question": "Ile trwa przygotowanie projektu?",
+              "answer": "Zwykle 3–5 dni roboczych od otrzymania informacji o Twojej firmie."
+            },
+            {
+              "question": "Co jeśli projekt mi się nie spodoba?",
+              "answer": "Nanoszę poprawki według Twoich uwag. A jeśli mimo to nie będzie „to\" — rozstajemy się bez żadnych kosztów."
+            },
+            {
+              "question": "Czy strona będzie w pełni moja?",
+              "answer": "Tak — po opłaceniu dostajesz pełne prawa. Pomagam też z domeną i hostingiem."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "sharedSections": {}
+}

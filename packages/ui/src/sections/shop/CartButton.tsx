@@ -1,26 +1,34 @@
 import { ShoppingCart } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../atoms/Button";
-import { useCart } from "../../store/useCart";
+import { useCart, useCartHydrated } from "../../store/useCart";
 import type { CartButtonProps } from "./types";
 
 export function CartButton({ cartHref = "/cart", label, className }: CartButtonProps) {
-  const totalItems = useCart((state) => state.getTotalItems());
+  // Badge only after hydration — the persisted cart differs from the SSR-rendered
+  // empty cart and would otherwise trigger a React hydration mismatch.
+  const hydrated = useCartHydrated();
+  const count = useCart((state) => state.getTotalItems());
+  const totalItems = hydrated ? count : 0;
 
   return (
     <Button
       asChild
-      variant="outline"
+      variant="ghost"
       size={label ? "default" : "icon"}
       className={cn(
-        "relative border border-border hover:border-primary hover:bg-primary/5 transition-colors",
+        "group relative hover:bg-transparent",
         label ? "px-spacing-md gap-spacing-xs" : "h-10 w-10",
         className
       )}
     >
       <a href={cartHref} aria-label={`Cart with ${totalItems} items`}>
-        <ShoppingCart className="h-5 w-5 text-foreground" />
-        {label && <span className="font-medium text-foreground">{label}</span>}
+        <ShoppingCart className="h-5 w-5 text-foreground transition-colors group-hover:text-primary" />
+        {label && (
+          <span className="font-medium text-foreground transition-colors group-hover:text-primary">
+            {label}
+          </span>
+        )}
         {totalItems > 0 && (
           <span className={cn(
             "flex items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-on-primary",

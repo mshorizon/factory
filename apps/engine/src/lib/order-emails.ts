@@ -2,8 +2,25 @@ import { Resend } from "resend";
 import type { Order, OrderItem } from "@mshorizon/db";
 import logger from "./logger";
 
+const FROM = "noreply@contact.hazelgrouse.pl";
+
 function formatPrice(cents: number, currency = "PLN"): string {
   return `${(cents / 100).toFixed(2)} ${currency === "PLN" ? "zł" : currency}`;
+}
+
+function fulfillmentLabel(order: Order): string {
+  switch (order.fulfillmentType) {
+    case "delivery": return "Dostawa";
+    case "pickup": return "Odbiór osobisty";
+    case "dine_in": return `W lokalu (stolik ${order.tableNumber ?? "—"})`;
+    default: return "—";
+  }
+}
+
+function formatDateTime(d: Date | string | null): string {
+  if (!d) return "";
+  const date = typeof d === "string" ? new Date(d) : d;
+  return date.toLocaleString("pl-PL", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
 }
 
 function buildItemsTable(items: OrderItem[], currency: string): string {
@@ -124,7 +141,7 @@ export async function sendOrderNotificationEmail(
 
   try {
     await resend.emails.send({
-      from: "noreply@contact.hazelgrouse.pl",
+      from: FROM,
       to: recipientEmail,
       replyTo: order.customerEmail,
       subject: `Nowe zamówienie ${order.orderNumber} — ${formatPrice(order.total, order.currency)}`,
@@ -133,5 +150,196 @@ export async function sendOrderNotificationEmail(
     logger.info({ orderNumber: order.orderNumber, to: recipientEmail }, "Order notification email sent");
   } catch (error) {
     logger.error({ err: error, orderNumber: order.orderNumber }, "Failed to send order notification email");
+  }
+}
+
+// ==================== Restaurant flow emails ====================
+
+export async function sendOrderReceivedEmail(
+  order: Order,
+  businessConfig: any,
+  resendApiKey: string,
+  statusUrl: string,
+) {
+  if (!resendApiKey) return;
+  const resend = new Resend(resendApiKey);
+  const businessName = businessConfig?.business?.name || "Restauracja";
+  const html = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+      <h2>Otrzymaliśmy Twoje zamówienie — ${order.orderNumber}</h2>
+      <p>Cześć ${order.customerFirstName},</p>
+      <p>Dziękujemy za zamówienie w <strong>${businessName}</strong>. Restauracja właśnie sprawdza dostępność.</p>
+      <p><strong>Sposób realizacji:</strong> ${fulfillmentLabel(order)}</p>
+      <p>${
+        order.paymentMethod === "online"
+          ? "Po akceptacji otrzymasz e-mail z linkiem do płatności."
+          : "Po akceptacji restauracja od razu zacznie przygotowywać zamówienie — zapłacisz przy odbiorze."
+      }</p>
+      <p style="margin-top:24px">
+        <a href="${statusUrl}" style="background:#333;color:#fff;padding:10px 20px;text-decoration:none;border-radius:6px">
+          Sprawdź status zamówienia
+        </a>
+      </p>
+    </div>
+  `;
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to: order.customerEmail,
+      subject: `Zamówienie ${order.orderNumber} — otrzymane`,
+      html,
+    });
+  } catch (err) {
+    logger.error({ err, orderNumber: order.orderNumber }, "Failed to send order-received email");
+  }
+}
+
+export async function sendOrderAcceptedEmail(
+  order: Order,
+  items: OrderItem[],
+  businessConfig: any,
+  resendApiKey: string,
+  paymentUrl: string | null,
+  statusUrl: string,
+) {
+  if (!resendApiKey) return;
+  const resend = new Resend(resendApiKey);
+  const businessName = businessConfig?.business?.name || "Restauracja";
+  const isOnline = order.paymentMethod === "online" && !!paymentUrl;
+  const paymentBlock = isOnline
+    ? `
+      <p><strong>${businessName}</strong> przyjął(a) Twoje zamówienie. Aby przejść do przygotowania, opłać je poniżej.</p>
+      <p style="margin:24px 0">
+        <a href="${paymentUrl}" style="background:#0a7c3a;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold">
+          Zapłać teraz — ${formatPrice(order.total, order.currency)}
+        </a>
+      </p>`
+    : `
+      <p><strong>${businessName}</strong> przyjął(a) Twoje zamówienie i zaraz zacznie je przygotowywać.</p>
+      <p><strong>Płatność:</strong> ${
+        order.paymentMethod === "card_on_site" ? "kartą przy odbiorze" : "gotówką przy odbiorze"
+      } — ${formatPrice(order.total, order.currency)}</p>`;
+  const html = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+      <h2>Zamówienie zaakceptowane — ${order.orderNumber}</h2>
+      <p>Cześć ${order.customerFirstName},</p>
+      ${paymentBlock}
+      <h3>Podsumowanie</h3>
+      ${buildItemsTable(items, order.currency)}
+      <p><strong>Sposób realizacji:</strong> ${fulfillmentLabel(order)}</p>
+      <p style="margin-top:24px">
+        <a href="${statusUrl}">Sprawdź status zamówienia</a>
+      </p>
+    </div>
+  `;
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to: order.customerEmail,
+      subject: isOnline
+        ? `Zamówienie ${order.orderNumber} zaakceptowane — link do płatności`
+        : `Zamówienie ${order.orderNumber} zaakceptowane`,
+      html,
+    });
+  } catch (err) {
+    logger.error({ err, orderNumber: order.orderNumber }, "Failed to send order-accepted email");
+  }
+}
+
+export async function sendOrderRejectedEmail(
+  order: Order,
+  businessConfig: any,
+  resendApiKey: string,
+  reason?: string,
+) {
+  if (!resendApiKey) return;
+  const resend = new Resend(resendApiKey);
+  const businessName = businessConfig?.business?.name || "Restauracja";
+  const html = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+      <h2>Zamówienie ${order.orderNumber} — nie mogliśmy przyjąć</h2>
+      <p>Cześć ${order.customerFirstName},</p>
+      <p><strong>${businessName}</strong> nie może zrealizować Twojego zamówienia.</p>
+      ${reason ? `<p><strong>Powód:</strong> ${reason}</p>` : ""}
+      <p>Płatność nie została pobrana. Zapraszamy ponownie.</p>
+    </div>
+  `;
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to: order.customerEmail,
+      subject: `Zamówienie ${order.orderNumber} — odrzucone`,
+      html,
+    });
+  } catch (err) {
+    logger.error({ err, orderNumber: order.orderNumber }, "Failed to send order-rejected email");
+  }
+}
+
+export async function sendOrderETAEmail(
+  order: Order,
+  businessConfig: any,
+  resendApiKey: string,
+  statusUrl: string,
+) {
+  if (!resendApiKey || !order.estimatedReadyAt) return;
+  const resend = new Resend(resendApiKey);
+  const businessName = businessConfig?.business?.name || "Restauracja";
+  const eta = formatDateTime(order.estimatedReadyAt);
+  const html = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+      <h2>Zamówienie ${order.orderNumber} — w przygotowaniu</h2>
+      <p>Cześć ${order.customerFirstName},</p>
+      <p>Otrzymaliśmy płatność. Zamówienie jest właśnie przygotowywane w <strong>${businessName}</strong>.</p>
+      <p style="font-size:20px"><strong>Szacowany czas gotowości: ${eta}</strong></p>
+      <p><strong>Sposób realizacji:</strong> ${fulfillmentLabel(order)}</p>
+      <p style="margin-top:24px">
+        <a href="${statusUrl}">Sprawdź status zamówienia</a>
+      </p>
+    </div>
+  `;
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to: order.customerEmail,
+      subject: `Zamówienie ${order.orderNumber} — gotowe za ${eta}`,
+      html,
+    });
+  } catch (err) {
+    logger.error({ err, orderNumber: order.orderNumber }, "Failed to send order-ETA email");
+  }
+}
+
+export async function sendOrderReadyEmail(
+  order: Order,
+  businessConfig: any,
+  resendApiKey: string,
+) {
+  if (!resendApiKey) return;
+  const resend = new Resend(resendApiKey);
+  const businessName = businessConfig?.business?.name || "Restauracja";
+  const readyMsg =
+    order.fulfillmentType === "delivery"
+      ? "Zamówienie wyruszyło w drogę — kurier będzie u Ciebie wkrótce."
+      : order.fulfillmentType === "pickup"
+      ? "Zamówienie jest gotowe do odbioru."
+      : "Zamówienie właśnie trafia na Twój stolik.";
+  const html = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+      <h2>Zamówienie ${order.orderNumber} — gotowe!</h2>
+      <p>Cześć ${order.customerFirstName},</p>
+      <p>${readyMsg}</p>
+      <p>Dziękujemy — <strong>${businessName}</strong></p>
+    </div>
+  `;
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to: order.customerEmail,
+      subject: `Zamówienie ${order.orderNumber} — gotowe!`,
+      html,
+    });
+  } catch (err) {
+    logger.error({ err, orderNumber: order.orderNumber }, "Failed to send order-ready email");
   }
 }

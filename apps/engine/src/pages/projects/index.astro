@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import { getLayoutConfig, getNavLinks } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 import { deepTranslate, t } from "../../lib/i18n";
+import { siteHasCart } from "../../lib/cart-detection";
 import { deepResolveImages } from "../../lib/images";
 import { getProjectsBySiteId } from "@mshorizon/db";
 import { ProjectGrid, SectionHeader } from "@mshorizon/ui";
@@ -94,9 +95,7 @@ const footerColumns = [
 ];
 
 // Check if business has any shop sections (to show cart button)
-const hasShopSection = Object.values(business.pages).some((p: any) =>
-  p.sections?.some((s: any) => s.type === "shop")
-);
+const hasShopSection = siteHasCart(business);
 
 // Extract phone for sticky mobile CTA
 const businessPhone = business.business.contact?.phone;

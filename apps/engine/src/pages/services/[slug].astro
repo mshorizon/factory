@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import { getLayoutConfig, getNavLinks } from "../../lib/pages";
 import { resolveTarget } from "../../lib/target";
 import { deepTranslate, t } from "../../lib/i18n";
+import { siteHasCart } from "../../lib/cart-detection";
 import { deepResolveImages } from "../../lib/images";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import BlogStandaloneSection from "../../components/sections/BlogStandaloneSection.astro";
@@ -132,9 +133,7 @@ const footerColumns = layout.footer.columns?.map((col: any) => ({
 })) || [];
 
 // Check if business has any shop sections (to show cart button)
-const hasShopSection = Object.values(business.pages).some((p: any) =>
-  p.sections?.some((s: any) => s.type === "shop")
-);
+const hasShopSection = siteHasCart(business);
 
 // Convert socials Record<string, string> to SocialLink[] for footer
 const socialLinks = business.business.socials
