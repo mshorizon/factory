@@ -32,36 +32,15 @@ const OSM_PRESETS: Record<string, { key: string; value: string }> = {
   veterinary: { key: "amenity", value: "veterinary" },
 };
 
-// Major Polish cities: bbox [south, west, north, east]
-const CITY_BBOX: Record<string, [number, number, number, number]> = {
-  "Kraków": [49.97, 19.79, 50.13, 20.12],
-  "Warszawa": [52.10, 20.85, 52.37, 21.17],
-  "Wrocław": [51.05, 16.87, 51.18, 17.13],
-  "Poznań": [52.33, 16.82, 52.47, 17.02],
-  "Gdańsk": [54.30, 18.52, 54.42, 18.73],
-  "Łódź": [51.68, 19.37, 51.83, 19.57],
-  "Katowice": [50.22, 18.92, 50.30, 19.07],
-  "Lublin": [51.19, 22.47, 51.30, 22.62],
-  "Szczecin": [53.38, 14.48, 53.47, 14.62],
-  "Bydgoszcz": [53.08, 17.93, 53.17, 18.13],
-};
+// Bounding box covering the whole of Poland: [south, west, north, east].
+const POLAND_BBOX: [number, number, number, number] = [49.0, 14.07, 54.9, 24.15];
 
 function buildBboxQuery(tagKey: string, tagValue: string, bbox: [number, number, number, number], limit: number): string {
   const [s, w, n, e] = bbox;
-  return `[out:json][timeout:60];
+  return `[out:json][timeout:180];
 (
   node["${tagKey}"="${tagValue}"](${s},${w},${n},${e});
   way["${tagKey}"="${tagValue}"](${s},${w},${n},${e});
-);
-out center tags ${limit};`;
-}
-
-function buildAreaQuery(tagKey: string, tagValue: string, cityName: string, limit: number): string {
-  return `[out:json][timeout:60];
-area["name"="${cityName}"]["boundary"="administrative"];
-(
-  node["${tagKey}"="${tagValue}"](area);
-  way["${tagKey}"="${tagValue}"](area);
 );
 out center tags ${limit};`;
 }
@@ -88,24 +67,7 @@ function buildGenericBboxQuery(term: string, bbox: [number, number, number, numb
   ]);
   clauses.push(`  node["name"~"${nameRe}",i]${bb};`);
   clauses.push(`  way["name"~"${nameRe}",i]${bb};`);
-  return `[out:json][timeout:60];
-(
-${clauses.join("\n")}
-);
-out center tags ${limit};`;
-}
-
-function buildGenericAreaQuery(term: string, cityName: string, limit: number): string {
-  const value = osmEscape(term.toLowerCase().replace(/\s+/g, "_"));
-  const nameRe = osmEscape(term);
-  const clauses = GENERIC_KEYS.flatMap((k) => [
-    `  node["${k}"="${value}"](area);`,
-    `  way["${k}"="${value}"](area);`,
-  ]);
-  clauses.push(`  node["name"~"${nameRe}",i](area);`);
-  clauses.push(`  way["name"~"${nameRe}",i](area);`);
-  return `[out:json][timeout:60];
-area["name"="${osmEscape(cityName)}"]["boundary"="administrative"];
+  return `[out:json][timeout:180];
 (
 ${clauses.join("\n")}
 );
@@ -119,7 +81,7 @@ interface OsmElement {
   center?: { lat: number; lon: number };
 }
 
-function parseElement(el: OsmElement, businessType: string, city: string): Omit<NewSite, "config" | "translations"> | null {
+function parseElement(el: OsmElement, businessType: string): Omit<NewSite, "config" | "translations"> | null {
   const tags = el.tags ?? {};
   const name = tags["name"];
   if (!name) return null;
@@ -127,7 +89,8 @@ function parseElement(el: OsmElement, businessType: string, city: string): Omit<
   const street = tags["addr:street"] ?? "";
   const housenumber = tags["addr:housenumber"] ?? "";
   const postcode = tags["addr:postcode"] ?? "";
-  const addrCity = tags["addr:city"] ?? city;
+  // Whole-Poland scrape: derive the city from the element's own address tags.
+  const addrCity = tags["addr:city"] ?? "";
   const parts: string[] = [];
   if (street) parts.push(housenumber ? `${street} ${housenumber}` : street);
   if (postcode) parts.push(postcode);
@@ -136,7 +99,7 @@ function parseElement(el: OsmElement, businessType: string, city: string): Omit<
   return {
     businessName: name,
     industry: businessType,
-    city,
+    city: addrCity,
     address: parts.join(", "),
     phone: tags["phone"] ?? tags["contact:phone"] ?? "",
     email: tags["email"] ?? tags["contact:email"] ?? "",
@@ -164,30 +127,23 @@ const json = (data: unknown, status = 200) => new Response(JSON.stringify(data),
 export const POST: APIRoute = async ({ request, locals }) => {
   if (!locals.auth || locals.auth.role !== "super-admin") return forbidden();
 
-  let body: { count?: number; businessType?: string; city?: string };
+  let body: { count?: number; businessType?: string };
   try {
     body = await request.json();
   } catch {
     return json({ error: "Invalid JSON" }, 400);
   }
 
-  const { count = 10, businessType, city = "Kraków" } = body;
+  const { count = 10, businessType } = body;
   if (!businessType) return json({ error: "businessType required" }, 400);
 
   const preset = OSM_PRESETS[businessType.toLowerCase()];
-  const bbox = CITY_BBOX[city];
-  let query: string;
-  if (preset) {
-    query = bbox
-      ? buildBboxQuery(preset.key, preset.value, bbox, count * 3)
-      : buildAreaQuery(preset.key, preset.value, city, count * 3);
-  } else {
+  // Whole-Poland scrape — always query the full country bounding box.
+  const query = preset
+    ? buildBboxQuery(preset.key, preset.value, POLAND_BBOX, count * 3)
     // No known preset — fall back to a generic multi-key + name search
     // so arbitrary/custom business types still return results.
-    query = bbox
-      ? buildGenericBboxQuery(businessType, bbox, count * 3)
-      : buildGenericAreaQuery(businessType, city, count * 3);
-  }
+    : buildGenericBboxQuery(businessType, POLAND_BBOX, count * 3);
 
   let osmData: { elements: OsmElement[] } | null = null;
   let lastError = "";
@@ -210,7 +166,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   for (const el of osmData.elements) {
     if (newBusinesses.length >= count) break;
-    const biz = parseElement(el, businessType, city);
+    const biz = parseElement(el, businessType);
     if (!biz) continue;
     if (isDuplicate(biz, existing)) continue;
     if (isDuplicate(biz, newBusinesses.map(b => ({ name: b.businessName, city: b.city ?? "", phone: b.phone ?? "", email: b.email ?? "" })))) continue;
@@ -226,7 +182,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 };
 
 export const GET: APIRoute = async () => {
-  return new Response(JSON.stringify({ presets: Object.keys(OSM_PRESETS), cities: Object.keys(CITY_BBOX) }), {
+  return new Response(JSON.stringify({ presets: Object.keys(OSM_PRESETS), scope: "Poland" }), {
     headers: { "Content-Type": "application/json" },
   });
 };

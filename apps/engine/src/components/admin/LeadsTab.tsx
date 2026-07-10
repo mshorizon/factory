@@ -48,11 +48,6 @@ const BUSINESS_TYPE_PRESETS = [
   { value: "__custom__", label: "Custom..." },
 ];
 
-const CITIES = [
-  "Kraków", "Warszawa", "Wrocław", "Poznań", "Gdańsk",
-  "Łódź", "Katowice", "Lublin", "Szczecin", "Bydgoszcz",
-];
-
 const TEMPLATES = [
   { value: "template-specialist", label: "Specialist" },
   { value: "template-tech", label: "Tech" },
@@ -107,7 +102,6 @@ export function LeadsTab() {
   const [scrapeCount, setScrapeCount] = useState(10);
   const [scrapeType, setScrapeType] = useState("electrician");
   const [scrapeCustomType, setScrapeCustomType] = useState("");
-  const [scrapeCity, setScrapeCity] = useState("Kraków");
   const [scraping, setScraping] = useState(false);
   const [scrapeMsg, setScrapeMsg] = useState<string | null>(null);
 
@@ -162,7 +156,7 @@ export function LeadsTab() {
       const res = await fetch("/api/admin/leads/scrape", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ count: scrapeCount, businessType, city: scrapeCity }),
+        body: JSON.stringify({ count: scrapeCount, businessType }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -365,20 +359,6 @@ export function LeadsTab() {
                 />
               </div>
             )}
-
-            <div className="flex flex-col gap-1.5 min-w-[160px]">
-              <Label htmlFor="scrape-city">City</Label>
-              <Select value={scrapeCity} onValueChange={setScrapeCity}>
-                <SelectTrigger id="scrape-city">
-                  <SelectValue placeholder="Select city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {CITIES.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
 
             <Button type="submit" disabled={scraping} className="gap-2">
               {scraping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
