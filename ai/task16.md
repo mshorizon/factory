@@ -1,0 +1,1 @@
+in the past business: komornikwotwocku had absence information on navbar and in contact page - show those informations with absence in days: 9/07 and 10/07

@@ -66,6 +66,52 @@ area["name"="${cityName}"]["boundary"="administrative"];
 out center tags ${limit};`;
 }
 
+// Escape a string for safe use inside an Overpass double-quoted literal.
+function osmEscape(v: string): string {
+  return v.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+// Category keys probed for a custom (non-preset) business type.
+const GENERIC_KEYS = ["shop", "craft", "amenity", "office", "leisure", "tourism", "healthcare"];
+
+// Build a query for an arbitrary business type with no known OSM preset.
+// Probes the sanitized value across common category keys AND does a
+// case-insensitive name regex match so free-form terms still return results.
+function buildGenericBboxQuery(term: string, bbox: [number, number, number, number], limit: number): string {
+  const [s, w, n, e] = bbox;
+  const bb = `(${s},${w},${n},${e})`;
+  const value = osmEscape(term.toLowerCase().replace(/\s+/g, "_"));
+  const nameRe = osmEscape(term);
+  const clauses = GENERIC_KEYS.flatMap((k) => [
+    `  node["${k}"="${value}"]${bb};`,
+    `  way["${k}"="${value}"]${bb};`,
+  ]);
+  clauses.push(`  node["name"~"${nameRe}",i]${bb};`);
+  clauses.push(`  way["name"~"${nameRe}",i]${bb};`);
+  return `[out:json][timeout:60];
+(
+${clauses.join("\n")}
+);
+out center tags ${limit};`;
+}
+
+function buildGenericAreaQuery(term: string, cityName: string, limit: number): string {
+  const value = osmEscape(term.toLowerCase().replace(/\s+/g, "_"));
+  const nameRe = osmEscape(term);
+  const clauses = GENERIC_KEYS.flatMap((k) => [
+    `  node["${k}"="${value}"](area);`,
+    `  way["${k}"="${value}"](area);`,
+  ]);
+  clauses.push(`  node["name"~"${nameRe}",i](area);`);
+  clauses.push(`  way["name"~"${nameRe}",i](area);`);
+  return `[out:json][timeout:60];
+area["name"="${osmEscape(cityName)}"]["boundary"="administrative"];
+(
+${clauses.join("\n")}
+);
+out center tags ${limit};`;
+}
+
 interface OsmElement {
   tags?: Record<string, string>;
   lat?: number;
@@ -129,12 +175,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
   if (!businessType) return json({ error: "businessType required" }, 400);
 
   const preset = OSM_PRESETS[businessType.toLowerCase()];
-  if (!preset) return json({ error: `Unknown businessType. Supported: ${Object.keys(OSM_PRESETS).join(", ")}` }, 400);
-
   const bbox = CITY_BBOX[city];
-  const query = bbox
-    ? buildBboxQuery(preset.key, preset.value, bbox, count * 3)
-    : buildAreaQuery(preset.key, preset.value, city, count * 3);
+  let query: string;
+  if (preset) {
+    query = bbox
+      ? buildBboxQuery(preset.key, preset.value, bbox, count * 3)
+      : buildAreaQuery(preset.key, preset.value, city, count * 3);
+  } else {
+    // No known preset — fall back to a generic multi-key + name search
+    // so arbitrary/custom business types still return results.
+    query = bbox
+      ? buildGenericBboxQuery(businessType, bbox, count * 3)
+      : buildGenericAreaQuery(businessType, city, count * 3);
+  }
 
   let osmData: { elements: OsmElement[] } | null = null;
   let lastError = "";
