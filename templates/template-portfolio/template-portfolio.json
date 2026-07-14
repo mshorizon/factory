@@ -77,7 +77,10 @@
   },
   "layout": {
     "navbar": {
-      "variant": "standard"
+      "variant": "standard",
+      "logoSubtext": "WIDZISZ, ZANIM PŁACISZ",
+      "logoText": "Hazelgrouse",
+      "logoAccent": "Studio"
     },
     "footer": {
       "variant": "stacked",
@@ -93,7 +96,37 @@
         "type": "page",
         "value": "contact"
       }
-    }
+    },
+    "links": [
+      {
+        "label": "Jak to działa",
+        "target": {
+          "type": "section",
+          "value": "process-1"
+        }
+      },
+      {
+        "label": "Portfolio",
+        "target": {
+          "type": "section",
+          "value": "templateShowcase-3"
+        }
+      },
+      {
+        "label": "Cennik",
+        "target": {
+          "type": "section",
+          "value": "pricing-7"
+        }
+      },
+      {
+        "label": "FAQ",
+        "target": {
+          "type": "section",
+          "value": "faq-11"
+        }
+      }
+    ]
   },
   "data": {
     "services": [
@@ -639,7 +672,8 @@
             "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
           }
         }
-      ]
+      ],
+      "hideFromNav": true
     },
     "contact": {
       "title": "Kontakt",
@@ -707,7 +741,8 @@
             }
           ]
         }
-      ]
+      ],
+      "hideFromNav": true
     }
   },
   "sharedSections": {}

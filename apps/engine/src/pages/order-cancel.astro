@@ -38,6 +38,7 @@ const pageTitle = `Zamówienie anulowane | ${business.business.name}`;
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoAccent={layout.navbar.logoAccent}
     logoSubtext={layout.navbar.logoSubtext}
     hideLogoIcon={layout.navbar.hideLogoIcon}
     links={navLinks}

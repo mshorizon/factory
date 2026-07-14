@@ -144,6 +144,7 @@ const socialLinks = business.business.socials
 <BaseLayout title={pageTitle} theme={theme} favicon={business.business.assets?.favicon} lang={currentLang} description={metaDescription} canonical={canonicalUrl} ogImage={service.image || undefined} siteName={business.business.name} jsonLd={jsonLd}>
   <Navbar
     logo={layout.navbar.logoText || business.business.name}
+    logoAccent={layout.navbar.logoAccent}
     logoSubtext={layout.navbar.logoSubtext}
     logoIcon={business.business.assets?.icon || business.business.assets?.favicon}
     logoIconLucide={business.business.assets?.iconLucide}

@@ -15,6 +15,7 @@ interface CTA {
 
 interface Props {
   logo: string;
+  logoAccent?: string;
   logoSubtext?: string;
   logoIcon?: string;
   logoIconLucide?: string;
@@ -34,7 +35,7 @@ interface Props {
   showAdditionalInfo?: boolean;
 }
 
-const { logo, logoSubtext, logoIcon, logoIconLucide, hideLogoIcon = false, links, cta, variant = "standard", showCart = false, extensions = [], contact, socials, hideBorderOnTop = false, hideCta = false, showSocials = true, showAvailability = true, showAddress = true, showAdditionalInfo = true } = Astro.props;
+const { logo, logoAccent, logoSubtext, logoIcon, logoIconLucide, hideLogoIcon = false, links, cta, variant = "standard", showCart = false, extensions = [], contact, socials, hideBorderOnTop = false, hideCta = false, showSocials = true, showAvailability = true, showAddress = true, showAdditionalInfo = true } = Astro.props;
 
 const lucideIconSvgs: Record<string, string> = {
   scale: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
@@ -156,7 +157,7 @@ const showCta = !hideCta && !!cta;
               "nav-logo tracking-tight group-hover:text-primary transition-colors",
               isTransparent ? "text-white" : "text-foreground"
             ]} style={`font-size: var(--nav-logo-size, 24px); font-weight: var(--nav-logo-weight, 600); font-family: var(--nav-logo-font, inherit); letter-spacing: var(--nav-logo-letter-spacing, normal);`}>
-              {logo}
+              {logo}{logoAccent && <> <span class="text-primary">{logoAccent}</span></>}
             </span>
             {logoSubtext && (
               <span class:list={[

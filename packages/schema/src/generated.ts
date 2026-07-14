@@ -253,6 +253,10 @@ export type NavbarVariant = "standard" | "centered" | "transparent";
  */
 export type LogoTextOverride = string;
 /**
+ * Optional trailing part of the logo name rendered in the primary color (e.g. logoText 'Hazelgrouse' + logoAccent 'Studio')
+ */
+export type LogoAccentText = string;
+/**
  * Optional second line shown below the logo text (stacked column layout)
  */
 export type LogoSubtext = string;
@@ -1003,6 +1007,7 @@ export interface Layout {
 export interface Navbar {
   variant?: NavbarVariant;
   logoText?: LogoTextOverride;
+  logoAccent?: LogoAccentText;
   logoSubtext?: LogoSubtext;
   hideLogoIcon?: HideLogoIcon;
   hideBorderOnTop?: HideBorderWhenAtTop;

@@ -1181,6 +1181,11 @@
               "title": "Logo Text Override",
               "description": "Override the business name displayed in the navbar"
             },
+            "logoAccent": {
+              "type": "string",
+              "title": "Logo Accent Text",
+              "description": "Optional trailing part of the logo name rendered in the primary color (e.g. logoText 'Hazelgrouse' + logoAccent 'Studio')"
+            },
             "logoSubtext": {
               "type": "string",
               "title": "Logo Subtext",

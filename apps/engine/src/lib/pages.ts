@@ -82,6 +82,7 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       variant: layout.navbar?.variant || "standard",
       extensions: layout.navbar?.extensions || [],
       logoText: (layout.navbar as any)?.logoText || undefined,
+      logoAccent: (layout.navbar as any)?.logoAccent || undefined,
       logoSubtext: (layout.navbar as any)?.logoSubtext || undefined,
       hideLogoIcon: (layout.navbar as any)?.hideLogoIcon || false,
       hideBorderOnTop: (layout.navbar as any)?.hideBorderOnTop || false,
