@@ -1070,7 +1070,7 @@
         "majorTheme": {
           "type": "string",
           "title": "Major Theme",
-          "enum": ["template-specialist", "template-tech", "template-art", "template-law", "template-studio"]
+          "enum": ["template-specialist", "template-tech", "template-art", "template-law", "template-studio", "template-portfolio"]
         },
         "mode": {
           "type": "string",
