@@ -213,7 +213,10 @@ async function extractDomBands(
         const cs = getComputedStyle(c);
         if (cs.position === "fixed" || cs.position === "sticky" || cs.display === "none") continue;
         const r = c.getBoundingClientRect();
-        if (r.width >= vw * 0.85 && r.height >= MIN_H) out.push(c);
+        // 0.75 (not 0.85): centered max-width containers (e.g. a 1200px .wrap at a
+        // 1440–1512px viewport ≈ 79–83%) are the layout root on many designs — the
+        // stricter cut made secsOf find 0 sections and forced the VLM fallback.
+        if (r.width >= vw * 0.75 && r.height >= MIN_H) out.push(c);
       }
       return out;
     };
