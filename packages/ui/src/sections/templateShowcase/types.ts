@@ -4,9 +4,11 @@ export interface TemplateItem {
   screenshot: string;
   demoUrl: string;
   tags?: string[];
+  accent?: string;
 }
 
 export interface TemplateShowcaseProps {
   templates: TemplateItem[];
+  pills?: string[];
   className?: string;
 }

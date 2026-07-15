@@ -96,6 +96,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
   },
   "template-portfolio": {
     hero: "studio",
+    templateShowcase: "browser",
     services: "grid",
     categories: "featured",
     about: "story",
@@ -107,7 +108,7 @@ export const MAJOR_THEME_DEFAULTS: Record<string, Record<string, string>> = {
     ctaBanner: "panel",
     process: "connected",
     pricing: "default",
-    project: "caseStudy",
+    project: "caseStudyFlow",
     blog: "cards-light",
     shop: "grid",
     gallery: "default",

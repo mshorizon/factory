@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { TemplateShowcase, SectionHeader } from "@mshorizon/ui";
+import { TemplateShowcase, TemplateShowcaseBrowser, SectionHeader } from "@mshorizon/ui";
 import { getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -9,8 +9,11 @@ interface Props {
 }
 
 const { section, badgeVariant } = Astro.props;
+const variant = (section as any).variant ?? "default";
 const header = getSectionHeader(section);
 const templates = (section as any).templateItems || [];
+const pills = (section as any).pills as string[] | undefined;
+const footnote = (section as any).footnote as string | undefined;
 ---
 
 <section>
@@ -22,6 +25,15 @@ const templates = (section as any).templateItems || [];
       background={section.background}
       badgeVariant={badgeVariant as any}
     />
-    <TemplateShowcase client:visible templates={templates} />
+    {variant === "browser" ? (
+      <TemplateShowcaseBrowser client:visible templates={templates} pills={pills} />
+    ) : (
+      <TemplateShowcase client:visible templates={templates} />
+    )}
+    {footnote && (
+      <p class="mt-spacing-2xl italic text-muted text-center text-sm" data-field="footnote">
+        {footnote}
+      </p>
+    )}
   </div>
 </section>

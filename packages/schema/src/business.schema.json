@@ -209,6 +209,7 @@
         "imageHeight": { "type": "string", "title": "Section Image Height Override", "description": "Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px." },
         "imageBlend": { "type": "string", "title": "Image Blend Effect", "enum": ["feather", "soft"], "description": "Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look." },
         "imageBorder": { "type": "boolean", "title": "Image Text-Color Border Mat", "description": "When true (about 'story' variant), wraps the image in an almost-transparent border tinted with the page text color, inset by a small padding mat so the background shows between the image and the border. Replaces the floating drop shadow." },
+        "imageMeta": { "type": "string", "title": "Image Card Label", "description": "Small mono uppercase label rendered above the image card (project 'caseStudyFlow' variant), e.g. '02 · Gotowa strona'." },
         "imageDescription": {
           "type": "object",
           "title": "Image Caption Overlay",
@@ -247,6 +248,12 @@
         "detailsLabel": { "type": "string", "title": "Details Button Label (e.g. 'See details', 'Learn more')" },
         "columns": { "type": "integer", "title": "Services Column Count", "enum": [1, 2, 3], "description": "Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant." },
         "footnote": { "type": "string", "title": "Section Footnote", "description": "Supplementary text rendered in italic below the section content (e.g. below the services list)." },
+        "pills": {
+          "type": "array",
+          "title": "Pill Tags",
+          "description": "Plain-text pill labels rendered below the section content (e.g. additional industries in the templateShowcase 'browser' variant).",
+          "items": { "type": "string" }
+        },
         "maxWidth": { "type": "string", "title": "Section Max Width Override", "description": "Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths." },
         "testimonial": {
           "type": "object",
@@ -793,6 +800,7 @@
               "description": { "type": "string", "title": "Description" },
               "screenshot": { "type": "string", "title": "Screenshot URL" },
               "demoUrl": { "type": "string", "title": "Live Demo URL" },
+              "accent": { "type": "string", "title": "Accent Color", "description": "Optional CSS color for the card's browser-chrome header bar (templateShowcase 'browser' variant). Defaults to the theme foreground." },
               "tags": {
                 "type": "array",
                 "title": "Tags",

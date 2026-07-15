@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { ProjectGrid, ProjectCarousel, ProjectHorizontal, ProjectShowcase, ProjectCaseStudy, SectionHeader } from "@mshorizon/ui";
+import { ProjectGrid, ProjectCarousel, ProjectHorizontal, ProjectShowcase, ProjectCaseStudy, ProjectCaseStudyFlow, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -27,7 +27,16 @@ const projects = (section.projects || []).map((p: any) => ({
       background={section.background}
       badgeVariant={badgeVariant as any}
     />
-    {variant === "caseStudy" ? (
+    {variant === "caseStudyFlow" ? (
+      <ProjectCaseStudyFlow
+        client:visible
+        quote={section.quote as any}
+        image={section.image}
+        imageDescription={section.imageDescription as any}
+        imageMeta={(section as any).imageMeta}
+        items={(section.items as any) || []}
+      />
+    ) : variant === "caseStudy" ? (
       <ProjectCaseStudy
         client:visible
         quote={section.quote as any}

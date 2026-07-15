@@ -285,7 +285,7 @@
         },
         {
           "type": "templateShowcase",
-          "variant": "default",
+          "variant": "browser",
           "header": {
             "badge": "Portfolio",
             "title": "Strony, które robię",
@@ -317,14 +317,27 @@
               "demoUrl": "https://template-restaurant.hazelgrouse.pl/",
               "tags": [
                 "Restauracja"
-              ]
+              ],
+              "accent": "#4a2a20"
             }
           ],
-          "footnote": "…i każda inna branża — zapytaj o swoją"
+          "footnote": "…i każda inna branża — zapytaj o swoją",
+          "pills": [
+            "Fryzjer i barber",
+            "Mechanik",
+            "Gabinet kosmetyczny",
+            "Trener personalny",
+            "Księgowość",
+            "Fizjoterapia",
+            "Fotograf",
+            "Stolarz",
+            "Firma sprzątająca",
+            "Szkoła językowa"
+          ]
         },
         {
           "type": "project",
-          "variant": "caseStudy",
+          "variant": "caseStudyFlow",
           "background": "dark",
           "header": {
             "badge": "Case study",
@@ -332,27 +345,23 @@
             "subtitle": "Paweł napisał do mnie trzy zdania o swojej firmie. Cztery dni później miał stronę, która zaczęła dzwonić."
           },
           "quote": {
-            "note": "Zgłoszenie od klienta",
+            "note": "01 · Zgłoszenie",
             "text": "Prowadzę firmę elektryczną ElektroMax pod Wrocławiem. Robię głównie instalacje w domach i pomiary elektryczne. Chciałbym prostą stronę, żeby klienci mogli szybko zadzwonić i zobaczyć, co robię. Kolory? Może coś energetycznego.",
-            "author": "→ to całe zgłoszenie. Resztę zrobiłem ja."
+            "author": "To całe zgłoszenie — resztę zrobiłem ja"
           },
           "image": "/template-previews/specialist.png",
           "imageDescription": {
-            "name": "elektromax.pl — projekt po 4 dniach",
-            "description": "gotowy projekt — zaakceptowany bez poprawek"
+            "name": "elektromax.pl — po 4 dniach",
+            "description": "Zaakceptowany bez poprawek"
           },
           "items": [
             {
-              "meta": "Przed",
-              "title": "Brak strony",
-              "description": "Tylko wizytówka Google i numer telefonu na oklejonym busie."
-            },
-            {
-              "meta": "Po 4 dniach",
+              "meta": "03 · Efekt",
               "title": "Strona, która pracuje",
-              "description": "Formularz i telefon prosto ze strony — pierwsze zapytania jeszcze w tym samym tygodniu."
+              "description": "Wcześniej tylko wizytówka Google i numer na busie. Po publikacji formularz i telefon zaczęły zbierać zapytania jeszcze w tym samym tygodniu."
             }
-          ]
+          ],
+          "imageMeta": "02 · Gotowa strona"
         },
         {
           "type": "testimonials",

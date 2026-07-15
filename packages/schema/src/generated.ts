@@ -499,6 +499,10 @@ export type ImageBlendEffect = "feather" | "soft";
  */
 export type ImageTextColorBorderMat = boolean;
 /**
+ * Small mono uppercase label rendered above the image card (project 'caseStudyFlow' variant), e.g. '02 · Gotowa strona'.
+ */
+export type ImageCardLabel = string;
+/**
  * First line — small name/title. Defaults to 12px DM Sans.
  */
 export type NameLine = string;
@@ -564,6 +568,10 @@ export type ServicesColumnCount = 1 | 2 | 3;
  * Supplementary text rendered in italic below the section content (e.g. below the services list).
  */
 export type SectionFootnote = string;
+/**
+ * Plain-text pill labels rendered below the section content (e.g. additional industries in the templateShowcase 'browser' variant).
+ */
+export type PillTags = string[];
 /**
  * Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths.
  */
@@ -774,6 +782,10 @@ export type TemplateName = string;
 export type Description2 = string;
 export type ScreenshotURL = string;
 export type LiveDemoURL = string;
+/**
+ * Optional CSS color for the card's browser-chrome header bar (templateShowcase 'browser' variant). Defaults to the theme foreground.
+ */
+export type AccentColor = string;
 export type Tags = string[];
 export type TemplateItems = TemplateItem[];
 export type Country = "polska";
@@ -1109,6 +1121,7 @@ export interface Section {
   imageHeight?: SectionImageHeightOverride;
   imageBlend?: ImageBlendEffect;
   imageBorder?: ImageTextColorBorderMat;
+  imageMeta?: ImageCardLabel;
   imageDescription?: ImageCaptionOverlay;
   ctaColor?: CTATextColorOverride;
   scrollColor?: HeroScrollIndicatorColorOverride;
@@ -1125,6 +1138,7 @@ export interface Section {
   detailsLabel?: DetailsButtonLabelEGSeeDetailsLearnMore;
   columns?: ServicesColumnCount;
   footnote?: SectionFootnote;
+  pills?: PillTags;
   maxWidth?: SectionMaxWidthOverride;
   testimonial?: Testimonial;
   testimonials?: Testimonials;
@@ -1461,6 +1475,7 @@ export interface TemplateItem {
   description: Description2;
   screenshot: ScreenshotURL;
   demoUrl: LiveDemoURL;
+  accent?: AccentColor;
   tags?: Tags;
 }
 export interface ServiceAreaConfiguration {

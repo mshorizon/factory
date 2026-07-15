@@ -71,7 +71,7 @@ export { BlogGrid, BlogOverlay, BlogCards } from "./blog";
 export type { BlogGridProps, BlogPost } from "./blog";
 
 // Project variants
-export { ProjectGrid, ProjectCarousel, ProjectHorizontal, ProjectShowcase, ProjectCaseStudy } from "./project";
+export { ProjectGrid, ProjectCarousel, ProjectHorizontal, ProjectShowcase, ProjectCaseStudy, ProjectCaseStudyFlow } from "./project";
 export type { ProjectGridProps, ProjectCarouselProps, ProjectCard } from "./project";
 
 // Map variants
@@ -103,7 +103,7 @@ export { FilesPage } from "./files";
 export type { FilesPageProps, FileGroup, FileItem } from "./files";
 
 // TemplateShowcase variants
-export { TemplateShowcase } from "./templateShowcase";
+export { TemplateShowcase, TemplateShowcaseBrowser } from "./templateShowcase";
 export type { TemplateShowcaseProps, TemplateItem } from "./templateShowcase";
 
 // Mission variants
