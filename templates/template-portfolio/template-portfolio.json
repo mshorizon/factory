@@ -24,6 +24,8 @@
     "preset": "minimal",
     "majorTheme": "template-portfolio",
     "mode": "light",
+    "navCtaHideIcon": true,
+    "navLogoSize": "20px",
     "colors": {
       "light": {
         "primary": "#3d6fc4",
