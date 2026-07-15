@@ -24,6 +24,8 @@
     "preset": "minimal",
     "majorTheme": "template-portfolio",
     "mode": "light",
+    "navCtaHideIcon": true,
+    "navLogoSize": "20px",
     "colors": {
       "light": {
         "primary": "#3d6fc4",
@@ -83,10 +85,40 @@
       "logoAccent": "Studio"
     },
     "footer": {
-      "variant": "stacked",
+      "variant": "multiColumn",
       "copyright": "© 2026 Hazelgrouse Studio. Wszelkie prawa zastrzeżone.",
       "tagline": "Jednoosobowe studio stron internetowych. Najpierw widzisz gotową stronę — płacisz dopiero, gdy Ci się spodoba.",
-      "links": []
+      "links": [],
+      "columns": [
+        {
+          "title": "NAWIGACJA",
+          "links": [
+            {"label": "Jak to działa", "target": {"type": "section", "value": "process-1"}},
+            {"label": "Portfolio", "target": {"type": "section", "value": "templateShowcase-3"}},
+            {"label": "Cennik", "target": {"type": "section", "value": "pricing-7"}},
+            {"label": "FAQ", "target": {"type": "section", "value": "faq-11"}},
+            {"label": "Kontakt", "target": {"type": "page", "value": "contact"}}
+          ]
+        },
+        {
+          "title": "INFORMACJE PRAWNE",
+          "links": [
+            {"label": "Polityka prywatności", "target": {"type": "external", "value": "#"}},
+            {"label": "Pliki cookies", "target": {"type": "external", "value": "#"}},
+            {"label": "Klauzula RODO", "target": {"type": "external", "value": "#"}},
+            {"label": "Regulamin usług", "target": {"type": "external", "value": "#"}}
+          ]
+        },
+        {
+          "title": "ZNAJDŹ MNIE",
+          "links": [
+            {"label": "Facebook", "target": {"type": "external", "value": "https://facebook.com"}},
+            {"label": "Instagram", "target": {"type": "external", "value": "https://instagram.com"}},
+            {"label": "LinkedIn", "target": {"type": "external", "value": "https://linkedin.com"}},
+            {"label": "kontakt@hazelgrouse.studio", "target": {"type": "email", "value": "kontakt@hazelgrouse.studio"}}
+          ]
+        }
+      ]
     }
   },
   "navigation": {
