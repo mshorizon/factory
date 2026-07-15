@@ -574,6 +574,7 @@
         {
           "type": "features",
           "variant": "numbered-split",
+          "background": "dark",
           "header": {
             "badge": "Dostępny w każdym pakiecie",
             "title": "Opcjonalny panel administratora"
