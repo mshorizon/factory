@@ -49,14 +49,32 @@ function extractResultFromEnv(env: any): string {
   return typeof r === "string" ? r : JSON.stringify(r);
 }
 
-/** Best-effort extraction of a single JSON object from model text. */
+/**
+ * Best-effort extraction of a single JSON object from model text.
+ *
+ * Robust to the two failure modes seen live (run #42: blog#10, templateShowcase#3
+ * no-op'd with "Expected property name or '}'"): a markdown ```json fence around
+ * the object, and a trailing comma before a closing } or ] (the exact modern-Node
+ * signature above). Repairs are only applied on the fallback path — after a clean
+ * `JSON.parse` has already failed — so well-formed output is never touched, and the
+ * comma-strip can't corrupt a string in valid JSON.
+ */
 function parseJsonObject<T>(text: string): T {
   try {
     return JSON.parse(text) as T;
   } catch {
-    const m = text.match(/\{[\s\S]*\}/);
+    // Strip a surrounding markdown code fence, then take the outermost {…}.
+    const unfenced = text.replace(/```(?:json)?\s*/gi, "").replace(/```/g, "");
+    const m = unfenced.match(/\{[\s\S]*\}/);
     if (!m) throw new Error(`no JSON object in worker output: ${text.slice(0, 160)}`);
-    return JSON.parse(m[0]) as T;
+    const candidate = m[0];
+    try {
+      return JSON.parse(candidate) as T;
+    } catch {
+      // Last resort: drop trailing commas before } or ] (the common opus defect).
+      const repaired = candidate.replace(/,(\s*[}\]])/g, "$1");
+      return JSON.parse(repaired) as T;
+    }
   }
 }
 
