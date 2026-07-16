@@ -50,24 +50,51 @@ function extractResultFromEnv(env: any): string {
 }
 
 /**
+ * Extract the FIRST complete top-level JSON object from `text` via a
+ * string-aware balanced-brace scan. A greedy `/\{[\s\S]*\}/` regex spans to the
+ * LAST brace, so any trailing content containing a `}` (a second object, an
+ * example snippet after the answer) poisons the candidate — the exact
+ * "Unexpected non-whitespace character after JSON" failure from run #44.
+ */
+function firstJsonObject(text: string): string | null {
+  const start = text.indexOf("{");
+  if (start < 0) return null;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (escaped) { escaped = false; continue; }
+    if (ch === "\\") { if (inString) escaped = true; continue; }
+    if (ch === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) return text.slice(start, i + 1);
+    }
+  }
+  return null;
+}
+
+/**
  * Best-effort extraction of a single JSON object from model text.
  *
- * Robust to the two failure modes seen live (run #42: blog#10, templateShowcase#3
- * no-op'd with "Expected property name or '}'"): a markdown ```json fence around
- * the object, and a trailing comma before a closing } or ] (the exact modern-Node
- * signature above). Repairs are only applied on the fallback path — after a clean
- * `JSON.parse` has already failed — so well-formed output is never touched, and the
- * comma-strip can't corrupt a string in valid JSON.
+ * Robust to the failure modes seen live: a markdown ```json fence around the
+ * object and trailing commas (run #42: "Expected property name or '}'"), and
+ * trailing content after the object — a second JSON object or prose-with-braces
+ * (run #44: "Unexpected non-whitespace character after JSON"). Repairs apply
+ * only on the fallback path — after a clean `JSON.parse` has failed — so
+ * well-formed output is never touched.
  */
 function parseJsonObject<T>(text: string): T {
   try {
     return JSON.parse(text) as T;
   } catch {
-    // Strip a surrounding markdown code fence, then take the outermost {…}.
+    // Strip markdown code fences, then take the first BALANCED {…} object.
     const unfenced = text.replace(/```(?:json)?\s*/gi, "").replace(/```/g, "");
-    const m = unfenced.match(/\{[\s\S]*\}/);
-    if (!m) throw new Error(`no JSON object in worker output: ${text.slice(0, 160)}`);
-    const candidate = m[0];
+    const candidate = firstJsonObject(unfenced);
+    if (!candidate) throw new Error(`no JSON object in worker output: ${text.slice(0, 160)}`);
     try {
       return JSON.parse(candidate) as T;
     } catch {
