@@ -387,8 +387,9 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
 {variant === "multiColumn" && (
   <footer class:list={["shrink-0", background?.enabled ? "p-4" : ""]}>
     <div
-      class:list={["text-on-primary", !background?.gradient && "bg-secondary"]}
+      class:list={["text-on-primary", !background?.gradient && !background?.color && "bg-secondary"]}
       style={[
+        background?.color ? `background-color: ${background.color};` : "",
         background?.gradient === "primary-to-primary-dark" ? "background: linear-gradient(to top, var(--primary-dark) 0%, var(--primary) 100%);" : "",
         background?.enabled ? `border-radius: ${background.borderRadius || '12px'};` : "",
       ].filter(Boolean).join(' ')}
