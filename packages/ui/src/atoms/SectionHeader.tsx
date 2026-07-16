@@ -11,6 +11,7 @@ export interface SectionHeaderProps {
   className?: string;
   background?: string;
   badgeVariant?: "accent" | "accent-no-line" | "outlined" | "text";
+  titleSize?: string;
   revealDelay?: number;
   /** Render a small country flag accent bar (144x3px, theme navLogoFlag colors) below the title. */
   flag?: boolean;
@@ -25,6 +26,7 @@ export function SectionHeader({
   className,
   background,
   badgeVariant,
+  titleSize,
   revealDelay = 0,
   flag = false,
 }: SectionHeaderProps) {
@@ -167,7 +169,7 @@ export function SectionHeader({
     <div className={cn("mb-spacing-3xl", alignClass, className)}>
       {renderBadge()}
       {title && (
-        <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className={cn("text-3xl md:text-4xl lg:text-5xl text-foreground mb-spacing-md font-heading max-w-[700px]", align === "center" && "mx-auto")} data-field="header.title">{renderTitle(title)}</h2>
+        <h2 data-reveal data-reveal-delay={String(badge ? revealDelay + 100 : revealDelay)} className={cn(titleSize || "text-3xl md:text-4xl lg:text-5xl", "text-foreground mb-spacing-md font-heading max-w-[700px]", align === "center" && "mx-auto")} data-field="header.title">{renderTitle(title)}</h2>
       )}
       {renderFlag()}
       {subtitle && (

@@ -55,7 +55,7 @@ export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, Testimoni
 export type { TestimonialsGridProps, TestimonialsQuotesProps, TestimonialItem } from "./testimonials";
 
 // FAQ variants
-export { FAQAccordion, FAQBordered, FAQSplit } from "./faq";
+export { FAQAccordion, FAQBordered, FAQBorderedFilled, FAQSplit } from "./faq";
 export type { FAQAccordionProps, FAQSplitProps, FAQItem } from "./faq";
 
 // Features variants

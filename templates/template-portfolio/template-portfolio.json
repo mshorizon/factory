@@ -627,7 +627,7 @@
         },
         {
           "type": "faq",
-          "variant": "bordered",
+          "variant": "bordered-filled",
           "background": "dark",
           "header": {
             "badge": "FAQ",

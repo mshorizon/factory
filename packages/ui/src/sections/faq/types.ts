@@ -8,6 +8,7 @@ export interface FAQAccordionProps {
   className?: string;
   ctaText?: string;
   ctaHref?: string;
+  filled?: boolean;
 }
 
 export interface FAQSplitProps {
