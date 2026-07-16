@@ -85,7 +85,7 @@
       "logoAccent": "Studio"
     },
     "footer": {
-      "variant": "multiColumn",
+      "variant": "branded",
       "background": { "color": "#22344e" },
       "hidePagesColumn": true,
       "copyright": "© 2026 Hazelgrouse Studio. Wszelkie prawa zastrzeżone.",
