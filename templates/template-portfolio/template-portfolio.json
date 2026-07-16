@@ -616,7 +616,33 @@
             "badge": "Blog",
             "title": "Zanim zdecydujesz — poczytaj",
             "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
-          }
+          },
+          "blogPosts": [
+            {
+              "category": "Poradnik",
+              "readTime": "5 min",
+              "title": "Strona firmowa w 2026 — co naprawdę musi mieć?",
+              "description": "Pięć elementów, bez których strona lokalnej firmy nie zamienia odwiedzin w telefony.",
+              "image": "/template-previews/blog-1.png",
+              "href": "#"
+            },
+            {
+              "category": "Za kulisami",
+              "readTime": "4 min",
+              "title": "Dlaczego pokazuję stronę, zanim wystawię fakturę",
+              "description": "Skąd wziął się mój model „najpierw efekt, potem płatność\" i komu naprawdę się opłaca.",
+              "image": "/template-previews/blog-2.png",
+              "href": "#"
+            },
+            {
+              "category": "Marketing",
+              "readTime": "6 min",
+              "title": "Wizytówka Google czy własna strona?",
+              "description": "Co wybrać na start przy małym budżecie — i dlaczego najlepiej działają razem.",
+              "image": "/template-previews/blog-3.png",
+              "href": "#"
+            }
+          ]
         },
         {
           "type": "faq",
@@ -715,7 +741,33 @@
             "badge": "Blog",
             "title": "Zanim zdecydujesz — poczytaj",
             "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
-          }
+          },
+          "blogPosts": [
+            {
+              "category": "Poradnik",
+              "readTime": "5 min",
+              "title": "Strona firmowa w 2026 — co naprawdę musi mieć?",
+              "description": "Pięć elementów, bez których strona lokalnej firmy nie zamienia odwiedzin w telefony.",
+              "image": "/template-previews/blog-1.png",
+              "href": "#"
+            },
+            {
+              "category": "Za kulisami",
+              "readTime": "4 min",
+              "title": "Dlaczego pokazuję stronę, zanim wystawię fakturę",
+              "description": "Skąd wziął się mój model „najpierw efekt, potem płatność\" i komu naprawdę się opłaca.",
+              "image": "/template-previews/blog-2.png",
+              "href": "#"
+            },
+            {
+              "category": "Marketing",
+              "readTime": "6 min",
+              "title": "Wizytówka Google czy własna strona?",
+              "description": "Co wybrać na start przy małym budżecie — i dlaczego najlepiej działają razem.",
+              "image": "/template-previews/blog-3.png",
+              "href": "#"
+            }
+          ]
         }
       ],
       "hideFromNav": true

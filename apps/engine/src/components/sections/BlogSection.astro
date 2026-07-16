@@ -55,9 +55,12 @@ const posts: BlogPost[] = blogs.map((blog) => ({
   }) : undefined,
   href: `/blog/${blog.slug}${fromParam}`,
 }));
+
+const inlinePosts = (section as any).blogPosts as any[] | undefined;
+const finalPosts: BlogPost[] = posts.length > 0 ? posts : (inlinePosts?.map((p) => ({ title: p.title, description: p.description || "", image: p.image || undefined, date: p.date || undefined, href: p.href || "#", category: p.category || undefined, readTime: p.readTime || undefined })) ?? []);
 ---
 
-{posts.length > 0 && (
+{finalPosts.length > 0 && (
   <section>
     <div class="container mx-auto px-spacing-container">
       {isCards || isCardsLight ? (
@@ -71,7 +74,7 @@ const posts: BlogPost[] = blogs.map((blog) => ({
             background={section.background}
             badgeVariant={badgeVariant as any}
           />
-          <BlogCards client:visible posts={posts} ctaLabel={ctaLabel} withCard={isCardsLight} columns={columns} />
+          <BlogCards client:visible posts={finalPosts} ctaLabel={ctaLabel} withCard={isCardsLight} columns={columns} />
         </>
       ) : (
         <>
@@ -84,7 +87,7 @@ const posts: BlogPost[] = blogs.map((blog) => ({
             background={section.background}
             badgeVariant={badgeVariant as any}
           />
-          <BlogGrid client:visible posts={posts} ctaLabel={ctaLabel} />
+          <BlogGrid client:visible posts={finalPosts} ctaLabel={ctaLabel} />
         </>
       )}
     </div>

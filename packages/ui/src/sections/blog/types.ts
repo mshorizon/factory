@@ -5,6 +5,7 @@ export interface BlogPost {
   date?: string;
   href?: string;
   category?: string;
+  readTime?: string;
 }
 
 export interface BlogGridProps {
