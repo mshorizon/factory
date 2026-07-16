@@ -401,6 +401,7 @@
           "type": "testimonials",
           "variant": "agency",
           "header": {
+            "layout": "stacked",
             "badge": "Opinie",
             "title": "Co mówią klienci",
             "subtitle": "Każda z tych osób najpierw zobaczyła gotową stronę — a potem zdecydowała się zapłacić."
