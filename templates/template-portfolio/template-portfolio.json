@@ -525,52 +525,26 @@
         },
         {
           "type": "features",
-          "variant": "icon-tiles",
+          "variant": "checklist-split",
           "header": {
-            "title": "W każdym pakiecie w standardzie",
-            "subtitle": "Niezależnie od pakietu dostajesz solidne fundamenty — a po publikacji nie zostajesz sam."
+            "title": "W każdym pakiecie w standardzie"
           },
           "items": [
-            {
-              "icon": "shield-check",
-              "title": "Certyfikat SSL",
-              "description": "Bezpieczne połączenie i kłódka w przeglądarce od pierwszego dnia."
-            },
-            {
-              "icon": "file-text",
-              "title": "Zgodność z RODO",
-              "description": "Polityka prywatności i zgody dopięte na ostatni guzik."
-            },
-            {
-              "icon": "zap",
-              "title": "Szybkie ładowanie",
-              "description": "Strona otwiera się błyskawicznie — także na słabym łączu."
-            },
-            {
-              "icon": "phone",
-              "title": "Pełna wersja mobilna",
-              "description": "Dopracowany wygląd na każdym telefonie i tablecie."
-            },
-            {
-              "icon": "search",
-              "title": "Mapa Google",
-              "description": "Klienci od razu widzą, gdzie Cię znaleźć."
-            },
-            {
-              "icon": "clock",
-              "title": "Kopia zapasowa",
-              "description": "Regularny backup — Twoja strona jest bezpieczna."
-            },
-            {
-              "icon": "globe",
-              "title": "Hosting i domena",
-              "description": "Pomagam ogarnąć wszystko od A do Z po publikacji."
-            },
-            {
-              "icon": "wrench",
-              "title": "Opieka techniczna",
-              "description": "Drobne poprawki w pierwszym miesiącu w cenie, aktualizacje i kopie zapasowe."
-            }
+            { "title": "Certyfikat SSL" },
+            { "title": "Zgodność z RODO" },
+            { "title": "Szybkie ładowanie" },
+            { "title": "Pełna wersja mobilna" },
+            { "title": "Mapa Google" },
+            { "title": "Kopia zapasowa" },
+            { "title": "Podstawy SEO" }
+          ],
+          "secondaryTitle": "A po publikacji?",
+          "secondaryItems": [
+            { "title": "Hosting i domena — pomagam ogarnąć od A do Z" },
+            { "title": "Drobne poprawki w pierwszym miesiącu w cenie" },
+            { "title": "Opieka techniczna: aktualizacje i kopie zapasowe" },
+            { "title": "Podstawy SEO — Twoja strona gotowa, by klienci znaleźli Cię w Google" },
+            { "title": "Pełna własność — możesz przenieść stronę, gdzie chcesz" }
           ]
         },
         {
