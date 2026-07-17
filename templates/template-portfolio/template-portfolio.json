@@ -91,6 +91,7 @@
         "color": "#22344e"
       },
       "hidePagesColumn": true,
+      "hideAutoContactColumn": true,
       "copyright": "© 2026 Hazelgrouse Studio. Wszelkie prawa zastrzeżone.",
       "tagline": "Jednoosobowe studio stron internetowych. Najpierw widzisz gotową stronę — płacisz dopiero, gdy Ci się spodoba.",
       "links": [],

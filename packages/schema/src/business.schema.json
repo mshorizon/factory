@@ -2576,6 +2576,11 @@
               "title": "Hide Auto Pages Column",
               "description": "Suppress the auto-generated 'Strony'/Pages column (nav + footer links) that is otherwise prepended to the footer columns."
             },
+            "hideAutoContactColumn": {
+              "type": "boolean",
+              "title": "Hide Auto Contact Column",
+              "description": "Suppress the auto-generated 'Contact' column (phone/email/address from business.contact) that is otherwise appended to the footer columns. Use when contact details are already presented in a JSON-defined column."
+            },
             "tagline": {
               "type": "string",
               "title": "Tagline",

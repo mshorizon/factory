@@ -320,6 +320,10 @@ export type CopyrightText = string;
  */
 export type HideAutoPagesColumn = boolean;
 /**
+ * Suppress the auto-generated 'Contact' column (phone/email/address from business.contact) that is otherwise appended to the footer columns. Use when contact details are already presented in a JSON-defined column.
+ */
+export type HideAutoContactColumn = boolean;
+/**
  * Footer tagline. Use \n to split across multiple lines.
  */
 export type Tagline = string;
@@ -1047,6 +1051,7 @@ export interface FooterConfig {
   variant?: FooterVariant;
   copyright?: CopyrightText;
   hidePagesColumn?: HideAutoPagesColumn;
+  hideAutoContactColumn?: HideAutoContactColumn;
   tagline?: Tagline;
   flag?: BrandFlagColors;
   findUsTitle?: FindUsColumnTitle;

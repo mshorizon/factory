@@ -71,6 +71,8 @@ interface Props {
   mapStyle?: "embed" | "placeholder";
   /** darkColumns: optional uppercase label rendered above the IBAN account number (e.g. "NUMER KONTA") */
   accountLabel?: string;
+  /** Suppress the auto-generated Contact column (phone/email/address). Opt-in; defaults to current behavior. */
+  hideAutoContactColumn?: boolean;
 }
 
 const {
@@ -96,6 +98,7 @@ const {
   columnHeadingVariant = "label",
   mapStyle = "embed",
   accountLabel,
+  hideAutoContactColumn = false,
 } = Astro.props;
 
 const displayName = footerName || businessName;
@@ -140,7 +143,7 @@ const copyrightText = (copyright || `© ${year} ${businessName}. All rights rese
 const translations = (Astro.locals as any).t || {};
 const cookieSettingsLabel = translations["footer.cookieSettings"] || "Ustawienia cookies";
 
-// Auto-build contact column from contact data — same source as navbar upper-bar
+// Auto-build contact column from contact data — same source as navbar upper-bar.
 const autoContactLinks: FooterLink[] = [];
 if (contact?.phone) {
   autoContactLinks.push({ label: contact.phone, href: `tel:${contact.phone.replace(/\s/g, '')}` });
@@ -157,7 +160,7 @@ if (contact?.address) {
 const contactColumnTitle = translations["footer.columns.contact.title"] || "Contact";
 // Drop any JSON-defined contact column with the same title before appending
 // the auto-built one, so contact info isn't rendered in two columns.
-const effectiveColumns: FooterColumn[] = autoContactLinks.length > 0
+const effectiveColumns: FooterColumn[] = (autoContactLinks.length > 0 && !hideAutoContactColumn)
   ? [...columns.filter((c) => c.title !== contactColumnTitle), { title: contactColumnTitle, links: autoContactLinks }]
   : columns;
 
