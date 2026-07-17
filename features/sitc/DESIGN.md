@@ -22,7 +22,7 @@ renders through, and the **shared core library** (§4.5) that both this loop and
                 │ reads run state / writes commands   │
                 │                                     ▼
 ┌───────────────┴──────────────────────────────────────────────────────────┐
-│  ORCHESTRATOR  (root process, runs on VPS under PM2 — long-lived)          │
+│  ORCHESTRATOR  (root process, runs LOCALLY from a plain terminal)          │
 │  • owns the loop & the budget                                              │
 │  • picks next work unit (which section, what mutation strategy)            │
 │  • spawns a `claude -p` WORKER per work unit                               │
@@ -437,7 +437,7 @@ fix the loop correctly diagnoses but cannot perform.
 
 Pause/resume is first-class: the run state machine is
 `idle → running → (awaiting_approval ⇄ running) → (paused ⇄ running) → (done | needs_review | aborted)`,
-fully persisted so a VPS restart resumes cleanly. `needs_review` keeps the run branch intact for a human.
+fully persisted so a restart (or resuming after a pause) picks up cleanly. `needs_review` keeps the run branch intact for a human.
 
 ---
 
@@ -490,7 +490,7 @@ Net effect: the 5th template run reaches threshold in fewer iterations than the 
 
 > Lives in `packages/db`. Names indicative.
 
-- **`sitc_runs`** — `id, template_name, target_url, status (idle|running|awaiting_approval|paused|done|needs_review|aborted), model_version, prompt_version (pinned per run for reproducibility — README §1.1), budget_*, weights, max_workers, scored_breakpoints, theme_locked (bool), atoms_locked (bool), branch (sitc/run-<id>), run_db_url (isolated render DB), target_manifest (segmentation + alignment + traits), acceptance_report (§7.4 results), locked_by (owner host — VPS|local), lease_expires_at (heartbeat lease for crash detection — §16), cleaned_up (bool), started_at, finished_at, best_overall_score`
+- **`sitc_runs`** — `id, template_name, target_url, status (idle|running|awaiting_approval|paused|done|needs_review|aborted), model_version, prompt_version (pinned per run for reproducibility — README §1.1), budget_*, weights, max_workers, scored_breakpoints, theme_locked (bool), atoms_locked (bool), branch (sitc/run-<id>), run_db_url (isolated render DB), target_manifest (segmentation + alignment + traits), acceptance_report (§7.4 results), locked_by (owner host — always `local`), lease_expires_at (heartbeat lease for crash detection — §16), cleaned_up (bool), started_at, finished_at, best_overall_score`
 - **`sitc_iterations`** — `id, run_id, iteration_no, started_at, finished_at, notes`
 - **`sitc_section_scores`** — `id, iteration_id, section_id, strategy, outcome (promoted|reverted|sanity_failed), vlm_score, pixel_score, score, ab_verdict, is_champion, critique, screenshot_ours, screenshot_target`
 - **`sitc_judge_calibration`** — `id, champion_img, challenger_img, target_img, human_answer, judge_answer, agreed (bool), checked_at` — the human-labeled set replayed to detect judge drift (§7.2a)
@@ -499,8 +499,8 @@ Net effect: the 5th template run reaches threshold in fewer iterations than the 
 - **`sitc_lessons`** — `id, scope, design_traits[], trigger, lesson, embedding vector, evidence_run_id, score_delta, confidence, uses, wins, created_at, archived` (pgvector index on `embedding`; see §9)
 
 (`sitc` = self-improving template creator. Rename if a cleaner prefix is preferred.)
-Requires the **pgvector** extension on the control DB. `locked_by` enforces single-owner so a VPS run and a
-local run can't drive the same `run_id` (§13.1). `run_db_url` points at the isolated render DB (§13.2).
+Requires the **pgvector** extension on the control DB. `locked_by` enforces single-owner so two local runs
+can't drive the same `run_id` (§13.1). `run_db_url` points at the isolated render DB (§13.2).
 
 ---
 
@@ -597,7 +597,7 @@ databases and disk indefinitely. Surfaced in the admin UI as "orphans reclaimed"
 
 **Idempotency & resumability.** Every iteration writes its row *before* acting and marks it done *after*, so a
 crash leaves at most one in-flight unit to re-run. Combined with "champion commit = source of truth", a run is
-always resumable to a consistent state — on the VPS or, after pause, locally (§13.1).
+always resumable to a consistent state — locally, including after a pause (§13.1).
 
 ---
 

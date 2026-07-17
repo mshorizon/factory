@@ -1,6 +1,9 @@
 # SITC — Deploy & Operate (Step 7 scaffolding)
 
-How to run the Self-Improving Template Creator on the VPS. This is **operator-driven
+How to run the Self-Improving Template Creator **locally**. SITC always runs locally,
+and the feature must work locally — see [RUN-LOCAL.md](./RUN-LOCAL.md) for the
+copy-paste runbook and the two hard caveats (run from a **plain terminal**, not a
+Claude Code session; and run on a **quiet machine**). This is **operator-driven
 scaffolding**: a live run spawns an autonomous `claude -p` Edit/Write loop and (for
 the run DB) real `CREATE/DROP DATABASE`, so every such action is gated behind an
 explicit flag. Nothing here runs automatically.
@@ -8,15 +11,15 @@ explicit flag. Nothing here runs automatically.
 ## Components
 | Piece | What | Where |
 | :-- | :-- | :-- |
-| `scripts/sitc-runner.mts` | Per-run consumer: target ingestion → lockTiers → sweep → gates → delivery (`runFull`). | VPS |
-| `scripts/sitc-run-db.mts` | Run-scoped DB lifecycle: `provision` / `seed` / `teardown` / `gc`. | VPS |
-| `ecosystem.sitc.config.cjs` | PM2: `sitc-gc` (safe cron daemon) + `sitc-orchestrator` (disabled by default). | VPS |
-| `apps/engine` (dev, port 4321) | Renders sections from worktree working files (harness fs mode). | VPS (PM2 `astro-dev`) |
+| `scripts/sitc-runner.mts` | Per-run consumer: target ingestion → lockTiers → sweep → gates → delivery (`runFull`). | local |
+| `scripts/sitc-run-db.mts` | Run-scoped DB lifecycle: `provision` / `seed` / `teardown` / `gc`. | local |
+| `ecosystem.sitc.config.cjs` | PM2: `sitc-gc` (safe cron daemon) + `sitc-orchestrator` (disabled by default). | local |
+| `apps/engine` (dev, port 4321) | Renders sections from worktree working files (harness fs mode). | local (`astro dev`) |
 
 ## Prerequisites
 - `DATABASE_URL` / `ADMIN_DATABASE_URL` → the Postgres control DB (the `sitc_*` tables are already pushed).
 - The engine running with harness filesystem mode: it's auto-on in `astro dev`; for a prod build set `SITC_HARNESS_FS=1`.
-- `claude` CLI authenticated on the host (the worker uses `claude -p`, **not** the API).
+- `claude` CLI authenticated locally with your own account (the worker uses `claude -p`, **not** the API). Never run SITC against a shared/VPS Claude auth — it burns everyone's session limit.
 - A target URL and a starting template under `templates/<name>/`.
 
 ## 1. Create a run (admin UI or DB)
@@ -35,7 +38,7 @@ Seeding validates the profile against the schema before writing.
 ## 3. Plan-only dry run (safe — no edits)
 ```bash
 DATABASE_URL=… SITC_ENGINE_URL=http://localhost:4321 \
-  pnpm tsx scripts/sitc-runner.mts --run <id> --owner vps
+  pnpm tsx scripts/sitc-runner.mts --run <id> --owner local
 ```
 Captures + segments the target, builds the band↔section alignment, and prints the
 PLAN (which sections it would evolve toward which target crop). **No worktree edits,
@@ -48,15 +51,15 @@ branch (the runner creates it; delivery only merges to `develop` on a clean auto
 decision per §13.4).
 ```bash
 SITC_ENABLE_WORKER=1 DATABASE_URL=… SITC_ENGINE_URL=http://localhost:4321 \
-  pnpm tsx scripts/sitc-runner.mts --run <id> --owner vps
+  pnpm tsx scripts/sitc-runner.mts --run <id> --owner local
 ```
 Pause/abort from the admin UI (commands are polled between sweep rounds); the single-
 owner lease prevents a second runner from racing the same run.
 
 **Delivery landing (I4).** On a clean, converged, gate-passing `tune-json`/`extend-variant`
 run the runner now lands the branch automatically (no manual cherry-pick):
-- default: local no-ff merge into `develop` — accumulates on the VPS so the **next run
-  seeds from the improved template** (CONCLUSIONS #7). A dirty/conflicting tree safely
+- default: local no-ff merge into `develop` — accumulates in your local checkout so the
+  **next run seeds from the improved template** (CONCLUSIONS #7). A dirty/conflicting tree safely
   **downgrades to `needs_review`** (branch intact), never crashes the run.
 - `SITC_DELIVERY_PUSH=1` — also `git push origin develop` (OUTWARD-FACING: triggers prod
   auto-deploy). Off by default.
@@ -69,7 +72,7 @@ The outcome is logged and written to `.sitc/runs/<id>/delivery.json`.
 export DATABASE_URL=…                       # so the config picks it up
 pm2 start ecosystem.sitc.config.cjs --only sitc-gc           # safe: orphan GC every 15 min
 # orchestrator is disabled by default; start a specific run explicitly:
-SITC_ENABLE_WORKER=1 pm2 start ecosystem.sitc.config.cjs --only sitc-orchestrator -- --run <id> --owner vps
+SITC_ENABLE_WORKER=1 pm2 start ecosystem.sitc.config.cjs --only sitc-orchestrator -- --run <id> --owner local
 pm2 logs sitc-orchestrator
 ```
 

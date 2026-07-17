@@ -33,8 +33,8 @@ schema pushed to prod, admin UI), the control-plane runner (`scripts/sitc-orches
 - [x] Verified with a fake `WorkerRunner` (no model spawned): 26/26 — strategy prompts/boundaries, kit + token
       surfacing, truncation, critique/lessons injection, tool authorization, verdict normalization, collaborator.
 - ⚠️ **Governance (execution, not code):** the code is ready, but RUNNING it spawns headless `claude -p` with
-      Edit/Write — an autonomous agent loop the harness gates. The operator runs the real loop (via the local
-      runner / VPS orchestrator), not the assistant. Wiring `createClaudeWorker` into the runner = Step 3/7.
+      Edit/Write — an autonomous agent loop the harness gates. The operator runs the real loop (the local
+      runner, from a plain terminal), not the assistant. Wiring `createClaudeWorker` into the runner = Step 3/7.
 
 ## Step 3 — Render integration: run-scoped DB ↔ engine 🖥️ (so there's something to open) ✅
 - [x] `renderSection` renders the run's **evolving profile from a working file** (`profilePath` option →
@@ -183,7 +183,7 @@ First point where you can **open a rendered section and compare it to the target
       - **Verified deterministically:** `packages/tests/sitc-lessons-ab.check.mts` — 17/17 (verdict logic incl.
         regression guard + only-on/off advantage, report rendering, and a fake-collaborator sweep proving
         `iterationsToLock` lands at the correct round). sitc-core type-checks clean; runner import graph resolves.
-      - **Operator step (the actual experiment):** on the VPS, run the same target twice — once normally, once
+      - **Operator step (the actual experiment):** locally, run the same target twice — once normally, once
         with `SITC_DISABLE_LESSONS=1` (needs a non-empty `sitc_lessons` store + a real `SITC_EMBED_CMD` for a fair
         ON arm) — then `pnpm sitc:lessons-ab`. Cheap falsification: if lessons don't move the number, delete a
         large subsystem (pgvector/distill/dedup/decay) and simplify.
@@ -234,7 +234,7 @@ First point where you can **open a rendered section and compare it to the target
       on `develop` automatically so the next run seeds improved — no hand cherry-picks. Built `landDelivery`
       (`delivery/delivery.ts`), wired into `runFull` (`pipeline/run.ts`) + the runner:
       - **auto-merge** (clean `tune-json`/`extend-variant`, threshold + gates pass) → no-ff merge into `develop`.
-        Local merge alone accumulates on the VPS so the next clone-template seed starts improved (CONCLUSIONS #7).
+        Local merge alone accumulates in the local checkout so the next clone-template seed starts improved (CONCLUSIONS #7).
       - **safe downgrade** — a dirty tree / conflict no longer crashes the run mid-flight (the old inline
         `mergeRunToDevelop` threw): it downgrades to `needs_review` with the branch intact and a reason note.
       - **opt-in push** — `SITC_DELIVERY_PUSH=1` pushes `develop` (outward-facing → prod deploy; off by default).

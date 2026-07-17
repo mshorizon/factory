@@ -93,7 +93,7 @@ even for a different website and a different template — starts smarter and con
 | **Stop conditions** | Score threshold **AND** plateau detection **AND** budget cap **AND** manual checkpoint. | Whichever fires first wins; see DESIGN §8. |
 | **Control plane** | **Pause / resume**, persisted in **PostgreSQL**, driven from a new **Admin Panel** page. | A run survives restarts; a human can pause, inspect, approve, or abort at any checkpoint. |
 | **Learning** | **Semantic (embedding-based) lessons store** read at the start of every run, written at the end. | Cross-run, cross-template compounding improvement (pgvector retrieval — see DESIGN §9). |
-| **Where it runs** | **Portable:** VPS (PM2) by default, **local optional** (to use a stronger local model). | Stateless orchestrator + `claude -p` workers ⇒ only env (`DATABASE_URL`, worker cmd, model) differs. One owner per run via DB lock. |
+| **Where it runs** | **Local, always.** SITC must work locally; run it from a **plain terminal** (not a Claude Code session) on a **quiet machine**. Never on the VPS (shared Claude auth). | Stateless orchestrator + `claude -p` workers ⇒ only env (`DATABASE_URL`, worker cmd, model) differs. One owner per run via DB lock. See [RUN-LOCAL.md](./RUN-LOCAL.md). |
 | **Render env** | **Isolated, run-scoped DB** — never the shared dev site. | Experiments can't destabilize `*.dev.hazelgrouse.pl` (which shares the prod environment). Torn down at run end. |
 | **Snapshot/revert** | **Per-run git branch** `sitc/run-<id>`; champion = commit, revert = targeted checkout. | Clean diffs, trivial per-section revert, reviewable final delta. |
 | **Delivery** | **Auto-merge into `develop`**, routed by risk — only clean tuning runs auto-merge. | `new-variant`/`new-section` runs stop in `needs_review` (§13.4). Any failed gate ⇒ `needs_review`, branch intact. |
@@ -103,16 +103,20 @@ even for a different website and a different template — starts smarter and con
 
 ## 13. Resolved decisions
 
-1. **Where the orchestrator runs — portable (VPS default, local optional).** Primary home is the VPS under
-   PM2 (lives for hours, survives SSH disconnect). But it must run **locally too**, because a stronger model
-   may be available there. This is achievable for free given the design: the orchestrator is stateless (all
-   state in PostgreSQL) and workers are `claude -p`, so the *only* environment differences are
-   `DATABASE_URL`, the worker command, and which model `claude` resolves to. Implications:
+1. **Where the orchestrator runs — local, always.** SITC runs **locally** and the feature must work locally.
+   The runner, engine, and git worktrees share one filesystem (the harness renders from a worktree working
+   file via an absolute `profilePath`), which is naturally true on your own machine. Two hard rules:
+   **(a)** launch the live loop from a **plain terminal**, not a Claude Code session — the Claude Code
+   auto-mode classifier blocks the worker's `--permission-mode acceptEdits`, silently dropping every edit;
+   **(b)** run on a **quiet machine** (low module-load, CONCLUSIONS #7). Do **not** run on the VPS: it is
+   authenticated against a shared Claude subscription, so a run there burns everyone's session limit. The
+   orchestrator is stateless (all state in PostgreSQL) and workers are `claude -p`, so the *only* environment
+   differences are `DATABASE_URL`, the worker command, and which model `claude` resolves to. Implications:
    - Everything configurable via env (`SITC_DB_URL`, `SITC_WORKER_CMD`, `SITC_MODEL`, render base URL).
    - Exactly **one** orchestrator may own a given `run_id` at a time → a DB advisory lock / `runs.locked_by`
-     guard prevents a VPS run and a local run from both driving the same run.
-   - A run started on the VPS can be paused, then resumed locally (it just re-reads DB state) — handy for
-     "let the better local model take the hard sections".
+     guard (`--owner local`) prevents two runners from both driving the same run.
+   - A run can be paused, then resumed later (it just re-reads DB state) — handy for
+     "let the better model take the hard sections".
 
 2. **Render target during a run — isolated, run-scoped DB (NOT the shared dev DB).** The live dev site can
    be unstable (prod shares the environment), and in-progress experiments must not disturb it. Each run gets
@@ -210,7 +214,7 @@ even for a different website and a different template — starts smarter and con
    write — now fixed to the schema-valid subset.
 4. **Single-section loop + sandbox** — `claude -p` worker (warm authoring kit, DESIGN §4.2) for `tune-json` on
    one section, with the **sanity gate incl. write-allowlist** (DESIGN §5.2a / §15), worktree-isolated
-   commit/revert + pairwise selection. Portable (VPS + local via env) here (§13.1).
+   commit/revert + pairwise selection. Runs locally (env-configurable) here (§13.1).
 5. ✅ **Full sweep + strategy escalation + scheduler (core DONE)** — `packages/sitc-core/src/loop/`:
    `checkAllowlist` (§15, security-critical write boundary), `sanityGate` (§5.2a — allowlist→import-boundary→
    build→validate), `nextStrategy`/`STRATEGY_LADDER` (§6), `pickNext` cost-aware scheduler (§5.6),

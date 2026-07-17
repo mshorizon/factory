@@ -113,7 +113,7 @@
       fixes: (a) `createRegressionChecks` gained a lazy memoized `cwd` thunk — the runner passes the
       CHAMPION base worktree, so pre-merge build/validate finally checks the code being merged (proven with
       a marker-file command: runs in the champion tree, nothing in repoRoot; back-compat default preserved).
-      (b) `mergeRunToDevelop`: HEAD==develop (VPS case) merges in place with the clean-tree guard; HEAD on
+      (b) `mergeRunToDevelop`: HEAD==develop (develop-checkout case) merges in place with the clean-tree guard; HEAD on
       any other branch merges in a THROWAWAY worktree pinned at develop — operator's branch, index, and
       dirty files untouched (develop checked out elsewhere → worktree-add refuses → safe downgrade).
       (c) `landDelivery` with push enabled fetches first and refuses BEFORE merging when local develop is

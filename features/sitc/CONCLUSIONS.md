@@ -39,9 +39,9 @@ for manual fixing. That full arc — evolve → converge → manual handoff — 
 
 6. **Machine contention is the dominant *local* failure mode — not the code.** Antivirus (Defender) scanning
    worktree/vite churn, IDE indexing, and other projects' dev daemons drove load to 40–50 and made Vite
-   compiles time out or `FailedToLoadModuleSSR`. At load <15 everything works. **Run on the VPS or a quiet
-   machine.** Also: spawn engines detached + kill the process group, and tear down on crash/signal, or
-   orphaned engines compound until the box saturates.
+   compiles time out or `FailedToLoadModuleSSR`. At load <15 everything works. SITC runs locally, so **run it
+   on a quiet machine** — close Docker/IDE indexers/other dev daemons first. Also: spawn engines detached +
+   kill the process group, and tear down on crash/signal, or orphaned engines compound until the box saturates.
 
 7. **Scope the worker to its own template.** It would otherwise propose edits to other businesses' templates
    (correctly rejected by the allowlist, but wasting iterations). Prompt + a defensive plan filter keep it in
