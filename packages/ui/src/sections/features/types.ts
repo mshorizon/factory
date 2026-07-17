@@ -52,3 +52,11 @@ export interface FeaturesNumberedSplitProps extends FeaturesGridProps {
    */
   imageDescription?: ImageDescriptionContent;
 }
+
+export interface FeaturesChecklistSplitProps {
+  items: FeatureItem[];
+  title?: string;
+  secondaryTitle?: string;
+  secondaryItems?: FeatureItem[];
+  className?: string;
+}

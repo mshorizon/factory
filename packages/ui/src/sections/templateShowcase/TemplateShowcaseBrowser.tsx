@@ -20,7 +20,7 @@ export function TemplateShowcaseBrowser({ templates, pills, className }: Templat
               href={tpl.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col rounded-radius overflow-hidden bg-card shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              className={cn("group flex flex-col rounded-radius overflow-hidden bg-card shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300", tpl.headline && "border border-border")}
             >
               <div
                 className="flex items-center justify-between px-spacing-md py-spacing-sm bg-foreground"
@@ -34,14 +34,23 @@ export function TemplateShowcaseBrowser({ templates, pills, className }: Templat
                 </span>
               </div>
 
-              <div className="aspect-[4/3] overflow-hidden bg-foreground/5">
-                <img
-                  src={tpl.screenshot}
-                  alt={tpl.name}
-                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-                  loading="lazy"
-                />
-              </div>
+              {tpl.headline ? (
+                <div className="flex flex-col justify-center gap-spacing-md aspect-[4/3] p-spacing-lg bg-secondary">
+                  <h3 className="font-heading text-lg font-bold leading-snug text-foreground">{tpl.headline}</h3>
+                  {tpl.ctaLabel && (
+                    <span className="self-start rounded-radius bg-primary px-spacing-md py-spacing-xs text-sm font-semibold text-on-accent">{tpl.ctaLabel}</span>
+                  )}
+                </div>
+              ) : (
+                <div className="aspect-[4/3] overflow-hidden bg-foreground/5">
+                  <img
+                    src={tpl.screenshot}
+                    alt={tpl.name}
+                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                </div>
+              )}
 
               <div className="px-spacing-md py-spacing-sm border-t border-foreground/10">
                 <span className="font-bold text-foreground">{tpl.tags?.[0] ?? tpl.name}</span>

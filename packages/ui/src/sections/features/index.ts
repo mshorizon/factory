@@ -3,4 +3,5 @@ export { FeaturesCompact } from "./FeaturesCompact";
 export { FeaturesGradient } from "./FeaturesGradient";
 export { FeaturesIconTiles } from "./FeaturesIconTiles";
 export { FeaturesNumberedSplit } from "./FeaturesNumberedSplit";
-export type { FeaturesGridProps, FeatureItem, FeaturesNumberedSplitProps } from "./types";
+export { FeaturesChecklistSplit } from "./FeaturesChecklistSplit";
+export type { FeaturesGridProps, FeatureItem, FeaturesNumberedSplitProps, FeaturesChecklistSplitProps } from "./types";

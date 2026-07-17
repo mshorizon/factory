@@ -333,7 +333,9 @@
               "demoUrl": "https://template-law.hazelgrouse.pl/",
               "tags": [
                 "Kancelaria prawna"
-              ]
+              ],
+              "headline": "Pewne wsparcie prawne dla Ciebie i Twojej firmy",
+              "ctaLabel": "Umów konsultację"
             },
             {
               "name": "ElektroMax",
@@ -342,7 +344,9 @@
               "demoUrl": "https://template-specialist.hazelgrouse.pl/",
               "tags": [
                 "Usługi elektryczne"
-              ]
+              ],
+              "headline": "Instalacje elektryczne bez niespodzianek",
+              "ctaLabel": "Wycena w 24 h"
             },
             {
               "name": "Trattoria Rosa",
@@ -352,7 +356,9 @@
               "tags": [
                 "Restauracja"
               ],
-              "accent": "#4a2a20"
+              "accent": "#4a2a20",
+              "headline": "Włoska kuchnia w sercu miasta",
+              "ctaLabel": "Zarezerwuj stolik"
             }
           ],
           "footnote": "…i każda inna branża — zapytaj o swoją",
@@ -401,6 +407,7 @@
           "type": "testimonials",
           "variant": "agency",
           "header": {
+            "layout": "stacked",
             "badge": "Opinie",
             "title": "Co mówią klienci",
             "subtitle": "Każda z tych osób najpierw zobaczyła gotową stronę — a potem zdecydowała się zapłacić."
@@ -524,52 +531,26 @@
         },
         {
           "type": "features",
-          "variant": "icon-tiles",
+          "variant": "checklist-split",
           "header": {
-            "title": "W każdym pakiecie w standardzie",
-            "subtitle": "Niezależnie od pakietu dostajesz solidne fundamenty — a po publikacji nie zostajesz sam."
+            "title": "W każdym pakiecie w standardzie"
           },
           "items": [
-            {
-              "icon": "shield-check",
-              "title": "Certyfikat SSL",
-              "description": "Bezpieczne połączenie i kłódka w przeglądarce od pierwszego dnia."
-            },
-            {
-              "icon": "file-text",
-              "title": "Zgodność z RODO",
-              "description": "Polityka prywatności i zgody dopięte na ostatni guzik."
-            },
-            {
-              "icon": "zap",
-              "title": "Szybkie ładowanie",
-              "description": "Strona otwiera się błyskawicznie — także na słabym łączu."
-            },
-            {
-              "icon": "phone",
-              "title": "Pełna wersja mobilna",
-              "description": "Dopracowany wygląd na każdym telefonie i tablecie."
-            },
-            {
-              "icon": "search",
-              "title": "Mapa Google",
-              "description": "Klienci od razu widzą, gdzie Cię znaleźć."
-            },
-            {
-              "icon": "clock",
-              "title": "Kopia zapasowa",
-              "description": "Regularny backup — Twoja strona jest bezpieczna."
-            },
-            {
-              "icon": "globe",
-              "title": "Hosting i domena",
-              "description": "Pomagam ogarnąć wszystko od A do Z po publikacji."
-            },
-            {
-              "icon": "wrench",
-              "title": "Opieka techniczna",
-              "description": "Drobne poprawki w pierwszym miesiącu w cenie, aktualizacje i kopie zapasowe."
-            }
+            { "title": "Certyfikat SSL" },
+            { "title": "Zgodność z RODO" },
+            { "title": "Szybkie ładowanie" },
+            { "title": "Pełna wersja mobilna" },
+            { "title": "Mapa Google" },
+            { "title": "Kopia zapasowa" },
+            { "title": "Podstawy SEO" }
+          ],
+          "secondaryTitle": "A po publikacji?",
+          "secondaryItems": [
+            { "title": "Hosting i domena — pomagam ogarnąć od A do Z" },
+            { "title": "Drobne poprawki w pierwszym miesiącu w cenie" },
+            { "title": "Opieka techniczna: aktualizacje i kopie zapasowe" },
+            { "title": "Podstawy SEO — Twoja strona gotowa, by klienci znaleźli Cię w Google" },
+            { "title": "Pełna własność — możesz przenieść stronę, gdzie chcesz" }
           ]
         },
         {
@@ -577,8 +558,9 @@
           "variant": "numbered-split",
           "background": "dark",
           "header": {
-            "badge": "Dostępny w każdym pakiecie",
-            "title": "Opcjonalny panel administratora"
+            "badge": "Panel administratora",
+            "title": "Zmieniaj stronę sam — albo zleć to mnie",
+            "subtitle": "Opcjonalny panel do każdego pakietu. Zmieniaj treści, zbieraj rezerwacje i zapytania — wszystko w jednym miejscu, z podglądem na żywo."
           },
           "items": [
             {
@@ -615,11 +597,37 @@
             "badge": "Blog",
             "title": "Zanim zdecydujesz — poczytaj",
             "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
-          }
+          },
+          "blogPosts": [
+            {
+              "category": "Poradnik",
+              "readTime": "5 min",
+              "title": "Strona firmowa w 2026 — co naprawdę musi mieć?",
+              "description": "Pięć elementów, bez których strona lokalnej firmy nie zamienia odwiedzin w telefony.",
+              "image": "/template-previews/blog-1.png",
+              "href": "#"
+            },
+            {
+              "category": "Za kulisami",
+              "readTime": "4 min",
+              "title": "Dlaczego pokazuję stronę, zanim wystawię fakturę",
+              "description": "Skąd wziął się mój model „najpierw efekt, potem płatność\" i komu naprawdę się opłaca.",
+              "image": "/template-previews/blog-2.png",
+              "href": "#"
+            },
+            {
+              "category": "Marketing",
+              "readTime": "6 min",
+              "title": "Wizytówka Google czy własna strona?",
+              "description": "Co wybrać na start przy małym budżecie — i dlaczego najlepiej działają razem.",
+              "image": "/template-previews/blog-3.png",
+              "href": "#"
+            }
+          ]
         },
         {
           "type": "faq",
-          "variant": "bordered",
+          "variant": "bordered-filled",
           "background": "dark",
           "header": {
             "badge": "FAQ",
@@ -714,7 +722,33 @@
             "badge": "Blog",
             "title": "Zanim zdecydujesz — poczytaj",
             "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
-          }
+          },
+          "blogPosts": [
+            {
+              "category": "Poradnik",
+              "readTime": "5 min",
+              "title": "Strona firmowa w 2026 — co naprawdę musi mieć?",
+              "description": "Pięć elementów, bez których strona lokalnej firmy nie zamienia odwiedzin w telefony.",
+              "image": "/template-previews/blog-1.png",
+              "href": "#"
+            },
+            {
+              "category": "Za kulisami",
+              "readTime": "4 min",
+              "title": "Dlaczego pokazuję stronę, zanim wystawię fakturę",
+              "description": "Skąd wziął się mój model „najpierw efekt, potem płatność\" i komu naprawdę się opłaca.",
+              "image": "/template-previews/blog-2.png",
+              "href": "#"
+            },
+            {
+              "category": "Marketing",
+              "readTime": "6 min",
+              "title": "Wizytówka Google czy własna strona?",
+              "description": "Co wybrać na start przy małym budżecie — i dlaczego najlepiej działają razem.",
+              "image": "/template-previews/blog-3.png",
+              "href": "#"
+            }
+          ]
         }
       ],
       "hideFromNav": true

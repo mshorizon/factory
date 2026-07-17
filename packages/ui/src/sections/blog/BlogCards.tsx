@@ -33,7 +33,7 @@ export function BlogCards({ posts, ctaLabel, className, withCard, columns = 3 }:
               </div>
             )}
             <div className={cn(withCard && "p-spacing-lg")}>
-              <span className="block h-[2px] mb-spacing-md w-8 bg-primary-light" />
+              {post.category ? (<div className="flex items-center gap-spacing-sm mb-spacing-md"><span className="inline-flex items-center rounded-radius bg-primary-light px-2.5 py-0.5 text-xs font-medium text-primary">{post.category}</span>{post.readTime && (<span className="text-xs text-muted">{post.readTime}</span>)}</div>) : (<span className="block h-[2px] mb-spacing-md w-8 bg-primary-light" />)}
               <h3
                 className="text-2xl font-heading text-foreground mb-spacing-sm"
                 data-field={`blogPosts.${index}.title`}

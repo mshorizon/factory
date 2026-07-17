@@ -12,6 +12,8 @@ interface Props {
 
 const { section, isHomePage = false, badgeVariant } = Astro.props;
 const variant = getSectionVariant(section);
+const filled = variant === "bordered-filled";
+const sectionBadgeVariant = (section as any).badgeVariant || badgeVariant;
 const header = getSectionHeader(section);
 const faqItems = section.faqItems || [];
 const ctaLabel = section.cta?.label;
@@ -74,14 +76,16 @@ const image = (section as any).image as string | undefined;
           title={header.title}
           subtitle={header.subtitle}
           background={section.background}
-          badgeVariant={badgeVariant as any}
+          badgeVariant={(filled ? "text" : sectionBadgeVariant) as any}
+          titleSize={filled ? "text-2xl md:text-3xl lg:text-4xl" : undefined}
         />
-        {variant === "bordered" ? (
+        {(variant === "bordered" || filled) ? (
           <FAQBordered
             client:visible
             items={faqItems}
             ctaText={ctaLabel}
             ctaHref={ctaHref}
+            filled={filled}
           />
         ) : (
           <FAQAccordion

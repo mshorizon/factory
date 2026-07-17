@@ -55,12 +55,12 @@ export { TestimonialsGrid, TestimonialsGradient, TestimonialsFeatured, Testimoni
 export type { TestimonialsGridProps, TestimonialsQuotesProps, TestimonialItem } from "./testimonials";
 
 // FAQ variants
-export { FAQAccordion, FAQBordered, FAQSplit } from "./faq";
+export { FAQAccordion, FAQBordered, FAQBorderedFilled, FAQSplit } from "./faq";
 export type { FAQAccordionProps, FAQSplitProps, FAQItem } from "./faq";
 
 // Features variants
-export { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, FeaturesNumberedSplit } from "./features";
-export type { FeaturesGridProps, FeatureItem, FeaturesNumberedSplitProps } from "./features";
+export { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, FeaturesNumberedSplit, FeaturesChecklistSplit } from "./features";
+export type { FeaturesGridProps, FeatureItem, FeaturesNumberedSplitProps, FeaturesChecklistSplitProps } from "./features";
 
 // CTA Banner variants
 export { CtaBannerDefault, CtaBannerTicker, CtaBannerCard, CtaBannerAgency, CtaBannerPanel } from "./ctaBanner";

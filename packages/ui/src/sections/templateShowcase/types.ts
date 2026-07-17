@@ -5,6 +5,8 @@ export interface TemplateItem {
   demoUrl: string;
   tags?: string[];
   accent?: string;
+  headline?: string;
+  ctaLabel?: string;
 }
 
 export interface TemplateShowcaseProps {

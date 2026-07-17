@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { FAQAccordionProps } from "./types";
 
-export function FAQBordered({ items, className, ctaText, ctaHref }: FAQAccordionProps) {
+export function FAQBordered({ items, className, ctaText, ctaHref, filled }: FAQAccordionProps) {
   const [openItems, setOpenItems] = React.useState<Set<number>>(new Set());
 
   const toggle = (index: number) => {
@@ -32,8 +32,8 @@ export function FAQBordered({ items, className, ctaText, ctaHref }: FAQAccordion
         }}
       />
 
-      <div className={cn("relative space-y-3 max-w-[780px] mx-auto", className)}>
-        <StaggerContainer className="space-y-3" staggerDelay={0.08}>
+      <div className={cn("relative max-w-[780px] mx-auto", filled ? "flex flex-col gap-spacing-md" : "space-y-3", className)}>
+        <StaggerContainer className={cn(filled ? "flex flex-col gap-spacing-md" : "space-y-3")} staggerDelay={0.08}>
           {items.map((item, index) => {
             const direction = index % 2 === 0 ? "left" : "right";
             const isOpen = openItems.has(index);
@@ -41,7 +41,12 @@ export function FAQBordered({ items, className, ctaText, ctaHref }: FAQAccordion
             return (
               <StaggerItem key={index} direction={direction} distance={20}>
                 <div
-                  className="rounded-md border border-border/15 bg-[rgba(255,255,255,0.05)] px-5 py-[1.125rem]"
+                  className={cn(
+                    filled
+                      ? "rounded-radius border border-border bg-background text-foreground px-spacing-lg py-spacing-lg"
+                      : "rounded-md border border-border/15 bg-[rgba(255,255,255,0.05)] px-5 py-[1.125rem]"
+                  )}
+                  style={filled ? ({ ["--background"]: "var(--page-background)", ["--card"]: "var(--page-card)", ["--foreground"]: "var(--page-foreground)", ["--muted"]: "var(--page-muted)", ["--border"]: "var(--page-border)" } as React.CSSProperties) : undefined}
                   data-field={`faqItems.${index}`}
                 >
                   <button

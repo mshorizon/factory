@@ -1,6 +1,6 @@
 ---
 import type { Section } from "@mshorizon/schema";
-import { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, FeaturesNumberedSplit, SectionHeader } from "@mshorizon/ui";
+import { FeaturesGrid, FeaturesCompact, FeaturesGradient, FeaturesIconTiles, FeaturesNumberedSplit, FeaturesChecklistSplit, SectionHeader } from "@mshorizon/ui";
 import { getSectionVariant, getSectionHeader } from "../../lib/pages";
 
 interface Props {
@@ -25,7 +25,15 @@ const items = rawItems.map((item: any) => ({
 
 <section>
   <div class="container mx-auto">
-    {variant === "numbered-split" ? (
+    {variant === "checklist-split" ? (
+      <FeaturesChecklistSplit
+        client:visible
+        items={items}
+        title={header.title}
+        secondaryTitle={(section as any).secondaryTitle}
+        secondaryItems={(section as any).secondaryItems || []}
+      />
+    ) : variant === "numbered-split" ? (
       <FeaturesNumberedSplit
         client:visible
         items={items}
