@@ -42,7 +42,6 @@ export type MajorTheme =
   | "template-tech"
   | "template-art"
   | "template-law"
-  | "template-studio"
   | "template-portfolio";
 export type ColorMode = "light" | "dark";
 export type PrimaryColor = string;
