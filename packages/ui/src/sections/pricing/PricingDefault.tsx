@@ -8,7 +8,8 @@ import { Button } from "../../atoms/Button";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import type { PricingDefaultProps } from "./types";
 
-export function PricingDefault({ tiers, className }: PricingDefaultProps) {
+export function PricingDefault({ tiers, className, layout }: PricingDefaultProps) {
+  const left = layout === "left";
   return (
     <StaggerContainer
       className={cn(
@@ -34,8 +35,8 @@ export function PricingDefault({ tiers, className }: PricingDefaultProps) {
                 </span>
               </div>
             )}
-            <CardHeader className={cn("text-center", tier.badge && "pt-8")}>
-              <CardDescription className="text-base font-medium" data-field={`pricingTiers.${index}.name`}>
+            <CardHeader className={cn(left ? "text-left" : "text-center", tier.badge && "pt-8")}>
+              <CardDescription className={cn("text-base", left ? "font-bold text-primary" : "font-medium")} data-field={`pricingTiers.${index}.name`}>
                 {tier.name}
               </CardDescription>
               <div className="mt-2" data-field={`pricingTiers.${index}.price`}>
@@ -52,10 +53,17 @@ export function PricingDefault({ tiers, className }: PricingDefaultProps) {
             </CardHeader>
             <CardContent className="flex-1">
               {tier.features && tier.features.length > 0 && (
-                <ul className="space-y-3">
+                <ul className={cn(left ? "" : "space-y-3")}>
                   {tier.features.map((feature, fIndex) => (
-                    <li key={fIndex} className="flex items-start gap-2.5">
-                      <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <li
+                      key={fIndex}
+                      className={cn(
+                        "flex items-start gap-2.5",
+                        left && "py-spacing-sm",
+                        left && fIndex > 0 && "border-t border-border/60"
+                      )}
+                    >
+                      <Check className={cn("text-primary shrink-0 mt-0.5", left ? "h-4 w-4" : "h-5 w-5")} />
                       <span className="text-sm text-muted">{feature}</span>
                     </li>
                   ))}

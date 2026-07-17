@@ -10,38 +10,66 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["page", "section", "external", "phone", "email"],
+          "enum": [
+            "page",
+            "section",
+            "external",
+            "phone",
+            "email"
+          ],
           "title": "TargetType"
         },
-        "value": { "type": "string", "title": "Target Value" }
+        "value": {
+          "type": "string",
+          "title": "Target Value"
+        }
       }
     },
     "cta": {
       "type": "object",
       "title": "Cta",
       "properties": {
-        "label": { "type": "string", "title": "Label" },
-        "target": { "$ref": "#/definitions/target" }
+        "label": {
+          "type": "string",
+          "title": "Label"
+        },
+        "target": {
+          "$ref": "#/definitions/target"
+        }
       },
-      "required": ["label"]
+      "required": [
+        "label"
+      ]
     },
     "link": {
       "type": "object",
       "title": "Link",
       "properties": {
-        "label": { "type": "string", "title": "Label" },
-        "target": { "$ref": "#/definitions/target" }
+        "label": {
+          "type": "string",
+          "title": "Label"
+        },
+        "target": {
+          "$ref": "#/definitions/target"
+        }
       },
-      "required": ["label"]
+      "required": [
+        "label"
+      ]
     },
     "footerColumn": {
       "type": "object",
       "title": "FooterColumn",
       "properties": {
-        "title": { "type": "string", "title": "Column Title" },
+        "title": {
+          "type": "string",
+          "title": "Column Title"
+        },
         "links": {
           "type": "array",
-          "items": { "$ref": "#/definitions/link" }
+          "items": {
+            "$ref": "#/definitions/link"
+          }
         }
       }
     },
@@ -49,102 +77,234 @@
       "type": "object",
       "title": "FooterHoursRow",
       "properties": {
-        "label": { "type": "string", "title": "Day Label" },
-        "value": { "type": "string", "title": "Hours Value" },
-        "highlight": { "type": "boolean", "title": "Highlight Row", "description": "Render the value in the primary accent color", "default": false }
+        "label": {
+          "type": "string",
+          "title": "Day Label"
+        },
+        "value": {
+          "type": "string",
+          "title": "Hours Value"
+        },
+        "highlight": {
+          "type": "boolean",
+          "title": "Highlight Row",
+          "description": "Render the value in the primary accent color",
+          "default": false
+        }
       },
-      "required": ["label", "value"]
+      "required": [
+        "label",
+        "value"
+      ]
     },
     "sectionHeader": {
       "type": "object",
       "title": "SectionHeader",
       "properties": {
-        "badge": { "type": "string", "title": "Badge Text" },
-        "title": { "type": "string", "title": "Title" },
-        "subtitle": { "type": "string", "title": "Subtitle" },
-        "layout": { "type": "string", "title": "Header Layout", "enum": ["stacked", "split", "most-minimalistic", "none"] },
-        "align": { "type": "string", "title": "Header Alignment", "enum": ["left", "center", "right"], "description": "Horizontal alignment of the section header (badge, title, subtitle). When omitted, the section variant decides." },
-        "flag": { "type": "boolean", "title": "Show Flag Bar", "description": "Render a small country flag accent bar (144x3px, using the theme navLogoFlag stripe colors) below the title." }
+        "badge": {
+          "type": "string",
+          "title": "Badge Text"
+        },
+        "title": {
+          "type": "string",
+          "title": "Title"
+        },
+        "subtitle": {
+          "type": "string",
+          "title": "Subtitle"
+        },
+        "layout": {
+          "type": "string",
+          "title": "Header Layout",
+          "enum": [
+            "stacked",
+            "split",
+            "most-minimalistic",
+            "none"
+          ]
+        },
+        "align": {
+          "type": "string",
+          "title": "Header Alignment",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ],
+          "description": "Horizontal alignment of the section header (badge, title, subtitle). When omitted, the section variant decides."
+        },
+        "flag": {
+          "type": "boolean",
+          "title": "Show Flag Bar",
+          "description": "Render a small country flag accent bar (144x3px, using the theme navLogoFlag stripe colors) below the title."
+        }
       }
     },
     "productCustomizationOption": {
       "type": "object",
       "title": "ProductCustomizationOption",
       "properties": {
-        "value": { "type": "string" },
-        "label": { "type": "string" },
-        "priceModifier": { "type": "number" }
+        "value": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "priceModifier": {
+          "type": "number"
+        }
       },
-      "required": ["value", "label"]
+      "required": [
+        "value",
+        "label"
+      ]
     },
     "productCustomization": {
       "type": "object",
       "title": "ProductCustomization",
       "properties": {
-        "id": { "type": "string" },
-        "label": { "type": "string" },
-        "type": { "type": "string", "enum": ["select"] },
-        "required": { "type": "boolean" },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "select"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
         "options": {
           "type": "array",
-          "items": { "$ref": "#/definitions/productCustomizationOption" }
+          "items": {
+            "$ref": "#/definitions/productCustomizationOption"
+          }
         }
       },
-      "required": ["id", "label", "type", "options"]
+      "required": [
+        "id",
+        "label",
+        "type",
+        "options"
+      ]
     },
     "product": {
       "type": "object",
       "title": "Product",
       "properties": {
-        "id": { "type": "string" },
-        "title": { "type": "string" },
-        "description": { "type": "string" },
-        "price": { "type": "number" },
-        "image": { "type": "string" },
-        "category": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "image": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
         "attributes": {
           "type": "array",
           "items": {
             "type": "object",
             "title": "ProductAttribute",
             "properties": {
-              "key": { "type": "string" },
-              "value": { "type": "string" }
+              "key": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
             },
-            "required": ["key", "value"]
+            "required": [
+              "key",
+              "value"
+            ]
           }
         },
-        "inStock": { "type": "boolean" },
+        "inStock": {
+          "type": "boolean"
+        },
         "customizations": {
           "type": "array",
-          "items": { "$ref": "#/definitions/productCustomization" }
+          "items": {
+            "$ref": "#/definitions/productCustomization"
+          }
         }
       },
-      "required": ["id", "title", "price"]
+      "required": [
+        "id",
+        "title",
+        "price"
+      ]
     },
     "service": {
       "type": "object",
       "title": "Service",
       "properties": {
-        "id": { "type": "string" },
-        "slug": { "type": "string" },
-        "title": { "type": "string" },
-        "description": { "type": "string" },
-        "content": { "type": "string" },
-        "price": { "type": "number" },
-        "priceLabel": { "type": "string" },
-        "image": { "type": "string" },
-        "icon": { "type": "string" },
-        "category": { "type": "string" },
-        "duration": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "priceLabel": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
         "features": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "available": { "type": "boolean" },
-        "blogSlug": { "type": "string", "title": "Blog Slug (links to a blog-standalone post shown after service details)" }
+        "available": {
+          "type": "boolean"
+        },
+        "blogSlug": {
+          "type": "string",
+          "title": "Blog Slug (links to a blog-standalone post shown after service details)"
+        }
       },
-      "required": ["id", "title", "slug"]
+      "required": [
+        "id",
+        "title",
+        "slug"
+      ]
     },
     "section": {
       "type": "object",
@@ -153,32 +313,98 @@
         "type": {
           "type": "string",
           "title": "SectionType",
-          "enum": ["hero", "services", "categories", "about", "about-summary", "mission", "contact", "shop", "gallery", "testimonials", "process", "serviceArea", "trustBar", "galleryBA", "faq", "features", "ctaBanner", "blog", "blog-standalone", "map", "ref", "booking", "pricing", "project", "comparison", "team", "events", "files", "templateShowcase"]
+          "enum": [
+            "hero",
+            "services",
+            "categories",
+            "about",
+            "about-summary",
+            "mission",
+            "contact",
+            "shop",
+            "gallery",
+            "testimonials",
+            "process",
+            "serviceArea",
+            "trustBar",
+            "galleryBA",
+            "faq",
+            "features",
+            "ctaBanner",
+            "blog",
+            "blog-standalone",
+            "map",
+            "ref",
+            "booking",
+            "pricing",
+            "project",
+            "comparison",
+            "team",
+            "events",
+            "files",
+            "templateShowcase"
+          ]
         },
-        "sectionId": { "type": "string", "title": "Shared Section ID (used when type is ref)" },
-        "blogSlug": { "type": "string", "title": "Blog Slug (used when type is blog-standalone)" },
+        "sectionId": {
+          "type": "string",
+          "title": "Shared Section ID (used when type is ref)"
+        },
+        "blogSlug": {
+          "type": "string",
+          "title": "Blog Slug (used when type is blog-standalone)"
+        },
         "blogSlugs": {
           "type": "array",
           "title": "Blog Slugs (filter — when type is blog, render only these blogs in the given order; supports standalone blogs)",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "sidebarContact": {
           "type": "object",
           "title": "Sidebar Contact Card",
           "properties": {
-            "name": { "type": "string", "title": "Name" },
-            "role": { "type": "string", "title": "Role / Title" },
-            "image": { "type": "string", "title": "Avatar Image URL" },
-            "phone": { "type": "string", "title": "Phone" },
-            "email": { "type": "string", "title": "Email" },
-            "cta": { "$ref": "#/definitions/cta" }
+            "name": {
+              "type": "string",
+              "title": "Name"
+            },
+            "role": {
+              "type": "string",
+              "title": "Role / Title"
+            },
+            "image": {
+              "type": "string",
+              "title": "Avatar Image URL"
+            },
+            "phone": {
+              "type": "string",
+              "title": "Phone"
+            },
+            "email": {
+              "type": "string",
+              "title": "Email"
+            },
+            "cta": {
+              "$ref": "#/definitions/cta"
+            }
           }
         },
-        "variant": { "type": "string", "title": "Variant" },
+        "variant": {
+          "type": "string",
+          "title": "Variant"
+        },
         "background": {
           "type": "string",
           "title": "Section Background",
-          "enum": ["light", "dark", "dark-padded", "light-padded", "primary", "gradient", "transparent"]
+          "enum": [
+            "light",
+            "dark",
+            "dark-padded",
+            "light-padded",
+            "primary",
+            "gradient",
+            "transparent"
+          ]
         },
         "backgroundColor": {
           "type": "string",
@@ -190,78 +416,278 @@
           "title": "Card Background Color Override (custom CSS color, e.g. '#26201c')",
           "description": "Overrides the background color of the section's inner card/panel (e.g. the quote panel in the about 'quote-split' variant). Full CSS color value."
         },
-        "header": { "$ref": "#/definitions/sectionHeader" },
-        "paddingTop": { "type": "string", "title": "Section Top Padding Override (e.g. '120px', '8rem')" },
-        "paddingBottom": { "type": "string", "title": "Section Bottom Padding Override (e.g. '120px', '8rem')" },
-        "backgroundImage": { "type": "string", "title": "Background Image URL" },
-        "image": { "type": "string", "title": "Image URL" },
-        "hideDots": { "type": "boolean", "title": "Hide Decorative Dots" },
-        "imagePosition": { "type": "string", "title": "Image Position", "enum": ["left", "right"] },
-        "contentAlign": { "type": "string", "title": "Overlay Content Alignment", "enum": ["left", "right"], "description": "Horizontal placement of the overlaid text in the about 'quote-split' image-overlay layout (when 'image' is set). 'right' (default) anchors the copy to the right side of the photo; 'left' to the left." },
-        "imageRounded": { "type": "boolean", "title": "Round Image Corners", "description": "When false, renders the section image with square (un-rounded) corners. Defaults to true (rounded)." },
-        "badgeLayout": { "type": "string", "title": "Badge Layout Direction", "enum": ["row", "column"] },
-        "badgeVariant": { "type": "string", "title": "Section-level Badge Variant Override", "enum": ["accent", "accent-no-line", "outlined", "text"] },
-        "badgeColor": { "type": "string", "title": "Badge Text Color Override" },
-        "descriptionColor": { "type": "string", "title": "Description Text Color Override" },
-        "contentFontFamily": { "type": "string", "title": "Body Content Font Family Override", "description": "Overrides the font-family of the section's main body/story text (the 'big text' content). Full CSS font-family value, e.g. \"'DM Sans', sans-serif\"." },
-        "contentFontSize": { "type": "string", "title": "Body Content Font Size Override", "description": "Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'." },
-        "imageWidth": { "type": "string", "title": "Section Image Width Override", "description": "Overrides the about-section image width. Full CSS length value, e.g. '560px'. Defaults to 448px." },
-        "imageHeight": { "type": "string", "title": "Section Image Height Override", "description": "Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px." },
-        "imageBlend": { "type": "string", "title": "Image Blend Effect", "enum": ["feather", "soft"], "description": "Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look." },
-        "imageBorder": { "type": "boolean", "title": "Image Text-Color Border Mat", "description": "When true (about 'story' variant), wraps the image in an almost-transparent border tinted with the page text color, inset by a small padding mat so the background shows between the image and the border. Replaces the floating drop shadow." },
-        "imageMeta": { "type": "string", "title": "Image Card Label", "description": "Small mono uppercase label rendered above the image card (project 'caseStudyFlow' variant), e.g. '02 · Gotowa strona'." },
+        "header": {
+          "$ref": "#/definitions/sectionHeader"
+        },
+        "paddingTop": {
+          "type": "string",
+          "title": "Section Top Padding Override (e.g. '120px', '8rem')"
+        },
+        "paddingBottom": {
+          "type": "string",
+          "title": "Section Bottom Padding Override (e.g. '120px', '8rem')"
+        },
+        "backgroundImage": {
+          "type": "string",
+          "title": "Background Image URL"
+        },
+        "image": {
+          "type": "string",
+          "title": "Image URL"
+        },
+        "hideDots": {
+          "type": "boolean",
+          "title": "Hide Decorative Dots"
+        },
+        "imagePosition": {
+          "type": "string",
+          "title": "Image Position",
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "contentAlign": {
+          "type": "string",
+          "title": "Overlay Content Alignment",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "description": "Horizontal placement of the overlaid text in the about 'quote-split' image-overlay layout (when 'image' is set). 'right' (default) anchors the copy to the right side of the photo; 'left' to the left."
+        },
+        "imageRounded": {
+          "type": "boolean",
+          "title": "Round Image Corners",
+          "description": "When false, renders the section image with square (un-rounded) corners. Defaults to true (rounded)."
+        },
+        "badgeLayout": {
+          "type": "string",
+          "title": "Badge Layout Direction",
+          "enum": [
+            "row",
+            "column"
+          ]
+        },
+        "badgeVariant": {
+          "type": "string",
+          "title": "Section-level Badge Variant Override",
+          "enum": [
+            "accent",
+            "accent-no-line",
+            "outlined",
+            "text"
+          ]
+        },
+        "badgeColor": {
+          "type": "string",
+          "title": "Badge Text Color Override"
+        },
+        "descriptionColor": {
+          "type": "string",
+          "title": "Description Text Color Override"
+        },
+        "contentFontFamily": {
+          "type": "string",
+          "title": "Body Content Font Family Override",
+          "description": "Overrides the font-family of the section's main body/story text (the 'big text' content). Full CSS font-family value, e.g. \"'DM Sans', sans-serif\"."
+        },
+        "contentFontSize": {
+          "type": "string",
+          "title": "Body Content Font Size Override",
+          "description": "Overrides the font-size of the section's main body/story text content. Full CSS length value, e.g. '18px', '1.125rem'."
+        },
+        "imageWidth": {
+          "type": "string",
+          "title": "Section Image Width Override",
+          "description": "Overrides the about-section image width. Full CSS length value, e.g. '560px'. Defaults to 448px."
+        },
+        "imageHeight": {
+          "type": "string",
+          "title": "Section Image Height Override",
+          "description": "Overrides the about-section image height. Full CSS length value, e.g. '620px'. Defaults to 500px."
+        },
+        "imageBlend": {
+          "type": "string",
+          "title": "Image Blend Effect",
+          "enum": [
+            "feather",
+            "soft"
+          ],
+          "description": "Integrates the about-section image with the page instead of a floating shadowed card. 'feather' softly fades the image edges into the background; 'soft' replaces the hard drop shadow with a large low-opacity ambient shadow. Omit for the legacy shadowed-card look."
+        },
+        "imageBorder": {
+          "type": "boolean",
+          "title": "Image Text-Color Border Mat",
+          "description": "When true (about 'story' variant), wraps the image in an almost-transparent border tinted with the page text color, inset by a small padding mat so the background shows between the image and the border. Replaces the floating drop shadow."
+        },
+        "imageMeta": {
+          "type": "string",
+          "title": "Image Card Label",
+          "description": "Small mono uppercase label rendered above the image card (project 'caseStudyFlow' variant), e.g. '02 · Gotowa strona'."
+        },
         "imageDescription": {
           "type": "object",
           "title": "Image Caption Overlay",
           "description": "Optional two-line caption overlaid on the bottom-left corner of the about-section image (about 'story' variant): a small name line plus an italic description line, left-aligned with 20px/24px padding.",
           "properties": {
-            "name": { "type": "string", "title": "Name Line", "description": "First line — small name/title. Defaults to 12px DM Sans." },
-            "description": { "type": "string", "title": "Description Line", "description": "Second line — italic subtitle. Defaults to 18px Cormorant Garamond." },
-            "color": { "type": "string", "title": "Text Color", "description": "Overlay text color. Full CSS color value, e.g. '#f0ebdb'." },
-            "nameFontFamily": { "type": "string", "title": "Name Font Family", "description": "Overrides the name line font-family. Full CSS font-family value." },
-            "descriptionFontFamily": { "type": "string", "title": "Description Font Family", "description": "Overrides the description line font-family. Full CSS font-family value." }
+            "name": {
+              "type": "string",
+              "title": "Name Line",
+              "description": "First line — small name/title. Defaults to 12px DM Sans."
+            },
+            "description": {
+              "type": "string",
+              "title": "Description Line",
+              "description": "Second line — italic subtitle. Defaults to 18px Cormorant Garamond."
+            },
+            "color": {
+              "type": "string",
+              "title": "Text Color",
+              "description": "Overlay text color. Full CSS color value, e.g. '#f0ebdb'."
+            },
+            "nameFontFamily": {
+              "type": "string",
+              "title": "Name Font Family",
+              "description": "Overrides the name line font-family. Full CSS font-family value."
+            },
+            "descriptionFontFamily": {
+              "type": "string",
+              "title": "Description Font Family",
+              "description": "Overrides the description line font-family. Full CSS font-family value."
+            }
           }
         },
-        "ctaColor": { "type": "string", "title": "CTA Text Color Override" },
-        "scrollColor": { "type": "string", "title": "Hero Scroll Indicator Color Override", "description": "Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
-        "textColor": { "type": "string", "title": "Hero Text Color Override", "description": "Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'." },
-        "titleDividerColor": { "type": "string", "title": "Hero Title Divider Color", "description": "When set, renders a thin horizontal divider line directly under the hero title (default hero-fold variant), in this color. Custom CSS color value, e.g. '#f0ebdb'." },
-        "imageFrame": { "type": "boolean", "title": "Hero Image Frame", "description": "When false, removes the inset picture-frame line drawn around the hero background image (default hero-fold variant). Defaults to true (frame shown)." },
-        "overlayColor": { "type": "string", "title": "Hero Overlay Color Override", "description": "Overrides the dark overlay drawn over the hero background image across the whole image (default hero-fold variant). Higher opacity = darker image. Full CSS color value, e.g. 'rgba(20,17,15,0.6)' or 'color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)'. Defaults to a 40% dark overlay." },
-        "mapPanelButtonColor": { "type": "string", "title": "Map Panel Button Color", "enum": ["primary", "primary-light"], "description": "Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'." },
-        "headerLineColor": { "type": "string", "title": "Header Decorative Line Color", "enum": ["primary", "foreground"], "description": "Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'." },
-        "statsInverted": { "type": "boolean", "title": "Invert stat colors (light bg, dark text)" },
-        "cta": { "$ref": "#/definitions/cta" },
-        "secondaryCta": { "$ref": "#/definitions/cta" },
+        "ctaColor": {
+          "type": "string",
+          "title": "CTA Text Color Override"
+        },
+        "scrollColor": {
+          "type": "string",
+          "title": "Hero Scroll Indicator Color Override",
+          "description": "Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'."
+        },
+        "textColor": {
+          "type": "string",
+          "title": "Hero Text Color Override",
+          "description": "Overrides the color of the hero title and subtitle text (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'."
+        },
+        "titleDividerColor": {
+          "type": "string",
+          "title": "Hero Title Divider Color",
+          "description": "When set, renders a thin horizontal divider line directly under the hero title (default hero-fold variant), in this color. Custom CSS color value, e.g. '#f0ebdb'."
+        },
+        "imageFrame": {
+          "type": "boolean",
+          "title": "Hero Image Frame",
+          "description": "When false, removes the inset picture-frame line drawn around the hero background image (default hero-fold variant). Defaults to true (frame shown)."
+        },
+        "overlayColor": {
+          "type": "string",
+          "title": "Hero Overlay Color Override",
+          "description": "Overrides the dark overlay drawn over the hero background image across the whole image (default hero-fold variant). Higher opacity = darker image. Full CSS color value, e.g. 'rgba(20,17,15,0.6)' or 'color-mix(in oklab, hsl(24 15% 10%) 60%, transparent)'. Defaults to a 40% dark overlay."
+        },
+        "mapPanelButtonColor": {
+          "type": "string",
+          "title": "Map Panel Button Color",
+          "enum": [
+            "primary",
+            "primary-light"
+          ],
+          "description": "Color for the action buttons (directions, open in maps) inside the custom map overlay panel. Defaults to 'primary-light'."
+        },
+        "headerLineColor": {
+          "type": "string",
+          "title": "Header Decorative Line Color",
+          "enum": [
+            "primary",
+            "foreground"
+          ],
+          "description": "Color of the decorative line in the section header (e.g. ContactProfessional title block). Defaults to 'foreground'."
+        },
+        "statsInverted": {
+          "type": "boolean",
+          "title": "Invert stat colors (light bg, dark text)"
+        },
+        "cta": {
+          "$ref": "#/definitions/cta"
+        },
+        "secondaryCta": {
+          "$ref": "#/definitions/cta"
+        },
         "socialCta": {
           "type": "object",
           "title": "Social CTA (ghost button)",
           "description": "A ghost-style link rendered below the gallery grid (e.g. 'FOLLOW US on instagram @handle'). The full text is shown uppercase; the 'highlight' substring within it is rendered in 'highlightColor'.",
           "properties": {
-            "text": { "type": "string", "title": "Text" },
-            "highlight": { "type": "string", "title": "Highlight Substring", "description": "A substring of 'text' rendered in the highlight color (e.g. a social handle)." },
-            "highlightColor": { "type": "string", "title": "Highlight Color (custom CSS color, e.g. '#d94a26')" },
-            "href": { "type": "string", "title": "Link URL" }
+            "text": {
+              "type": "string",
+              "title": "Text"
+            },
+            "highlight": {
+              "type": "string",
+              "title": "Highlight Substring",
+              "description": "A substring of 'text' rendered in the highlight color (e.g. a social handle)."
+            },
+            "highlightColor": {
+              "type": "string",
+              "title": "Highlight Color (custom CSS color, e.g. '#d94a26')"
+            },
+            "href": {
+              "type": "string",
+              "title": "Link URL"
+            }
           },
-          "required": ["text"]
+          "required": [
+            "text"
+          ]
         },
-        "detailsLabel": { "type": "string", "title": "Details Button Label (e.g. 'See details', 'Learn more')" },
-        "columns": { "type": "integer", "title": "Services Column Count", "enum": [1, 2, 3], "description": "Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant." },
-        "footnote": { "type": "string", "title": "Section Footnote", "description": "Supplementary text rendered in italic below the section content (e.g. below the services list)." },
+        "detailsLabel": {
+          "type": "string",
+          "title": "Details Button Label (e.g. 'See details', 'Learn more')"
+        },
+        "columns": {
+          "type": "integer",
+          "title": "Services Column Count",
+          "enum": [
+            1,
+            2,
+            3
+          ],
+          "description": "Number of columns for the services list/grid layout. Defaults to 1 (single column) for the list variant."
+        },
+        "footnote": {
+          "type": "string",
+          "title": "Section Footnote",
+          "description": "Supplementary text rendered in italic below the section content (e.g. below the services list)."
+        },
         "pills": {
           "type": "array",
           "title": "Pill Tags",
           "description": "Plain-text pill labels rendered below the section content (e.g. additional industries in the templateShowcase 'browser' variant).",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "maxWidth": { "type": "string", "title": "Section Max Width Override", "description": "Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths." },
+        "maxWidth": {
+          "type": "string",
+          "title": "Section Max Width Override",
+          "description": "Constrains the section content container to a maximum width. Full CSS length value, e.g. '976px'. Overrides the default responsive container max-widths."
+        },
         "testimonial": {
           "type": "object",
           "title": "Testimonial",
           "properties": {
-            "title": { "type": "string" },
-            "quote": { "type": "string" },
-            "image": { "type": "string", "title": "Avatar Image URL" }
+            "title": {
+              "type": "string"
+            },
+            "quote": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string",
+              "title": "Avatar Image URL"
+            }
           }
         },
         "testimonials": {
@@ -270,9 +696,16 @@
           "items": {
             "type": "object",
             "properties": {
-              "title": { "type": "string" },
-              "quote": { "type": "string" },
-              "image": { "type": "string", "title": "Avatar Image URL" }
+              "title": {
+                "type": "string"
+              },
+              "quote": {
+                "type": "string"
+              },
+              "image": {
+                "type": "string",
+                "title": "Avatar Image URL"
+              }
             }
           }
         },
@@ -289,8 +722,14 @@
             "type": "object",
             "title": "ScheduleCard",
             "properties": {
-              "title": { "type": "string", "title": "Card Title" },
-              "icon": { "type": "string", "title": "Lucide Icon Name" },
+              "title": {
+                "type": "string",
+                "title": "Card Title"
+              },
+              "icon": {
+                "type": "string",
+                "title": "Lucide Icon Name"
+              },
               "rows": {
                 "type": "array",
                 "title": "Rows",
@@ -298,8 +737,14 @@
                   "type": "object",
                   "title": "ScheduleRow",
                   "properties": {
-                    "label": { "type": "string", "title": "Label" },
-                    "value": { "type": "string", "title": "Value" }
+                    "label": {
+                      "type": "string",
+                      "title": "Label"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
                   }
                 }
               }
@@ -313,30 +758,86 @@
             "type": "object",
             "title": "ServiceItem",
             "properties": {
-              "id": { "type": "string" },
-              "slug": { "type": "string" },
-              "title": { "type": "string" },
-              "description": { "type": "string" },
-              "price": { "type": "string" },
-              "icon": { "type": "string" },
-              "image": { "type": "string" },
+              "id": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "price": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              },
+              "image": {
+                "type": "string"
+              },
               "tags": {
                 "type": "array",
                 "title": "Feature Tags",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               },
-              "author": { "type": "string", "title": "Author Name" },
-              "role": { "type": "string", "title": "Author Role" },
-              "metric": { "type": "string", "title": "Metric" },
-              "metricLabel": { "type": "string", "title": "Metric Label" },
-              "dateStart": { "type": "string", "title": "Start Date" },
-              "dateEnd": { "type": "string", "title": "End Date" },
-              "meta": { "type": "string", "title": "Meta Note", "description": "Short note shown top-right of an event card (e.g. 'Limited seats')." },
-              "href": { "type": "string", "title": "Link URL" },
-              "linkLabel": { "type": "string", "title": "Link Label" },
-              "category": { "type": "string", "title": "Category", "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown." },
-              "orderable": { "type": "boolean", "title": "Orderable", "description": "When true, this menu item can be added to the cart and ordered online. Requires priceValue." },
-              "priceValue": { "type": "number", "title": "Price (number)", "description": "Numeric price (e.g. 23.5 for 23,50 zł) — used for cart pricing. Required when orderable is true." }
+              "author": {
+                "type": "string",
+                "title": "Author Name"
+              },
+              "role": {
+                "type": "string",
+                "title": "Author Role"
+              },
+              "metric": {
+                "type": "string",
+                "title": "Metric"
+              },
+              "metricLabel": {
+                "type": "string",
+                "title": "Metric Label"
+              },
+              "dateStart": {
+                "type": "string",
+                "title": "Start Date"
+              },
+              "dateEnd": {
+                "type": "string",
+                "title": "End Date"
+              },
+              "meta": {
+                "type": "string",
+                "title": "Meta Note",
+                "description": "Short note shown top-right of an event card (e.g. 'Limited seats')."
+              },
+              "href": {
+                "type": "string",
+                "title": "Link URL"
+              },
+              "linkLabel": {
+                "type": "string",
+                "title": "Link Label"
+              },
+              "category": {
+                "type": "string",
+                "title": "Category",
+                "description": "ID of the serviceCategories tab this item belongs to. When the section defines serviceCategories, only items matching the active tab are shown."
+              },
+              "orderable": {
+                "type": "boolean",
+                "title": "Orderable",
+                "description": "When true, this menu item can be added to the cart and ordered online. Requires priceValue."
+              },
+              "priceValue": {
+                "type": "number",
+                "title": "Price (number)",
+                "description": "Numeric price (e.g. 23.5 for 23,50 zł) — used for cart pricing. Required when orderable is true."
+              }
             }
           }
         },
@@ -348,10 +849,19 @@
             "type": "object",
             "title": "ServiceCategory",
             "properties": {
-              "id": { "type": "string", "title": "Category ID" },
-              "label": { "type": "string", "title": "Tab Label" }
+              "id": {
+                "type": "string",
+                "title": "Category ID"
+              },
+              "label": {
+                "type": "string",
+                "title": "Tab Label"
+              }
             },
-            "required": ["id", "label"]
+            "required": [
+              "id",
+              "label"
+            ]
           }
         },
         "categoryGroups": {
@@ -362,12 +872,20 @@
             "type": "object",
             "title": "CategoryGroup",
             "properties": {
-              "id": { "type": "string", "title": "Group ID" },
-              "label": { "type": "string", "title": "Group Tab Label" },
+              "id": {
+                "type": "string",
+                "title": "Group ID"
+              },
+              "label": {
+                "type": "string",
+                "title": "Group Tab Label"
+              },
               "categories": {
                 "type": "array",
                 "title": "Constituent Category IDs",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               },
               "showSubTabs": {
                 "type": "boolean",
@@ -375,7 +893,11 @@
                 "description": "When true, selecting this group tab reveals a second row of sub-tabs for each constituent category."
               }
             },
-            "required": ["id", "label", "categories"]
+            "required": [
+              "id",
+              "label",
+              "categories"
+            ]
           }
         },
         "defaultCategory": {
@@ -391,29 +913,59 @@
             "type": "object",
             "title": "CategoryImage",
             "properties": {
-              "id": { "type": "string", "title": "Tab/Group ID", "description": "Matches a serviceCategories tab id or a categoryGroups group id." },
-              "image": { "type": "string", "title": "Image URL" },
+              "id": {
+                "type": "string",
+                "title": "Tab/Group ID",
+                "description": "Matches a serviceCategories tab id or a categoryGroups group id."
+              },
+              "image": {
+                "type": "string",
+                "title": "Image URL"
+              },
               "imageDescription": {
                 "type": "object",
                 "title": "Image Caption Overlay",
                 "description": "Two-line caption overlaid on the bottom-left corner of the image: a small name line plus an italic description line.",
                 "properties": {
-                  "name": { "type": "string", "title": "Name Line" },
-                  "description": { "type": "string", "title": "Description Line" },
-                  "color": { "type": "string", "title": "Text Color", "description": "Full CSS color value, e.g. '#f0ebdb'." },
-                  "nameFontFamily": { "type": "string", "title": "Name Font Family" },
-                  "descriptionFontFamily": { "type": "string", "title": "Description Font Family" }
+                  "name": {
+                    "type": "string",
+                    "title": "Name Line"
+                  },
+                  "description": {
+                    "type": "string",
+                    "title": "Description Line"
+                  },
+                  "color": {
+                    "type": "string",
+                    "title": "Text Color",
+                    "description": "Full CSS color value, e.g. '#f0ebdb'."
+                  },
+                  "nameFontFamily": {
+                    "type": "string",
+                    "title": "Name Font Family"
+                  },
+                  "descriptionFontFamily": {
+                    "type": "string",
+                    "title": "Description Font Family"
+                  }
                 }
               }
             },
-            "required": ["id", "image"]
+            "required": [
+              "id",
+              "image"
+            ]
           }
         },
         "story": {
           "type": "object",
           "properties": {
-            "title": { "type": "string" },
-            "content": { "type": "string" }
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
           }
         },
         "signature": {
@@ -421,8 +973,16 @@
           "title": "Signature Row",
           "description": "Optional row rendered below the about story content: a small country flag (26x24px) plus an uppercase tagline. The flag defaults to the theme navLogoFlag gradient when no flag image is provided.",
           "properties": {
-            "text": { "type": "string", "title": "Signature Text", "description": "Rendered in uppercase." },
-            "flag": { "type": "string", "title": "Flag Image URL", "description": "Optional. When omitted, the theme navLogoFlag gradient is used." }
+            "text": {
+              "type": "string",
+              "title": "Signature Text",
+              "description": "Rendered in uppercase."
+            },
+            "flag": {
+              "type": "string",
+              "title": "Flag Image URL",
+              "description": "Optional. When omitted, the theme navLogoFlag gradient is used."
+            }
           }
         },
         "stats": {
@@ -431,16 +991,24 @@
             "type": "object",
             "title": "StatItem",
             "properties": {
-              "value": { "type": "string" },
-              "label": { "type": "string" }
+              "value": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
             }
           }
         },
         "commitment": {
           "type": "object",
           "properties": {
-            "title": { "type": "string" },
-            "content": { "type": "string" }
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
           }
         },
         "quote": {
@@ -448,10 +1016,26 @@
           "title": "Quote Panel",
           "description": "Right-side quote panel for the about \"quote-split\" variant: a small flag accent, an italic quote, an author line, a divider, a note paragraph and (via the section cta) a call to action.",
           "properties": {
-            "text": { "type": "string", "title": "Quote Text", "description": "Rendered as an italic blockquote with curly quotes." },
-            "author": { "type": "string", "title": "Author", "description": "Rendered in uppercase below the quote." },
-            "flag": { "type": "string", "title": "Flag Image URL", "description": "Optional. When omitted, the theme navLogoFlag gradient bar is used." },
-            "note": { "type": "string", "title": "Note Paragraph", "description": "Optional paragraph rendered below a divider." }
+            "text": {
+              "type": "string",
+              "title": "Quote Text",
+              "description": "Rendered as an italic blockquote with curly quotes."
+            },
+            "author": {
+              "type": "string",
+              "title": "Author",
+              "description": "Rendered in uppercase below the quote."
+            },
+            "flag": {
+              "type": "string",
+              "title": "Flag Image URL",
+              "description": "Optional. When omitted, the theme navLogoFlag gradient bar is used."
+            },
+            "note": {
+              "type": "string",
+              "title": "Note Paragraph",
+              "description": "Optional paragraph rendered below a divider."
+            }
           }
         },
         "timeline": {
@@ -461,10 +1045,18 @@
             "type": "object",
             "title": "TimelineItem",
             "properties": {
-              "year": { "type": "string" },
-              "title": { "type": "string" },
-              "company": { "type": "string" },
-              "description": { "type": "string" }
+              "year": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "company": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
             }
           }
         },
@@ -472,16 +1064,30 @@
           "type": "object",
           "title": "ContactInfo",
           "properties": {
-            "address": { "type": "string" },
-            "phone": { "type": "string" },
-            "email": { "type": "string" },
-            "hours": { "type": "string" },
-            "googlePlaceQuery": { "type": "string", "title": "Google Place Query", "description": "Business name/address query for the embedded contact map (e.g. 'Restauracja Nostrano, Garwolin'). When set, the map resolves to Google's native place listing showing reviews/opinions instead of a plain address pin." },
+            "address": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "hours": {
+              "type": "string"
+            },
+            "googlePlaceQuery": {
+              "type": "string",
+              "title": "Google Place Query",
+              "description": "Business name/address query for the embedded contact map (e.g. 'Restauracja Nostrano, Garwolin'). When set, the map resolves to Google's native place listing showing reviews/opinions instead of a plain address pin."
+            },
             "hoursDetailed": {
               "type": "array",
               "title": "Detailed Hours",
               "description": "Per-day opening hours, one line each (e.g., 'poniedziałek 9:00 – 15:00'). Rendered as a multi-line block under the single 'hours' line.",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "receptionHours": {
               "type": "string",
@@ -497,16 +1103,24 @@
               "type": "array",
               "title": "Additional Info",
               "description": "Extra contact info lines (e.g., bank account, EPUAP address).",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "notice": {
               "type": "object",
               "title": "Contact Notice",
               "description": "Highlighted notice block displayed below the contact info (e.g., bank transfer instructions).",
               "properties": {
-                "title": { "type": "string" },
-                "highlight": { "type": "string" },
-                "description": { "type": "string" }
+                "title": {
+                  "type": "string"
+                },
+                "highlight": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
               }
             },
             "warning": {
@@ -520,22 +1134,47 @@
           "type": "object",
           "title": "ContactForm",
           "properties": {
-            "namePlaceholder": { "type": "string" },
-            "emailPlaceholder": { "type": "string" },
-            "messagePlaceholder": { "type": "string" },
-            "submitButton": { "type": "string" },
-            "nameLabel": { "type": "string" },
-            "emailLabel": { "type": "string" },
-            "messageLabel": { "type": "string" },
+            "namePlaceholder": {
+              "type": "string"
+            },
+            "emailPlaceholder": {
+              "type": "string"
+            },
+            "messagePlaceholder": {
+              "type": "string"
+            },
+            "submitButton": {
+              "type": "string"
+            },
+            "nameLabel": {
+              "type": "string"
+            },
+            "emailLabel": {
+              "type": "string"
+            },
+            "messageLabel": {
+              "type": "string"
+            },
             "selectFields": {
               "type": "array",
               "items": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "label": { "type": "string" },
-                  "placeholder": { "type": "string" },
-                  "options": { "type": "array", "items": { "type": "string" } }
+                  "name": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "placeholder": {
+                    "type": "string"
+                  },
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -544,18 +1183,37 @@
         "labels": {
           "type": "object",
           "title": "Labels",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "type": "string"
+          }
         },
-        "exploreLabel": { "type": "string", "title": "Explore Label" },
+        "exploreLabel": {
+          "type": "string",
+          "title": "Explore Label"
+        },
         "products": {
           "type": "array",
           "title": "Products",
-          "items": { "$ref": "#/definitions/product" }
+          "items": {
+            "$ref": "#/definitions/product"
+          }
         },
-        "currency": { "type": "string", "title": "Currency" },
-        "ctaLabel": { "type": "string", "title": "CTA Label" },
-        "outOfStockCtaLabel": { "type": "string", "title": "Out of Stock CTA Label" },
-        "outOfStockCtaHref": { "type": "string", "title": "Out of Stock CTA Href" },
+        "currency": {
+          "type": "string",
+          "title": "Currency"
+        },
+        "ctaLabel": {
+          "type": "string",
+          "title": "CTA Label"
+        },
+        "outOfStockCtaLabel": {
+          "type": "string",
+          "title": "Out of Stock CTA Label"
+        },
+        "outOfStockCtaHref": {
+          "type": "string",
+          "title": "Out of Stock CTA Href"
+        },
         "steps": {
           "type": "array",
           "title": "Process Steps",
@@ -563,16 +1221,31 @@
             "type": "object",
             "title": "ProcessStep",
             "properties": {
-              "number": { "type": "integer" },
-              "title": { "type": "string" },
-              "description": { "type": "string" },
-              "icon": { "type": "string" },
-              "image": { "type": "string" },
-              "video": { "type": "string", "title": "Video URL" },
+              "number": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              },
+              "image": {
+                "type": "string"
+              },
+              "video": {
+                "type": "string",
+                "title": "Video URL"
+              },
               "badges": {
                 "type": "array",
                 "title": "Visual Badges",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -580,7 +1253,9 @@
         "areas": {
           "type": "array",
           "title": "Service Areas",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "pairs": {
           "type": "array",
@@ -589,10 +1264,18 @@
             "type": "object",
             "title": "BeforeAfterPair",
             "properties": {
-              "title": { "type": "string" },
-              "before": { "type": "string" },
-              "after": { "type": "string" },
-              "description": { "type": "string" }
+              "title": {
+                "type": "string"
+              },
+              "before": {
+                "type": "string"
+              },
+              "after": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
             }
           }
         },
@@ -603,8 +1286,12 @@
             "type": "object",
             "title": "TrustSignal",
             "properties": {
-              "icon": { "type": "string" },
-              "text": { "type": "string" }
+              "icon": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
             }
           }
         },
@@ -616,13 +1303,22 @@
             "type": "object",
             "title": "ClientLogo",
             "properties": {
-              "name": { "type": "string" },
-              "image": { "type": "string" }
+              "name": {
+                "type": "string"
+              },
+              "image": {
+                "type": "string"
+              }
             },
-            "required": ["name", "image"]
+            "required": [
+              "name",
+              "image"
+            ]
           }
         },
-        "googleRating": { "$ref": "#/definitions/googleRating" },
+        "googleRating": {
+          "$ref": "#/definitions/googleRating"
+        },
         "faqItems": {
           "type": "array",
           "title": "FAQ Items",
@@ -630,8 +1326,12 @@
             "type": "object",
             "title": "FAQItem",
             "properties": {
-              "question": { "type": "string" },
-              "answer": { "type": "string" }
+              "question": {
+                "type": "string"
+              },
+              "answer": {
+                "type": "string"
+              }
             }
           }
         },
@@ -642,11 +1342,21 @@
             "type": "object",
             "title": "BlogPost",
             "properties": {
-              "title": { "type": "string" },
-              "description": { "type": "string" },
-              "image": { "type": "string" },
-              "date": { "type": "string" },
-              "href": { "type": "string" }
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "image": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              }
             }
           }
         },
@@ -661,22 +1371,53 @@
             "type": "object",
             "title": "PricingTier",
             "properties": {
-              "name": { "type": "string", "title": "Tier Name" },
-              "price": { "type": "string", "title": "Price" },
-              "period": { "type": "string", "title": "Billing Period" },
-              "description": { "type": "string", "title": "Description" },
+              "name": {
+                "type": "string",
+                "title": "Tier Name"
+              },
+              "price": {
+                "type": "string",
+                "title": "Price"
+              },
+              "period": {
+                "type": "string",
+                "title": "Billing Period"
+              },
+              "description": {
+                "type": "string",
+                "title": "Description"
+              },
               "features": {
                 "type": "array",
                 "title": "Features",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               },
-              "cta": { "$ref": "#/definitions/cta" },
-              "highlighted": { "type": "boolean", "title": "Highlighted" },
-              "badge": { "type": "string", "title": "Badge Text" },
-              "annualPrice": { "type": "string", "title": "Annual Price" },
-              "icon": { "type": "string", "title": "Tier Icon" }
+              "cta": {
+                "$ref": "#/definitions/cta"
+              },
+              "highlighted": {
+                "type": "boolean",
+                "title": "Highlighted"
+              },
+              "badge": {
+                "type": "string",
+                "title": "Badge Text"
+              },
+              "annualPrice": {
+                "type": "string",
+                "title": "Annual Price"
+              },
+              "icon": {
+                "type": "string",
+                "title": "Tier Icon"
+              }
             },
-            "required": ["name", "price"]
+            "required": [
+              "name",
+              "price"
+            ]
           }
         },
         "projects": {
@@ -686,32 +1427,70 @@
             "type": "object",
             "title": "ProjectItem",
             "properties": {
-              "title": { "type": "string", "title": "Title" },
-              "description": { "type": "string", "title": "Description" },
-              "image": { "type": "string", "title": "Image URL" },
-              "logo": { "type": "string", "title": "Logo Image URL" },
-              "date": { "type": "string", "title": "Date" },
-              "metric": { "type": "string", "title": "Key Metric" },
-              "metricLabel": { "type": "string", "title": "Metric Label" },
+              "title": {
+                "type": "string",
+                "title": "Title"
+              },
+              "description": {
+                "type": "string",
+                "title": "Description"
+              },
+              "image": {
+                "type": "string",
+                "title": "Image URL"
+              },
+              "logo": {
+                "type": "string",
+                "title": "Logo Image URL"
+              },
+              "date": {
+                "type": "string",
+                "title": "Date"
+              },
+              "metric": {
+                "type": "string",
+                "title": "Key Metric"
+              },
+              "metricLabel": {
+                "type": "string",
+                "title": "Metric Label"
+              },
               "metrics": {
                 "type": "array",
                 "title": "Metric Badges",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               },
-              "url": { "type": "string", "title": "Live Website URL" },
+              "url": {
+                "type": "string",
+                "title": "Live Website URL"
+              },
               "cta": {
                 "type": "object",
                 "title": "CTA Link",
                 "properties": {
-                  "label": { "type": "string", "title": "CTA Label" },
-                  "href": { "type": "string", "title": "CTA URL" }
+                  "label": {
+                    "type": "string",
+                    "title": "CTA Label"
+                  },
+                  "href": {
+                    "type": "string",
+                    "title": "CTA URL"
+                  }
                 }
               }
             }
           }
         },
-        "leftTitle": { "type": "string", "title": "Left Column Title (e.g. Manual Work)" },
-        "rightTitle": { "type": "string", "title": "Right Column Title (e.g. AI Automation)" },
+        "leftTitle": {
+          "type": "string",
+          "title": "Left Column Title (e.g. Manual Work)"
+        },
+        "rightTitle": {
+          "type": "string",
+          "title": "Right Column Title (e.g. AI Automation)"
+        },
         "rows": {
           "type": "array",
           "title": "Comparison Rows",
@@ -719,8 +1498,14 @@
             "type": "object",
             "title": "ComparisonRow",
             "properties": {
-              "left": { "type": "string", "title": "Left (Problem)" },
-              "right": { "type": "string", "title": "Right (Solution)" }
+              "left": {
+                "type": "string",
+                "title": "Left (Problem)"
+              },
+              "right": {
+                "type": "string",
+                "title": "Right (Solution)"
+              }
             }
           }
         },
@@ -728,7 +1513,9 @@
           "type": "array",
           "title": "Comparison Criteria",
           "description": "Row labels for the comparison 'triple' variant. Each comparisonColumns entry provides one value per criterion (values[i] aligns with criteria[i]).",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "comparisonColumns": {
           "type": "array",
@@ -738,13 +1525,24 @@
             "type": "object",
             "title": "ComparisonColumn",
             "properties": {
-              "title": { "type": "string", "title": "Column Title" },
-              "badge": { "type": "string", "title": "Badge Pill (shown on the highlighted column header)" },
-              "highlighted": { "type": "boolean", "title": "Highlighted Column" },
+              "title": {
+                "type": "string",
+                "title": "Column Title"
+              },
+              "badge": {
+                "type": "string",
+                "title": "Badge Pill (shown on the highlighted column header)"
+              },
+              "highlighted": {
+                "type": "boolean",
+                "title": "Highlighted Column"
+              },
               "values": {
                 "type": "array",
                 "title": "Cell Values (one per criterion)",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -756,10 +1554,22 @@
             "type": "object",
             "title": "TeamMember",
             "properties": {
-              "name": { "type": "string", "title": "Name" },
-              "role": { "type": "string", "title": "Role" },
-              "image": { "type": "string", "title": "Photo URL" },
-              "linkedin": { "type": "string", "title": "LinkedIn URL" }
+              "name": {
+                "type": "string",
+                "title": "Name"
+              },
+              "role": {
+                "type": "string",
+                "title": "Role"
+              },
+              "image": {
+                "type": "string",
+                "title": "Photo URL"
+              },
+              "linkedin": {
+                "type": "string",
+                "title": "LinkedIn URL"
+              }
             }
           }
         },
@@ -770,7 +1580,10 @@
             "type": "object",
             "title": "FileGroup",
             "properties": {
-              "title": { "type": "string", "title": "Group Title" },
+              "title": {
+                "type": "string",
+                "title": "Group Title"
+              },
               "files": {
                 "type": "array",
                 "title": "Files",
@@ -778,15 +1591,30 @@
                   "type": "object",
                   "title": "FileItem",
                   "properties": {
-                    "name": { "type": "string", "title": "File Name" },
-                    "type": { "type": "string", "title": "File Type (e.g. pdf, docx)" },
-                    "url": { "type": "string", "title": "Download URL" }
+                    "name": {
+                      "type": "string",
+                      "title": "File Name"
+                    },
+                    "type": {
+                      "type": "string",
+                      "title": "File Type (e.g. pdf, docx)"
+                    },
+                    "url": {
+                      "type": "string",
+                      "title": "Download URL"
+                    }
                   },
-                  "required": ["name", "url"]
+                  "required": [
+                    "name",
+                    "url"
+                  ]
                 }
               }
             },
-            "required": ["title", "files"]
+            "required": [
+              "title",
+              "files"
+            ]
           }
         },
         "templateItems": {
@@ -796,18 +1624,41 @@
             "type": "object",
             "title": "TemplateItem",
             "properties": {
-              "name": { "type": "string", "title": "Template Name" },
-              "description": { "type": "string", "title": "Description" },
-              "screenshot": { "type": "string", "title": "Screenshot URL" },
-              "demoUrl": { "type": "string", "title": "Live Demo URL" },
-              "accent": { "type": "string", "title": "Accent Color", "description": "Optional CSS color for the card's browser-chrome header bar (templateShowcase 'browser' variant). Defaults to the theme foreground." },
+              "name": {
+                "type": "string",
+                "title": "Template Name"
+              },
+              "description": {
+                "type": "string",
+                "title": "Description"
+              },
+              "screenshot": {
+                "type": "string",
+                "title": "Screenshot URL"
+              },
+              "demoUrl": {
+                "type": "string",
+                "title": "Live Demo URL"
+              },
+              "accent": {
+                "type": "string",
+                "title": "Accent Color",
+                "description": "Optional CSS color for the card's browser-chrome header bar (templateShowcase 'browser' variant). Defaults to the theme foreground."
+              },
               "tags": {
                 "type": "array",
                 "title": "Tags",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               }
             },
-            "required": ["name", "description", "screenshot", "demoUrl"]
+            "required": [
+              "name",
+              "description",
+              "screenshot",
+              "demoUrl"
+            ]
           }
         },
         "area": {
@@ -817,40 +1668,96 @@
             "country": {
               "type": "string",
               "title": "Country",
-              "enum": ["polska"]
+              "enum": [
+                "polska"
+              ]
             },
             "region": {
               "type": "string",
               "title": "Region",
-              "enum": ["mazowsze", "slaskie", "malopolskie", "wielkopolskie", "dolnoslaskie", "pomorskie", "kujawsko-pomorskie", "zachodnio-pomorskie", "lubelskie", "podkarpackie", "warminsko-mazurskie", "lodzkie", "swietokrzyskie", "podlaskie", "opolskie", "lubuskie"]
+              "enum": [
+                "mazowsze",
+                "slaskie",
+                "malopolskie",
+                "wielkopolskie",
+                "dolnoslaskie",
+                "pomorskie",
+                "kujawsko-pomorskie",
+                "zachodnio-pomorskie",
+                "lubelskie",
+                "podkarpackie",
+                "warminsko-mazurskie",
+                "lodzkie",
+                "swietokrzyskie",
+                "podlaskie",
+                "opolskie",
+                "lubuskie"
+              ]
             }
           }
+        },
+        "pricingLayout": {
+          "type": "string",
+          "title": "Pricing Layout",
+          "enum": [
+            "left"
+          ],
+          "description": "Pricing card layout override. 'left' = left-aligned cards, primary tier names, divided feature rows (PricingDefault). Omit for centered."
+        },
+        "testimonialsClean": {
+          "type": "boolean",
+          "title": "Testimonials Clean Cards",
+          "description": "Agency testimonials variant: render clean white cards without stars/verified-badge/metric.",
+          "default": false
         }
       },
-      "required": ["type"]
+      "required": [
+        "type"
+      ]
     },
     "page": {
       "type": "object",
       "title": "Page",
       "properties": {
-        "title": { "type": "string", "title": "Page Title" },
-        "navLabel": { "type": "string", "title": "Nav Label" },
-        "navOrder": { "type": "number", "title": "Nav Order" },
-        "hideFromNav": { "type": "boolean", "title": "Hide From Nav" },
+        "title": {
+          "type": "string",
+          "title": "Page Title"
+        },
+        "navLabel": {
+          "type": "string",
+          "title": "Nav Label"
+        },
+        "navOrder": {
+          "type": "number",
+          "title": "Nav Order"
+        },
+        "hideFromNav": {
+          "type": "boolean",
+          "title": "Hide From Nav"
+        },
         "sections": {
           "type": "array",
           "title": "Sections",
-          "items": { "$ref": "#/definitions/section" }
+          "items": {
+            "$ref": "#/definitions/section"
+          }
         }
       },
-      "required": ["title", "sections"]
+      "required": [
+        "title",
+        "sections"
+      ]
     },
     "googleRating": {
       "type": "object",
       "title": "GoogleRating",
       "properties": {
-        "score": { "type": "number" },
-        "count": { "type": "integer" }
+        "score": {
+          "type": "number"
+        },
+        "count": {
+          "type": "integer"
+        }
       }
     },
     "themeColorMode": {
@@ -927,9 +1834,21 @@
       "type": "object",
       "title": "BookingDayHours",
       "properties": {
-        "enabled": { "type": "boolean", "title": "Open", "default": true },
-        "open": { "type": "string", "title": "Opening Time", "default": "09:00" },
-        "close": { "type": "string", "title": "Closing Time", "default": "17:00" }
+        "enabled": {
+          "type": "boolean",
+          "title": "Open",
+          "default": true
+        },
+        "open": {
+          "type": "string",
+          "title": "Opening Time",
+          "default": "09:00"
+        },
+        "close": {
+          "type": "string",
+          "title": "Closing Time",
+          "default": "17:00"
+        }
       }
     },
     "themeSpacing": {
@@ -994,8 +1913,14 @@
       "type": "object",
       "title": "Business",
       "properties": {
-        "id": { "type": "string", "title": "Business ID" },
-        "name": { "type": "string", "title": "Business Name" },
+        "id": {
+          "type": "string",
+          "title": "Business ID"
+        },
+        "name": {
+          "type": "string",
+          "title": "Business Name"
+        },
         "industry": {
           "type": "string",
           "title": "Industry"
@@ -1004,63 +1929,129 @@
           "type": "object",
           "title": "BusinessAssets",
           "properties": {
-            "favicon": { "type": "string", "title": "Favicon URL" },
-            "logo": { "type": "string", "title": "Logo URL" },
-            "icon": { "type": "string", "title": "Icon URL" },
-            "footerIcon": { "type": "string", "title": "Footer Icon URL", "description": "Icon used in the footer. Falls back to icon when absent." },
-            "iconLucide": { "type": "string", "title": "Icon Lucide Name", "description": "Lucide icon name rendered inline with text-primary color (e.g. 'scale', 'gavel'). Takes precedence over icon." }
+            "favicon": {
+              "type": "string",
+              "title": "Favicon URL"
+            },
+            "logo": {
+              "type": "string",
+              "title": "Logo URL"
+            },
+            "icon": {
+              "type": "string",
+              "title": "Icon URL"
+            },
+            "footerIcon": {
+              "type": "string",
+              "title": "Footer Icon URL",
+              "description": "Icon used in the footer. Falls back to icon when absent."
+            },
+            "iconLucide": {
+              "type": "string",
+              "title": "Icon Lucide Name",
+              "description": "Lucide icon name rendered inline with text-primary color (e.g. 'scale', 'gavel'). Takes precedence over icon."
+            }
           }
         },
         "contact": {
           "type": "object",
           "title": "BusinessContact",
           "properties": {
-            "address": { "type": "string", "title": "Address" },
-            "phone": { "type": "string", "title": "Phone" },
-            "email": { "type": "string", "anyOf": [{ "format": "email" }, { "maxLength": 0 }], "title": "Email" },
-            "hours": { "type": "string", "title": "Business Hours" },
+            "address": {
+              "type": "string",
+              "title": "Address"
+            },
+            "phone": {
+              "type": "string",
+              "title": "Phone"
+            },
+            "email": {
+              "type": "string",
+              "anyOf": [
+                {
+                  "format": "email"
+                },
+                {
+                  "maxLength": 0
+                }
+              ],
+              "title": "Email"
+            },
+            "hours": {
+              "type": "string",
+              "title": "Business Hours"
+            },
             "additionalInfo": {
               "type": "array",
               "title": "Additional Info",
               "description": "Extra info strings shown next to phone/email/address in the navbar upper bar, each rendered with an 'i' info icon (e.g., registration numbers, license IDs).",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "location": {
               "type": "object",
               "title": "Geographic Location",
               "properties": {
-                "latitude": { "type": "number", "title": "Latitude" },
-                "longitude": { "type": "number", "title": "Longitude" },
-                "googlePlaceQuery": { "type": "string", "title": "Google Place Query", "description": "Business name/address query for Google Maps native panel (e.g. 'Kancelaria Notarialna Garwolin'). When set, the map shows Google's native info card with reviews and directions instead of the custom overlay." }
+                "latitude": {
+                  "type": "number",
+                  "title": "Latitude"
+                },
+                "longitude": {
+                  "type": "number",
+                  "title": "Longitude"
+                },
+                "googlePlaceQuery": {
+                  "type": "string",
+                  "title": "Google Place Query",
+                  "description": "Business name/address query for Google Maps native panel (e.g. 'Kancelaria Notarialna Garwolin'). When set, the map shows Google's native info card with reviews and directions instead of the custom overlay."
+                }
               },
-              "required": ["latitude", "longitude"]
+              "required": [
+                "latitude",
+                "longitude"
+              ]
             }
           }
         },
         "socials": {
           "type": "object",
           "title": "Socials",
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "type": "string"
+          }
         },
         "serviceArea": {
           "type": "array",
           "title": "Service Area",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "googleRating": { "$ref": "#/definitions/googleRating" },
+        "googleRating": {
+          "$ref": "#/definitions/googleRating"
+        },
         "trustSignals": {
           "type": "array",
           "title": "Trust Signals",
           "items": {
             "type": "object",
             "properties": {
-              "icon": { "type": "string" },
-              "text": { "type": "string" }
+              "icon": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
             }
           }
         }
       },
-      "required": ["id", "name", "industry"]
+      "required": [
+        "id",
+        "name",
+        "industry"
+      ]
     },
     "theme": {
       "type": "object",
@@ -1069,7 +2060,15 @@
         "preset": {
           "type": "string",
           "title": "Theme Preset",
-          "enum": ["industrial", "wellness", "minimal", "elegant", "modern", "classic", "bold"]
+          "enum": [
+            "industrial",
+            "wellness",
+            "minimal",
+            "elegant",
+            "modern",
+            "classic",
+            "bold"
+          ]
         },
         "globalVariant": {
           "type": "string",
@@ -1078,96 +2077,367 @@
         "majorTheme": {
           "type": "string",
           "title": "Major Theme",
-          "enum": ["template-specialist", "template-tech", "template-art", "template-law", "template-portfolio"]
+          "enum": [
+            "template-specialist",
+            "template-tech",
+            "template-art",
+            "template-law",
+            "template-portfolio"
+          ]
         },
         "mode": {
           "type": "string",
           "title": "Color Mode",
-          "enum": ["light", "dark"],
+          "enum": [
+            "light",
+            "dark"
+          ],
           "default": "light"
         },
         "colors": {
           "type": "object",
           "title": "Color Schemes",
           "properties": {
-            "light": { "$ref": "#/definitions/themeColorMode" },
-            "dark": { "$ref": "#/definitions/themeColorMode" }
+            "light": {
+              "$ref": "#/definitions/themeColorMode"
+            },
+            "dark": {
+              "$ref": "#/definitions/themeColorMode"
+            }
           }
         },
         "typography": {
           "type": "object",
           "title": "Typography",
           "properties": {
-            "primary": { "type": "string", "title": "Primary Font Family" },
-            "secondary": { "type": "string", "title": "Secondary Font Family" },
-            "baseSize": { "type": "string", "title": "Base Font Size" }
+            "primary": {
+              "type": "string",
+              "title": "Primary Font Family"
+            },
+            "secondary": {
+              "type": "string",
+              "title": "Secondary Font Family"
+            },
+            "baseSize": {
+              "type": "string",
+              "title": "Base Font Size"
+            }
           }
         },
         "ui": {
           "type": "object",
           "title": "UI Settings",
           "properties": {
-            "radius": { "type": "string", "title": "Border Radius", "default": "0.5rem" },
-            "radiusSm": { "type": "string", "title": "Small Border Radius", "default": "0.25rem" },
-            "spacing": { "$ref": "#/definitions/themeSpacing" },
-            "spacingScale": { "type": "number", "title": "Spacing Scale" },
-            "buttonStyle": { "type": "string", "title": "Button Style" }
+            "radius": {
+              "type": "string",
+              "title": "Border Radius",
+              "default": "0.5rem"
+            },
+            "radiusSm": {
+              "type": "string",
+              "title": "Small Border Radius",
+              "default": "0.25rem"
+            },
+            "spacing": {
+              "$ref": "#/definitions/themeSpacing"
+            },
+            "spacingScale": {
+              "type": "number",
+              "title": "Spacing Scale"
+            },
+            "buttonStyle": {
+              "type": "string",
+              "title": "Button Style"
+            }
           }
         },
-        "contentWidth": { "type": "string", "title": "Content Width", "description": "Max width of the centered content container (e.g. \"1200px\" or \"1488px\"). Defaults to 1200px when unset.", "default": "1200px" },
-        "servicesListDivider": { "type": "boolean", "title": "Services List Divider Style", "description": "For the services \"list\" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).", "default": false },
-        "servicesNotClickable": { "type": "boolean", "title": "Services Not Clickable", "description": "Make service list/grid items non-interactive (no link navigation, no hover affordance).", "default": false },
-        "servicesMaxWidth": { "type": "string", "title": "Services Section Max Width", "description": "Cap the services section content width (e.g. \"848px\"). Centered within the page container. Unset = full container width." },
-        "servicesMenuStyle": { "type": "boolean", "title": "Services Menu Style", "description": "For the services \"list\" variant: render as a restaurant-style menu — drop the price pill, right-align the price, and apply the servicesTitle/Desc/Price/Footnote font + size overrides.", "default": false },
-        "servicesTitleFontFamily": { "type": "string", "title": "Services Item Title Font Family", "description": "CSS font-family for service item titles when servicesMenuStyle is on, e.g. \"'Cormorant Garamond', serif\". The font is automatically loaded." },
-        "servicesTitleSize": { "type": "string", "title": "Services Item Title Font Size", "description": "Font size for service item titles when servicesMenuStyle is on, e.g. \"18px\"." },
-        "servicesDescFontFamily": { "type": "string", "title": "Services Item Description Font Family", "description": "CSS font-family for service item descriptions when servicesMenuStyle is on, e.g. \"'DM Sans', sans-serif\". The font is automatically loaded." },
-        "servicesDescSize": { "type": "string", "title": "Services Item Description Font Size", "description": "Font size for service item descriptions when servicesMenuStyle is on, e.g. \"14px\"." },
-        "servicesPriceFontFamily": { "type": "string", "title": "Services Item Price Font Family", "description": "CSS font-family for service item prices when servicesMenuStyle is on, e.g. \"'Cormorant Garamond', serif\". The font is automatically loaded." },
-        "servicesPriceSize": { "type": "string", "title": "Services Item Price Font Size", "description": "Font size for service item prices when servicesMenuStyle is on, e.g. \"16px\"." },
-        "servicesFootnoteFontFamily": { "type": "string", "title": "Services Footnote Font Family", "description": "CSS font-family for the services section footnote when servicesMenuStyle is on, e.g. \"'DM Sans', sans-serif\". The font is automatically loaded." },
-        "servicesFootnoteSize": { "type": "string", "title": "Services Footnote Font Size", "description": "Font size for the services section footnote when servicesMenuStyle is on, e.g. \"14px\"." },
-        "servicesCtaHideIcon": { "type": "boolean", "title": "Services CTA Hide Icon", "description": "Hide the arrow icon inside the services section CTA button.", "default": false },
-        "headingWeight": { "type": "string", "title": "Heading Font Weight", "default": "700" },
-        "maxFontWeight": { "type": "string", "title": "Max Font Weight", "description": "Caps the maximum font-weight used anywhere on the site (e.g. \"400\" forces all text to weight 400 or lower).", "default": "900" },
-        "paragraphMaxWeight": { "type": "string", "title": "Paragraph Max Font Weight", "description": "Optional cap applied specifically to body paragraphs. When set, every <p> (and any weight-utility inside it) is clamped to this weight (e.g. \"300\") so paragraph copy never renders heavier than the design intends. Capped by maxFontWeight. Absent → no paragraph-specific cap." },
-        "navFontSize": { "type": "string", "title": "Navbar Font Size", "default": "16px" },
-        "navLogoSize": { "type": "string", "title": "Navbar Logo Font Size", "default": "24px" },
-        "navLogoWeight": { "type": "string", "title": "Navbar Logo Font Weight", "default": "600" },
-        "navLogoUppercase": { "type": "boolean", "title": "Navbar Logo Uppercase", "description": "Render the navbar logo text in uppercase.", "default": false },
-        "navLogoFont": { "type": "string", "title": "Navbar Logo Font", "description": "Which theme font the navbar logo text uses: \"body\" (typography.primary) or \"heading\" (typography.secondary).", "enum": ["body", "heading"], "default": "body" },
-        "navLogoFontFamily": { "type": "string", "title": "Navbar Logo Font Family", "description": "Explicit CSS font-family for the navbar logo text, e.g. \"'Cormorant Garamond', serif\". Overrides navLogoFont. The font is automatically loaded." },
-        "navLogoColor": { "type": "string", "title": "Navbar Logo Color", "description": "Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
-        "navLinkColor": { "type": "string", "title": "Navbar Link Color", "description": "Fixed color for the navbar links (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior." },
-        "navLinksUppercase": { "type": "boolean", "title": "Navbar Links Uppercase", "description": "Render the navbar links (desktop + mobile) in uppercase.", "default": false },
-        "navLogoLetterSpacing": { "type": "string", "title": "Navbar Logo Letter Spacing", "description": "Letter spacing for the navbar logo text, e.g. \"0.05em\". Overrides the default normal spacing." },
-        "navCtaHideIcon": { "type": "boolean", "title": "Navbar CTA Hide Icon", "description": "Hide the icon (arrow/clock) inside the navbar CTA button.", "default": false },
-        "navCtaUppercase": { "type": "boolean", "title": "Navbar CTA Uppercase", "description": "Render the navbar CTA button text (desktop + mobile) in uppercase.", "default": false },
-        "heroCtaHideIcon": { "type": "boolean", "title": "Hero CTA Hide Icon", "description": "Hide the arrow icon inside the hero section CTA button.", "default": false },
-        "heroTextThemeColors": { "type": "boolean", "title": "Hero Text Uses Theme Colors", "description": "Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.", "default": false },
-        "heroBottomFade": { "type": "boolean", "title": "Hero Bottom Fade", "description": "Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.", "default": false },
-        "heroTitleSize": { "type": "string", "title": "Hero Title Font Size", "description": "Font size for the hero title. Any CSS length, e.g. \"96px\" or a responsive \"clamp(3.5rem, 7vw, 6rem)\". Overrides the default responsive sizing." },
-        "heroTitleFontFamily": { "type": "string", "title": "Hero Title Font Family", "description": "Explicit CSS font-family for the hero title text, e.g. \"'Cormorant Garamond', serif\". Overrides the default heading font. The font is automatically loaded." },
-        "heroSubtitleSize": { "type": "string", "title": "Hero Subtitle Font Size", "description": "Font size for the hero subtitle/description, e.g. \"24px\". Overrides the default responsive sizing." },
-        "heroBadgeLetterSpacing": { "type": "string", "title": "Hero Badge Letter Spacing", "description": "Letter spacing for the hero badge/eyebrow text, e.g. \"0.4em\". Overrides the default 0.05em." },
-        "heroSubtitleLetterSpacing": { "type": "string", "title": "Hero Subtitle Letter Spacing", "description": "Letter spacing for the hero subtitle/description text, e.g. \"0.15em\". Overrides the default 0.05em." },
-        "heroTitleLetterSpacing": { "type": "string", "title": "Hero Title Letter Spacing", "description": "Letter spacing for the hero title text, e.g. \"0.01em\" or \"-0.02em\". Overrides the default 0.04em." },
-        "navLinkLetterSpacing": { "type": "string", "title": "Navbar Link Letter Spacing", "description": "Letter spacing for the navbar links (desktop + mobile), e.g. \"0.1em\". Overrides the default normal spacing." },
-        "buttonLetterSpacing": { "type": "string", "title": "Button Letter Spacing", "description": "Letter spacing applied to CTA buttons (primary/default variant), ghost buttons, and the navbar CTA, e.g. \"0.1em\". Overrides the default normal spacing." },
-        "badgeWeight": { "type": "string", "title": "Badge Font Weight", "description": "Font weight applied to all badges/eyebrows site-wide, e.g. \"500\". Overrides the per-component default weight." },
-        "badgeLetterSpacing": { "type": "string", "title": "Badge Letter Spacing", "description": "Letter spacing applied to all badges/eyebrows site-wide, e.g. \"0.1em\". Overrides the per-component default spacing." },
+        "contentWidth": {
+          "type": "string",
+          "title": "Content Width",
+          "description": "Max width of the centered content container (e.g. \"1200px\" or \"1488px\"). Defaults to 1200px when unset.",
+          "default": "1200px"
+        },
+        "servicesListDivider": {
+          "type": "boolean",
+          "title": "Services List Divider Style",
+          "description": "For the services \"list\" variant: drop the card border/shadow/radius and show only a bottom divider (surface.card at 50% opacity).",
+          "default": false
+        },
+        "servicesNotClickable": {
+          "type": "boolean",
+          "title": "Services Not Clickable",
+          "description": "Make service list/grid items non-interactive (no link navigation, no hover affordance).",
+          "default": false
+        },
+        "servicesMaxWidth": {
+          "type": "string",
+          "title": "Services Section Max Width",
+          "description": "Cap the services section content width (e.g. \"848px\"). Centered within the page container. Unset = full container width."
+        },
+        "servicesMenuStyle": {
+          "type": "boolean",
+          "title": "Services Menu Style",
+          "description": "For the services \"list\" variant: render as a restaurant-style menu — drop the price pill, right-align the price, and apply the servicesTitle/Desc/Price/Footnote font + size overrides.",
+          "default": false
+        },
+        "servicesTitleFontFamily": {
+          "type": "string",
+          "title": "Services Item Title Font Family",
+          "description": "CSS font-family for service item titles when servicesMenuStyle is on, e.g. \"'Cormorant Garamond', serif\". The font is automatically loaded."
+        },
+        "servicesTitleSize": {
+          "type": "string",
+          "title": "Services Item Title Font Size",
+          "description": "Font size for service item titles when servicesMenuStyle is on, e.g. \"18px\"."
+        },
+        "servicesDescFontFamily": {
+          "type": "string",
+          "title": "Services Item Description Font Family",
+          "description": "CSS font-family for service item descriptions when servicesMenuStyle is on, e.g. \"'DM Sans', sans-serif\". The font is automatically loaded."
+        },
+        "servicesDescSize": {
+          "type": "string",
+          "title": "Services Item Description Font Size",
+          "description": "Font size for service item descriptions when servicesMenuStyle is on, e.g. \"14px\"."
+        },
+        "servicesPriceFontFamily": {
+          "type": "string",
+          "title": "Services Item Price Font Family",
+          "description": "CSS font-family for service item prices when servicesMenuStyle is on, e.g. \"'Cormorant Garamond', serif\". The font is automatically loaded."
+        },
+        "servicesPriceSize": {
+          "type": "string",
+          "title": "Services Item Price Font Size",
+          "description": "Font size for service item prices when servicesMenuStyle is on, e.g. \"16px\"."
+        },
+        "servicesFootnoteFontFamily": {
+          "type": "string",
+          "title": "Services Footnote Font Family",
+          "description": "CSS font-family for the services section footnote when servicesMenuStyle is on, e.g. \"'DM Sans', sans-serif\". The font is automatically loaded."
+        },
+        "servicesFootnoteSize": {
+          "type": "string",
+          "title": "Services Footnote Font Size",
+          "description": "Font size for the services section footnote when servicesMenuStyle is on, e.g. \"14px\"."
+        },
+        "servicesCtaHideIcon": {
+          "type": "boolean",
+          "title": "Services CTA Hide Icon",
+          "description": "Hide the arrow icon inside the services section CTA button.",
+          "default": false
+        },
+        "headingWeight": {
+          "type": "string",
+          "title": "Heading Font Weight",
+          "default": "700"
+        },
+        "maxFontWeight": {
+          "type": "string",
+          "title": "Max Font Weight",
+          "description": "Caps the maximum font-weight used anywhere on the site (e.g. \"400\" forces all text to weight 400 or lower).",
+          "default": "900"
+        },
+        "paragraphMaxWeight": {
+          "type": "string",
+          "title": "Paragraph Max Font Weight",
+          "description": "Optional cap applied specifically to body paragraphs. When set, every <p> (and any weight-utility inside it) is clamped to this weight (e.g. \"300\") so paragraph copy never renders heavier than the design intends. Capped by maxFontWeight. Absent → no paragraph-specific cap."
+        },
+        "navFontSize": {
+          "type": "string",
+          "title": "Navbar Font Size",
+          "default": "16px"
+        },
+        "navLogoSize": {
+          "type": "string",
+          "title": "Navbar Logo Font Size",
+          "default": "24px"
+        },
+        "navLogoWeight": {
+          "type": "string",
+          "title": "Navbar Logo Font Weight",
+          "default": "600"
+        },
+        "navLogoUppercase": {
+          "type": "boolean",
+          "title": "Navbar Logo Uppercase",
+          "description": "Render the navbar logo text in uppercase.",
+          "default": false
+        },
+        "navLogoFont": {
+          "type": "string",
+          "title": "Navbar Logo Font",
+          "description": "Which theme font the navbar logo text uses: \"body\" (typography.primary) or \"heading\" (typography.secondary).",
+          "enum": [
+            "body",
+            "heading"
+          ],
+          "default": "body"
+        },
+        "navLogoFontFamily": {
+          "type": "string",
+          "title": "Navbar Logo Font Family",
+          "description": "Explicit CSS font-family for the navbar logo text, e.g. \"'Cormorant Garamond', serif\". Overrides navLogoFont. The font is automatically loaded."
+        },
+        "navLogoColor": {
+          "type": "string",
+          "title": "Navbar Logo Color",
+          "description": "Fixed color for the navbar logo text (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior."
+        },
+        "navLinkColor": {
+          "type": "string",
+          "title": "Navbar Link Color",
+          "description": "Fixed color for the navbar links (hex). Hover lightens it slightly. Overrides the default foreground/transparent behavior."
+        },
+        "navLinksUppercase": {
+          "type": "boolean",
+          "title": "Navbar Links Uppercase",
+          "description": "Render the navbar links (desktop + mobile) in uppercase.",
+          "default": false
+        },
+        "navLogoLetterSpacing": {
+          "type": "string",
+          "title": "Navbar Logo Letter Spacing",
+          "description": "Letter spacing for the navbar logo text, e.g. \"0.05em\". Overrides the default normal spacing."
+        },
+        "navCtaHideIcon": {
+          "type": "boolean",
+          "title": "Navbar CTA Hide Icon",
+          "description": "Hide the icon (arrow/clock) inside the navbar CTA button.",
+          "default": false
+        },
+        "navLogoBadge": {
+          "type": "boolean",
+          "title": "Navbar Logo Badge",
+          "description": "Render the navbar logo icon inside a rounded-square tinted (primary) badge with a whitened glyph.",
+          "default": false
+        },
+        "navCtaUppercase": {
+          "type": "boolean",
+          "title": "Navbar CTA Uppercase",
+          "description": "Render the navbar CTA button text (desktop + mobile) in uppercase.",
+          "default": false
+        },
+        "heroCtaHideIcon": {
+          "type": "boolean",
+          "title": "Hero CTA Hide Icon",
+          "description": "Hide the arrow icon inside the hero section CTA button.",
+          "default": false
+        },
+        "heroTextThemeColors": {
+          "type": "boolean",
+          "title": "Hero Text Uses Theme Colors",
+          "description": "Use theme text colors for the hero title (text.main) and subtitle (text.muted) instead of the on-image white default.",
+          "default": false
+        },
+        "heroBottomFade": {
+          "type": "boolean",
+          "title": "Hero Bottom Fade",
+          "description": "Fade the hero background image into the page background color, from the vertical middle down to the bottom edge.",
+          "default": false
+        },
+        "heroTitleSize": {
+          "type": "string",
+          "title": "Hero Title Font Size",
+          "description": "Font size for the hero title. Any CSS length, e.g. \"96px\" or a responsive \"clamp(3.5rem, 7vw, 6rem)\". Overrides the default responsive sizing."
+        },
+        "heroTitleFontFamily": {
+          "type": "string",
+          "title": "Hero Title Font Family",
+          "description": "Explicit CSS font-family for the hero title text, e.g. \"'Cormorant Garamond', serif\". Overrides the default heading font. The font is automatically loaded."
+        },
+        "heroSubtitleSize": {
+          "type": "string",
+          "title": "Hero Subtitle Font Size",
+          "description": "Font size for the hero subtitle/description, e.g. \"24px\". Overrides the default responsive sizing."
+        },
+        "heroBadgeLetterSpacing": {
+          "type": "string",
+          "title": "Hero Badge Letter Spacing",
+          "description": "Letter spacing for the hero badge/eyebrow text, e.g. \"0.4em\". Overrides the default 0.05em."
+        },
+        "heroSubtitleLetterSpacing": {
+          "type": "string",
+          "title": "Hero Subtitle Letter Spacing",
+          "description": "Letter spacing for the hero subtitle/description text, e.g. \"0.15em\". Overrides the default 0.05em."
+        },
+        "heroTitleLetterSpacing": {
+          "type": "string",
+          "title": "Hero Title Letter Spacing",
+          "description": "Letter spacing for the hero title text, e.g. \"0.01em\" or \"-0.02em\". Overrides the default 0.04em."
+        },
+        "navLinkLetterSpacing": {
+          "type": "string",
+          "title": "Navbar Link Letter Spacing",
+          "description": "Letter spacing for the navbar links (desktop + mobile), e.g. \"0.1em\". Overrides the default normal spacing."
+        },
+        "buttonLetterSpacing": {
+          "type": "string",
+          "title": "Button Letter Spacing",
+          "description": "Letter spacing applied to CTA buttons (primary/default variant), ghost buttons, and the navbar CTA, e.g. \"0.1em\". Overrides the default normal spacing."
+        },
+        "badgeWeight": {
+          "type": "string",
+          "title": "Badge Font Weight",
+          "description": "Font weight applied to all badges/eyebrows site-wide, e.g. \"500\". Overrides the per-component default weight."
+        },
+        "badgeLetterSpacing": {
+          "type": "string",
+          "title": "Badge Letter Spacing",
+          "description": "Letter spacing applied to all badges/eyebrows site-wide, e.g. \"0.1em\". Overrides the per-component default spacing."
+        },
         "navLogoFlag": {
           "type": "array",
           "title": "Navbar Logo Flag Stripes",
           "description": "Optional flag bar rendered beneath the navbar logo text. Provide the stripe colors left-to-right (e.g. Italian flag: [\"#008C45\", \"#F4F5F0\", \"#CD212A\"]).",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "navHeightTop": { "type": "string", "title": "Navbar Height At Top", "description": "Navbar height when scrolled to the very top (e.g. \"86px\"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant \"transparent\"." },
-        "navHeightScrolled": { "type": "string", "title": "Navbar Height When Scrolled", "description": "Navbar height once the solid background appears on scroll (e.g. \"70px\")." },
-        "navLinksPosition": { "type": "string", "title": "Navbar Links Position", "enum": ["center", "right"], "default": "center" },
-        "scrollType": { "type": "string", "title": "Scroll Type", "enum": ["native", "smooth", "momentum"], "default": "smooth" },
-        "badgeVariant": { "type": "string", "title": "Section Badge Variant", "enum": ["accent", "accent-no-line", "outlined", "text"], "default": "accent" },
-        "badgeFontSize": { "type": "string", "title": "Badge Font Size", "default": "16px" }
+        "navHeightTop": {
+          "type": "string",
+          "title": "Navbar Height At Top",
+          "description": "Navbar height when scrolled to the very top (e.g. \"86px\"). Animates to navHeightScrolled once the solid background appears. Requires navbar variant \"transparent\"."
+        },
+        "navHeightScrolled": {
+          "type": "string",
+          "title": "Navbar Height When Scrolled",
+          "description": "Navbar height once the solid background appears on scroll (e.g. \"70px\")."
+        },
+        "navLinksPosition": {
+          "type": "string",
+          "title": "Navbar Links Position",
+          "enum": [
+            "center",
+            "right"
+          ],
+          "default": "center"
+        },
+        "scrollType": {
+          "type": "string",
+          "title": "Scroll Type",
+          "enum": [
+            "native",
+            "smooth",
+            "momentum"
+          ],
+          "default": "smooth"
+        },
+        "badgeVariant": {
+          "type": "string",
+          "title": "Section Badge Variant",
+          "enum": [
+            "accent",
+            "accent-no-line",
+            "outlined",
+            "text"
+          ],
+          "default": "accent"
+        },
+        "badgeFontSize": {
+          "type": "string",
+          "title": "Badge Font Size",
+          "default": "16px"
+        }
       }
     },
     "layout": {
@@ -1181,7 +2451,11 @@
             "variant": {
               "type": "string",
               "title": "Navbar Variant",
-              "enum": ["standard", "centered", "transparent"],
+              "enum": [
+                "standard",
+                "centered",
+                "transparent"
+              ],
               "default": "standard"
             },
             "logoText": {
@@ -1253,10 +2527,22 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["upper-bar"], "title": "Extension Type" },
-                  "notice": { "type": "string", "title": "Upper Bar Notice", "description": "Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text." }
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "upper-bar"
+                    ],
+                    "title": "Extension Type"
+                  },
+                  "notice": {
+                    "type": "string",
+                    "title": "Upper Bar Notice",
+                    "description": "Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text."
+                  }
                 },
-                "required": ["type"]
+                "required": [
+                  "type"
+                ]
               }
             }
           }
@@ -1268,47 +2554,112 @@
             "variant": {
               "type": "string",
               "title": "Footer Variant",
-              "enum": ["simple", "multiColumn", "minimal", "centered", "branded", "stacked", "gradient", "darkColumns", "restaurant"],
+              "enum": [
+                "simple",
+                "multiColumn",
+                "minimal",
+                "centered",
+                "branded",
+                "stacked",
+                "gradient",
+                "darkColumns",
+                "restaurant"
+              ],
               "default": "simple"
             },
-            "copyright": { "type": "string", "title": "Copyright Text" },
-            "hidePagesColumn": { "type": "boolean", "title": "Hide Auto Pages Column", "description": "Suppress the auto-generated 'Strony'/Pages column (nav + footer links) that is otherwise prepended to the footer columns." },
-            "tagline": { "type": "string", "title": "Tagline", "description": "Footer tagline. Use \\n to split across multiple lines." },
+            "copyright": {
+              "type": "string",
+              "title": "Copyright Text"
+            },
+            "hidePagesColumn": {
+              "type": "boolean",
+              "title": "Hide Auto Pages Column",
+              "description": "Suppress the auto-generated 'Strony'/Pages column (nav + footer links) that is otherwise prepended to the footer columns."
+            },
+            "tagline": {
+              "type": "string",
+              "title": "Tagline",
+              "description": "Footer tagline. Use \\n to split across multiple lines."
+            },
             "flag": {
               "type": "array",
               "title": "Brand Flag Colors",
               "description": "Optional list of hex colors rendered as a segmented accent bar under the logo (e.g. an Italian flag).",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
-            "findUsTitle": { "type": "string", "title": "Find-Us Column Title", "description": "Heading for the address/phone column (restaurant variant)." },
-            "hoursTitle": { "type": "string", "title": "Opening-Hours Column Title", "description": "Heading for the opening-hours column (restaurant variant)." },
+            "findUsTitle": {
+              "type": "string",
+              "title": "Find-Us Column Title",
+              "description": "Heading for the address/phone column (restaurant variant)."
+            },
+            "hoursTitle": {
+              "type": "string",
+              "title": "Opening-Hours Column Title",
+              "description": "Heading for the opening-hours column (restaurant variant)."
+            },
             "hours": {
               "type": "array",
               "title": "Opening Hours Rows",
               "description": "Structured opening-hours rows (restaurant variant).",
-              "items": { "$ref": "#/definitions/footerHoursRow" }
+              "items": {
+                "$ref": "#/definitions/footerHoursRow"
+              }
             },
-            "signature": { "type": "string", "title": "Footer Signature", "description": "Italic signature line shown on the right of the bottom bar (restaurant variant)." },
+            "signature": {
+              "type": "string",
+              "title": "Footer Signature",
+              "description": "Italic signature line shown on the right of the bottom bar (restaurant variant)."
+            },
             "links": {
               "type": "array",
               "title": "Footer Links",
-              "items": { "$ref": "#/definitions/link" }
+              "items": {
+                "$ref": "#/definitions/link"
+              }
             },
             "columns": {
               "type": "array",
               "title": "Footer Columns",
-              "items": { "$ref": "#/definitions/footerColumn" }
+              "items": {
+                "$ref": "#/definitions/footerColumn"
+              }
             },
-            "name": { "type": "string", "title": "Footer Display Name", "description": "Overrides business name in footer" },
+            "name": {
+              "type": "string",
+              "title": "Footer Display Name",
+              "description": "Overrides business name in footer"
+            },
             "background": {
               "type": "object",
               "title": "Footer Background",
               "properties": {
-                "enabled": { "type": "boolean", "title": "Enable Background Container", "default": false },
-                "padding": { "type": "string", "title": "Container Padding", "default": "16px" },
-                "borderRadius": { "type": "string", "title": "Container Border Radius", "default": "12px" },
-                "gradient": { "type": "string", "title": "Background Gradient", "description": "Gradient preset e.g. primary-to-primary-dark" },
-                "color": { "type": "string", "title": "Footer Background Color Override (custom CSS color, e.g. '#26201c')", "description": "Overrides the footer wrapper background with a custom CSS color value. Takes precedence over the variant's default background fill." }
+                "enabled": {
+                  "type": "boolean",
+                  "title": "Enable Background Container",
+                  "default": false
+                },
+                "padding": {
+                  "type": "string",
+                  "title": "Container Padding",
+                  "default": "16px"
+                },
+                "borderRadius": {
+                  "type": "string",
+                  "title": "Container Border Radius",
+                  "default": "12px"
+                },
+                "gradient": {
+                  "type": "string",
+                  "title": "Background Gradient",
+                  "description": "Gradient preset e.g. primary-to-primary-dark"
+                },
+                "color": {
+                  "type": "string",
+                  "title": "Footer Background Color Override (custom CSS color, e.g. '#26201c')",
+                  "description": "Overrides the footer wrapper background with a custom CSS color value. Takes precedence over the variant's default background fill."
+                }
               }
             },
             "extensions": {
@@ -1317,11 +2668,25 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["call"], "title": "Extension Type" },
-                  "headline": { "type": "string", "title": "Headline" },
-                  "phone": { "type": "string", "title": "Phone" }
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "call"
+                    ],
+                    "title": "Extension Type"
+                  },
+                  "headline": {
+                    "type": "string",
+                    "title": "Headline"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "title": "Phone"
+                  }
                 },
-                "required": ["type"]
+                "required": [
+                  "type"
+                ]
               }
             }
           }
@@ -1334,7 +2699,10 @@
               "type": "string",
               "title": "Blog Post Layout",
               "description": "Layout variant for individual blog post pages",
-              "enum": ["default", "sidebar"],
+              "enum": [
+                "default",
+                "sidebar"
+              ],
               "default": "default"
             }
           }
@@ -1354,7 +2722,9 @@
         "links": {
           "type": "array",
           "title": "Navigation Links",
-          "items": { "$ref": "#/definitions/link" }
+          "items": {
+            "$ref": "#/definitions/link"
+          }
         },
         "cta": {
           "$ref": "#/definitions/cta",
@@ -1365,13 +2735,17 @@
     "pages": {
       "type": "object",
       "title": "Pages",
-      "additionalProperties": { "$ref": "#/definitions/page" }
+      "additionalProperties": {
+        "$ref": "#/definitions/page"
+      }
     },
     "sharedSections": {
       "type": "object",
       "title": "Shared Sections",
       "description": "Named sections that can be referenced from any page via { type: 'ref', sectionId: '<key>' }",
-      "additionalProperties": { "$ref": "#/definitions/section" }
+      "additionalProperties": {
+        "$ref": "#/definitions/section"
+      }
     },
     "data": {
       "type": "object",
@@ -1380,12 +2754,16 @@
         "services": {
           "type": "array",
           "title": "Services",
-          "items": { "$ref": "#/definitions/service" }
+          "items": {
+            "$ref": "#/definitions/service"
+          }
         },
         "products": {
           "type": "array",
           "title": "Products",
-          "items": { "$ref": "#/definitions/product" }
+          "items": {
+            "$ref": "#/definitions/product"
+          }
         }
       }
     },
@@ -1393,7 +2771,11 @@
       "type": "object",
       "title": "Booking",
       "properties": {
-        "enabled": { "type": "boolean", "title": "Enable Booking", "default": false },
+        "enabled": {
+          "type": "boolean",
+          "title": "Enable Booking",
+          "default": false
+        },
         "services": {
           "type": "array",
           "title": "Booking Services",
@@ -1401,36 +2783,88 @@
             "type": "object",
             "title": "BookingService",
             "properties": {
-              "id": { "type": "string", "title": "Service ID" },
-              "name": { "type": "string", "title": "Service Name" },
-              "duration": { "type": "integer", "title": "Duration (minutes)", "default": 60 },
-              "price": { "type": "number", "title": "Price" },
-              "description": { "type": "string", "title": "Description" }
+              "id": {
+                "type": "string",
+                "title": "Service ID"
+              },
+              "name": {
+                "type": "string",
+                "title": "Service Name"
+              },
+              "duration": {
+                "type": "integer",
+                "title": "Duration (minutes)",
+                "default": 60
+              },
+              "price": {
+                "type": "number",
+                "title": "Price"
+              },
+              "description": {
+                "type": "string",
+                "title": "Description"
+              }
             },
-            "required": ["id", "name", "duration"]
+            "required": [
+              "id",
+              "name",
+              "duration"
+            ]
           }
         },
         "hours": {
           "type": "object",
           "title": "Business Hours",
           "properties": {
-            "mon": { "$ref": "#/definitions/bookingDayHours" },
-            "tue": { "$ref": "#/definitions/bookingDayHours" },
-            "wed": { "$ref": "#/definitions/bookingDayHours" },
-            "thu": { "$ref": "#/definitions/bookingDayHours" },
-            "fri": { "$ref": "#/definitions/bookingDayHours" },
-            "sat": { "$ref": "#/definitions/bookingDayHours" },
-            "sun": { "$ref": "#/definitions/bookingDayHours" }
+            "mon": {
+              "$ref": "#/definitions/bookingDayHours"
+            },
+            "tue": {
+              "$ref": "#/definitions/bookingDayHours"
+            },
+            "wed": {
+              "$ref": "#/definitions/bookingDayHours"
+            },
+            "thu": {
+              "$ref": "#/definitions/bookingDayHours"
+            },
+            "fri": {
+              "$ref": "#/definitions/bookingDayHours"
+            },
+            "sat": {
+              "$ref": "#/definitions/bookingDayHours"
+            },
+            "sun": {
+              "$ref": "#/definitions/bookingDayHours"
+            }
           }
         },
-        "slotInterval": { "type": "integer", "title": "Slot Interval (minutes)", "default": 60 },
-        "leadTime": { "type": "integer", "title": "Lead Time (minutes)", "default": 60 },
-        "maxAdvance": { "type": "integer", "title": "Max Advance Booking (days)", "default": 30 },
-        "bufferMinutes": { "type": "integer", "title": "Buffer between appointments (minutes)", "default": 0 },
+        "slotInterval": {
+          "type": "integer",
+          "title": "Slot Interval (minutes)",
+          "default": 60
+        },
+        "leadTime": {
+          "type": "integer",
+          "title": "Lead Time (minutes)",
+          "default": 60
+        },
+        "maxAdvance": {
+          "type": "integer",
+          "title": "Max Advance Booking (days)",
+          "default": 30
+        },
+        "bufferMinutes": {
+          "type": "integer",
+          "title": "Buffer between appointments (minutes)",
+          "default": 0
+        },
         "blackoutDates": {
           "type": "array",
           "title": "Blackout Dates (YYYY-MM-DD)",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -1439,31 +2873,75 @@
       "title": "Payments",
       "description": "Stripe payment configuration used for online orders (restaurants, shops).",
       "properties": {
-        "stripeSecretKey": { "type": "string", "title": "Stripe Secret Key (sk_...)" },
-        "stripePublishableKey": { "type": "string", "title": "Stripe Publishable Key (pk_...)" },
-        "currency": { "type": "string", "title": "Currency", "default": "PLN" },
+        "stripeSecretKey": {
+          "type": "string",
+          "title": "Stripe Secret Key (sk_...)"
+        },
+        "stripePublishableKey": {
+          "type": "string",
+          "title": "Stripe Publishable Key (pk_...)"
+        },
+        "currency": {
+          "type": "string",
+          "title": "Currency",
+          "default": "PLN"
+        },
         "fulfillmentTypes": {
           "type": "array",
           "title": "Enabled Fulfillment Types",
           "description": "Which fulfillment options are shown at checkout.",
-          "items": { "type": "string", "enum": ["delivery", "pickup", "dine_in"] },
-          "default": ["pickup"]
+          "items": {
+            "type": "string",
+            "enum": [
+              "delivery",
+              "pickup",
+              "dine_in"
+            ]
+          },
+          "default": [
+            "pickup"
+          ]
         },
         "prepTimePresets": {
           "type": "array",
           "title": "Prep Time Presets (minutes)",
           "description": "Quick-buttons shown to the admin after payment when setting the ETA.",
-          "items": { "type": "integer", "minimum": 1 },
-          "default": [15, 30, 45, 60]
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "default": [
+            15,
+            30,
+            45,
+            60
+          ]
         },
-        "deliveryFee": { "type": "integer", "title": "Delivery Fee (cents)", "default": 0 },
-        "minOrderValue": { "type": "integer", "title": "Minimum Order Value (cents)", "default": 0 },
+        "deliveryFee": {
+          "type": "integer",
+          "title": "Delivery Fee (cents)",
+          "default": 0
+        },
+        "minOrderValue": {
+          "type": "integer",
+          "title": "Minimum Order Value (cents)",
+          "default": 0
+        },
         "paymentMethods": {
           "type": "array",
           "title": "Enabled Payment Methods",
           "description": "Payment methods offered at checkout. \"online\" requires Stripe keys; \"cash\" and \"card_on_site\" are settled at pickup/delivery/table.",
-          "items": { "type": "string", "enum": ["online", "cash", "card_on_site"] },
-          "default": ["cash"]
+          "items": {
+            "type": "string",
+            "enum": [
+              "online",
+              "cash",
+              "card_on_site"
+            ]
+          },
+          "default": [
+            "cash"
+          ]
         }
       }
     },
@@ -1473,7 +2951,14 @@
       "properties": {
         "email": {
           "type": "string",
-          "anyOf": [{ "format": "email" }, { "maxLength": 0 }],
+          "anyOf": [
+            {
+              "format": "email"
+            },
+            {
+              "maxLength": 0
+            }
+          ],
           "title": "Contact Form Notification Email",
           "description": "Override email for receiving contact form submissions. Use when the public contact email (business.contact.email) has delivery issues (e.g. strict government/corporate mail servers). Leave empty to use business.contact.email."
         },
@@ -1481,16 +2966,32 @@
           "type": "object",
           "title": "SMS Notifications",
           "properties": {
-            "enabled": { "type": "boolean", "title": "Enable SMS Notifications", "default": false },
+            "enabled": {
+              "type": "boolean",
+              "title": "Enable SMS Notifications",
+              "default": false
+            },
             "provider": {
               "type": "string",
               "title": "SMS Provider",
-              "enum": ["smsapi", "twilio"],
+              "enum": [
+                "smsapi",
+                "twilio"
+              ],
               "default": "smsapi"
             },
-            "phoneNumber": { "type": "string", "title": "Recipient Phone Number (with country code, e.g. +48500600700)" },
-            "apiToken": { "type": "string", "title": "Provider API Token / Auth Key" },
-            "senderName": { "type": "string", "title": "Sender Name (optional, max 11 chars)" },
+            "phoneNumber": {
+              "type": "string",
+              "title": "Recipient Phone Number (with country code, e.g. +48500600700)"
+            },
+            "apiToken": {
+              "type": "string",
+              "title": "Provider API Token / Auth Key"
+            },
+            "senderName": {
+              "type": "string",
+              "title": "Sender Name (optional, max 11 chars)"
+            },
             "template": {
               "type": "string",
               "title": "Message Template",
@@ -1502,11 +3003,18 @@
           "type": "object",
           "title": "Web Push Notifications",
           "properties": {
-            "enabled": { "type": "boolean", "title": "Enable Web Push Notifications", "default": false }
+            "enabled": {
+              "type": "boolean",
+              "title": "Enable Web Push Notifications",
+              "default": false
+            }
           }
         }
       }
     }
   },
-  "required": ["business", "theme"]
+  "required": [
+    "business",
+    "theme"
+  ]
 }

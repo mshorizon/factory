@@ -36,7 +36,7 @@ const isQuotes = variant === "quotes";
     )}
     <div>
       {variant === "agency" ? (
-        <TestimonialsAgency client:visible items={items} />
+        <TestimonialsAgency client:visible items={items} clean={(section as any).testimonialsClean} />
       ) : variant === "gradient" ? (
         <TestimonialsGradient client:visible items={items} />
       ) : variant === "featured" ? (

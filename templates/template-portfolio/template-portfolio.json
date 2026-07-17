@@ -75,7 +75,8 @@
         "section": "5rem",
         "container": "2.5rem"
       }
-    }
+    },
+    "navLogoBadge": true
   },
   "layout": {
     "navbar": {
@@ -86,7 +87,9 @@
     },
     "footer": {
       "variant": "branded",
-      "background": { "color": "#22344e" },
+      "background": {
+        "color": "#22344e"
+      },
       "hidePagesColumn": true,
       "copyright": "© 2026 Hazelgrouse Studio. Wszelkie prawa zastrzeżone.",
       "tagline": "Jednoosobowe studio stron internetowych. Najpierw widzisz gotową stronę — płacisz dopiero, gdy Ci się spodoba.",
@@ -95,29 +98,107 @@
         {
           "title": "NAWIGACJA",
           "links": [
-            {"label": "Jak to działa", "target": {"type": "section", "value": "process-1"}},
-            {"label": "Portfolio", "target": {"type": "section", "value": "templateShowcase-3"}},
-            {"label": "Cennik", "target": {"type": "section", "value": "pricing-7"}},
-            {"label": "FAQ", "target": {"type": "section", "value": "faq-11"}},
-            {"label": "Kontakt", "target": {"type": "page", "value": "contact"}}
+            {
+              "label": "Jak to działa",
+              "target": {
+                "type": "section",
+                "value": "process-1"
+              }
+            },
+            {
+              "label": "Portfolio",
+              "target": {
+                "type": "section",
+                "value": "templateShowcase-3"
+              }
+            },
+            {
+              "label": "Cennik",
+              "target": {
+                "type": "section",
+                "value": "pricing-7"
+              }
+            },
+            {
+              "label": "FAQ",
+              "target": {
+                "type": "section",
+                "value": "faq-11"
+              }
+            },
+            {
+              "label": "Kontakt",
+              "target": {
+                "type": "page",
+                "value": "contact"
+              }
+            }
           ]
         },
         {
           "title": "INFORMACJE PRAWNE",
           "links": [
-            {"label": "Polityka prywatności", "target": {"type": "external", "value": "#"}},
-            {"label": "Pliki cookies", "target": {"type": "external", "value": "#"}},
-            {"label": "Klauzula RODO", "target": {"type": "external", "value": "#"}},
-            {"label": "Regulamin usług", "target": {"type": "external", "value": "#"}}
+            {
+              "label": "Polityka prywatności",
+              "target": {
+                "type": "external",
+                "value": "#"
+              }
+            },
+            {
+              "label": "Pliki cookies",
+              "target": {
+                "type": "external",
+                "value": "#"
+              }
+            },
+            {
+              "label": "Klauzula RODO",
+              "target": {
+                "type": "external",
+                "value": "#"
+              }
+            },
+            {
+              "label": "Regulamin usług",
+              "target": {
+                "type": "external",
+                "value": "#"
+              }
+            }
           ]
         },
         {
           "title": "ZNAJDŹ MNIE",
           "links": [
-            {"label": "Facebook", "target": {"type": "external", "value": "https://facebook.com"}},
-            {"label": "Instagram", "target": {"type": "external", "value": "https://instagram.com"}},
-            {"label": "LinkedIn", "target": {"type": "external", "value": "https://linkedin.com"}},
-            {"label": "kontakt@hazelgrouse.studio", "target": {"type": "email", "value": "kontakt@hazelgrouse.studio"}}
+            {
+              "label": "Facebook",
+              "target": {
+                "type": "external",
+                "value": "https://facebook.com"
+              }
+            },
+            {
+              "label": "Instagram",
+              "target": {
+                "type": "external",
+                "value": "https://instagram.com"
+              }
+            },
+            {
+              "label": "LinkedIn",
+              "target": {
+                "type": "external",
+                "value": "https://linkedin.com"
+              }
+            },
+            {
+              "label": "kontakt@hazelgrouse.studio",
+              "target": {
+                "type": "email",
+                "value": "kontakt@hazelgrouse.studio"
+              }
+            }
           ]
         }
       ]
@@ -428,7 +509,8 @@
               "role": "Restauracja",
               "description": "Menu, rezerwacje, zdjęcia — wszystko dograne. Goście chwalą stronę częściej niż deser."
             }
-          ]
+          ],
+          "testimonialsClean": true
         },
         {
           "type": "comparison",
@@ -527,7 +609,8 @@
                 "Gotowa w 14 dni"
               ]
             }
-          ]
+          ],
+          "pricingLayout": "left"
         },
         {
           "type": "features",
@@ -536,21 +619,45 @@
             "title": "W każdym pakiecie w standardzie"
           },
           "items": [
-            { "title": "Certyfikat SSL" },
-            { "title": "Zgodność z RODO" },
-            { "title": "Szybkie ładowanie" },
-            { "title": "Pełna wersja mobilna" },
-            { "title": "Mapa Google" },
-            { "title": "Kopia zapasowa" },
-            { "title": "Podstawy SEO" }
+            {
+              "title": "Certyfikat SSL"
+            },
+            {
+              "title": "Zgodność z RODO"
+            },
+            {
+              "title": "Szybkie ładowanie"
+            },
+            {
+              "title": "Pełna wersja mobilna"
+            },
+            {
+              "title": "Mapa Google"
+            },
+            {
+              "title": "Kopia zapasowa"
+            },
+            {
+              "title": "Podstawy SEO"
+            }
           ],
           "secondaryTitle": "A po publikacji?",
           "secondaryItems": [
-            { "title": "Hosting i domena — pomagam ogarnąć od A do Z" },
-            { "title": "Drobne poprawki w pierwszym miesiącu w cenie" },
-            { "title": "Opieka techniczna: aktualizacje i kopie zapasowe" },
-            { "title": "Podstawy SEO — Twoja strona gotowa, by klienci znaleźli Cię w Google" },
-            { "title": "Pełna własność — możesz przenieść stronę, gdzie chcesz" }
+            {
+              "title": "Hosting i domena — pomagam ogarnąć od A do Z"
+            },
+            {
+              "title": "Drobne poprawki w pierwszym miesiącu w cenie"
+            },
+            {
+              "title": "Opieka techniczna: aktualizacje i kopie zapasowe"
+            },
+            {
+              "title": "Podstawy SEO — Twoja strona gotowa, by klienci znaleźli Cię w Google"
+            },
+            {
+              "title": "Pełna własność — możesz przenieść stronę, gdzie chcesz"
+            }
           ]
         },
         {

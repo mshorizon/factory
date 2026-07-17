@@ -148,9 +148,12 @@ const showCta = !hideCta && !!cta;
       {/* Left: Logo */}
       <div class="flex items-center gap-8">
         <a href="/" class="flex items-center gap-2 group shrink-0">
-          {!hideLogoIcon && (logoIconLucide && lucideIconSvgs[logoIconLucide]
-            ? <span class="w-6 h-6 text-primary flex items-center justify-center shrink-0" set:html={lucideIconSvgs[logoIconLucide]} />
-            : logoIcon && <img src={logoIcon} alt="" class="w-6 h-6" />
+          {!hideLogoIcon && (
+            <span class="nav-logo-mark shrink-0 inline-flex items-center justify-center">
+              {logoIconLucide && lucideIconSvgs[logoIconLucide]
+                ? <span class="nav-logo-glyph w-6 h-6 text-primary flex items-center justify-center" set:html={lucideIconSvgs[logoIconLucide]} />
+                : logoIcon && <img src={logoIcon} alt="" class="nav-logo-glyph w-6 h-6" />}
+            </span>
           )}
           <span class="flex flex-col leading-tight">
             <span class:list={[
@@ -395,6 +398,24 @@ const showCta = !hideCta && !!cta;
   }
   [data-nav-height="1"] #main-nav.bg-background .nav-inner {
     height: var(--nav-h-scrolled, 70px) !important;
+  }
+
+  /* Logo mark badge (opt-in via theme.navLogoBadge): render the logo icon inside
+     a rounded-square tinted badge with a whitened glyph. Default (no attr) leaves
+     the icon untouched, so other templates are unaffected. */
+  [data-nav-logo-badge="1"] #main-nav .nav-logo-mark,
+  [data-nav-logo-badge="1"] #mobile-menu .nav-logo-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+    background: var(--primary);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(45, 86, 160, 0.28);
+  }
+  [data-nav-logo-badge="1"] #main-nav .nav-logo-mark .nav-logo-glyph,
+  [data-nav-logo-badge="1"] #mobile-menu .nav-logo-mark .nav-logo-glyph {
+    width: 1.25rem;
+    height: 1.25rem;
+    filter: brightness(0) invert(1);
   }
 
   /* Hide the CTA button icon (opt-in via theme.navCtaHideIcon) */

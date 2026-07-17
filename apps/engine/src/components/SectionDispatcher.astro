@@ -106,7 +106,10 @@ function getBgClass(bg?: string): string {
 
   const isHero = resolvedSection.type === 'hero';
   const heroSkipsSpacing = isHero && resolvedSection.background !== 'transparent';
-  const ctaBannerSkipsSpacing = resolvedSection.type === 'ctaBanner';
+  // ctaBanner is flush by default (full-bleed ticker/default), but the 'panel'
+  // variant is a floating rounded card that needs normal section spacing so it
+  // doesn't butt against neighbouring sections.
+  const ctaBannerSkipsSpacing = resolvedSection.type === 'ctaBanner' && sectionWithVariant.variant !== 'panel';
   const skipsSpacing = heroSkipsSpacing || ctaBannerSkipsSpacing;
   const bgColorOverride = (resolvedSection as any).backgroundColor as string | undefined;
   return <div data-section-index={index} data-section-type={resolvedSection.type} id={`${resolvedSection.type}-${index}`} class:list={[bgClass, !skipsSpacing && (isHomePage ? "py-spacing-section" : "py-spacing-section-sm")]} style={bgColorOverride ? `background-color:${bgColorOverride}` : undefined}><Component {...props} /></div>;

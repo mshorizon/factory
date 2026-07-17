@@ -175,6 +175,10 @@ export type NavbarLogoLetterSpacing = string;
  */
 export type NavbarCTAHideIcon = boolean;
 /**
+ * Render the navbar logo icon inside a rounded-square tinted (primary) badge with a whitened glyph.
+ */
+export type NavbarLogoBadge = boolean;
+/**
  * Render the navbar CTA button text (desktop + mobile) in uppercase.
  */
 export type NavbarCTAUppercase = boolean;
@@ -805,6 +809,14 @@ export type Region =
   | "podlaskie"
   | "opolskie"
   | "lubuskie";
+/**
+ * Pricing card layout override. 'left' = left-aligned cards, primary tier names, divided feature rows (PricingDefault). Omit for centered.
+ */
+export type PricingLayout = "left";
+/**
+ * Agency testimonials variant: render clean white cards without stars/verified-badge/metric.
+ */
+export type TestimonialsCleanCards = boolean;
 export type Sections = Section[];
 export type BlogSlugLinksToABlogStandalonePostShownAfterServiceDetails = string;
 export type Services = Service[];
@@ -941,6 +953,7 @@ export interface Theme {
   navLinksUppercase?: NavbarLinksUppercase;
   navLogoLetterSpacing?: NavbarLogoLetterSpacing;
   navCtaHideIcon?: NavbarCTAHideIcon;
+  navLogoBadge?: NavbarLogoBadge;
   navCtaUppercase?: NavbarCTAUppercase;
   heroCtaHideIcon?: HeroCTAHideIcon;
   heroTextThemeColors?: HeroTextUsesThemeColors;
@@ -1189,6 +1202,8 @@ export interface Section {
   fileGroups?: FileGroups;
   templateItems?: TemplateItems;
   area?: ServiceAreaConfiguration;
+  pricingLayout?: PricingLayout;
+  testimonialsClean?: TestimonialsCleanCards;
 }
 export interface SidebarContactCard {
   name?: Name;

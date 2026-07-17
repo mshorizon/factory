@@ -14,7 +14,7 @@ function getInitials(name: string) {
   return name.split(" ").map(w => w[0]).filter(Boolean).join("").slice(0, 2);
 }
 
-export function TestimonialsAgency({ items, className }: TestimonialsGridProps) {
+export function TestimonialsAgency({ items, className, clean }: TestimonialsGridProps) {
   return (
     <StaggerContainer
       className={cn("grid md:grid-cols-3 gap-6", className)}
@@ -30,9 +30,15 @@ export function TestimonialsAgency({ items, className }: TestimonialsGridProps) 
         return (
           <StaggerItem key={index} direction={direction} distance={30}>
             <div
-              className="text-left bg-secondary/40 p-spacing-lg rounded-3xl border border-transparent hover:border-primary/30 hover:bg-background hover:shadow-md transition-all flex flex-col h-full"
+              className={cn(
+                "text-left flex flex-col h-full transition-all",
+                clean
+                  ? "bg-card p-spacing-xl rounded-radius border border-border/60 shadow-sm hover:shadow-md"
+                  : "bg-secondary/40 p-spacing-lg rounded-3xl border border-transparent hover:border-primary/30 hover:bg-background hover:shadow-md"
+              )}
               data-field={`items.${index}`}
             >
+              {!clean && (
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-1" style={{ color: "#F59E0B" }}>
                   {[...Array(5)].map((_, i) => (
@@ -44,6 +50,7 @@ export function TestimonialsAgency({ items, className }: TestimonialsGridProps) 
                   Zweryfikowane
                 </div>
               </div>
+              )}
 
               <p
                 className="text-base leading-relaxed mb-6 text-foreground/90 flex-1"
@@ -52,14 +59,14 @@ export function TestimonialsAgency({ items, className }: TestimonialsGridProps) 
                 &bdquo;{item.description}&rdquo;
               </p>
 
-              {metric && (
+              {!clean && metric && (
                 <div className="bg-primary/10 rounded-xl px-4 py-3 mb-5 flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-primary shrink-0" />
                   <span className="text-sm font-bold text-foreground">{metric}</span>
                 </div>
               )}
 
-              <div className="flex items-center gap-3 pt-4 border-t border-border/60">
+              <div className={cn("flex items-center gap-3", !clean && "pt-4 border-t border-border/60")}>
                 {item.image ? (
                   <div className="w-11 h-11 rounded-full overflow-hidden shrink-0">
                     <img src={item.image} alt={author.name} className="w-full h-full object-cover" />

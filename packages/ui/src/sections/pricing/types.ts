@@ -12,4 +12,6 @@ export interface PricingTier {
 export interface PricingDefaultProps {
   tiers: PricingTier[];
   className?: string;
+  /** "left" → left-aligned cards, primary-colored tier names, divided feature rows, thin check icons. Default = centered. */
+  layout?: "left";
 }

@@ -9,6 +9,8 @@ export interface TestimonialItem {
 }
 
 export interface TestimonialsGridProps {
+  /** Agency variant: clean white cards without stars/verified-badge/metric (matches minimal designs). */
+  clean?: boolean;
   items: TestimonialItem[];
   className?: string;
   sectionTitle?: string;

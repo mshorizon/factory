@@ -37,7 +37,7 @@ const tiers = (section.pricingTiers || []).map((tier: any) => ({
     {variant === "xtract" ? (
       <PricingXtract client:visible tiers={tiers} />
     ) : (
-      <PricingDefault client:visible tiers={tiers} />
+      <PricingDefault client:visible tiers={tiers} layout={(section as any).pricingLayout} />
     )}
   </div>
 </section>
