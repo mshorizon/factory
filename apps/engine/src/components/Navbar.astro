@@ -565,6 +565,33 @@ const showCta = !hideCta && !!cta;
     color: var(--foreground) !important;
   }
 
+  /* template-portfolio: left-side logo lockup.
+     - Business title (logoText + accent): 18px / weight 800.
+     - Description (logoSubtext): 10px, wide .18em tracking, in the muted
+       body-text color so it matches the pricing feature copy
+       ("Teksty dopasowane do branży", rendered with text-muted).
+     - Logo icon stretches to the combined height of the two text lines
+       (title + description + the line gap between them) and stays square. */
+  [data-major-theme="template-portfolio"] #main-nav .nav-logo {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+  }
+  [data-major-theme="template-portfolio"] #main-nav .nav-logo-subtext {
+    font-size: 10px !important;
+    letter-spacing: 0.18em !important;
+    color: var(--muted) !important;
+  }
+  [data-major-theme="template-portfolio"] #main-nav .nav-logo-mark {
+    align-self: stretch;
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+  [data-major-theme="template-portfolio"] #main-nav .nav-logo-mark .nav-logo-glyph {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   /* template-art (restaurant): wider gap between nav links for a more
      spacious, editorial feel. Overrides the default gap-1/lg:gap-2. */
   [data-major-theme="template-art"] #main-nav .nav-links-center,
