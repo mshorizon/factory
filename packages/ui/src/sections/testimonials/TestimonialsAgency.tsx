@@ -33,7 +33,7 @@ export function TestimonialsAgency({ items, className, clean }: TestimonialsGrid
               className={cn(
                 "text-left flex flex-col h-full transition-all",
                 clean
-                  ? "bg-card p-spacing-xl rounded-radius border border-border/60 shadow-sm hover:shadow-md"
+                  ? "bg-card p-spacing-xl rounded-radius shadow-md hover:shadow-lg"
                   : "bg-secondary/40 p-spacing-lg rounded-3xl border border-transparent hover:border-primary/30 hover:bg-background hover:shadow-md"
               )}
               data-field={`items.${index}`}
@@ -72,7 +72,7 @@ export function TestimonialsAgency({ items, className, clean }: TestimonialsGrid
                     <img src={item.image} alt={author.name} className="w-full h-full object-cover" />
                   </div>
                 ) : (
-                  <div className="w-11 h-11 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-sm shrink-0">
+                  <div className="w-11 h-11 rounded-full bg-primary-light flex items-center justify-center font-bold text-primary text-sm shrink-0">
                     {getInitials(author.name)}
                   </div>
                 )}
