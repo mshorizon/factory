@@ -84,7 +84,8 @@
       "variant": "standard",
       "logoSubtext": "WIDZISZ, ZANIM PŁACISZ",
       "logoText": "Hazelgrouse",
-      "logoAccent": "Studio"
+      "logoAccent": "Studio",
+      "showLangSwitcher": true
     },
     "footer": {
       "variant": "branded",

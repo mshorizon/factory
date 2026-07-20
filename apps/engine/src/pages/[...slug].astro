@@ -191,6 +191,8 @@ const heroFirstSectionHasBgImage =
     showAvailability={layout.navbar.showAvailability}
     showAddress={layout.navbar.showAddress}
     showAdditionalInfo={layout.navbar.showAdditionalInfo}
+    showLangSwitcher={(layout.navbar as any).showLangSwitcher}
+    currentLanguage={currentLang}
   />
   <main class="flex-1" data-nav-offset style="padding-top: var(--main-nav-offset, 64px)">
     <SectionDispatcher sections={page.sections} business={business} isHomePage={normalizedSlug === 'home'} />

@@ -92,6 +92,7 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       showAvailability: (layout.navbar as any)?.showAvailability !== false,
       showAddress: (layout.navbar as any)?.showAddress !== false,
       showAdditionalInfo: (layout.navbar as any)?.showAdditionalInfo !== false,
+      showLangSwitcher: (layout.navbar as any)?.showLangSwitcher || false,
     },
     footer: {
       name: layout.footer?.name,

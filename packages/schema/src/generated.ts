@@ -295,6 +295,10 @@ export type ShowAddressInExtension = boolean;
  * Show additionalInfo items in the upper bar extension
  */
 export type ShowAdditionalInfoInExtension = boolean;
+/**
+ * Render a language-selector pill + dropdown in the navbar's right zone (globe + current lang + chevron). Opt-in; reuses the footer's cookie-based language switch. Defaults to off.
+ */
+export type ShowNavbarLanguageSwitcher = boolean;
 export type ExtensionType = "upper-bar";
 /**
  * Short warning/announcement shown centered in the upper bar (e.g. temporary office closure). Plain text.
@@ -1045,6 +1049,7 @@ export interface Navbar {
   showAvailability?: ShowAvailabilityInExtension;
   showAddress?: ShowAddressInExtension;
   showAdditionalInfo?: ShowAdditionalInfoInExtension;
+  showLangSwitcher?: ShowNavbarLanguageSwitcher;
   extensions?: NavbarExtensions;
 }
 export interface FooterConfig {
