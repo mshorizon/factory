@@ -23,7 +23,7 @@ export function PricingDefault({ tiers, className, layout }: PricingDefaultProps
         <StaggerItem key={index} direction="up" distance={30}>
           <Card
             className={cn(
-              "h-full flex flex-col relative",
+              "h-full flex flex-col relative border-transparent shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20",
               tier.highlighted && "border-primary ring-2 ring-primary/20 scale-[1.02]"
             )}
             data-field={`pricingTiers.${index}`}
