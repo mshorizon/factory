@@ -695,6 +695,8 @@
             }
           ],
           "image": "/template-previews/admin-panel.png",
+          "marker": "check",
+          "imageShadow": "primary-light",
           "imageDescription": {
             "name": "panel.twoja-firma.pl",
             "description": "t:home.9.imageDescription.description"

@@ -558,6 +558,23 @@
             }
           }
         },
+        "marker": {
+          "type": "string",
+          "title": "List Marker Style",
+          "enum": [
+            "number",
+            "check"
+          ],
+          "description": "Left-side marker for the features 'numbered-split' variant list items. 'number' (default) shows large serif ordinals (01, 02…); 'check' shows small check icons in the primary color."
+        },
+        "imageShadow": {
+          "type": "string",
+          "title": "Image Shadow Color",
+          "enum": [
+            "primary-light"
+          ],
+          "description": "Adds a soft ambient shadow tinted with the primary-light color behind the features 'numbered-split' variant image. Omit for no shadow."
+        },
         "ctaColor": {
           "type": "string",
           "title": "CTA Text Color Override"

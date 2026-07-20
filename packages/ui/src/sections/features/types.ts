@@ -51,6 +51,17 @@ export interface FeaturesNumberedSplitProps extends FeaturesGridProps {
    * the about-section image caption.
    */
   imageDescription?: ImageDescriptionContent;
+  /**
+   * Left-side marker for each list item. "number" (default) shows the large
+   * serif ordinal (01, 02…); "check" shows a small check icon in the primary
+   * color. Omit to keep the numbered look.
+   */
+  marker?: "number" | "check";
+  /**
+   * Adds a soft ambient shadow tinted with the primary-light color behind the
+   * image. Omit for no shadow.
+   */
+  imageShadow?: "primary-light";
 }
 
 export interface FeaturesChecklistSplitProps {

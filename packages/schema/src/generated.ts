@@ -533,6 +533,14 @@ export type NameFontFamily = string;
  * Overrides the description line font-family. Full CSS font-family value.
  */
 export type DescriptionFontFamily = string;
+/**
+ * Left-side marker for the features 'numbered-split' variant list items. 'number' (default) shows large serif ordinals (01, 02…); 'check' shows small check icons in the primary color.
+ */
+export type ListMarkerStyle = "number" | "check";
+/**
+ * Adds a soft ambient shadow tinted with the primary-light color behind the features 'numbered-split' variant image. Omit for no shadow.
+ */
+export type ImageShadowColor = "primary-light";
 export type CTATextColorOverride = string;
 /**
  * Overrides the color of the hero scroll indicator label and chevron (default hero-fold variant). Custom CSS color value, e.g. '#f0ebdb'.
@@ -1149,6 +1157,8 @@ export interface Section {
   imageBorder?: ImageTextColorBorderMat;
   imageMeta?: ImageCardLabel;
   imageDescription?: ImageCaptionOverlay;
+  marker?: ListMarkerStyle;
+  imageShadow?: ImageShadowColor;
   ctaColor?: CTATextColorOverride;
   scrollColor?: HeroScrollIndicatorColorOverride;
   textColor?: HeroTextColorOverride;

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Check } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { StaggerContainer, StaggerItem } from "../../animations/StaggerContainer";
 import { ImageDescription } from "../../atoms/ImageDescription";
@@ -14,6 +15,8 @@ export function FeaturesNumberedSplit({
   imageBlend,
   imageBorder,
   imageDescription,
+  marker = "number",
+  imageShadow,
   className,
 }: FeaturesNumberedSplitProps) {
   // Mirror the about-section blend modes. "feather" crosses two linear-gradient
@@ -74,12 +77,18 @@ export function FeaturesNumberedSplit({
                 className="group flex items-start gap-spacing-lg py-spacing-lg px-spacing-md -mx-spacing-md rounded-radius"
                 data-field={`items.${index}`}
               >
-                <span
-                  className="flex-shrink-0 text-6xl font-semibold text-primary-dark tabular-nums leading-none"
-                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+                {marker === "check" ? (
+                  <span className="flex-shrink-0 mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-primary-light">
+                    <Check className="h-4 w-4 text-primary" strokeWidth={3} />
+                  </span>
+                ) : (
+                  <span
+                    className="flex-shrink-0 text-6xl font-semibold text-primary-dark tabular-nums leading-none"
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                )}
                 <div className="flex flex-col gap-spacing-xs">
                   <h3
                     className="text-lg font-heading text-foreground transition-colors duration-300 group-hover:text-primary"
@@ -112,6 +121,17 @@ export function FeaturesNumberedSplit({
             // frame (see below) is also a square, edge-to-edge crop with no radius.
             !imageBorder && imageBlend !== "feather" && "rounded-radius"
           )}
+          // A primary-light ambient shadow sits behind the image. It lives on this
+          // wrapper (not the <img>) because the wrapper's overflow-hidden would
+          // otherwise clip a shadow drawn on the image itself.
+          style={
+            imageShadow === "primary-light"
+              ? {
+                  boxShadow:
+                    "0 30px 60px -20px color-mix(in srgb, var(--primary-light) 55%, transparent)",
+                }
+              : undefined
+          }
         >
           <div className="relative h-full w-full">
             <img
