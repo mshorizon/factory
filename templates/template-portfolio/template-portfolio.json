@@ -97,6 +97,7 @@
       },
       "hidePagesColumn": true,
       "hideAutoContactColumn": true,
+      "hideLanguageSwitcher": true,
       "copyright": "t:layout.footer.copyright",
       "tagline": "t:layout.footer.tagline",
       "links": [],

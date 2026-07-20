@@ -73,6 +73,8 @@ interface Props {
   accountLabel?: string;
   /** Suppress the auto-generated Contact column (phone/email/address). Opt-in; defaults to current behavior. */
   hideAutoContactColumn?: boolean;
+  /** Suppress the footer language/translations switcher (e.g. when it already lives in the navbar). Opt-in. */
+  hideLanguageSwitcher?: boolean;
 }
 
 const {
@@ -99,10 +101,15 @@ const {
   mapStyle = "embed",
   accountLabel,
   hideAutoContactColumn = false,
+  hideLanguageSwitcher = false,
 } = Astro.props;
 
 const displayName = footerName || businessName;
 const effectiveFooterIcon = footerLogoIcon || logoIcon;
+
+// Show the footer language switcher only for multilingual sites, unless explicitly hidden
+// (e.g. the switcher is already presented in the navbar).
+const showLanguageSwitcher = Boolean(currentLanguage) && !hideLanguageSwitcher;
 
 const callExtension = extensions.find((e) => e.type === "call");
 
@@ -205,7 +212,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-sm text-muted">{copyrightText}</p>
         <div class="flex flex-wrap items-center gap-4">
-          {currentLanguage && (
+          {showLanguageSwitcher && (
             <div class="lang-switcher flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-foreground/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               {languages.map((lang, i) => (
@@ -231,7 +238,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
         <span class="font-bold text-3xl tracking-tight mb-4">{businessName}</span>
         {tagline && <p class="text-on-primary/70 text-lg max-w-md mb-8">{tagline}</p>}
         <div class="w-24 h-px bg-on-primary/20 mb-8"></div>
-        {currentLanguage && (
+        {showLanguageSwitcher && (
           <div class="lang-switcher flex items-center gap-1.5 mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
             {languages.map((lang, i) => (
@@ -308,7 +315,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
       <div class="mt-spacing-3xl pt-spacing-lg border-t border-border/30 flex flex-col items-center gap-3 md:flex-row md:justify-between">
         <p class="text-sm text-muted text-center md:text-left">{copyrightText}</p>
         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-          {currentLanguage && (
+          {showLanguageSwitcher && (
             <div class="lang-switcher flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-muted"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               {languages.map((lang, i) => (
@@ -367,7 +374,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
         <div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
           <p class="text-sm text-muted text-center sm:text-left">{copyrightText}</p>
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            {currentLanguage && (
+            {showLanguageSwitcher && (
               <div class="lang-switcher flex items-center gap-1.5">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-foreground/40"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
                 {languages.map((lang, i) => (
@@ -424,7 +431,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
         <div class="mt-spacing-2xl pt-spacing-lg border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
           <p class="text-sm text-on-primary/65 text-center md:text-left">{copyrightText}</p>
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            {currentLanguage && (
+            {showLanguageSwitcher && (
               <div class="lang-switcher flex items-center gap-1.5">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
                 {languages.map((lang, i) => (
@@ -500,7 +507,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
         <div class="mt-spacing-2xl pt-spacing-lg border-t border-on-primary/10 flex flex-col items-center gap-3 md:flex-row md:justify-between">
           <p class="text-sm text-on-primary/65 text-center md:text-left">{copyrightText}</p>
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            {currentLanguage && (
+            {showLanguageSwitcher && (
               <div class="lang-switcher flex items-center gap-1.5">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
                 {languages.map((lang, i) => (
@@ -672,7 +679,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
       <div class="mt-spacing-3xl pt-8 border-t border-white/10 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
         <p class="text-sm text-white/60 text-center sm:text-left">{copyrightText}</p>
         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-          {currentLanguage && (
+          {showLanguageSwitcher && (
             <div class="lang-switcher flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-white/60"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               {languages.map((lang, i) => (
@@ -700,7 +707,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
       <div class="mt-8 pt-8 border-t border-on-primary/10 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-sm text-on-primary/60">{copyrightText}</p>
         <div class="flex items-center gap-4">
-          {currentLanguage && (
+          {showLanguageSwitcher && (
             <div class="lang-switcher flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-on-primary/65"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               {languages.map((lang, i) => (
@@ -818,7 +825,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
       <div class="mt-spacing-3xl pt-spacing-lg border-t border-border/40 flex flex-col items-center gap-3 md:flex-row md:justify-between">
         <p class="text-sm text-muted text-center md:text-left">{copyrightText}</p>
         <div class="flex flex-col items-center gap-3 sm:flex-row sm:gap-x-6">
-          {currentLanguage && (
+          {showLanguageSwitcher && (
             <div class="lang-switcher flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-muted"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               {languages.map((lang, i) => (

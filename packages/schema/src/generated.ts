@@ -328,6 +328,10 @@ export type HideAutoPagesColumn = boolean;
  */
 export type HideAutoContactColumn = boolean;
 /**
+ * Suppress the footer language/translations selector that otherwise appears whenever the site is multilingual. Use when the language switcher is already presented elsewhere (e.g. in the navbar).
+ */
+export type HideLanguageSwitcher = boolean;
+/**
  * Footer tagline. Use \n to split across multiple lines.
  */
 export type Tagline = string;
@@ -1069,6 +1073,7 @@ export interface FooterConfig {
   copyright?: CopyrightText;
   hidePagesColumn?: HideAutoPagesColumn;
   hideAutoContactColumn?: HideAutoContactColumn;
+  hideLanguageSwitcher?: HideLanguageSwitcher;
   tagline?: Tagline;
   flag?: BrandFlagColors;
   findUsTitle?: FindUsColumnTitle;

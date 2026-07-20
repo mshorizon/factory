@@ -100,6 +100,7 @@ export function getLayoutConfig(businessData: BusinessProfile) {
       background: layout.footer?.background,
       hidePagesColumn: (layout.footer as any)?.hidePagesColumn || false,
       hideAutoContactColumn: (layout.footer as any)?.hideAutoContactColumn || false,
+      hideLanguageSwitcher: (layout.footer as any)?.hideLanguageSwitcher || false,
       copyright: layout.footer?.copyright,
       tagline: layout.footer?.tagline,
       links: layout.footer?.links || [],

@@ -128,6 +128,7 @@ const pageTitle = `Zamówienie potwierdzone | ${business.business.name}`;
     hours={layout.footer.hours}
     signature={layout.footer.signature}
     currentLanguage={currentLang}
+    hideLanguageSwitcher={(layout.footer as any).hideLanguageSwitcher}
     variant={layout.footer.variant as "simple" | "multiColumn" | "minimal" | "centered" | "branded" | "stacked" | "gradient" | "darkColumns"}
     socialLinks={socialLinks}
     extensions={layout.footer.extensions}
