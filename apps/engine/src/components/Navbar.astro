@@ -308,6 +308,22 @@ const showCta = !hideCta && !!cta;
     :global([data-nav-links-position="right"]) .nav-links-right {
       display: flex;
     }
+
+    /* Nav links position: center-absolute — true 3-zone (logo left · nav dead-center · actions right).
+       Opt-in; leaves the default "center"/"right" behaviour untouched. The center container is
+       pulled out of the logo group's flow and absolutely centered within .nav-inner. */
+    :global([data-nav-links-position="center-absolute"]) .nav-inner {
+      position: relative;
+    }
+    :global([data-nav-links-position="center-absolute"]) .nav-links-center {
+      display: flex;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    :global([data-nav-links-position="center-absolute"]) .nav-links-right {
+      display: none;
+    }
   }
 </style>
 

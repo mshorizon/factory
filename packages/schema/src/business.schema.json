@@ -2408,7 +2408,8 @@
           "title": "Navbar Links Position",
           "enum": [
             "center",
-            "right"
+            "right",
+            "center-absolute"
           ],
           "default": "center"
         },

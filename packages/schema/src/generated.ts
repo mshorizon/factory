@@ -246,7 +246,7 @@ export type NavbarHeightAtTop = string;
  * Navbar height once the solid background appears on scroll (e.g. "70px").
  */
 export type NavbarHeightWhenScrolled = string;
-export type NavbarLinksPosition = "center" | "right";
+export type NavbarLinksPosition = "center" | "right" | "center-absolute";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "accent-no-line" | "outlined" | "text";
 export type BadgeFontSize = string;

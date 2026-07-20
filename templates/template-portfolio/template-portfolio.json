@@ -76,7 +76,8 @@
         "container": "2.5rem"
       }
     },
-    "navLogoBadge": true
+    "navLogoBadge": true,
+    "navLinksPosition": "center-absolute"
   },
   "layout": {
     "navbar": {
