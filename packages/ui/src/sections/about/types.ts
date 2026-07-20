@@ -27,6 +27,13 @@ export interface AboutStoryProps {
   story?: StoryContent;
   signature?: SignatureRow;
   stats?: StatItem[];
+  /**
+   * Where the stats render.
+   * - "below" (default): a full-width centered row beneath the whole section (image + text).
+   * - "text": stacked inside the text column, directly under the story paragraphs
+   *   (left-aligned to the text, not spanning the full section width).
+   */
+  statsPlacement?: "below" | "text";
   commitment?: StoryContent;
   image?: string;
   cta?: string;

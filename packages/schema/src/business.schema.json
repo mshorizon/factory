@@ -609,6 +609,15 @@
           "type": "boolean",
           "title": "Invert stat colors (light bg, dark text)"
         },
+        "statsPlacement": {
+          "type": "string",
+          "title": "Stats Placement",
+          "enum": [
+            "below",
+            "text"
+          ],
+          "description": "Where stats render in the about 'story' variant. 'below' (default) is a full-width centered row beneath the whole section; 'text' stacks them inside the text column, directly under the story paragraphs."
+        },
         "cta": {
           "$ref": "#/definitions/cta"
         },

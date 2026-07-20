@@ -381,6 +381,7 @@
           "variant": "story",
           "background": "dark",
           "imagePosition": "left",
+          "statsPlacement": "text",
           "header": {
             "badge": "O mnie",
             "title": "Jedna osoba. Od pomysłu po publikację."

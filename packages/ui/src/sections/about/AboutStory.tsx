@@ -17,6 +17,7 @@ export function AboutStory({
   story,
   signature,
   stats,
+  statsPlacement = "below",
   commitment,
   image,
   cta,
@@ -197,6 +198,18 @@ export function AboutStory({
             )}
           </div>
         )}
+        {statsPlacement === "text" && stats && stats.length > 0 && (
+          <StaggerContainer className="flex flex-row flex-wrap gap-spacing-xl md:gap-spacing-2xl" staggerDelay={0.1}>
+            {stats.map((stat, index) => (
+              <StaggerItem key={index} direction="up" distance={20}>
+                <div className="text-left" data-field={`stats.${index}`}>
+                  <div className="text-4xl md:text-5xl font-bold text-foreground mb-spacing-xs font-heading" data-field={`stats.${index}.value`}>{stat.value}</div>
+                  <p className="text-sm text-muted" data-field={`stats.${index}.label`}>{stat.label}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        )}
         {quote && quote.text && (
           <figure className="border-l-2 border-primary pl-spacing-md" data-field="quote">
             <blockquote className="text-lg md:text-xl italic font-heading text-foreground leading-snug" data-field="quote.text">{quote.text}</blockquote>
@@ -273,7 +286,7 @@ export function AboutStory({
       </div>
 
       {/* Stats row */}
-      {stats && stats.length > 0 && (
+      {statsPlacement === "below" && stats && stats.length > 0 && (
         <ScrollReveal delay={0.2} direction="up">
           <StaggerContainer className="flex flex-row flex-wrap justify-center gap-spacing-2xl md:gap-spacing-3xl py-spacing-2xl" staggerDelay={0.1}>
             {stats.map((stat, index) => (

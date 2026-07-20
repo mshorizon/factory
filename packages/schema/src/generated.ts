@@ -563,6 +563,10 @@ export type MapPanelButtonColor = "primary" | "primary-light";
  */
 export type HeaderDecorativeLineColor = "primary" | "foreground";
 export type InvertStatColorsLightBgDarkText = boolean;
+/**
+ * Where stats render in the about 'story' variant. 'below' (default) is a full-width centered row beneath the whole section; 'text' stacks them inside the text column, directly under the story paragraphs.
+ */
+export type StatsPlacement = "below" | "text";
 export type Text = string;
 /**
  * A substring of 'text' rendered in the highlight color (e.g. a social handle).
@@ -1154,6 +1158,7 @@ export interface Section {
   mapPanelButtonColor?: MapPanelButtonColor;
   headerLineColor?: HeaderDecorativeLineColor;
   statsInverted?: InvertStatColorsLightBgDarkText;
+  statsPlacement?: StatsPlacement;
   cta?: Cta1;
   secondaryCta?: Cta1;
   socialCta?: SocialCTAGhostButton;
