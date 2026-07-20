@@ -27,7 +27,7 @@ export function ProcessConnected({ steps, className }: ProcessStepsProps) {
           return (
             <StaggerItem key={index} direction="up" distance={30}>
               <div
-                className="bg-card border border-border rounded-[1.25rem] p-spacing-lg h-full flex flex-col transition-all duration-200 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10"
+                className="bg-card border border-border/40 rounded-[1.25rem] p-spacing-lg h-full flex flex-col transition-all duration-200 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10"
                 data-field={`steps.${index}`}
               >
                 {/* Number tile */}
