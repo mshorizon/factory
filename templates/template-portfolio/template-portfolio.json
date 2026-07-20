@@ -4,7 +4,7 @@
     "name": "Hazelgrouse Studio",
     "industry": "web-design",
     "assets": {
-      "favicon": "/hazelgrouse_studio_logo_v2.png",
+      "favicon": "/assets/portfolio-favicon.svg",
       "icon": "/hazelgrouse_studio_logo_v2.png",
       "logo": "/hazelgrouse_studio_logo_v2.png"
     },
