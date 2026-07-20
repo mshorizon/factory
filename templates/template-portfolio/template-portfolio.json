@@ -423,9 +423,7 @@
               "demoUrl": "https://template-law.hazelgrouse.pl/",
               "tags": [
                 "Kancelaria prawna"
-              ],
-              "headline": "Pewne wsparcie prawne dla Ciebie i Twojej firmy",
-              "ctaLabel": "Umów konsultację"
+              ]
             },
             {
               "name": "ElektroMax",
@@ -434,9 +432,7 @@
               "demoUrl": "https://template-specialist.hazelgrouse.pl/",
               "tags": [
                 "Usługi elektryczne"
-              ],
-              "headline": "Instalacje elektryczne bez niespodzianek",
-              "ctaLabel": "Wycena w 24 h"
+              ]
             },
             {
               "name": "Trattoria Rosa",
@@ -446,9 +442,7 @@
               "tags": [
                 "Restauracja"
               ],
-              "accent": "#4a2a20",
-              "headline": "Włoska kuchnia w sercu miasta",
-              "ctaLabel": "Zarezerwuj stolik"
+              "accent": "#4a2a20"
             }
           ],
           "footnote": "…i każda inna branża — zapytaj o swoją",
