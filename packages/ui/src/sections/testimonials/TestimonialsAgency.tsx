@@ -33,7 +33,7 @@ export function TestimonialsAgency({ items, className, clean }: TestimonialsGrid
               className={cn(
                 "text-left flex flex-col h-full transition-all",
                 clean
-                  ? "bg-card p-spacing-xl rounded-radius shadow-md hover:shadow-lg"
+                  ? "bg-card p-spacing-xl rounded-radius shadow-xl hover:shadow-2xl"
                   : "bg-secondary/40 p-spacing-lg rounded-3xl border border-transparent hover:border-primary/30 hover:bg-background hover:shadow-md"
               )}
               data-field={`items.${index}`}
