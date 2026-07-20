@@ -219,6 +219,20 @@ html[data-badge-typography] .badge-base {
   letter-spacing: var(--badge-letter-spacing) !important;
 }
 
+/* Portfolio: section eyebrow badges (Proces, O mnie, Kontakt, ...) render as a
+   compact monospace label. Scoped to [data-major-theme="template-portfolio"] so
+   no other template is affected. .badge-base[data-field="header.badge"] targets
+   only the SectionHeader eyebrow atoms (not the hero pill, which is a plain
+   span). The accent line above the label is removed via theme.badgeVariant =
+   "accent-no-line". ui-monospace/Menlo/monospace are system fonts, so no
+   webfont download is required. !important beats the per-section Tailwind
+   utilities (text-[14px], font-medium). */
+html[data-major-theme="template-portfolio"] .badge-base[data-field="header.badge"] {
+  font-family: ui-monospace, Menlo, monospace !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+}
+
 /* Badge decorative line reveal — expands from left after badge fades in */
 [data-reveal] .reveal-line {
   transform-origin: left center;

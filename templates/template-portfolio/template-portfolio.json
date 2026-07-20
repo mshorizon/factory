@@ -26,6 +26,7 @@
     "mode": "light",
     "navCtaHideIcon": true,
     "navLogoSize": "20px",
+    "badgeVariant": "accent-no-line",
     "colors": {
       "light": {
         "primary": "#3d6fc4",
