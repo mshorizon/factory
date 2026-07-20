@@ -9,10 +9,10 @@
       "logo": "/hazelgrouse_studio_logo_v2.png"
     },
     "contact": {
-      "address": "Kraków, Polska",
+      "address": "t:business.contact.address",
       "phone": "+48 600 000 000",
       "email": "kontakt@hazelgrouse.studio",
-      "hours": "pon–pt 9:00–17:00"
+      "hours": "t:business.contact.hours"
     },
     "socials": {
       "facebook": "https://facebook.com/hazelgrouse",
@@ -84,7 +84,7 @@
   "layout": {
     "navbar": {
       "variant": "standard",
-      "logoSubtext": "WIDZISZ, ZANIM PŁACISZ",
+      "logoSubtext": "t:layout.navbar.logoSubtext",
       "logoText": "Hazelgrouse",
       "logoAccent": "Studio",
       "showLangSwitcher": true,
@@ -97,43 +97,43 @@
       },
       "hidePagesColumn": true,
       "hideAutoContactColumn": true,
-      "copyright": "© 2026 Hazelgrouse Studio. Wszelkie prawa zastrzeżone.",
-      "tagline": "Jednoosobowe studio stron internetowych. Najpierw widzisz gotową stronę — płacisz dopiero, gdy Ci się spodoba.",
+      "copyright": "t:layout.footer.copyright",
+      "tagline": "t:layout.footer.tagline",
       "links": [],
       "columns": [
         {
-          "title": "NAWIGACJA",
+          "title": "t:layout.footer.columns.0.title",
           "links": [
             {
-              "label": "Jak to działa",
+              "label": "t:layout.footer.columns.0.links.0.label",
               "target": {
                 "type": "section",
                 "value": "process-1"
               }
             },
             {
-              "label": "Portfolio",
+              "label": "t:layout.footer.columns.0.links.1.label",
               "target": {
                 "type": "section",
                 "value": "templateShowcase-3"
               }
             },
             {
-              "label": "Cennik",
+              "label": "t:layout.footer.columns.0.links.2.label",
               "target": {
                 "type": "section",
                 "value": "pricing-7"
               }
             },
             {
-              "label": "FAQ",
+              "label": "t:layout.footer.columns.0.links.3.label",
               "target": {
                 "type": "section",
                 "value": "faq-11"
               }
             },
             {
-              "label": "Kontakt",
+              "label": "t:layout.footer.columns.0.links.4.label",
               "target": {
                 "type": "page",
                 "value": "contact"
@@ -142,31 +142,31 @@
           ]
         },
         {
-          "title": "INFORMACJE PRAWNE",
+          "title": "t:layout.footer.columns.1.title",
           "links": [
             {
-              "label": "Polityka prywatności",
+              "label": "t:layout.footer.columns.1.links.0.label",
               "target": {
                 "type": "external",
                 "value": "#"
               }
             },
             {
-              "label": "Pliki cookies",
+              "label": "t:layout.footer.columns.1.links.1.label",
               "target": {
                 "type": "external",
                 "value": "#"
               }
             },
             {
-              "label": "Klauzula RODO",
+              "label": "t:layout.footer.columns.1.links.2.label",
               "target": {
                 "type": "external",
                 "value": "#"
               }
             },
             {
-              "label": "Regulamin usług",
+              "label": "t:layout.footer.columns.1.links.3.label",
               "target": {
                 "type": "external",
                 "value": "#"
@@ -175,24 +175,24 @@
           ]
         },
         {
-          "title": "ZNAJDŹ MNIE",
+          "title": "t:layout.footer.columns.2.title",
           "links": [
             {
-              "label": "Facebook",
+              "label": "t:layout.footer.columns.2.links.0.label",
               "target": {
                 "type": "external",
                 "value": "https://facebook.com"
               }
             },
             {
-              "label": "Instagram",
+              "label": "t:layout.footer.columns.2.links.1.label",
               "target": {
                 "type": "external",
                 "value": "https://instagram.com"
               }
             },
             {
-              "label": "LinkedIn",
+              "label": "t:layout.footer.columns.2.links.2.label",
               "target": {
                 "type": "external",
                 "value": "https://linkedin.com"
@@ -212,7 +212,7 @@
   },
   "navigation": {
     "cta": {
-      "label": "Zamów projekt",
+      "label": "t:navigation.cta.label",
       "target": {
         "type": "page",
         "value": "contact"
@@ -220,28 +220,28 @@
     },
     "links": [
       {
-        "label": "Jak to działa",
+        "label": "t:layout.footer.columns.0.links.0.label",
         "target": {
           "type": "section",
           "value": "process-1"
         }
       },
       {
-        "label": "Portfolio",
+        "label": "t:layout.footer.columns.0.links.1.label",
         "target": {
           "type": "section",
           "value": "templateShowcase-3"
         }
       },
       {
-        "label": "Cennik",
+        "label": "t:layout.footer.columns.0.links.2.label",
         "target": {
           "type": "section",
           "value": "pricing-7"
         }
       },
       {
-        "label": "FAQ",
+        "label": "t:layout.footer.columns.0.links.3.label",
         "target": {
           "type": "section",
           "value": "faq-11"
@@ -254,8 +254,8 @@
       {
         "id": "wizytowka",
         "slug": "strona-wizytowka",
-        "title": "Strona wizytówka",
-        "description": "Jednostronicowa strona z tekstami dopasowanymi do branży, formularzem kontaktowym i mapą. Gotowa w 5 dni.",
+        "title": "t:data.services.0.title",
+        "description": "t:data.services.0.description",
         "icon": "file-text",
         "category": "www",
         "available": true,
@@ -265,8 +265,8 @@
       {
         "id": "firma",
         "slug": "strona-firmowa",
-        "title": "Strona firmowa",
-        "description": "Do 6 podstron, galeria lub portfolio, mapa i wizytówka Google, dopracowana wersja mobilna. Gotowa w 10 dni.",
+        "title": "t:data.services.1.title",
+        "description": "t:data.services.1.description",
         "icon": "briefcase",
         "category": "www",
         "available": true,
@@ -276,8 +276,8 @@
       {
         "id": "premium",
         "slug": "strona-premium",
-        "title": "Strona premium",
-        "description": "Strona szyta na miarę: rezerwacje, menu lub cennik online, dopracowane teksty i grafiki. Gotowa w 14 dni.",
+        "title": "t:data.services.2.title",
+        "description": "t:data.services.2.description",
         "icon": "sparkles",
         "category": "www",
         "available": true,
@@ -288,26 +288,26 @@
   },
   "pages": {
     "home": {
-      "title": "Hazelgrouse Studio — najpierw widzisz, potem płacisz",
+      "title": "t:home.title",
       "hideFromNav": true,
       "sections": [
         {
           "type": "hero",
           "variant": "studio",
           "header": {
-            "badge": "✓ 0 zł z góry — najpierw zobaczysz efekt",
-            "title": "Najpierw pokazuję Ci gotową stronę. | Płacisz, gdy Ci się spodoba.",
-            "subtitle": "Opowiadasz mi o swoim biznesie, a ja przygotowuję kompletny, dopracowany projekt Twojej strony — bez zaliczek i bez ryzyka. Decyzję podejmujesz, patrząc na skończony efekt."
+            "badge": "t:home.0.header.badge",
+            "title": "t:home.0.header.title",
+            "subtitle": "t:home.0.header.subtitle"
           },
           "cta": {
-            "label": "Zamów darmowy projekt",
+            "label": "t:home.0.cta.label",
             "target": {
               "type": "page",
               "value": "contact"
             }
           },
           "secondaryCta": {
-            "label": "Zobacz przykłady",
+            "label": "t:home.0.secondaryCta.label",
             "target": {
               "type": "section",
               "value": "templateShowcase-3"
@@ -315,63 +315,63 @@
           },
           "items": [
             {
-              "title": "Kancelaria",
+              "title": "t:home.0.items.0.title",
               "image": "/template-previews/law.png",
-              "meta": "kancelaria-nowak.pl — projekt gotowy do obejrzenia"
+              "meta": "t:home.0.items.0.meta"
             },
             {
-              "title": "Elektryk",
+              "title": "t:home.0.items.1.title",
               "image": "/template-previews/specialist.png",
-              "meta": "elektromax.pl — projekt gotowy do obejrzenia"
+              "meta": "t:home.0.items.1.meta"
             },
             {
-              "title": "Restauracja",
+              "title": "t:home.0.items.2.title",
               "image": "/template-previews/restaurant.png",
-              "meta": "trattoria-rosa.pl — projekt gotowy do obejrzenia"
+              "meta": "t:home.0.items.2.meta"
             }
           ],
-          "footnote": "↑ przykładowy projekt — kliknij branżę, żeby zobaczyć inny styl"
+          "footnote": "t:home.0.footnote"
         },
         {
           "type": "process",
           "variant": "connected",
           "header": {
-            "badge": "Proces",
-            "title": "Jak to działa?",
-            "subtitle": "Cały proces jest prosty i bezpieczny — Ty nic nie ryzykujesz, całą pracę na start biorę na siebie.",
+            "badge": "t:home.1.header.badge",
+            "title": "t:home.1.header.title",
+            "subtitle": "t:home.1.header.subtitle",
             "align": "left"
           },
           "steps": [
             {
               "number": 1,
-              "title": "Opowiadasz o firmie",
-              "description": "Wypełniasz krótki formularz: czym się zajmujesz, co lubisz, czego potrzebujesz.",
+              "title": "t:home.1.steps.0.title",
+              "description": "t:home.1.steps.0.description",
               "badges": [
-                "Krok 01"
+                "t:home.1.steps.0.badges.0"
               ]
             },
             {
               "number": 2,
-              "title": "Ja projektuję",
-              "description": "Przygotowuję kompletną stronę — z tekstami, kolorami i układem dopasowanym do Twojej branży.",
+              "title": "t:home.1.steps.1.title",
+              "description": "t:home.1.steps.1.description",
               "badges": [
-                "Krok 02"
+                "t:home.1.steps.1.badges.0"
               ]
             },
             {
               "number": 3,
-              "title": "Oglądasz gotowy efekt",
-              "description": "Dostajesz link do skończonej strony. Zgłaszasz uwagi, a ja nanoszę poprawki.",
+              "title": "t:home.1.steps.2.title",
+              "description": "t:home.1.steps.2.description",
               "badges": [
-                "Krok 03"
+                "t:home.1.steps.2.badges.0"
               ]
             },
             {
               "number": 4,
-              "title": "Płacisz i startujemy",
-              "description": "Dopiero gdy strona Ci się podoba, płacisz — i publikujemy ją pod Twoją domeną.",
+              "title": "t:home.1.steps.3.title",
+              "description": "t:home.1.steps.3.description",
               "badges": [
-                "Krok 04"
+                "t:home.1.steps.3.badges.0"
               ]
             }
           ]
@@ -383,27 +383,27 @@
           "imagePosition": "left",
           "statsPlacement": "text",
           "header": {
-            "badge": "O mnie",
-            "title": "Jedna osoba. Od pomysłu po publikację."
+            "badge": "t:home.2.header.badge",
+            "title": "t:home.2.header.title"
           },
           "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=900&q=80",
           "imageWidth": "420px",
           "imageHeight": "420px",
           "story": {
-            "content": "Cześć, jestem Kuba — projektuję i koduję strony dla małych firm oraz jednoosobowych biznesów. Wszystko robię sam: od pierwszego szkicu, przez teksty, po publikację. Masz jeden kontakt i jedną osobę odpowiedzialną za całość.\n\nModel „najpierw efekt, potem płatność\" wymyśliłem, bo sam nie lubię kupować w ciemno. Wolę pokazać gotową stronę i pozwolić jej mówić za siebie."
+            "content": "t:home.2.story.content"
           },
           "stats": [
             {
               "value": "60+",
-              "label": "zrealizowanych stron"
+              "label": "t:home.2.stats.0.label"
             },
             {
-              "value": "5–14 dni",
-              "label": "od zgłoszenia do publikacji"
+              "value": "t:home.2.stats.1.value",
+              "label": "t:home.2.stats.1.label"
             },
             {
               "value": "100%",
-              "label": "płatność po akceptacji"
+              "label": "t:home.2.stats.2.label"
             }
           ]
         },
@@ -411,52 +411,52 @@
           "type": "templateShowcase",
           "variant": "browser",
           "header": {
-            "badge": "Portfolio",
-            "title": "Strony, które robię",
-            "subtitle": "Dla każdej branży mam dopracowany punkt wyjścia, który krawiecko dopasowuję do Twojej firmy."
+            "badge": "t:layout.footer.columns.0.links.1.label",
+            "title": "t:home.3.header.title",
+            "subtitle": "t:home.3.header.subtitle"
           },
           "templateItems": [
             {
-              "name": "Kancelaria Nowak",
-              "description": "Pewne wsparcie prawne dla Ciebie i Twojej firmy — spokojna, ekspercka strona dla kancelarii prawnej.",
+              "name": "t:home.3.templateItems.0.name",
+              "description": "t:home.3.templateItems.0.description",
               "screenshot": "/template-previews/law.png",
               "demoUrl": "https://template-law.hazelgrouse.pl/",
               "tags": [
-                "Kancelaria prawna"
+                "t:home.3.templateItems.0.tags.0"
               ]
             },
             {
-              "name": "ElektroMax",
-              "description": "Instalacje elektryczne bez niespodzianek — konkretna strona usługowa z wyceną w 24 h.",
+              "name": "t:home.3.templateItems.1.name",
+              "description": "t:home.3.templateItems.1.description",
               "screenshot": "/template-previews/specialist.png",
               "demoUrl": "https://template-specialist.hazelgrouse.pl/",
               "tags": [
-                "Usługi elektryczne"
+                "t:home.3.templateItems.1.tags.0"
               ]
             },
             {
-              "name": "Trattoria Rosa",
-              "description": "Włoska kuchnia w sercu miasta — klimatyczna strona z menu i rezerwacją stolika.",
+              "name": "t:home.3.templateItems.2.name",
+              "description": "t:home.3.templateItems.2.description",
               "screenshot": "/template-previews/restaurant.png",
               "demoUrl": "https://template-restaurant.hazelgrouse.pl/",
               "tags": [
-                "Restauracja"
+                "t:home.0.items.2.title"
               ],
               "accent": "#4a2a20"
             }
           ],
-          "footnote": "…i każda inna branża — zapytaj o swoją",
+          "footnote": "t:home.3.footnote",
           "pills": [
-            "Fryzjer i barber",
-            "Mechanik",
-            "Gabinet kosmetyczny",
-            "Trener personalny",
-            "Księgowość",
-            "Fizjoterapia",
-            "Fotograf",
-            "Stolarz",
-            "Firma sprzątająca",
-            "Szkoła językowa"
+            "t:home.3.pills.0",
+            "t:home.3.pills.1",
+            "t:home.3.pills.2",
+            "t:home.3.pills.3",
+            "t:home.3.pills.4",
+            "t:home.3.pills.5",
+            "t:home.3.pills.6",
+            "t:home.3.pills.7",
+            "t:home.3.pills.8",
+            "t:home.3.pills.9"
           ]
         },
         {
@@ -464,53 +464,53 @@
           "variant": "caseStudyFlow",
           "background": "dark",
           "header": {
-            "badge": "Case study",
-            "title": "Od trzech zdań do strony",
-            "subtitle": "Paweł napisał do mnie trzy zdania o swojej firmie. Cztery dni później miał stronę, która zaczęła dzwonić."
+            "badge": "t:home.4.header.badge",
+            "title": "t:home.4.header.title",
+            "subtitle": "t:home.4.header.subtitle"
           },
           "quote": {
-            "note": "01 · Zgłoszenie",
-            "text": "Prowadzę firmę elektryczną ElektroMax pod Wrocławiem. Robię głównie instalacje w domach i pomiary elektryczne. Chciałbym prostą stronę, żeby klienci mogli szybko zadzwonić i zobaczyć, co robię. Kolory? Może coś energetycznego.",
-            "author": "To całe zgłoszenie — resztę zrobiłem ja"
+            "note": "t:home.4.quote.note",
+            "text": "t:home.4.quote.text",
+            "author": "t:home.4.quote.author"
           },
           "image": "/template-previews/specialist.png",
           "imageDescription": {
-            "name": "elektromax.pl — po 4 dniach",
-            "description": "Zaakceptowany bez poprawek"
+            "name": "t:home.4.imageDescription.name",
+            "description": "t:home.4.imageDescription.description"
           },
           "items": [
             {
-              "meta": "03 · Efekt",
-              "title": "Strona, która pracuje",
-              "description": "Wcześniej tylko wizytówka Google i numer na busie. Po publikacji formularz i telefon zaczęły zbierać zapytania jeszcze w tym samym tygodniu."
+              "meta": "t:home.4.items.0.meta",
+              "title": "t:home.4.items.0.title",
+              "description": "t:home.4.items.0.description"
             }
           ],
-          "imageMeta": "02 · Gotowa strona"
+          "imageMeta": "t:home.4.imageMeta"
         },
         {
           "type": "testimonials",
           "variant": "agency",
           "header": {
             "layout": "stacked",
-            "badge": "Opinie",
-            "title": "Co mówią klienci",
-            "subtitle": "Każda z tych osób najpierw zobaczyła gotową stronę — a potem zdecydowała się zapłacić."
+            "badge": "t:home.5.header.badge",
+            "title": "t:home.5.header.title",
+            "subtitle": "t:home.5.header.subtitle"
           },
           "items": [
             {
-              "title": "Marta W.",
-              "role": "Kancelaria adwokacka",
-              "description": "Nie wierzyłam, że zobaczę stronę przed zapłatą. Zobaczyłam — i od razu wiedziałam, że chcę."
+              "title": "t:home.5.items.0.title",
+              "role": "t:home.5.items.0.role",
+              "description": "t:home.5.items.0.description"
             },
             {
-              "title": "Paweł K.",
-              "role": "Usługi elektryczne",
-              "description": "Wysłałem parę zdań o firmie, tydzień później miałem stronę lepszą niż konkurencja."
+              "title": "t:home.5.items.1.title",
+              "role": "t:home.3.templateItems.1.tags.0",
+              "description": "t:home.5.items.1.description"
             },
             {
-              "title": "Ania i Tomek",
-              "role": "Restauracja",
-              "description": "Menu, rezerwacje, zdjęcia — wszystko dograne. Goście chwalą stronę częściej niż deser."
+              "title": "t:home.5.items.2.title",
+              "role": "t:home.0.items.2.title",
+              "description": "t:home.5.items.2.description"
             }
           ],
           "testimonialsClean": true
@@ -520,52 +520,52 @@
           "variant": "triple",
           "background": "dark",
           "header": {
-            "badge": "Porównanie",
-            "title": "Hazelgrouse vs alternatywy",
-            "subtitle": "Trzy drogi do własnej strony — i tylko jedna, w której nie płacisz w ciemno."
+            "badge": "t:home.6.header.badge",
+            "title": "t:home.6.header.title",
+            "subtitle": "t:home.6.header.subtitle"
           },
           "criteria": [
-            "Koszt na start",
-            "Gotowa strona przed decyzją",
-            "Czas realizacji",
-            "Design pod Twoją branżę",
-            "Twoje zaangażowanie",
-            "Opieka po starcie"
+            "t:home.6.criteria.0",
+            "t:home.6.criteria.1",
+            "t:home.6.criteria.2",
+            "t:home.6.criteria.3",
+            "t:home.6.criteria.4",
+            "t:home.6.criteria.5"
           ],
           "comparisonColumns": [
             {
-              "title": "Agencja",
+              "title": "t:home.6.comparisonColumns.0.title",
               "values": [
-                "Zaliczka 30–50%",
-                "Rzadko",
-                "4–12 tygodni",
-                "Tak",
-                "Spotkania i maile",
-                "Płatna osobno"
+                "t:home.6.comparisonColumns.0.values.0",
+                "t:home.6.comparisonColumns.0.values.1",
+                "t:home.6.comparisonColumns.0.values.2",
+                "t:home.6.comparisonColumns.0.values.3",
+                "t:home.6.comparisonColumns.0.values.4",
+                "t:home.6.comparisonColumns.0.values.5"
               ]
             },
             {
-              "title": "Hazelgrouse Studio",
+              "title": "t:home.6.comparisonColumns.1.title",
               "highlighted": true,
-              "badge": "Polecane",
+              "badge": "t:home.6.comparisonColumns.1.badge",
               "values": [
-                "0 zł — po akceptacji",
-                "Zawsze, w 100%",
-                "5–14 dni",
-                "Indywidualny",
-                "Jeden formularz",
-                "1. miesiąc w cenie"
+                "t:home.6.comparisonColumns.1.values.0",
+                "t:home.6.comparisonColumns.1.values.1",
+                "t:home.2.stats.1.value",
+                "t:home.6.comparisonColumns.1.values.3",
+                "t:home.6.comparisonColumns.1.values.4",
+                "t:home.6.comparisonColumns.1.values.5"
               ]
             },
             {
-              "title": "Kreator DIY",
+              "title": "t:home.6.comparisonColumns.2.title",
               "values": [
-                "Abonament od 1. dnia",
-                "Budujesz sam",
-                "Zależy od Ciebie",
-                "Gotowy szablon",
-                "Wiele godzin",
-                "Wszystko sam"
+                "t:home.6.comparisonColumns.2.values.0",
+                "t:home.6.comparisonColumns.2.values.1",
+                "t:home.6.comparisonColumns.2.values.2",
+                "t:home.6.comparisonColumns.2.values.3",
+                "t:home.6.comparisonColumns.2.values.4",
+                "t:home.6.comparisonColumns.2.values.5"
               ]
             }
           ]
@@ -574,42 +574,42 @@
           "type": "pricing",
           "variant": "default",
           "header": {
-            "badge": "Oferta",
-            "title": "Cennik",
-            "subtitle": "Bez ukrytych kosztów. I pamiętaj — płacisz dopiero po akceptacji gotowego projektu."
+            "badge": "t:home.7.header.badge",
+            "title": "t:layout.footer.columns.0.links.2.label",
+            "subtitle": "t:home.7.header.subtitle"
           },
           "pricingTiers": [
             {
-              "name": "Wizytówka",
+              "name": "t:home.7.pricingTiers.0.name",
               "price": "890 zł",
               "features": [
-                "Strona jednostronicowa",
-                "Teksty dopasowane do branży",
-                "Formularz kontaktowy",
-                "Gotowa w 5 dni"
+                "t:home.7.pricingTiers.0.features.0",
+                "t:home.7.pricingTiers.0.features.1",
+                "t:home.7.pricingTiers.0.features.2",
+                "t:home.7.pricingTiers.0.features.3"
               ]
             },
             {
-              "name": "Firma",
+              "name": "t:home.7.pricingTiers.1.name",
               "price": "1590 zł",
               "highlighted": true,
-              "badge": "Najczęściej wybierany",
+              "badge": "t:home.7.pricingTiers.1.badge",
               "features": [
-                "Do 6 podstron",
-                "Galeria / portfolio",
-                "Mapa i wizytówka Google",
-                "Wersja mobilna dopracowana",
-                "Gotowa w 10 dni"
+                "t:home.7.pricingTiers.1.features.0",
+                "t:home.7.pricingTiers.1.features.1",
+                "t:home.7.pricingTiers.1.features.2",
+                "t:home.7.pricingTiers.1.features.3",
+                "t:home.7.pricingTiers.1.features.4"
               ]
             },
             {
-              "name": "Premium",
+              "name": "t:home.7.pricingTiers.2.name",
               "price": "2790 zł",
               "features": [
-                "Strona szyta na miarę",
-                "Rezerwacje, menu lub cennik online",
-                "Dopracowane teksty i grafiki",
-                "Gotowa w 14 dni"
+                "t:home.7.pricingTiers.2.features.0",
+                "t:home.7.pricingTiers.2.features.1",
+                "t:home.7.pricingTiers.2.features.2",
+                "t:home.7.pricingTiers.2.features.3"
               ]
             }
           ],
@@ -619,47 +619,47 @@
           "type": "features",
           "variant": "checklist-split",
           "header": {
-            "title": "W każdym pakiecie w standardzie"
+            "title": "t:home.8.header.title"
           },
           "items": [
             {
-              "title": "Certyfikat SSL"
+              "title": "t:home.8.items.0.title"
             },
             {
-              "title": "Zgodność z RODO"
+              "title": "t:home.8.items.1.title"
             },
             {
-              "title": "Szybkie ładowanie"
+              "title": "t:home.8.items.2.title"
             },
             {
-              "title": "Pełna wersja mobilna"
+              "title": "t:home.8.items.3.title"
             },
             {
-              "title": "Mapa Google"
+              "title": "t:home.8.items.4.title"
             },
             {
-              "title": "Kopia zapasowa"
+              "title": "t:home.8.items.5.title"
             },
             {
-              "title": "Podstawy SEO"
+              "title": "t:home.8.items.6.title"
             }
           ],
-          "secondaryTitle": "A po publikacji?",
+          "secondaryTitle": "t:home.8.secondaryTitle",
           "secondaryItems": [
             {
-              "title": "Hosting i domena — pomagam ogarnąć od A do Z"
+              "title": "t:home.8.secondaryItems.0.title"
             },
             {
-              "title": "Drobne poprawki w pierwszym miesiącu w cenie"
+              "title": "t:home.8.secondaryItems.1.title"
             },
             {
-              "title": "Opieka techniczna: aktualizacje i kopie zapasowe"
+              "title": "t:home.8.secondaryItems.2.title"
             },
             {
-              "title": "Podstawy SEO — Twoja strona gotowa, by klienci znaleźli Cię w Google"
+              "title": "t:home.8.secondaryItems.3.title"
             },
             {
-              "title": "Pełna własność — możesz przenieść stronę, gdzie chcesz"
+              "title": "t:home.8.secondaryItems.4.title"
             }
           ]
         },
@@ -668,68 +668,68 @@
           "variant": "numbered-split",
           "background": "dark",
           "header": {
-            "badge": "Panel administratora",
-            "title": "Zmieniaj stronę sam — albo zleć to mnie",
-            "subtitle": "Opcjonalny panel do każdego pakietu. Zmieniaj treści, zbieraj rezerwacje i zapytania — wszystko w jednym miejscu, z podglądem na żywo."
+            "badge": "t:home.9.header.badge",
+            "title": "t:home.9.header.title",
+            "subtitle": "t:home.9.header.subtitle"
           },
           "items": [
             {
-              "title": "Treści i wygląd",
-              "description": "Teksty, zdjęcia, kolory i czcionki zmieniasz z podglądem na żywo."
+              "title": "t:home.9.items.0.title",
+              "description": "t:home.9.items.0.description"
             },
             {
-              "title": "Rezerwacje i zamówienia",
-              "description": "Klienci rezerwują i zamawiają wprost ze strony, Ty wszystko widzisz w jednym miejscu."
+              "title": "t:home.9.items.1.title",
+              "description": "t:home.9.items.1.description"
             },
             {
-              "title": "Zapytania od klientów",
-              "description": "Żaden lead nie ginie, każdy ma swój status."
+              "title": "t:home.9.items.2.title",
+              "description": "t:home.9.items.2.description"
             },
             {
-              "title": "Blog i analityka",
-              "description": "Publikujesz wpisy i widzisz, kto odwiedza stronę."
+              "title": "t:home.9.items.3.title",
+              "description": "t:home.9.items.3.description"
             },
             {
-              "title": "Wersje językowe",
-              "description": "Treści w kilku językach, bez kopiowania strony."
+              "title": "t:home.9.items.4.title",
+              "description": "t:home.9.items.4.description"
             }
           ],
           "image": "/template-previews/admin-panel.png",
           "imageDescription": {
             "name": "panel.twoja-firma.pl",
-            "description": "podgląd panelu administratora — edycja z widokiem na żywo"
+            "description": "t:home.9.imageDescription.description"
           }
         },
         {
           "type": "blog",
           "variant": "cards-light",
           "header": {
-            "badge": "Blog",
-            "title": "Zanim zdecydujesz — poczytaj",
-            "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
+            "badge": "t:home.10.header.badge",
+            "title": "t:home.10.header.title",
+            "subtitle": "t:home.10.header.subtitle"
           },
           "blogPosts": [
             {
               "category": "Poradnik",
-              "readTime": "5 min",
-              "title": "Strona firmowa w 2026 — co naprawdę musi mieć?",
-              "description": "Pięć elementów, bez których strona lokalnej firmy nie zamienia odwiedzin w telefony.",
+              "readTime": "t:home.10.blogPosts.0.readTime",
+              "title": "t:home.10.blogPosts.0.title",
+              "description": "t:home.10.blogPosts.0.description",
               "image": "/template-previews/blog-1.png",
               "href": "#"
             },
             {
               "category": "Za kulisami",
-              "readTime": "4 min",
-              "title": "Dlaczego pokazuję stronę, zanim wystawię fakturę",
-              "description": "Skąd wziął się mój model „najpierw efekt, potem płatność\" i komu naprawdę się opłaca.",
+              "readTime": "t:home.10.blogPosts.1.readTime",
+              "title": "t:home.10.blogPosts.1.title",
+              "description": "t:home.10.blogPosts.1.description",
               "image": "/template-previews/blog-2.png",
               "href": "#"
             },
             {
               "category": "Marketing",
-              "readTime": "6 min",
-              "title": "Wizytówka Google czy własna strona?",
-              "description": "Co wybrać na start przy małym budżecie — i dlaczego najlepiej działają razem.",
+              "readTime": "t:home.10.blogPosts.2.readTime",
+              "title": "t:home.10.blogPosts.2.title",
+              "description": "t:home.10.blogPosts.2.description",
               "image": "/template-previews/blog-3.png",
               "href": "#"
             }
@@ -740,26 +740,26 @@
           "variant": "bordered-filled",
           "background": "dark",
           "header": {
-            "badge": "FAQ",
-            "title": "Częste pytania",
-            "subtitle": "A jeśli nie znajdziesz odpowiedzi — po prostu napisz."
+            "badge": "t:layout.footer.columns.0.links.3.label",
+            "title": "t:home.11.header.title",
+            "subtitle": "t:home.11.header.subtitle"
           },
           "faqItems": [
             {
-              "question": "Czy naprawdę nic nie płacę z góry?",
-              "answer": "Tak. Projekt strony przygotowuję na własne ryzyko. Płacisz dopiero wtedy, gdy zobaczysz gotową stronę i zdecydujesz, że jej chcesz."
+              "question": "t:home.11.faqItems.0.question",
+              "answer": "t:home.11.faqItems.0.answer"
             },
             {
-              "question": "Ile trwa przygotowanie projektu?",
-              "answer": "Zwykle 3–5 dni roboczych od otrzymania informacji o Twojej firmie."
+              "question": "t:home.11.faqItems.1.question",
+              "answer": "t:home.11.faqItems.1.answer"
             },
             {
-              "question": "Co jeśli projekt mi się nie spodoba?",
-              "answer": "Nanoszę poprawki według Twoich uwag. A jeśli mimo to nie będzie „to\" — rozstajemy się bez żadnych kosztów."
+              "question": "t:home.11.faqItems.2.question",
+              "answer": "t:home.11.faqItems.2.answer"
             },
             {
-              "question": "Czy strona będzie w pełni moja?",
-              "answer": "Tak — po opłaceniu dostajesz pełne prawa. Pomagam też z domeną i hostingiem."
+              "question": "t:home.11.faqItems.3.question",
+              "answer": "t:home.11.faqItems.3.answer"
             }
           ]
         },
@@ -767,12 +767,12 @@
           "type": "ctaBanner",
           "variant": "panel",
           "header": {
-            "title": "Twoja strona jest bliżej, niż myślisz.",
-            "subtitle": "Zobacz swoją gotową stronę za darmo — a zapłać tylko wtedy, gdy powiesz „biorę\"."
+            "title": "t:home.12.header.title",
+            "subtitle": "t:home.12.header.subtitle"
           },
-          "ctaLabel": "Zamów darmowy projekt",
+          "ctaLabel": "t:home.0.cta.label",
           "cta": {
-            "label": "Zamów darmowy projekt",
+            "label": "t:home.0.cta.label",
             "target": {
               "type": "page",
               "value": "contact"
@@ -783,78 +783,78 @@
           "type": "contact",
           "variant": "panel",
           "header": {
-            "badge": "Kontakt",
-            "title": "Zobacz swoją stronę — za darmo",
-            "subtitle": "Napisz kilka zdań o swojej firmie. W ciągu kilku dni odezwę się z linkiem do gotowego projektu Twojej strony. Bez zobowiązań."
+            "badge": "t:layout.footer.columns.0.links.4.label",
+            "title": "t:home.13.header.title",
+            "subtitle": "t:home.13.header.subtitle"
           },
           "form": {
-            "nameLabel": "Imię",
-            "namePlaceholder": "np. Anna",
-            "emailLabel": "E-mail",
+            "nameLabel": "t:home.13.form.nameLabel",
+            "namePlaceholder": "t:home.13.form.namePlaceholder",
+            "emailLabel": "t:home.13.form.emailLabel",
             "emailPlaceholder": "anna@firma.pl",
             "selectFields": [
               {
                 "name": "industry",
-                "label": "Branża",
-                "placeholder": "np. salon fryzjerski",
+                "label": "t:home.13.form.selectFields.0.label",
+                "placeholder": "t:home.13.form.selectFields.0.placeholder",
                 "options": [
-                  "Kancelaria prawna",
-                  "Usługi elektryczne",
-                  "Restauracja",
-                  "Fryzjer i barber",
-                  "Mechanik",
-                  "Gabinet kosmetyczny",
-                  "Trener personalny",
-                  "Księgowość",
-                  "Fizjoterapia",
-                  "Fotograf",
-                  "Stolarz",
-                  "Firma sprzątająca",
-                  "Szkoła językowa",
-                  "Inna branża"
+                  "t:home.3.templateItems.0.tags.0",
+                  "t:home.3.templateItems.1.tags.0",
+                  "t:home.0.items.2.title",
+                  "t:home.3.pills.0",
+                  "t:home.3.pills.1",
+                  "t:home.3.pills.2",
+                  "t:home.3.pills.3",
+                  "t:home.3.pills.4",
+                  "t:home.3.pills.5",
+                  "t:home.3.pills.6",
+                  "t:home.3.pills.7",
+                  "t:home.3.pills.8",
+                  "t:home.3.pills.9",
+                  "t:home.13.form.selectFields.0.options.13"
                 ]
               }
             ],
-            "messageLabel": "Opowiedz o swoim biznesie",
-            "messagePlaceholder": "Czym się zajmujesz? Co Cię wyróżnia?",
-            "submitButton": "Wyślij — zobacz swoją stronę"
+            "messageLabel": "t:home.13.form.messageLabel",
+            "messagePlaceholder": "t:home.13.form.messagePlaceholder",
+            "submitButton": "t:home.13.form.submitButton"
           }
         }
       ]
     },
     "blog": {
-      "title": "Blog",
+      "title": "t:home.10.header.badge",
       "sections": [
         {
           "type": "blog",
           "variant": "cards-light",
           "header": {
-            "badge": "Blog",
-            "title": "Zanim zdecydujesz — poczytaj",
-            "subtitle": "Krótkie, konkretne wpisy o stronach dla małych firm — bez lania wody."
+            "badge": "t:home.10.header.badge",
+            "title": "t:home.10.header.title",
+            "subtitle": "t:home.10.header.subtitle"
           },
           "blogPosts": [
             {
               "category": "Poradnik",
-              "readTime": "5 min",
-              "title": "Strona firmowa w 2026 — co naprawdę musi mieć?",
-              "description": "Pięć elementów, bez których strona lokalnej firmy nie zamienia odwiedzin w telefony.",
+              "readTime": "t:home.10.blogPosts.0.readTime",
+              "title": "t:home.10.blogPosts.0.title",
+              "description": "t:home.10.blogPosts.0.description",
               "image": "/template-previews/blog-1.png",
               "href": "#"
             },
             {
               "category": "Za kulisami",
-              "readTime": "4 min",
-              "title": "Dlaczego pokazuję stronę, zanim wystawię fakturę",
-              "description": "Skąd wziął się mój model „najpierw efekt, potem płatność\" i komu naprawdę się opłaca.",
+              "readTime": "t:home.10.blogPosts.1.readTime",
+              "title": "t:home.10.blogPosts.1.title",
+              "description": "t:home.10.blogPosts.1.description",
               "image": "/template-previews/blog-2.png",
               "href": "#"
             },
             {
               "category": "Marketing",
-              "readTime": "6 min",
-              "title": "Wizytówka Google czy własna strona?",
-              "description": "Co wybrać na start przy małym budżecie — i dlaczego najlepiej działają razem.",
+              "readTime": "t:home.10.blogPosts.2.readTime",
+              "title": "t:home.10.blogPosts.2.title",
+              "description": "t:home.10.blogPosts.2.description",
               "image": "/template-previews/blog-3.png",
               "href": "#"
             }
@@ -864,47 +864,47 @@
       "hideFromNav": true
     },
     "contact": {
-      "title": "Kontakt",
+      "title": "t:layout.footer.columns.0.links.4.label",
       "sections": [
         {
           "type": "contact",
           "variant": "panel",
           "header": {
-            "badge": "Kontakt",
-            "title": "Zobacz swoją stronę — za darmo",
-            "subtitle": "Napisz kilka zdań o swojej firmie. W ciągu kilku dni odezwę się z linkiem do gotowego projektu Twojej strony. Bez zobowiązań."
+            "badge": "t:layout.footer.columns.0.links.4.label",
+            "title": "t:home.13.header.title",
+            "subtitle": "t:home.13.header.subtitle"
           },
           "form": {
-            "nameLabel": "Imię",
-            "namePlaceholder": "np. Anna",
-            "emailLabel": "E-mail",
+            "nameLabel": "t:home.13.form.nameLabel",
+            "namePlaceholder": "t:home.13.form.namePlaceholder",
+            "emailLabel": "t:home.13.form.emailLabel",
             "emailPlaceholder": "anna@firma.pl",
             "selectFields": [
               {
                 "name": "industry",
-                "label": "Branża",
-                "placeholder": "np. salon fryzjerski",
+                "label": "t:home.13.form.selectFields.0.label",
+                "placeholder": "t:home.13.form.selectFields.0.placeholder",
                 "options": [
-                  "Kancelaria prawna",
-                  "Usługi elektryczne",
-                  "Restauracja",
-                  "Fryzjer i barber",
-                  "Mechanik",
-                  "Gabinet kosmetyczny",
-                  "Trener personalny",
-                  "Księgowość",
-                  "Fizjoterapia",
-                  "Fotograf",
-                  "Stolarz",
-                  "Firma sprzątająca",
-                  "Szkoła językowa",
-                  "Inna branża"
+                  "t:home.3.templateItems.0.tags.0",
+                  "t:home.3.templateItems.1.tags.0",
+                  "t:home.0.items.2.title",
+                  "t:home.3.pills.0",
+                  "t:home.3.pills.1",
+                  "t:home.3.pills.2",
+                  "t:home.3.pills.3",
+                  "t:home.3.pills.4",
+                  "t:home.3.pills.5",
+                  "t:home.3.pills.6",
+                  "t:home.3.pills.7",
+                  "t:home.3.pills.8",
+                  "t:home.3.pills.9",
+                  "t:home.13.form.selectFields.0.options.13"
                 ]
               }
             ],
-            "messageLabel": "Opowiedz o swoim biznesie",
-            "messagePlaceholder": "Czym się zajmujesz? Co Cię wyróżnia?",
-            "submitButton": "Wyślij — zobacz swoją stronę"
+            "messageLabel": "t:home.13.form.messageLabel",
+            "messagePlaceholder": "t:home.13.form.messagePlaceholder",
+            "submitButton": "t:home.13.form.submitButton"
           }
         },
         {
@@ -912,20 +912,20 @@
           "variant": "bordered",
           "faqItems": [
             {
-              "question": "Czy naprawdę nic nie płacę z góry?",
-              "answer": "Tak. Projekt strony przygotowuję na własne ryzyko. Płacisz dopiero wtedy, gdy zobaczysz gotową stronę i zdecydujesz, że jej chcesz."
+              "question": "t:home.11.faqItems.0.question",
+              "answer": "t:home.11.faqItems.0.answer"
             },
             {
-              "question": "Ile trwa przygotowanie projektu?",
-              "answer": "Zwykle 3–5 dni roboczych od otrzymania informacji o Twojej firmie."
+              "question": "t:home.11.faqItems.1.question",
+              "answer": "t:home.11.faqItems.1.answer"
             },
             {
-              "question": "Co jeśli projekt mi się nie spodoba?",
-              "answer": "Nanoszę poprawki według Twoich uwag. A jeśli mimo to nie będzie „to\" — rozstajemy się bez żadnych kosztów."
+              "question": "t:home.11.faqItems.2.question",
+              "answer": "t:home.11.faqItems.2.answer"
             },
             {
-              "question": "Czy strona będzie w pełni moja?",
-              "answer": "Tak — po opłaceniu dostajesz pełne prawa. Pomagam też z domeną i hostingiem."
+              "question": "t:home.11.faqItems.3.question",
+              "answer": "t:home.11.faqItems.3.answer"
             }
           ]
         }
