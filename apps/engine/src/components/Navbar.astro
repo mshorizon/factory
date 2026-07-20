@@ -555,6 +555,18 @@ const showCta = !hideCta && !!cta;
     box-shadow: none !important;
   }
 
+  /* template-portfolio: navbar links use the muted body-text color so they match
+     the section subtitle copy (e.g. the process "Cały proces jest prosty…" text,
+     which renders with text-muted). Hover darkens toward foreground for feedback. */
+  [data-major-theme="template-portfolio"] #main-nav .nav-link,
+  [data-major-theme="template-portfolio"] #mobile-menu .nav-link-mobile {
+    color: var(--muted) !important;
+  }
+  [data-major-theme="template-portfolio"] #main-nav .nav-link:hover,
+  [data-major-theme="template-portfolio"] #mobile-menu .nav-link-mobile:hover {
+    color: var(--foreground) !important;
+  }
+
   /* template-art (restaurant): wider gap between nav links for a more
      spacious, editorial feel. Overrides the default gap-1/lg:gap-2. */
   [data-major-theme="template-art"] #main-nav .nav-links-center,
