@@ -381,6 +381,8 @@
             "title": "Jedna osoba. Od pomysłu po publikację."
           },
           "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=900&q=80",
+          "imageWidth": "420px",
+          "imageHeight": "420px",
           "story": {
             "content": "Cześć, jestem Kuba — projektuję i koduję strony dla małych firm oraz jednoosobowych biznesów. Wszystko robię sam: od pierwszego szkicu, przez teksty, po publikację. Masz jeden kontakt i jedną osobę odpowiedzialną za całość.\n\nModel „najpierw efekt, potem płatność\" wymyśliłem, bo sam nie lubię kupować w ciemno. Wolę pokazać gotową stronę i pozwolić jej mówić za siebie."
           },
