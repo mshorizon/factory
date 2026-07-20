@@ -77,7 +77,8 @@
       }
     },
     "navLogoBadge": true,
-    "navLinksPosition": "center-absolute"
+    "navLinksPosition": "center-absolute",
+    "navFontSize": "14px"
   },
   "layout": {
     "navbar": {
