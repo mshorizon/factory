@@ -14,7 +14,7 @@ export function FeaturesChecklistSplit({
   return (
     <div
       className={cn(
-        "rounded-radius-secondary border border-border bg-card p-spacing-2xl md:p-spacing-3xl",
+        "rounded-radius-secondary bg-card p-spacing-2xl md:p-spacing-3xl shadow-lg shadow-primary/10",
         className
       )}
     >
