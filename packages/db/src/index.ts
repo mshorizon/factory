@@ -161,6 +161,8 @@ export {
   getCurrentStep,
   createGoalStep,
   updateGoalStepStatus,
+  linkStepTask,
+  getCurrentStepWithTask,
 } from "./goals.js";
 
 export * from "./sitc-schema.js";

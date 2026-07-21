@@ -434,6 +434,7 @@ export const goalSteps = pgTable("goal_steps", {
   rationale: text("rationale"),
   milestoneLabel: text("milestone_label"),
   status: text("status").notNull().default("proposed"), // StepStatus
+  taskId: uuid("task_id").references(() => tasks.id), // set when a code step is enqueued
   createdAt: timestamp("created_at").defaultNow().notNull(),
   resolvedAt: timestamp("resolved_at"),
 });

@@ -1,7 +1,7 @@
 import { and, desc, eq, inArray } from "drizzle-orm";
 import { getDb } from "./client.js";
-import { goals, goalSteps, STEP_STATUSES, STEP_TYPES } from "./schema.js";
-import type { Goal, GoalStep, StepStatus, StepType } from "./schema.js";
+import { goals, goalSteps, tasks, STEP_STATUSES, STEP_TYPES } from "./schema.js";
+import type { Goal, GoalStep, StepStatus, StepType, Task } from "./schema.js";
 
 // ── Goals ──────────────────────────────────────────────────────────────────
 
@@ -126,4 +126,27 @@ export async function updateGoalStepStatus(
     .where(eq(goalSteps.id, id))
     .returning();
   return row ?? null;
+}
+
+/** Link a step to the task enqueued to resolve it (FR-012). */
+export async function linkStepTask(stepId: string, taskId: string): Promise<GoalStep | null> {
+  const db = getDb();
+  const [row] = await db
+    .update(goalSteps)
+    .set({ taskId })
+    .where(eq(goalSteps.id, stepId))
+    .returning();
+  return row ?? null;
+}
+
+/** The current live step plus its linked task row (or null task if unlinked). */
+export async function getCurrentStepWithTask(
+  goalId: string
+): Promise<{ step: GoalStep; task: Task | null } | null> {
+  const step = await getCurrentStep(goalId);
+  if (!step) return null;
+  if (!step.taskId) return { step, task: null };
+  const db = getDb();
+  const [task] = await db.select().from(tasks).where(eq(tasks.id, step.taskId)).limit(1);
+  return { step, task: task ?? null };
 }
