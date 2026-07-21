@@ -36,6 +36,7 @@
 
     "goal:next": "tsx scripts/goal-planner.ts",
     "goal:next:test": "tsx scripts/goal-planner.test.ts",
+    "goal:resolve": "tsx scripts/goal-resolve.ts",
 
     "admin1": "bash scripts/claude-admin-1.sh",
     "admin2": "bash scripts/claude-admin-2.sh",

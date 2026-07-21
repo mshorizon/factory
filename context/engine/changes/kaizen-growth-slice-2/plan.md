@@ -250,9 +250,9 @@ Additive `goal_steps.task_id` via `drizzle-kit push` (`db:push`); rebuild `packa
 ### Phase 3: Bug path (FR-013) — interactive local resolution
 
 #### Automated
-- [ ] 3.1 Monorepo type-check passes: `pnpm type-check`
-- [ ] 3.2 Engine builds: `pnpm --filter @mshorizon/engine build`
-- [ ] 3.3 `pnpm goal:resolve` exits cleanly with a helpful message when no accepted bug step
+- [x] 3.1 Monorepo type-check passes: `pnpm type-check`
+- [x] 3.2 Engine builds: `pnpm --filter @mshorizon/engine build`
+- [x] 3.3 `pnpm goal:resolve` exits cleanly with a helpful message when no accepted bug step
 
 #### Manual
 - [ ] 3.4 Accept bug step → UI shows the `pnpm goal:resolve` hint

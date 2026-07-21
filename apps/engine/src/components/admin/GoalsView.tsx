@@ -205,6 +205,12 @@ export default function GoalsView() {
                   {task.summary && <span className="italic">— {task.summary}</span>}
                 </div>
               )}
+              {step.status === "accepted" && step.type === "bug" && (
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Terminal className="w-3.5 h-3.5" />
+                  Run <code className="rounded bg-muted px-1.5 py-0.5">pnpm goal:resolve</code> locally to fix this interactively.
+                </div>
+              )}
               <div className="flex gap-2 pt-1">
                 {step.status === "proposed" && (
                   <Button
