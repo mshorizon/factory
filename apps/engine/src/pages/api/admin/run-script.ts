@@ -21,10 +21,6 @@ const ALLOWED_SCRIPTS: Record<string, { label: string; description: string; dang
     label: "Sync templates → DB",
     description: "Seeds all template JSONs into PostgreSQL.",
   },
-  scheduler: {
-    label: "Run strategic scheduler",
-    description: "Generates today's strategic suggestions via Claude.",
-  },
 };
 
 // GET — return whitelist metadata (used by UI to render cards)

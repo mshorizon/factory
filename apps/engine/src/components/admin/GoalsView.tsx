@@ -39,12 +39,6 @@ const TYPE_LABELS: Record<GoalStep["type"], string> = {
   bug: "Bug",
 };
 
-const TYPE_COLORS: Record<GoalStep["type"], string> = {
-  human: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-  code: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-  bug: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-};
-
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export default function GoalsView() {
@@ -186,7 +180,7 @@ export default function GoalsView() {
           ) : (
             <div className="space-y-3">
               <div className="flex items-center gap-2 flex-wrap">
-                <Badge className={TYPE_COLORS[step.type]}>{TYPE_LABELS[step.type]}</Badge>
+                <Badge variant="secondary">{TYPE_LABELS[step.type]}</Badge>
                 {step.milestoneLabel && (
                   <span className="text-xs text-muted-foreground">→ {step.milestoneLabel}</span>
                 )}

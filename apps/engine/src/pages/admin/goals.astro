@@ -7,6 +7,9 @@ const auth = Astro.locals.auth;
 if (!auth) {
   return Astro.redirect("/admin/login");
 }
+if (auth.role !== "super-admin") {
+  return Astro.redirect("/admin");
+}
 ---
 
 <AdminLayout title="Goals — Admin">

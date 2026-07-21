@@ -7,6 +7,7 @@ import {
   updateGoalStepStatus,
 } from "@mshorizon/db";
 import type { StepStatus } from "@mshorizon/db";
+import logger from "../../../lib/logger";
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -22,7 +23,9 @@ async function snapshot() {
 }
 
 export const GET: APIRoute = async ({ locals }) => {
-  if (!locals.auth) return new Response("Unauthorized", { status: 401 });
+  if (!locals.auth || locals.auth.role !== "super-admin") {
+    return new Response("Forbidden", { status: 403 });
+  }
   try {
     return json(await snapshot());
   } catch (err) {
@@ -37,7 +40,9 @@ const VERB_TO_STATUS: Record<string, StepStatus> = {
 };
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  if (!locals.auth) return new Response("Unauthorized", { status: 401 });
+  if (!locals.auth || locals.auth.role !== "super-admin") {
+    return new Response("Forbidden", { status: 403 });
+  }
 
   let body: {
     action: string;
@@ -77,7 +82,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
       default:
         return json({ error: `Unknown action: ${body.action}` }, 400);
     }
-  } catch (err) {
-    return json({ error: String(err) }, 500);
+  } catch (error) {
+    (locals.logger ?? logger).error({ err: error }, "POST /api/admin/goals failed");
+    return json({ error: "Goals action failed" }, 500);
   }
 };

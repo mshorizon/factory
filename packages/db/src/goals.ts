@@ -92,10 +92,12 @@ export async function createGoalStep(data: {
     throw new Error(`Invalid step type: ${data.type}`);
   }
   const db = getDb();
+  // Supersede any LIVE step (proposed or accepted) so there is always exactly one
+  // live step per goal — a stale accepted step must not linger when a new one is proposed.
   await db
     .update(goalSteps)
     .set({ status: "skipped", resolvedAt: new Date() })
-    .where(and(eq(goalSteps.goalId, data.goalId), eq(goalSteps.status, "proposed")));
+    .where(and(eq(goalSteps.goalId, data.goalId), inArray(goalSteps.status, ["proposed", "accepted"])));
   const [row] = await db
     .insert(goalSteps)
     .values({

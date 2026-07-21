@@ -39,7 +39,10 @@ const DATABASE_URL =
 const MAX_ATTEMPTS = 3;
 
 function notify(msg: string) {
-  spawnSync("osascript", ["-e", `display notification "${msg}" with title "Kaizen Growth"`], {
+  // Escape backslashes and quotes: msg is model-generated and is interpolated into
+  // AppleScript source, so an unescaped `"` could break out and inject script.
+  const safe = msg.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  spawnSync("osascript", ["-e", `display notification "${safe}" with title "Kaizen Growth"`], {
     stdio: "ignore",
   });
 }
@@ -91,9 +94,22 @@ INSTRUCTIONS:
 }
 
 function invokeClaude(prompt: string): string {
+  // Read-only by design: the planner only needs to READ the repo and emit JSON.
+  // We deliberately do NOT pass --dangerously-skip-permissions — the prompt embeds
+  // task descriptions that can contain externally-sourced text, and an unsupervised
+  // full-access agent would be a prompt-injection → RCE vector. Restricting to
+  // read tools means any injected "modify a file" instruction is simply denied.
+  const READ_ONLY_TOOLS = [
+    "Read",
+    "Glob",
+    "Grep",
+    "Bash(git log:*)",
+    "Bash(git status:*)",
+    "Bash(git diff:*)",
+  ];
   const res = spawnSync(
     "claude",
-    ["-p", prompt, "--output-format", "json", "--dangerously-skip-permissions"],
+    ["-p", prompt, "--output-format", "json", "--allowedTools", ...READ_ONLY_TOOLS],
     { encoding: "utf-8", maxBuffer: 1024 * 1024 * 20, cwd: REPO_ROOT }
   );
   if (res.status !== 0) {
