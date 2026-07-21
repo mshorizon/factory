@@ -429,6 +429,42 @@ export const strategicSuggestions = pgTable("strategic_suggestions", {
 export type StrategicSuggestion = typeof strategicSuggestions.$inferSelect;
 export type NewStrategicSuggestion = typeof strategicSuggestions.$inferInsert;
 
+// --- Kaizen Growth: Goals & Steps ---
+
+export const GOAL_STATUSES = ["active", "archived"] as const;
+export const STEP_TYPES = ["human", "code", "bug"] as const;
+export const STEP_STATUSES = ["proposed", "accepted", "resolved", "skipped"] as const;
+export type GoalStatus = typeof GOAL_STATUSES[number];
+export type StepType = typeof STEP_TYPES[number];
+export type StepStatus = typeof STEP_STATUSES[number];
+
+export const goals = pgTable("goals", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: text("title").notNull(),                      // the north-star goal
+  avoidList: text("avoid_list"),                       // operator override avoid-list (newline-separated)
+  status: text("status").notNull().default("active"),  // GoalStatus
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type Goal = typeof goals.$inferSelect;
+export type NewGoal = typeof goals.$inferInsert;
+
+export const goalSteps = pgTable("goal_steps", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  goalId: uuid("goal_id").notNull().references(() => goals.id),
+  title: text("title").notNull(),
+  type: text("type").notNull(),                        // StepType: human | code | bug
+  rationale: text("rationale"),
+  milestoneLabel: text("milestone_label"),
+  status: text("status").notNull().default("proposed"), // StepStatus
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  resolvedAt: timestamp("resolved_at"),
+});
+
+export type GoalStep = typeof goalSteps.$inferSelect;
+export type NewGoalStep = typeof goalSteps.$inferInsert;
+
 
 // Self-Improving Template Creator control-plane tables (DESIGN §10)
 export * from "./sitc-schema";

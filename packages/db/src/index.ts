@@ -58,6 +58,18 @@ export {
   type SuggestionCategory,
   type SuggestionEffort,
   type SuggestionStatus,
+  goals,
+  goalSteps,
+  GOAL_STATUSES,
+  STEP_TYPES,
+  STEP_STATUSES,
+  type Goal,
+  type NewGoal,
+  type GoalStep,
+  type NewGoalStep,
+  type GoalStatus,
+  type StepType,
+  type StepStatus,
 } from "./schema.js";
 export { initDb, getDb } from "./client.js";
 export {
@@ -156,6 +168,14 @@ export {
   updateTask,
   deleteTask,
 } from "./tasks.js";
+export {
+  getActiveGoal,
+  upsertActiveGoal,
+  updateGoalAvoidList,
+  getCurrentStep,
+  createGoalStep,
+  updateGoalStepStatus,
+} from "./goals.js";
 
 export * from "./sitc-schema.js";
 
