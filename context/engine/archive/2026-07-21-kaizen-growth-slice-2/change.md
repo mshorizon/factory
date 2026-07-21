@@ -2,9 +2,10 @@
 change-id: kaizen-growth-slice-2
 app: engine
 project: Kaizen Growth
-status: impl_reviewed
+status: archived
 created: 2026-07-21
 updated: 2026-07-21
+archived_at: 2026-07-21T12:44:40Z
 ---
 
 # Kaizen Growth — Slice 2: type-aware resolution + rationale
