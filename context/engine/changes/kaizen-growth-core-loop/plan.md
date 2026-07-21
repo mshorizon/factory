@@ -411,14 +411,14 @@ schema/query change so the engine app picks up the new/removed exports.
 ### Phase 1: Data Layer (goals & goal_steps)
 
 #### Automated
-- [x] 1.1 Type check passes: `pnpm --filter @mshorizon/db type-check`
-- [x] 1.2 Schema push succeeds: `pnpm --filter @mshorizon/db db:push`
-- [x] 1.3 db package builds: `pnpm --filter @mshorizon/db build`
-- [x] 1.4 Monorepo type check passes: `pnpm type-check`
+- [x] 1.1 Type check passes: `pnpm --filter @mshorizon/db type-check` — 435e1cf0
+- [x] 1.2 Schema push succeeds: `pnpm --filter @mshorizon/db db:push` — 435e1cf0
+- [x] 1.3 db package builds: `pnpm --filter @mshorizon/db build` — 435e1cf0
+- [x] 1.4 Monorepo type check passes: `pnpm type-check` — 435e1cf0
 
 #### Manual
-- [ ] 1.5 `goals` and `goal_steps` tables exist in the DB
-- [ ] 1.6 Goal + step round-trips through the new helpers in a scratch snippet
+- [x] 1.5 `goals` and `goal_steps` tables exist in the DB — 435e1cf0
+- [x] 1.6 Goal + step round-trips through the new helpers in a scratch snippet — 435e1cf0
 
 ### Phase 2: Local Planner (`pnpm goal:next`)
 
