@@ -449,13 +449,13 @@ schema/query change so the engine app picks up the new/removed exports.
 ### Phase 4: Remove Old Strategy Surface
 
 #### Automated
-- [x] 4.1 No dangling references (grep for StrategyView/strategic_suggestions/etc. is empty)
-- [x] 4.2 Monorepo type check passes: `pnpm type-check`
-- [x] 4.3 Engine builds: `pnpm --filter @mshorizon/engine build`
-- [x] 4.4 db package builds: `pnpm --filter @mshorizon/db build`
+- [x] 4.1 No dangling references (grep for StrategyView/strategic_suggestions/etc. is empty) — 45beac21
+- [x] 4.2 Monorepo type check passes: `pnpm type-check` — 45beac21
+- [x] 4.3 Engine builds: `pnpm --filter @mshorizon/engine build` — 45beac21
+- [x] 4.4 db package builds: `pnpm --filter @mshorizon/db build` — 45beac21
 
 #### Manual
-- [x] 4.5 `/admin` has no Suggestions tab; `/admin/strategy` 404s
-- [x] 4.6 `strategic_suggestions` table dropped from the DB
-- [x] 4.7 Scheduler crontab entry removed (`crontab -l`) — none found locally; verify VPS system crontab if it ran there
-- [x] 4.8 No regression in other admin tabs (Businesses, Tasks, Blog)
+- [x] 4.5 `/admin` has no Suggestions tab; `/admin/strategy` 404s — 45beac21
+- [x] 4.6 `strategic_suggestions` table dropped from the DB — 45beac21
+- [x] 4.7 Scheduler crontab entry removed (`crontab -l`) — none found locally; verify VPS system crontab if it ran there — 45beac21
+- [x] 4.8 No regression in other admin tabs (Businesses, Tasks, Blog) — 45beac21
