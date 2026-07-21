@@ -2,9 +2,10 @@
 change-id: kaizen-growth-core-loop
 app: engine
 project: Kaizen Growth
-status: impl_reviewed
+status: archived
 created: 2026-07-21
 updated: 2026-07-21
+archived_at: 2026-07-21T09:58:45Z
 ---
 
 # Kaizen Growth — Core single-next-step loop (Slice 1)
