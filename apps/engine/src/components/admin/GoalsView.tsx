@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Target, CheckCircle, SkipForward, RefreshCw, Save, Terminal } from "lucide-react";
+import { Target, CheckCircle, SkipForward, RefreshCw, Save, Terminal, Play } from "lucide-react";
 
 // ── Types (mirror the DB row shapes) ────────────────────────────────────────
 
@@ -26,9 +26,16 @@ interface GoalStep {
   status: string;
 }
 
+interface Task {
+  id: string;
+  status: string;
+  summary: string | null;
+}
+
 interface Snapshot {
   goal: Goal | null;
   currentStep: GoalStep | null;
+  task: Task | null;
 }
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -42,7 +49,7 @@ const TYPE_LABELS: Record<GoalStep["type"], string> = {
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export default function GoalsView() {
-  const [snap, setSnap] = useState<Snapshot>({ goal: null, currentStep: null });
+  const [snap, setSnap] = useState<Snapshot>({ goal: null, currentStep: null, task: null });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [titleDraft, setTitleDraft] = useState("");
@@ -95,6 +102,7 @@ export default function GoalsView() {
   };
 
   const step = snap.currentStep;
+  const task = snap.task;
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -190,6 +198,13 @@ export default function GoalsView() {
               </div>
               <p className="font-medium">{step.title}</p>
               {step.rationale && <p className="text-sm text-muted-foreground">{step.rationale}</p>}
+              {task && (
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span>Task:</span>
+                  <Badge variant="outline">{task.status}</Badge>
+                  {task.summary && <span className="italic">— {task.summary}</span>}
+                </div>
+              )}
               <div className="flex gap-2 pt-1">
                 {step.status === "proposed" && (
                   <Button
@@ -198,6 +213,15 @@ export default function GoalsView() {
                     disabled={saving}
                   >
                     Accept
+                  </Button>
+                )}
+                {step.status === "accepted" && step.type === "code" && !task && (
+                  <Button
+                    size="sm"
+                    onClick={() => post({ action: "run-step", id: step.id })}
+                    disabled={saving}
+                  >
+                    <Play className="w-3.5 h-3.5 mr-1" /> Run now
                   </Button>
                 )}
                 <Button

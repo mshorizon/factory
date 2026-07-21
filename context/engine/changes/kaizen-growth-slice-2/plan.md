@@ -238,8 +238,8 @@ Additive `goal_steps.task_id` via `drizzle-kit push` (`db:push`); rebuild `packa
 ### Phase 2: Code path (FR-012) — enqueue into the runner
 
 #### Automated
-- [ ] 2.1 Monorepo type-check passes: `pnpm type-check`
-- [ ] 2.2 Engine builds: `pnpm --filter @mshorizon/engine build`
+- [x] 2.1 Monorepo type-check passes: `pnpm type-check`
+- [x] 2.2 Engine builds: `pnpm --filter @mshorizon/engine build`
 
 #### Manual
 - [ ] 2.3 Accept code step → "Run now" appears; clicking creates a linked pending task
