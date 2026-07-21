@@ -405,30 +405,6 @@ export const tasks = pgTable("tasks", {
 export type Task = typeof tasks.$inferSelect;
 export type NewTask = typeof tasks.$inferInsert;
 
-// --- Strategic Suggestions ---
-
-export const SUGGESTION_CATEGORIES = ["tech_debt", "feature", "marketing", "client_acquisition", "infrastructure"] as const;
-export const SUGGESTION_EFFORT = ["s", "m", "l", "xl"] as const;
-export const SUGGESTION_STATUSES = ["pending", "accepted", "rejected", "done"] as const;
-export type SuggestionCategory = typeof SUGGESTION_CATEGORIES[number];
-export type SuggestionEffort = typeof SUGGESTION_EFFORT[number];
-export type SuggestionStatus = typeof SUGGESTION_STATUSES[number];
-
-export const strategicSuggestions = pgTable("strategic_suggestions", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  rationale: text("rationale").notNull(),
-  category: text("category").notNull(), // SuggestionCategory
-  priority: integer("priority").notNull(), // 1-5
-  effort: text("effort").notNull(), // SuggestionEffort
-  status: text("status").notNull().default("pending"), // SuggestionStatus
-  createdBy: text("created_by").notNull().default("claude_scheduler"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-export type StrategicSuggestion = typeof strategicSuggestions.$inferSelect;
-export type NewStrategicSuggestion = typeof strategicSuggestions.$inferInsert;
-
 // --- Kaizen Growth: Goals & Steps ---
 
 export const GOAL_STATUSES = ["active", "archived"] as const;

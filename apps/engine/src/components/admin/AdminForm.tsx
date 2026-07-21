@@ -22,7 +22,6 @@ import { UniversalList } from "./UniversalList";
 import TaskManager from "./TaskManager";
 import { AddTaskDialog } from "./AddTaskDialog";
 import { BusinessesPanel } from "./BusinessesPanel";
-import StrategyView from "./StrategyView";
 import GoalsView from "./GoalsView";
 import ScriptsView from "./ScriptsView";
 import { BusinessJsonTab } from "./BusinessJsonTab";
@@ -107,7 +106,6 @@ import {
   Image as ImageIcon,
   ListTodo,
   Building2,
-  Lightbulb,
   Target,
   Terminal,
   X,
@@ -1695,10 +1693,6 @@ export default function AdminForm({
       );
     }
 
-    if (activeTab === "strategy") {
-      return <StrategyView />;
-    }
-
     if (activeTab === "goals") {
       return <GoalsView />;
     }
@@ -1792,7 +1786,6 @@ export default function AdminForm({
         Icon: Shield,
         items: [
           { id: "goals", label: "Goals", Icon: Target },
-          { id: "strategy", label: "Suggestions", Icon: Lightbulb },
           { id: "tasks", label: "Tasks", Icon: ListTodo },
           { id: "businesses", label: "Businesses", Icon: Building2 },
           { id: "overview", label: "Health Overview", Icon: LayoutDashboard },

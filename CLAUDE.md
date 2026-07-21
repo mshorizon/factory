@@ -218,23 +218,24 @@ All architectural decisions are stored in `docs/adr/`.
 
 ---
 
-## 🗓 Scheduler
+## 🎯 Kaizen Growth (goal engine)
 
-The **Strategic Scheduler** generates proactive work suggestions daily using Claude.
+Replaces the old Strategic Scheduler. The operator sets one **north-star goal** in the admin
+**Goals** tab (`/admin/goals`), then runs a **local, repo-aware planner** that proposes the
+single next small step toward it, grounded in the repo + task state and filtered for
+comfort/legality.
 
 | Item | Value |
 | :--- | :--- |
-| Script | `scripts/strategic-scheduler.ts` |
-| Schedule | Daily at **08:00** (system crontab) |
-| Log | `/tmp/strategic-scheduler.log` |
-| Admin UI | `/admin/strategy` |
+| Planner | `scripts/goal-planner.ts` (`pnpm goal:next`) |
+| Engine | Local Claude subscription via `claude -p` (NOT `ANTHROPIC_API_KEY`) — **local-only** |
+| Data | `goals` + `goal_steps` tables; query helpers in `packages/db/src/goals.ts` |
+| Admin UI | `/admin/goals` (`GoalsView.tsx` + `api/admin/goals.ts`) |
 
-**Manual run:**
+**Compute the next step (local terminal, not a Claude Code session):**
 ```bash
-DATABASE_URL="..." ANTHROPIC_API_KEY="..." tsx scripts/strategic-scheduler.ts
+DATABASE_URL="..." pnpm goal:next
 ```
-
-**Idempotent:** Running twice on the same day is a no-op.
 
 ---
 

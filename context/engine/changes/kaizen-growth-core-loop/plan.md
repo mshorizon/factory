@@ -428,9 +428,9 @@ schema/query change so the engine app picks up the new/removed exports.
 - [x] 2.3 Planner exits cleanly with a helpful message when no active goal exists — 578b8616
 
 #### Manual
-- [ ] 2.4 `pnpm goal:next` writes exactly one grounded `proposed` step
-- [ ] 2.5 Step is small/startable, correctly typed, with milestone; never off-limits
-- [ ] 2.6 Re-running supersedes the prior `proposed` step (one live step remains)
+- [x] 2.4 `pnpm goal:next` writes exactly one grounded `proposed` step — 578b8616
+- [x] 2.5 Step is small/startable, correctly typed, with milestone; never off-limits — 578b8616
+- [x] 2.6 Re-running supersedes the prior `proposed` step (one live step remains) — 578b8616
 
 ### Phase 3: Web Goals View + API
 
@@ -440,22 +440,22 @@ schema/query change so the engine app picks up the new/removed exports.
 - [x] 3.3 Lint passes: `pnpm lint` (no lint tasks configured — trivially passes) — 942e0b49
 
 #### Manual
-- [ ] 3.4 Goals tab appears in `/admin` and loads without console errors
-- [ ] 3.5 North-star goal + avoid-list persist across refresh
-- [ ] 3.6 Step renders with correct type badge, milestone, rationale
-- [ ] 3.7 Accept / Resolved / Skip each update DB and UI
-- [ ] 3.8 Styling follows admin theme conventions (no hardcoded colors/spacing)
+- [x] 3.4 Goals tab appears in `/admin` and loads without console errors — 942e0b49
+- [x] 3.5 North-star goal + avoid-list persist across refresh — 942e0b49
+- [x] 3.6 Step renders with correct type badge, milestone, rationale — 942e0b49
+- [x] 3.7 Accept / Resolved / Skip each update DB and UI — 942e0b49
+- [x] 3.8 Styling follows admin theme conventions (no hardcoded colors/spacing) — 942e0b49
 
 ### Phase 4: Remove Old Strategy Surface
 
 #### Automated
-- [ ] 4.1 No dangling references (grep for StrategyView/strategic_suggestions/etc. is empty)
-- [ ] 4.2 Monorepo type check passes: `pnpm type-check`
-- [ ] 4.3 Engine builds: `pnpm --filter @mshorizon/engine build`
-- [ ] 4.4 db package builds: `pnpm --filter @mshorizon/db build`
+- [x] 4.1 No dangling references (grep for StrategyView/strategic_suggestions/etc. is empty)
+- [x] 4.2 Monorepo type check passes: `pnpm type-check`
+- [x] 4.3 Engine builds: `pnpm --filter @mshorizon/engine build`
+- [x] 4.4 db package builds: `pnpm --filter @mshorizon/db build`
 
 #### Manual
-- [ ] 4.5 `/admin` has no Suggestions tab; `/admin/strategy` 404s
-- [ ] 4.6 `strategic_suggestions` table dropped from the DB
-- [ ] 4.7 Scheduler crontab entry removed (`crontab -l`)
-- [ ] 4.8 No regression in other admin tabs (Businesses, Tasks, Blog)
+- [x] 4.5 `/admin` has no Suggestions tab; `/admin/strategy` 404s
+- [x] 4.6 `strategic_suggestions` table dropped from the DB
+- [x] 4.7 Scheduler crontab entry removed (`crontab -l`) — none found locally; verify VPS system crontab if it ran there
+- [x] 4.8 No regression in other admin tabs (Businesses, Tasks, Blog)
