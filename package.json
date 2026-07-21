@@ -34,6 +34,9 @@
     "tasks:tmux": "tmux kill-session -t tasks 2>/dev/null; tmux new-session -d -s tasks 'pnpm tasks' && tmux attach -t tasks",
     "tasks:stop": "pkill -f 'run-tasks.sh' && echo 'Task runner stopped' || echo 'No task runner running'",
 
+    "goal:next": "tsx scripts/goal-planner.ts",
+    "goal:next:test": "tsx scripts/goal-planner.test.ts",
+
     "admin1": "bash scripts/claude-admin-1.sh",
     "admin2": "bash scripts/claude-admin-2.sh",
     "client1": "bash scripts/claude-client-1.sh",

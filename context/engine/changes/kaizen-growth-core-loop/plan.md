@@ -423,9 +423,9 @@ schema/query change so the engine app picks up the new/removed exports.
 ### Phase 2: Local Planner (`pnpm goal:next`)
 
 #### Automated
-- [ ] 2.1 Type check passes: `pnpm type-check`
-- [ ] 2.2 Step schema validator rejects malformed / accepts valid (unit test)
-- [ ] 2.3 Planner exits cleanly with a helpful message when no active goal exists
+- [x] 2.1 Type check passes: `pnpm type-check`
+- [x] 2.2 Step schema validator rejects malformed / accepts valid (unit test)
+- [x] 2.3 Planner exits cleanly with a helpful message when no active goal exists
 
 #### Manual
 - [ ] 2.4 `pnpm goal:next` writes exactly one grounded `proposed` step
