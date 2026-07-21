@@ -7,6 +7,7 @@ import {
   updateGoalStepStatus,
   createTask,
   linkStepTask,
+  listTasks,
 } from "@mshorizon/db";
 import type { StepStatus } from "@mshorizon/db";
 import logger from "../../../lib/logger";
@@ -94,13 +95,20 @@ export const POST: APIRoute = async ({ request, locals }) => {
         if (step.type !== "code") return json({ error: "run-step is only for code steps" }, 400);
         if (step.status !== "accepted") return json({ error: "Step must be accepted first" }, 400);
         if (step.taskId) return json({ error: "Step already has a task" }, 400);
-        const task = await createTask({
-          domain: locals.businessId ?? "studio",
-          template: "goals",
-          location: `goals/${step.id}`,
-          description: `${step.title}\n\n${step.rationale ?? ""}`.trim(),
-          isAdminPanel: false,
-        });
+        // Idempotent by location: if a prior run-step created a task but failed to link it
+        // (create+link are not transactional), re-link that orphan instead of enqueuing a
+        // duplicate the always-on runner would double-execute.
+        const location = `goals/${step.id}`;
+        const existing = (await listTasks()).find((t) => t.location === location);
+        const task =
+          existing ??
+          (await createTask({
+            domain: locals.businessId ?? "studio",
+            template: "goals",
+            location,
+            description: `${step.title}\n\n${step.rationale ?? ""}`.trim(),
+            isAdminPanel: false,
+          }));
         await linkStepTask(step.id, task.id);
         return json(await snapshot());
       }

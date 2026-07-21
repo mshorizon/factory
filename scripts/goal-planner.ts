@@ -150,10 +150,17 @@ async function main() {
   // In-flight guard: refuse to propose a new step while the current step's task is still
   // running — superseding it here would orphan a task the runner is actively working.
   const cur = await getCurrentStepWithTask(goal.id);
-  if (cur?.task && (cur.task.status === "pending" || cur.task.status === "in-progress")) {
+  // Block while the task is unfinished — pending/in-progress, or on_hold (Claude asked a
+  // clarifying question the operator must answer). Superseding here would orphan that task.
+  if (
+    cur?.task &&
+    (cur.task.status === "pending" ||
+      cur.task.status === "in-progress" ||
+      cur.task.status === "on_hold")
+  ) {
     console.log(
-      `A task is still running for the current step ("${cur.step.title}", task ${cur.task.status}). ` +
-        "Let it finish (or resolve/skip the step in the Goals tab) before computing a new step."
+      `A task is still open for the current step ("${cur.step.title}", task ${cur.task.status}). ` +
+        "Let it finish or answer its question (or resolve/skip the step in the Goals tab) before computing a new step."
     );
     process.exit(0);
   }

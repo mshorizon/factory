@@ -55,6 +55,10 @@ Goals tab.`;
   // Interactive: no `-p`, no `--output-format`, no `--dangerously-skip-permissions`.
   // The operator drives and approves each tool use.
   const res = spawnSync("claude", [seed], { stdio: "inherit", cwd: REPO_ROOT });
+  if (res.error) {
+    console.error(`Failed to launch claude: ${res.error.message}`);
+    process.exit(1);
+  }
   process.exit(res.status ?? 0);
 }
 
