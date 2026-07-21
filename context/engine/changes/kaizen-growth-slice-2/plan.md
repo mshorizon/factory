@@ -242,7 +242,7 @@ Additive `goal_steps.task_id` via `drizzle-kit push` (`db:push`); rebuild `packa
 - [x] 2.2 Engine builds: `pnpm --filter @mshorizon/engine build` — 05b86423
 
 #### Manual
-- [ ] 2.3 Accept code step → "Run now" appears; clicking creates a linked pending task
+- [x] 2.3 Accept code step → "Run now" appears; clicking creates a linked pending task
 - [ ] 2.4 With `pnpm tasks` running, status/summary shows on refresh
 - [ ] 2.5 Nothing enqueued on Accept alone
 - [ ] 2.6 Resolved closes the step
@@ -266,5 +266,5 @@ Additive `goal_steps.task_id` via `drizzle-kit push` (`db:push`); rebuild `packa
 - [x] 4.2 Engine builds: `pnpm --filter @mshorizon/engine build` — 04d8bd7a
 
 #### Manual
-- [ ] 4.3 Current step expands to show north-star → milestone → step + rationale
+- [x] 4.3 Current step expands to show north-star → milestone → step + rationale
 - [ ] 4.4 `pnpm goal:next` refuses while a task is pending/in-progress; proposes again once clear
