@@ -435,9 +435,9 @@ schema/query change so the engine app picks up the new/removed exports.
 ### Phase 3: Web Goals View + API
 
 #### Automated
-- [x] 3.1 Type check passes: `pnpm type-check`
-- [x] 3.2 Engine builds: `pnpm --filter @mshorizon/engine build`
-- [x] 3.3 Lint passes: `pnpm lint` (no lint tasks configured — trivially passes)
+- [x] 3.1 Type check passes: `pnpm type-check` — 942e0b49
+- [x] 3.2 Engine builds: `pnpm --filter @mshorizon/engine build` — 942e0b49
+- [x] 3.3 Lint passes: `pnpm lint` (no lint tasks configured — trivially passes) — 942e0b49
 
 #### Manual
 - [ ] 3.4 Goals tab appears in `/admin` and loads without console errors
