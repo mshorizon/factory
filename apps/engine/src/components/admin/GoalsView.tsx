@@ -78,6 +78,29 @@ export default function GoalsView() {
     load();
   }, [load]);
 
+  // Auto-refresh the step when the tab regains focus — e.g. after running `pnpm goal:next`
+  // in a terminal and switching back to the browser. Snapshot-only (no draft reset, no
+  // spinner) so any in-progress north-star/off-limits edits survive the refetch.
+  useEffect(() => {
+    const refetch = async () => {
+      try {
+        const res = await fetch("/api/admin/goals");
+        if (res.ok) setSnap(await res.json());
+      } catch {
+        /* ignore transient focus-refetch errors */
+      }
+    };
+    const onVisible = () => {
+      if (document.visibilityState === "visible") refetch();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", refetch);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", refetch);
+    };
+  }, []);
+
   const post = async (payload: Record<string, unknown>) => {
     setSaving(true);
     setError(null);
