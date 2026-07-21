@@ -262,8 +262,8 @@ Additive `goal_steps.task_id` via `drizzle-kit push` (`db:push`); rebuild `packa
 ### Phase 4: Rationale (FR-006) + in-flight re-plan guard
 
 #### Automated
-- [x] 4.1 Monorepo type-check passes: `pnpm type-check`
-- [x] 4.2 Engine builds: `pnpm --filter @mshorizon/engine build`
+- [x] 4.1 Monorepo type-check passes: `pnpm type-check` — 04d8bd7a
+- [x] 4.2 Engine builds: `pnpm --filter @mshorizon/engine build` — 04d8bd7a
 
 #### Manual
 - [ ] 4.3 Current step expands to show north-star → milestone → step + rationale
