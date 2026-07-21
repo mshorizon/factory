@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Target, CheckCircle, SkipForward, RefreshCw, Save, Terminal, Play } from "lucide-react";
+import { Target, CheckCircle, SkipForward, RefreshCw, Save, Terminal, Play, ChevronDown } from "lucide-react";
 
 // ── Types (mirror the DB row shapes) ────────────────────────────────────────
 
@@ -55,6 +55,7 @@ export default function GoalsView() {
   const [titleDraft, setTitleDraft] = useState("");
   const [avoidDraft, setAvoidDraft] = useState("");
   const [saving, setSaving] = useState(false);
+  const [showWhy, setShowWhy] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -198,6 +199,28 @@ export default function GoalsView() {
               </div>
               <p className="font-medium">{step.title}</p>
               {step.rationale && <p className="text-sm text-muted-foreground">{step.rationale}</p>}
+              <div>
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                  onClick={() => setShowWhy((v) => !v)}
+                >
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showWhy ? "rotate-180" : ""}`} />
+                  Why this step?
+                </button>
+                {showWhy && (
+                  <div className="mt-2 rounded-md border border-border bg-muted/40 px-3 py-2 text-xs space-y-1">
+                    <div><span className="text-muted-foreground">North-star:</span> {snap.goal?.title}</div>
+                    {step.milestoneLabel && (
+                      <div><span className="text-muted-foreground">Milestone:</span> {step.milestoneLabel}</div>
+                    )}
+                    <div><span className="text-muted-foreground">This step:</span> {step.title}</div>
+                    {step.rationale && (
+                      <div><span className="text-muted-foreground">Rationale:</span> {step.rationale}</div>
+                    )}
+                  </div>
+                )}
+              </div>
               {task && (
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span>Task:</span>

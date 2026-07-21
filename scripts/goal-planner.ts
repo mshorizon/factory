@@ -22,6 +22,7 @@ import {
   initDb,
   getActiveGoal,
   createGoalStep,
+  getCurrentStepWithTask,
   listTasks,
 } from "../packages/db/src/index.js";
 import {
@@ -142,6 +143,17 @@ async function main() {
   if (!goal) {
     console.log(
       "No active goal set. Open the Goals tab in /admin and set a north-star goal first, then re-run `pnpm goal:next`."
+    );
+    process.exit(0);
+  }
+
+  // In-flight guard: refuse to propose a new step while the current step's task is still
+  // running — superseding it here would orphan a task the runner is actively working.
+  const cur = await getCurrentStepWithTask(goal.id);
+  if (cur?.task && (cur.task.status === "pending" || cur.task.status === "in-progress")) {
+    console.log(
+      `A task is still running for the current step ("${cur.step.title}", task ${cur.task.status}). ` +
+        "Let it finish (or resolve/skip the step in the Goals tab) before computing a new step."
     );
     process.exit(0);
   }
