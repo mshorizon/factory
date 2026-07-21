@@ -23,6 +23,7 @@ import TaskManager from "./TaskManager";
 import { AddTaskDialog } from "./AddTaskDialog";
 import { BusinessesPanel } from "./BusinessesPanel";
 import StrategyView from "./StrategyView";
+import GoalsView from "./GoalsView";
 import ScriptsView from "./ScriptsView";
 import { BusinessJsonTab } from "./BusinessJsonTab";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -107,6 +108,7 @@ import {
   ListTodo,
   Building2,
   Lightbulb,
+  Target,
   Terminal,
   X,
   FileJson,
@@ -1697,6 +1699,10 @@ export default function AdminForm({
       return <StrategyView />;
     }
 
+    if (activeTab === "goals") {
+      return <GoalsView />;
+    }
+
     if (activeTab === "tasks") {
       const pagesObj = (formData.pages as Record<string, any>) ?? {};
       const businessPages: BusinessPageMeta[] = Object.entries(pagesObj).map(([name, data]) => ({
@@ -1785,6 +1791,7 @@ export default function AdminForm({
         description: "Manage tenants and user access.",
         Icon: Shield,
         items: [
+          { id: "goals", label: "Goals", Icon: Target },
           { id: "strategy", label: "Suggestions", Icon: Lightbulb },
           { id: "tasks", label: "Tasks", Icon: ListTodo },
           { id: "businesses", label: "Businesses", Icon: Building2 },

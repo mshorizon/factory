@@ -1,0 +1,25 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import GoalsView from "../../components/admin/GoalsView";
+
+const auth = Astro.locals.auth;
+
+if (!auth) {
+  return Astro.redirect("/admin/login");
+}
+---
+
+<AdminLayout title="Goals — Admin">
+  <div class="goals-wrapper">
+    <GoalsView client:load />
+  </div>
+</AdminLayout>
+
+<style>
+  .goals-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    padding: 1rem;
+  }
+</style>

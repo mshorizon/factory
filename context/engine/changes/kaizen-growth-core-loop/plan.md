@@ -423,9 +423,9 @@ schema/query change so the engine app picks up the new/removed exports.
 ### Phase 2: Local Planner (`pnpm goal:next`)
 
 #### Automated
-- [x] 2.1 Type check passes: `pnpm type-check`
-- [x] 2.2 Step schema validator rejects malformed / accepts valid (unit test)
-- [x] 2.3 Planner exits cleanly with a helpful message when no active goal exists
+- [x] 2.1 Type check passes: `pnpm type-check` — 578b8616
+- [x] 2.2 Step schema validator rejects malformed / accepts valid (unit test) — 578b8616
+- [x] 2.3 Planner exits cleanly with a helpful message when no active goal exists — 578b8616
 
 #### Manual
 - [ ] 2.4 `pnpm goal:next` writes exactly one grounded `proposed` step
@@ -435,9 +435,9 @@ schema/query change so the engine app picks up the new/removed exports.
 ### Phase 3: Web Goals View + API
 
 #### Automated
-- [ ] 3.1 Type check passes: `pnpm type-check`
-- [ ] 3.2 Engine builds: `pnpm --filter @mshorizon/engine build`
-- [ ] 3.3 Lint passes: `pnpm lint`
+- [x] 3.1 Type check passes: `pnpm type-check`
+- [x] 3.2 Engine builds: `pnpm --filter @mshorizon/engine build`
+- [x] 3.3 Lint passes: `pnpm lint` (no lint tasks configured — trivially passes)
 
 #### Manual
 - [ ] 3.4 Goals tab appears in `/admin` and loads without console errors
