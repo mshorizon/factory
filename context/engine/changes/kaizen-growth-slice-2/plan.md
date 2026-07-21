@@ -226,14 +226,14 @@ Additive `goal_steps.task_id` via `drizzle-kit push` (`db:push`); rebuild `packa
 ### Phase 1: Data Layer — link a step to its task
 
 #### Automated
-- [x] 1.1 db type-check passes: `pnpm --filter @mshorizon/db type-check`
-- [x] 1.2 Schema push applies: `pnpm --filter @mshorizon/db db:push`
-- [x] 1.3 db builds: `pnpm --filter @mshorizon/db build`
-- [x] 1.4 Monorepo type-check passes: `pnpm type-check`
+- [x] 1.1 db type-check passes: `pnpm --filter @mshorizon/db type-check` — 8eab42c1
+- [x] 1.2 Schema push applies: `pnpm --filter @mshorizon/db db:push` — 8eab42c1
+- [x] 1.3 db builds: `pnpm --filter @mshorizon/db build` — 8eab42c1
+- [x] 1.4 Monorepo type-check passes: `pnpm type-check` — 8eab42c1
 
 #### Manual
-- [ ] 1.5 `goal_steps.task_id` column exists
-- [ ] 1.6 Link + read-back round-trips via a scratch snippet
+- [x] 1.5 `goal_steps.task_id` column exists — 8eab42c1
+- [x] 1.6 Link + read-back round-trips via a scratch snippet — 8eab42c1
 
 ### Phase 2: Code path (FR-012) — enqueue into the runner
 
