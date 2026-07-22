@@ -61,7 +61,7 @@ export default function GoalsView() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/goals");
+      const res = await fetch("/api/admin/goals", { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data: Snapshot = await res.json();
       setSnap(data);
@@ -85,7 +85,7 @@ export default function GoalsView() {
   useEffect(() => {
     const refetch = async () => {
       try {
-        const res = await fetch("/api/admin/goals");
+        const res = await fetch("/api/admin/goals", { cache: "no-store" });
         if (res.ok) setSnap(await res.json());
       } catch {
         /* ignore transient refetch errors */
