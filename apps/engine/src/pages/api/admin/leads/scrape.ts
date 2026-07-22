@@ -32,15 +32,56 @@ const OSM_PRESETS: Record<string, { key: string; value: string }> = {
   veterinary: { key: "amenity", value: "veterinary" },
 };
 
-// Bounding box covering the whole of Poland: [south, west, north, east].
+// Bounding box covering the whole of Poland: [south, west, north, east]. Fallback scope.
 const POLAND_BBOX: [number, number, number, number] = [49.0, 14.07, 54.9, 24.15];
 
-function buildBboxQuery(tagKey: string, tagValue: string, bbox: [number, number, number, number], limit: number): string {
+// The 16 Polish voivodeships → their ISO 3166-2 code, which OSM boundary relations
+// (admin_level=4) carry as the `ISO3166-2` tag. Using the code sidesteps name/diacritic
+// mismatches. Keyed by the slug the UI sends.
+const VOIVODESHIPS: Record<string, string> = {
+  dolnoslaskie: "PL-02",
+  "kujawsko-pomorskie": "PL-04",
+  lubelskie: "PL-06",
+  lubuskie: "PL-08",
+  lodzkie: "PL-10",
+  malopolskie: "PL-12",
+  mazowieckie: "PL-14",
+  opolskie: "PL-16",
+  podkarpackie: "PL-18",
+  podlaskie: "PL-20",
+  pomorskie: "PL-22",
+  slaskie: "PL-24",
+  swietokrzyskie: "PL-26",
+  "warminsko-mazurskie": "PL-28",
+  wielkopolskie: "PL-30",
+  zachodniopomorskie: "PL-32",
+};
+
+// A geographic scope for an Overpass query: an optional area declaration (prefix) plus the
+// filter clause appended to each node/way statement.
+interface Geo {
+  prefix: string;
+  clause: string;
+}
+
+function bboxGeo(bbox: [number, number, number, number]): Geo {
   const [s, w, n, e] = bbox;
+  return { prefix: "", clause: `(${s},${w},${n},${e})` };
+}
+
+function areaGeo(iso: string): Geo {
+  return {
+    prefix: `area["boundary"="administrative"]["admin_level"="4"]["ISO3166-2"="${osmEscape(iso)}"]->.searchArea;`,
+    clause: "(area.searchArea)",
+  };
+}
+
+function buildPresetQuery(tagKey: string, tagValue: string, geo: Geo, limit: number): string {
   return `[out:json][timeout:180];
+${geo.prefix}
 (
-  node["${tagKey}"="${tagValue}"](${s},${w},${n},${e});
-  way["${tagKey}"="${tagValue}"](${s},${w},${n},${e});
+  node["${tagKey}"="${tagValue}"]${geo.clause};
+  way["${tagKey}"="${tagValue}"]${geo.clause};
 );
 out center tags ${limit};`;
 }
@@ -56,9 +97,8 @@ const GENERIC_KEYS = ["shop", "craft", "amenity", "office", "leisure", "tourism"
 // Build a query for an arbitrary business type with no known OSM preset.
 // Probes the sanitized value across common category keys AND does a
 // case-insensitive name regex match so free-form terms still return results.
-function buildGenericBboxQuery(term: string, bbox: [number, number, number, number], limit: number): string {
-  const [s, w, n, e] = bbox;
-  const bb = `(${s},${w},${n},${e})`;
+function buildGenericQuery(term: string, geo: Geo, limit: number): string {
+  const bb = geo.clause;
   const value = osmEscape(term.toLowerCase().replace(/\s+/g, "_"));
   const nameRe = osmEscape(term);
   const clauses = GENERIC_KEYS.flatMap((k) => [
@@ -68,6 +108,7 @@ function buildGenericBboxQuery(term: string, bbox: [number, number, number, numb
   clauses.push(`  node["name"~"${nameRe}",i]${bb};`);
   clauses.push(`  way["name"~"${nameRe}",i]${bb};`);
   return `[out:json][timeout:180];
+${geo.prefix}
 (
 ${clauses.join("\n")}
 );
@@ -127,23 +168,31 @@ const json = (data: unknown, status = 200) => new Response(JSON.stringify(data),
 export const POST: APIRoute = async ({ request, locals }) => {
   if (!locals.auth || locals.auth.role !== "super-admin") return forbidden();
 
-  let body: { count?: number; businessType?: string };
+  let body: { count?: number; businessType?: string; voivodeship?: string };
   try {
     body = await request.json();
   } catch {
     return json({ error: "Invalid JSON" }, 400);
   }
 
-  const { count = 10, businessType } = body;
+  const { count = 10, businessType, voivodeship } = body;
   if (!businessType) return json({ error: "businessType required" }, 400);
 
+  // Scope sourcing to one voivodeship (via its OSM area) when supplied; else whole Poland.
+  let geo: Geo;
+  if (voivodeship) {
+    const iso = VOIVODESHIPS[voivodeship];
+    if (!iso) return json({ error: `Unknown voivodeship: ${voivodeship}` }, 400);
+    geo = areaGeo(iso);
+  } else {
+    geo = bboxGeo(POLAND_BBOX);
+  }
+
   const preset = OSM_PRESETS[businessType.toLowerCase()];
-  // Whole-Poland scrape — always query the full country bounding box.
   const query = preset
-    ? buildBboxQuery(preset.key, preset.value, POLAND_BBOX, count * 3)
-    // No known preset — fall back to a generic multi-key + name search
-    // so arbitrary/custom business types still return results.
-    : buildGenericBboxQuery(businessType, POLAND_BBOX, count * 3);
+    ? buildPresetQuery(preset.key, preset.value, geo, count * 3)
+    // No known preset — generic multi-key + name search so custom types still return results.
+    : buildGenericQuery(businessType, geo, count * 3);
 
   let osmData: { elements: OsmElement[] } | null = null;
   let lastError = "";
@@ -182,7 +231,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
 };
 
 export const GET: APIRoute = async () => {
-  return new Response(JSON.stringify({ presets: Object.keys(OSM_PRESETS), scope: "Poland" }), {
-    headers: { "Content-Type": "application/json" },
-  });
+  return new Response(
+    JSON.stringify({
+      presets: Object.keys(OSM_PRESETS),
+      voivodeships: Object.keys(VOIVODESHIPS),
+      scope: "Poland",
+    }),
+    { headers: { "Content-Type": "application/json" } }
+  );
 };

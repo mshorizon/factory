@@ -151,9 +151,24 @@ const BUSINESS_TYPE_PRESETS = [
   { value: "veterinary", label: "Veterinary" },
 ];
 
-const CITIES = [
-  "Kraków", "Warszawa", "Wrocław", "Poznań", "Gdańsk",
-  "Łódź", "Katowice", "Lublin", "Szczecin", "Bydgoszcz",
+// The 16 Polish voivodeships — value is the slug the scrape API expects, label is displayed.
+const VOIVODESHIPS: { slug: string; label: string }[] = [
+  { slug: "dolnoslaskie", label: "Dolnośląskie" },
+  { slug: "kujawsko-pomorskie", label: "Kujawsko-pomorskie" },
+  { slug: "lubelskie", label: "Lubelskie" },
+  { slug: "lubuskie", label: "Lubuskie" },
+  { slug: "lodzkie", label: "Łódzkie" },
+  { slug: "malopolskie", label: "Małopolskie" },
+  { slug: "mazowieckie", label: "Mazowieckie" },
+  { slug: "opolskie", label: "Opolskie" },
+  { slug: "podkarpackie", label: "Podkarpackie" },
+  { slug: "podlaskie", label: "Podlaskie" },
+  { slug: "pomorskie", label: "Pomorskie" },
+  { slug: "slaskie", label: "Śląskie" },
+  { slug: "swietokrzyskie", label: "Świętokrzyskie" },
+  { slug: "warminsko-mazurskie", label: "Warmińsko-mazurskie" },
+  { slug: "wielkopolskie", label: "Wielkopolskie" },
+  { slug: "zachodniopomorskie", label: "Zachodniopomorskie" },
 ];
 
 const TEMPLATES = [
@@ -203,8 +218,7 @@ export function BusinessesPanel() {
   const [scrapeCount, setScrapeCount] = useState(10);
   const [scrapeType, setScrapeType] = useState("electrician");
   const [scrapeCustomType, setScrapeCustomType] = useState("");
-  const [scrapeCity, setScrapeCity] = useState("Kraków");
-  const [scrapeCustomCity, setScrapeCustomCity] = useState("");
+  const [scrapeVoivodeship, setScrapeVoivodeship] = useState("mazowieckie");
   const [scraping, setScraping] = useState(false);
   const [scrapeMsg, setScrapeMsg] = useState<string | null>(null);
   const [scrapeModalOpen, setScrapeModalOpen] = useState(false);
@@ -258,14 +272,13 @@ export function BusinessesPanel() {
     setScraping(true);
     setScrapeMsg(null);
     const businessType = scrapeCustomType.trim() || scrapeType;
-    const city = scrapeCustomCity.trim() || scrapeCity;
     if (!businessType) { setScraping(false); setScrapeMsg("Enter a business type"); return; }
 
     try {
       const res = await fetch("/api/admin/leads/scrape", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ count: scrapeCount, businessType, city }),
+        body: JSON.stringify({ count: scrapeCount, businessType, voivodeship: scrapeVoivodeship }),
         credentials: "include",
       });
       const data = await res.json();
@@ -678,23 +691,17 @@ export function BusinessesPanel() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="scrape-city">City</Label>
-                <Select value={scrapeCity} onValueChange={(v) => v && setScrapeCity(v)}>
-                  <SelectTrigger id="scrape-city">
-                    <SelectValue placeholder="Select city" />
+                <Label htmlFor="scrape-voivodeship">Voivodeship</Label>
+                <Select value={scrapeVoivodeship} onValueChange={(v) => v && setScrapeVoivodeship(v)}>
+                  <SelectTrigger id="scrape-voivodeship">
+                    <SelectValue placeholder="Select voivodeship" />
                   </SelectTrigger>
                   <SelectContent>
-                    {CITIES.map((c) => (
-                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    {VOIVODESHIPS.map((v) => (
+                      <SelectItem key={v.slug} value={v.slug}>{v.label}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                <Input
-                  id="scrape-custom-city"
-                  placeholder="Custom city override (e.g. Rzeszów)"
-                  value={scrapeCustomCity}
-                  onChange={(e) => setScrapeCustomCity(e.target.value)}
-                />
               </div>
 
               {scrapeMsg && (
