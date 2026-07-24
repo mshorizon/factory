@@ -28,6 +28,7 @@
     "navLogoSize": "20px",
     "badgeVariant": "accent-no-line",
     "badgeDarkColor": "#9cc0f5",
+    "badgeLetterSpacing": "0.18em",
     "colors": {
       "light": {
         "primary": "#3d6fc4",

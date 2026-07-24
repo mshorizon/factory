@@ -233,6 +233,16 @@ html[data-major-theme="template-portfolio"] .badge-base[data-field="header.badge
   font-size: 12px !important;
 }
 
+/* Portfolio: the HeroStudio eyebrow is a plain <span> (not a .badge-base atom),
+   so the site-wide `html[data-badge-typography] .badge-base` letter-spacing rule
+   above misses it. Apply the same theme-driven --badge-letter-spacing to every
+   header eyebrow in this template so ALL badges share the spacing. Gated on
+   [data-badge-typography] so it only kicks in once theme.badgeLetterSpacing is
+   set; the .badge-base eyebrows already covered above are harmless overlap. */
+html[data-major-theme="template-portfolio"][data-badge-typography] [data-field="header.badge"] {
+  letter-spacing: var(--badge-letter-spacing) !important;
+}
+
 /* Badge decorative line reveal — expands from left after badge fades in */
 [data-reveal] .reveal-line {
   transform-origin: left center;
