@@ -136,8 +136,8 @@
             {
               "label": "t:layout.footer.columns.0.links.4.label",
               "target": {
-                "type": "page",
-                "value": "contact"
+                "type": "section",
+                "value": "contact-13"
               }
             }
           ]
@@ -215,8 +215,8 @@
     "cta": {
       "label": "t:navigation.cta.label",
       "target": {
-        "type": "page",
-        "value": "contact"
+        "type": "section",
+        "value": "contact-13"
       }
     },
     "links": [
@@ -303,8 +303,8 @@
           "cta": {
             "label": "t:home.0.cta.label",
             "target": {
-              "type": "page",
-              "value": "contact"
+              "type": "section",
+              "value": "contact-13"
             }
           },
           "secondaryCta": {
@@ -787,8 +787,8 @@
           "cta": {
             "label": "t:home.0.cta.label",
             "target": {
-              "type": "page",
-              "value": "contact"
+              "type": "section",
+              "value": "contact-13"
             }
           }
         },
@@ -870,75 +870,6 @@
               "description": "t:home.10.blogPosts.2.description",
               "image": "/template-previews/blog-3.png",
               "href": "#"
-            }
-          ]
-        }
-      ],
-      "hideFromNav": true
-    },
-    "contact": {
-      "title": "t:layout.footer.columns.0.links.4.label",
-      "sections": [
-        {
-          "type": "contact",
-          "variant": "panel",
-          "header": {
-            "badge": "t:layout.footer.columns.0.links.4.label",
-            "title": "t:home.13.header.title",
-            "subtitle": "t:home.13.header.subtitle"
-          },
-          "form": {
-            "nameLabel": "t:home.13.form.nameLabel",
-            "namePlaceholder": "t:home.13.form.namePlaceholder",
-            "emailLabel": "t:home.13.form.emailLabel",
-            "emailPlaceholder": "anna@firma.pl",
-            "selectFields": [
-              {
-                "name": "industry",
-                "label": "t:home.13.form.selectFields.0.label",
-                "placeholder": "t:home.13.form.selectFields.0.placeholder",
-                "options": [
-                  "t:home.3.templateItems.0.tags.0",
-                  "t:home.3.templateItems.1.tags.0",
-                  "t:home.0.items.2.title",
-                  "t:home.3.pills.0",
-                  "t:home.3.pills.1",
-                  "t:home.3.pills.2",
-                  "t:home.3.pills.3",
-                  "t:home.3.pills.4",
-                  "t:home.3.pills.5",
-                  "t:home.3.pills.6",
-                  "t:home.3.pills.7",
-                  "t:home.3.pills.8",
-                  "t:home.3.pills.9",
-                  "t:home.13.form.selectFields.0.options.13"
-                ]
-              }
-            ],
-            "messageLabel": "t:home.13.form.messageLabel",
-            "messagePlaceholder": "t:home.13.form.messagePlaceholder",
-            "submitButton": "t:home.13.form.submitButton"
-          }
-        },
-        {
-          "type": "faq",
-          "variant": "bordered",
-          "faqItems": [
-            {
-              "question": "t:home.11.faqItems.0.question",
-              "answer": "t:home.11.faqItems.0.answer"
-            },
-            {
-              "question": "t:home.11.faqItems.1.question",
-              "answer": "t:home.11.faqItems.1.answer"
-            },
-            {
-              "question": "t:home.11.faqItems.2.question",
-              "answer": "t:home.11.faqItems.2.answer"
-            },
-            {
-              "question": "t:home.11.faqItems.3.question",
-              "answer": "t:home.11.faqItems.3.answer"
             }
           ]
         }
