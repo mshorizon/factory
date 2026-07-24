@@ -683,6 +683,7 @@
         {
           "type": "features",
           "variant": "checklist-split",
+          "paddingTop": "0",
           "header": {
             "title": "t:home.8.header.title"
           },

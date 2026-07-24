@@ -14,7 +14,7 @@ export function FeaturesChecklistSplit({
   return (
     <div
       className={cn(
-        "rounded-radius-secondary bg-card p-spacing-2xl md:p-spacing-3xl shadow-lg shadow-primary/10",
+        "rounded-radius bg-card p-spacing-2xl md:p-spacing-3xl shadow-lg shadow-primary/10",
         className
       )}
     >
@@ -32,7 +32,7 @@ export function FeaturesChecklistSplit({
             {items.map((item, index) => (
               <span
                 key={index}
-                className="inline-flex w-fit items-center gap-spacing-xs rounded-radius border border-border bg-background px-spacing-md py-spacing-xs text-sm font-medium text-foreground"
+                className="inline-flex w-fit items-center gap-spacing-xs rounded-radius-secondary shadow-md px-spacing-md py-spacing-xs text-sm font-medium text-foreground"
                 data-field={`items.${index}.title`}
               >
                 <Check className="h-4 w-4 flex-shrink-0 text-primary" />
