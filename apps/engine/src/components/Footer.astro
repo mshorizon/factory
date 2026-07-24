@@ -107,6 +107,21 @@ const {
 const displayName = footerName || businessName;
 const effectiveFooterIcon = footerLogoIcon || logoIcon;
 
+// Mirror the navbar brand mark in the footer: the icon badge (theme.navLogoBadge)
+// and the primary-colored accent word (navbar.logoAccent). Both are already-seeded
+// config read straight from locals — no new fields, no prop threading across the
+// ~12 pages that render this footer. Templates without them (e.g. specialist) are
+// left byte-identical, so nothing regresses.
+const navbarConfig = (Astro.locals as any).businessData?.layout?.navbar || {};
+const logoAccent = String(navbarConfig.logoAccent || "").trim();
+const logoBadge = !!((Astro.locals as any).theme?.navLogoBadge);
+let brandBase = displayName;
+let brandAccent = "";
+if (logoAccent && displayName.endsWith(logoAccent)) {
+  brandBase = displayName.slice(0, displayName.length - logoAccent.length);
+  brandAccent = logoAccent;
+}
+
 // Show the footer language switcher only for multilingual sites, unless explicitly hidden
 // (e.g. the switcher is already presented in the navbar).
 const showLanguageSwitcher = Boolean(currentLanguage) && !hideLanguageSwitcher;
@@ -143,6 +158,24 @@ const socialIcons: Record<string, string> = {
   linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
   twitter: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>',
 };
+
+// A 20px stroke-based mail icon that matches the social icon set — so a mail link
+// sitting in a "Find me" style column reads with the same weight as the social icons.
+const socialMailIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
+
+// Resolve a left-hand icon for footer-column links that point at a social network or
+// email, so social/mail links in a group get a matching icon. Returns null for plain
+// nav links, leaving unrelated columns (e.g. specialist's nav column) untouched.
+function getSocialLinkIcon(href: string): string | null {
+  const h = (href || "").toLowerCase();
+  if (h.startsWith("mailto:")) return socialMailIcon;
+  if (h.includes("facebook.com")) return socialIcons.facebook;
+  if (h.includes("instagram.com")) return socialIcons.instagram;
+  if (h.includes("linkedin.com")) return socialIcons.linkedin;
+  if (h.includes("youtube.com") || h.includes("youtu.be")) return socialIcons.youtube;
+  if (h.includes("twitter.com") || h.includes("x.com")) return socialIcons.twitter;
+  return null;
+}
 
 const year = new Date().getFullYear();
 const copyrightText = (copyright || `© ${year} ${businessName}. All rights reserved.`).replace("{year}", String(year));
@@ -269,11 +302,21 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
         {/* Brand Column */}
         <div>
           <div class="flex items-center gap-spacing-sm mb-spacing-md">
-            {effectiveFooterIcon && <img src={effectiveFooterIcon} alt="" class="w-6 h-6 footer-logo-white" />}
-            <span class="font-bold text-2xl tracking-tight text-foreground">{displayName}</span>
+            {effectiveFooterIcon && (
+              logoBadge ? (
+                <span class="footer-logo-mark shrink-0 inline-flex items-center justify-center">
+                  <img src={effectiveFooterIcon} alt="" class="footer-logo-glyph footer-logo-white" />
+                </span>
+              ) : (
+                <img src={effectiveFooterIcon} alt="" class="w-6 h-6 footer-logo-white" />
+              )
+            )}
+            <span class="font-bold text-2xl tracking-tight text-foreground">{brandBase}{brandAccent && <span class="text-primary">{brandAccent}</span>}</span>
           </div>
           {tagline && <p class="text-muted text-sm leading-relaxed max-w-xs mb-spacing-xl">{tagline}</p>}
-          {socialLinks.length > 0 && (
+          {/* Standalone brand-column socials. Hidden for the badge layout, where socials
+             live labeled inside the "Find me" column instead (avoids showing them twice). */}
+          {!logoBadge && socialLinks.length > 0 && (
             <div class="flex items-center gap-spacing-lg">
               {socialLinks.map((social) => (
                 <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.platform} class="text-muted hover:text-primary transition-colors">
@@ -288,9 +331,10 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
         {effectiveColumns.map((column) => (
           <div>
             <h3 class="font-bold text-foreground mb-spacing-xl text-xs uppercase tracking-widest">{column.title}</h3>
-            <ul class="space-y-spacing-lg">
+            <ul class:list={[logoBadge ? "space-y-spacing-sm" : "space-y-spacing-lg"]}>
               {column.links.map((link) => {
-                const icon = getContactIcon(link.href || '');
+                const socialIcon = getSocialLinkIcon(link.href || '');
+                const icon = socialIcon || getContactIcon(link.href || '');
                 return (
                   <li>
                     {icon ? (
@@ -313,7 +357,7 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
 
       {/* Bottom Bar */}
       <div class="mt-spacing-3xl pt-spacing-lg border-t border-border/30 flex flex-col items-center gap-3 md:flex-row md:justify-between">
-        <p class="text-sm text-muted text-center md:text-left">{copyrightText}</p>
+        <p class:list={["text-muted text-center md:text-left", logoBadge ? "text-xs" : "text-sm"]}>{copyrightText}</p>
         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
           {showLanguageSwitcher && (
             <div class="lang-switcher flex items-center gap-1.5">
@@ -872,5 +916,18 @@ const darkColumnsDetailed = columnHeadingVariant === "serif" || !!findUsTitle ||
   /* Force footer logo icon to render in white — footers sit on dark surfaces */
   .footer-logo-white {
     filter: brightness(0) invert(1);
+  }
+  /* Brand mark badge — mirrors the navbar logo badge (theme.navLogoBadge) so the
+     footer icon reads identically to the header: primary rounded-square, white glyph. */
+  .footer-logo-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+    background: var(--primary);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 28%, transparent);
+  }
+  .footer-logo-mark .footer-logo-glyph {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 </style>
