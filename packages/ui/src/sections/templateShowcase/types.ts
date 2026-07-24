@@ -7,6 +7,8 @@ export interface TemplateItem {
   accent?: string;
   headline?: string;
   ctaLabel?: string;
+  /** Pill category this template belongs to (browser variant filter). */
+  category?: string;
 }
 
 export interface TemplateShowcaseProps {

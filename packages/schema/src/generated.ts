@@ -600,7 +600,7 @@ export type ServicesColumnCount = 1 | 2 | 3;
  */
 export type SectionFootnote = string;
 /**
- * Plain-text pill labels rendered below the section content (e.g. additional industries in the templateShowcase 'browser' variant).
+ * Pill labels for the templateShowcase 'browser' variant. Rendered as a clickable category filter bar; the first pill (e.g. 'Popular') is selected by default and shows the full curated set, while each other pill filters templateItems to those whose 'category' matches.
  */
 export type PillTags = string[];
 /**
@@ -818,6 +818,10 @@ export type LiveDemoURL = string;
  */
 export type AccentColor = string;
 export type Tags = string[];
+/**
+ * Pill category this template belongs to (templateShowcase 'browser' variant). Clicking a pill filters items to those whose category matches; the first 'Popular' pill shows the full curated set.
+ */
+export type Category1 = string;
 export type TemplateItems = TemplateItem[];
 export type Country = "polska";
 export type Region =
@@ -1526,6 +1530,7 @@ export interface TemplateItem {
   demoUrl: LiveDemoURL;
   accent?: AccentColor;
   tags?: Tags;
+  category?: Category1;
 }
 export interface ServiceAreaConfiguration {
   country?: Country;

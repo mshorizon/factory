@@ -690,7 +690,7 @@
         "pills": {
           "type": "array",
           "title": "Pill Tags",
-          "description": "Plain-text pill labels rendered below the section content (e.g. additional industries in the templateShowcase 'browser' variant).",
+          "description": "Pill labels for the templateShowcase 'browser' variant. Rendered as a clickable category filter bar; the first pill (e.g. 'Popular') is selected by default and shows the full curated set, while each other pill filters templateItems to those whose 'category' matches.",
           "items": {
             "type": "string"
           }
@@ -1677,6 +1677,11 @@
                 "items": {
                   "type": "string"
                 }
+              },
+              "category": {
+                "type": "string",
+                "title": "Category",
+                "description": "Pill category this template belongs to (templateShowcase 'browser' variant). Clicking a pill filters items to those whose category matches; the first 'Popular' pill shows the full curated set."
               }
             },
             "required": [

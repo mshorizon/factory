@@ -438,7 +438,8 @@
               "demoUrl": "https://template-law.hazelgrouse.pl/",
               "tags": [
                 "t:home.3.templateItems.0.tags.0"
-              ]
+              ],
+              "category": "t:home.3.templateItems.0.tags.0"
             },
             {
               "name": "t:home.3.templateItems.1.name",
@@ -447,7 +448,8 @@
               "demoUrl": "https://template-specialist.hazelgrouse.pl/",
               "tags": [
                 "t:home.3.templateItems.1.tags.0"
-              ]
+              ],
+              "category": "t:home.3.templateItems.1.tags.0"
             },
             {
               "name": "t:home.3.templateItems.2.name",
@@ -457,11 +459,13 @@
               "tags": [
                 "t:home.0.items.2.title"
               ],
+              "category": "t:home.0.items.2.title",
               "accent": "#4a2a20"
             }
           ],
           "footnote": "t:home.3.footnote",
           "pills": [
+            "t:home.3.pills.popular",
             "t:home.3.pills.0",
             "t:home.3.pills.1",
             "t:home.3.pills.2",

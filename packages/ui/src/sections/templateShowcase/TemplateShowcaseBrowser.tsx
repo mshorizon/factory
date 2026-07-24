@@ -8,13 +8,58 @@ import type { TemplateShowcaseProps } from "./types";
 /**
  * Browser-window style showcase: three equal columns, each card framed as a
  * mini browser (chrome header bar with the site name, screenshot body,
- * industry-label footer), with optional pill tags for further industries.
+ * industry-label footer).
+ *
+ * The `pills` act as a clickable category filter. The first pill (e.g.
+ * "Popular") is selected by default and shows the full curated set; every
+ * other pill filters `templates` to those whose `category` matches it. A
+ * category with no dedicated templates gracefully falls back to the curated
+ * set, so every pill always presents a full showcase.
  */
 export function TemplateShowcaseBrowser({ templates, pills, className }: TemplateShowcaseProps) {
+  const [active, setActive] = React.useState(0);
+
+  const visibleTemplates = React.useMemo(() => {
+    // First pill (index 0) is the curated "Popular" set — show everything.
+    if (!pills || pills.length === 0 || active === 0) return templates;
+    const activePill = pills[active];
+    const matches = templates.filter(
+      (tpl) => tpl.category === activePill || tpl.tags?.includes(activePill)
+    );
+    // Fall back to the curated set for categories without dedicated templates.
+    return matches.length > 0 ? matches : templates;
+  }, [templates, pills, active]);
+
   return (
     <div className={className}>
-      <StaggerContainer className="grid md:grid-cols-3 gap-spacing-lg" staggerDelay={0.1}>
-        {templates.map((tpl, index) => (
+      {pills && pills.length > 0 && (
+        <div
+          className="mb-spacing-2xl flex flex-wrap justify-center gap-spacing-sm max-w-4xl mx-auto"
+          role="tablist"
+          aria-label="Template categories"
+        >
+          {pills.map((pill, i) => (
+            <button
+              key={i}
+              type="button"
+              role="tab"
+              aria-selected={active === i}
+              onClick={() => setActive(i)}
+              className={cn(
+                "px-spacing-md py-spacing-xs rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer",
+                active === i
+                  ? "bg-primary text-on-accent shadow-md"
+                  : "bg-card text-foreground shadow-sm hover:bg-secondary"
+              )}
+            >
+              {pill}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <StaggerContainer key={active} className="grid md:grid-cols-3 gap-spacing-lg" staggerDelay={0.1}>
+        {visibleTemplates.map((tpl, index) => (
           <StaggerItem key={index} direction="up" distance={30}>
             <a
               href={tpl.demoUrl}
@@ -59,19 +104,6 @@ export function TemplateShowcaseBrowser({ templates, pills, className }: Templat
           </StaggerItem>
         ))}
       </StaggerContainer>
-
-      {pills && pills.length > 0 && (
-        <div className="mt-spacing-2xl flex flex-wrap justify-center gap-spacing-sm max-w-4xl mx-auto">
-          {pills.map((pill, i) => (
-            <span
-              key={i}
-              className="px-spacing-md py-spacing-xs rounded-full bg-card shadow-sm text-sm font-semibold text-foreground"
-            >
-              {pill}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
