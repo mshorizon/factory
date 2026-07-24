@@ -17,6 +17,7 @@ export function FeaturesNumberedSplit({
   imageDescription,
   marker = "number",
   imageShadow,
+  background,
   className,
 }: FeaturesNumberedSplitProps) {
   // Mirror the about-section blend modes. "feather" crosses two linear-gradient
@@ -53,7 +54,8 @@ export function FeaturesNumberedSplit({
         {badge && (
           <span
             data-reveal
-            className="text-[14px] tracking-[.05rem] uppercase font-medium text-primary mb-spacing-md"
+            className="text-[14px] tracking-[.05rem] uppercase font-medium mb-spacing-md"
+            style={{ color: background === "dark" ? "var(--badge-dark-color, var(--primary))" : "var(--primary)" }}
             data-field="header.badge"
           >
             {badge}

@@ -27,6 +27,8 @@ export interface ImageDescriptionContent {
 export interface FeaturesNumberedSplitProps extends FeaturesGridProps {
   /** Small uppercase eyebrow rendered above the heading (e.g. "Filozofia"). */
   badge?: string;
+  /** Section background — "dark" switches the eyebrow to the dark-section badge color. */
+  background?: string;
   /** Section heading rendered inside the left column. */
   title?: string;
   /** Image URL shown in the right column. */

@@ -27,6 +27,7 @@
     "navCtaHideIcon": true,
     "navLogoSize": "20px",
     "badgeVariant": "accent-no-line",
+    "badgeDarkColor": "#9cc0f5",
     "colors": {
       "light": {
         "primary": "#3d6fc4",
@@ -393,6 +394,7 @@
           "type": "about",
           "variant": "story",
           "background": "dark",
+          "badgeVariant": "accent-no-line",
           "imagePosition": "left",
           "statsPlacement": "text",
           "header": {

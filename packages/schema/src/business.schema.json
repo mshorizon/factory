@@ -2464,6 +2464,11 @@
           "type": "string",
           "title": "Badge Font Size",
           "default": "16px"
+        },
+        "badgeDarkColor": {
+          "type": "string",
+          "title": "Dark-Section Badge Color",
+          "description": "Color for section eyebrow/badges rendered on a dark background (e.g. the primaryLight tone \"#9cc0f5\"). When unset, dark-section badges fall back to the primary color. Injected as the --badge-dark-color CSS variable."
         }
       }
     },

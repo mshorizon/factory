@@ -250,6 +250,10 @@ export type NavbarLinksPosition = "center" | "right" | "center-absolute";
 export type ScrollType = "native" | "smooth" | "momentum";
 export type SectionBadgeVariant = "accent" | "accent-no-line" | "outlined" | "text";
 export type BadgeFontSize = string;
+/**
+ * Color for section eyebrow/badges rendered on a dark background (e.g. the primaryLight tone "#9cc0f5"). When unset, dark-section badges fall back to the primary color. Injected as the --badge-dark-color CSS variable.
+ */
+export type DarkSectionBadgeColor = string;
 export type NavbarVariant = "standard" | "centered" | "transparent";
 /**
  * Override the business name displayed in the navbar
@@ -999,6 +1003,7 @@ export interface Theme {
   scrollType?: ScrollType;
   badgeVariant?: SectionBadgeVariant;
   badgeFontSize?: BadgeFontSize;
+  badgeDarkColor?: DarkSectionBadgeColor;
 }
 export interface ColorSchemes {
   light?: ThemeColorMode;

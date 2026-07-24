@@ -37,8 +37,10 @@ export function SectionHeader({
     right: "text-right",
   }[align];
 
-  // Determine badge color based on background
-  const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
+  // Determine badge color based on background. On dark backgrounds the eyebrow uses
+  // the theme's dark-section badge color (--badge-dark-color, e.g. a primaryLight tone),
+  // falling back to --primary when the theme doesn't define one.
+  const badgeColor = background === "dark" ? "var(--badge-dark-color, var(--primary))" : "var(--primary-dark)";
 
   const renderTitle = (text: string) => {
     const parts = text.split(/(\*[^*]+\*)/g);

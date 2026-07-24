@@ -86,7 +86,9 @@ export function AboutStory({
         ...softShadowStyle,
       }
     : undefined;
-  const badgeColor = background === "dark" ? "var(--primary)" : "var(--primary-dark)";
+  // Dark backgrounds use the theme's dark-section badge color (primaryLight tone) via
+  // --badge-dark-color, falling back to --primary when the theme doesn't set one.
+  const badgeColor = background === "dark" ? "var(--badge-dark-color, var(--primary))" : "var(--primary-dark)";
   const imageRight = imagePosition === "right";
   const ctaClass = ctaVariant === "primaryLight"
     ? "bg-primary-light hover:bg-primary-light/90 text-on-primary"
