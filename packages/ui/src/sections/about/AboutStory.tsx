@@ -205,7 +205,7 @@ export function AboutStory({
             {stats.map((stat, index) => (
               <StaggerItem key={index} direction="up" distance={20}>
                 <div className="text-left" data-field={`stats.${index}`}>
-                  <div className="text-4xl md:text-5xl font-bold text-foreground mb-spacing-xs font-heading" data-field={`stats.${index}.value`}>{stat.value}</div>
+                  <div className="text-[26px] font-bold text-foreground mb-spacing-xs font-heading" data-field={`stats.${index}.value`}>{stat.value}</div>
                   <p className="text-sm text-muted" data-field={`stats.${index}.label`}>{stat.label}</p>
                 </div>
               </StaggerItem>
