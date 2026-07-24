@@ -488,24 +488,68 @@
             "title": "t:home.4.header.title",
             "subtitle": "t:home.4.header.subtitle"
           },
-          "quote": {
-            "note": "t:home.4.quote.note",
-            "text": "t:home.4.quote.text",
-            "author": "t:home.4.quote.author"
-          },
-          "image": "/template-previews/specialist.png",
-          "imageDescription": {
-            "name": "t:home.4.imageDescription.name",
-            "description": "t:home.4.imageDescription.description"
-          },
-          "items": [
+          "caseStudies": [
             {
-              "meta": "t:home.4.items.0.meta",
-              "title": "t:home.4.items.0.title",
-              "description": "t:home.4.items.0.description"
+              "quote": {
+                "note": "t:home.4.quote.note",
+                "text": "t:home.4.quote.text",
+                "author": "t:home.4.quote.author"
+              },
+              "image": "/template-previews/specialist.png",
+              "imageDescription": {
+                "name": "t:home.4.imageDescription.name",
+                "description": "t:home.4.imageDescription.description"
+              },
+              "imageMeta": "t:home.4.imageMeta",
+              "items": [
+                {
+                  "meta": "t:home.4.items.0.meta",
+                  "title": "t:home.4.items.0.title",
+                  "description": "t:home.4.items.0.description"
+                }
+              ]
+            },
+            {
+              "quote": {
+                "note": "t:home.4.caseStudies.1.quote.note",
+                "text": "t:home.4.caseStudies.1.quote.text",
+                "author": "t:home.4.caseStudies.1.quote.author"
+              },
+              "image": "/template-previews/law.png",
+              "imageDescription": {
+                "name": "t:home.4.caseStudies.1.imageDescription.name",
+                "description": "t:home.4.caseStudies.1.imageDescription.description"
+              },
+              "imageMeta": "t:home.4.caseStudies.1.imageMeta",
+              "items": [
+                {
+                  "meta": "t:home.4.caseStudies.1.items.0.meta",
+                  "title": "t:home.4.caseStudies.1.items.0.title",
+                  "description": "t:home.4.caseStudies.1.items.0.description"
+                }
+              ]
+            },
+            {
+              "quote": {
+                "note": "t:home.4.caseStudies.2.quote.note",
+                "text": "t:home.4.caseStudies.2.quote.text",
+                "author": "t:home.4.caseStudies.2.quote.author"
+              },
+              "image": "/template-previews/restaurant.png",
+              "imageDescription": {
+                "name": "t:home.4.caseStudies.2.imageDescription.name",
+                "description": "t:home.4.caseStudies.2.imageDescription.description"
+              },
+              "imageMeta": "t:home.4.caseStudies.2.imageMeta",
+              "items": [
+                {
+                  "meta": "t:home.4.caseStudies.2.items.0.meta",
+                  "title": "t:home.4.caseStudies.2.items.0.title",
+                  "description": "t:home.4.caseStudies.2.items.0.description"
+                }
+              ]
             }
-          ],
-          "imageMeta": "t:home.4.imageMeta"
+          ]
         },
         {
           "type": "testimonials",

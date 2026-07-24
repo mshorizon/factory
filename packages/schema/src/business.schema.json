@@ -558,6 +558,79 @@
             }
           }
         },
+        "caseStudies": {
+          "type": "array",
+          "title": "Case Studies",
+          "description": "Project 'caseStudyFlow' variant: a list of case studies the visitor can switch between via dots at the bottom of the section. Each entry has the same shape as the single-case-study fields (quote, image, imageDescription, imageMeta, items). When present, this takes precedence over the section-level quote/image/imageDescription/imageMeta/items fields.",
+          "items": {
+            "type": "object",
+            "title": "CaseStudy",
+            "properties": {
+              "quote": {
+                "type": "object",
+                "title": "Request Quote",
+                "properties": {
+                  "note": {
+                    "type": "string",
+                    "title": "Note Label"
+                  },
+                  "text": {
+                    "type": "string",
+                    "title": "Quote Text"
+                  },
+                  "author": {
+                    "type": "string",
+                    "title": "Author"
+                  }
+                }
+              },
+              "image": {
+                "type": "string",
+                "title": "Screenshot URL"
+              },
+              "imageMeta": {
+                "type": "string",
+                "title": "Image Card Label"
+              },
+              "imageDescription": {
+                "type": "object",
+                "title": "Image Caption",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "Name Line"
+                  },
+                  "description": {
+                    "type": "string",
+                    "title": "Description Line"
+                  }
+                }
+              },
+              "items": {
+                "type": "array",
+                "title": "Result Cards",
+                "items": {
+                  "type": "object",
+                  "title": "CaseStudyResult",
+                  "properties": {
+                    "meta": {
+                      "type": "string",
+                      "title": "Meta Label"
+                    },
+                    "title": {
+                      "type": "string",
+                      "title": "Title"
+                    },
+                    "description": {
+                      "type": "string",
+                      "title": "Description"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "marker": {
           "type": "string",
           "title": "List Marker Style",

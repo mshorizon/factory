@@ -35,6 +35,7 @@ const projects = (section.projects || []).map((p: any) => ({
         imageDescription={section.imageDescription as any}
         imageMeta={(section as any).imageMeta}
         items={(section.items as any) || []}
+        caseStudies={(section as any).caseStudies}
       />
     ) : variant === "caseStudy" ? (
       <ProjectCaseStudy

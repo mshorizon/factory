@@ -541,6 +541,21 @@ export type NameFontFamily = string;
  * Overrides the description line font-family. Full CSS font-family value.
  */
 export type DescriptionFontFamily = string;
+export type NoteLabel = string;
+export type QuoteText = string;
+export type Author = string;
+export type ScreenshotURL = string;
+export type ImageCardLabel1 = string;
+export type NameLine1 = string;
+export type DescriptionLine1 = string;
+export type MetaLabel = string;
+export type Title1 = string;
+export type Description = string;
+export type ResultCards = CaseStudyResult[];
+/**
+ * Project 'caseStudyFlow' variant: a list of case studies the visitor can switch between via dots at the bottom of the section. Each entry has the same shape as the single-case-study fields (quote, image, imageDescription, imageMeta, items). When present, this takes precedence over the section-level quote/image/imageDescription/imageMeta/items fields.
+ */
+export type CaseStudies = CaseStudy[];
 /**
  * Left-side marker for the features 'numbered-split' variant list items. 'number' (default) shows large serif ordinals (01, 02…); 'check' shows small check icons in the primary color.
  */
@@ -679,8 +694,8 @@ export type DefaultCategoryTab = string;
  */
 export type TabGroupID = string;
 export type ImageURL1 = string;
-export type NameLine1 = string;
-export type DescriptionLine1 = string;
+export type NameLine2 = string;
+export type DescriptionLine2 = string;
 /**
  * Full CSS color value, e.g. '#f0ebdb'.
  */
@@ -702,11 +717,11 @@ export type FlagImageURL = string;
 /**
  * Rendered as an italic blockquote with curly quotes.
  */
-export type QuoteText = string;
+export type QuoteText1 = string;
 /**
  * Rendered in uppercase below the quote.
  */
-export type Author = string;
+export type Author1 = string;
 /**
  * Optional. When omitted, the theme navLogoFlag gradient bar is used.
  */
@@ -762,15 +777,15 @@ export type MarqueeText = string;
 export type TierName = string;
 export type Price = string;
 export type BillingPeriod = string;
-export type Description = string;
+export type Description1 = string;
 export type Features = string[];
 export type Highlighted = boolean;
 export type BadgeText1 = string;
 export type AnnualPrice = string;
 export type TierIcon = string;
 export type PricingTiers = PricingTier[];
-export type Title1 = string;
-export type Description1 = string;
+export type Title2 = string;
+export type Description2 = string;
 export type ImageURL2 = string;
 export type LogoImageURL = string;
 export type Date = string;
@@ -810,8 +825,8 @@ export type DownloadURL = string;
 export type Files = FileItem[];
 export type FileGroups = FileGroup[];
 export type TemplateName = string;
-export type Description2 = string;
-export type ScreenshotURL = string;
+export type Description3 = string;
+export type ScreenshotURL1 = string;
 export type LiveDemoURL = string;
 /**
  * Optional CSS color for the card's browser-chrome header bar (templateShowcase 'browser' variant). Defaults to the theme foreground.
@@ -858,7 +873,7 @@ export type ServiceID = string;
 export type ServiceName = string;
 export type DurationMinutes = number;
 export type Price1 = number;
-export type Description3 = string;
+export type Description4 = string;
 export type BookingServices = BookingService[];
 export type Open = boolean;
 export type OpeningTime = string;
@@ -1171,6 +1186,7 @@ export interface Section {
   imageBorder?: ImageTextColorBorderMat;
   imageMeta?: ImageCardLabel;
   imageDescription?: ImageCaptionOverlay;
+  caseStudies?: CaseStudies;
   marker?: ListMarkerStyle;
   imageShadow?: ImageShadowColor;
   ctaColor?: CTATextColorOverride;
@@ -1274,6 +1290,27 @@ export interface ImageCaptionOverlay {
   nameFontFamily?: NameFontFamily;
   descriptionFontFamily?: DescriptionFontFamily;
 }
+export interface CaseStudy {
+  quote?: RequestQuote;
+  image?: ScreenshotURL;
+  imageMeta?: ImageCardLabel1;
+  imageDescription?: ImageCaption;
+  items?: ResultCards;
+}
+export interface RequestQuote {
+  note?: NoteLabel;
+  text?: QuoteText;
+  author?: Author;
+}
+export interface ImageCaption {
+  name?: NameLine1;
+  description?: DescriptionLine1;
+}
+export interface CaseStudyResult {
+  meta?: MetaLabel;
+  title?: Title1;
+  description?: Description;
+}
 /**
  * A ghost-style link rendered below the gallery grid (e.g. 'FOLLOW US on instagram @handle'). The full text is shown uppercase; the 'highlight' substring within it is rendered in 'highlightColor'.
  */
@@ -1338,8 +1375,8 @@ export interface CategoryImage {
  * Two-line caption overlaid on the bottom-left corner of the image: a small name line plus an italic description line.
  */
 export interface ImageCaptionOverlay1 {
-  name?: NameLine1;
-  description?: DescriptionLine1;
+  name?: NameLine2;
+  description?: DescriptionLine2;
   color?: TextColor1;
   nameFontFamily?: NameFontFamily1;
   descriptionFontFamily?: DescriptionFontFamily1;
@@ -1359,8 +1396,8 @@ export interface StatItem {
  * Right-side quote panel for the about "quote-split" variant: a small flag accent, an italic quote, an author line, a divider, a note paragraph and (via the section cta) a call to action.
  */
 export interface QuotePanel {
-  text?: QuoteText;
-  author?: Author;
+  text?: QuoteText1;
+  author?: Author1;
   flag?: FlagImageURL1;
   note?: NoteParagraph;
 }
@@ -1474,7 +1511,7 @@ export interface PricingTier {
   name: TierName;
   price: Price;
   period?: BillingPeriod;
-  description?: Description;
+  description?: Description1;
   features?: Features;
   cta?: Cta1;
   highlighted?: Highlighted;
@@ -1483,8 +1520,8 @@ export interface PricingTier {
   icon?: TierIcon;
 }
 export interface ProjectItem {
-  title?: Title1;
-  description?: Description1;
+  title?: Title2;
+  description?: Description2;
   image?: ImageURL2;
   logo?: LogoImageURL;
   date?: Date;
@@ -1525,8 +1562,8 @@ export interface FileItem {
 }
 export interface TemplateItem {
   name: TemplateName;
-  description: Description2;
-  screenshot: ScreenshotURL;
+  description: Description3;
+  screenshot: ScreenshotURL1;
   demoUrl: LiveDemoURL;
   accent?: AccentColor;
   tags?: Tags;
@@ -1577,7 +1614,7 @@ export interface BookingService {
   name: ServiceName;
   duration: DurationMinutes;
   price?: Price1;
-  description?: Description3;
+  description?: Description4;
 }
 export interface BusinessHours1 {
   mon?: BookingDayHours;
