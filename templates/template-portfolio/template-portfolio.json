@@ -31,6 +31,7 @@
       "light": {
         "primary": "#3d6fc4",
         "primaryLight": "#e3edfa",
+        "primaryDark": "#2c56a0",
         "surface": {
           "base": "#f5f8fc",
           "alt": "#e3edfa",
@@ -45,6 +46,7 @@
       "dark": {
         "primary": "#3d6fc4",
         "primaryLight": "#2c56a0",
+        "primaryDark": "#2c56a0",
         "surface": {
           "base": "#22344e",
           "alt": "#1b2a42",
