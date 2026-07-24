@@ -329,6 +329,16 @@
               "title": "t:home.0.items.2.title",
               "image": "/template-previews/restaurant.png",
               "meta": "t:home.0.items.2.meta"
+            },
+            {
+              "title": "t:home.0.items.3.title",
+              "image": "/template-previews/art.png",
+              "meta": "t:home.0.items.3.meta"
+            },
+            {
+              "title": "t:home.0.items.4.title",
+              "image": "/template-previews/tech.png",
+              "meta": "t:home.0.items.4.meta"
             }
           ],
           "footnote": "t:home.0.footnote"
