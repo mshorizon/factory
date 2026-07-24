@@ -77,6 +77,7 @@ const image = (section as any).image as string | undefined;
           subtitle={header.subtitle}
           background={section.background}
           badgeVariant={(filled ? "text" : sectionBadgeVariant) as any}
+          badgeClassName={filled ? "text-primary-light" : undefined}
           titleSize={filled ? "text-2xl md:text-3xl lg:text-4xl" : undefined}
         />
         {(variant === "bordered" || filled) ? (

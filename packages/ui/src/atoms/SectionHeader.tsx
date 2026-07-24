@@ -11,6 +11,8 @@ export interface SectionHeaderProps {
   className?: string;
   background?: string;
   badgeVariant?: "accent" | "accent-no-line" | "outlined" | "text";
+  /** Optional override for the badge text color class (currently applied to the "text" variant). Defaults to text-muted. */
+  badgeClassName?: string;
   titleSize?: string;
   revealDelay?: number;
   /** Render a small country flag accent bar (144x3px, theme navLogoFlag colors) below the title. */
@@ -26,6 +28,7 @@ export function SectionHeader({
   className,
   background,
   badgeVariant,
+  badgeClassName,
   titleSize,
   revealDelay = 0,
   flag = false,
@@ -92,7 +95,7 @@ export function SectionHeader({
           align === "center" && "justify-center",
           align === "right" && "justify-end"
         )}>
-          <span className="text-xs font-semibold text-muted uppercase tracking-widest" data-field="header.badge">
+          <span className={cn("text-xs font-semibold uppercase tracking-widest", badgeClassName || "text-muted")} data-field="header.badge">
             {badge}
           </span>
         </div>
