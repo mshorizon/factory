@@ -556,6 +556,7 @@
           "variant": "agency",
           "header": {
             "layout": "stacked",
+            "align": "center",
             "badge": "t:home.5.header.badge",
             "title": "t:home.5.header.title",
             "subtitle": "t:home.5.header.subtitle"

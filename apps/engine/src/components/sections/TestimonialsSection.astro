@@ -19,6 +19,7 @@ const cta = section.cta;
 const ctaHref = cta && business ? resolveTarget(cta.target, business) : undefined;
 const showHeader = section.variant !== 'full';
 const isQuotes = variant === "quotes";
+const headerAlign = (header as any).align || (isQuotes ? "center" : "left");
 ---
 
 <section>
@@ -29,7 +30,7 @@ const isQuotes = variant === "quotes";
         title={header.title}
         subtitle={header.subtitle}
         layout={isQuotes ? "stacked" : ((header.layout as any) || "split")}
-        align={isQuotes ? "center" : "left"}
+        align={headerAlign}
         background={section.background}
         badgeVariant={(isQuotes ? "accent-no-line" : badgeVariant) as any}
       />
