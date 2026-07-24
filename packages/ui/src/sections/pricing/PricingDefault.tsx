@@ -24,7 +24,7 @@ export function PricingDefault({ tiers, className, layout }: PricingDefaultProps
           <Card
             className={cn(
               "h-full flex flex-col relative border-transparent shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20",
-              tier.highlighted && "border-primary ring-2 ring-primary/20 scale-[1.02]"
+              tier.highlighted && "border-primary scale-[1.02]"
             )}
             data-field={`pricingTiers.${index}`}
           >
